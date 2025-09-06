@@ -1,5 +1,3 @@
-'use client';
-
 import Image from "next/image";
 import { ChevronDown, Eye, Download, Code2, Cpu, Zap, Globe } from "lucide-react";
 import { Typewriter } from "react-simple-typewriter";
@@ -292,6 +290,12 @@ export default function Hero() {
           <ChevronDown size={20} className="animate-bounce" />
         </div>
       </div>
+      <div 
+        className="absolute inset-0 opacity-[1] bg-[size:40px_40px]
+          bg-[linear-gradient(rgba(148,163,184,0.3)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.3)_1px,transparent_1px)]
+          dark:bg-[linear-gradient(rgba(59,130,246,0.15)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.15)_1px,transparent_1px)]
+          [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"
+      />
     </section>
   );
 }

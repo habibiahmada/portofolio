@@ -2,6 +2,7 @@
 
 import Navbar from "@/components/ui/navbar/main";
 import Hero from "@/components/ui/sections/banner/hero";
+import Stats from "@/components/ui/sections/stats/stats";
 import { useState, useEffect } from "react";
 
 export default function Home() {
@@ -33,6 +34,7 @@ export default function Home() {
 
       <main id="main" role="main">
         <Hero />
+        <Stats />
       </main>
     </>
   );
