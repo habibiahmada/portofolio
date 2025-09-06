@@ -1,0 +1,53 @@
+{    
+  "Header": {
+    "brand": "Habibi Ahmad",
+    "nav": {
+      "home": "Home",
+      "about": "About",
+      "services": "Services",
+      "projects": "Projects",
+      "experience": "Experience",
+      "testimonials": "Testimonials",
+      "contact": "Contact"
+    }
+  },
+  "hero": {
+    "greeting": "Hi! I'm a",
+    "typewriterTexts": [
+      "Fullstack Web Developer",
+      "Frontend & Backend Engineer", 
+      "AWS Cloud Computing Trainer",
+      "AI & Emerging Tech Enthusiast",
+      "High School Student"
+    ],
+    "description": {
+      "part1": "Passionate about creating",
+      "highlight1": "impactful digital experiences",
+      "part2": ". Skilled in building",
+      "highlight2": "scalable systems",
+      "part3": "and",
+      "highlight3": "user-centered interfaces",
+      "part4": "with a strong focus on",
+      "highlight4": "performance",
+      "part5": "and",
+      "highlight6": "long-term maintainability",
+      "part7": "."
+    },
+    "buttons": {
+      "viewProjects": "View Projects",
+      "downloadCV": "Download CV"
+    },
+    "techIcons": {
+      "fullStack": "Full Stack",
+      "aiMl": "AI/ML", 
+      "performance": "Performance",
+      "cloud": "Cloud"
+    },
+    "scrollIndicator": "SCROLL",
+    "imageAlt": "Habibi Ahmad Aziz - Fullstack Developer",
+    "codeElements": {
+      "developer": "<developer/>",
+      "console": "console.log(\"Hello!\")"
+    }
+  }
+}

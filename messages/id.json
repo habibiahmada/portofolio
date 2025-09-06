@@ -1,0 +1,53 @@
+{
+  "Header": {
+      "brand": "Habibi Ahmad",
+      "nav": {
+        "home": "Beranda",
+        "about": "Tentang",
+        "services": "Layanan",
+        "projects": "Proyek",
+        "experience": "Pengalaman",
+        "testimonials": "Testimoni",
+        "contact": "Kontak"
+      }
+    },
+  "hero": {
+    "greeting": "Halo! Saya seorang",
+    "typewriterTexts": [
+      "Fullstack Web Developer",
+      "Frontend & Backend Engineer", 
+      "Pelatih AWS Cloud Computing",
+      "AI & Emerging Tech Enthusiast",
+      "Siswa SMKN 1 Karawang"
+    ],
+    "description": {
+      "part1": "Bersemangat menciptakan",
+      "highlight1": "pengalaman digital yang berdampak",
+      "part2": ". Ahli dalam membangun",
+      "highlight2": "sistem yang scalable",
+      "part3": "dan",
+      "highlight3": "antarmuka yang user-centered",
+      "part4": "dengan fokus kuat pada",
+      "highlight4": "performa",
+      "part5": "dan",
+      "highlight6": "maintainability jangka panjang",
+      "part7": "."
+    },
+    "buttons": {
+      "viewProjects": "Lihat Proyek",
+      "downloadCV": "Unduh CV"
+    },
+    "techIcons": {
+      "fullStack": "Full Stack",
+      "aiMl": "AI/ML", 
+      "performance": "Performa",
+      "cloud": "Cloud"
+    },
+    "scrollIndicator": "GULIR",
+    "imageAlt": "Habibi Ahmad Aziz - Fullstack Developer",
+    "codeElements": {
+      "developer": "<developer/>",
+      "console": "console.log(\"Halo!\")"
+    }
+  }
+}
