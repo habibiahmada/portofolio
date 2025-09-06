@@ -1,4 +1,5 @@
 # 🌐 Personal Portfolio Website
+<img width="1912" height="942" alt="screencapture-localhost-3000-en-2025-09-06-21_12_54" src="https://github.com/user-attachments/assets/0f1a7549-937e-4d32-a1f1-e860e4d26907" />
 
 Portfolio website profesional yang menampilkan profil, pengalaman, proyek, layanan, sertifikasi, testimoni, artikel, hingga kontak dengan keamanan tingkat lanjut. Dibangun dengan fokus pada **User Experience (UX)**, **Konversi Pengunjung**, **SEO**, **Keamanan**, dan **Responsivitas**.
 
