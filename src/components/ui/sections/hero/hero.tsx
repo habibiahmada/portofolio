@@ -43,7 +43,7 @@ export default function Hero() {
         min-h-screen flex items-center 
         pt-24 sm:pt-28 lg:pt-32 pb-24 sm:pb-28 lg:pb-32
         ${isDark
-        ? "bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800"
+        ? "bg-gradient-to-br from-slate-950 to-slate-950"
         : "bg-gradient-to-br from-slate-50 via-white to-blue-50/30"
         }`}
     aria-labelledby="hero-heading"
@@ -59,23 +59,6 @@ export default function Hero() {
         />
       </div>
 
-      {/* Floating particles */}
-      <div className="absolute inset-0 -z-5">
-        {[...Array(12)].map((_, i) => (
-          <div
-            key={i}
-            className={`absolute w-2 h-2 rounded-full opacity-60 animate-float ${
-              isDark ? "bg-blue-400" : "bg-blue-500"
-            }`}
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 4}s`,
-              animationDuration: `${4 + Math.random() * 4}s`
-            }}
-          />
-        ))}
-      </div>
 
       {/* Main Content */}
       <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center relative z-10">
@@ -193,6 +176,18 @@ export default function Hero() {
 
           {/* Main image */}
           <div className="relative">
+            {/* Unique hexagonal background */}
+            <div className="absolute -inset-8">
+                <div 
+                    className={`w-full h-full opacity-20 ${
+                        isDark ? "bg-blue-500/20" : "bg-blue-400/30"
+                    }`}
+                    style={{
+                        clipPath: "polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)",
+                        transform: "scale(1.1)",
+                    }}
+                />
+            </div>
             <Image
               src="/self-photo-habibi-ahmad-aziz.webp"
               alt={t('imageAlt')}

@@ -49,5 +49,29 @@
       "developer": "<developer/>",
       "console": "console.log(\"Halo!\")"
     }
-  }
+  },
+    "stats": {
+      "projects": {
+        "label": "Proyek Selesai",
+        "description": "Berhasil diselesaikan"
+      },
+      "experience": {
+        "label": "Tahun Pengalaman",
+        "description": "Dalam industri tech"
+      },
+      "clients": {
+        "label": "Klien Puas",
+        "description": "Rating kepuasan tinggi"
+      },
+      "trustedBy": "Dipercaya oleh perusahaan terdepan",
+      "trustedDescription": "Bergabung dengan klien yang telah merasakan hasil terbaik"
+    },
+    "companies": {
+      "techcorp": "TechCorp",
+      "innovatelab": "InnovateLab",
+      "digitalflow": "DigitalFlow",
+      "cloudsync": "CloudSync",
+      "datavision": "DataVision",
+      "systempro": "SystemPro"
+    }  
 }

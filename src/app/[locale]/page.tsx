@@ -1,7 +1,8 @@
 'use client';
 
 import Navbar from "@/components/ui/navbar/main";
-import Hero from "@/components/ui/sections/banner/hero";
+import About from "@/components/ui/sections/about/about";
+import Hero from "@/components/ui/sections/hero/hero";
 import Stats from "@/components/ui/sections/stats/stats";
 import { useState, useEffect } from "react";
 
@@ -35,6 +36,7 @@ export default function Home() {
       <main id="main" role="main">
         <Hero />
         <Stats />
+        <About />
       </main>
     </>
   );

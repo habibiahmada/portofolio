@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { useRouter, usePathname } from "next/navigation";
 import {
@@ -29,7 +27,6 @@ export function LanguageSwitcher() {
       onValueChange={handleChangeLang}
     >
       <SelectTrigger className="cursor-pointer">
-        {/* Placeholder menampilkan locale saat ini */}
         <SelectValue placeholder={currentLocale.toUpperCase()} />
       </SelectTrigger>
       <SelectContent>

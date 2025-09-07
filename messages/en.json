@@ -49,5 +49,29 @@
       "developer": "<developer/>",
       "console": "console.log(\"Hello!\")"
     }
-  }
+  },
+    "stats": {
+      "projects": {
+        "label": "Projects Completed",
+        "description": "Successfully delivered"
+      },
+      "experience": {
+        "label": "Years of Experience",
+        "description": "In the tech industry"
+      },
+      "clients": {
+        "label": "Satisfied Clients",
+        "description": "High satisfaction rating"
+      },
+      "trustedBy": "Trusted by leading companies",
+      "trustedDescription": "Join our clients who have experienced the best results"
+    },
+    "companies": {
+      "techcorp": "TechCorp",
+      "innovatelab": "InnovateLab",
+      "digitalflow": "DigitalFlow",
+      "cloudsync": "CloudSync",
+      "datavision": "DataVision",
+      "systempro": "SystemPro"
+    }
 }
