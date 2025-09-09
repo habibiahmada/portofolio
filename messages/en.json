@@ -73,5 +73,20 @@
       "cloudsync": "CloudSync",
       "datavision": "DataVision",
       "systempro": "SystemPro"
+    },
+    "about": {
+      "titleLine1": "A Bit Curious?",
+      "titleLine2": "Take a quick glance",
+      "description1": "I am a Web Developer and a student at SMKN 1 Karawang with a strong passion for building modern digital solutions.",
+      "description2": "Skilled in various programming languages and popular frameworks, with experience in both frontend and backend projects.",
+      "description3": "I am always motivated to learn new technologies and deliver impactful solutions.",
+      "cta": "Let’s Collaborate"
+    },
+    "educations": {
+      "titleLine1": "Experiences &",
+      "titleLine2": "Educations",
+      "description1": "My career and educational journey shaped my expertise in technology and development.",
+      "tabbuttons1": "Experience",
+      "tabbuttons2": "Education"
     }
 }

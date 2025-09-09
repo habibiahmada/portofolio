@@ -73,5 +73,20 @@
       "cloudsync": "CloudSync",
       "datavision": "DataVision",
       "systempro": "SystemPro"
-    }  
+    },
+    "about": {
+      "titleLine1": "Sedikit Penasaran?",
+      "titleLine2": "Yuk intip sekilasnya",
+      "description1": "Saya seorang Web Developer dan siswa SMKN 1 Karawang dengan minat yang tinggi dalam membangun solusi digital modern.",
+      "description2": "Terampil dalam berbagai bahasa pemrograman dan berbagai framework populer serta berpengalaman di proyek frontend dan backend.",
+      "description3": "Saya selalu termotivasi untuk belajar teknologi baru dan menghadirkan solusi yang berdampak nyata.",
+      "cta": "Mari Berkolaborasi"
+    },
+    "educations": {
+      "titleLine1": "Pengalaman &",
+      "titleLine2": "Pendidikan",
+      "description1": "Perjalanan karir dan pendidikan yang membentuk keahlian saya dalam teknologi dan pengembangan",
+      "tabbuttons1": "Pengalaman",
+      "tabbuttons2": "Pendidikan"
+    }
 }
