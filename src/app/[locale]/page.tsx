@@ -1,11 +1,14 @@
 'use client';
 
 import Navbar from "@/components/ui/navbar/main";
-import About from "@/components/ui/sections/about/about";
-import Education from "@/components/ui/sections/educations/educations";
 import Hero from "@/components/ui/sections/hero/hero";
 import Stats from "@/components/ui/sections/stats/stats";
+import About from "@/components/ui/sections/about/about";
+import MyService from "@/components/ui/sections/service/service";
+import Projects from "@/components/ui/sections/projects/projects";
+import Education from "@/components/ui/sections/educations/educations";
 import { useState, useEffect } from "react";
+
 
 export default function Home() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -24,7 +27,6 @@ export default function Home() {
   return (
     <>
       <Navbar />
-
       {/* Cursor follower */}
       <div
         className="fixed top-10 left-10 w-10 h-10 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full pointer-events-none z-50 opacity-50 blur-sm transition-all duration-150 ease-out"
@@ -32,13 +34,15 @@ export default function Home() {
           transform: `translate(${mousePosition.x / 10}px, ${mousePosition.y / 10}px)`,
         }}
         aria-hidden="true"
-      />
+        />
 
       <main id="main" role="main">
         <Hero />
         <Stats />
         <About />
-        <Education />
+        <MyService />
+        {/* <Projects /> */}
+        {/* <Education /> */}
       </main>
     </>
   );

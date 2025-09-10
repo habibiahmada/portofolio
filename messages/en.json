@@ -82,11 +82,21 @@
       "description3": "I am always motivated to learn new technologies and deliver impactful solutions.",
       "cta": "Let’s Collaborate"
     },
+    "service" :{
+      "titleLine1" : "Services",
+      "description1" : "A complete solution for modern web development needs with cutting-edge technology and stunning designs."
+    },
     "educations": {
       "titleLine1": "Experiences &",
       "titleLine2": "Educations",
       "description1": "My career and educational journey shaped my expertise in technology and development.",
       "tabbuttons1": "Experience",
-      "tabbuttons2": "Education"
-    }
+      "tabbuttons2": "Education",
+      "showMore" : "Show More",
+      "showLess" : "Show Less"
+     },
+     "projects" : {
+      "titleLine1" : "Latest Projects",
+      "description1" : "A portfolio of selected projects that demonstrate my skills and experience in developing modern digital solutions."
+     }
 }

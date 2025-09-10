@@ -10,6 +10,19 @@ type Props = {
   params: { locale: string }; 
 };
 
+export const metadata = {
+  title: "Habibi Ahmad Aziz | Portofolio",
+  description: "My personal portfolio website",
+  openGraph: {
+    title: "Habibi Ahmad Aziz | Portofolio",
+  },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon-32x32.png",
+    apple: "/apple-touch-icon.png",
+  },
+};
+
 export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params;
 
@@ -21,7 +34,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   if (!messages) notFound();
 
   return (
-    <html lang={locale}>
+    <html lang={locale} suppressHydrationWarning>
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Providers

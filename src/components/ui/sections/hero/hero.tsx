@@ -1,3 +1,5 @@
+'use client';
+
 import Image from "next/image";
 import { ChevronDown, Eye, Download, Code2, Cpu, Zap, Globe } from "lucide-react";
 import { Typewriter } from "react-simple-typewriter";
@@ -5,19 +7,42 @@ import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
 import { useTranslations } from 'next-intl';
 import './banner.css'
+import Link from "next/link";
+
+// Skeleton components
+const SkeletonText = ({ className = "", width = "w-full", height = "h-4" }) => (
+  <div className={`animate-pulse bg-gray-200 dark:bg-gray-700 rounded ${width} ${height} ${className}`} />
+);
+
+const SkeletonButton = ({ className = "" }) => (
+  <div className={`animate-pulse bg-gray-200 dark:bg-gray-700 rounded-2xl h-14 ${className}`} />
+);
+
+const SkeletonImage = ({ className = "" }) => (
+  <div className={`animate-pulse bg-gray-200 dark:bg-gray-700 rounded-3xl aspect-square ${className}`} />
+);
 
 export default function Hero() {
   const { resolvedTheme } = useTheme();
   const [isVisible, setIsVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const t = useTranslations('hero');
 
   useEffect(() => {
     setMounted(true);
     setIsVisible(true);
+    
+    // Simulate loading - replace with your actual loading logic
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
   }, []);
 
   if (!mounted) return null;
+  
   const isDark = resolvedTheme === "dark";
 
   const techIcons = [
@@ -59,7 +84,6 @@ export default function Hero() {
         />
       </div>
 
-
       {/* Main Content */}
       <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center relative z-10">
         {/* Text Content */}
@@ -68,90 +92,127 @@ export default function Hero() {
             isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
           }`}
         >
-          {/* Intro */}
-          <div className="space-y-2">
-            <span className="text-lg font-medium tracking-wide text-blue-600 dark:text-blue-400">
-              {t('greeting')}
-            </span>
-            <h1
-              id="hero-heading"
-              className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight"
-            >
-              <span
-                className={`block ${isDark ? "text-white" : "text-slate-900"}`}
-              >
-                <Typewriter
-                  words={typewriterTexts}
-                  loop={true}
-                  cursor
-                  cursorStyle="|"
-                  typeSpeed={80}
-                  deleteSpeed={50}
-                  delaySpeed={2000}
+          {isLoading ? (
+            // Skeleton for text content
+            <div className="space-y-8">
+              {/* Greeting skeleton */}
+              <div className="space-y-2">
+                <SkeletonText width="w-32" height="h-6" />
+                
+                {/* Title skeleton */}
+                <div className="space-y-3">
+                  <SkeletonText width="w-full" height="h-12" />
+                  <SkeletonText width="w-4/5" height="h-12" />
+                </div>
+                
+                {/* Line decoration skeleton */}
+                <SkeletonText width="w-24" height="h-1" className="mt-4" />
+              </div>
+
+              {/* Description skeleton */}
+              <div className="space-y-3">
+                <SkeletonText width="w-full" height="h-6" />
+                <SkeletonText width="w-full" height="h-6" />
+                <SkeletonText width="w-3/4" height="h-6" />
+                <SkeletonText width="w-full" height="h-6" />
+                <SkeletonText width="w-2/3" height="h-6" />
+              </div>
+
+              {/* Buttons skeleton */}
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <SkeletonButton className="w-full sm:w-48" />
+                <SkeletonButton className="w-full sm:w-48" />
+              </div>
+            </div>
+          ) : (
+            // Actual content
+            <>
+              {/* Intro */}
+              <div className="space-y-2">
+                <span className="text-lg font-medium tracking-wide text-blue-600 dark:text-blue-400">
+                  {t('greeting')}
+                </span>
+                <h1
+                  id="hero-heading"
+                  className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight"
+                >
+                  <span
+                    className={`block ${isDark ? "text-white" : "text-slate-900"}`}
+                  >
+                    <Typewriter
+                      words={typewriterTexts}
+                      loop={true}
+                      cursor
+                      cursorStyle="|"
+                      typeSpeed={80}
+                      deleteSpeed={50}
+                      delaySpeed={2000}
+                    />
+                  </span>
+                </h1>
+
+                <div
+                  className={`h-1 w-24 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 ${
+                    isVisible ? "animate-pulse" : ""
+                  }`}
                 />
-              </span>
-            </h1>
+              </div>
 
-            <div
-              className={`h-1 w-24 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 ${
-                isVisible ? "animate-pulse" : ""
-              }`}
-            />
-          </div>
+              {/* Professional Description */}
+              <p
+                className={`text-lg sm:text-xl lg:text-2xl leading-relaxed max-w-lg font-light ${
+                  isDark ? "text-slate-300" : "text-slate-600"
+                }`}
+              >
+                {t('description.part1')}{" "}
+                <span className="font-semibold text-blue-600">
+                  {t('description.highlight1')}
+                </span>
+                {t('description.part2')}{" "}
+                <span className="font-semibold text-cyan-600">{t('description.highlight2')}</span>{" "}
+                {t('description.part3')}{" "}
+                <span className="font-semibold text-blue-600">
+                  {t('description.highlight3')}
+                </span>{" "}
+                {t('description.part4')}{" "}
+                <span className="font-semibold text-cyan-600">{t('description.highlight4')}</span> {t('description.part5')}{" "}
+                <span className="font-semibold text-blue-600">
+                  {t('description.highlight6')}
+                </span>
+                {t('description.part7')}
+              </p>
 
-          {/* Professional Description */}
-          <p
-            className={`text-lg sm:text-xl lg:text-2xl leading-relaxed max-w-lg font-light ${
-              isDark ? "text-slate-300" : "text-slate-600"
-            }`}
-          >
-            {t('description.part1')}{" "}
-            <span className="font-semibold text-blue-600">
-              {t('description.highlight1')}
-            </span>
-            {t('description.part2')}{" "}
-            <span className="font-semibold text-cyan-600">{t('description.highlight2')}</span>{" "}
-            {t('description.part3')}{" "}
-            <span className="font-semibold text-blue-600">
-              {t('description.highlight3')}
-            </span>{" "}
-            {t('description.part4')}{" "}
-            <span className="font-semibold text-cyan-600">{t('description.highlight4')}</span> {t('description.part5')}{" "}
-            <span className="font-semibold text-blue-600">
-              {t('description.highlight6')}
-            </span>
-            {t('description.part7')}
-          </p>
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                {/* Projects */}
+                <Link
+                  href="#projects"
+                  className={`group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 ${
+                    isDark
+                      ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white hover:shadow-xl hover:shadow-blue-500/30 focus:ring-blue-500/50"
+                      : "bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg hover:shadow-blue-400/30 focus:ring-blue-400/50"
+                  }`}
+                >
+                  <Eye size={20} className="group-hover:scale-110 transition-transform" />
+                  {t('buttons.viewProjects')}
+                </Link>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 pt-4">
-            {/* Projects */}
-            <a
-              href="#projects"
-              className={`group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 ${
-                isDark
-                  ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white hover:shadow-xl hover:shadow-blue-500/30 focus:ring-blue-500/50"
-                  : "bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg hover:shadow-blue-400/30 focus:ring-blue-400/50"
-              }`}
-            >
-              <Eye size={20} className="group-hover:scale-110 transition-transform" />
-              {t('buttons.viewProjects')}
-            </a>
-
-            {/* Resume */}
-            <a
-              href="/cv.pdf"
-              download
-              className={`group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-semibold text-lg border-2 backdrop-blur-sm transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 ${
-                isDark
-                  ? "bg-white/5 border-white/20 text-slate-200 hover:bg-white/10 hover:border-blue-500/50 focus:ring-white/20"
-                  : "bg-white/70 border-slate-200 text-slate-700 hover:bg-white hover:border-blue-400 focus:ring-slate-300"
-              }`}
-            >
-              <Download size={20} className="group-hover:animate-bounce" />
-              {t('buttons.downloadCV')}
-            </a>
-          </div>
+                {/* Resume */}
+                <Link
+                  href="/cv.pdf"
+                  download
+                  className={`group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-semibold text-lg border-2 backdrop-blur-sm transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 ${
+                    isDark
+                      ? "bg-white/5 border-white/20 text-slate-200 hover:bg-white/10 hover:border-blue-500/50 focus:ring-white/20"
+                      : "bg-white/70 border-slate-200 text-slate-700 hover:bg-white hover:border-blue-400 focus:ring-slate-300"
+                  }`}
+                >
+                  <Download size={20} className="group-hover:animate-bounce" />
+                  {t('buttons.downloadCV')}
+                </Link>
+              </div>
+            </>
+          )}
         </div>
 
         {/* Image Section with Decorative Elements */}
@@ -188,15 +249,19 @@ export default function Hero() {
                     }}
                 />
             </div>
-            <Image
-              src="/self-photo-habibi-ahmad-aziz.webp"
-              alt={t('imageAlt')}
-              width={600}
-              height={600}
-              className="w-full max-w-sm sm:max-w-md lg:max-w-lg mx-auto rounded-3xl drop-shadow-[0_15px_25px_rgba(0,0,0,0.4)] transition-transform duration-700 hover:scale-105"
-              priority
-              draggable={false}
-            />
+            
+            {isLoading ? (
+              <SkeletonImage className="w-full max-w-sm sm:max-w-md lg:max-w-lg mx-auto" />
+            ) : (
+              <Image
+                src="/self-photo-habibi-ahmad-aziz.webp"
+                alt={t('imageAlt')}
+                width={600}
+                height={600}
+                className="w-full select-none max-w-sm sm:max-w-md lg:max-w-lg mx-auto rounded-3xl drop-shadow-[0_15px_25px_rgba(0,0,0,0.4)] transition-transform duration-700 hover:scale-105"
+                draggable={false}
+              />
+            )}
 
             {/* Glow effect */}
             <div
@@ -254,37 +319,44 @@ export default function Hero() {
           <div className="absolute -bottom-8 -left-8 w-16 h-16 rounded-full bg-gradient-to-br from-cyan-500/20 to-blue-500/20 animate-pulse-slow delay-1000" />
           
           {/* Code-like decorative elements */}
-          <div
-            className={`absolute -top-8 left-4 px-3 py-1 rounded-lg text-xs font-mono ${
-              isDark ? "bg-slate-800/80 text-green-400" : "bg-slate-100/80 text-green-600"
-            } backdrop-blur-sm`}
-          >
-            {t('codeElements.developer')}
-          </div>
-          
-          <div
-            className={`absolute top-0 right-2 px-3 py-1 lg:top-20 rounded-lg text-xs font-mono ${
-              isDark ? "bg-slate-800/80 text-blue-400" : "bg-slate-100/80 text-blue-600"
-            } backdrop-blur-sm`}
-          >
-            {t('codeElements.console')}
-          </div>
+          {!isLoading && (
+            <>
+              <div
+                className={`absolute -top-8 left-4 px-3 py-1 rounded-lg text-xs font-mono ${
+                  isDark ? "bg-slate-800/80 text-green-400" : "bg-slate-100/80 text-green-600"
+                } backdrop-blur-sm`}
+              >
+                {t('codeElements.developer')}
+              </div>
+              
+              <div
+                className={`absolute top-0 right-2 px-3 py-1 lg:top-20 rounded-lg text-xs font-mono ${
+                  isDark ? "bg-slate-800/80 text-blue-400" : "bg-slate-100/80 text-blue-600"
+                } backdrop-blur-sm`}
+              >
+                {t('codeElements.console')}
+              </div>
+            </>
+          )}
         </div>
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 animate-bounce-gentle">
-        <div
-          className={`flex flex-col items-center gap-2 transition-colors duration-300 ${
-            isDark ? "text-blue-400 hover:text-blue-300" : "text-blue-500 hover:text-blue-600"
-          }`}
-        >
-          <span className="text-xs font-medium tracking-widest opacity-80">
-            {t('scrollIndicator')}
-          </span>
-          <ChevronDown size={20} className="animate-bounce" />
+      {!isLoading && (
+        <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 animate-bounce-gentle">
+          <div
+            className={`flex flex-col items-center gap-2 transition-colors duration-300 ${
+              isDark ? "text-blue-400 hover:text-blue-300" : "text-blue-500 hover:text-blue-600"
+            }`}
+          >
+            <span className="text-xs font-medium tracking-widest opacity-80">
+              {t('scrollIndicator')}
+            </span>
+            <ChevronDown size={20} className="animate-bounce" />
+          </div>
         </div>
-      </div>
+      )}
+      
       <div 
         className="absolute inset-0 opacity-[1] bg-[size:40px_40px]
           bg-[linear-gradient(rgba(148,163,184,0.3)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.3)_1px,transparent_1px)]

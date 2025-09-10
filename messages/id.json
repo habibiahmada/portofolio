@@ -82,11 +82,21 @@
       "description3": "Saya selalu termotivasi untuk belajar teknologi baru dan menghadirkan solusi yang berdampak nyata.",
       "cta": "Mari Berkolaborasi"
     },
+    "service" :{
+      "titleLine1" : "Layanan",
+      "description1" : "Solusi lengkap untuk kebutuhan pengembangan web modern dengan teknologi terdepan dan desain yang memukau"
+    },
     "educations": {
       "titleLine1": "Pengalaman &",
       "titleLine2": "Pendidikan",
       "description1": "Perjalanan karir dan pendidikan yang membentuk keahlian saya dalam teknologi dan pengembangan",
       "tabbuttons1": "Pengalaman",
-      "tabbuttons2": "Pendidikan"
-    }
+      "tabbuttons2": "Pendidikan",
+      "showMore" : "Lihat Lainnya",
+      "showLess" : "Lebih Sedikit"
+    },
+    "projects" : {
+      "titleLine1" : "Proyek Terbaru",
+      "description1" : "Portofolio proyek terpilih yang menunjukkan kemampuan dan pengalaman saya dalam mengembangkan solusi digital modern"
+     }
 }
