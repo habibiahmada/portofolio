@@ -1,101 +1,32 @@
 'use client';
 
-import { useEffect, useState } from "react";
 import { CheckCircle, Clock, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
-import './stats.css';
-
-// Skeleton components
-const SkeletonText = ({ className = "", width = "w-full", height = "h-4" }) => (
-  <div className={`animate-pulse bg-gray-200 dark:bg-gray-700 rounded ${width} ${height} ${className}`} />
-);
-
-const SkeletonIcon = ({ className = "" }) => (
-  <div className={`animate-pulse bg-gray-200 dark:bg-gray-700 rounded-xl w-12 h-12 ${className}`} />
-);
-
-const SkeletonCard = ({ delay = "0s" }) => (
-  <div
-    className="group relative p-8 rounded-2xl border backdrop-blur-sm bg-white/60 dark:bg-slate-800/40 border-slate-200/60 dark:border-slate-700/60 opacity-0 translate-y-8"
-    style={{ 
-      animationDelay: delay,
-      animation: `fadeInUp 0.6s ease-out forwards ${delay}`
-    }}
-  >
-    <div className="space-y-6">
-      {/* Icon skeleton */}
-      <SkeletonIcon />
-      
-      {/* Number skeleton */}
-      <div className="flex items-baseline gap-1">
-        <SkeletonText width="w-20" height="h-12" />
-        <SkeletonText width="w-6" height="h-8" />
-      </div>
-      
-      {/* Label skeleton */}
-      <SkeletonText width="w-32" height="h-6" />
-      
-      {/* Description skeleton */}
-      <div className="space-y-2">
-        <SkeletonText width="w-full" height="h-4" />
-        <SkeletonText width="w-3/4" height="h-4" />
-      </div>
-    </div>
-  </div>
-);
-
-const SkeletonCompany = ({ delay = "0.5s" }) => (
-  <div
-    className="h-16 rounded-xl border border-slate-200/60 dark:border-slate-700/60 bg-white/60 dark:bg-slate-800/40 backdrop-blur-sm flex items-center justify-center"
-    style={{
-      animationDelay: delay,
-      animation: `fadeInUp 0.6s ease-out forwards ${delay}`,
-      opacity: 0
-    }}
-  >
-    <div className="text-center space-y-1">
-      <div className="w-8 h-8 mx-auto bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
-      <SkeletonText width="w-12" height="h-3" />
-    </div>
-  </div>
-);
 
 export default function Stats() {
   const t = useTranslations();
-  const [mounted, setMounted] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [countingStats, setCountingStats] = useState([0, 0, 0]);
 
   const stats = [
     { 
-      icon: CheckCircle, 
-      count: 50, 
-      suffix: "+",
+      icon: CheckCircle, count: 50, suffix: "+",
       label: t("stats.projects.label"), 
       description: t("stats.projects.description"),
       color: "from-emerald-500 to-teal-600",
       bgColor: "from-emerald-50 to-teal-50 dark:from-emerald-950/50 dark:to-teal-950/50",
-      delay: "0s" 
     },
     { 
-      icon: Clock, 
-      count: 5, 
-      suffix: "+",
+      icon: Clock, count: 5, suffix: "+",
       label: t("stats.experience.label"), 
       description: t("stats.experience.description"),
       color: "from-blue-500 to-indigo-600",
       bgColor: "from-blue-50 to-indigo-50 dark:from-blue-950/50 dark:to-indigo-950/50",
-      delay: "0.1s" 
     },
     { 
-      icon: Users, 
-      count: 30, 
-      suffix: "+",
+      icon: Users, count: 30, suffix: "+",
       label: t("stats.clients.label"), 
       description: t("stats.clients.description"),
       color: "from-purple-500 to-pink-600",
       bgColor: "from-purple-50 to-pink-50 dark:from-purple-950/50 dark:to-pink-950/50",
-      delay: "0.2s" 
     },
   ];
 
@@ -108,149 +39,79 @@ export default function Stats() {
     { name: t("companies.systempro"), logo: "SP" },
   ];
 
-  useEffect(() => {
-    setMounted(true);
-    
-    // Simulate loading - replace with your actual loading logic
-    const loadingTimer = setTimeout(() => {
-      setIsLoading(false);
-      
-      // Start counting animation after content is loaded
-      const timers = stats.map((stat, index) => {
-        return setTimeout(() => {
-          const duration = 2000;
-          const steps = 60;
-          const increment = stat.count / steps;
-          let current = 0;
-          
-          const counter = setInterval(() => {
-            current += increment;
-            if (current >= stat.count) {
-              current = stat.count;
-              clearInterval(counter);
-            }
-            setCountingStats(prev => {
-              const newStats = [...prev];
-              newStats[index] = Math.floor(current);
-              return newStats;
-            });
-          }, duration / steps);
-        }, index * 200);
-      });
-      
-      return () => timers.forEach(clearTimeout);
-    }, 1000);
-
-    return () => clearTimeout(loadingTimer);
-  }, []);
-
-  if (!mounted) return null;
-
   return (
-    <section id="stats" className="relative py-20 pb-0 overflow-hidden">
-      {/* Advanced Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-50 via-gray-50 to-slate-50 dark:from-slate-950 dark:via-gray-950 dark:to-slate-950" />
-      
-      {/* Subtle Grid */}
-      <div 
-        className="absolute inset-0 opacity-[1] bg-[size:40px_40px]
-            bg-[linear-gradient(rgba(148,163,184,0.3)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.3)_1px,transparent_1px)]
-            dark:bg-[linear-gradient(rgba(59,130,246,0.15)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.15)_1px,transparent_1px)]
-            [mask-image:radial-gradient(ellipse_50%_45%_at_50%_50%,#000_70%,transparent_100%)]"
-        />
+    <section id="stats" className="relative py-28 sm:py-36 lg:py-40 overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-50 via-gray-50 to-slate-50 
+        dark:from-slate-950 dark:via-gray-950 dark:to-slate-950" />
+
+      <div className="absolute inset-0 bg-[size:40px_40px]
+        bg-[linear-gradient(rgba(148,163,184,0.2)_1px,transparent_1px),
+        linear-gradient(90deg,rgba(148,163,184,0.2)_1px,transparent_1px)]
+        dark:bg-[linear-gradient(rgba(59,130,246,0.1)_1px,transparent_1px),
+        linear-gradient(90deg,rgba(59,130,246,0.1)_1px,transparent_1px)]
+        [mask-image:radial-gradient(ellipse_50%_45%_at_50%_50%,#000_70%,transparent_100%)]"
+      />
 
       <div className="relative container mx-auto px-6 max-w-7xl">
-        {/* Stats Cards */}
+        {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-20">
-          {isLoading ? (
-            // Skeleton cards
-            Array.from({ length: 3 }).map((_, i) => (
-              <SkeletonCard key={i} delay={`${i * 0.1}s`} />
-            ))
-          ) : (
-            // Actual cards
-            stats.map((stat, i) => (
+          {stats.map((stat, i) => (
+            <div
+              key={i}
+              className="relative p-8 rounded-2xl border backdrop-blur-sm transition-all duration-500 hover:-translate-y-1"
+            >
+              <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${stat.bgColor} opacity-80`} />
+              <div className="relative z-10">
+                <div className={`inline-flex p-3 rounded-xl bg-gradient-to-r ${stat.color} text-white shadow-lg mb-6`}>
+                  <stat.icon size={24} />
+                </div>
+                <div className="flex items-baseline gap-1 mb-2">
+                  <span className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white tabular-nums">
+                    {stat.count}
+                  </span>
+                  <span className={`text-2xl font-semibold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
+                    {stat.suffix}
+                  </span>
+                </div>
+                <div className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-1">
+                  {stat.label}
+                </div>
+                <p className="text-sm text-slate-600 dark:text-slate-400">
+                  {stat.description}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Companies */}
+        <div className="text-center">
+          <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-2">
+            {t("stats.trustedBy")}
+          </h3>
+          <p className="text-slate-600 dark:text-slate-400 mb-8">
+            {t("stats.trustedDescription")}
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 items-center">
+            {companies.map((company, i) => (
               <div
                 key={i}
-                className="group relative p-8 rounded-2xl border backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 opacity-0 translate-y-8"
-                style={{ 
-                  animationDelay: stat.delay,
-                  animation: `fadeInUp 0.6s ease-out forwards ${stat.delay}`
-                }}
+                className="h-16 rounded-xl border border-slate-200/60 dark:border-slate-700/60 
+                  bg-white/60 dark:bg-slate-800/40 backdrop-blur-sm flex items-center justify-center"
               >
-                <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${stat.bgColor} opacity-80`} />
-                <div className="relative z-10">
-                  <div className={`inline-flex p-3 rounded-xl bg-gradient-to-r ${stat.color} text-white shadow-lg mb-6`}>
-                    <stat.icon size={24} />
+                <div className="text-center">
+                  <div className="w-8 h-8 mx-auto mb-1 rounded bg-gradient-to-br from-slate-600 to-slate-800 
+                    dark:from-slate-300 dark:to-slate-500 text-white dark:text-slate-900 text-xs font-bold 
+                    flex items-center justify-center shadow-sm">
+                    {company.logo}
                   </div>
-                  <div className="flex items-baseline gap-1 mb-2">
-                    <span className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white tabular-nums">
-                      {countingStats[i]}
-                    </span>
-                    <span className={`text-2xl font-semibold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
-                      {stat.suffix}
-                    </span>
-                  </div>
-                  <div className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-1">
-                    {stat.label}
-                  </div>
-                  <div className="text-sm text-slate-600 dark:text-slate-400">
-                    {stat.description}
+                  <div className="text-xs font-medium text-slate-700 dark:text-slate-300 opacity-80">
+                    {company.name}
                   </div>
                 </div>
               </div>
-            ))
-          )}
-        </div>
-
-        {/* Client Trust Section */}
-        <div className="text-center">
-          {isLoading ? (
-            // Skeleton for section header
-            <div className="mb-8 space-y-2">
-              <SkeletonText width="w-48 mx-auto" height="h-6" />
-              <SkeletonText width="w-64 mx-auto" height="h-4" />
-            </div>
-          ) : (
-            <>
-              <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-2">
-                {t("stats.trustedBy")}
-              </h3>
-              <p className="text-slate-600 dark:text-slate-400 mb-8">
-                {t("stats.trustedDescription")}
-              </p>
-            </>
-          )}
-          
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 items-center">
-            {isLoading ? (
-              // Skeleton companies
-              Array.from({ length: 6 }).map((_, i) => (
-                <SkeletonCompany key={i} delay={`${0.5 + i * 0.1}s`} />
-              ))
-            ) : (
-              // Actual companies
-              companies.map((company, i) => (
-                <div
-                  key={i}
-                  className="group h-16 rounded-xl border border-slate-200/60 dark:border-slate-700/60 bg-white/60 dark:bg-slate-800/40 backdrop-blur-sm flex items-center justify-center"
-                  style={{
-                    animationDelay: `${0.5 + i * 0.1}s`,
-                    animation: `fadeInUp 0.6s ease-out forwards ${0.5 + i * 0.1}s`,
-                    opacity: 0
-                  }}
-                >
-                  <div className="text-center">
-                    <div className="w-8 h-8 mx-auto mb-1 rounded bg-gradient-to-br from-slate-600 to-slate-800 dark:from-slate-300 dark:to-slate-500 text-white dark:text-slate-900 text-xs font-bold flex items-center justify-center shadow-sm">
-                      {company.logo}
-                    </div>
-                    <div className="text-xs font-medium text-slate-700 dark:text-slate-300 opacity-80">
-                      {company.name}
-                    </div>
-                  </div>
-                </div>
-              ))
-            )}
+            ))}
           </div>
         </div>
       </div>

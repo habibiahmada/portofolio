@@ -9,7 +9,6 @@ import {
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import ServiceCard from "./servicecard";
-  
 
 export default function MyService() {
   const { resolvedTheme } = useTheme();
@@ -22,6 +21,70 @@ export default function MyService() {
 
   if (!mounted) return null;
   const isDark = resolvedTheme === "dark";
+
+  // Service data with translations
+  const services = [
+    {
+      icon: <Code2 className="w-8 h-8 text-white" />,
+      title: t("frontend.title"),
+      description: t("frontend.description"),
+      bullets: [
+        t("frontend.bullets.spa"),
+        t("frontend.bullets.ssr"),
+        t("frontend.bullets.pwa"),
+        t("frontend.bullets.mobile"),
+      ],
+      color: "from-blue-500 to-blue-600 dark:from-blue-400 dark:to-blue-500"
+    },
+    {
+      icon: <Gauge className="w-8 h-8 text-white" />,
+      title: t("performance.title"),
+      description: t("performance.description"),
+      bullets: [
+        t("performance.bullets.vitals"),
+        t("performance.bullets.assets"),
+        t("performance.bullets.splitting"),
+        t("performance.bullets.seo"),
+      ],
+      color: "from-blue-500 to-slate-500 dark:from-blue-400 dark:to-slate-400"
+    },
+    {
+      icon: <Smartphone className="w-8 h-8 text-white" />,
+      title: t("responsive.title"),
+      description: t("responsive.description"),
+      bullets: [
+        t("responsive.bullets.mobile"),
+        t("responsive.bullets.compatibility"),
+        t("responsive.bullets.touch"),
+        t("responsive.bullets.performance"),
+      ],
+      color: "from-slate-600 to-blue-500 dark:from-slate-500 dark:to-blue-400"
+    },
+    {
+      icon: <Globe className="w-8 h-8 text-white" />,
+      title: t("webapp.title"),
+      description: t("webapp.description"),
+      bullets: [
+        t("webapp.bullets.fullstack"),
+        t("webapp.bullets.api"),
+        t("webapp.bullets.database"),
+        t("webapp.bullets.cloud"),
+      ],
+      color: "from-blue-600 to-slate-600 dark:from-blue-500 dark:to-slate-500"
+    },
+    {
+      icon: <Cog className="w-8 h-8 text-white" />,
+      title: t("consulting.title"),
+      description: t("consulting.description"),
+      bullets: [
+        t("consulting.bullets.planning"),
+        t("consulting.bullets.review"),
+        t("consulting.bullets.architecture"),
+        t("consulting.bullets.mentoring"),
+      ],
+      color: "from-slate-500 to-blue-600 dark:from-slate-400 dark:to-blue-500"
+    }
+  ];
 
   return (
     <section
@@ -68,81 +131,22 @@ export default function MyService() {
             />
           </div>
           <p className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed">
-          {t("description1")}
+            {t("description1")}
           </p>
         </div>
 
         {/* Services Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* Frontend Development */}
-          <ServiceCard
-            icon={<Code2 className="w-8 h-8 text-white" />}
-            title="Frontend Development"
-            description="Pengembangan antarmuka web modern dengan React, Next.js, dan teknologi terdepan."
-            bullets={[
-              "Single Page Applications (SPA)",
-              "Server-Side Rendering (SSR)",
-              "Progressive Web Apps (PWA)",
-              "Mobile-First Design",
-            ]}
-            color="from-blue-500 to-blue-600 dark:from-blue-400 dark:to-blue-500"
-          />
-
-          {/* Performance Optimization */}
-          <ServiceCard
-            icon={<Gauge className="w-8 h-8 text-white" />}
-            title="Performance Optimization"
-            description="Optimasi performa website untuk kecepatan loading maksimal dan SEO terbaik."
-            bullets={[
-              "Core Web Vitals Optimization",
-              "Image & Asset Optimization",
-              "Code Splitting & Lazy Loading",
-              "SEO Technical Audit",
-            ]}
-            color="from-blue-500 to-slate-500 dark:from-blue-400 dark:to-slate-400"
-          />
-
-          {/* Responsive Development */}
-          <ServiceCard
-            icon={<Smartphone className="w-8 h-8 text-white" />}
-            title="Responsive Development"
-            description="Website responsif sempurna dan optimal di semua perangkat modern."
-            bullets={[
-              "Mobile-First Approach",
-              "Cross-Browser Compatibility",
-              "Touch-Friendly Interfaces",
-              "Performance on Mobile",
-            ]}
-            color="from-slate-600 to-blue-500 dark:from-slate-500 dark:to-blue-400"
-          />
-
-          {/* Web App Development */}
-          <ServiceCard
-            icon={<Globe className="w-8 h-8 text-white" />}
-            title="Web App Development"
-            description="Pengembangan aplikasi web lengkap dan scalable dari konsep hingga production."
-            bullets={[
-              "Full-Stack Development",
-              "API Integration",
-              "Database Design",
-              "Cloud Deployment",
-            ]}
-            color="from-blue-600 to-slate-600 dark:from-blue-500 dark:to-slate-500"
-          />
-
-          {/* Technical Consulting */}
-          <ServiceCard
-            icon={<Cog className="w-8 h-8 text-white" />}
-            title="Technical Consulting"
-            description="Konsultasi teknis profesional untuk arsitektur, stack teknologi, dan best practices."
-            bullets={[
-              "Technology Stack Planning",
-              "Code Review & Audit",
-              "Architecture Planning",
-              "Team Training & Mentoring",
-            ]}
-            color="from-slate-500 to-blue-600 dark:from-slate-400 dark:to-blue-500"
-          />
+          {services.map((service, index) => (
+            <ServiceCard
+              key={index}
+              icon={service.icon}
+              title={service.title}
+              description={service.description}
+              bullets={service.bullets}
+              color={service.color}
+            />
+          ))}
         </div>
       </div>
     </section>

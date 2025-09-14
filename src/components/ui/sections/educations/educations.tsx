@@ -22,7 +22,7 @@ export default function Education() {
   const isDark = mounted ? resolvedTheme === "dark" : false;
   const themeClass = mounted 
     ? (isDark ? "dark" : "light")
-    : "light"; // fallback ke light theme
+    : "light";
 
   const experienceList = experiences.filter((exp) =>
     ["experience", "pengalaman"].includes(exp.type)
@@ -32,13 +32,12 @@ export default function Education() {
     ["education", "pendidikan"].includes(exp.type)
   );
 
-  // Render loading state atau component yang aman dari hydration mismatch
   if (!mounted) return null
 
   return (
     <section
       id="experience"
-      className={`relative min-h-screen py-12 sm:py-16 lg:py-24 overflow-hidden transition-colors duration-300 ${
+      className={`relative min-h-screen py-28 sm:py-36 lg:py-40 overflow-hidden transition-colors duration-300 ${
         isDark ? "bg-slate-950" : "bg-gradient-to-t from-white to-slate-50"
       }`}
     >

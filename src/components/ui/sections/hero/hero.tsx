@@ -9,36 +9,16 @@ import { useTranslations } from 'next-intl';
 import './banner.css'
 import Link from "next/link";
 
-// Skeleton components
-const SkeletonText = ({ className = "", width = "w-full", height = "h-4" }) => (
-  <div className={`animate-pulse bg-gray-200 dark:bg-gray-700 rounded ${width} ${height} ${className}`} />
-);
-
-const SkeletonButton = ({ className = "" }) => (
-  <div className={`animate-pulse bg-gray-200 dark:bg-gray-700 rounded-2xl h-14 ${className}`} />
-);
-
-const SkeletonImage = ({ className = "" }) => (
-  <div className={`animate-pulse bg-gray-200 dark:bg-gray-700 rounded-3xl aspect-square ${className}`} />
-);
-
 export default function Hero() {
   const { resolvedTheme } = useTheme();
   const [isVisible, setIsVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const t = useTranslations('hero');
 
   useEffect(() => {
     setMounted(true);
     setIsVisible(true);
-    
-    // Simulate loading - replace with your actual loading logic
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
 
-    return () => clearTimeout(timer);
   }, []);
 
   if (!mounted) return null;
@@ -92,41 +72,6 @@ export default function Hero() {
             isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
           }`}
         >
-          {isLoading ? (
-            // Skeleton for text content
-            <div className="space-y-8">
-              {/* Greeting skeleton */}
-              <div className="space-y-2">
-                <SkeletonText width="w-32" height="h-6" />
-                
-                {/* Title skeleton */}
-                <div className="space-y-3">
-                  <SkeletonText width="w-full" height="h-12" />
-                  <SkeletonText width="w-4/5" height="h-12" />
-                </div>
-                
-                {/* Line decoration skeleton */}
-                <SkeletonText width="w-24" height="h-1" className="mt-4" />
-              </div>
-
-              {/* Description skeleton */}
-              <div className="space-y-3">
-                <SkeletonText width="w-full" height="h-6" />
-                <SkeletonText width="w-full" height="h-6" />
-                <SkeletonText width="w-3/4" height="h-6" />
-                <SkeletonText width="w-full" height="h-6" />
-                <SkeletonText width="w-2/3" height="h-6" />
-              </div>
-
-              {/* Buttons skeleton */}
-              <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <SkeletonButton className="w-full sm:w-48" />
-                <SkeletonButton className="w-full sm:w-48" />
-              </div>
-            </div>
-          ) : (
-            // Actual content
-            <>
               {/* Intro */}
               <div className="space-y-2">
                 <span className="text-lg font-medium tracking-wide text-blue-600 dark:text-blue-400">
@@ -135,10 +80,9 @@ export default function Hero() {
                 <h1
                   id="hero-heading"
                   className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight"
+                  style={{ minHeight: "10rem" }}
                 >
-                  <span
-                    className={`block ${isDark ? "text-white" : "text-slate-900"}`}
-                  >
+                  <span className={isDark ? "text-white" : "text-slate-900"}>
                     <Typewriter
                       words={typewriterTexts}
                       loop={true}
@@ -211,8 +155,6 @@ export default function Hero() {
                   {t('buttons.downloadCV')}
                 </Link>
               </div>
-            </>
-          )}
         </div>
 
         {/* Image Section with Decorative Elements */}
@@ -224,12 +166,12 @@ export default function Hero() {
           {/* Decorative rings behind image */}
           <div className="absolute inset-0 -z-10">
             <div
-              className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full border-2 opacity-20 animate-spin-slow ${
+              className={`absolute hidden sm:block top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full border-2 opacity-20 animate-spin-slow ${
                 isDark ? "border-blue-400" : "border-blue-500"
               }`}
             />
             <div
-              className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full border opacity-10 animate-spin-reverse ${
+              className={`absolute hidden sm:block top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full border opacity-10 animate-spin-reverse ${
                 isDark ? "border-cyan-400" : "border-cyan-500"
               }`}
             />
@@ -249,10 +191,6 @@ export default function Hero() {
                     }}
                 />
             </div>
-            
-            {isLoading ? (
-              <SkeletonImage className="w-full max-w-sm sm:max-w-md lg:max-w-lg mx-auto" />
-            ) : (
               <Image
                 src="/self-photo-habibi-ahmad-aziz.webp"
                 alt={t('imageAlt')}
@@ -260,8 +198,10 @@ export default function Hero() {
                 height={600}
                 className="w-full select-none max-w-sm sm:max-w-md lg:max-w-lg mx-auto rounded-3xl drop-shadow-[0_15px_25px_rgba(0,0,0,0.4)] transition-transform duration-700 hover:scale-105"
                 draggable={false}
+                priority={true}
+                sizes="(max-width: 768px) 100vw, 600px"
+                blurDataURL="/self-photo-habibi-ahmad-aziz-small.webp"
               />
-            )}
 
             {/* Glow effect */}
             <div
@@ -319,8 +259,6 @@ export default function Hero() {
           <div className="absolute -bottom-8 -left-8 w-16 h-16 rounded-full bg-gradient-to-br from-cyan-500/20 to-blue-500/20 animate-pulse-slow delay-1000" />
           
           {/* Code-like decorative elements */}
-          {!isLoading && (
-            <>
               <div
                 className={`absolute -top-8 left-4 px-3 py-1 rounded-lg text-xs font-mono ${
                   isDark ? "bg-slate-800/80 text-green-400" : "bg-slate-100/80 text-green-600"
@@ -336,13 +274,10 @@ export default function Hero() {
               >
                 {t('codeElements.console')}
               </div>
-            </>
-          )}
         </div>
       </div>
 
       {/* Scroll Indicator */}
-      {!isLoading && (
         <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 animate-bounce-gentle">
           <div
             className={`flex flex-col items-center gap-2 transition-colors duration-300 ${
@@ -355,7 +290,6 @@ export default function Hero() {
             <ChevronDown size={20} className="animate-bounce" />
           </div>
         </div>
-      )}
       
       <div 
         className="absolute inset-0 opacity-[1] bg-[size:40px_40px]

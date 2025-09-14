@@ -30,8 +30,8 @@ export function LanguageSwitcher() {
         <SelectValue placeholder={currentLocale.toUpperCase()} />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem  className="cursor-pointer" value="en">EN</SelectItem>
-        <SelectItem  className="cursor-pointer" value="id">ID</SelectItem>
+        <SelectItem  className="cursor-pointer hover:bg-gray-500 focus:bg-gray-500 focus:text-white" value="en">EN</SelectItem>
+        <SelectItem  className="cursor-pointer hover:bg-gray-500 focus:bg-gray-500 focus:text-white" value="id">ID</SelectItem>
       </SelectContent>
     </Select>
   );

@@ -8,6 +8,12 @@ import MyService from "@/components/ui/sections/service/service";
 import Projects from "@/components/ui/sections/projects/projects";
 import Education from "@/components/ui/sections/educations/educations";
 import { useState, useEffect } from "react";
+import SkillsSection from "@/components/ui/sections/skills/skills";
+import CertificationsSection from "@/components/ui/sections/sertifications/certifications";
+import TestimonialSection from "@/components/ui/sections/testimonials/testimonials";
+import ArticlesSection from "@/components/ui/sections/articles/articles";
+import ModernFAQSection from "@/components/ui/sections/faqs/faqs";
+import ContactSection from "@/components/ui/sections/contacts/contacts";
 
 
 export default function Home() {
@@ -41,8 +47,14 @@ export default function Home() {
         <Stats />
         <About />
         <MyService />
-        {/* <Projects /> */}
-        {/* <Education /> */}
+        <Projects />
+        <SkillsSection />
+        <Education />
+        <CertificationsSection />
+        <TestimonialSection />
+        <ArticlesSection />
+        <ModernFAQSection />
+        <ContactSection />
       </main>
     </>
   );
