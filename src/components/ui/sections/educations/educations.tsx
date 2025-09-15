@@ -8,7 +8,7 @@ import { useTranslations } from "next-intl";
 import { Button } from "../../button";
 
 export default function Education() {
-  const { resolvedTheme, theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const [activeTab, setActiveTab] = useState("experience");
   const [mounted, setMounted] = useState(false);
   const t = useTranslations("educations");
@@ -20,9 +20,6 @@ export default function Education() {
 
   // Gunakan fallback theme jika belum mounted atau theme belum resolved
   const isDark = mounted ? resolvedTheme === "dark" : false;
-  const themeClass = mounted 
-    ? (isDark ? "dark" : "light")
-    : "light";
 
   const experienceList = experiences.filter((exp) =>
     ["experience", "pengalaman"].includes(exp.type)
@@ -182,7 +179,7 @@ function CollapsibleTimeline({
   items: Experience[];
   isDark: boolean;
   type: "experience" | "education";
-  t: any;
+  t: ReturnType<typeof useTranslations>;
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const maxInitialItems = 2;

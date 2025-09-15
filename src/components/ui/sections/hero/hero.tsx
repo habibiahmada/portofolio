@@ -32,7 +32,6 @@ export default function Hero() {
     { icon: Globe, label: t('techIcons.cloud'), delay: "0.6s" }
   ];
 
-  // Get typewriter texts as array
   const typewriterTexts = [
     t('typewriterTexts.0'),
     t('typewriterTexts.1'),
@@ -53,7 +52,6 @@ export default function Hero() {
         }`}
     aria-labelledby="hero-heading"
     >
-      {/* Background grid */}
       <div className="absolute inset-0 -z-10">
         <div
           className={`absolute inset-0 opacity-30 ${
@@ -166,12 +164,12 @@ export default function Hero() {
           {/* Decorative rings behind image */}
           <div className="absolute inset-0 -z-10">
             <div
-              className={`absolute hidden sm:block top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full border-2 opacity-20 animate-spin-slow ${
+              className={`absolute hidden sm:block top-14 left-16 transform -translate-x-1 -translate-y-1/2 w-80 h-80 rounded-full border-2 opacity-20 ${
                 isDark ? "border-blue-400" : "border-blue-500"
               }`}
             />
             <div
-              className={`absolute hidden sm:block top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full border opacity-10 animate-spin-reverse ${
+              className={`absolute hidden sm:block top-1 left-1 transform -translate-x-1 -translate-y-1/2 w-96 h-96 rounded-full border opacity-10 ${
                 isDark ? "border-cyan-400" : "border-cyan-500"
               }`}
             />

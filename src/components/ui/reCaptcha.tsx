@@ -4,7 +4,12 @@ import { useEffect, useRef } from "react";
 
 declare global {
   interface Window {
-    grecaptcha: any;
+    grecaptcha: {
+      render: (element: HTMLElement, options: {
+        sitekey: string;
+        callback: (token: string) => void;
+      }) => void;
+    };
   }
 }
 

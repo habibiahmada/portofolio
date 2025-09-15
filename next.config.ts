@@ -15,7 +15,12 @@ const nextConfig: NextConfig = {
         ]
     },
     allowedDevOrigins: ['local-origin.dev', '*.local-origin.dev'],
+    // Optimasi untuk Next.js 15 dan i18n
+    experimental: {
+        // Memastikan async params berfungsi dengan baik
+        optimizePackageImports: ['next-intl'],
+    },
 };
  
-const withNextIntl = createNextIntlPlugin();
+const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 export default withNextIntl(nextConfig);

@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { 
   MapPin, 
-  Phone, 
   Mail, 
   Clock, 
   Send, 
@@ -40,7 +40,7 @@ interface ContactFormData {
 }
 
 interface ContactInfo {
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<{ className?: string }>;
   title: string;
   content: string;
   color: string;
@@ -48,7 +48,7 @@ interface ContactInfo {
 }
 
 interface SocialLink {
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<{ className?: string }>;
   href: string;
   color: string;
 }
@@ -57,16 +57,6 @@ interface ServiceOption {
   value: string;
   label: string;
 }
-
-// Constants
-const SERVICES: ServiceOption[] = [
-  { value: 'frontend', label: 'Frontend Development' },
-  { value: 'uiux', label: 'UI/UX Design' },
-  { value: 'performance', label: 'Performance Optimization' },
-  { value: 'webapp', label: 'Web App Development' },
-  { value: 'consulting', label: 'Technical Consulting' },
-  { value: 'other', label: 'Lainnya' }
-];
 
 const SOCIAL_LINKS: SocialLink[] = [
   { icon: Linkedin, href: 'https://www.linkedin.com/in/habibi-ahmad-aziz', color: 'hover:bg-blue-600' },
@@ -159,6 +149,18 @@ const FormInput: React.FC<{
 
 // Component
 const ContactSection: React.FC = () => {
+  const t = useTranslations("contacts");
+  
+  // Constants
+  const SERVICES: ServiceOption[] = [
+    { value: 'frontend', label: t('services.frontend') },
+    { value: 'uiux', label: t('services.uiux') },
+    { value: 'performance', label: t('services.performance') },
+    { value: 'webapp', label: t('services.webapp') },
+    { value: 'consulting', label: t('services.consulting') },
+    { value: 'other', label: t('services.other') }
+  ];
+
   // State Management
   const [recaptchaToken, setRecaptchaToken] = useState("");
   const [formData, setFormData] = useState<ContactFormData>({
@@ -187,7 +189,7 @@ const ContactSection: React.FC = () => {
     setIsSubmitting(true);
     
     if (!recaptchaToken) {
-      alert("Harap verifikasi reCAPTCHA dulu!");
+      alert(t('alerts.recaptcha'));
       setIsSubmitting(false);
       return;
     }
@@ -208,10 +210,10 @@ const ContactSection: React.FC = () => {
       });
       
       // Show success message (you can implement toast here)
-      alert('Pesan berhasil dikirim!');
+      alert(t('alerts.success'));
     } catch (error) {
       console.error('Form submission error:', error);
-      alert('Terjadi kesalahan saat mengirim pesan. Silakan coba lagi.');
+      alert(t('alerts.error'));
     } finally {
       setIsSubmitting(false);
     }
@@ -225,28 +227,28 @@ const ContactSection: React.FC = () => {
   const contactInfo: ContactInfo[] = [
     {
       icon: MapPin,
-      title: 'Lokasi',
-      content: 'Jakarta, Indonesia',
+      title: t('contactInfo.location'),
+      content: t('contactInfo.locationValue'),
       color: 'bg-blue-500/10 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400'
     },
     {
       icon: MessageSquare,
-      title: 'WhatsApp',
-      content: showContactInfo.phone ? '+62 856-9339-0636' : 'Klik untuk melihat nomor',
+      title: t('contactInfo.whatsapp'),
+      content: showContactInfo.phone ? '+62 856-9339-0636' : t('contactInfo.whatsappReveal'),
       color: 'bg-green-500/10 text-green-600 dark:bg-green-500/20 dark:text-green-400',
       action: () => revealContact('phone')
     },
     {
       icon: Mail,
-      title: 'Email',
-      content: showContactInfo.email ? 'habibiahmadaziz@gmail.com' : 'Klik untuk melihat email',
+      title: t('contactInfo.email'),
+      content: showContactInfo.email ? 'habibiahmadaziz@gmail.com' : t('contactInfo.emailReveal'),
       color: 'bg-blue-500/10 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400',
       action: () => revealContact('email')
     },
     {
       icon: Clock,
-      title: 'Jam Kerja',
-      content: 'Senin - Jumat, 09:00 - 18:00 WIB',
+      title: t('contactInfo.workingHours'),
+      content: t('contactInfo.workingHoursValue'),
       color: 'bg-purple-500/10 text-purple-600 dark:bg-purple-500/20 dark:text-purple-400'
     }
   ];
@@ -272,10 +274,10 @@ const ContactSection: React.FC = () => {
             className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight block bg-gradient-to-r
             from-cyan-500 via-blue-500 to-cyan-500 bg-clip-text text-transparent mb-5" 
           >
-            Hubungi Saya
+            {t('title')}
           </h2>
           <p className="mx-auto max-w-3xl text-xl leading-relaxed text-slate-700 dark:text-slate-400">
-            Siap untuk mewujudkan ide digital Anda? Mari diskusikan proyek dan kebutuhan Anda dengan sesi konsultasi gratis
+            {t('description')}
           </p>
         </div>
         
@@ -286,10 +288,10 @@ const ContactSection: React.FC = () => {
               <CardHeader className="pb-8">
                 <CardTitle className="text-2xl text-slate-800 dark:text-white flex items-center gap-3">
                   <Send className="w-6 h-6 text-blue-600 dark:text-blue-400" />
-                  Kirim Pesan
+                  {t('form.title')}
                 </CardTitle>
                 <CardDescription className="text-slate-600 dark:text-slate-400">
-                  Ceritakan tentang proyek Anda dan mari kita mulai diskusi
+                  {t('form.description')}
                 </CardDescription>
               </CardHeader>
               
@@ -299,19 +301,19 @@ const ContactSection: React.FC = () => {
                   <div className="grid md:grid-cols-2 gap-6">
                     <FormInput
                       id="name"
-                      label="Nama Lengkap"
+                      label={t('form.name.label')}
                       type="text"
                       required
-                      placeholder="Masukkan nama lengkap"
+                      placeholder={t('form.name.placeholder')}
                       value={formData.name}
                       onChange={(e) => handleInputChange('name', e.target.value)}
                     />
                     <FormInput
                       id="email"
-                      label="Email"
+                      label={t('form.email.label')}
                       type="email"
                       required
-                      placeholder="nama@email.com"
+                      placeholder={t('form.email.placeholder')}
                       value={formData.email}
                       onChange={(e) => handleInputChange('email', e.target.value)}
                     />
@@ -321,15 +323,15 @@ const ContactSection: React.FC = () => {
                   <div className="grid md:grid-cols-2 gap-6">
                     <FormInput
                       id="phone"
-                      label="Nomor Telepon"
+                      label={t('form.phone.label')}
                       type="tel"
-                      placeholder="+62 812-3456-7890"
+                      placeholder={t('form.phone.placeholder')}
                       value={formData.phone}
                       onChange={(e) => handleInputChange('phone', e.target.value)}
                     />
                     <div className="space-y-3">
                       <Label htmlFor="subject" className="text-sm font-medium text-slate-700 dark:text-slate-200">
-                        Subjek *
+                        {t('form.subject.label')} *
                       </Label>
                       <Select 
                         value={formData.subject} 
@@ -338,7 +340,7 @@ const ContactSection: React.FC = () => {
                             focus:border-blue-500 focus:ring-blue-200
                             dark:bg-slate-800 dark:border-slate-700 dark:text-white
                             dark:focus:border-blue-500 dark:focus:ring-blue-500/20">
-                            <SelectValue placeholder="Pilih layanan"/>
+                            <SelectValue placeholder={t('form.subject.placeholder')}/>
                           </SelectTrigger>
                         <SelectContent className="bg-white border border-slate-300 dark:bg-slate-800 dark:border-slate-700">
                           {SERVICES.map((service) => (
@@ -358,7 +360,7 @@ const ContactSection: React.FC = () => {
                   {/* Message */}
                   <div className="space-y-3">
                     <Label htmlFor="message" className="text-sm font-medium text-slate-700 dark:text-slate-200">
-                      Pesan *
+                      {t('form.message.label')} *
                     </Label>
                     <Textarea
                       id="message"
@@ -366,7 +368,7 @@ const ContactSection: React.FC = () => {
                       onChange={(e) => handleInputChange('message', e.target.value)}
                       required
                       rows={6}
-                      placeholder="Ceritakan tentang proyek Anda, timeline, budget, dan requirements lainnya..."
+                      placeholder={t('form.message.placeholder')}
                       className="bg-white border border-slate-300 text-slate-800 placeholder-slate-400
                         focus:border-blue-500 focus:ring-blue-200
                         dark:bg-slate-800 dark:border-slate-700 dark:text-white dark:placeholder-slate-500
@@ -380,7 +382,7 @@ const ContactSection: React.FC = () => {
                       htmlFor="attachment"
                       className="text-sm font-medium text-slate-700 dark:text-slate-200"
                     >
-                      Lampiran (Opsional)
+                      {t('form.attachment.label')}
                     </Label>
 
                     <div className="relative">
@@ -408,7 +410,7 @@ const ContactSection: React.FC = () => {
                     </div>
 
                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                      Max 5MB. Format: PDF, DOC, DOCX, PNG, JPG
+                      {t('form.attachment.description')}
                     </p>
                   </div>
 
@@ -428,18 +430,18 @@ const ContactSection: React.FC = () => {
                     {isSubmitting ? (
                       <div className="flex items-center justify-center space-x-2">
                         <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                        <span>Mengirim...</span>
+                        <span>{t('form.submit.sending')}</span>
                       </div>
                     ) : (
                       <div className="flex items-center justify-center space-x-2">
                         <Send className="w-5 h-5" />
-                        <span>Kirim Pesan</span>
+                        <span>{t('form.submit.send')}</span>
                       </div>
                     )}
                   </Button>
                   
                   <p id="submit-help" className="text-sm text-slate-500 dark:text-slate-400 text-center">
-                    Respon biasanya dalam 24 jam. Untuk urgent, bisa kontak via WhatsApp.
+                    {t('form.responseTime')}
                   </p>
                 </form>
               </CardContent>
@@ -451,7 +453,7 @@ const ContactSection: React.FC = () => {
             {/* Contact Information */}
             <Card className="bg-white border border-slate-200 dark:bg-slate-900 dark:border-slate-800 backdrop-blur-xl shadow-lg">
               <CardHeader>
-                <CardTitle className="text-2xl text-slate-800 dark:text-white flex items-center gap-3">Informasi Kontak</CardTitle>
+                <CardTitle className="text-2xl text-slate-800 dark:text-white flex items-center gap-3">{t('contactInfo.title')}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 {contactInfo.map((info, index) => (
@@ -464,7 +466,7 @@ const ContactSection: React.FC = () => {
             <Card className="bg-white border border-slate-200 dark:bg-slate-900 dark:border-slate-800 backdrop-blur-xl shadow-lg">
               <CardHeader>
                 <CardTitle className="text-2xl text-slate-800 dark:text-white flex items-center gap-3">
-                  Social Media
+                  {t('socialMedia.title')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -484,27 +486,27 @@ const ContactSection: React.FC = () => {
                   </div>
                   <div className="flex-1">
                     <h4 className="font-bold text-blue-800 dark:text-blue-100 text-lg mb-2">
-                      Free Consultation 
+                      {t('consultation.title')} 
                     </h4>
                     <p className="text-blue-600/80 dark:text-blue-200/80 mb-6 leading-relaxed">
-                      Konsultasi gratis 30 menit untuk diskusi awal tentang proyek Anda. Mari explore kemungkinan dan solusi terbaik.
+                      {t('consultation.description')}
                     </p>
                     <Dialog>
                       <DialogTrigger asChild>
                         <Button className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-all duration-300 hover:scale-105">
                           <CheckCircle2 className="w-4 h-4 mr-2" />
-                          Book Consultation
+                          {t('consultation.bookButton')}
                         </Button>
                       </DialogTrigger>
                       <DialogContent className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
                         <DialogHeader>
-                          <DialogTitle className="text-slate-800 dark:text-white">Book Free Consultation</DialogTitle>
+                          <DialogTitle className="text-slate-800 dark:text-white">{t('consultation.dialog.title')}</DialogTitle>
                           <DialogDescription className="text-slate-600 dark:text-slate-400">
-                            Pilih waktu yang sesuai untuk diskusi proyek Anda
+                            {t('consultation.dialog.description')}
                           </DialogDescription>
                         </DialogHeader>
                         <div className="text-slate-600 dark:text-slate-400">
-                          <p>Form booking akan ditampilkan di sini...</p>
+                          <p>{t('consultation.dialog.placeholder')}</p>
                         </div>
                       </DialogContent>
                     </Dialog>

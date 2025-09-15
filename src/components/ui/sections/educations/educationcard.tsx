@@ -1,4 +1,4 @@
-import { Building2, Calendar, ChevronRight, GraduationCap, MapPin, Star } from "lucide-react";
+import { Building2, Calendar, GraduationCap, MapPin, Star } from "lucide-react";
 
 export interface Experience {
   type: "experience" | "education";

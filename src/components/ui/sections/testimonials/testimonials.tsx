@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, Star, Quote, User, Briefcase, TrendingUp, Aw
 import { Button } from '../../button';
 import { Badge } from '../../badge';
 import { Card } from '../../card';
+import { useTranslations } from 'next-intl';
 
 const testimonials = [
   {
@@ -54,6 +55,7 @@ const testimonials = [
 const TestimonialSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const t = useTranslations("testimonials")
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -109,10 +111,10 @@ const TestimonialSection = () => {
                      bg-gradient-to-r from-blue-600 via-cyan-600 to-blue-600 
                      bg-clip-text text-transparent mb-4 sm:mb-6"
         >
-            Apa Kata Mereka?
+            {t("titleLine1")}
           </h2>
           <p className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed">
-            Lebih dari <span className="font-bold text-blue-600 dark:text-blue-400">50+ klien</span> telah mempercayakan proyek mereka dan merasakan hasil yang luar biasa
+            {t("description1")}
           </p>
         </div>
 

@@ -11,6 +11,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar, Clock, BookOpen } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 // Types
 interface Article {
@@ -138,6 +139,7 @@ const ArticleCard: React.FC<{ article: Article }> = ({ article }) => (
 );
 
 const ArticlesSection: React.FC = () => {
+  const t = useTranslations("articles")
   return (
     <section
       className="
@@ -161,12 +163,11 @@ const ArticlesSection: React.FC = () => {
               from-cyan-500 via-blue-500 to-cyan-500 bg-clip-text text-transparent mb-5
             "
           >
-            Artikel & Media
+            {t("titleLine1")}
           </h2>
 
           <p className="mx-auto max-w-3xl text-xl leading-relaxed text-slate-700 dark:text-slate-400">
-            Artikel terbaru, tutorial mendalam, dan insight tentang pengembangan
-            web modern dari perspektif praktisi industri
+            {t("description1")}
           </p>
         </div>
 
@@ -185,7 +186,7 @@ const ArticlesSection: React.FC = () => {
               className="px-8 py-4 text-base font-semibold text-white shadow-lg shadow-blue-500/25 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/30 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400"
             >
               <BookOpen className="mr-2 h-5 w-5" />
-              Jelajahi Semua Artikel
+              {t("button")}
             </Button>
           </Link>
         </div>

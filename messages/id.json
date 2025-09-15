@@ -156,5 +156,92 @@
    "certifications" : {
     "titleLine1" : "Sertifikasi",
     "description1" : "Sertifikat profesional yang mendukung keahlian teknis dan kompetensi saya dalam pengembangan teknologi"
+   },
+   "testimonials": {
+    "titleLine1": "Apa Kata Mereka?",
+    "description1" : "Lebih dari 50+ klien telah mempercayakan proyek mereka dan merasakan hasil yang luar biasa"
+   },
+   "articles":{
+    "titleLine1": "Artikel & Media",
+    "description1": "Artikel terbaru, tutorial mendalam, dan insight tentang pengembangan web modern dari perspektif praktisi industri",
+    "button" : "Jelajahi semua artikel"
+   },
+   "faqs": {
+    "titleLine1" : "Pertanyaan yang Sering Diajukan",
+    "description1" : "Pertanyaan yang sering ditanyakan tentang layanan dan proses kerja saya"
+   },
+   "contacts": {
+     "title": "Hubungi Saya",
+     "description": "Siap untuk mewujudkan ide digital Anda? Mari diskusikan proyek dan kebutuhan Anda dengan sesi konsultasi gratis",
+     "form": {
+       "title": "Kirim Pesan",
+       "description": "Ceritakan tentang proyek Anda dan mari kita mulai diskusi",
+       "name": {
+         "label": "Nama Lengkap",
+         "placeholder": "Masukkan nama lengkap"
+       },
+       "email": {
+         "label": "Email",
+         "placeholder": "nama@email.com"
+       },
+       "phone": {
+         "label": "Nomor Telepon",
+         "placeholder": "+62 812-3456-7890"
+       },
+       "subject": {
+         "label": "Subjek",
+         "placeholder": "Pilih layanan"
+       },
+       "message": {
+         "label": "Pesan",
+         "placeholder": "Ceritakan tentang proyek Anda, timeline, budget, dan requirements lainnya..."
+       },
+       "attachment": {
+         "label": "Lampiran (Opsional)",
+         "description": "Max 5MB. Format: PDF, DOC, DOCX, PNG, JPG"
+       },
+       "submit": {
+         "sending": "Mengirim...",
+         "send": "Kirim Pesan"
+       },
+       "responseTime": "Respon biasanya dalam 24 jam. Untuk urgent, bisa kontak via WhatsApp."
+     },
+     "services": {
+       "frontend": "Frontend Development",
+       "uiux": "UI/UX Design",
+       "performance": "Performance Optimization",
+       "webapp": "Web App Development",
+       "consulting": "Technical Consulting",
+       "other": "Lainnya"
+     },
+     "contactInfo": {
+       "title": "Informasi Kontak",
+       "location": "Lokasi",
+       "locationValue": "Jakarta, Indonesia",
+       "whatsapp": "WhatsApp",
+       "whatsappReveal": "Klik untuk melihat nomor",
+       "email": "Email",
+       "emailReveal": "Klik untuk melihat email",
+       "workingHours": "Jam Kerja",
+       "workingHoursValue": "Senin - Jumat, 09:00 - 18:00 WIB"
+     },
+     "socialMedia": {
+       "title": "Media Sosial"
+     },
+     "consultation": {
+       "title": "Konsultasi Gratis",
+       "description": "Konsultasi gratis 30 menit untuk diskusi awal tentang proyek Anda. Mari explore kemungkinan dan solusi terbaik.",
+       "bookButton": "Pesan Konsultasi",
+       "dialog": {
+         "title": "Pesan Konsultasi Gratis",
+         "description": "Pilih waktu yang sesuai untuk diskusi proyek Anda",
+         "placeholder": "Form booking akan ditampilkan di sini..."
+       }
+     },
+     "alerts": {
+       "recaptcha": "Harap verifikasi reCAPTCHA dulu!",
+       "success": "Pesan berhasil dikirim!",
+       "error": "Terjadi kesalahan saat mengirim pesan. Silakan coba lagi."
+     }
    }
 }

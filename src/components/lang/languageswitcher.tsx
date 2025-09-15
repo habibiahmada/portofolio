@@ -1,5 +1,6 @@
 import * as React from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname } from "@/i18n/navigation";
+import { useLocale } from "next-intl";
 import {
   Select,
   SelectTrigger,
@@ -11,14 +12,11 @@ import {
 export function LanguageSwitcher() {
   const router = useRouter();
   const pathname = usePathname();
-
-  const currentLocale = pathname.split("/")[1] || "en";
+  const currentLocale = useLocale();
 
   function handleChangeLang(newLocale: string) {
-    const segments = pathname.split("/");
-    segments[1] = newLocale;
-    const newPath = segments.join("/") || "/";
-    router.push(newPath);
+    // Gunakan router dari i18n navigation yang sudah aware dengan locale
+    router.replace(pathname, { locale: newLocale });
   }
 
   return (
@@ -26,7 +24,7 @@ export function LanguageSwitcher() {
       value={currentLocale}
       onValueChange={handleChangeLang}
     >
-      <SelectTrigger className="cursor-pointer">
+      <SelectTrigger className="cursor-pointer w-17">
         <SelectValue placeholder={currentLocale.toUpperCase()} />
       </SelectTrigger>
       <SelectContent>

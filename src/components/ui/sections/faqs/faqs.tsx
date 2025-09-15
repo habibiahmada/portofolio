@@ -9,6 +9,7 @@ import {
   AccordionContent,
 } from "@/components/ui/accordion";
 import { MessageCircle } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface FAQItem {
   id: string;
@@ -50,10 +51,11 @@ const faqData: FAQItem[] = [
 ];
 
 const ModernFAQSection: React.FC = () => {
+  const t = useTranslations("faqs")
   return (
     <section
         className="
-        relative min-h-screen overflow-hidden
+        relative overflow-hidden
         py-28 sm:py-36 lg:py-40
         dark:bg-slate-950" 
         >
@@ -62,10 +64,10 @@ const ModernFAQSection: React.FC = () => {
             <h2
             className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight block bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent mb-5" 
             >
-                Frequently Asked Questions
+                {t("titleLine1")}
             </h2>
             <p className="text-xl text-slate-400 max-w-2xl mx-auto">
-                Pertanyaan yang sering ditanyakan tentang layanan dan proses kerja saya
+                {t("description1")}
             </p>
         </div>
 

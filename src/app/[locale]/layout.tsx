@@ -7,7 +7,7 @@ import { getMessages } from '@/lib/getMessages';
 
 type Props = {
   children: React.ReactNode;
-  params: { locale: string }; 
+  params: Promise<{ locale: string }>; 
 };
 
 export const metadata = {
@@ -24,14 +24,20 @@ export const metadata = {
 };
 
 export default async function LocaleLayout({ children, params }: Props) {
+  // Await params untuk Next.js 15 compatibility
   const { locale } = await params;
 
+  // Validasi locale
   if (!routing.locales.includes(locale as Locale)){
     notFound();
   }
 
+  // Load messages untuk locale yang valid
   const messages = await getMessages(locale);
-  if (!messages) notFound();
+  if (!messages) {
+    console.error(`Messages not found for locale: ${locale}`);
+    notFound();
+  }
 
   return (
     <html lang={locale} suppressHydrationWarning>

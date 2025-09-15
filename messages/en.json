@@ -156,5 +156,92 @@
      "certifications" : {
       "titleLine1" : "Certifications",
       "description1" : "Professional certifications that support my technical expertise and competency in technology development"
-     }
+     },
+     "testimonials": {
+      "titleLine1": "What do they say?",
+      "description1" : "More than 50+ clients have entrusted their projects and experienced extraordinary results."
+     },
+     "articles":{
+      "titleLine1": "Articles & Media",
+      "description1": "Latest articles, in-depth tutorials, and insights into modern web development from an industry professional perspective",
+      "button": "Browse all articles"
+    },
+    "faqs": {
+      "titleLine1": "Frequently Asked Questions",
+      "description1" : "Frequently asked questions about my services and work processes"
+    },
+    "contacts": {
+      "title": "Contact Me",
+      "description": "Ready to bring your digital ideas to life? Let's discuss your project and requirements with a free consultation session",
+      "form": {
+        "title": "Send Message",
+        "description": "Tell us about your project and let's start the discussion",
+        "name": {
+          "label": "Full Name",
+          "placeholder": "Enter your full name"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "name@email.com"
+        },
+        "phone": {
+          "label": "Phone Number",
+          "placeholder": "+62 812-3456-7890"
+        },
+        "subject": {
+          "label": "Subject",
+          "placeholder": "Select service"
+        },
+        "message": {
+          "label": "Message",
+          "placeholder": "Tell us about your project, timeline, budget, and other requirements..."
+        },
+        "attachment": {
+          "label": "Attachment (Optional)",
+          "description": "Max 5MB. Format: PDF, DOC, DOCX, PNG, JPG"
+        },
+        "submit": {
+          "sending": "Sending...",
+          "send": "Send Message"
+        },
+        "responseTime": "Response usually within 24 hours. For urgent matters, contact via WhatsApp."
+      },
+      "services": {
+        "frontend": "Frontend Development",
+        "uiux": "UI/UX Design",
+        "performance": "Performance Optimization",
+        "webapp": "Web App Development",
+        "consulting": "Technical Consulting",
+        "other": "Other"
+      },
+      "contactInfo": {
+        "title": "Contact Information",
+        "location": "Location",
+        "locationValue": "Jakarta, Indonesia",
+        "whatsapp": "WhatsApp",
+        "whatsappReveal": "Click to view number",
+        "email": "Email",
+        "emailReveal": "Click to view email",
+        "workingHours": "Working Hours",
+        "workingHoursValue": "Monday - Friday, 09:00 - 18:00 WIB"
+      },
+      "socialMedia": {
+        "title": "Social Media"
+      },
+      "consultation": {
+        "title": "Free Consultation",
+        "description": "Free 30-minute consultation for initial discussion about your project. Let's explore possibilities and the best solutions.",
+        "bookButton": "Book Consultation",
+        "dialog": {
+          "title": "Book Free Consultation",
+          "description": "Choose a suitable time to discuss your project",
+          "placeholder": "Booking form will be displayed here..."
+        }
+      },
+      "alerts": {
+        "recaptcha": "Please verify reCAPTCHA first!",
+        "success": "Message sent successfully!",
+        "error": "An error occurred while sending the message. Please try again."
+      }
+    }
 }
