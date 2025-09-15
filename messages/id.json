@@ -47,7 +47,7 @@
     "imageAlt": "Habibi Ahmad Aziz - Fullstack Developer",
     "codeElements": {
       "developer": "<developer/>",
-      "console": "console.log(\"Halo!\")"
+      "console": "Halo!"
     }
   },
     "stats": {

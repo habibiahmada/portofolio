@@ -4,6 +4,7 @@ import { Button } from '../../button';
 import { Badge } from '../../badge';
 import { Card } from '../../card';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 
 const testimonials = [
   {
@@ -147,9 +148,11 @@ const TestimonialSection = () => {
                 <div className="bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-800 dark:to-slate-800/50 p-6 rounded-xl border border-slate-200/50 dark:border-slate-700/50">
                   <div className="flex items-center gap-4 mb-4">
                     <div className="relative">
-                      <img
+                      <Image
                         src={currentTestimonial.avatar}
                         alt={currentTestimonial.name}
+                        width={64}
+                        height={64}
                         className="w-16 h-16 rounded-full object-cover border-3 border-white dark:border-slate-700 shadow-lg"
                       />
                       <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-white dark:border-slate-800 flex items-center justify-center">
