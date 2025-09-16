@@ -150,6 +150,7 @@ const FormInput: React.FC<{
 // Component
 const ContactSection: React.FC = () => {
   const t = useTranslations("contacts");
+  const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? "";
   
   // Constants
   const SERVICES: ServiceOption[] = [
@@ -187,37 +188,58 @@ const ContactSection: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+  
     if (!recaptchaToken) {
-      alert(t('alerts.recaptcha'));
+      alert(t("alerts.recaptcha"));
       setIsSubmitting(false);
       return;
     }
-    
+  
     try {
-      // Simulate form submission
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Reset form
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        subject: '',
-        message: '',
-        attachment: null,
-        recaptcha: false
+      const verifyRes = await fetch("/api/verify-recaptcha", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: recaptchaToken }),
       });
+  
+      const verifyData = await verifyRes.json();
+  
+      if (!verifyData.success) {
+        alert(t("alerts.recaptchaFailed"));
+        setIsSubmitting(false);
+        return;
+      }
+  
+      const formRes = await fetch("/api/contact", {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: { "Content-Type": "application/json" },
+      });
+  
+      if (!formRes.ok) {
+        throw new Error("Failed to submit form");
+      }
       
-      // Show success message (you can implement toast here)
-      alert(t('alerts.success'));
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: "",
+        attachment: null,
+        recaptcha: false,
+      });
+      setRecaptchaToken("");
+  
+      alert(t("alerts.success"));
     } catch (error) {
-      console.error('Form submission error:', error);
-      alert(t('alerts.error'));
+      console.error("Form submission error:", error);
+      alert(t("alerts.error"));
     } finally {
       setIsSubmitting(false);
     }
   };
+  
 
   const revealContact = (type: 'phone' | 'email') => {
     setShowContactInfo(prev => ({ ...prev, [type]: true }));
@@ -416,14 +438,21 @@ const ContactSection: React.FC = () => {
 
                   
                   {/* reCAPTCHA */}
+                  {siteKey ? (
                     <ReCaptcha 
-                      siteKey="6LcnVskrAAAAAHSVDQnuvaNV0v-IdJ_iODmRnMR8"
+                      siteKey={siteKey}
                       onVerify={(token) => setRecaptchaToken(token)}
                     />
+                  ) : (
+                    <p className="text-sm text-red-600 dark:text-red-400">
+                      reCAPTCHA site key is missing. Set NEXT_PUBLIC_RECAPTCHA_SITE_KEY.
+                    </p>
+                  )}
+                    
                   {/* Submit Button */}
                   <Button 
                     type="submit" 
-                    disabled={isSubmitting || !formData.recaptcha}
+                    disabled={isSubmitting || !recaptchaToken || !siteKey}
                     className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-6 text-lg font-medium transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                     aria-describedby="submit-help"
                   >

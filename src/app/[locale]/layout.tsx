@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { Locale, routing } from '@/i18n/routing';
 import { Providers } from './providers';
 import { getMessages } from '@/lib/getMessages';
+import Script from 'next/script';
 
 type Props = {
   children: React.ReactNode;
@@ -41,6 +42,14 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <html lang={locale} suppressHydrationWarning>
+      <head>
+        {process.env.NEXT_PUBLIC_RECAPTCHA_ENTERPRISE_SITE_KEY ? (
+          <Script
+            src={`https://www.google.com/recaptcha/enterprise.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_ENTERPRISE_SITE_KEY}`}
+            strategy="beforeInteractive"
+          />
+        ) : null}
+      </head>
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Providers

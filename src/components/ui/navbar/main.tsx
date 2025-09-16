@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { LanguageSwitcher } from "@/components/lang/languageswitcher";
 import ThemeSwitcher from "@/components/theme/theme-toggle";
-import MobileMenu from "./mobilemenu"; 
+import MobileMenu from "./mobilemenu";
 
 export default function Navbar() {
   const t = useTranslations();
