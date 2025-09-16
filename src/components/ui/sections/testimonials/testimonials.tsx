@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Star, Quote, User, Briefcase, TrendingUp, Award, Zap } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { ChevronLeft, ChevronRight, Star, Quote,  Briefcase, Zap } from 'lucide-react';
 import { Button } from '../../button';
-import { Badge } from '../../badge';
 import { Card } from '../../card';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
@@ -56,7 +55,17 @@ const testimonials = [
 const TestimonialSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
-  const t = useTranslations("testimonials")
+  const t = useTranslations("testimonials");
+
+  const nextTestimonial = useCallback(() => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setTimeout(() => {
+      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+      setIsAnimating(false);
+    }, 300);
+  }, [isAnimating]);
+
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -64,16 +73,9 @@ const TestimonialSection = () => {
     }, 8000);
 
     return () => clearInterval(interval);
-  }, [currentIndex]);
+  }, [currentIndex, nextTestimonial]);
 
-  const nextTestimonial = () => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-    setTimeout(() => {
-      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-      setIsAnimating(false);
-    }, 300);
-  };
+
 
   const prevTestimonial = () => {
     if (isAnimating) return;
@@ -139,7 +141,7 @@ const TestimonialSection = () => {
                 </div>
                 
                 <blockquote className="text-xl lg:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed mb-8 font-medium">
-                  "{currentTestimonial.content}"
+                &quot;{currentTestimonial.content}&quot;
                 </blockquote>
               </div>
 

@@ -66,7 +66,7 @@ const SOCIAL_LINKS: SocialLink[] = [
 ];
 
 // Helper Components
-const ContactInfoItem: React.FC<{ info: ContactInfo; index: number }> = ({ info, index }) => {
+const ContactInfoItem: React.FC<{ info: ContactInfo }> = ({ info }) => {
   const IconComponent = info.icon;
   return (
     <div className="flex items-start space-x-4 group">
@@ -457,7 +457,7 @@ const ContactSection: React.FC = () => {
               </CardHeader>
               <CardContent className="space-y-6">
                 {contactInfo.map((info, index) => (
-                  <ContactInfoItem key={index} info={info} index={index} />
+                  <ContactInfoItem key={index} info={info} />
                 ))}
               </CardContent>
             </Card>

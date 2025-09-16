@@ -331,7 +331,6 @@ function TimelineItem({
               <ModernCard 
                 exp={exp} 
                 isDark={isDark} 
-                index={index} 
                 type={type} 
                 isHovered={isHovered} 
               />
@@ -345,7 +344,6 @@ function TimelineItem({
             <ModernCard 
               exp={exp} 
               isDark={isDark} 
-              index={index} 
               type={type} 
               isHovered={isHovered} 
             />
@@ -370,7 +368,6 @@ function TimelineItem({
           <ModernCard 
             exp={exp} 
             isDark={isDark} 
-            index={index} 
             type={type} 
             isHovered={isHovered} 
           />

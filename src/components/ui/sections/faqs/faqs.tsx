@@ -8,7 +8,6 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from "@/components/ui/accordion";
-import { MessageCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 interface FAQItem {
@@ -72,7 +71,7 @@ const ModernFAQSection: React.FC = () => {
         </div>
 
         <Accordion type="single" collapsible defaultValue="item-1" className="w-full">
-          {faqData.map((faq, idx) => (
+          {faqData.map((faq) => (
             <AccordionItem key={faq.id} value={faq.id}>
               <AccordionTrigger>
                     <p className="text-xl">

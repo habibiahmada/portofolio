@@ -15,13 +15,11 @@ export interface Experience {
 export function ModernCard({ 
   exp, 
   isDark, 
-  index, 
   type, 
   isHovered 
 }: { 
   exp: Experience; 
   isDark: boolean; 
-  index: number; 
   type: "experience" | "education";
   isHovered: boolean;
 }) {

@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import {
-  Award,
   Zap,
   Cloud,
   Gauge,

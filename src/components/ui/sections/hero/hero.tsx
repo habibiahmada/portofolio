@@ -270,7 +270,7 @@ export default function Hero() {
                   isDark ? "bg-slate-800/80 text-blue-400" : "bg-slate-100/80 text-blue-600"
                 } backdrop-blur-sm`}
               >
-                console.log({t('codeElements.console')})
+                console.log(&quot;{t('codeElements.console')}&quot;)
               </div>
         </div>
       </div>
