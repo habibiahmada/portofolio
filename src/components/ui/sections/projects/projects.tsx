@@ -13,6 +13,8 @@ import {
 import { useTheme } from "next-themes";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import SectionHeader from "../SectionHeader";
+import { Button } from "../../button";
 
 export default function Projects() {
   const { resolvedTheme } = useTheme();
@@ -159,19 +161,12 @@ export default function Projects() {
     >
       <div className="container mx-auto px-4 max-w-7xl">
         {/* Header */}
-        <div className="text-center mb-16">
-          <h2
-            className={`text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight block bg-gradient-to-r ${
-              isDark
-                ? "from-cyan-400 via-blue-400 to-cyan-400"
-                : "from-blue-600 via-cyan-600 to-blue-600"
-            } bg-clip-text text-transparent mb-5`}
-          >
-            {t("titleLine1")}
-          </h2>
-          <p className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed">
-            {t("description1")}
-          </p>
+        <div className="mb-16">
+          <SectionHeader
+            title={t("titleLine1")}
+            description={t("description1")}
+            align="center"
+          />
         </div>
 
         {/* Filters */}
@@ -179,7 +174,7 @@ export default function Projects() {
           {filters.map((filter) => {
             const IconComponent = filter.icon;
             return (
-              <button
+              <Button
                 key={filter.id}
                 onClick={() => setActiveFilter(filter.id)}
                 className={`inline-flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all duration-200 ${
@@ -190,7 +185,7 @@ export default function Projects() {
               >
                 <IconComponent className="w-4 h-4" />
                 {filter.label}
-              </button>
+              </Button>
             );
           })}
         </div>

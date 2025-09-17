@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   const { token } = await req.json();
-  const secret = process.env.RECAPTCHA_SECRET_KEY;
+  const secret = process.env.NEXT_PUBLIC_RECAPTCHA_SECRET_KEY;
 
   if (!token) {
     return NextResponse.json({ success: false, error: "Missing token" }, { status: 400 });

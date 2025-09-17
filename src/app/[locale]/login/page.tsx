@@ -5,6 +5,10 @@ import { useRouter } from '@/i18n/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { Eye, EyeOff, Mail, Lock, Github, Chrome } from 'lucide-react'
 import { useTheme } from 'next-themes'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import Link from 'next/link'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -86,14 +90,17 @@ export default function LoginPage() {
 
 
   return (
-    <section className={`min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ${
+    <section className={`min-h-screen relative flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ${
       isDark ? 'bg-slate-950' : 'bg-gradient-to-br from-blue-50 to-indigo-100'
     }`}>
-      <div className="max-w-md w-full space-y-8">
+
+      <div className="absolute top-10 right-10 w-32 h-32 border border-blue-300 dark:border-blue-700 rounded-lg rotate-12 opacity-30 pointer-events-none"></div>
+      <div className="absolute bottom-20 left-10 w-24 h-24 border border-cyan-300 dark:border-cyan-700 rounded-full opacity-30 pointer-events-none"></div>
+      <div className="absolute top-20 left-1/4 w-16 h-16 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-lg opacity-20 rotate-45 pointer-events-none"></div>
+      <div className="max-w-md w-full space-y-8 relative z-10">
         <div className="text-center">
-          <h2 className={`mt-6 text-3xl font-extrabold ${
-            isDark ? 'text-white' : 'text-gray-900'
-          }`}>
+          <h2 className="text-4xl lg:text-5xl font-bold leading-tight block bg-gradient-to-r
+              from-cyan-500 via-blue-500 to-cyan-500 bg-clip-text text-transparent mb-5">
             Portfolio Access
           </h2>
           <p className={`mt-2 text-sm ${
@@ -128,16 +135,13 @@ export default function LoginPage() {
             {/* Email/Password Form */}
             <form onSubmit={handleEmailLogin} className="space-y-6">
               <div>
-                <label htmlFor="email" className={`block text-sm font-medium ${
+                <Label htmlFor="email" className={`block text-sm font-medium ${
                   isDark ? 'text-slate-300' : 'text-gray-700'
                 }`}>
                   Email Address
-                </label>
+                </Label>
                 <div className="mt-1 relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Mail className="h-5 w-5 text-gray-400" />
-                  </div>
-                  <input
+                  <Input
                     id="email"
                     name="email"
                     type="email"
@@ -145,7 +149,7 @@ export default function LoginPage() {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className={`block w-full pl-10 pr-3 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    className={`block w-full pl-10 pr-3 py-3 px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                       isDark 
                         ? 'bg-slate-800 border-slate-600 text-white placeholder-slate-400' 
                         : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
@@ -156,16 +160,13 @@ export default function LoginPage() {
               </div>
 
               <div>
-                <label htmlFor="password" className={`block text-sm font-medium ${
+                <Label htmlFor="password" className={`block text-sm font-medium ${
                   isDark ? 'text-slate-300' : 'text-gray-700'
                 }`}>
                   Password
-                </label>
+                </Label>
                 <div className="mt-1 relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Lock className="h-5 w-5 text-gray-400" />
-                  </div>
-                  <input
+                  <Input
                     id="password"
                     name="password"
                     type={showPassword ? 'text' : 'password'}
@@ -173,34 +174,23 @@ export default function LoginPage() {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className={`block w-full pl-10 pr-12 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    className={`block w-full pl-10 pr-12 py-3 px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                       isDark 
                         ? 'bg-slate-800 border-slate-600 text-white placeholder-slate-400' 
                         : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
                     }`}
                     placeholder="Enter your password"
                   />
-                  <button
-                    type="button"
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? (
-                      <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-600" />
-                    ) : (
-                      <Eye className="h-5 w-5 text-gray-400 hover:text-gray-600" />
-                    )}
-                  </button>
                 </div>
               </div>
 
-              <button
+              <Button
                 type="submit"
                 disabled={loading}
                 className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 {loading ? 'Signing in...' : 'Sign In'}
-              </button>
+              </Button>
             </form>
 
             {/* Divider */}
@@ -223,7 +213,7 @@ export default function LoginPage() {
 
             {/* OAuth Buttons */}
             <div className="mt-6 grid grid-cols-2 gap-3">
-              <button
+              <Button
                 onClick={handleGoogleLogin}
                 disabled={loading}
                 className={`w-full inline-flex justify-center py-3 px-4 border rounded-lg shadow-sm text-sm font-medium transition-colors ${
@@ -234,9 +224,9 @@ export default function LoginPage() {
               >
                 <Chrome className="h-5 w-5 mr-2" />
                 Google
-              </button>
+              </Button>
 
-              <button
+              <Button
                 onClick={handleGitHubLogin}
                 disabled={loading}
                 className={`w-full inline-flex justify-center py-3 px-4 border rounded-lg shadow-sm text-sm font-medium transition-colors ${
@@ -247,24 +237,30 @@ export default function LoginPage() {
               >
                 <Github className="h-5 w-5 mr-2" />
                 GitHub
-              </button>
+              </Button>
             </div>
 
 
             {/* Back to Home */}
             <div className="mt-6 text-center">
-              <button
-                onClick={() => router.push('/')}
+              <Link
+              href={"/"}
                 className={`text-sm ${
                   isDark ? 'text-slate-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'
                 } transition-colors`}
               >
                 ← Back to Portfolio
-              </button>
+              </Link>
             </div>
           </div>
         </div>
       </div>
+      <div 
+        className="absolute inset-0 opacity-[1] pointer-events-none bg-[size:40px_40px]
+          bg-[linear-gradient(rgba(148,163,184,0.3)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.3)_1px,transparent_1px)]
+          dark:bg-[linear-gradient(rgba(59,130,246,0.15)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.15)_1px,transparent_1px)]
+          [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"
+      />
     </section>
   )
 }

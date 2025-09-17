@@ -1,4 +1,3 @@
-// components/ModernFAQSection.tsx
 "use client";
 
 import React from "react";
@@ -9,6 +8,7 @@ import {
   AccordionContent,
 } from "@/components/ui/accordion";
 import { useTranslations } from "next-intl";
+import SectionHeader from "../SectionHeader";
 
 interface FAQItem {
   id: string;
@@ -59,15 +59,12 @@ const ModernFAQSection: React.FC = () => {
         dark:bg-slate-950" 
         >
       <div className="container mx-auto px-4 max-w-7xl">
-        <div className="text-center mb-16">
-            <h2
-            className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight block bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent mb-5" 
-            >
-                {t("titleLine1")}
-            </h2>
-            <p className="text-xl text-slate-400 max-w-2xl mx-auto">
-                {t("description1")}
-            </p>
+        <div className="mb-16">
+          <SectionHeader
+            title={t("titleLine1")}
+            description={t("description1")}
+            align="center"
+          />
         </div>
 
         <Accordion type="single" collapsible defaultValue="item-1" className="w-full">
@@ -88,6 +85,12 @@ const ModernFAQSection: React.FC = () => {
           ))}
         </Accordion>
       </div>
+      <div 
+      className="absolute inset-0 opacity-[1] pointer-events-none bg-[size:40px_40px]
+        bg-[linear-gradient(rgba(148,163,184,0.3)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.3)_1px,transparent_1px)]
+        dark:bg-[linear-gradient(rgba(59,130,246,0.15)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.15)_1px,transparent_1px)]
+        [mask-image:radial-gradient(ellipse_60%_40%_at_50%_0%,#000_70%,transparent_100%)]"
+      />
     </section>
   );
 };

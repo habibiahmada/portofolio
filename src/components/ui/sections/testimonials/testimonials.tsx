@@ -4,6 +4,7 @@ import { Button } from '../../button';
 import { Card } from '../../card';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
+import SectionHeader from "../SectionHeader";
 
 const testimonials = [
   {
@@ -108,17 +109,12 @@ const TestimonialSection = () => {
         >
       <div className="container mx-auto px-4 relative z-10">
         {/* Header Section */}
-        <div className="text-center mb-20">
-          <h2 className="block font-extrabold leading-tight 
-                     text-4xl sm:text-5xl lg:text-6xl 
-                     bg-gradient-to-r from-blue-600 via-cyan-600 to-blue-600 
-                     bg-clip-text text-transparent mb-4 sm:mb-6"
-        >
-            {t("titleLine1")}
-          </h2>
-          <p className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed">
-            {t("description1")}
-          </p>
+        <div className="mb-20">
+          <SectionHeader
+            title={t("titleLine1")}
+            description={t("description1")}
+            align="center"
+          />
         </div>
 
         {/* Main Testimonial Card */}

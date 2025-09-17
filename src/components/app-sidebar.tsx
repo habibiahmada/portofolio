@@ -8,6 +8,7 @@ import {
   Command,
   Frame,
   GalleryVerticalEnd,
+  Home,
   Map,
   PieChart,
   Settings2,
@@ -22,22 +23,28 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
+  SidebarGroup,
+  SidebarGroupLabel,
   SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import { Link, usePathname } from "@/i18n/routing"
 
 // This is sample data.
 const data = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
+    name: "Habibi Ahmada",
+    email: "habibiahmadaziz@gmail.com",
     avatar: "/avatars/shadcn.jpg",
   },
   teams: [
     {
-      name: "Acme Inc",
+      name: "Habibi Ahmada",
       logo: GalleryVerticalEnd,
-      plan: "Enterprise",
+      plan: "Admin Panel",
     },
     {
       name: "Acme Corp.",
@@ -52,7 +59,7 @@ const data = {
   ],
   navMain: [
     {
-      title: "Playground",
+      title: "Banner",
       url: "#",
       icon: SquareTerminal,
       isActive: true,
@@ -157,12 +164,29 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const pathname = usePathname()
+  const isDashboard = pathname?.includes("/dashboard")
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel>
+            Main
+          </SidebarGroupLabel>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton className="text-sidebar-foreground/70 cursor-pointer" asChild isActive={!!isDashboard}>
+                <Link href="/dashboard">
+                  <Home className="text-sidebar-foreground/70" />
+                  <span>Dashboard</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroup>
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
       </SidebarContent>

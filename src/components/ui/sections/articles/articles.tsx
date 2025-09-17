@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar, Clock, BookOpen } from "lucide-react";
 import { useTranslations } from "next-intl";
+import SectionHeader from "../SectionHeader";
 
 // Types
 interface Article {
@@ -157,18 +158,12 @@ const ArticlesSection: React.FC = () => {
 
       <div className="container relative z-10 mx-auto px-6">
         {/* Header */}
-        <div className="mb-20 text-center">
-          <h2
-            className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight block bg-gradient-to-r
-              from-cyan-500 via-blue-500 to-cyan-500 bg-clip-text text-transparent mb-5
-            "
-          >
-            {t("titleLine1")}
-          </h2>
-
-          <p className="mx-auto max-w-3xl text-xl leading-relaxed text-slate-700 dark:text-slate-400">
-            {t("description1")}
-          </p>
+        <div className="mb-20">
+          <SectionHeader
+            title={t("titleLine1")}
+            description={t("description1")}
+            align="center"
+          />
         </div>
 
         {/* Articles */}

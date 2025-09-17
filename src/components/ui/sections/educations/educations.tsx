@@ -6,6 +6,7 @@ import { experiences } from "@/lib/data/dummy/experienceslist";
 import "./education.css";
 import { useTranslations } from "next-intl";
 import { Button } from "../../button";
+import SectionHeader from "../SectionHeader";
 
 export default function Education() {
   const { resolvedTheme } = useTheme();
@@ -68,27 +69,12 @@ export default function Education() {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <div className="text-center mb-12 sm:mb-16 transition-all duration-1000">
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black mb-4 sm:mb-6 leading-tight">
-            <span 
-              className={`block transition-colors duration-300 ${
-                isDark ? "text-white" : "text-slate-900"
-              }`}
-            >
-              {t("titleLine1")}
-            </span>
-            <span className="block bg-gradient-to-r from-blue-600 via-cyan-600 to-slate-600 bg-clip-text text-transparent">
-              {t("titleLine2")}
-            </span>
-          </h2>
-          
-          <p 
-            className={`text-base sm:text-lg lg:text-xl max-w-2xl lg:max-w-3xl mx-auto leading-relaxed px-4 transition-colors duration-300 ${
-              isDark ? "text-slate-300" : "text-slate-600"
-            }`}
-          >
-            {t("description1")}
-          </p>
+        <div className="mb-12 sm:mb-16 transition-all duration-1000">
+          <SectionHeader
+            title={`${t("titleLine1")} ${t("titleLine2")}`}
+            description={t("description1")}
+            align="center"
+          />
         </div>
 
         {/* Tabs */}

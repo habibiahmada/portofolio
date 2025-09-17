@@ -12,6 +12,7 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import SectionHeader from "../SectionHeader";
 
 // Type Certificate
 interface Certificate {
@@ -320,17 +321,12 @@ const CertificationsSection: React.FC = () => {
     >
     <div className="container mx-auto px-4 max-w-7xl">
         {/* Header */}
-        <div className="text-center mb-16">
-        <h2 
-            className="block font-extrabold leading-tight 
-            text-4xl sm:text-5xl lg:text-6xl 
-            bg-gradient-to-r from-blue-600 via-cyan-600 to-blue-600 
-            bg-clip-text text-transparent mb-4 sm:mb-6">
-            {t("titleLine1")}
-        </h2>
-        <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            {t("description1")}
-        </p>
+        <div className="mb-16">
+          <SectionHeader
+            title={t("titleLine1")}
+            description={t("description1")}
+            align="center"
+          />
         </div>
 
         {/* Grid Cards */}

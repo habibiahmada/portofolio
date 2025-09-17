@@ -45,14 +45,13 @@ export default function Stats() {
       <div className="absolute inset-0 bg-gradient-to-b from-slate-50 via-gray-50 to-slate-50 
         dark:from-slate-950 dark:via-gray-950 dark:to-slate-950" />
 
-      <div className="absolute inset-0 bg-[size:40px_40px]
-        bg-[linear-gradient(rgba(148,163,184,0.2)_1px,transparent_1px),
-        linear-gradient(90deg,rgba(148,163,184,0.2)_1px,transparent_1px)]
-        dark:bg-[linear-gradient(rgba(59,130,246,0.1)_1px,transparent_1px),
-        linear-gradient(90deg,rgba(59,130,246,0.1)_1px,transparent_1px)]
-        [mask-image:radial-gradient(ellipse_50%_45%_at_50%_50%,#000_70%,transparent_100%)]"
+      <div 
+        className="absolute inset-0 opacity-[1] bg-[size:40px_40px]
+          bg-[linear-gradient(rgba(148,163,184,0.3)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.3)_1px,transparent_1px)]
+          dark:bg-[linear-gradient(rgba(59,130,246,0.15)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.15)_1px,transparent_1px)]
+          [mask-image:radial-gradient(ellipse_50%_45%_at_50%_50%,#000_70%,transparent_100%)]"
       />
-
+      
       <div className="relative container mx-auto px-6 max-w-7xl">
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-20">

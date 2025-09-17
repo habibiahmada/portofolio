@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import ServiceCard from "./servicecard";
+import SectionHeader from "../SectionHeader";
 
 export default function MyService() {
   const { resolvedTheme } = useTheme();
@@ -108,31 +109,12 @@ export default function MyService() {
 
       <div className="container mx-auto px-4 max-w-7xl relative">
         {/* Header */}
-        <div className="text-center mb-20">
-          <h2
-            className={`text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight block bg-gradient-to-r ${
-              isDark
-                ? "from-cyan-400 via-blue-400 to-cyan-400"
-                : "from-blue-600 via-cyan-600 to-blue-600"
-            } bg-clip-text text-transparent mb-5`}
-          >
-            {t("titleLine1")}
-          </h2>
-          <div className="flex justify-center gap-2 mb-5">
-            <div
-              className={`h-1 w-20 rounded-full ${
-                isDark ? "bg-cyan-400" : "bg-blue-600"
-              }`}
-            />
-            <div
-              className={`h-1 w-8 rounded-full ${
-                isDark ? "bg-blue-400" : "bg-cyan-600"
-              } opacity-60`}
-            />
-          </div>
-          <p className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed">
-            {t("description1")}
-          </p>
+        <div className="mb-20">
+          <SectionHeader
+            title={t("titleLine1")}
+            description={t("description1")}
+            align="center"
+          />
         </div>
 
         {/* Services Grid */}

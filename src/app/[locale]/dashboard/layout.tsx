@@ -1,6 +1,7 @@
 import type { ReactNode } from "react"
 import { AppSidebar } from "@/components/app-sidebar"
 import ThemeSwitcher from "@/components/theme/theme-toggle";
+import { LanguageSwitcher } from "@/components/lang/languageswitcher";
 import {
   SidebarInset,
   SidebarProvider,
@@ -28,7 +29,7 @@ export default function Layout({children}: { children: ReactNode }) {
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4 justify-between w-full">
-            <div>
+            <div className="flex items-center gap-2">
               <SidebarTrigger className="-ml-1" />
               <Breadcrumb>
                 <BreadcrumbList>
@@ -44,9 +45,12 @@ export default function Layout({children}: { children: ReactNode }) {
                 </BreadcrumbList>
               </Breadcrumb>
             </div>
+            <div className="flex items-center space-x-2">
+            <LanguageSwitcher />
             <ThemeSwitcher />
+            </div>
           </div>
-        </header>
+        </header>   
         <main className="flex flex-1 flex-col gap-4 p-4 pt-0">
             {children}
         </main>

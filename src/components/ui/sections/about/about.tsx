@@ -5,6 +5,7 @@ import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import "./about.css";
+import SectionHeader from "../SectionHeader";
 
 export default function About() {
   const { resolvedTheme } = useTheme();
@@ -82,34 +83,11 @@ export default function About() {
             }`}
           >
             {/* Title */}
-            <div className="space-y-6 text-center lg:text-left">
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
-                <span className={isDark ? "text-white" : "text-slate-900"}>
-                  {t("titleLine1")}
-                </span>
-                <span
-                  className={`block bg-gradient-to-r ${
-                    isDark
-                      ? "from-cyan-400 via-blue-400 to-cyan-400"
-                      : "from-blue-600 via-cyan-600 to-blue-600"
-                  } bg-clip-text text-transparent`}
-                >
-                  {t("titleLine2")}
-                </span>
-              </h2>
-              <div className="flex justify-center lg:justify-start gap-2">
-                <div
-                  className={`h-1 w-20 rounded-full ${
-                    isDark ? "bg-cyan-400" : "bg-blue-600"
-                  }`}
-                />
-                <div
-                  className={`h-1 w-8 rounded-full ${
-                    isDark ? "bg-blue-400" : "bg-cyan-600"
-                  } opacity-60`}
-                />
-              </div>
-            </div>
+            <SectionHeader
+              title={`${t("titleLine1")} ${t("titleLine2")}`}
+              align="left"
+              className="lg:text-left"
+            />
 
             {/* Short Description */}
             <div className="space-y-4">

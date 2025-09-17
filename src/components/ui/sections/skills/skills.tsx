@@ -1,6 +1,7 @@
 "use client";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import SectionHeader from "../SectionHeader";
 
 const techStack = [
   { name: "JavaScript", icon: "https://picsum.photos/100?random=1" },
@@ -22,19 +23,13 @@ export default function SkillsSection() {
       id="skills"
       className="bg-white dark:bg-slate-950 transition-colors duration-300 py-8 md:py-10 lg:py-12"
     >
-      <div className="container mx-auto px-6 max-w-6xl text-center">
-        {/* Header */}
-        <h2
-          className="block font-extrabold leading-tight 
-                     text-4xl sm:text-5xl lg:text-6xl 
-                     bg-gradient-to-r from-blue-600 via-cyan-600 to-blue-600 
-                     bg-clip-text text-transparent"
-        >
-          {t("titleLine1")}
-        </h2>
-        <p className="text-lg text-slate-600 dark:text-slate-300 mb-12">
-          {t("description1")}
-        </p>
+      <div className="container mx-auto px-6 max-w-6xl">
+        <SectionHeader
+          title={t("titleLine1")}
+          description={t("description1")}
+          align="center"
+          className="mb-12"
+        />
 
         {/* Tech Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">

@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { Locale, routing } from '@/i18n/routing';
 import { Providers } from './providers';
 import { getMessages } from '@/lib/getMessages';
+import { Analytics } from "@vercel/analytics/next"
 import Script from 'next/script';
 
 type Props = {
@@ -59,6 +60,7 @@ export default async function LocaleLayout({ children, params }: Props) {
             disableTransitionOnChange
           >
             {children}
+            <Analytics />
           </Providers>
         </NextIntlClientProvider>
       </body>

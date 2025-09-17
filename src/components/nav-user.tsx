@@ -30,6 +30,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { signOut } from "@/lib/auth"
+import { usePathname } from "next/navigation"
 
 export function NavUser({
   user,
@@ -41,6 +42,10 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
+  const pathname = usePathname()
+  const isAccountSection = ["/account", "/billing", "/notifications"].some((s) =>
+    pathname?.includes(s)
+  )
 
   return (
     <SidebarMenu>
@@ -49,6 +54,7 @@ export function NavUser({
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
+              isActive={isAccountSection}
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
