@@ -19,7 +19,7 @@ import Link from 'next/link';
 import SectionHeader from "../SectionHeader";
 
 // Modular Components
-import ContactForm from './contactform';
+import ContactForm, { ContactFormData } from './contactform';
 import Consultation from './consultation';
 
 // Types and Interfaces
@@ -110,7 +110,7 @@ const ContactSection: React.FC = () => {
   });
 
   // Event Handlers
-  const handleFormSubmit = async (formData: any) => {
+  const handleFormSubmit = async (formData: ContactFormData) => {
     const formRes = await fetch("/api/contact", {
       method: "POST",
       body: JSON.stringify(formData),

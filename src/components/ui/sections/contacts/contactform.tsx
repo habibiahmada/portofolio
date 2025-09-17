@@ -14,7 +14,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import ReCaptcha from '../../reCaptcha';
 
 // Types and Interfaces
-interface ContactFormData {
+export interface ContactFormData {
   name: string;
   email: string;
   phone: string;

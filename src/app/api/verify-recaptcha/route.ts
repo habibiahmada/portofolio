@@ -22,7 +22,7 @@ export async function POST(req: Request) {
     } else {
       return NextResponse.json({ success: false, error: data["error-codes"] });
     }
-  } catch (err) {
+  } catch {
     return NextResponse.json({ success: false, error: "Verification failed" }, { status: 500 });
   }
 }

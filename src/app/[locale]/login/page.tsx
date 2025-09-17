@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from '@/i18n/navigation'
 import { useAuth } from '@/contexts/AuthContext'
-import { Eye, EyeOff, Mail, Lock, Github, Chrome } from 'lucide-react'
+import { Github, Chrome } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -13,7 +13,7 @@ import Link from 'next/link'
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [errorDescription, setErrorDescription] = useState('')
