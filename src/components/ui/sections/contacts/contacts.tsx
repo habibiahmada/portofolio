@@ -57,7 +57,7 @@ const ContactInfoItem: React.FC<{ info: ContactInfo }> = ({ info }) => {
                         {info.action ? (
                           <button
                             onClick={info.action}
-                            className="text-blue-400 hover:text-blue-300 transition-colors duration-200 text-left"
+                            className="text-blue-400 hover:text-blue-300 transition-colors duration-200 text-left cursor-pointer"
                             aria-label={`Reveal ${info.title}`}
                           >
                             {info.content}

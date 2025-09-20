@@ -19,10 +19,14 @@ export const metadata = {
     title: "Habibi Ahmad Aziz | Portofolio",
   },
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon-32x32.png",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+    ],
+    shortcut: "/favicon-96x96.png",
     apple: "/apple-touch-icon.png",
   },
+  manifest: "/web-app-manifest-192x192.png",
 };
 
 export default async function LocaleLayout({ children, params }: Props) {
