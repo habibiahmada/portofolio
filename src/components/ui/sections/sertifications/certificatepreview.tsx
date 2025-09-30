@@ -37,7 +37,6 @@ const CertificatePreview: React.FC<CertificatePreviewProps> = ({
   const t = useTranslations("certifications")
 
   const [currentPage, setCurrentPage] = useState(initialPage);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => setMounted(true), []);
 
@@ -46,10 +45,8 @@ const CertificatePreview: React.FC<CertificatePreviewProps> = ({
   }, [initialPage, persistPage]);
 
   useEffect(() => {
-    // when file changes, assume loading again
-    setIsLoading(true);
     onLoadingChange?.(true);
-  }, [file]);
+  }, [file, onLoadingChange]);
 
   if (!mounted) return null;
 
@@ -64,7 +61,6 @@ const CertificatePreview: React.FC<CertificatePreviewProps> = ({
         file={file}
         onLoadSuccess={({ numPages }) => {
           setNumPages(numPages)
-          setIsLoading(false)
           onLoadingChange?.(false)
         }}
         loading={<div className="text-slate-400">Loading preview...</div>}

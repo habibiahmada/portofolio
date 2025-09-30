@@ -11,7 +11,7 @@ interface Props {
 export default function Ctabutton({ isDark, icon: Icon, text, href }: Props) {
   return (
     <Link
-      href={href}
+      href={href ?? "#"}
       className={`group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 ${
         isDark
           ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white hover:shadow-xl hover:shadow-blue-500/30 focus:ring-blue-500/50"
