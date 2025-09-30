@@ -20,19 +20,7 @@
       "AI & Emerging Tech Enthusiast",
       "Siswa SMKN 1 Karawang"
     ],
-    "description": {
-      "part1": "Bersemangat menciptakan",
-      "highlight1": "pengalaman digital yang berdampak",
-      "part2": ". Ahli dalam membangun",
-      "highlight2": "sistem yang scalable",
-      "part3": "dan",
-      "highlight3": "antarmuka yang user-centered",
-      "part4": "dengan fokus kuat pada",
-      "highlight4": "performa",
-      "part5": "dan",
-      "highlight6": "maintainability jangka panjang",
-      "part7": "."
-    },
+    "description": "Bersemangat menciptakan pengalaman digital yang berdampak. Ahli dalam membangun sistem yang scalable dan antarmuka yang user-centered dengan fokus kuat pada performa dan maintainability jangka panjang.",
     "buttons": {
       "viewProjects": "Lihat Proyek",
       "downloadCV": "Unduh CV"
@@ -147,7 +135,9 @@
     },
     "projects" : {
       "titleLine1" : "Proyek Terbaru",
-      "description1" : "Portofolio proyek terpilih yang menunjukkan kemampuan dan pengalaman saya dalam mengembangkan solusi digital modern"
+      "description1" : "Portofolio proyek terpilih yang menunjukkan kemampuan dan pengalaman saya dalam mengembangkan solusi digital modern",
+      "noProjectsTitle": "Proyek tidak ditemukan",
+      "noProjectsDescription": "Coba sesuaikan filter atau permintaan pencarian Anda."
      },
     "skills":{
       "titleLine1" : "Alat dan Teknologi",
@@ -155,7 +145,13 @@
    },
    "certifications" : {
     "titleLine1" : "Sertifikasi",
-    "description1" : "Sertifikat profesional yang mendukung keahlian teknis dan kompetensi saya dalam pengembangan teknologi"
+    "description1" : "Sertifikat profesional yang mendukung keahlian teknis dan kompetensi saya dalam pengembangan teknologi",
+    "certificate1": "Deskripsi",
+    "certificate2": "Keahlian yang dipelajari",
+    "loading": "loading",
+    "error" : "error",
+    "page1": "Halaman",
+    "page2" : "dari"
    },
    "testimonials": {
     "titleLine1": "Apa Kata Mereka?",

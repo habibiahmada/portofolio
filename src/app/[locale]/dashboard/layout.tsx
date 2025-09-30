@@ -9,7 +9,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { Input } from "@/components/ui/input";
-import { Bell, Search, CheckCircle, Shield, TrendingUp, Calendar } from "lucide-react";
+import { Bell, Search, Shield, TrendingUp, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 

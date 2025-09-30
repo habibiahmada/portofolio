@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar, Clock, BookOpen } from "lucide-react";
 import { useTranslations } from "next-intl";
 import SectionHeader from "../SectionHeader";
+import { useTheme } from "next-themes";
 
 // Types
 interface Article {
@@ -140,14 +141,25 @@ const ArticleCard: React.FC<{ article: Article }> = ({ article }) => (
 );
 
 const ArticlesSection: React.FC = () => {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
   const t = useTranslations("articles")
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+  
+  const isDark = resolvedTheme === "dark";
+
   return (
     <section
-      className="
+      className={`
         relative min-h-screen overflow-hidden
         py-28 sm:py-36 lg:py-40
-        bg-gray-50 dark:bg-slate-950
-      "
+        ${isDark ? "bg-slate-950" : "bg-gray-50"}
+      `}
     >
       {/* Background */}
       <div className="absolute inset-0">

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { 
   MapPin, 
@@ -21,6 +21,7 @@ import SectionHeader from "../SectionHeader";
 // Modular Components
 import ContactForm, { ContactFormData } from './contactform';
 import Consultation from './consultation';
+import { useTheme } from 'next-themes';
 
 // Types and Interfaces
 interface ContactInfo {
@@ -102,6 +103,10 @@ const SocialLinkItem: React.FC<{ social: SocialLink; index: number }> = ({ socia
 // Component
 const ContactSection: React.FC = () => {
   const t = useTranslations("contacts");
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+
   
   // State Management
   const [showContactInfo, setShowContactInfo] = useState({
@@ -156,14 +161,27 @@ const ContactSection: React.FC = () => {
     }
   ];
 
+  
+  useEffect(() => {
+    setMounted(true);
+
+  }, []);
+
+  if (!mounted) return null;
+  
+  const isDark = resolvedTheme === "dark";
+
   return (
     <section 
     id="contact" 
-    className="
+    className={`
       relative min-h-screen overflow-hidden
       py-28 sm:py-36 lg:py-40
-      bg-gray-50 dark:bg-slate-950
-    ">
+      
+      ${
+        isDark ? "bg-slate-950" : "bg-gray-50"
+      }
+    `}>
       {/* Background Effects */}
       <div className="absolute inset-0">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>

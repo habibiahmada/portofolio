@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, MouseEvent } from "react";
+import { useState } from "react";
 import { X, Menu } from "lucide-react";
 import Link from "next/link";
 
@@ -15,29 +15,6 @@ interface Props {
 
 export default function MobileMenu({ navLinks }: Props) {
   const [isOpen, setIsOpen] = useState(false);
-
-  const handleSmoothScroll = (
-    e: MouseEvent<HTMLAnchorElement>,
-    targetId: string
-  ) => {
-    e.preventDefault();
-    setIsOpen(false);
-
-    if (targetId === "#home") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      return;
-    }
-
-    const targetElement = document.querySelector(targetId);
-    if (targetElement) {
-      const headerOffset = 80;
-      const elementPosition = targetElement.getBoundingClientRect().top;
-      const offsetPosition =
-        elementPosition + window.pageYOffset - headerOffset;
-
-      window.scrollTo({ top: offsetPosition, behavior: "smooth" });
-    }
-  };
 
   return (
     <>
@@ -76,7 +53,6 @@ export default function MobileMenu({ navLinks }: Props) {
             <Link
               key={link.href}
               href={link.href}
-              onClick={(e) => handleSmoothScroll(e, link.href)}
               className="hover:text-primary-600 transition-colors cursor-pointer"
             >
               {link.label}

@@ -1,26 +1,28 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
-import { Building2, ChevronDown, GraduationCap } from "lucide-react";
-import { Experience, ModernCard } from "./educationcard";
-import { experiences } from "@/lib/data/dummy/experienceslist";
+import { Building2, GraduationCap } from "lucide-react";
+import useExperiences from "@/hooks/useExperiences";
 import "./education.css";
 import { useTranslations } from "next-intl";
-import { Button } from "../../button";
 import SectionHeader from "../SectionHeader";
+import TabButton from "./tabbutton";
+import CollapsibleTimeline from "./callapsibletimeline";
 
 export default function Education() {
+  const {experiences, loading} = useExperiences();
   const { resolvedTheme } = useTheme();
-  const [activeTab, setActiveTab] = useState("experience");
   const [mounted, setMounted] = useState(false);
+  const [activeTab, setActiveTab] = useState("experience");
   const t = useTranslations("educations");
 
-  // Pastikan component sudah mounted untuk menghindari hydration mismatch
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Gunakan fallback theme jika belum mounted atau theme belum resolved
-  const isDark = mounted ? resolvedTheme === "dark" : false;
+  if (!mounted) return null;
+  
+  const isDark = resolvedTheme === "dark";
+
 
   const experienceList = experiences.filter((exp) =>
     ["experience", "pengalaman"].includes(exp.type)
@@ -30,12 +32,11 @@ export default function Education() {
     ["education", "pendidikan"].includes(exp.type)
   );
 
-  if (!mounted) return null
 
   return (
     <section
       id="experience"
-      className={`relative min-h-screen py-28 sm:py-36 lg:py-40 overflow-hidden transition-colors duration-300 ${
+      className={`relative min-h-screen pt-28 sm:pt-36 lg:pt-40 pb-10 overflow-hidden transition-colors duration-300 ${
         isDark ? "bg-slate-950" : "bg-gradient-to-t from-white to-slate-50"
       }`}
     >
@@ -115,250 +116,11 @@ export default function Education() {
               isDark={isDark}
               type={activeTab as "experience" | "education"}
               t={t}
+              loading={loading}
             />
           </div>
         </div>
       </div>
     </section>
-  );
-}
-
-// Tab Button Component
-function TabButton({ 
-  isActive, 
-  onClick, 
-  icon, 
-  label, 
-  isDark 
-}: {
-  isActive: boolean;
-  onClick: () => void;
-  icon: React.ReactNode;
-  label: string;
-  isDark: boolean;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className={`flex-1 flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold transition-all duration-300 text-sm sm:text-base cursor-pointer transform hover:scale-[1.02] ${
-        isActive
-          ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg scale-105"
-          : isDark
-          ? "text-slate-300 hover:text-white hover:bg-slate-700/60"
-          : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/80"
-      }`}
-    >
-      {icon}
-      <span className="hidden sm:inline">{label}</span>
-      <span className="sm:hidden">{label}</span>
-    </button>
-  );
-}
-
-// Collapsible Timeline Component
-function CollapsibleTimeline({
-  items,
-  isDark,
-  type,
-  t,
-}: {
-  items: Experience[];
-  isDark: boolean;
-  type: "experience" | "education";
-  t: ReturnType<typeof useTranslations>;
-}) {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const maxInitialItems = 2;
-  const shouldShowCollapseButton = items.length > maxInitialItems;
-  const displayItems = isExpanded ? items : items.slice(0, maxInitialItems);
-
-  return (
-    <div className="relative mx-auto">
-      {/* Timeline Content */}
-      <div 
-        className={`relative transition-all duration-700 ease-in-out ${
-          !isExpanded && shouldShowCollapseButton ? 'max-h-[1000px] pt-5 overflow-hidden' : ''
-        }`}
-      >
-        <Timeline items={displayItems} isDark={isDark} type={type} />
-
-        {/* Blur Overlay when collapsed */}
-        {!isExpanded && shouldShowCollapseButton && (
-          <div 
-            className={`absolute inset-x-0 bottom-0 h-32 pointer-events-none transition-colors duration-300 ${
-              isDark 
-                ? "bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent"
-                : "bg-gradient-to-t from-white via-slate-50/80 to-transparent"
-            }`} 
-          />
-        )}
-      </div>
-
-      {/* Expand/Collapse Button */}
-      {shouldShowCollapseButton && (
-      <div className="flex justify-center mt-2 sm:mt-5">
-        <Button
-          onClick={() => setIsExpanded(!isExpanded)}
-          variant={isDark ? "outline" : "secondary"}
-          size="lg"
-          className={`group flex items-center gap-3 rounded-2xl font-semibold text-sm sm:text-base transition-all duration-300 hover:scale-105 transform backdrop-blur-md
-            ${
-              isDark
-                ? "bg-slate-800/70 hover:bg-slate-700/80 text-slate-200 hover:text-white border border-slate-700/60 hover:border-slate-600"
-                : "bg-white/90 hover:bg-white text-slate-700 hover:text-slate-900 border border-slate-200 hover:border-slate-300 shadow-sm hover:shadow-md"
-            }`}
-        >
-          <span>
-            {isExpanded
-              ? t("showLess") || "Show Less"
-              : t("showMore") || `Show All ${items.length} Items`}
-          </span>
-          <div
-            className={`transition-transform duration-300 ${
-              isExpanded ? "rotate-180" : ""
-            }`}
-          >
-            <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5" />
-          </div>
-        </Button>
-      </div>
-    )}
-    </div>
-  );
-}
-
-// Timeline Component
-function Timeline({
-  items,
-  isDark,
-  type,
-}: {
-  items: Experience[];
-  isDark: boolean;
-  type: "experience" | "education";
-}) {
-  return (
-    <div className="relative mx-auto">
-      {/* Desktop Timeline Line */}
-      <div className="absolute left-1/2 transform -translate-x-1/2 top-0 bottom-0 hidden lg:block">
-        <div 
-          className={`w-1 h-full rounded-full transition-colors duration-300 ${
-            isDark
-              ? "bg-gradient-to-b from-blue-500/30 via-cyan-500/40 to-slate-500/30"
-              : "bg-gradient-to-b from-blue-400/40 via-cyan-400/50 to-slate-400/40"
-          }`}
-        />
-      </div>
-
-      {/* Mobile Timeline Line */}
-      <div className="absolute left-6 top-0 bottom-0 block lg:hidden">
-        <div 
-          className={`w-0.5 h-full rounded-full transition-colors duration-300 ${
-            isDark
-              ? "bg-gradient-to-b from-blue-500/30 via-cyan-500/40 to-slate-500/30"
-              : "bg-gradient-to-b from-blue-400/40 via-cyan-400/50 to-slate-400/40"
-          }`}
-        />
-      </div>
-
-      <div className="space-y-8 sm:space-y-12 lg:space-y-16">
-        {items.map((exp, index) => (
-          <TimelineItem 
-            key={`${exp.company || exp.type}-${index}`}
-            exp={exp} 
-            index={index} 
-            isDark={isDark} 
-            type={type}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// Timeline Item Component
-function TimelineItem({
-  exp,
-  isDark,
-  index,
-  type,
-}: {
-  exp: Experience;
-  isDark: boolean;
-  index: number;
-  type: "experience" | "education";
-}) {
-  const [isHovered, setIsHovered] = useState(false);
-
-  return (
-    <div
-      className="relative transition-all duration-1000"
-      style={{ transitionDelay: `${index * 200}ms` }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* Desktop Layout */}
-      <div className="hidden lg:flex items-center">
-        {/* Timeline Dot */}
-        <div className="absolute left-1/2 transform -translate-x-1/2 z-20">
-          <div 
-            className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
-              isDark
-                ? `${isHovered ? "bg-cyan-400 scale-1.3 shadow-lg shadow-cyan-400/50" : "bg-blue-500"} ring-4 ring-slate-900`
-                : `${isHovered ? "bg-cyan-500 scale-1.3 shadow-lg shadow-cyan-500/50" : "bg-blue-600"} ring-4 ring-white`
-            }`} 
-          />
-        </div>
-
-        {/* Left Side */}
-        <div className="w-1/2 pr-8 xl:pr-12">
-          {exp.side === "left" && (
-            <div className="flex justify-end">
-              <ModernCard 
-                exp={exp} 
-                isDark={isDark} 
-                type={type} 
-                isHovered={isHovered} 
-              />
-            </div>
-          )}
-        </div>
-        
-        {/* Right Side */}
-        <div className="w-1/2 pl-8 xl:pl-12">
-          {exp.side === "right" && (
-            <ModernCard 
-              exp={exp} 
-              isDark={isDark} 
-              type={type} 
-              isHovered={isHovered} 
-            />
-          )}
-        </div>
-      </div>
-
-      {/* Mobile Layout */}
-      <div className="block lg:hidden">
-        {/* Mobile Timeline Dot */}
-        <div className="absolute left-6 transform -translate-x-1/2 z-20">
-          <div 
-            className={`w-3 h-3 sm:w-4 sm:h-4 rounded-full transition-all duration-300 ${
-              isDark
-                ? `${isHovered ? "bg-cyan-400 scale-125" : "bg-blue-500"} ring-2 sm:ring-4 ring-slate-900`
-                : `${isHovered ? "bg-cyan-500 scale-125" : "bg-blue-600"} ring-2 sm:ring-4 ring-white`
-            }`} 
-          />
-        </div>
-
-        <div className="ml-12 sm:ml-16">
-          <ModernCard 
-            exp={exp} 
-            isDark={isDark} 
-            type={type} 
-            isHovered={isHovered} 
-          />
-        </div>
-      </div>
-    </div>
   );
 }

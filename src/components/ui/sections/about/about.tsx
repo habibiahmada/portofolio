@@ -4,8 +4,8 @@ import Image from "next/image";
 import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import "./about.css";
 import SectionHeader from "../SectionHeader";
+import Ctabutton from "../ctabutton";
 
 export default function About() {
   const { resolvedTheme } = useTheme();
@@ -116,16 +116,7 @@ export default function About() {
 
             {/* CTA */}
             <div className="pt-6">
-              <button
-                className={`group relative px-8 py-4 rounded-2xl font-bold text-lg overflow-hidden transition-all duration-300 hover:scale-105 ${
-                  isDark
-                    ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white hover:shadow-xl hover:shadow-blue-500/25"
-                    : "bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg hover:shadow-blue-400/25"
-                }`}
-              >
-                <span className="relative z-10">{t("cta")}</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </button>
+              <Ctabutton isDark={isDark} text={t("cta")} href="#contact"/>
             </div>
           </div>
         </div>

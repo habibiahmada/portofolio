@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Accordion,
   AccordionItem,
@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/accordion";
 import { useTranslations } from "next-intl";
 import SectionHeader from "../SectionHeader";
+import { useTheme } from "next-themes";
 
 interface FAQItem {
   id: string;
@@ -50,13 +51,26 @@ const faqData: FAQItem[] = [
 ];
 
 const ModernFAQSection: React.FC = () => {
-  const t = useTranslations("faqs")
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  const t = useTranslations("faqs");
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+  
+  const isDark = resolvedTheme === "dark";
+  
   return (
     <section
-        className="
+        className={`
         relative overflow-hidden
         py-28 sm:py-36 lg:py-40
-        dark:bg-slate-950" 
+        ${
+          isDark ? "bg-slate-950" : "bg-slate-50"
+        }`} 
         >
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="mb-16">

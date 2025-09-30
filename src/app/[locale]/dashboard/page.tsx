@@ -10,7 +10,6 @@ import {
   MessageSquare, 
   Mail,
   Plus,
-  Eye,
   Clock,
   Users
 } from 'lucide-react'
@@ -74,7 +73,7 @@ const mockData = {
 }
 
 export default function DashboardPage() {
-  const [data, setData] = useState(mockData)
+  const [data] = useState(mockData)
   const [loading, setLoading] = useState(true)
   const router = useRouter()
 
@@ -160,7 +159,7 @@ export default function DashboardPage() {
       {/* Header */}
       <div className="bg-card rounded-xl p-4 sm:p-6 shadow-sm border border-border">
         <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">Dashboard</h1>
-        <p className="text-muted-foreground text-sm sm:text-base">Welcome back! Here's what's happening with your portfolio.</p>
+        <p className="text-muted-foreground text-sm sm:text-base">Welcome back! Here&apos;s what&apos;s happening with your portfolio.</p>
       </div>
 
       {/* Stats Cards Row */}

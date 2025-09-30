@@ -20,19 +20,8 @@
       "AI & Emerging Tech Enthusiast",
       "High School Student"
     ],
-    "description": {
-      "part1": "Passionate about creating",
-      "highlight1": "impactful digital experiences",
-      "part2": ". Skilled in building",
-      "highlight2": "scalable systems",
-      "part3": "and",
-      "highlight3": "user-centered interfaces",
-      "part4": "with a strong focus on",
-      "highlight4": "performance",
-      "part5": "and",
-      "highlight6": "long-term maintainability",
-      "part7": "."
-    },
+    "description": "Passionate about creating impactful digital experiences. Skilled in building scalable systems and user-centered interfaces with a strong focus on performance and long-term maintainability."
+    ,
     "buttons": {
       "viewProjects": "View Projects",
       "downloadCV": "Download CV"
@@ -147,7 +136,9 @@
      },
      "projects" : {
       "titleLine1" : "Latest Projects",
-      "description1" : "A portfolio of selected projects that demonstrate my skills and experience in developing modern digital solutions."
+      "description1" : "A portfolio of selected projects that demonstrate my skills and experience in developing modern digital solutions.",
+      "noProjectsTitle": "No projects found",
+      "noProjectsDescription": "Try adjusting your filters or search query."
      },
      "skills":{
         "titleLine1" : "Tools and Technologies",
@@ -155,7 +146,13 @@
      },
      "certifications" : {
       "titleLine1" : "Certifications",
-      "description1" : "Professional certifications that support my technical expertise and competency in technology development"
+      "description1" : "Professional certifications that support my technical expertise and competency in technology development",
+      "certificate1": "Description",
+      "certificate2": "skills learned",
+      "loading": "loading",
+      "error" : "error",
+      "page1": "Page",
+      "page2" : "of"
      },
      "testimonials": {
       "titleLine1": "What do they say?",

@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from "react";
 import Navbar from "@/components/ui/navbar/main";
 import Hero from "@/components/ui/sections/hero/hero";
 import Stats from "@/components/ui/sections/stats/stats";
@@ -7,7 +8,6 @@ import About from "@/components/ui/sections/about/about";
 import MyService from "@/components/ui/sections/service/service";
 import Projects from "@/components/ui/sections/projects/projects";
 import Education from "@/components/ui/sections/educations/educations";
-import { useState, useEffect } from "react";
 import SkillsSection from "@/components/ui/sections/skills/skills";
 import CertificationsSection from "@/components/ui/sections/sertifications/certifications";
 import TestimonialSection from "@/components/ui/sections/testimonials/testimonials";

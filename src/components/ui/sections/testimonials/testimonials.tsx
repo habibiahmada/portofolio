@@ -5,6 +5,7 @@ import { Card } from '../../card';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import SectionHeader from "../SectionHeader";
+import { useTheme } from 'next-themes';
 
 const testimonials = [
   {
@@ -58,6 +59,9 @@ const TestimonialSection = () => {
   const [isAnimating, setIsAnimating] = useState(false);
   const t = useTranslations("testimonials");
 
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
   const nextTestimonial = useCallback(() => {
     if (isAnimating) return;
     setIsAnimating(true);
@@ -69,14 +73,21 @@ const TestimonialSection = () => {
 
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+  
+  useEffect(() => {
     const interval = setInterval(() => {
       nextTestimonial();
     }, 8000);
-
+    
     return () => clearInterval(interval);
   }, [currentIndex, nextTestimonial]);
-
-
+  
+  
+  if (!mounted) return null;
+  
+  const isDark = resolvedTheme === "dark";
 
   const prevTestimonial = () => {
     if (isAnimating) return;
@@ -101,11 +112,13 @@ const TestimonialSection = () => {
   return (
     <section
         id="testimonials"
-        className="
+        className={`
             relative min-h-screen overflow-hidden
             py-28 sm:py-36 lg:py-40
-            dark:bg-slate-950
-        "
+            ${
+              isDark ? "dark:bg-slate-950": "bg-slate-50" 
+            }
+        `}
         >
       <div className="container mx-auto px-4 relative z-10">
         {/* Header Section */}

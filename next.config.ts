@@ -15,13 +15,15 @@ const nextConfig: NextConfig = {
             {
                 protocol: 'https',
                 hostname: 'lh3.googleusercontent.com'
-            }
+            },
+            {
+                protocol: 'https',
+                hostname: 'tjxcfcllkceoauuwurfe.supabase.co'
+            },
         ]
     },
     allowedDevOrigins: ['local-origin.dev', '*.local-origin.dev'],
-    // Optimasi untuk Next.js 15 dan i18n
     experimental: {
-        // Memastikan async params berfungsi dengan baik
         optimizePackageImports: ['next-intl'],
     },
 };

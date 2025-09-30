@@ -23,7 +23,6 @@ export default function MyService() {
   if (!mounted) return null;
   const isDark = resolvedTheme === "dark";
 
-  // Service data with translations
   const services = [
     {
       icon: <Code2 className="w-8 h-8 text-white" />,
