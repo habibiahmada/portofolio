@@ -1,19 +1,7 @@
 import Image from "next/image";
 import { Eye, ExternalLink, Github, Calendar } from "lucide-react";
 import { getTagColor } from "./utils";
-
-interface Project {
-  id: string;
-  image_url: string;
-  year: number;
-  technologies: string[];
-  live_url: string;
-  github_url: string;
-  projects_translations?: Array<{
-    title: string;
-    description: string;
-  }>;
-}
+import type { Project } from "@/lib/types/database";
 
 export default function ProjectCard({ project }: { project: Project }) {
   const translation = project.projects_translations?.[0];

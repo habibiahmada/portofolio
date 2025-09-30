@@ -6,11 +6,12 @@ import { useTheme } from 'next-themes';
 import SectionHeader from "../SectionHeader";
 import dynamic from 'next/dynamic';
 import CertificateModal from './certificationmodal';
-import useCertificates, { Certificate } from '@/hooks/useCertificates';
+import useCertificates from '@/hooks/useCertificates';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Certificate } from '@/lib/types/database';
 
 const CertificationCard = dynamic(
-  () => import("@/components/ui/sections/sertifications/certificationcard"),
+  () => import("@/components/ui/sections/certifications/certificationcard"),
   { ssr: false }
 );
 

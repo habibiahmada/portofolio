@@ -8,14 +8,7 @@ import SkillGridSkeleton from "./skillgridskeleton";
 import SkillCard from "./skillcard";
 import "./skills.css";
 import useTechstacks from "@/hooks/useTechstacks";
-
-// Local type to align with SkillCard's expected prop
-type TechItem = {
-  id: number;
-  name: string;
-  key: string;
-  color: string;
-};
+import { TechItem } from "@/lib/types/database";
 
 export default function SkillsSection() {
   const t = useTranslations("skills");

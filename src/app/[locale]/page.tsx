@@ -9,7 +9,7 @@ import MyService from "@/components/ui/sections/service/service";
 import Projects from "@/components/ui/sections/projects/projects";
 import Education from "@/components/ui/sections/educations/educations";
 import SkillsSection from "@/components/ui/sections/skills/skills";
-import CertificationsSection from "@/components/ui/sections/sertifications/certifications";
+import CertificationsSection from "@/components/ui/sections/certifications/certifications";
 import TestimonialSection from "@/components/ui/sections/testimonials/testimonials";
 import ArticlesSection from "@/components/ui/sections/articles/articles";
 import ModernFAQSection from "@/components/ui/sections/faqs/faqs";

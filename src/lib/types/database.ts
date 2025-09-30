@@ -1,62 +1,57 @@
-export interface Project {
-  id: string
-  title: string
-  description: string
-  image_url?: string
-  live_url?: string
-  github_url?: string
-  technologies: string[]
-  featured: boolean
-  created_at: string
-  updated_at: string
+export interface Company {
+  name: string;
+  logo: string;
 }
 
-export interface Skill {
-  id: string
-  name: string
-  category: 'frontend' | 'backend' | 'database' | 'tools' | 'other'
-  level: number // 1-5
-  icon?: string
-  created_at: string
-  updated_at: string
+export interface Project {
+  id: string;
+  image_url: string;
+  year: number;
+  technologies: string[];
+  live_url: string;
+  github_url: string;
+  projects_translations?: {
+    title: string;
+    description: string;
+  }[];
 }
+
+export interface TechItem {
+  id: number;
+  name: string;
+  key: string;
+  color: string;
+};
 
 export interface Experience {
-  id: string
-  company: string
-  position: string
-  description: string
-  start_date: string
-  end_date?: string
-  current: boolean
-  location: string
-  created_at: string
-  updated_at: string
+  id: string;
+  type: "experience" | "education";
+  start_date: string;
+  end_date: string;
+  company: string;
+  location: string;
+  skills: string[];
+  experience_translations?: {
+    id: number;
+    title: string;
+    language: string;
+    description: string;
+    location_type: string;
+    highlight?: string;
+  }[];
 }
 
-export interface Education {
-  id: string
-  institution: string
-  degree: string
-  field: string
-  start_date: string
-  end_date?: string
-  gpa?: number
-  description?: string
-  created_at: string
-  updated_at: string
-}
-
-export interface Certification {
-  id: string
-  name: string
-  issuer: string
-  issue_date: string
-  expiry_date?: string
-  credential_id?: string
-  credential_url?: string
-  created_at: string
-  updated_at: string
+export interface Certificate {
+  id: string;
+  issuer: string;
+  year: string;
+  preview: string;
+  skills: string[];
+  certification_translations?: {
+    title: string;
+    description: string;
+    skills: string[];
+  }[];
 }
 
 export interface Testimonial {
@@ -106,25 +101,15 @@ export interface Database {
         Insert: Omit<Project, 'id' | 'created_at' | 'updated_at'>
         Update: Partial<Omit<Project, 'id' | 'created_at' | 'updated_at'>>
       }
-      skills: {
-        Row: Skill
-        Insert: Omit<Skill, 'id' | 'created_at' | 'updated_at'>
-        Update: Partial<Omit<Skill, 'id' | 'created_at' | 'updated_at'>>
-      }
       experiences: {
         Row: Experience
         Insert: Omit<Experience, 'id' | 'created_at' | 'updated_at'>
         Update: Partial<Omit<Experience, 'id' | 'created_at' | 'updated_at'>>
       }
-      educations: {
-        Row: Education
-        Insert: Omit<Education, 'id' | 'created_at' | 'updated_at'>
-        Update: Partial<Omit<Education, 'id' | 'created_at' | 'updated_at'>>
-      }
       certifications: {
-        Row: Certification
-        Insert: Omit<Certification, 'id' | 'created_at' | 'updated_at'>
-        Update: Partial<Omit<Certification, 'id' | 'created_at' | 'updated_at'>>
+        Row: Certificate
+        Insert: Omit<Certificate, 'id' | 'created_at' | 'updated_at'>
+        Update: Partial<Omit<Certificate, 'id' | 'created_at' | 'updated_at'>>
       }
       testimonials: {
         Row: Testimonial

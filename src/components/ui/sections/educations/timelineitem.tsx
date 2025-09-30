@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Experience, ModernCard } from "./educationcard";
+import { ModernCard } from "./educationcard";
+import { Experience } from "@/lib/types/database";
 
 export default function TimelineItem({
   exp,

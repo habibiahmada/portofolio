@@ -1,7 +1,8 @@
+import { TechItem } from "@/lib/types/database";
 import { useEffect, useState, useRef } from "react";
 
 export default function useTechstacks() {
-  const [techStacks, setTechStacks] = useState<unknown[]>([]);
+  const [techStacks, setTechStacks] = useState<TechItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -18,7 +19,7 @@ export default function useTechstacks() {
         const json = await res.json();
         setTechStacks(json.data || []);
       } catch (err) {
-        setError(err);
+        setError(err as Error);
       } finally {
         setLoading(false);
         fetchedRef.current = true;

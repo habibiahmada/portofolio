@@ -14,10 +14,8 @@ if (!supabaseServiceRoleKey) {
   
 }
 
-// Client untuk client-side operations
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
-// Client untuk server-side operations (dengan service role key)
 export const supabaseAdmin = supabaseServiceRoleKey ? createClient(
   supabaseUrl,
   supabaseServiceRoleKey,

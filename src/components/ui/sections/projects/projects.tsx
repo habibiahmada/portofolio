@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { useTranslations } from "next-intl";
 import SectionHeader from "../SectionHeader";
+import { Project } from "@/lib/types/database";
 
 import useProjects from "@/hooks/useProjects";
 import ProjectFilters from "./projectfilter";
@@ -34,7 +35,7 @@ export default function Projects() {
   const filteredProjects = projects.filter((project) => {
     const translation = project.projects_translations?.[0];
     const matchesFilter =
-      activeFilter === "all" || project.category === activeFilter;
+      activeFilter === "all";
     const matchesSearch =
       translation?.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       translation?.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||

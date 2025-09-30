@@ -1,9 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-
-export interface Company {
-  name: string;
-  logo: string;
-}
+import { Company } from "@/lib/types/database";
 
 export default function useCompanies() {
   const [companies, setCompanies] = useState<Company[]>([]);

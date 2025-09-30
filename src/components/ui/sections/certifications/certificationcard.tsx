@@ -3,24 +3,12 @@
 import dynamic from "next/dynamic";
 import { ExternalLink } from "lucide-react";
 import { useEffect } from "react";
+import { Certificate } from "@/lib/types/database";
 
 const CertificatePreview = dynamic(
   () => import("./certificatepreview"),
   { ssr: false }
 );
-
-interface Certificate {
-  id: string;
-  issuer: string;
-  year: string;
-  preview: string;
-  skills: string[];
-  certification_translations?: {
-    title: string;
-    description: string;
-    skills: string[];
-  }[];
-}
 
 interface CertificationCardProps {
   certificate: Certificate;

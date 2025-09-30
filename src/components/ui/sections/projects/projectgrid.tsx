@@ -1,17 +1,6 @@
 import ProjectCard from "./projectcard";
+import type { Project } from "@/lib/types/database";
 
-interface Project {
-  id: string;
-  image_url: string;
-  year: number;
-  technologies: string[];
-  live_url: string;
-  github_url: string;
-  projects_translations?: Array<{
-    title: string;
-    description: string;
-  }>;
-}
 
 export default function ProjectGrid({ projects }: { projects: Project[] }) {
   return (

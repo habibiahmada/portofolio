@@ -1,20 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocale } from "next-intl";
+import { Certificate } from "@/lib/types/database";
 
-export interface CertificateTranslation {
-  title: string;
-  description: string;
-  skills: string[];
-}
-
-export interface Certificate {
-  id: string;
-  issuer: string;
-  year: string;
-  preview: string;
-  skills: string[];
-  certification_translations?: CertificateTranslation[];
-}
 
 export default function useCertificates() {
   const [certificates, setCertificates] = useState<Certificate[]>([]);

@@ -1,4 +1,4 @@
-import { Experience } from "./educationcard";
+import { Experience } from "@/lib/types/database";
 import TimelineItem from "./timelineitem";
 import { TimelineItemSkeleton } from "./timelineitemskeleton";
 

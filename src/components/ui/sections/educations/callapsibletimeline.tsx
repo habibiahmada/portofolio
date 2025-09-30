@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl";
 import { Button } from "../../button";
-import { Experience } from "./educationcard";
+import { Experience } from "@/lib/types/database";
 import { useState } from "react";
 import Timeline from "./timeline";
 import { ChevronDown } from "lucide-react";

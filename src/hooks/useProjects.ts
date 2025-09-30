@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useLocale } from "next-intl";
+import { Project } from "@/lib/types/database";
 
 export default function useProjects() {
-  const [projects, setProjects] = useState<unknown[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -15,7 +16,7 @@ export default function useProjects() {
         const json = await res.json();
         setProjects(json.data || []);
       } catch (err) {
-        setError(err);
+        setError(err as Error);
       } finally {
         setLoading(false);
       }

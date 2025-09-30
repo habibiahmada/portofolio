@@ -1,14 +1,9 @@
+import { TechItem } from "@/lib/types/database";
 import * as SiIcons from "react-icons/si";
 
 // Types
 type IconComponent = React.ComponentType<{ size?: number; color?: string }>;
 
-interface TechItem {
-  id: number;
-  name: string;
-  key: string;
-  color: string;
-}
 
 export default function SkillCard({ tech }: { tech: TechItem }) {
     const Icon = (SiIcons as Record<string, IconComponent>)[tech.key];

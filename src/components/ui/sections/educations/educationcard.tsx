@@ -1,24 +1,6 @@
+import { Experience } from "@/lib/types/database";
 import { Building2, Calendar, GraduationCap, MapPin, Star } from "lucide-react";
 
-export interface ExperienceTranslation {
-  id: number;
-  title: string;
-  language: string;
-  description: string;
-  location_type: string;
-  highlight?: string;
-}
-
-export interface Experience {
-  id: string;
-  type: "experience" | "education";
-  start_date: string;
-  end_date: string;
-  company: string;
-  location: string;
-  skills: string[];
-  experience_translations: ExperienceTranslation[];
-}
 
 export function ModernCard({ 
   exp, 
@@ -31,7 +13,7 @@ export function ModernCard({
   type: "experience" | "education";
   isHovered: boolean;
 }) {
-  const translation = exp.experience_translations[0];
+  const translation = exp.experience_translations?.[0];
   const period = `${exp.start_date} - ${exp.end_date}`;
 
   return (
@@ -43,11 +25,11 @@ export function ModernCard({
       } ${isHovered ? "shadow-xl shadow-blue-500/10 scale-1.01" : "shadow-xl"}`}
     >
       {/* Highlight Badge */}
-      {translation.highlight && (
+      {translation?.highlight && (
         <div className="absolute -top-2 sm:-top-3 left-4 sm:left-6 z-10">
           <div className="flex items-center gap-1 px-2 py-1 sm:px-4 sm:py-2 rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white text-xs font-bold shadow-lg">
             <Star className="w-2 h-2 sm:w-3 sm:h-3" />
-            <span className="text-xs">{translation.highlight}</span>
+            <span className="text-xs">{translation?.highlight}</span>
           </div>
         </div>
       )}
@@ -92,7 +74,7 @@ export function ModernCard({
                 isDark ? "text-white" : "text-slate-900"
               }`}
             >
-              {translation.title}
+              {translation?.title}
             </h3>
             <div className="flex items-center gap-2 mb-3 sm:mb-4">
               <span
@@ -110,7 +92,7 @@ export function ModernCard({
                   isDark ? "text-slate-300" : "text-slate-600"
                 }`}
               >
-                {exp.location} • {translation.location_type}
+                {exp.location} • {translation?.location_type}
               </span>
             </div>
           </div>
@@ -120,7 +102,7 @@ export function ModernCard({
               isDark ? "text-slate-300" : "text-slate-700"
             }`}
           >
-            {translation.description}
+            {translation?.description}
           </p>
 
           {/* Skills */}
