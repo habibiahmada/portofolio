@@ -73,56 +73,8 @@
     "service": {
       "titleLine1": "Layanan",
       "description1": "Solusi lengkap untuk kebutuhan pengembangan web modern dengan teknologi terdepan dan desain yang memukau",
-      "frontend": {
-        "title": "Pengembangan Frontend",
-        "description": "Pengembangan antarmuka web modern dengan React, Next.js, dan teknologi terdepan.",
-        "bullets": {
-          "spa": "Aplikasi Halaman Tunggal (SPA)",
-          "ssr": "Server-Side Rendering (SSR)",
-          "pwa": "Aplikasi Web Progresif (PWA)",
-          "mobile": "Desain Mobile-First"
-        }
-      },
-      "performance": {
-        "title": "Optimasi Performa",
-        "description": "Optimasi performa website untuk kecepatan loading maksimal dan SEO terbaik.",
-        "bullets": {
-          "vitals": "Optimasi Core Web Vitals",
-          "assets": "Optimasi Gambar & Aset",
-          "splitting": "Code Splitting & Lazy Loading",
-          "seo": "Audit Teknis SEO"
-        }
-      },
-      "responsive": {
-        "title": "Pengembangan Responsif",
-        "description": "Website responsif sempurna dan optimal di semua perangkat modern.",
-        "bullets": {
-          "mobile": "Pendekatan Mobile-First",
-          "compatibility": "Kompatibilitas Lintas Browser",
-          "touch": "Antarmuka Ramah Sentuh",
-          "performance": "Performa di Mobile"
-        }
-      },
-      "webapp": {
-        "title": "Pengembangan Aplikasi Web",
-        "description": "Pengembangan aplikasi web lengkap dan scalable dari konsep hingga production.",
-        "bullets": {
-          "fullstack": "Pengembangan Full-Stack",
-          "api": "Integrasi API",
-          "database": "Desain Database",
-          "cloud": "Deploy ke Cloud"
-        }
-      },
-      "consulting": {
-        "title": "Konsultasi Teknis",
-        "description": "Konsultasi teknis profesional untuk arsitektur, stack teknologi, dan best practices.",
-        "bullets": {
-          "planning": "Perencanaan Stack Teknologi",
-          "review": "Code Review & Audit",
-          "architecture": "Perencanaan Arsitektur",
-          "mentoring": "Pelatihan & Mentoring Tim"
-        }
-      }
+      "loading" :"Memuat Layanan...",
+      "error" : "Gagal memuat layanan"
     },
     "educations": {
       "titleLine1": "Pengalaman &",

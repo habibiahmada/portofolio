@@ -7,7 +7,6 @@ interface ServiceCardProps {
     color?: string;
   }
 
-
 export default function ServiceCard({ icon, title, description, bullets, color } : ServiceCardProps ) {
     return (
       <div className="group relative bg-white/70 dark:bg-slate-800/50 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 rounded-3xl p-8 hover:bg-white dark:hover:bg-slate-800/70 transition-all duration-500 hover:shadow-2xl hover:shadow-blue-500/10 hover:-translate-y-2">

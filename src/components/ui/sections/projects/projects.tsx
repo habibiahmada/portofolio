@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { useTranslations } from "next-intl";
 import SectionHeader from "../SectionHeader";
-import { Project } from "@/lib/types/database";
 
 import useProjects from "@/hooks/useProjects";
 import ProjectFilters from "./projectfilter";

@@ -55,9 +55,9 @@ export default function About() {
               <Image
                 src="/about-illustration.webp"
                 alt="Habibi Ahmad Aziz - Web Developer"
-                width={600}
-                height={600}
-                className="relative w-90 max-w-sm sm:max-w-md lg:max-w-lg mx-auto transition-all duration-700 group-hover:scale-[1.02] drop-shadow-[0_15px_25px_rgba(0,0,0,0.4)]"
+                width={400}
+                height={400}
+                className="relative w-80 max-w-sm sm:max-w-md lg:max-w-lg mx-auto transition-all duration-700 group-hover:scale-[1.02] drop-shadow-[0_15px_25px_rgba(0,0,0,0.4)]"
                 draggable={false}
               />
               {/* Decorative Elements */}

@@ -1,91 +1,70 @@
 import { useTheme } from "next-themes";
-import { useState, useEffect } from "react";
-import {
-  Code2,
-  Gauge,
-  Smartphone,
-  Globe,
-  Cog,
-} from "lucide-react";
+import { useState, useEffect, type ComponentType } from "react";
 import { useTranslations } from "next-intl";
+import useServices from "@/hooks/useServices";
 import ServiceCard from "./servicecard";
+import ServiceCardSkeleton from "./servicecardskeleton";
 import SectionHeader from "../SectionHeader";
+
+let cachedLucideIcons: Record<string, ComponentType<{ className?: string }>> | null = null;
+let loadLucideIconsPromise: Promise<Record<string, ComponentType<{ className?: string }>>> | null = null;
+
+function preloadLucideIcons() {
+  if (!loadLucideIconsPromise) {
+    loadLucideIconsPromise = import("lucide-react").then((icons) => {
+      cachedLucideIcons = icons as unknown as Record<string, ComponentType<{ className?: string }>>;
+      return cachedLucideIcons;
+    });
+  }
+  return loadLucideIconsPromise;
+}
+
+function DynamicIcon({ name }: { name: string }) {
+  const [Icon, setIcon] = useState<ComponentType<{ className?: string }> | null>(() => {
+    if (cachedLucideIcons) {
+      return cachedLucideIcons[name] || null;
+    }
+    return null;
+  });
+
+  useEffect(() => {
+    let isActive = true;
+    if (cachedLucideIcons) {
+      const existing = cachedLucideIcons[name] || null;
+      setIcon(existing);
+      return;
+    }
+    preloadLucideIcons().then((icons) => {
+      if (!isActive) return;
+      setIcon(() => icons[name] || null);
+    });
+    return () => {
+      isActive = false;
+    };
+  }, [name]);
+
+  if (!Icon) return null;
+  return <Icon className="w-8 h-8 text-white" />;
+}
 
 export default function MyService() {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const t = useTranslations("service");
+  const { services, loading, error } = useServices();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  
+  useEffect(() => {
+    preloadLucideIcons();
+  }, []);
+  
   if (!mounted) return null;
   const isDark = resolvedTheme === "dark";
-
-  const services = [
-    {
-      icon: <Code2 className="w-8 h-8 text-white" />,
-      title: t("frontend.title"),
-      description: t("frontend.description"),
-      bullets: [
-        t("frontend.bullets.spa"),
-        t("frontend.bullets.ssr"),
-        t("frontend.bullets.pwa"),
-        t("frontend.bullets.mobile"),
-      ],
-      color: "from-blue-500 to-blue-600 dark:from-blue-400 dark:to-blue-500"
-    },
-    {
-      icon: <Gauge className="w-8 h-8 text-white" />,
-      title: t("performance.title"),
-      description: t("performance.description"),
-      bullets: [
-        t("performance.bullets.vitals"),
-        t("performance.bullets.assets"),
-        t("performance.bullets.splitting"),
-        t("performance.bullets.seo"),
-      ],
-      color: "from-blue-500 to-slate-500 dark:from-blue-400 dark:to-slate-400"
-    },
-    {
-      icon: <Smartphone className="w-8 h-8 text-white" />,
-      title: t("responsive.title"),
-      description: t("responsive.description"),
-      bullets: [
-        t("responsive.bullets.mobile"),
-        t("responsive.bullets.compatibility"),
-        t("responsive.bullets.touch"),
-        t("responsive.bullets.performance"),
-      ],
-      color: "from-slate-600 to-blue-500 dark:from-slate-500 dark:to-blue-400"
-    },
-    {
-      icon: <Globe className="w-8 h-8 text-white" />,
-      title: t("webapp.title"),
-      description: t("webapp.description"),
-      bullets: [
-        t("webapp.bullets.fullstack"),
-        t("webapp.bullets.api"),
-        t("webapp.bullets.database"),
-        t("webapp.bullets.cloud"),
-      ],
-      color: "from-blue-600 to-slate-600 dark:from-blue-500 dark:to-slate-500"
-    },
-    {
-      icon: <Cog className="w-8 h-8 text-white" />,
-      title: t("consulting.title"),
-      description: t("consulting.description"),
-      bullets: [
-        t("consulting.bullets.planning"),
-        t("consulting.bullets.review"),
-        t("consulting.bullets.architecture"),
-        t("consulting.bullets.mentoring"),
-      ],
-      color: "from-slate-500 to-blue-600 dark:from-slate-400 dark:to-blue-500"
-    }
-  ];
-
+  
   return (
     <section
       id="services"
@@ -118,16 +97,41 @@ export default function MyService() {
 
         {/* Services Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service, index) => (
-            <ServiceCard
-              key={index}
-              icon={service.icon}
-              title={service.title}
-              description={service.description}
-              bullets={service.bullets}
-              color={service.color}
-            />
-          ))}
+          {loading && (
+            Array.from({ length: 3 }).map((_, i) => (
+              <ServiceCardSkeleton key={`svc-skel-${i}`} />
+            ))
+          )}
+          {error && (
+            <div className="col-span-full text-center text-red-600 dark:text-red-400">
+              {t("error", { default: "Failed to load services" as unknown as string })}
+            </div>
+          )}
+          {!loading && !error && services.map((service) => {
+            const tr = Array.isArray(service.service_translations)
+              ? service.service_translations[0]
+              : service.service_translations as unknown as {
+                  title?: string;
+                  description?: string;
+                  bullets?: string[];
+                  bullet?: string[];
+                } | undefined;
+
+            const title = tr?.title || "";
+            const description = tr?.description || "";
+            const bullets = (tr?.bullets || tr?.bullet || []) as string[];
+
+            return (
+              <ServiceCard
+                key={service.id}
+                icon={<DynamicIcon name={service.icon} />}
+                title={title}
+                description={description}
+                bullets={bullets}
+                color={service.color}
+              />
+            );
+          })}
         </div>
       </div>
     </section>

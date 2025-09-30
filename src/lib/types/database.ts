@@ -34,7 +34,6 @@ export interface Experience {
   experience_translations?: {
     id: number;
     title: string;
-    language: string;
     description: string;
     location_type: string;
     highlight?: string;
@@ -52,6 +51,19 @@ export interface Certificate {
     description: string;
     skills: string[];
   }[];
+}
+
+export interface Services {
+  id: string;
+  key: string;
+  icon: string;
+  color: string;
+  order: number;
+  service_translations?:{
+    title: string;
+    description: string;
+    bullet: string[];
+  }
 }
 
 export interface Testimonial {

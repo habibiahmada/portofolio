@@ -69,61 +69,13 @@
       "description1": "I am a Web Developer and a student at SMKN 1 Karawang with a strong passion for building modern digital solutions.",
       "description2": "Skilled in various programming languages and popular frameworks, with experience in both frontend and backend projects.",
       "description3": "I am always motivated to learn new technologies and deliver impactful solutions.",
-      "cta": "Let’s Collaborate"
+      "cta": "Let's Collaborate"
     },
     "service": {
       "titleLine1": "Services",
       "description1": "A complete solution for modern web development needs with cutting-edge technology and stunning designs.",
-      "frontend": {
-        "title": "Frontend Development",
-        "description": "Modern web interface development with React, Next.js, and cutting-edge technologies.",
-        "bullets": {
-          "spa": "Single Page Applications (SPA)",
-          "ssr": "Server-Side Rendering (SSR)",
-          "pwa": "Progressive Web Apps (PWA)",
-          "mobile": "Mobile-First Design"
-        }
-      },
-      "performance": {
-        "title": "Performance Optimization",
-        "description": "Website performance optimization for maximum loading speed and best SEO.",
-        "bullets": {
-          "vitals": "Core Web Vitals Optimization",
-          "assets": "Image & Asset Optimization",
-          "splitting": "Code Splitting & Lazy Loading",
-          "seo": "SEO Technical Audit"
-        }
-      },
-      "responsive": {
-        "title": "Responsive Development",
-        "description": "Perfect responsive websites optimized for all modern devices.",
-        "bullets": {
-          "mobile": "Mobile-First Approach",
-          "compatibility": "Cross-Browser Compatibility",
-          "touch": "Touch-Friendly Interfaces",
-          "performance": "Performance on Mobile"
-        }
-      },
-      "webapp": {
-        "title": "Web App Development",
-        "description": "Complete and scalable web application development from concept to production.",
-        "bullets": {
-          "fullstack": "Full-Stack Development",
-          "api": "API Integration",
-          "database": "Database Design",
-          "cloud": "Cloud Deployment"
-        }
-      },
-      "consulting": {
-        "title": "Technical Consulting",
-        "description": "Professional technical consulting for architecture, technology stack, and best practices.",
-        "bullets": {
-          "planning": "Technology Stack Planning",
-          "review": "Code Review & Audit",
-          "architecture": "Architecture Planning",
-          "mentoring": "Team Training & Mentoring"
-        }
-      }
+      "loading": "Loading services...",
+      "error": "Failed to load services"
     },
     "educations": {
       "titleLine1": "Experiences &",
