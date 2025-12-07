@@ -1,6 +1,6 @@
 {
   "Header": {
-      "brand": "Habibi Ahmad",
+      "brand": "habibiahmada.dev",
       "nav": {
         "home": "Beranda",
         "about": "Tentang",
@@ -52,7 +52,8 @@
         "description": "Rating kepuasan tinggi"
       },
       "trustedBy": "Dipercaya oleh perusahaan terdepan",
-      "trustedDescription": "Bergabung dengan klien yang telah merasakan hasil terbaik"
+      "trustedDescription": "Bergabung dengan klien yang telah merasakan hasil terbaik",
+      "loadError": "Gagal memuat statistik"
     },
     "companies": {
       "techcorp": "TechCorp",
@@ -93,7 +94,8 @@
      },
     "skills":{
       "titleLine1" : "Alat dan Teknologi",
-      "description1": "Teknologi dan alat yang saya gunakan untuk membangun aplikasi web modern dan skalabel"
+      "description1": "Teknologi dan alat yang saya gunakan untuk membangun aplikasi web modern dan skalabel",
+      "loadError" : "Gagal memuat keahlian"
    },
    "certifications" : {
     "titleLine1" : "Sertifikasi",
@@ -112,7 +114,9 @@
    "articles":{
     "titleLine1": "Artikel & Media",
     "description1": "Artikel terbaru, tutorial mendalam, dan insight tentang pengembangan web modern dari perspektif praktisi industri",
-    "button" : "Jelajahi semua artikel"
+    "button" : "Jelajahi semua artikel",
+    "loading" :"Memuat artikel...",
+    "error" :"Gagal memuat artikel"
    },
    "faqs": {
     "titleLine1" : "Pertanyaan yang Sering Diajukan",
@@ -165,7 +169,7 @@
      "contactInfo": {
        "title": "Informasi Kontak",
        "location": "Lokasi",
-       "locationValue": "Karawang, Indonesia",
+       "locationValue": "Jawa Barat, Indonesia",
        "whatsapp": "WhatsApp",
        "whatsappReveal": "Klik untuk melihat nomor",
        "email": "Email",
@@ -191,5 +195,26 @@
        "success": "Pesan berhasil dikirim!",
        "error": "Terjadi kesalahan saat mengirim pesan. Silakan coba lagi."
      }
-   }
+   },
+    "Footer": {
+      "brandName": "Habibi Ahmad Aziz",
+      "brandDesc": "Bersemangat menciptakan pengalaman digital yang berdampak. Ahli dalam membangun sistem yang scalable dan antarmuka yang berpusat pada pengguna dengan fokus kuat pada performa dan maintainability jangka panjang.",
+      "quickLinks": "Tautan Cepat",
+      "services": "Layanan",
+      "copyright": "© 2024 Habibi Ahmad Aziz. Semua hak cipta dilindungi.",
+      "links": {
+        "about": "Tentang Saya",
+        "services": "Layanan",
+        "projects": "Proyek",
+        "experience": "Pengalaman",
+        "contact": "Kontak"
+      },
+      "serviceList": {
+        "frontend": "Pengembangan Frontend",
+        "uiux": "Desain UI/UX",
+        "performance": "Optimasi Performa",
+        "consulting": "Konsultasi Teknis",
+        "webapp": "Pengembangan Aplikasi Web"
+      }
+    }  
 }

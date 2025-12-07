@@ -9,7 +9,7 @@ import Script from 'next/script';
 
 type Props = {
   children: React.ReactNode;
-  params: Promise<{ locale: string }>; 
+  params: Promise<{ locale: string }>;
 };
 
 export const metadata = {
@@ -34,7 +34,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params;
 
   // Validasi locale
-  if (!routing.locales.includes(locale as Locale)){
+  if (!routing.locales.includes(locale as Locale)) {
     notFound();
   }
 
@@ -61,7 +61,6 @@ export default async function LocaleLayout({ children, params }: Props) {
             attribute="class"
             defaultTheme="system"
             enableSystem
-            disableTransitionOnChange
           >
             {children}
             <Analytics />

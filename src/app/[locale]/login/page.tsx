@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from '@/i18n/navigation'
+import { useLocale } from 'next-intl'
 import { useAuth } from '@/contexts/AuthContext'
 import { Github, Chrome } from 'lucide-react'
 import { useTheme } from 'next-themes'
@@ -18,19 +19,20 @@ export default function LoginPage() {
   const [error, setError] = useState('')
   const [errorDescription, setErrorDescription] = useState('')
   const [mounted, setMounted] = useState(false)
-  
+
   const { signIn, signInWithGoogle, signInWithGitHub, user, isAuthorized } = useAuth()
   const router = useRouter()
+  const locale = useLocale()
   const { resolvedTheme } = useTheme()
 
   useEffect(() => {
     setMounted(true)
-    
+
     // Check for URL error parameters
     const urlParams = new URLSearchParams(window.location.search)
     const urlError = urlParams.get('error')
     const urlDescription = urlParams.get('description')
-    
+
     if (urlError) {
       setError(urlError)
       if (urlDescription) {
@@ -69,7 +71,7 @@ export default function LoginPage() {
     setError('')
 
     try {
-      await signInWithGoogle()
+      await signInWithGoogle(locale)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Google login failed')
       setLoading(false)
@@ -81,7 +83,7 @@ export default function LoginPage() {
     setError('')
 
     try {
-      await signInWithGitHub()
+      await signInWithGitHub(locale)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'GitHub login failed')
       setLoading(false)
@@ -90,9 +92,8 @@ export default function LoginPage() {
 
 
   return (
-    <section className={`min-h-screen relative flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ${
-      isDark ? 'bg-slate-950' : 'bg-gradient-to-br from-blue-50 to-indigo-100'
-    }`}>
+    <section className={`min-h-screen relative flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ${isDark ? 'bg-slate-950' : 'bg-gradient-to-br from-blue-50 to-indigo-100'
+      }`}>
 
       <div className="absolute top-10 right-10 w-32 h-32 border border-blue-300 dark:border-blue-700 rounded-lg rotate-12 opacity-30 pointer-events-none"></div>
       <div className="absolute bottom-20 left-10 w-24 h-24 border border-cyan-300 dark:border-cyan-700 rounded-full opacity-30 pointer-events-none"></div>
@@ -103,16 +104,14 @@ export default function LoginPage() {
               from-cyan-500 via-blue-500 to-cyan-500 bg-clip-text text-transparent mb-5">
             Portfolio Access
           </h2>
-          <p className={`mt-2 text-sm ${
-            isDark ? 'text-slate-400' : 'text-gray-600'
-          }`}>
+          <p className={`mt-2 text-sm ${isDark ? 'text-slate-400' : 'text-gray-600'
+            }`}>
             This is a private portfolio. Access is restricted.
           </p>
         </div>
 
-        <div className={`mt-8 rounded-xl shadow-2xl ${
-          isDark ? 'bg-slate-900 border border-slate-700' : 'bg-white'
-        }`}>
+        <div className={`mt-8 rounded-xl shadow-2xl ${isDark ? 'bg-slate-900 border border-slate-700' : 'bg-white'
+          }`}>
           <div className="px-8 py-10">
             {error && (
               <div className="mb-6 p-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
@@ -135,9 +134,8 @@ export default function LoginPage() {
             {/* Email/Password Form */}
             <form onSubmit={handleEmailLogin} className="space-y-6">
               <div>
-                <Label htmlFor="email" className={`block text-sm font-medium ${
-                  isDark ? 'text-slate-300' : 'text-gray-700'
-                }`}>
+                <Label htmlFor="email" className={`block text-sm font-medium ${isDark ? 'text-slate-300' : 'text-gray-700'
+                  }`}>
                   Email Address
                 </Label>
                 <div className="mt-1 relative">
@@ -149,20 +147,18 @@ export default function LoginPage() {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className={`block w-full pl-10 pr-3 py-3 px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                      isDark 
-                        ? 'bg-slate-800 border-slate-600 text-white placeholder-slate-400' 
+                    className={`block w-full pl-10 pr-3 py-3 px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${isDark
+                        ? 'bg-slate-800 border-slate-600 text-white placeholder-slate-400'
                         : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
-                    }`}
+                      }`}
                     placeholder="Enter your email"
                   />
                 </div>
               </div>
 
               <div>
-                <Label htmlFor="password" className={`block text-sm font-medium ${
-                  isDark ? 'text-slate-300' : 'text-gray-700'
-                }`}>
+                <Label htmlFor="password" className={`block text-sm font-medium ${isDark ? 'text-slate-300' : 'text-gray-700'
+                  }`}>
                   Password
                 </Label>
                 <div className="mt-1 relative">
@@ -174,11 +170,10 @@ export default function LoginPage() {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className={`block w-full pl-10 pr-12 py-3 px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                      isDark 
-                        ? 'bg-slate-800 border-slate-600 text-white placeholder-slate-400' 
+                    className={`block w-full pl-10 pr-12 py-3 px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${isDark
+                        ? 'bg-slate-800 border-slate-600 text-white placeholder-slate-400'
                         : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
-                    }`}
+                      }`}
                     placeholder="Enter your password"
                   />
                 </div>
@@ -197,14 +192,12 @@ export default function LoginPage() {
             <div className="mt-6">
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
-                  <div className={`w-full border-t ${
-                    isDark ? 'border-slate-600' : 'border-gray-300'
-                  }`} />
+                  <div className={`w-full border-t ${isDark ? 'border-slate-600' : 'border-gray-300'
+                    }`} />
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className={`px-2 ${
-                    isDark ? 'bg-slate-900 text-slate-400' : 'bg-white text-gray-500'
-                  }`}>
+                  <span className={`px-2 ${isDark ? 'bg-slate-900 text-slate-400' : 'bg-white text-gray-500'
+                    }`}>
                     Or continue with
                   </span>
                 </div>
@@ -216,11 +209,10 @@ export default function LoginPage() {
               <Button
                 onClick={handleGoogleLogin}
                 disabled={loading}
-                className={`w-full inline-flex justify-center py-3 px-4 border rounded-lg shadow-sm text-sm font-medium transition-colors ${
-                  isDark
+                className={`w-full inline-flex justify-center py-3 px-4 border rounded-lg shadow-sm text-sm font-medium transition-colors ${isDark
                     ? 'bg-slate-800 border-slate-600 text-white hover:bg-slate-700'
                     : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
-                } disabled:opacity-50 disabled:cursor-not-allowed`}
+                  } disabled:opacity-50 disabled:cursor-not-allowed`}
               >
                 <Chrome className="h-5 w-5 mr-2" />
                 Google
@@ -229,11 +221,10 @@ export default function LoginPage() {
               <Button
                 onClick={handleGitHubLogin}
                 disabled={loading}
-                className={`w-full inline-flex justify-center py-3 px-4 border rounded-lg shadow-sm text-sm font-medium transition-colors ${
-                  isDark
+                className={`w-full inline-flex justify-center py-3 px-4 border rounded-lg shadow-sm text-sm font-medium transition-colors ${isDark
                     ? 'bg-slate-800 border-slate-600 text-white hover:bg-slate-700'
                     : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
-                } disabled:opacity-50 disabled:cursor-not-allowed`}
+                  } disabled:opacity-50 disabled:cursor-not-allowed`}
               >
                 <Github className="h-5 w-5 mr-2" />
                 GitHub
@@ -244,10 +235,9 @@ export default function LoginPage() {
             {/* Back to Home */}
             <div className="mt-6 text-center">
               <Link
-              href={"/"}
-                className={`text-sm ${
-                  isDark ? 'text-slate-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'
-                } transition-colors`}
+                href={`/${locale}`}
+                className={`text-sm ${isDark ? 'text-slate-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'
+                  } transition-colors`}
               >
                 ← Back to Portfolio
               </Link>
@@ -255,7 +245,7 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
-      <div 
+      <div
         className="absolute inset-0 opacity-[1] pointer-events-none bg-[size:40px_40px]
           bg-[linear-gradient(rgba(148,163,184,0.3)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.3)_1px,transparent_1px)]
           dark:bg-[linear-gradient(rgba(59,130,246,0.15)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.15)_1px,transparent_1px)]

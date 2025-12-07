@@ -1,138 +1,111 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { ChevronLeft, ChevronRight, Star, Quote,  Briefcase, Zap } from 'lucide-react';
-import { Button } from '../../button';
-import { Card } from '../../card';
-import { useTranslations } from 'next-intl';
-import Image from 'next/image';
-import SectionHeader from "../SectionHeader";
-import { useTheme } from 'next-themes';
+"use client";
 
-const testimonials = [
-  {
-    id: 1,
-    name: "John Doe",
-    role: "CEO & Founder",
-    company: "TechStartup Inc.",
-    avatar: "https://picsum.photos/seed/john-doe/128/128",
-    content: "Habibi sangat profesional dan menghasilkan kualitas kerja yang luar biasa. Website yang dia buat untuk startup kami meningkatkan conversion rate hingga 40%. Komunikasi yang sangat baik dan deadline selalu tepat waktu!",
-    rating: 5,
-    metrics: { increase: "40%", type: "Conversion Rate" },
-    industry: "Technology"
-  },
-  {
-    id: 2,
-    name: "Sarah Wilson",
-    role: "Marketing Director",
-    company: "E-commerce Co",
-    avatar: "https://picsum.photos/seed/sarah-wilson/128/128",
-    content: "Kerjasama dengan Habibi sangat menyenangkan. Dia memahami kebutuhan bisnis dengan baik dan selalu memberikan solusi terbaik. Platform e-commerce kami sekarang jauh lebih user-friendly dan penjualan meningkat drastis.",
-    rating: 5,
-    metrics: { increase: "85%", type: "User Engagement" },
-    industry: "E-commerce"
-  },
-  {
-    id: 3,
-    name: "Michael Chen",
-    role: "Product Manager",
-    company: "FinTech Solutions",
-    avatar: "https://picsum.photos/seed/michael-chen/128/128",
-    content: "Habibi memiliki skill teknis yang excellent dan pemahaman UX yang mendalam. Dashboard analytics yang dia buat sangat intuitif dan membantu tim kami membuat keputusan data-driven dengan lebih efektif.",
-    rating: 5,
-    metrics: { increase: "60%", type: "Decision Speed" },
-    industry: "Financial Technology"
-  },
-  {
-    id: 4,
-    name: "Lisa Rodriguez",
-    role: "Creative Director", 
-    company: "Digital Agency",
-    avatar: "https://picsum.photos/seed/lisa-rodriguez/128/128",
-    content: "Desain yang dibuat Habibi selalu beyond expectations. Dia tidak hanya fokus pada estetika, tapi juga functionality dan user experience. Portfolio website kami sekarang menjadi conversation starter di setiap client meeting.",
-    rating: 5,
-    metrics: { increase: "120%", type: "Client Inquiries" },
-    industry: "Creative Services"
-  }
-];
+import React, { useState, useEffect, useCallback } from "react";
+import { ChevronLeft, ChevronRight, Star, Quote, Briefcase, Zap } from "lucide-react";
+import { Button } from "../../button";
+import { Card } from "../../card";
+import { useTranslations } from "next-intl";
+import Image from "next/image";
+import SectionHeader from "../SectionHeader";
+import { useTheme } from "next-themes";
+import useTestimonials from "@/hooks/useTestimonials";
+import TestimonialCardSkeleton from "./testimonialcardskeleton";
 
 const TestimonialSection = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
   const t = useTranslations("testimonials");
-
   const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
   const [mounted, setMounted] = useState(false);
 
-  const nextTestimonial = useCallback(() => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-    setTimeout(() => {
-      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-      setIsAnimating(false);
-    }, 300);
-  }, [isAnimating]);
-
+  const { testimonials, loading, error } = useTestimonials();
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+
+  const nextTestimonial = useCallback(() => {
+    if (isAnimating || !testimonials?.length) return;
+    setIsAnimating(true);
+    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+    setTimeout(() => setIsAnimating(false), 300);
+  }, [isAnimating, testimonials?.length]);
   
-  useEffect(() => {
-    const interval = setInterval(() => {
-      nextTestimonial();
-    }, 8000);
-    
-    return () => clearInterval(interval);
-  }, [currentIndex, nextTestimonial]);
-  
-  
-  if (!mounted) return null;
-  
-  const isDark = resolvedTheme === "dark";
 
   const prevTestimonial = () => {
-    if (isAnimating) return;
+    if (isAnimating || !testimonials?.length) return;
     setIsAnimating(true);
-    setTimeout(() => {
-      setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-      setIsAnimating(false);
-    }, 300);
+    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+    setTimeout(() => setIsAnimating(false), 300);
   };
-
+  
   const goToSlide = (index: number) => {
-    if (index === currentIndex || isAnimating) return;
+    if (isAnimating || index === currentIndex || !testimonials?.length) return;
     setIsAnimating(true);
-    setTimeout(() => {
-      setCurrentIndex(index);
-      setIsAnimating(false);
-    }, 300);
+    setCurrentIndex(index);
+    setTimeout(() => setIsAnimating(false), 300);
   };
+  
+
+  // -------------------------
+  // Auto-play interval
+  // -------------------------
+  useEffect(() => {
+    if (!testimonials || testimonials.length === 0) return;
+    const interval = setInterval(() => nextTestimonial(), 8000);
+    return () => clearInterval(interval);
+  }, [nextTestimonial, testimonials?.length]);
+
+  // -------------------------
+  // Early return for loading or error
+  // -------------------------
+  if (!mounted) return null;
+
+  if (loading || !testimonials || testimonials.length === 0 || error) {
+    return (
+      <section
+        id="testimonials"
+        className="relative min-h-screen overflow-hidden py-28 sm:py-36 lg:py-40"
+      >
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="mb-20">
+            <SectionHeader title={t("titleLine1")} description={t("description1")} align="center" />
+          </div>
+          <TestimonialCardSkeleton />
+        </div>
+      </section>
+    );
+  }
 
   const currentTestimonial = testimonials[currentIndex];
 
+  if (!currentTestimonial) return null;
+
+  // -------------------------
+  // Render component
+  // -------------------------
   return (
     <section
-        id="testimonials"
-        className={`
-            relative min-h-screen overflow-hidden
-            py-28 sm:py-36 lg:py-40
-            ${
-              isDark ? "dark:bg-slate-950": "bg-slate-50" 
-            }
-        `}
-        >
+      id="testimonials"
+      className={`relative min-h-screen overflow-hidden py-28 sm:py-36 lg:py-40 ${
+        isDark ? "dark:bg-slate-950" : "bg-slate-50"
+      }`}
+    >
       <div className="container mx-auto px-4 relative z-10">
-        {/* Header Section */}
+        {/* Header */}
         <div className="mb-20">
-          <SectionHeader
-            title={t("titleLine1")}
-            description={t("description1")}
-            align="center"
-          />
+          <SectionHeader title={t("titleLine1")} description={t("description1")} align="center" />
         </div>
 
-        {/* Main Testimonial Card */}
+        {/* Testimonial Card */}
         <div className="max-w-6xl mx-auto">
-          <Card className={`relative p-8 lg:p-12 backdrop-blur-xl bg-white/80 dark:bg-slate-900/80 border-slate-200/50 dark:border-slate-700/50 transition-all duration-500 ${isAnimating ? 'opacity-50 scale-95' : 'opacity-100 scale-100'}`}>
+          <Card
+            className={`relative p-8 lg:p-12 backdrop-blur-xl bg-white/80 dark:bg-slate-900/80 border-slate-200/50 dark:border-slate-700/50 ${
+              isAnimating ? "opacity-50 scale-95" : "opacity-100 scale-100"
+            }`}
+          >
             {/* Quote Icon */}
             <div className="absolute -top-4 left-8">
               <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-slate-600 rounded-full flex items-center justify-center">
@@ -141,16 +114,16 @@ const TestimonialSection = () => {
             </div>
 
             <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
-              {/* Testimonial Content */}
+              {/* Content */}
               <div className="lg:col-span-2">
                 <div className="flex items-center gap-1 mb-6">
-                  {[...Array(currentTestimonial.rating)].map((_, i) => (
+                  {Array.from({ length: Math.max(0, currentTestimonial.rating ?? 0) }).map((_, i) => (
                     <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
                   ))}
                 </div>
-                
+
                 <blockquote className="text-xl lg:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed mb-8 font-medium">
-                &quot;{currentTestimonial.content}&quot;
+                  &quot;{currentTestimonial.testimonial_translations?.[0]?.content}&quot;
                 </blockquote>
               </div>
 
@@ -171,16 +144,12 @@ const TestimonialSection = () => {
                       </div>
                     </div>
                     <div>
-                      <h4 className="font-bold text-slate-900 dark:text-slate-100 text-lg">
-                        {currentTestimonial.name}
-                      </h4>
+                      <h4 className="font-bold text-slate-900 dark:text-slate-100 text-lg">{currentTestimonial.name}</h4>
                       <p className="text-slate-600 dark:text-slate-400 flex items-center gap-1">
                         <Briefcase className="w-3 h-3" />
                         {currentTestimonial.role}
                       </p>
-                      <p className="text-blue-600 dark:text-blue-400 font-semibold text-sm">
-                        {currentTestimonial.company}
-                      </p>
+                      <p className="text-blue-600 dark:text-blue-400 font-semibold text-sm">{currentTestimonial.company}</p>
                     </div>
                   </div>
 
@@ -210,16 +179,16 @@ const TestimonialSection = () => {
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 cursor-pointer ${
+                className={`w-3 h-3 rounded-full cursor-pointer ${
                   index === currentIndex
-                    ? 'bg-blue-600 dark:bg-blue-400 w-8'
-                    : 'bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500'
+                    ? "bg-blue-600 dark:bg-blue-400 w-8"
+                    : "bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500"
                 }`}
               />
             ))}
           </div>
 
-          <Button 
+          <Button
             onClick={nextTestimonial}
             variant="ghost"
             size="icon"

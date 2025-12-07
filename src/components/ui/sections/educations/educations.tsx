@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { Building2, GraduationCap } from "lucide-react";
@@ -36,20 +38,20 @@ export default function Education() {
   return (
     <section
       id="experience"
-      className={`relative min-h-screen pt-28 sm:pt-36 lg:pt-40 pb-10 overflow-hidden transition-colors duration-300 ${
+      className={`relative min-h-screen pt-28 sm:pt-36 lg:pt-40 pb-10 overflow-hidden ${
         isDark ? "bg-slate-950" : "bg-gradient-to-t from-white to-slate-50"
       }`}
     >
       {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div
-          className={`absolute top-50 -right-20 sm:top-70 sm:-right-40 w-64 h-64 sm:w-96 sm:h-96 rounded-full blur-3xl transition-colors duration-500 ${
+          className={`absolute top-50 -right-20 sm:top-70 sm:-right-40 w-64 h-64 sm:w-96 sm:h-96 rounded-full blur-3xl ${
             isDark ? "bg-blue-600/15" : "bg-blue-400/15"
           }`}
           style={{ animation: "float 8s ease-in-out infinite" }}
         />
         <div
-          className={`absolute -bottom-20 -left-20 sm:-bottom-40 sm:-left-40 w-48 h-48 sm:w-80 sm:h-80 rounded-full blur-3xl transition-colors duration-500 ${
+          className={`absolute -bottom-20 -left-20 sm:-bottom-40 sm:-left-40 w-48 h-48 sm:w-80 sm:h-80 rounded-full blur-3xl ${
             isDark ? "bg-slate-600/15" : "bg-slate-400/15"
           }`}
           style={{ 
@@ -58,7 +60,7 @@ export default function Education() {
           }}
         />
         <div
-          className={`absolute top-1/2 left-1/2 w-32 h-32 sm:w-64 sm:h-64 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 transition-colors duration-500 ${
+          className={`absolute top-1/2 left-1/2 w-32 h-32 sm:w-64 sm:h-64 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 ${
             isDark ? "bg-cyan-600/10" : "bg-cyan-400/10"
           }`}
           style={{ 
@@ -70,7 +72,7 @@ export default function Education() {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <div className="mb-12 sm:mb-16 transition-all duration-1000">
+        <div className="mb-12 sm:mb-16">
           <SectionHeader
             title={`${t("titleLine1")} ${t("titleLine2")}`}
             description={t("description1")}
@@ -83,7 +85,7 @@ export default function Education() {
           {/* Tab Buttons */}
           <div className="flex justify-center mb-8 sm:mb-12">
             <div
-              className={`flex gap-3 w-full max-w-md rounded-2xl p-1.5 transition-all duration-300 ${
+              className={`flex gap-3 w-full max-w-md rounded-2xl p-1.5 ${
                 isDark
                   ? "bg-slate-800/70 backdrop-blur-md border border-slate-700/60"
                   : "bg-white/90 backdrop-blur-md border border-slate-200 shadow-sm"

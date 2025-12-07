@@ -23,7 +23,7 @@ export default function ProjectFilters({ activeFilter, setActiveFilter }: Projec
           <Button
             key={filter.id}
             onClick={() => setActiveFilter(filter.id)}
-            className={`inline-flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all duration-200 ${
+            className={`inline-flex items-center gap-2 px-6 py-3 rounded-full font-medium ${
               activeFilter === filter.id
                 ? "bg-blue-600 text-white shadow-lg shadow-blue-600/25"
                 : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-700 hover:border-blue-200 dark:hover:border-blue-800"

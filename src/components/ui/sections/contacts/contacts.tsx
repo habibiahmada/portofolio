@@ -8,7 +8,6 @@ import {
   Clock, 
   Linkedin,
   Github,
-  Twitter,
   Instagram,
   MessageSquare
 } from 'lucide-react';
@@ -41,7 +40,6 @@ interface SocialLink {
 const SOCIAL_LINKS: SocialLink[] = [
   { icon: Linkedin, href: 'https://www.linkedin.com/in/habibi-ahmad-aziz', color: 'hover:bg-blue-600' },
   { icon: Github, href: 'https://www.github.com/habibiahmada', color: 'hover:bg-slate-700' },
-  { icon: Twitter, href: '#', color: 'hover:bg-blue-400' },
   { icon: Instagram, href: 'https://www.instagram.com/habibiahmad.a/', color: 'hover:bg-pink-600' }
 ];
 
@@ -50,7 +48,7 @@ const ContactInfoItem: React.FC<{ info: ContactInfo }> = ({ info }) => {
   const IconComponent = info.icon;
   return (
     <div className="flex items-start space-x-4 group">
-      <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${info.color} group-hover:scale-110 transition-transform duration-200`}>
+      <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${info.color} group-hover:scale-110`}>
         <IconComponent className="w-5 h-5" />
       </div>
       <div className="flex-1">
@@ -58,7 +56,7 @@ const ContactInfoItem: React.FC<{ info: ContactInfo }> = ({ info }) => {
                         {info.action ? (
                           <button
                             onClick={info.action}
-                            className="text-blue-400 hover:text-blue-300 transition-colors duration-200 text-left cursor-pointer"
+                            className="text-blue-400 hover:text-blue-300 text-left cursor-pointer"
                             aria-label={`Reveal ${info.title}`}
                           >
                             {info.content}
@@ -87,7 +85,6 @@ const SocialLinkItem: React.FC<{ social: SocialLink; index: number }> = ({ socia
         flex items-center justify-center 
         rounded-xl 
         border 
-        transition-all duration-300 
         hover:scale-110 hover:text-white
         ${social.color} 
         bg-slate-100 border-slate-300 text-slate-600 
@@ -172,73 +169,76 @@ const ContactSection: React.FC = () => {
   const isDark = resolvedTheme === "dark";
 
   return (
-    <section 
-    id="contact" 
-    className={`
-      relative min-h-screen overflow-hidden
-      py-28 sm:py-36 lg:py-40
-      
-      ${
-        isDark ? "bg-slate-950" : "bg-gray-50"
-      }
-    `}>
-      {/* Background Effects */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-slate-500/10 rounded-full blur-3xl"></div>
+<section 
+  id="contact" 
+  className={`
+    relative overflow-hidden
+    py-16 sm:py-24 lg:py-32
+    ${isDark ? "bg-slate-950" : "bg-gray-50"}
+  `}
+>
+  {/* Background Effects */}
+  <div className="absolute inset-0">
+    <div className="absolute top-1/4 left-1/4 w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
+    <div className="absolute bottom-1/4 right-1/4 w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 bg-slate-500/10 rounded-full blur-3xl"></div>
+  </div>
+
+  <div className="container mx-auto px-4 relative z-10">
+    {/* Header */}
+    <div className="mb-12 sm:mb-16 lg:mb-20">
+      <SectionHeader
+        title={t('title')}
+        description={t('description')}
+        align="center"
+      />
+    </div>
+    
+    {/* Grid layout */}
+    <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 items-start">
+      {/* Contact Form */}
+      <div className="lg:col-span-3 order-2 lg:order-1">
+        <ContactForm onSubmit={handleFormSubmit} />
       </div>
       
-      <div className="container mx-auto px-4 relative z-10">
-        {/* Header */}
-        <div className="mb-20">
-          <SectionHeader
-            title={t('title')}
-            description={t('description')}
-            align="center"
-          />
-        </div>
+      {/* Contact Info & Social */}
+      <div className="lg:col-span-2 space-y-6 lg:space-y-8 order-1 lg:order-2">
+        {/* Contact Information */}
+        <Card className="bg-white border border-slate-200 dark:bg-slate-900 dark:border-slate-800 backdrop-blur-xl shadow-lg">
+          <CardHeader>
+            <CardTitle className="text-xl sm:text-2xl text-slate-800 dark:text-white flex items-center gap-3">
+              {t('contactInfo.title')}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4 sm:space-y-6">
+            {contactInfo.map((info, index) => (
+              <ContactInfoItem key={index} info={info} />
+            ))}
+          </CardContent>
+        </Card>
         
-        <div className="grid lg:grid-cols-5 gap-12 items-start">
-          {/* Contact Form - 3 columns */}
-          <div className="lg:col-span-3">
-            <ContactForm onSubmit={handleFormSubmit} />
-          </div>
-          
-          {/* Contact Info - 2 columns */}
-          <div className="lg:col-span-2 space-y-8">
-            {/* Contact Information */}
-            <Card className="bg-white border border-slate-200 dark:bg-slate-900 dark:border-slate-800 backdrop-blur-xl shadow-lg">
-              <CardHeader>
-                <CardTitle className="text-2xl text-slate-800 dark:text-white flex items-center gap-3">{t('contactInfo.title')}</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                {contactInfo.map((info, index) => (
-                  <ContactInfoItem key={index} info={info} />
-                ))}
-              </CardContent>
-            </Card>
-            
-            {/* Social Media */}
-            <Card className="bg-white border border-slate-200 dark:bg-slate-900 dark:border-slate-800 backdrop-blur-xl shadow-lg">
-              <CardHeader>
-                <CardTitle className="text-2xl text-slate-800 dark:text-white flex items-center gap-3">
-                  {t('socialMedia.title')}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex space-x-3">
-                  {SOCIAL_LINKS.map((social, index) => (
-                    <SocialLinkItem key={index} social={social} index={index} />
-                  ))}
-                </div>
-              </CardContent>
-            </Card>     
-            {/* Free Consultation CTA */}
-            <Consultation />
-          </div>
-        </div>
+        {/* Social Media */}
+        <Card className="bg-white border border-slate-200 dark:bg-slate-900 dark:border-slate-800 backdrop-blur-xl shadow-lg">
+          <CardHeader>
+            <CardTitle className="text-xl sm:text-2xl text-slate-800 dark:text-white flex items-center gap-3">
+              {t('socialMedia.title')}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap gap-3 sm:gap-4">
+              {SOCIAL_LINKS.map((social, index) => (
+                <SocialLinkItem key={index} social={social} index={index} />
+              ))}
+            </div>
+          </CardContent>
+        </Card>     
+
+        {/* Free Consultation CTA */}
+        <Consultation />
       </div>
-    </section>
+    </div>
+  </div>
+</section>
+
   );
 };
 

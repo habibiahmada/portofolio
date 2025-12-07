@@ -19,7 +19,7 @@ export default function Timeline({
       {/* Desktop Timeline Line */}
       <div className="absolute left-1/2 transform -translate-x-1/2 top-0 bottom-0 hidden lg:block">
         <div
-          className={`w-1 h-full rounded-full transition-colors duration-300 ${
+          className={`w-1 h-full rounded-full ${
             isDark
               ? "bg-gradient-to-b from-blue-500/30 via-cyan-500/40 to-slate-500/30"
               : "bg-gradient-to-b from-blue-400/40 via-cyan-400/50 to-slate-400/40"
@@ -30,7 +30,7 @@ export default function Timeline({
       {/* Mobile Timeline Line */}
       <div className="absolute left-6 top-0 bottom-0 block lg:hidden">
         <div
-          className={`w-0.5 h-full rounded-full transition-colors duration-300 ${
+          className={`w-0.5 h-full rounded-full ${
             isDark
               ? "bg-gradient-to-b from-blue-500/30 via-cyan-500/40 to-slate-500/30"
               : "bg-gradient-to-b from-blue-400/40 via-cyan-400/50 to-slate-400/40"

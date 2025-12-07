@@ -81,7 +81,7 @@ const CertificateModal: React.FC<{ certificate: Certificate | null; index: numbe
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer"
+            className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg cursor-pointer"
             aria-label="Close modal"
           >
             <X className="w-5 h-5 text-slate-400" />

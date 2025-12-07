@@ -3,8 +3,8 @@
 @plugin "tailwindcss-animate";
 @custom-variant dark (&:where(.dark, .dark *));
 
-html, body {
-    transition: background-color 1s ease, color 1s ease;
+html,
+body {
     scroll-behavior: smooth;
 }
 
@@ -138,12 +138,14 @@ html, body {
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+    * {
+        @apply border-border outline-ring/50;
     }
-  body {
-    @apply bg-background text-foreground;
+
+    body {
+        @apply bg-background text-foreground;
     }
+
     :root {
         --sidebar: oklch(0.985 0 0);
         --sidebar-foreground: oklch(0.145 0 0);
@@ -153,9 +155,9 @@ html, body {
         --sidebar-accent-foreground: oklch(0.205 0 0);
         --sidebar-border: oklch(0.922 0 0);
         --sidebar-ring: oklch(0.708 0 0);
-      }
+    }
 
-      .dark {
+    .dark {
         --sidebar: oklch(0.205 0 0);
         --sidebar-foreground: oklch(0.985 0 0);
         --sidebar-primary: oklch(0.488 0.243 264.376);
@@ -164,5 +166,5 @@ html, body {
         --sidebar-accent-foreground: oklch(0.985 0 0);
         --sidebar-border: oklch(1 0 0 / 10%);
         --sidebar-ring: oklch(0.439 0 0);
-      }
+    }
 }

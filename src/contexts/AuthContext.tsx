@@ -5,13 +5,14 @@ import { createClient } from '@/utils/supabase/client'
 import { onAuthStateChange, isAuthorizedUser, getUserDisplayName } from '@/lib/auth'
 import type { AuthUser, AuthState } from '@/lib/auth'
 import type { Session } from '@supabase/supabase-js'
+import router from 'next/router'
 
 const supabase = createClient()
 
 interface AuthContextType extends AuthState {
   signIn: (email: string, password: string) => Promise<void>
-  signInWithGoogle: () => Promise<void>
-  signInWithGitHub: () => Promise<void>
+  signInWithGoogle: (lang?: string) => Promise<void>
+  signInWithGitHub: (lang?: string) => Promise<void>
   signOut: () => Promise<void>
   isAuthorized: boolean
   userDisplayName: string
@@ -96,11 +97,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  const signInWithGoogle = async () => {
+  const signInWithGoogle = async (lang: string = 'en') => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/api/auth/callback?next=/en/dashboard`,
+        redirectTo: `${window.location.origin}/api/auth/callback?next=/${lang}/dashboard`,
         queryParams: {
           flowType: 'pkce',
         },
@@ -112,11 +113,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  const signInWithGitHub = async () => {
+  const signInWithGitHub = async (lang: string = 'en') => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'github',
       options: {
-        redirectTo: `${window.location.origin}/api/auth/callback?next=/en/dashboard`,
+        redirectTo: `${window.location.origin}/api/auth/callback?next=/${lang}/dashboard`,
         queryParams: {
           flowType: 'pkce',
         },
@@ -128,7 +129,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  const signOut = async () => {
+  const signOut = async (lang: string = 'en') => {
     try {
       const { error } = await supabase.auth.signOut()
       if (error) {
@@ -137,6 +138,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Clear local state immediately
       setUser(null)
       setSession(null)
+      router.push(`/${lang}`)
     } catch (error) {
       console.error('Sign out error:', error)
       throw error

@@ -5,7 +5,7 @@ export function TimelineItemSkeleton({ index }: { index: number }) {
   
     return (
       <div
-        className="relative transition-all duration-1000"
+        className="relative"
         style={{ transitionDelay: `${index * 200}ms` }}
       >
         {/* Desktop Layout */}

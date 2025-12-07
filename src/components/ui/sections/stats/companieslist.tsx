@@ -41,7 +41,7 @@ export default function Companieslist() {
             (companies as Company[]).map((company, i) => (
               <div
                 key={i}
-                className={`h-30 py-6 min-w-[200px] rounded-xl border backdrop-blur-sm flex items-center justify-center px-4 transition-colors
+                className={`h-30 py-6 min-w-[200px] rounded-xl border backdrop-blur-sm flex items-center justify-center px-4 
                   ${
                     isDark
                       ? "border-slate-700/60 bg-slate-800/40"

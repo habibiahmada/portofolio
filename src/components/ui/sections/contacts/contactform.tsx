@@ -289,7 +289,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
           <Button 
             type="submit" 
             disabled={isSubmitting || !recaptchaToken || !siteKey}
-            className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-6 text-lg font-medium transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+            className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-6 text-lg font-medium transform disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
             aria-describedby="submit-help"
           >
             {isSubmitting ? (

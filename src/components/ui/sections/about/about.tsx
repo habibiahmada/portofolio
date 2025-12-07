@@ -24,7 +24,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className={`relative overflow-hidden transition-all duration-700 py-28 sm:py-36 lg:py-40
+      className={`relative overflow-hidden py-28 sm:py-36 lg:py-40
         ${isDark ? "bg-slate-950" : "bg-gradient-to-t from-slate-50 via-gray-50 to-slate-50"}`}
     >
       {/* Background Shapes */}
@@ -45,7 +45,7 @@ export default function About() {
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
           {/* Image Section */}
           <div
-            className={`order-2 lg:order-1 transition-all duration-1000 ${
+            className={`order-2 lg:order-1 ${
               isVisible
                 ? "translate-x-0 opacity-100"
                 : "-translate-x-10 opacity-0"
@@ -57,7 +57,7 @@ export default function About() {
                 alt="Habibi Ahmad Aziz - Web Developer"
                 width={400}
                 height={400}
-                className="relative w-80 max-w-sm sm:max-w-md lg:max-w-lg mx-auto transition-all duration-700 group-hover:scale-[1.02] drop-shadow-[0_15px_25px_rgba(0,0,0,0.4)]"
+                className="relative w-80 max-w-sm sm:max-w-md lg:max-w-lg mx-auto group-hover:scale-[1.02] drop-shadow-[0_15px_25px_rgba(0,0,0,0.4)]"
                 draggable={false}
               />
               {/* Decorative Elements */}
@@ -76,7 +76,7 @@ export default function About() {
 
           {/* Content Section */}
           <div
-            className={`order-1 lg:order-2 space-y-8 transition-all duration-1000 delay-200 ${
+            className={`order-1 lg:order-2 space-y-8 ${
               isVisible
                 ? "translate-x-0 opacity-100"
                 : "translate-x-10 opacity-0"

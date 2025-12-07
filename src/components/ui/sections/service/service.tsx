@@ -1,3 +1,5 @@
+'use client';
+
 import { useTheme } from "next-themes";
 import { useState, useEffect, type ComponentType } from "react";
 import { useTranslations } from "next-intl";
@@ -68,7 +70,7 @@ export default function MyService() {
   return (
     <section
       id="services"
-      className={`relative overflow-hidden transition-all duration-700 pt-28 sm:pt-36 lg:pt-40 pb-5
+      className={`relative overflow-hidden pt-28 sm:pt-36 lg:pt-40 pb-5
         ${isDark ? "bg-slate-950" : "bg-gradient-to-b from-white to-slate-50"}`}
     >
       {/* Background Effects */}

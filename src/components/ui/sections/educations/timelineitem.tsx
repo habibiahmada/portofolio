@@ -19,7 +19,7 @@ export default function TimelineItem({
 
   return (
     <div
-      className="relative transition-all duration-1000"
+      className="relative"
       style={{ transitionDelay: `${index * 200}ms` }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -29,7 +29,7 @@ export default function TimelineItem({
         {/* Timeline Dot */}
         <div className="absolute left-1/2 transform -translate-x-1/2 z-20">
           <div
-            className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
+            className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full ${
               isDark
                 ? `${
                     isHovered
@@ -77,7 +77,7 @@ export default function TimelineItem({
         {/* Mobile Timeline Dot */}
         <div className="absolute left-6 transform -translate-x-1/2 z-20">
           <div
-            className={`w-3 h-3 sm:w-4 sm:h-4 rounded-full transition-all duration-300 ${
+            className={`w-3 h-3 sm:w-4 sm:h-4 rounded-full ${
               isDark
                 ? `${
                     isHovered ? "bg-cyan-400 scale-125" : "bg-blue-500"

@@ -1,6 +1,6 @@
 {    
   "Header": {
-    "brand": "Habibi Ahmad",
+    "brand": "habibiahmada.dev",
     "nav": {
       "home": "Home",
       "about": "About",
@@ -53,7 +53,8 @@
         "description": "High satisfaction rating"
       },
       "trustedBy": "Trusted by leading companies",
-      "trustedDescription": "Join our clients who have experienced the best results"
+      "trustedDescription": "Join our clients who have experienced the best results",
+      "loadError": "Failed to load statistics"
     },
     "companies": {
       "techcorp": "TechCorp",
@@ -94,7 +95,8 @@
      },
      "skills":{
         "titleLine1" : "Tools and Technologies",
-        "description1": "Technologies and tools I use to build modern, scalable web applications"
+        "description1": "Technologies and tools I use to build modern, scalable web applications",
+        "loadError" : "Failed to load skills"
      },
      "certifications" : {
       "titleLine1" : "Certifications",
@@ -113,7 +115,9 @@
      "articles":{
       "titleLine1": "Articles & Media",
       "description1": "Latest articles, in-depth tutorials, and insights into modern web development from an industry professional perspective",
-      "button": "Browse all articles"
+      "button": "Browse all articles",
+      "loading" :"Loading articles...",
+      "error" :"Failed to load articles"
     },
     "faqs": {
       "titleLine1": "Frequently Asked Questions",
@@ -166,7 +170,7 @@
       "contactInfo": {
         "title": "Contact Information",
         "location": "Location",
-        "locationValue": "Karawang, Indonesia",
+        "locationValue": "Jawa Barat, Indonesia",
         "whatsapp": "WhatsApp",
         "whatsappReveal": "Click to view number",
         "email": "Email",
@@ -192,5 +196,26 @@
         "success": "Message sent successfully!",
         "error": "An error occurred while sending the message. Please try again."
       }
-    }
+    },
+    "Footer": {
+      "brandName": "Habibi Ahmad Aziz",
+      "brandDesc": "Passionate about creating impactful digital experiences. Skilled in building scalable systems and user-centered interfaces with a strong focus on performance and long-term maintainability.",
+      "quickLinks": "Quick Links",
+      "services": "Services",
+      "copyright": "© 2024 Habibi Ahmad Aziz. All rights reserved.",
+      "links": {
+        "about": "About Me",
+        "services": "Services",
+        "projects": "Projects",
+        "experience": "Experience",
+        "contact": "Contact"
+      },
+      "serviceList": {
+        "frontend": "Frontend Development",
+        "uiux": "UI/UX Design",
+        "performance": "Performance Optimization",
+        "consulting": "Technical Consulting",
+        "webapp": "Web App Development"
+      }
+    }    
 }

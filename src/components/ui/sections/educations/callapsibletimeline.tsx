@@ -1,3 +1,5 @@
+'use client';
+
 import { useTranslations } from "next-intl";
 import { Button } from "../../button";
 import { Experience } from "@/lib/types/database";
@@ -27,7 +29,7 @@ export default function CollapsibleTimeline({
       <div className="relative mx-auto">
         {/* Timeline Content */}
         <div 
-          className={`relative transition-all duration-700 ease-in-out ${
+          className={`relative ease-in-out ${
             !isExpanded && shouldShowCollapseButton ? 'max-h-[800px] pt-5 overflow-hidden' : ''
           }`}
         >
@@ -36,7 +38,7 @@ export default function CollapsibleTimeline({
           {/* Blur Overlay when collapsed */}
           {!isExpanded && shouldShowCollapseButton && (
             <div 
-              className={`absolute inset-x-0 bottom-0 h-32 pointer-events-none transition-colors duration-300 ${
+              className={`absolute inset-x-0 bottom-0 h-32 pointer-events-none ${
                 isDark 
                   ? "bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent"
                   : "bg-gradient-to-t from-white via-slate-50/80 to-transparent"
@@ -52,7 +54,7 @@ export default function CollapsibleTimeline({
             onClick={() => setIsExpanded(!isExpanded)}
             variant={isDark ? "outline" : "secondary"}
             size="lg"
-            className={`group flex items-center gap-3 rounded-2xl font-semibold text-sm sm:text-base transition-all duration-300 hover:scale-105 transform backdrop-blur-md
+            className={`group flex items-center gap-3 rounded-2xl font-semibold text-sm sm:text-base hover:scale-105 transform backdrop-blur-md
               ${
                 isDark
                   ? "bg-slate-800/70 hover:bg-slate-700/80 text-slate-200 hover:text-white border border-slate-700/60 hover:border-slate-600"
@@ -65,7 +67,7 @@ export default function CollapsibleTimeline({
                 : t("showMore") || `Show All ${items.length} Items`}
             </span>
             <div
-              className={`transition-transform duration-300 ${
+              className={`${
                 isExpanded ? "rotate-180" : ""
               }`}
             >

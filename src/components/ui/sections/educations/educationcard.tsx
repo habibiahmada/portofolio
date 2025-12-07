@@ -18,7 +18,7 @@ export function ModernCard({
 
   return (
     <div
-      className={`group relative rounded-xl sm:rounded-2xl transition-all duration-500 transform hover:translate-y-1 w-full  ${
+      className={`group relative rounded-xl sm:rounded-2xl transform hover:translate-y-1 w-full  ${
         isDark
           ? "bg-gradient-to-br from-slate-800/95 to-slate-900/95 backdrop-blur-lg border border-slate-700/50"
           : "bg-gradient-to-br from-white/95 to-slate-50/95 backdrop-blur-lg border border-slate-200/50"
@@ -110,7 +110,7 @@ export function ModernCard({
             {exp.skills.map((skill, i) => (
               <span
                 key={i}
-                className={`px-2.5 py-1 sm:px-3 lg:px-4 sm:py-1.5 lg:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 hover:scale-105 ${
+                className={`px-2.5 py-1 sm:px-3 lg:px-4 sm:py-1.5 lg:py-2 rounded-full text-xs sm:text-sm font-medium hover:scale-105 ${
                   isDark
                     ? "bg-gradient-to-r from-blue-600/20 to-cyan-600/20 text-blue-300 border border-blue-500/30"
                     : "bg-gradient-to-r from-blue-500/10 to-cyan-500/10 text-blue-700 border border-blue-200/50"

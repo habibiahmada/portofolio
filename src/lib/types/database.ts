@@ -69,28 +69,30 @@ export interface Services {
 export interface Testimonial {
   id: string
   name: string
-  position: string
+  role: string
   company: string
-  content: string
-  rating: number // 1-5
-  avatar_url?: string
-  featured: boolean
-  created_at: string
-  updated_at: string
+  avatar: string
+  rating: number
+  testimonial_translations?: {
+    content: string
+  }[]
 }
 
 export interface Article {
   id: string
-  title: string
-  slug: string
-  content: string
-  excerpt: string
-  featured_image?: string
+  image?: string
   published: boolean
   published_at?: string
-  tags: string[]
   created_at: string
   updated_at: string
+  article_translations?: {
+    title: string
+    slug: string
+    content: string
+    excerpt: string
+    tags: string[]
+    read_time: string
+  }[]
 }
 
 export interface ContactMessage {

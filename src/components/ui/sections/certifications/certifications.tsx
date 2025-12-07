@@ -38,7 +38,7 @@ const CertificationsSection: React.FC = () => {
   return (
     <>
       <section
-        className={`relative overflow-hidden transition-all duration-700 py-28 sm:py-36 lg:py-40 pb-0 
+        className={`relative overflow-hidden py-28 sm:py-36 lg:py-40 pb-0 
           ${isDark ? "dark:bg-slate-950" : "bg-slate-50"}`}
       >
         <div className="container mx-auto px-4 max-w-7xl">

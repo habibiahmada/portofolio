@@ -9,11 +9,11 @@ interface ServiceCardProps {
 
 export default function ServiceCard({ icon, title, description, bullets, color } : ServiceCardProps ) {
     return (
-      <div className="group relative bg-white/70 dark:bg-slate-800/50 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 rounded-3xl p-8 hover:bg-white dark:hover:bg-slate-800/70 transition-all duration-500 hover:shadow-2xl hover:shadow-blue-500/10 hover:-translate-y-2">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-slate-500/5 dark:from-blue-400/10 dark:to-slate-400/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+      <div className="group relative bg-white/70 dark:bg-slate-800/50 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 rounded-3xl p-8 hover:bg-white dark:hover:bg-slate-800/70 hover:shadow-2xl hover:shadow-blue-500/10 hover:-translate-y-2">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-slate-500/5 dark:from-blue-400/10 dark:to-slate-400/10 rounded-3xl opacity-0 group-hover:opacity-100  duration-500"></div>
         <div className="relative">
           <div
-            className={`w-16 h-16 bg-gradient-to-br ${color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}
+            className={`w-16 h-16 bg-gradient-to-br ${color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110`}
           >
             {icon}
           </div>

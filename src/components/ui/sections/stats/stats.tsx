@@ -82,7 +82,7 @@ export default function Stats() {
           {stats.map((stat, i) => (
             <div
               key={i}
-              className={`relative p-8 rounded-2xl border backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 ${
+              className={`relative p-8 rounded-2xl border backdrop-blur-sm hover:-translate-y-1 ${
                 isDark ? "border-slate-700/60" : "border-slate-200/60"
               }`}
             >

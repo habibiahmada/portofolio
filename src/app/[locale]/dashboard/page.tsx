@@ -104,7 +104,7 @@ export default function DashboardPage() {
     trend: string
     color?: "blue" | "green" | "purple" | "yellow" | "pink" | "red"
   }) => (
-    <div className="bg-card rounded-xl p-4 sm:p-6 shadow-sm border border-border hover:shadow-md transition-all duration-200">
+    <div className="bg-card rounded-xl p-4 sm:p-6 shadow-sm border border-border hover:shadow-md">
       <div className="flex items-center justify-between mb-3 sm:mb-4">
         <div className={`p-2 sm:p-3 rounded-lg ${
           color === 'blue' ? 'bg-blue-100 dark:bg-blue-900/30' :
@@ -141,7 +141,7 @@ export default function DashboardPage() {
   }) => (
     <Button 
       onClick={onClick}
-      className={`flex items-center gap-2 px-3 sm:px-4 py-2 text-white rounded-lg transition-all duration-200 hover:scale-105 ${
+      className={`flex items-center gap-2 px-3 sm:px-4 py-2 text-white rounded-lg hover:scale-105 ${
         color === 'blue' ? 'bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700' :
         color === 'green' ? 'bg-green-600 hover:bg-green-700 dark:bg-green-600 dark:hover:bg-green-700' :
         color === 'purple' ? 'bg-purple-600 hover:bg-purple-700 dark:bg-purple-600 dark:hover:bg-purple-700' :
@@ -225,7 +225,7 @@ export default function DashboardPage() {
           </div>
           <div className="space-y-3 sm:space-y-4">
             {data.recentActivity.map((activity) => (
-              <div key={activity.id} className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
+              <div key={activity.id} className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50">
                 <div className={`p-1.5 rounded-full ${
                   activity.type === 'project' ? 'bg-blue-100 dark:bg-blue-900/30' :
                   activity.type === 'cert' ? 'bg-yellow-100 dark:bg-yellow-900/30' :
@@ -256,7 +256,7 @@ export default function DashboardPage() {
           </div>
           <div className="space-y-3 mb-4">
             {data.messages.slice(0, 4).map((message) => (
-              <div key={message.id} className="p-3 rounded-lg border border-border hover:border-border/80 transition-colors">
+              <div key={message.id} className="p-3 rounded-lg border border-border hover:border-border/80">
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <div className="flex items-center gap-2">
                     <h4 className="font-medium text-foreground text-sm">{message.name}</h4>
@@ -272,7 +272,7 @@ export default function DashboardPage() {
               </div>
             ))}
           </div>
-          <button className="w-full py-2 text-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium text-sm border border-blue-200 dark:border-blue-800 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
+          <button className="w-full py-2 text-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium text-sm border border-blue-200 dark:border-blue-800 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20">
             View All Messages
           </button>
         </div>

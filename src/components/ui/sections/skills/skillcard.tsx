@@ -12,7 +12,7 @@ export default function SkillCard({ tech }: { tech: TechItem }) {
     return (
       <div
         className="p-6 rounded-2xl bg-slate-100 dark:bg-slate-900/50 border border-slate-300 
-        dark:border-slate-800/50 hover:border-blue-500 transition-all duration-300 
+        dark:border-slate-800/50 hover:border-blue-500  
         hover:scale-105 cursor-pointer"
       >
         <div className="flex flex-col items-center">
