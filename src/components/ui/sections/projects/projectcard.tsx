@@ -7,7 +7,7 @@ export default function ProjectCard({ project }: { project: Project }) {
   const translation = project.projects_translations?.[0];
 
   return (
-    <div className="group bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-500 dark:border-slate-700 overflow-hidden hover:shadow-2xl hover:shadow-blue-600/10 dark:hover:shadow-blue-400/10 transform hover:-translate-y-2">
+    <div className="group bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-500 dark:border-slate-700 overflow-hidden hover:shadow-2xl hover:shadow-blue-600/10 dark:hover:shadow-blue-400/10 transform hover:-translate-y-2 transition-transform duration-300">
       {/* Image */}
       <div className="relative overflow-hidden">
         <Image

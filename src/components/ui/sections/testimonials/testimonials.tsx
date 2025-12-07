@@ -101,7 +101,7 @@ const TestimonialSection = () => {
         {/* Testimonial Card */}
         <div className="max-w-6xl mx-auto">
           <Card
-            className={`relative p-8 lg:p-12 backdrop-blur-xl bg-white/80 dark:bg-slate-900/80 border-slate-200/50 dark:border-slate-700/50 ${isAnimating ? "opacity-50 scale-95" : "opacity-100 scale-100"
+            className={`relative p-8 lg:p-12 backdrop-blur-xl bg-white/80 dark:bg-slate-900/80 border-slate-200/50 dark:border-slate-700/50 transition-transform duration-300 ${isAnimating ? "opacity-50 scale-95" : "opacity-100 scale-100"
               }`}
           >
             {/* Quote Icon */}

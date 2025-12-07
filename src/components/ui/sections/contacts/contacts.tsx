@@ -48,7 +48,7 @@ const ContactInfoItem: React.FC<{ info: ContactInfo }> = ({ info }) => {
   const IconComponent = info.icon;
   return (
     <div className="flex items-start space-x-4 group">
-      <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${info.color} group-hover:scale-110`}>
+      <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${info.color} group-hover:scale-110 transition-transform duration-300`}>
         <IconComponent className="w-5 h-5" />
       </div>
       <div className="flex-1">
@@ -89,6 +89,7 @@ const SocialLinkItem: React.FC<{ social: SocialLink; index: number }> = ({ socia
         ${social.color} 
         bg-slate-100 border-slate-300 text-slate-600 
         dark:bg-slate-800 dark:border-slate-700 dark:text-slate-400
+        transition-transform duration-300
       `}
     >
       <IconComponent className="w-5 h-5" />

@@ -54,7 +54,7 @@ export default function CollapsibleTimeline({
             onClick={() => setIsExpanded(!isExpanded)}
             variant={isDark ? "outline" : "secondary"}
             size="lg"
-            className={`group flex items-center gap-3 rounded-2xl font-semibold text-sm sm:text-base hover:scale-105 transform backdrop-blur-md
+            className={`group flex items-center gap-3 rounded-2xl font-semibold text-sm sm:text-base hover:scale-105 transform backdrop-blur-md transition-transform duration-300
               ${
                 isDark
                   ? "bg-slate-800/70 hover:bg-slate-700/80 text-slate-200 hover:text-white border border-slate-700/60 hover:border-slate-600"

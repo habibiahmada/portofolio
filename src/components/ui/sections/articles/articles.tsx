@@ -77,7 +77,7 @@ const ArticlesSection: React.FC = () => {
           <Link href="/articles">
             <Button
               size="lg"
-              className="px-8 py-4 text-base font-semibold text-white shadow-lg shadow-blue-500/25 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/30 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400"
+              className="px-8 py-4 text-base font-semibold text-white shadow-lg shadow-blue-500/25 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/30 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 transition-transform duration-300"
             >
               <BookOpen className="mr-2 h-5 w-5" />
               {t("button")}

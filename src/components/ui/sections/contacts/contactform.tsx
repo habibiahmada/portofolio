@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { useTheme } from 'next-themes';
 import { Send, Upload } from 'lucide-react';
 
 // UI Components
@@ -100,6 +101,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
   const showAlert = (type: 'success' | 'error' | 'info', message: string) => {
     setAlert({ open: true, type, message });
   };
+
+  const { resolvedTheme } = useTheme();
 
   // Event Handlers
   const handleInputChange = (field: keyof ContactFormData, value: string | boolean | File | null) => {
@@ -288,10 +291,15 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
           
           {/* reCAPTCHA */}
           {siteKey ? (
-            <ReCaptcha 
-              siteKey={siteKey}
-              onVerify={(token) => setRecaptchaToken(token)}
-            />
+            <div className="flex justify-center lg:justify-start">
+              <div className="w-full max-w-[360px] sm:max-w-none">
+                <ReCaptcha
+                  siteKey={siteKey}
+                  onVerify={(token) => setRecaptchaToken(token)}
+                  theme={resolvedTheme === 'dark' ? 'dark' : 'light'}
+                />
+              </div>
+            </div>
           ) : (
             <p className="text-sm text-red-600 dark:text-red-400">
               reCAPTCHA site key is missing. Set NEXT_PUBLIC_RECAPTCHA_SITE_KEY.

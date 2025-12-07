@@ -17,7 +17,7 @@ interface Article {
 }
 
 const ArticleCard: React.FC<{ article: Article }> = ({ article }) => (
-    <Card className="group bg-white dark:bg-slate-900/50 backdrop-blur-sm border border-slate-200 dark:border-slate-800/50 hover:border-blue-500/30 hover:shadow-2xl hover:shadow-blue-500/10 overflow-hidden">
+    <Card className="group bg-white dark:bg-slate-900/50 backdrop-blur-sm border border-slate-200 dark:border-slate-800/50 hover:border-blue-500/30 hover:shadow-2xl hover:shadow-blue-500/10 overflow-hidden transition-color duration-300">
       <CardHeader className="p-0">
         <div className="relative overflow-hidden">
           <Image
@@ -25,7 +25,7 @@ const ArticleCard: React.FC<{ article: Article }> = ({ article }) => (
             alt={article.title}
             width={800}
             height={400}
-            className="w-full h-48 object-cover group-hover:scale-110"
+            className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent dark:from-slate-900/60" />
           <div className="absolute top-4 left-4">

@@ -17,9 +17,14 @@ declare global {
 interface ReCaptchaProps {
   siteKey: string;
   onVerify: (token: string) => void;
+  className?: string;
+  /** 'light' | 'dark' — if omitted, tries to detect via `prefers-color-scheme` or `.dark` class */
+  theme?: "light" | "dark";
+  /** 'normal' | 'compact' — if omitted, chooses 'compact' for narrow viewports */
+  size?: "normal" | "compact";
 }
 
-export default function ReCaptcha({ siteKey, onVerify }: ReCaptchaProps) {
+export default function ReCaptcha({ siteKey, onVerify, className, theme, size }: ReCaptchaProps) {
   const recaptchaRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<number | null>(null);
 
@@ -49,10 +54,32 @@ export default function ReCaptcha({ siteKey, onVerify }: ReCaptchaProps) {
       if (recaptchaRef.current.childNodes.length > 0) return;
       if (!window.grecaptcha || typeof window.grecaptcha.render !== "function") return;
       try {
+        // determine theme
+        let resolvedTheme: "light" | "dark" = "light";
+        if (theme) resolvedTheme = theme;
+        else if (typeof window !== "undefined") {
+          try {
+            if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+              resolvedTheme = "dark";
+            } else if (document.documentElement.classList.contains("dark")) {
+              resolvedTheme = "dark";
+            }
+          } catch (e) {
+            // ignore
+          }
+        }
+
+        // determine size (compact on small viewports by default)
+        let resolvedSize: "normal" | "compact" = "normal";
+        if (size) resolvedSize = size;
+        else if (typeof window !== "undefined") resolvedSize = window.innerWidth < 420 ? "compact" : "normal";
+
         const widgetId = window.grecaptcha.render(recaptchaRef.current, {
           sitekey: siteKey,
           callback: (token: string) => onVerify(token),
-        });
+          theme: resolvedTheme,
+          size: resolvedSize,
+        } as any);
         widgetIdRef.current = typeof widgetId === "number" ? widgetId : 0;
       } catch (err) {
         console.error("ReCaptcha: render failed", err);
@@ -81,5 +108,7 @@ export default function ReCaptcha({ siteKey, onVerify }: ReCaptchaProps) {
     };
   }, [siteKey, onVerify]);
 
-  return <div ref={recaptchaRef} />;
+  return <div className={className ?? "flex justify-center"}>
+    <div ref={recaptchaRef} />
+  </div>;
 }

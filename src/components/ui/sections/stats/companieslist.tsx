@@ -28,7 +28,7 @@ export default function Companieslist() {
       </p>
 
       <div className="overflow-hidden relative">
-        <div className="flex gap-6 justify-center">
+        <div className="md:flex gap-6 justify-center">
           {loading ? (
             skeletons.map((_, i) => (
               <Skeletonlogolist key={i} i={i} isDark={isDark} />
@@ -41,7 +41,7 @@ export default function Companieslist() {
             (companies as Company[]).map((company, i) => (
               <div
                 key={i}
-                className={`h-30 py-6 min-w-[200px] rounded-xl border backdrop-blur-sm flex items-center justify-center px-4 
+                className={`h-30 py-6 my-2 min-w-[150px] rounded-xl border backdrop-blur-sm flex items-center justify-center px-4 z-10 
                   ${
                     isDark
                       ? "border-slate-700/60 bg-slate-800/40"

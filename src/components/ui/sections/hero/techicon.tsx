@@ -32,7 +32,7 @@ export default function TechIconsDecorations({isDark}: Props){
               return (
                 <div
                   key={index}
-                  className="group flex flex-col items-center gap-2 hover:scale-110"
+                  className="group flex flex-col items-center gap-2 hover:scale-110 transition-transform duration-300"
                   style={{ animationDelay: tech.delay }}
                 >
                   <div
@@ -42,7 +42,7 @@ export default function TechIconsDecorations({isDark}: Props){
                         : "bg-gradient-to-br from-blue-100 to-cyan-100 text-blue-600 group-hover:from-blue-200 group-hover:to-cyan-200"
                     }`}
                   >
-                    <IconComponent size={20} className="group-hover:rotate-12" />
+                    <IconComponent size={20} className="group-hover:rotate-12 transition-transform duration-300" />
                   </div>
                   <span
                     className={`text-xs font-medium ${

@@ -57,7 +57,7 @@ export default function About() {
                 alt="Habibi Ahmad Aziz - Web Developer"
                 width={400}
                 height={400}
-                className="relative w-80 max-w-sm sm:max-w-md lg:max-w-lg mx-auto group-hover:scale-[1.02] drop-shadow-[0_15px_25px_rgba(0,0,0,0.4)]"
+                className="relative w-80 max-w-sm sm:max-w-md lg:max-w-lg mx-auto group-hover:scale-[1.02] drop-shadow-[0_15px_25px_rgba(0,0,0,0.4)] transition-transform duration-300"
                 draggable={false}
               />
               {/* Decorative Elements */}

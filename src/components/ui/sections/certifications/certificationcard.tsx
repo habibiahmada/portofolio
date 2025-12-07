@@ -32,7 +32,7 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
   }, []);
 
   return (
-    <div className="group relative bg-white dark:bg-slate-900 rounded-2xl shadow-lg hover:shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600 transform hover:-translate-y-2">
+    <div className="group relative bg-white dark:bg-slate-900 rounded-2xl shadow-lg hover:shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600 transform hover:-translate-y-2 transition-all duration-300">
       {/* Card Preview */}
       <div
         className="h-48 w-full flex items-center justify-center relative overflow-hidden cursor-pointer bg-slate-100 dark:bg-slate-800 group"
@@ -42,11 +42,11 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
         <CertificatePreview
           file={certificate.preview}
           width={300}
-          className="shadow-lg group-hover:scale-110"
+          className="shadow-lg group-hover:scale-110 transition-transform duration-300"
         />
 
         {/* Overlay hover */}
-        <div className="absolute inset-0 bg-blue-600/20 dark:bg-blue-400/20 opacity-0 group-hover:opacity-100 flex items-center justify-center">
+        <div className="absolute inset-0 bg-blue-600/20 dark:bg-blue-400/20 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all duration-300">
           <div className="bg-white/90 dark:bg-slate-900/90 rounded-full p-3">
             <ExternalLink className="w-4 h-4 text-blue-600 dark:text-blue-400" />
           </div>

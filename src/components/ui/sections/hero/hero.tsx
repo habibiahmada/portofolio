@@ -29,7 +29,7 @@ const HeroImage = ({ isDark, imageAlt }: { isDark: boolean; imageAlt: string }) 
       alt={imageAlt}
       width={600}
       height={600}
-      className="w-full select-none max-w-sm sm:max-w-md lg:max-w-lg mx-auto rounded-3xl drop-shadow-[0_15px_25px_rgba(0,0,0,0.4)]"
+      className="w-full select-none max-w-sm sm:max-w-md lg:max-w-lg mx-auto rounded-3xl drop-shadow-[0_15px_25px_rgba(0,0,0,0.4)] hover:scale-105 transition-transform duration-500 ease-in-out"
       draggable={false}
       priority
       fetchPriority="high"
@@ -166,7 +166,7 @@ export default function Hero() {
                 <Ctabutton isDark={isDark} icon={Eye} text={t('buttons.viewProjects')} href="#projects"/>
 
                 <Link
-                  href="/cv.pdf"
+                  href="tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/sign/cv_storage/CV%20Habibi%20Ahmad%20Aziz.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81Y2RlMThjMC1lY2IwLTQ5ZDEtYTk5MC0wZDg1NDYwODJiMzgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJjdl9zdG9yYWdlL0NWIEhhYmliaSBBaG1hZCBBeml6LnBkZiIsImlhdCI6MTc2NTExNTM3MSwiZXhwIjoxNzY1NzIwMTcxfQ.Y9R0w2AEY65nU-sZuFQCkGmfob0ka8wu4YUpLTSUIJ8"
                   download
                   className={`group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-semibold text-lg border-2 backdrop-blur-sm transform focus:outline-none focus:ring-4 ${
                     isDark
