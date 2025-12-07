@@ -3,7 +3,6 @@ import { supabase } from "@/lib/supabase";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
-  const lang = searchParams.get("lang") || "en";
   const limit = Number(searchParams.get("limit") || 0);
 
   let query = supabase

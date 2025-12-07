@@ -113,9 +113,31 @@ const ContactSection: React.FC = () => {
 
   // Event Handlers
   const handleFormSubmit = async (formData: ContactFormData) => {
+    // If there is an attachment, convert it to base64 so server can receive it in JSON.
+    const payload: any = { ...formData };
+    if (formData.attachment) {
+      try {
+        const file = formData.attachment as File;
+        const dataUrl = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(String(reader.result ?? ""));
+          reader.onerror = (err) => reject(err);
+          reader.readAsDataURL(file);
+        });
+        payload.attachment = {
+          name: file.name,
+          type: file.type,
+          size: file.size,
+          dataUrl,
+        };
+      } catch (err) {
+        console.error("Failed to read attachment", err);
+      }
+    }
+
     const formRes = await fetch("/api/contact", {
       method: "POST",
-      body: JSON.stringify(formData),
+      body: JSON.stringify(payload),
       headers: { "Content-Type": "application/json" },
     });
 

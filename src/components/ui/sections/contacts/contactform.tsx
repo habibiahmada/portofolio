@@ -12,6 +12,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import ReCaptcha from '../../reCaptcha';
+import Alert from '@/components/ui/alert';
 
 // Types and Interfaces
 export interface ContactFormData {
@@ -89,6 +90,17 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
   
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Alert state
+  const [alert, setAlert] = useState<{ open: boolean; type: 'success' | 'error' | 'info'; message: string }>({
+    open: false,
+    type: 'info',
+    message: '',
+  });
+
+  const showAlert = (type: 'success' | 'error' | 'info', message: string) => {
+    setAlert({ open: true, type, message });
+  };
+
   // Event Handlers
   const handleInputChange = (field: keyof ContactFormData, value: string | boolean | File | null) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -99,7 +111,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
     setIsSubmitting(true);
   
     if (!recaptchaToken) {
-      alert(t("alerts.recaptcha"));
+      showAlert('error', t("alerts.recaptcha"));
       setIsSubmitting(false);
       return;
     }
@@ -114,7 +126,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
       const verifyData = await verifyRes.json();
   
       if (!verifyData.success) {
-        alert(t("alerts.recaptchaFailed"));
+        showAlert('error', t("alerts.recaptchaFailed"));
         setIsSubmitting(false);
         return;
       }
@@ -132,16 +144,17 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
       });
       setRecaptchaToken("");
   
-      alert(t("alerts.success"));
+      showAlert('success', t("alerts.success"));
     } catch (error) {
       console.error("Form submission error:", error);
-      alert(t("alerts.error"));
+      showAlert('error', t("alerts.error"));
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
+    <>
     <Card className="bg-white border border-slate-200 dark:bg-slate-900 dark:border-slate-800 backdrop-blur-xl shadow-lg">
       <CardHeader className="pb-8">
         <CardTitle className="text-2xl text-slate-800 dark:text-white flex items-center gap-3">
@@ -311,6 +324,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
         </form>
       </CardContent>
     </Card>
+    <Alert open={alert.open} type={alert.type} message={alert.message} onClose={() => setAlert(prev => ({...prev, open: false}))} />
+    </>
   );
 };
 

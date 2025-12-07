@@ -32,7 +32,7 @@ const TestimonialSection = () => {
     setCurrentIndex((prev) => (prev + 1) % testimonials.length);
     setTimeout(() => setIsAnimating(false), 300);
   }, [isAnimating, testimonials?.length]);
-  
+
 
   const prevTestimonial = () => {
     if (isAnimating || !testimonials?.length) return;
@@ -40,14 +40,14 @@ const TestimonialSection = () => {
     setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
     setTimeout(() => setIsAnimating(false), 300);
   };
-  
+
   const goToSlide = (index: number) => {
     if (isAnimating || index === currentIndex || !testimonials?.length) return;
     setIsAnimating(true);
     setCurrentIndex(index);
     setTimeout(() => setIsAnimating(false), 300);
   };
-  
+
 
   // -------------------------
   // Auto-play interval
@@ -56,7 +56,7 @@ const TestimonialSection = () => {
     if (!testimonials || testimonials.length === 0) return;
     const interval = setInterval(() => nextTestimonial(), 8000);
     return () => clearInterval(interval);
-  }, [nextTestimonial, testimonials?.length]);
+  }, [nextTestimonial, testimonials]);
 
   // -------------------------
   // Early return for loading or error
@@ -89,9 +89,8 @@ const TestimonialSection = () => {
   return (
     <section
       id="testimonials"
-      className={`relative min-h-screen overflow-hidden py-28 sm:py-36 lg:py-40 ${
-        isDark ? "dark:bg-slate-950" : "bg-slate-50"
-      }`}
+      className={`relative min-h-screen overflow-hidden py-28 sm:py-36 lg:py-40 ${isDark ? "dark:bg-slate-950" : "bg-slate-50"
+        }`}
     >
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
@@ -102,9 +101,8 @@ const TestimonialSection = () => {
         {/* Testimonial Card */}
         <div className="max-w-6xl mx-auto">
           <Card
-            className={`relative p-8 lg:p-12 backdrop-blur-xl bg-white/80 dark:bg-slate-900/80 border-slate-200/50 dark:border-slate-700/50 ${
-              isAnimating ? "opacity-50 scale-95" : "opacity-100 scale-100"
-            }`}
+            className={`relative p-8 lg:p-12 backdrop-blur-xl bg-white/80 dark:bg-slate-900/80 border-slate-200/50 dark:border-slate-700/50 ${isAnimating ? "opacity-50 scale-95" : "opacity-100 scale-100"
+              }`}
           >
             {/* Quote Icon */}
             <div className="absolute -top-4 left-8">
@@ -179,11 +177,10 @@ const TestimonialSection = () => {
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
-                className={`w-3 h-3 rounded-full cursor-pointer ${
-                  index === currentIndex
+                className={`w-3 h-3 rounded-full cursor-pointer ${index === currentIndex
                     ? "bg-blue-600 dark:bg-blue-400 w-8"
                     : "bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500"
-                }`}
+                  }`}
               />
             ))}
           </div>

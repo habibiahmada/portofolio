@@ -63,7 +63,6 @@ Portfolio website profesional yang menampilkan profil, pengalaman, proyek, layan
 - [Next.js](https://nextjs.org/) – React framework untuk SSR & SSG.
 - [Tailwind CSS](https://tailwindcss.com/) – Utility-first styling.
 - [Radix UI](https://www.radix-ui.com/) – Accessible components.
-- [Framer Motion](https://www.framer.com/motion/) – Animasi halus.
 - [next-i18next](https://github.com/i18next/next-i18next) – Multilanguage.
 - [Lucide Icons](https://lucide.dev/) – Ikon modern.
 
@@ -273,8 +272,8 @@ Proyek ini dilisensikan di bawah **MIT License** – bebas digunakan, dimodifika
 
 ## 👤 Kontak
 
-* Website: [yourdomain.com](https://yourdomain.com)
-* LinkedIn: [linkedin.com/in/username](https://linkedin.com/in/username)
+* Website: [habibiahmada.dev](https://habibiahmada.dev)
+* LinkedIn: [linkedin.com/in/habibi-ahmad-aziz](https://linkedin.com/in/habibi-ahmad-aziz)
 * Email (via form): tersedia di halaman **Contact Me**
 
 ```

@@ -45,16 +45,6 @@ const data = {
       logo: GalleryVerticalEnd,
       plan: "Admin Panel",
     },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
   ],
   navMain: [
     {
@@ -207,6 +197,21 @@ const data = {
         },
       ],
     },
+    {
+      title: "Contacts",
+      url: "#",
+      icon: Mail,
+      items: [
+        {
+          title: "Email",
+          url: "/dashboard/contacts",
+        },
+          {
+            title: "Email Template",
+            url: "/dashboard/contacts/email-template",
+          },
+      ],
+    },
   ],
   projects: [
     {
@@ -215,7 +220,37 @@ const data = {
       icon: Mail,
     },
   ],
+  // Centralized list of dashboard routes — keep this in sync with
+  // `src/app/[locale]/dashboard` so the sidebar only links to real pages.
+  routes: [
+    "/dashboard",
+    "/dashboard/banner/companies",
+    "/dashboard/banner/descriptions",
+    "/dashboard/banner/stats",
+    "/dashboard/about/descriptions",
+    "/dashboard/services/all",
+    "/dashboard/services/add",
+    "/dashboard/projects/all",
+    "/dashboard/projects/add",
+    "/dashboard/tools-tech/all",
+    "/dashboard/tools-tech/add",
+    "/dashboard/exp-edu/all",
+    "/dashboard/exp-edu/add",
+    "/dashboard/certificates/all",
+    "/dashboard/certificates/add",
+    "/dashboard/testimonials/all",
+    "/dashboard/testimonials/add",
+    "/dashboard/articles/all",
+    "/dashboard/articles/add",
+    "/dashboard/faqs/all",
+    "/dashboard/faqs/add",
+    "/dashboard/contacts",
+    "/dashboard/contacts/email-template",
+  ],
 }
+
+// Create a Set for fast lookup from the centralized `data.routes`.
+const ROUTES = new Set(data.routes)
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname()
@@ -247,6 +282,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     }
   }, [user, userDisplayName, loading])
 
+  // Keep only children that point to real routes. Parent groups without
+  // any valid children are removed.
+  const filteredNavMain = React.useMemo(() => {
+    return data.navMain
+      .map((item) => ({
+        ...item,
+        items: item.items?.filter((it) => ROUTES.has(it.url)) ?? [],
+      }))
+      .filter((item) => (item.items && item.items.length > 0))
+  }, [])
+
+  const filteredProjects = React.useMemo(() => data.projects.filter((p) => ROUTES.has(p.url)), [])
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -268,8 +316,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarGroup>
-        <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        <NavMain items={filteredNavMain} />
+        <NavProjects projects={filteredProjects} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={userData} />
