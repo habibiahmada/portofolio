@@ -3,13 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { Eye, EyeOff, Save, Mail, Type } from 'lucide-react'
-
-type Template = {
-  key: string
-  subject: string
-  body: string
-}
+import { Eye, EyeOff, Save, Type } from 'lucide-react'
 
 export default function EmailTemplateEditor() {
   const [subject, setSubject] = useState('')
@@ -52,8 +46,9 @@ export default function EmailTemplateEditor() {
       } else {
         setMessage('Failed to save template: ' + (data?.error || JSON.stringify(data)))
       }
-    } catch (err: any) {
-      setMessage('Error: ' + String(err))
+    } catch (err: unknown) {
+      const messageText = err instanceof Error ? err.message : String(err)
+      setMessage('Error: ' + messageText)
     } finally {
       setLoading(false)
     }
@@ -190,10 +185,10 @@ export default function EmailTemplateEditor() {
                         <ReactMarkdown 
                           remarkPlugins={[remarkGfm]}
                           components={{
-                            p: ({node, ...props}) => <p className="text-muted-foreground leading-relaxed mb-3 last:mb-0" {...props} />,
-                            strong: ({node, ...props}) => <strong className="text-foreground font-semibold" {...props} />,
-                            a: ({node, ...props}) => <a className="text-primary underline" {...props} />,
-                            code: ({node, ...props}) => <code className="bg-muted/30 text-foreground px-1 py-0.5 rounded text-xs" {...props} />
+                            p: (props) => <p className="text-muted-foreground leading-relaxed mb-3 last:mb-0" {...props} />,
+                            strong: (props) => <strong className="text-foreground font-semibold" {...props} />,
+                            a: (props) => <a className="text-primary underline" {...props} />,
+                            code: (props) => <code className="bg-muted/30 text-foreground px-1 py-0.5 rounded text-xs" {...props} />
                           }}
                         >
                           {renderPreviewBody()}

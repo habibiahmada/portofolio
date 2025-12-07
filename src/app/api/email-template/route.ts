@@ -25,8 +25,8 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    const { key = 'contact', subject, body: templateBody } = body as any;
+    const body = (await req.json()) as { key?: string; subject?: string; body?: string } | undefined;
+    const { key = 'contact', subject, body: templateBody } = (body ?? {});
 
     if (!subject || !templateBody) {
       return NextResponse.json({ error: 'Missing subject or body' }, { status: 400 });
@@ -48,8 +48,8 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ ok: true, template: data });
-  } catch (err) {
-    console.error('POST /api/email-template', err);
+  } catch (e: unknown) {
+    console.error('POST /api/email-template', e instanceof Error ? e.message : String(e));
     return NextResponse.json({ error: 'Internal error' }, { status: 500 });
   }
 }

@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import type { SendMailOptions } from 'nodemailer';
 import { remark } from 'remark';
 import html from 'remark-html';
 import { NextResponse } from 'next/server';
@@ -11,17 +12,26 @@ type AttachmentPayload = {
   dataUrl: string; // data:<mime>;base64,...
 };
 
+type ContactPayload = {
+  name: string;
+  email: string;
+  phone?: string | null;
+  subject: string;
+  message: string;
+  attachment?: AttachmentPayload | null;
+};
+
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    const { name, email, phone, subject, message, attachment } = body as any;
+    const body = (await req.json()) as Partial<ContactPayload> | undefined;
+    const { name, email, phone, subject, message, attachment } = (body ?? {}) as ContactPayload;
 
     if (!name || !email || !subject || !message) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     // Prepare DB row
-    const row: any = {
+    const row: Record<string, unknown> = {
       name,
       email,
       phone: phone ?? null,
@@ -53,10 +63,11 @@ export async function POST(req: Request) {
             const { data } = supabaseAdmin.storage.from(bucket).getPublicUrl(path);
             row.attachment_url = data?.publicUrl ?? null;
             row.attachment_name = attachmentFilename;
-          } catch (err) {
+          } catch (e: unknown) {
             // Fallback to storing metadata only
             row.attachment_name = attachmentFilename;
             row.attachment_mime = attachmentMime;
+            console.warn('Supabase storage upload failed', e instanceof Error ? e.message : String(e));
           }
         } else {
           // No admin key — store minimal metadata and (optionally) base64 in DB
@@ -100,13 +111,13 @@ export async function POST(req: Request) {
     });
 
     // Try to fetch an email template from Supabase (key = 'contact')
-    let template: any = null;
+    let template: { subject?: string; body?: string } | null = null;
     try {
       const dbForTemplates = supabaseAdmin ?? supabase;
       const tplRes = await dbForTemplates.from('email_templates').select('*').eq('key', 'contact').limit(1).maybeSingle();
-      if (!tplRes.error && tplRes.data) template = tplRes.data;
-    } catch (err) {
-      console.warn('Failed to fetch email template', err);
+      if (!tplRes.error && tplRes.data) template = tplRes.data as { subject?: string; body?: string };
+    } catch (e: unknown) {
+      console.warn('Failed to fetch email template', e instanceof Error ? e.message : String(e));
     }
 
     const placeholders: Record<string, string> = {
@@ -131,11 +142,11 @@ export async function POST(req: Request) {
     try {
       const processed = await remark().use(html).process(finalBodyText);
       finalBodyHtml = String(processed);
-    } catch (err) {
-      console.warn('Failed to convert markdown to HTML for email body', err);
+    } catch (e: unknown) {
+      console.warn('Failed to convert markdown to HTML for email body', e instanceof Error ? e.message : String(e));
     }
 
-    const mailOptions: any = {
+    const mailOptions: SendMailOptions = {
       from: process.env.CONTACT_FROM_EMAIL || smtpUser,
       to: toEmail,
       subject: finalSubject,
@@ -155,14 +166,14 @@ export async function POST(req: Request) {
 
     try {
       await transporter.sendMail(mailOptions);
-    } catch (err) {
-      console.error('Failed to send email', err);
-      return NextResponse.json({ ok: false, saved: true, email: false, error: String(err) }, { status: 500 });
+    } catch (e: unknown) {
+      console.error('Failed to send email', e instanceof Error ? e.message : String(e));
+      return NextResponse.json({ ok: false, saved: true, email: false, error: e instanceof Error ? e.message : String(e) }, { status: 500 });
     }
 
     return NextResponse.json({ ok: true, saved: true });
-  } catch (err) {
-    console.error('Contact handler error', err);
+  } catch (e: unknown) {
+    console.error('Contact handler error', e instanceof Error ? e.message : String(e));
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

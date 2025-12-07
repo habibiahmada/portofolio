@@ -114,14 +114,14 @@ const ContactSection: React.FC = () => {
   // Event Handlers
   const handleFormSubmit = async (formData: ContactFormData) => {
     // If there is an attachment, convert it to base64 so server can receive it in JSON.
-    const payload: any = { ...formData };
+    const payload: Record<string, unknown> = { ...formData };
     if (formData.attachment) {
       try {
         const file = formData.attachment as File;
         const dataUrl = await new Promise<string>((resolve, reject) => {
           const reader = new FileReader();
           reader.onload = () => resolve(String(reader.result ?? ""));
-          reader.onerror = (err) => reject(err);
+          reader.onerror = (e) => reject(e);
           reader.readAsDataURL(file);
         });
         payload.attachment = {
@@ -130,8 +130,8 @@ const ContactSection: React.FC = () => {
           size: file.size,
           dataUrl,
         };
-      } catch (err) {
-        console.error("Failed to read attachment", err);
+      } catch (e: unknown) {
+        console.error("Failed to read attachment", e instanceof Error ? e.message : String(e));
       }
     }
 
