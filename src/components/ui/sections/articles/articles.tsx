@@ -42,7 +42,7 @@ const ArticlesSection: React.FC = () => {
     <section
       className={`
         relative min-h-screen overflow-hidden
-        py-28 sm:py-36 lg:py-40
+        py-28 sm:py-36 lg:py-40 transition-colors duration-300
         ${isDark ? "bg-slate-950" : "bg-gray-50"}
       `}
     >

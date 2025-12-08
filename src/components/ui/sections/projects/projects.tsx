@@ -47,7 +47,7 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className={`relative overflow-hidden py-28 sm:py-36 lg:py-40 pb-5 
+      className={`relative overflow-hidden py-28 sm:py-36 lg:py-40 pb-5 transition-colors duration-300 
         ${isDark ? "bg-slate-950" : "bg-gradient-to-b from-white to-slate-50"}`}
     >
       <div className="container mx-auto px-4 max-w-7xl">

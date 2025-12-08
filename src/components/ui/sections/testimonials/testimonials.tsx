@@ -89,7 +89,7 @@ const TestimonialSection = () => {
   return (
     <section
       id="testimonials"
-      className={`relative min-h-screen overflow-hidden py-28 sm:py-36 lg:py-40 ${isDark ? "dark:bg-slate-950" : "bg-slate-50"
+      className={`relative min-h-screen overflow-hidden py-28 sm:py-36 lg:py-40 transition-colors duration-300 ${isDark ? "dark:bg-slate-950" : "bg-slate-50"
         }`}
     >
       <div className="container mx-auto px-4 relative z-10">

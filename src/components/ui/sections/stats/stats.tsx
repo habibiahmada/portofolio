@@ -59,7 +59,7 @@ export default function Stats() {
     >
       {/* Background */}
       <div
-        className={`absolute inset-0 bg-gradient-to-b ${
+        className={`absolute inset-0 bg-gradient-to-b transition-colors duration-300 ease-in-out ${
           isDark
             ? "from-slate-950 via-gray-950 to-slate-950"
             : "from-slate-50 via-gray-50 to-slate-50"

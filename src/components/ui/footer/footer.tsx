@@ -23,7 +23,7 @@ export default function Footer() {
 
   return (
     <footer
-      className={`py-16 ${
+      className={`py-16 transition-colors duration-300 ${
         isDark ? "bg-black text-gray-200" : "bg-gray-100 text-gray-800"
       }`}
     >
@@ -52,7 +52,7 @@ export default function Footer() {
                 <Link
                   key={i}
                   href="#"
-                  className={`p-2 rounded-lg ${
+                  className={`p-2 rounded-lg transition-colors duration-300 ${
                     isDark
                       ? "bg-gray-800 hover:bg-gray-700"
                       : "bg-gray-200 hover:bg-gray-300"

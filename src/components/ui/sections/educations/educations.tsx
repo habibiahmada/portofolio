@@ -38,7 +38,7 @@ export default function Education() {
   return (
     <section
       id="experience"
-      className={`relative min-h-screen pt-28 sm:pt-36 lg:pt-40 pb-10 overflow-hidden ${
+      className={`relative min-h-screen pt-28 sm:pt-36 lg:pt-40 pb-10 overflow-hidden transition-colors duration-300 ${
         isDark ? "bg-slate-950" : "bg-gradient-to-t from-white to-slate-50"
       }`}
     >

@@ -70,7 +70,7 @@ export default function MyService() {
   return (
     <section
       id="services"
-      className={`relative overflow-hidden pt-28 sm:pt-36 lg:pt-40 pb-5
+      className={`relative overflow-hidden pt-28 sm:pt-36 lg:pt-40 pb-5 transition-colors duration-300
         ${isDark ? "bg-slate-950" : "bg-gradient-to-b from-white to-slate-50"}`}
     >
       {/* Background Effects */}

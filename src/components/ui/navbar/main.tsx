@@ -53,7 +53,7 @@ export default function Navbar({ withNavigation = true }: NavbarProps) {
   return (
     <header
       id="header"
-      className={`fixed top-0 left-0 right-0 z-50  ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
         isScrolled
           ? "bg-white/30 dark:bg-gray-900/30 backdrop-blur-lg border-b border-white/20 dark:border-gray-800/40"
           : "bg-white/30 dark:bg-gray-900/30 border-b border-transparent"

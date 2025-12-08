@@ -27,7 +27,7 @@ export default function SkillsSection() {
   return (
     <section
       id="skills"
-      className="bg-white dark:bg-slate-950 py-5 md:py-8 lg:py-10"
+      className="bg-white dark:bg-slate-950 py-5 md:py-8 lg:py-10 transition-colors duration-300"
     >
       <div className="container mx-auto px-6 max-w-6xl">
         <SectionHeader

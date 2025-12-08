@@ -24,7 +24,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className={`relative overflow-hidden py-28 sm:py-36 lg:py-40
+      className={`relative overflow-hidden py-28 sm:py-36 lg:py-40 transition-colors duration-300 ease-in-out 
         ${isDark ? "bg-slate-950" : "bg-gradient-to-t from-slate-50 via-gray-50 to-slate-50"}`}
     >
       {/* Background Shapes */}

@@ -117,7 +117,7 @@ export default function Hero() {
     <section
     id="home"
     className={`relative overflow-hidden min-h-screen flex items-center 
-        pt-24 sm:pt-28 lg:pt-32 pb-24
+        pt-24 sm:pt-28 lg:pt-32 pb-24 transition-colors duration-300
         ${isDark
         ? "bg-gradient-to-br from-slate-950 to-slate-950"
         : "bg-gradient-to-br from-slate-50 via-white to-blue-50/30"

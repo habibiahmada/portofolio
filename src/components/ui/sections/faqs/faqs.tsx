@@ -67,7 +67,7 @@ const ModernFAQSection: React.FC = () => {
     <section
         className={`
         relative overflow-hidden
-        py-28 sm:py-36 lg:py-40
+        py-28 sm:py-36 lg:py-40 transition-colors duration-300
         ${
           isDark ? "bg-slate-950" : "bg-slate-50"
         }`} 

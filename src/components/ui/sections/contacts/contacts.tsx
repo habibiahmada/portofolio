@@ -196,7 +196,7 @@ const ContactSection: React.FC = () => {
   id="contact" 
   className={`
     relative overflow-hidden
-    py-16 sm:py-24 lg:py-32
+    py-16 sm:py-24 lg:py-32 transition-colors duration-300
     ${isDark ? "bg-slate-950" : "bg-gray-50"}
   `}
 >
