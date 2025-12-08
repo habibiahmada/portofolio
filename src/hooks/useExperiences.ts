@@ -12,7 +12,7 @@ export default function useExperiences() {
   useEffect(() => {
     async function fetchExperience() {
       try {
-        const res = await fetch(`/api/experiences?lang=${lang}`);
+        const res = await fetch(`/api/experiences?lang=${lang}`, { next: { revalidate: 0 } });
         const json = await res.json();
         setExperiences((json.data as Experience[]) || []);
       } catch (err) {

@@ -5,7 +5,10 @@ import { useTheme } from 'next-themes';
 import { Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-export default function ThemeToggle() {
+export default function ThemeToggle({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLButtonElement>) {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
 
@@ -20,7 +23,7 @@ export default function ThemeToggle() {
       variant="outline"
       size="icon"
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-      className="rounded-full cursor-pointer"
+      className={`rounded-full cursor-pointer ${className}`}
     >
       {theme === 'dark' ? (
         <Sun className="h-5 w-5" />

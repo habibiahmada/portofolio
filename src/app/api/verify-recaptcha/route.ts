@@ -13,6 +13,7 @@ export async function POST(req: Request) {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: `secret=${secret}&response=${token}`,
+      next: { revalidate: 0 },
     });
 
     const data = await response.json();

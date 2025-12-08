@@ -13,7 +13,8 @@ export default function useArticles(limit?: number) {
     async function fetchArticles() {
       try {
         const res = await fetch(
-          `/api/articles/all?lang=${lang}${limit ? `&limit=${limit}` : ""}`
+          `/api/articles/all?lang=${lang}${limit ? `&limit=${limit}` : ""}`,
+          { next: { revalidate: 0 } }
         );
         const json = await res.json();
         setArticles(json.data || []);

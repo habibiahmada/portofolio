@@ -12,7 +12,7 @@ export default function useProjects() {
   useEffect(() => {
     async function fetchProjects() {
       try {
-        const res = await fetch(`/api/projects?lang=${lang}`);
+        const res = await fetch(`/api/projects?lang=${lang}`, { next: { revalidate: 0 } });
         const json = await res.json();
         setProjects(json.data || []);
       } catch (err) {

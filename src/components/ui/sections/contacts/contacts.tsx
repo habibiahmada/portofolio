@@ -140,6 +140,7 @@ const ContactSection: React.FC = () => {
       method: "POST",
       body: JSON.stringify(payload),
       headers: { "Content-Type": "application/json" },
+      next: { revalidate: 0 },
     });
 
     if (!formRes.ok) {

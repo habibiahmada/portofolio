@@ -76,9 +76,9 @@ export default function Navbar({ withNavigation = true }: NavbarProps) {
         )}
 
         {/* Right Controls */}
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-1">
           <LanguageSwitcher />
-          <ThemeSwitcher />
+          <ThemeSwitcher className="hidden md:flex" />
           {withNavigation && <MobileMenu navLinks={navLinks} />}
         </div>
       </nav>

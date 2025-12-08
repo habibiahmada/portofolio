@@ -124,6 +124,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token: recaptchaToken }),
+        next: { revalidate: 0 },
       });
   
       const verifyData = await verifyRes.json();

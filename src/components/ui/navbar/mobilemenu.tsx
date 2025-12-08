@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
+import ThemeSwitcher from "@/components/theme/theme-toggle";
 
 interface NavLink {
   href: string;
@@ -93,7 +94,7 @@ export default function MobileMenu({ navLinks }: Props) {
       <div
         id="mobile-menu"
         ref={menuRef}
-        className={`fixed top-18 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-t border-gray-200 dark:border-gray-700 transform lg:hidden ${
+        className={`fixed top-18 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-t border-gray-200 dark:border-gray-700 transform lg:hidden transition-all duration-300 ${
           isOpen
             ? "opacity-100 translate-y-0"
             : "opacity-0 -translate-y-5 pointer-events-none"
@@ -102,6 +103,9 @@ export default function MobileMenu({ navLinks }: Props) {
         aria-modal="true"
       >
         <div className="flex flex-col px-4 py-6">
+          <div className="flex justify-end">
+            <ThemeSwitcher className="md:hidden" />
+          </div>
           {navLinks.map((link) => (
             <MobileNavLink key={link.href} onClick={handleLinkClick} {...link} />
           ))}
