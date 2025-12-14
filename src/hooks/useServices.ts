@@ -13,7 +13,7 @@ export default function useServices() {
   useEffect(() => {
     async function fetchServices() {
       try {
-        const res = await fetch(`/api/services/all?lang=${lang}`, { next: { revalidate: 0 } });
+        const res = await fetch(`/api/services?lang=${lang}`, { next: { revalidate: 0 } });
         const json = await res.json();
         setServices((json?.data as Services[]) || []);
       } catch (err) {

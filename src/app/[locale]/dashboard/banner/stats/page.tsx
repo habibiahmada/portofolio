@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { toast } from 'sonner'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -52,11 +52,7 @@ export default function StatsAdminPage() {
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === 'dark'
 
-  useEffect(() => {
-    fetchStats()
-  }, [])
-
-  async function fetchStats() {
+  const fetchStats = useCallback(async () => {
     setLoading(true)
     try {
       const res = await fetch(`/api/stats?lang=${locale}`)
@@ -67,7 +63,11 @@ export default function StatsAdminPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [locale, t])
+
+  useEffect(() => {
+    fetchStats()
+  }, [fetchStats])
 
   function updateField<T extends keyof StatItem>(
     index: number,
@@ -120,6 +120,7 @@ export default function StatsAdminPage() {
 
   return (
     <div className="min-h-screen p-6 space-y-6 relative">
+
       {/* Loading overlay */}
       {loading && (
         <div className="fixed inset-0 bg-black/10 backdrop-blur-sm flex items-center justify-center">

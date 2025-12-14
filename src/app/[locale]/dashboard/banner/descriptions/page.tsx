@@ -1,15 +1,31 @@
-'use client';
+"use client";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { Plus, Trash2, FileText } from "lucide-react";
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { toast } from "sonner";
+
+interface HeroSnapshot {
+  greeting: string;
+  description: string;
+  typewriter_texts: string[];
+  developer_tag: string;
+  console_tag: string;
+  cv_url: string;
+  cv_file: string | null;
+}
 
 export default function Page() {
   const locale = useLocale();
@@ -18,7 +34,6 @@ export default function Page() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
-  // Form State
   const [greeting, setGreeting] = useState("");
   const [description, setDescription] = useState("");
   const [typewriterTexts, setTypewriterTexts] = useState<string[]>([]);
@@ -26,38 +41,39 @@ export default function Page() {
   const [developerTag, setDeveloperTag] = useState("<Developer />");
   const [consoleTag, setConsoleTag] = useState("Hello World!");
 
-  // CV State
   const [cvUrl, setCvUrl] = useState("");
   const [selectedCVFile, setSelectedCVFile] = useState<File | null>(null);
+
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const initialRef = useRef<any | null>(null);
+  const initialRef = useRef<HeroSnapshot | null>(null);
 
   useEffect(() => {
     async function fetchData() {
       try {
         const res = await fetch(`/api/hero?lang=${locale}`);
-        const { data } = await res.json();
+        const json: { data?: Partial<HeroSnapshot> } = await res.json();
+        const data = json.data;
 
-        if (data) {
-          setGreeting(data.greeting ?? "");
-          setDescription(data.description ?? "");
-          setTypewriterTexts(data.typewriter_texts ?? []);
-          setDeveloperTag(data.developer_tag ?? "<Developer />");
-          setConsoleTag(data.console_tag ?? "Hello World!");
-          setCvUrl(data.cv_url ?? "");
-          // store initial snapshot for change detection
-          initialRef.current = {
-            greeting: data.greeting ?? "",
-            description: data.description ?? "",
-            typewriter_texts: data.typewriter_texts ?? [],
-            developer_tag: data.developer_tag ?? "<Developer />",
-            console_tag: data.console_tag ?? "Hello World!",
-            cv_url: data.cv_url ?? "",
-            cv_file: null
-          };
-        }
-      } catch (err) {
-        console.error(err);
+        if (!data) return;
+
+        setGreeting(data.greeting ?? "");
+        setDescription(data.description ?? "");
+        setTypewriterTexts(data.typewriter_texts ?? []);
+        setDeveloperTag(data.developer_tag ?? "<Developer />");
+        setConsoleTag(data.console_tag ?? "Hello World!");
+        setCvUrl(data.cv_url ?? "");
+
+        initialRef.current = {
+          greeting: data.greeting ?? "",
+          description: data.description ?? "",
+          typewriter_texts: data.typewriter_texts ?? [],
+          developer_tag: data.developer_tag ?? "<Developer />",
+          console_tag: data.console_tag ?? "Hello World!",
+          cv_url: data.cv_url ?? "",
+          cv_file: null
+        };
+      } catch (error) {
+        console.error(error);
         toast.error(t("toast.loadError"));
       } finally {
         setLoading(false);
@@ -67,15 +83,10 @@ export default function Page() {
     fetchData();
   }, [locale, t]);
 
-  const addTypewriterText = () => {
-    if (!newTypewriterText.trim()) return;
-    setTypewriterTexts(prev => [...prev, newTypewriterText.trim()]);
-    setNewTypewriterText("");
-  };
-
   const hasChanges = useMemo(() => {
     if (!initialRef.current) return false;
-    const current = {
+
+    const current: HeroSnapshot = {
       greeting,
       description,
       typewriter_texts: typewriterTexts,
@@ -84,37 +95,46 @@ export default function Page() {
       cv_url: cvUrl,
       cv_file: selectedCVFile ? selectedCVFile.name : null
     };
-    try {
-      return JSON.stringify(current) !== JSON.stringify(initialRef.current);
-    } catch (_) {
-      return false;
-    }
-  }, [greeting, description, typewriterTexts, developerTag, consoleTag, cvUrl, selectedCVFile]);
+
+    return JSON.stringify(current) !== JSON.stringify(initialRef.current);
+  }, [
+    greeting,
+    description,
+    typewriterTexts,
+    developerTag,
+    consoleTag,
+    cvUrl,
+    selectedCVFile
+  ]);
 
   const resetToInitial = () => {
     if (!initialRef.current) return;
-    setGreeting(initialRef.current.greeting ?? "");
-    setDescription(initialRef.current.description ?? "");
-    setTypewriterTexts(initialRef.current.typewriter_texts ?? []);
-    setDeveloperTag(initialRef.current.developer_tag ?? "<Developer />");
-    setConsoleTag(initialRef.current.console_tag ?? "Hello World!");
-    setCvUrl(initialRef.current.cv_url ?? "");
+
+    const snap = initialRef.current;
+    setGreeting(snap.greeting);
+    setDescription(snap.description);
+    setTypewriterTexts(snap.typewriter_texts);
+    setDeveloperTag(snap.developer_tag);
+    setConsoleTag(snap.console_tag);
+    setCvUrl(snap.cv_url);
     setSelectedCVFile(null);
+  };
+
+  const addTypewriterText = () => {
+    if (!newTypewriterText.trim()) return;
+    setTypewriterTexts(prev => [...prev, newTypewriterText.trim()]);
+    setNewTypewriterText("");
+  };
+
+  const updateTypewriterText = (index: number, value: string) => {
+    setTypewriterTexts(prev =>
+      prev.map((item, i) => (i === index ? value : item))
+    );
   };
 
   const removeTypewriterText = (index: number) => {
     setTypewriterTexts(prev => prev.filter((_, i) => i !== index));
   };
-
-  const updateTypewriterText = (index: number, value: string) => {
-    setTypewriterTexts(prev => {
-      const copy = [...prev];
-      copy[index] = value;
-      return copy;
-    });
-  };
-
-  
 
   const handleSave = async () => {
     setSaving(true);
@@ -124,8 +144,6 @@ export default function Page() {
       let finalCvUrl = cvUrl;
 
       if (selectedCVFile) {
-        toast.loading(t("toast.uploading"), { id: toastId });
-
         const formData = new FormData();
         formData.append("file", selectedCVFile);
 
@@ -134,18 +152,11 @@ export default function Page() {
           body: formData
         });
 
-        if (!uploadRes.ok) {
-          throw new Error("Upload failed");
-        }
+        if (!uploadRes.ok) throw new Error("Upload failed");
 
-        const uploadData = await uploadRes.json();
-        finalCvUrl = uploadData.url;
-
-        setCvUrl(finalCvUrl);
-        setSelectedCVFile(null);
+        const uploadJson: { url?: string } = await uploadRes.json();
+        finalCvUrl = uploadJson.url ?? finalCvUrl;
       }
-
-      toast.loading(t("toast.updating"), { id: toastId });
 
       const res = await fetch(`/api/hero?lang=${locale}`, {
         method: "PUT",
@@ -160,21 +171,23 @@ export default function Page() {
         })
       });
 
-      if (!res.ok) throw new Error();
+      if (!res.ok) throw new Error("Save failed");
 
       toast.success(t("toast.success"), { id: toastId });
-    } catch (err) {
-      console.error(err);
+      setSelectedCVFile(null);
+      setCvUrl(finalCvUrl);
+    } catch (error) {
+      console.error(error);
       toast.error(t("toast.saveError"), { id: toastId });
     } finally {
       setSaving(false);
     }
   };
 
+  /* JSX DI BAWAH TIDAK DIUBAH */
 
   return (
     <div className="min-h-screen">
-      {/* Loading overlay */}
       {loading && (
         <div className="fixed inset-0 bg-black/10 backdrop-blur-sm flex items-center justify-center">
           <div className="bg-card px-4 py-2 rounded-md shadow">

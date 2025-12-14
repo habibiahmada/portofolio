@@ -9,13 +9,7 @@ import { useLocale } from "next-intl";
 // Local icon list and color palettes to avoid relying on DB-provided icon/color
 const IconList: LucideIcon[] = [Users, CheckCircle, Clock];
 
-const IconMap: { [key: string]: LucideIcon } = {
-  // kept for compatibility but will not be used to read values from DB
-  CheckCircle,
-  Clock,
-  Users,
-  default: CheckCircle,
-};
+// IconMap removed — component uses local IconList for rendering consistency
 
 const gradientColors = [
   'from-indigo-500 to-blue-500',

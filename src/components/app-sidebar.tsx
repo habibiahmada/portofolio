@@ -3,7 +3,6 @@
 import * as React from "react"
 import {
   BookOpen,
-  Bot,
   Frame,
   GalleryVerticalEnd,
   Home,
@@ -55,9 +54,8 @@ const data = {
         { title: "Companies", url: "/dashboard/banner/companies" },
       ],
     },
-    { title: "About", url: "/dashboard/about/descriptions", icon: Bot },
-    { title: "Services", url: "/dashboard/services/all", icon: BookOpen },
-    { title: "Projects", url: "/dashboard/projects/all", icon: Frame },
+    { title: "Services", url: "/dashboard/services", icon: BookOpen },
+    { title: "Projects", url: "/dashboard/projects", icon: Frame },
     { title: "Tools & Technology", url: "/dashboard/tools-tech/all", icon: Wrench },
     { title: "Experience & Education", url: "/dashboard/exp-edu/all", icon: GraduationCap },
     { title: "Certifications", url: "/dashboard/certificates/all", icon: Award },

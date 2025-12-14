@@ -102,7 +102,7 @@ export default async function DashboardPage() {
           title="Projects"
           value={counts.projects}
           color="blue"
-          href="/dashboard/projects/all"
+          href="/dashboard/projects"
         />
         <StatCard
           icon={FileText}
@@ -116,7 +116,7 @@ export default async function DashboardPage() {
           title="Services"
           value={counts.services}
           color="orange"
-          href="/dashboard/services/all"
+          href="/dashboard/services"
         />
         <StatCard
           icon={Wrench}
@@ -215,7 +215,7 @@ export default async function DashboardPage() {
             />
             <QuickActionButton
               label="Add Service"
-              href="/dashboard/services/add"
+              href="/dashboard/services"
               color="orange"
             />
             <QuickActionButton
