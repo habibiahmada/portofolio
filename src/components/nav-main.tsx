@@ -1,99 +1,78 @@
 "use client"
 
-import { ChevronRight, type LucideIcon } from "lucide-react"
-
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible"
+import * as React from "react"
+import { usePathname } from "@/i18n/routing"
 import {
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { Link } from "@/i18n/routing"
+import { cn } from "@/lib/utils"
 
-export function NavMain({
-  items,
-}: {
-  items: {
+type NavItem = {
+  title: string
+  url?: string
+  icon?: React.ElementType
+  items?: {
     title: string
     url: string
-    icon?: LucideIcon
-    isActive?: boolean
-    items?: {
-      title: string
-      url: string
-    }[]
   }[]
-}) {
+}
+
+interface NavMainProps {
+  items: NavItem[]
+}
+
+export function NavMain({ items }: NavMainProps) {
   const pathname = usePathname()
 
-  return (
-    <SidebarGroup>
-      <SidebarGroupLabel>Content Management</SidebarGroupLabel>
-      <SidebarMenu>
-        {items.map((item) => {
-          const itemActive =
-            item.isActive ?? (!!item.url && item.url !== "#" && pathname.startsWith(item.url))
+  const isActive = (url?: string) => {
+    if (!url) return false
+    return pathname === url || pathname.startsWith(url + "/")
+  }
 
-          if (!item.items || item.items.length === 0) {
-            return (
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild tooltip={item.title} isActive={itemActive} className="cursor-pointer">
+  return (
+    <>
+      {items.map((item) => (
+        <SidebarGroup key={item.title} className="py-0">
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                asChild
+                isActive={isActive(item.url)}
+                className={cn(item.items?.length && "font-medium")}
+              >
+                {item.url ? (
                   <Link href={item.url}>
                     {item.icon && <item.icon />}
                     <span>{item.title}</span>
                   </Link>
+                ) : (
+                  <span>
+                    {item.icon && <item.icon />}
+                    {item.title}
+                  </span>
+                )}
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+
+            {item.items?.map((sub) => (
+              <SidebarMenuItem key={sub.title} className="ml-6">
+                <SidebarMenuButton
+                  asChild
+                  isActive={isActive(sub.url)}
+                >
+                  <Link href={sub.url}>
+                    <span>{sub.title}</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-            )
-          }
-
-          return (
-            <Collapsible
-              key={item.title}
-              asChild
-              defaultOpen={itemActive}
-              className="group/collapsible"
-            >
-              <SidebarMenuItem>
-                <CollapsibleTrigger asChild>
-                  <SidebarMenuButton tooltip={item.title} isActive={itemActive} className="cursor-pointer">
-                    {item.icon && <item.icon />}
-                    <span>{item.title}</span>
-                    <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                  </SidebarMenuButton>
-                </CollapsibleTrigger>
-                <CollapsibleContent>
-                  <SidebarMenuSub>
-                    {item.items?.map((subItem) => {
-                      const subActive =
-                        !!subItem.url && subItem.url !== "#" && (pathname === subItem.url || pathname.startsWith(subItem.url))
-                      return (
-                        <SidebarMenuSubItem key={subItem.title}>
-                          <SidebarMenuSubButton asChild isActive={subActive}>
-                            <Link href={subItem.url}>
-                              <span>{subItem.title}</span>
-                            </Link>
-                          </SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
-                      )
-                    })}
-                  </SidebarMenuSub>
-                </CollapsibleContent>
-              </SidebarMenuItem>
-            </Collapsible>
-          )
-        })}
-      </SidebarMenu>
-    </SidebarGroup>
+            ))}
+          </SidebarMenu>
+        </SidebarGroup>
+      ))}
+    </>
   )
 }

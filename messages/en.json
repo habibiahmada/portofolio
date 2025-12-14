@@ -56,6 +56,9 @@
   "cv": {
     "title": "CV / Resume",
     "description": "Manage the PDF file available for download on your site.",
+    "currentLabel": "Current CV",
+    "none": "No CV uploaded",
+    "view": "View CV",
     "currentStatus": "Current Status",
     "uploadNew": "Upload New File",
     "noCv": "No CV uploaded yet.",

@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Trash2 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { Plus, Trash2, FileText } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { toast } from "sonner";
 
@@ -29,6 +29,7 @@ export default function Page() {
   // CV State
   const [cvUrl, setCvUrl] = useState("");
   const [selectedCVFile, setSelectedCVFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -243,6 +244,59 @@ export default function Page() {
                 <Plus className="w-4 h-4 mr-2" />
                 {t("typewriter.add")}
               </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+         {/* CV Upload */}
+        <Card>
+          <CardHeader>
+            <CardTitle>{t("cv.title")}</CardTitle>
+            <CardDescription>{t("cv.description")}</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <FileText className="w-6 h-6 text-muted-foreground" />
+                <div>
+                  <div className="text-sm font-medium">{t("cv.currentLabel")}</div>
+                  <div className="text-sm text-muted-foreground">
+                    {selectedCVFile
+                      ? selectedCVFile.name
+                      : cvUrl
+                      ? decodeURIComponent((cvUrl.split('/').pop() as string) ?? cvUrl)
+                      : t("cv.none")}
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => cvUrl && window.open(cvUrl, '_blank')}
+                  disabled={!cvUrl}
+                >
+                  {t("cv.view")}
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  {t("cv.change")}
+                </Button>
+              </div>
+
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".pdf"
+                className="hidden"
+                onChange={e => {
+                  const file = e.target.files?.[0];
+                  if (file) setSelectedCVFile(file);
+                }}
+              />
             </div>
           </CardContent>
         </Card>

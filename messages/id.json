@@ -51,6 +51,9 @@
   "cv": {
     "title": "CV / Resume",
     "description": "Kelola file PDF yang bisa diunduh di website.",
+    "currentLabel": "CV Saat Ini",
+    "none": "Belum ada CV",
+    "view": "Lihat CV",
     "currentStatus": "Status Saat Ini",
     "uploadNew": "Unggah File Baru",
     "noCv": "Belum ada CV yang diunggah.",
