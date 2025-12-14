@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/sidebar"
 import { useAuth } from "@/contexts/AuthContext"
 import { usePathname, useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 export function NavUser({
   user,
@@ -52,8 +53,10 @@ export function NavUser({
 
   const handleSignOut = async () => {
     try {
+      toast.loading('Signing out...')
       await signOut()
       router.push('/login')
+      toast.success('Signed out successfully')
     } catch (error) {
       console.error('Error signing out:', error)
     }

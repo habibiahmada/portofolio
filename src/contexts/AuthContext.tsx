@@ -5,7 +5,6 @@ import { createClient } from '@/utils/supabase/client'
 import { onAuthStateChange, isAuthorizedUser, getUserDisplayName } from '@/lib/auth'
 import type { AuthUser, AuthState } from '@/lib/auth'
 import type { Session } from '@supabase/supabase-js'
-import router from 'next/router'
 
 const supabase = createClient()
 
@@ -135,10 +134,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (error) {
         throw new Error(error.message)
       }
-      // Clear local state immediately
       setUser(null)
       setSession(null)
-      router.push(`/${lang}`)
+      if(!setSession){
+        console.log('No active session found.')
+      }
     } catch (error) {
       console.error('Sign out error:', error)
       throw error

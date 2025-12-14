@@ -45,16 +45,24 @@ export async function GET(request: Request) {
     }
 
     // Redirect to the intended page
-    const forwardedHost = request.headers.get('x-forwarded-host')
+    const forwardedHost = request.headers.get('x-forwarded-host') || request.headers.get('host')
+    const forwardedProto = request.headers.get('x-forwarded-proto') || 'https'
+    const publicSite = process.env.NEXT_PUBLIC_SITE_URL
     const isLocalEnv = process.env.NODE_ENV === 'development'
-    
+
     if (isLocalEnv) {
       return NextResponse.redirect(`${origin}${next}`)
-    } else if (forwardedHost) {
-      return NextResponse.redirect(`https://${forwardedHost}${next}`)
-    } else {
-      return NextResponse.redirect(`${origin}${next}`)
     }
+
+    // Prefer an explicit public URL from environment in production
+    // Fallback to forwarded host (proxy) + proto, otherwise fall back to origin
+    const base = publicSite
+      ? publicSite.replace(/\/$/, '')
+      : forwardedHost
+      ? `${forwardedProto}://${forwardedHost}`
+      : origin
+
+    return NextResponse.redirect(`${base}${next}`)
     
   } catch (err) {
     return NextResponse.redirect(`${origin}/en/login?error=callback_error&description=${encodeURIComponent(err instanceof Error ? err.message : 'Unknown error')}`)
