@@ -9,7 +9,9 @@ declare global {
       render: (element: HTMLElement, options: {
         sitekey: string;
         callback: (token: string) => void;
-      }) => void;
+        theme?: 'light' | 'dark';
+        size?: 'normal' | 'compact';
+      }) => number | void;
     };
   }
 }
@@ -53,7 +55,7 @@ export default function ReCaptcha({ siteKey, onVerify, className, theme, size }:
       // Avoid double-render if element already has children (Fast Refresh/StrictMode)
       if (recaptchaRef.current.childNodes.length > 0) return;
       if (!window.grecaptcha || typeof window.grecaptcha.render !== "function") return;
-      try {
+        try {
         // determine theme
         let resolvedTheme: "light" | "dark" = "light";
         if (theme) resolvedTheme = theme;
@@ -64,7 +66,7 @@ export default function ReCaptcha({ siteKey, onVerify, className, theme, size }:
             } else if (document.documentElement.classList.contains("dark")) {
               resolvedTheme = "dark";
             }
-          } catch (e) {
+          } catch {
             // ignore
           }
         }
@@ -79,7 +81,7 @@ export default function ReCaptcha({ siteKey, onVerify, className, theme, size }:
           callback: (token: string) => onVerify(token),
           theme: resolvedTheme,
           size: resolvedSize,
-        } as any);
+        });
         widgetIdRef.current = typeof widgetId === "number" ? widgetId : 0;
       } catch (err) {
         console.error("ReCaptcha: render failed", err);
@@ -106,7 +108,7 @@ export default function ReCaptcha({ siteKey, onVerify, className, theme, size }:
     return () => {
       // nothing to cleanup explicitly; widget is managed by Google API inside the div
     };
-  }, [siteKey, onVerify]);
+  }, [siteKey, onVerify, size, theme]);
 
   return <div className={className ?? "flex justify-center"}>
     <div ref={recaptchaRef} />

@@ -26,7 +26,6 @@ export const metadata = {
     shortcut: "/favicon-96x96.png",
     apple: "/apple-touch-icon.png",
   },
-  manifest: "/web-app-manifest-192x192.png",
 };
 
 export default async function LocaleLayout({ children, params }: Props) {

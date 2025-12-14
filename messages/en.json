@@ -1,4 +1,4 @@
-{    
+{
   "Header": {
     "brand": "habibiahmada",
     "nav": {
@@ -12,210 +12,253 @@
     }
   },
   "hero": {
-    "greeting": "Hi! I'm a",
-    "typewriterTexts": [
-      "Fullstack Web Developer",
-      "Frontend & Backend Engineer", 
-      "AWS Cloud Computing Trainer",
-      "AI & Emerging Tech Enthusiast",
-      "High School Student"
-    ],
-    "description": "Passionate about creating impactful digital experiences. Skilled in building scalable systems and user-centered interfaces with a strong focus on performance and long-term maintainability."
-    ,
-    "buttons": {
-      "viewProjects": "View Projects",
-      "downloadCV": "Download CV"
+    "title": "Hero Section",
+    "subtitle": "Manage your homepage hero banner content, typewriter texts, and downloadable assets.",
+    "loading": "Loading hero data...",
+    "error": "Failed to load hero data.",
+
+    "contentCard": {
+      "title": "Content & Configuration",
+      "description": "Configure the main text and technical badges shown on the banner.",
+    "greeting": {
+      "label": "Greeting Text",
+      "placeholder": "e.g. Hi! I'm a..."
     },
-    "techIcons": {
-      "fullStack": "Full Stack",
-      "aiMl": "AI/ML", 
-      "performance": "Performance",
-      "cloud": "Cloud"
+    "developerTag": {
+      "label": "Developer Tag",
+      "placeholder": "<Developer />"
     },
-    "scrollIndicator": "SCROLL",
-    "imageAlt": "Habibi Ahmad Aziz - Fullstack Developer",
-    "codeElements": {
-      "developer": "<developer/>",
-      "console": "Hello!"
+    "consoleTag": {
+      "label": "Console Log Message",
+      "placeholder": "Hello World!"
+    },
+    "bio": {
+      "label": "Bio Description",
+      "placeholder": "Write a short bio..."
     }
   },
-    "stats": {
-      "projects": {
-        "label": "Projects Completed",
-        "description": "Successfully delivered"
-      },
-      "experience": {
-        "label": "Years of Experience",
-        "description": "In the tech industry"
-      },
-      "clients": {
-        "label": "Satisfied Clients",
-        "description": "High satisfaction rating"
-      },
-      "trustedBy": "Trusted by leading companies",
-      "trustedDescription": "Join our clients who have experienced the best results",
-      "loadError": "Failed to load statistics"
+  "techIcons": {
+    "fullStack": "Full Stack",
+    "aiMl": "AI/ML",
+    "performance": "Performance",
+    "cloud": "Cloud"
+  },
+
+  "typewriter": {
+    "title": "Typewriter Animation",
+    "description": "Rotating text phrases that describe your roles.",
+    "empty": "No typewriter texts added yet.",
+    "inputPlaceholder": "Add a new role (e.g. Full Stack Developer)",
+    "add": "Add",
+    "items": "Items"
+  },
+
+  "cv": {
+    "title": "CV / Resume",
+    "description": "Manage the PDF file available for download on your site.",
+    "currentStatus": "Current Status",
+    "uploadNew": "Upload New File",
+    "noCv": "No CV uploaded yet.",
+    "preview": "Preview Current File",
+    "pendingTitle": "New File Selected",
+    "pendingDesc": "is ready to upload.",
+    "pendingHint": "Click \"Save Changes\" below to apply.",
+    "change": "Change Selection"
+  },
+
+  "actions": {
+    "save": "Save Changes",
+    "saving": "Saving...",
+    "unsavedCv": "You have unsaved changes (CV)"
+  },
+
+  "toast": {
+    "loading": "Saving changes...",
+    "uploading": "Uploading CV...",
+    "updating": "Updating content...",
+    "success": "All changes saved successfully!",
+    "loadError": "Failed to load hero data",
+    "saveError": "Failed to save changes",
+    "pdfOnly": "Please upload a PDF file"
+  }
+  },
+  "stats": {
+    "projects": {
+      "label": "Projects Completed",
+      "description": "Successfully delivered"
     },
-    "companies": {
-      "techcorp": "TechCorp",
-      "innovatelab": "InnovateLab",
-      "digitalflow": "DigitalFlow",
-      "cloudsync": "CloudSync",
-      "datavision": "DataVision",
-      "systempro": "SystemPro"
+    "experience": {
+      "label": "Years of Experience",
+      "description": "In the tech industry"
     },
-    "about": {
-      "titleLine1": "A Bit Curious?",
-      "titleLine2": "Take a quick glance",
-      "description1": "I am a Web Developer and a student at SMKN 1 Karawang with a strong passion for building modern digital solutions.",
-      "description2": "Skilled in various programming languages and popular frameworks, with experience in both frontend and backend projects.",
-      "description3": "I am always motivated to learn new technologies and deliver impactful solutions.",
-      "cta": "Let's Collaborate"
+    "clients": {
+      "label": "Satisfied Clients",
+      "description": "High satisfaction rating"
     },
-    "service": {
-      "titleLine1": "Services",
-      "description1": "A complete solution for modern web development needs with cutting-edge technology and stunning designs.",
-      "loading": "Loading services...",
-      "error": "Failed to load services"
+    "trustedBy": "Trusted by leading companies",
+    "trustedDescription": "Join our clients who have experienced the best results",
+    "loadError": "Failed to load statistics"
+  },
+  "companies": {
+    "techcorp": "TechCorp",
+    "innovatelab": "InnovateLab",
+    "digitalflow": "DigitalFlow",
+    "cloudsync": "CloudSync",
+    "datavision": "DataVision",
+    "systempro": "SystemPro"
+  },
+  "about": {
+    "titleLine1": "A Bit Curious?",
+    "titleLine2": "Take a quick glance",
+    "description1": "I am a Web Developer and a student at SMKN 1 Karawang with a strong passion for building modern digital solutions.",
+    "description2": "Skilled in various programming languages and popular frameworks, with experience in both frontend and backend projects.",
+    "description3": "I am always motivated to learn new technologies and deliver impactful solutions.",
+    "cta": "Let's Collaborate"
+  },
+  "service": {
+    "titleLine1": "Services",
+    "description1": "A complete solution for modern web development needs with cutting-edge technology and stunning designs.",
+    "loading": "Loading services...",
+    "error": "Failed to load services"
+  },
+  "educations": {
+    "titleLine1": "Experiences &",
+    "titleLine2": "Educations",
+    "description1": "My career and educational journey shaped my expertise in technology and development.",
+    "tabbuttons1": "Experience",
+    "tabbuttons2": "Education",
+    "showMore": "Show More",
+    "showLess": "Show Less"
+  },
+  "projects": {
+    "titleLine1": "Latest Projects",
+    "description1": "A portfolio of selected projects that demonstrate my skills and experience in developing modern digital solutions.",
+    "noProjectsTitle": "No projects found",
+    "noProjectsDescription": "Try adjusting your filters or search query."
+  },
+  "skills": {
+    "titleLine1": "Tools and Technologies",
+    "description1": "Technologies and tools I use to build modern, scalable web applications",
+    "loadError": "Failed to load skills"
+  },
+  "certifications": {
+    "titleLine1": "Certifications",
+    "description1": "Professional certifications that support my technical expertise and competency in technology development",
+    "certificate1": "Description",
+    "certificate2": "skills learned",
+    "loading": "loading",
+    "error": "error",
+    "page1": "Page",
+    "page2": "of"
+  },
+  "testimonials": {
+    "titleLine1": "What do they say?",
+    "description1": "More than 50+ clients have entrusted their projects and experienced extraordinary results."
+  },
+  "articles": {
+    "titleLine1": "Articles & Media",
+    "description1": "Latest articles, in-depth tutorials, and insights into modern web development from an industry professional perspective",
+    "button": "Browse all articles",
+    "loading": "Loading articles...",
+    "error": "Failed to load articles"
+  },
+  "faqs": {
+    "titleLine1": "Frequently Asked Questions",
+    "description1": "Frequently asked questions about my services and work processes"
+  },
+  "contacts": {
+    "title": "Contact Me",
+    "description": "Ready to bring your digital ideas to life? Let's discuss your project and requirements with a free consultation session",
+    "form": {
+      "title": "Send Message",
+      "description": "Tell us about your project and let's start the discussion",
+      "name": {
+        "label": "Full Name",
+        "placeholder": "Enter your full name"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "name@email.com"
+      },
+      "phone": {
+        "label": "Phone Number",
+        "placeholder": "+62 812-3456-7890"
+      },
+      "subject": {
+        "label": "Subject",
+        "placeholder": "Select service"
+      },
+      "message": {
+        "label": "Message",
+        "placeholder": "Tell us about your project, timeline, budget, and other requirements..."
+      },
+      "attachment": {
+        "label": "Attachment (Optional)",
+        "description": "Max 5MB. Format: PDF, DOC, DOCX, PNG, JPG"
+      },
+      "submit": {
+        "sending": "Sending...",
+        "send": "Send Message"
+      },
+      "responseTime": "Response usually within 24 hours. For urgent matters, contact via WhatsApp."
     },
-    "educations": {
-      "titleLine1": "Experiences &",
-      "titleLine2": "Educations",
-      "description1": "My career and educational journey shaped my expertise in technology and development.",
-      "tabbuttons1": "Experience",
-      "tabbuttons2": "Education",
-      "showMore" : "Show More",
-      "showLess" : "Show Less"
-     },
-     "projects" : {
-      "titleLine1" : "Latest Projects",
-      "description1" : "A portfolio of selected projects that demonstrate my skills and experience in developing modern digital solutions.",
-      "noProjectsTitle": "No projects found",
-      "noProjectsDescription": "Try adjusting your filters or search query."
-     },
-     "skills":{
-        "titleLine1" : "Tools and Technologies",
-        "description1": "Technologies and tools I use to build modern, scalable web applications",
-        "loadError" : "Failed to load skills"
-     },
-     "certifications" : {
-      "titleLine1" : "Certifications",
-      "description1" : "Professional certifications that support my technical expertise and competency in technology development",
-      "certificate1": "Description",
-      "certificate2": "skills learned",
-      "loading": "loading",
-      "error" : "error",
-      "page1": "Page",
-      "page2" : "of"
-     },
-     "testimonials": {
-      "titleLine1": "What do they say?",
-      "description1" : "More than 50+ clients have entrusted their projects and experienced extraordinary results."
-     },
-     "articles":{
-      "titleLine1": "Articles & Media",
-      "description1": "Latest articles, in-depth tutorials, and insights into modern web development from an industry professional perspective",
-      "button": "Browse all articles",
-      "loading" :"Loading articles...",
-      "error" :"Failed to load articles"
+    "services": {
+      "frontend": "Frontend Development",
+      "uiux": "UI/UX Design",
+      "performance": "Performance Optimization",
+      "webapp": "Web App Development",
+      "consulting": "Technical Consulting",
+      "other": "Other"
     },
-    "faqs": {
-      "titleLine1": "Frequently Asked Questions",
-      "description1" : "Frequently asked questions about my services and work processes"
+    "contactInfo": {
+      "title": "Contact Information",
+      "location": "Location",
+      "locationValue": "Jawa Barat, Indonesia",
+      "whatsapp": "WhatsApp",
+      "whatsappReveal": "Click to view number",
+      "email": "Email",
+      "emailReveal": "Click to view email",
+      "workingHours": "Working Hours",
+      "workingHoursValue": "Monday - Friday, 09:00 - 18:00 WIB"
     },
-    "contacts": {
-      "title": "Contact Me",
-      "description": "Ready to bring your digital ideas to life? Let's discuss your project and requirements with a free consultation session",
-      "form": {
-        "title": "Send Message",
-        "description": "Tell us about your project and let's start the discussion",
-        "name": {
-          "label": "Full Name",
-          "placeholder": "Enter your full name"
-        },
-        "email": {
-          "label": "Email",
-          "placeholder": "name@email.com"
-        },
-        "phone": {
-          "label": "Phone Number",
-          "placeholder": "+62 812-3456-7890"
-        },
-        "subject": {
-          "label": "Subject",
-          "placeholder": "Select service"
-        },
-        "message": {
-          "label": "Message",
-          "placeholder": "Tell us about your project, timeline, budget, and other requirements..."
-        },
-        "attachment": {
-          "label": "Attachment (Optional)",
-          "description": "Max 5MB. Format: PDF, DOC, DOCX, PNG, JPG"
-        },
-        "submit": {
-          "sending": "Sending...",
-          "send": "Send Message"
-        },
-        "responseTime": "Response usually within 24 hours. For urgent matters, contact via WhatsApp."
-      },
-      "services": {
-        "frontend": "Frontend Development",
-        "uiux": "UI/UX Design",
-        "performance": "Performance Optimization",
-        "webapp": "Web App Development",
-        "consulting": "Technical Consulting",
-        "other": "Other"
-      },
-      "contactInfo": {
-        "title": "Contact Information",
-        "location": "Location",
-        "locationValue": "Jawa Barat, Indonesia",
-        "whatsapp": "WhatsApp",
-        "whatsappReveal": "Click to view number",
-        "email": "Email",
-        "emailReveal": "Click to view email",
-        "workingHours": "Working Hours",
-        "workingHoursValue": "Monday - Friday, 09:00 - 18:00 WIB"
-      },
-      "socialMedia": {
-        "title": "Social Media"
-      },
-      "consultation": {
-        "title": "Free Consultation",
-        "description": "Free 30-minute consultation for initial discussion about your project. Let's explore possibilities and the best solutions.",
-        "bookButton": "Book Consultation",
-        "dialog": {
-          "title": "Book Free Consultation",
-          "description": "Choose a suitable time to discuss your project",
-          "placeholder": "Booking form will be displayed here..."
-        }
-      },
-      "alerts": {
-        "recaptcha": "Please verify reCAPTCHA first!",
-        "success": "Message sent successfully!",
-        "error": "An error occurred while sending the message. Please try again."
+    "socialMedia": {
+      "title": "Social Media"
+    },
+    "consultation": {
+      "title": "Free Consultation",
+      "description": "Free 30-minute consultation for initial discussion about your project. Let's explore possibilities and the best solutions.",
+      "bookButton": "Book Consultation",
+      "dialog": {
+        "title": "Book Free Consultation",
+        "description": "Choose a suitable time to discuss your project",
+        "placeholder": "Booking form will be displayed here..."
       }
     },
-    "Footer": {
-      "brandName": "Habibi Ahmad Aziz",
-      "brandDesc": "Passionate about creating impactful digital experiences. Skilled in building scalable systems and user-centered interfaces with a strong focus on performance and long-term maintainability.",
-      "quickLinks": "Quick Links",
+    "alerts": {
+      "recaptcha": "Please verify reCAPTCHA first!",
+      "success": "Message sent successfully!",
+      "error": "An error occurred while sending the message. Please try again."
+    }
+  },
+  "Footer": {
+    "brandName": "Habibi Ahmad Aziz",
+    "brandDesc": "Passionate about creating impactful digital experiences. Skilled in building scalable systems and user-centered interfaces with a strong focus on performance and long-term maintainability.",
+    "quickLinks": "Quick Links",
+    "services": "Services",
+    "copyright": "© 2025 Habibi Ahmad Aziz. All rights reserved.",
+    "links": {
+      "about": "About Me",
       "services": "Services",
-      "copyright": "© 2025 Habibi Ahmad Aziz. All rights reserved.",
-      "links": {
-        "about": "About Me",
-        "services": "Services",
-        "projects": "Projects",
-        "experience": "Experience",
-        "contact": "Contact"
-      },
-      "serviceList": {
-        "frontend": "Frontend Development",
-        "uiux": "UI/UX Design",
-        "performance": "Performance Optimization",
-        "consulting": "Technical Consulting",
-        "webapp": "Web App Development"
-      }
-    }    
+      "projects": "Projects",
+      "experience": "Experience",
+      "contact": "Contact"
+    },
+    "serviceList": {
+      "frontend": "Frontend Development",
+      "uiux": "UI/UX Design",
+      "performance": "Performance Optimization",
+      "consulting": "Technical Consulting",
+      "webapp": "Web App Development"
+    }
+  }
 }

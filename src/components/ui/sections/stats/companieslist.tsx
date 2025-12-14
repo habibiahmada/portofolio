@@ -17,9 +17,8 @@ export default function Companieslist() {
   return (
     <div className="text-center">
       <h3
-        className={`text-xl font-semibold mb-2 ${
-          isDark ? "text-slate-200" : "text-slate-800"
-        }`}
+        className={`text-xl font-semibold mb-2 ${isDark ? "text-slate-200" : "text-slate-800"
+          }`}
       >
         {t("stats.trustedBy")}
       </h3>
@@ -42,10 +41,9 @@ export default function Companieslist() {
               <div
                 key={i}
                 className={`h-30 py-6 my-2 min-w-[150px] rounded-xl border backdrop-blur-sm flex items-center justify-center px-4 z-10 
-                  ${
-                    isDark
-                      ? "border-slate-700/60 bg-slate-800/40"
-                      : "border-slate-200/60 bg-white/60"
+                  ${isDark
+                    ? "border-slate-700/60 bg-slate-800/40"
+                    : "border-slate-200/60 bg-white/60"
                   }`}
               >
                 <div className="text-center flex flex-col items-center justify-center gap-2">
@@ -60,9 +58,8 @@ export default function Companieslist() {
                     />
                   </div>
                   <div
-                    className={`text-xs font-medium opacity-80 ${
-                      isDark ? "text-slate-300" : "text-slate-700"
-                    }`}
+                    className={`text-xs font-medium opacity-80 ${isDark ? "text-slate-300" : "text-slate-700"
+                      }`}
                   >
                     {company.name}
                   </div>

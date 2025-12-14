@@ -24,6 +24,7 @@ export default function ThemeToggle({
       size="icon"
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
       className={`rounded-full cursor-pointer ${className}`}
+      {...props}
     >
       {theme === 'dark' ? (
         <Sun className="h-5 w-5" />

@@ -4,7 +4,7 @@ import * as React from "react"
 import {
   BookOpen,
   Bot,
-  
+
   Frame,
   GalleryVerticalEnd,
   Home,
@@ -19,7 +19,6 @@ import {
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
 import { NavUser } from "@/components/nav-user"
 import { TeamSwitcher } from "@/components/team-switcher"
 import {
@@ -67,134 +66,48 @@ const data = {
     },
     {
       title: "About",
-      url: "#",
+      url: "/dashboard/about/descriptions",
       icon: Bot,
-      items: [
-        {
-          title: "Description",
-          url: "/dashboard/about/descriptions",
-        },
-      ],
     },
     {
       title: "Services",
-      url: "#",
+      url: "/dashboard/services/all",
       icon: BookOpen,
-      items: [
-        {
-          title: "All Services",
-          url: "/dashboard/services/all",
-        },
-        {
-          title: "Add Service",
-          url: "/dashboard/services/add",
-        },
-      ],
     },
     {
       title: "Projects",
-      url: "#",
+      url: "/dashboard/projects/all",
       icon: Frame,
-      items: [
-        {
-          title: "All Projects",
-          url: "/dashboard/projects/all",
-        },
-        {
-          title: "Add Project",
-          url: "/dashboard/projects/add",
-        },
-      ],
     },
     {
       title: "Tools & Technology",
-      url: "#",
+      url: "/dashboard/tools-tech/all",
       icon: Wrench,
-      items: [
-        {
-          title: "All Tools & Tech",
-          url: "/dashboard/tools-tech/all",
-        },
-        {
-          title: "Add Tools & Tech",
-          url: "/dashboard/tools-tech/add",
-        },
-      ],
     },
     {
       title: "Experience & Education",
-      url: "#",
+      url: "/dashboard/exp-edu/all",
       icon: GraduationCap,
-      items: [
-        {
-          title: "All Exp & Edu",
-          url: "/dashboard/exp-edu/all",
-        },
-        {
-          title: "Add Exp & Edu",
-          url: "/dashboard/exp-edu/add",
-        },
-      ],
     },
     {
       title: "Certifications",
-      url: "#",
+      url: "/dashboard/certificates/all",
       icon: Award,
-      items: [
-        {
-          title: "All Certificates",
-          url: "/dashboard/certificates/all",
-        },
-        {
-          title: "Add Certificate",
-          url: "/dashboard/certificates/add",
-        },
-      ],
     },
     {
       title: "Testimonials",
-      url: "#",
+      url: "/dashboard/testimonials/all",
       icon: MessageSquare,
-      items: [
-        {
-          title: "All Testimonials",
-          url: "/dashboard/testimonials/all",
-        },
-        {
-          title: "Add Testimonial",
-          url: "/dashboard/testimonials/add",
-        },
-      ],
     },
     {
       title: "Articles",
-      url: "#",
+      url: "/dashboard/articles/all",
       icon: Newspaper,
-      items: [
-        {
-          title: "All Articles",
-          url: "/dashboard/articles/all",
-        },
-        {
-          title: "Add Article",
-          url: "/dashboard/articles/add",
-        },
-      ],
     },
     {
       title: "FAQs",
-      url: "#",
+      url: "/dashboard/faqs/all",
       icon: HelpCircle,
-      items: [
-        {
-          title: "All FAQs",
-          url: "/dashboard/faqs/all",
-        },
-        {
-          title: "Add FAQ",
-          url: "/dashboard/faqs/add",
-        },
-      ],
     },
     {
       title: "Contacts",
@@ -205,20 +118,14 @@ const data = {
           title: "Email",
           url: "/dashboard/contacts",
         },
-          {
-            title: "Email Template",
-            url: "/dashboard/contacts/email-template",
-          },
+        {
+          title: "Email Template",
+          url: "/dashboard/contacts/email-template",
+        },
       ],
     },
   ],
-  projects: [
-    {
-      name: "Email",
-      url: "/dashboard/contacts",
-      icon: Mail,
-    },
-  ],
+  projects: [],
   // Centralized list of dashboard routes — keep this in sync with
   // `src/app/[locale]/dashboard` so the sidebar only links to real pages.
   routes: [
@@ -265,7 +172,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         avatar: '/self-photo-habibi-ahmad-aziz.webp'
       }
     }
-    
+
     if (!user) {
       return {
         name: 'Guest User',
@@ -283,16 +190,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   // Keep only children that point to real routes. Parent groups without
   // any valid children are removed.
+  // Also keep parents that have a valid direct URL in ROUTES.
   const filteredNavMain = React.useMemo(() => {
     return data.navMain
       .map((item) => ({
         ...item,
         items: item.items?.filter((it) => ROUTES.has(it.url)) ?? [],
       }))
-      .filter((item) => (item.items && item.items.length > 0))
+      .filter((item) => (item.items && item.items.length > 0) || ROUTES.has(item.url))
   }, [])
-
-  const filteredProjects = React.useMemo(() => data.projects.filter((p) => ROUTES.has(p.url)), [])
 
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -315,8 +221,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarGroup>
-        <NavMain items={filteredNavMain} />
-        <NavProjects projects={filteredProjects} />
+          <NavMain items={filteredNavMain} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={userData} />

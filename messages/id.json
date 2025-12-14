@@ -1,220 +1,265 @@
 {
   "Header": {
-      "brand": "habibiahmada",
-      "nav": {
-        "home": "Beranda",
-        "about": "Tentang",
-        "services": "Layanan",
-        "projects": "Proyek",
-        "experience": "Pengalaman",
-        "testimonials": "Testimoni",
-        "contact": "Kontak"
-      }
-    },
-  "hero": {
-    "greeting": "Halo! Saya seorang",
-    "typewriterTexts": [
-      "Fullstack Web Developer",
-      "Frontend & Backend Engineer", 
-      "Pelatih AWS Cloud Computing",
-      "AI & Emerging Tech Enthusiast",
-      "Siswa SMKN 1 Karawang"
-    ],
-    "description": "Bersemangat menciptakan pengalaman digital yang berdampak. Ahli dalam membangun sistem yang scalable dan antarmuka yang user-centered dengan fokus kuat pada performa dan maintainability jangka panjang.",
-    "buttons": {
-      "viewProjects": "Lihat Proyek",
-      "downloadCV": "Unduh CV"
-    },
-    "techIcons": {
-      "fullStack": "Full Stack",
-      "aiMl": "AI/ML", 
-      "performance": "Performa",
-      "cloud": "Cloud"
-    },
-    "scrollIndicator": "GULIR",
-    "imageAlt": "Habibi Ahmad Aziz - Fullstack Developer",
-    "codeElements": {
-      "developer": "<developer/>",
-      "console": "Halo!"
+    "brand": "habibiahmada",
+    "nav": {
+      "home": "Beranda",
+      "about": "Tentang",
+      "services": "Layanan",
+      "projects": "Proyek",
+      "experience": "Pengalaman",
+      "testimonials": "Testimoni",
+      "contact": "Kontak"
     }
   },
-    "stats": {
-      "projects": {
-        "label": "Proyek Selesai",
-        "description": "Berhasil diselesaikan"
-      },
-      "experience": {
-        "label": "Tahun Pengalaman",
-        "description": "Dalam industri tech"
-      },
-      "clients": {
-        "label": "Klien Puas",
-        "description": "Rating kepuasan tinggi"
-      },
-      "trustedBy": "Dipercaya oleh perusahaan terdepan",
-      "trustedDescription": "Bergabung dengan klien yang telah merasakan hasil terbaik",
-      "loadError": "Gagal memuat statistik"
+  "hero": {
+  "title": "Hero Section",
+  "subtitle": "Kelola konten banner utama, teks animasi, dan file unduhan.",
+  "loading": "Memuat data hero...",
+  "error": "Gagal memuat data hero.",
+
+  "contentCard": {
+    "title": "Konten & Konfigurasi",
+    "description": "Atur teks utama dan badge teknis yang tampil di banner.",
+
+    "greeting": {
+      "label": "Teks Sapaan",
+      "placeholder": "contoh: Hai! Saya seorang..."
     },
-    "companies": {
-      "techcorp": "TechCorp",
-      "innovatelab": "InnovateLab",
-      "digitalflow": "DigitalFlow",
-      "cloudsync": "CloudSync",
-      "datavision": "DataVision",
-      "systempro": "SystemPro"
+    "developerTag": {
+      "label": "Tag Developer",
+      "placeholder": "<Developer />"
     },
-    "about": {
-      "titleLine1": "Sedikit Penasaran?",
-      "titleLine2": "Yuk intip sekilasnya",
-      "description1": "Saya seorang Web Developer dan siswa SMKN 1 Karawang dengan minat yang tinggi dalam membangun solusi digital modern.",
-      "description2": "Terampil dalam berbagai bahasa pemrograman dan berbagai framework populer serta berpengalaman di proyek frontend dan backend.",
-      "description3": "Saya selalu termotivasi untuk belajar teknologi baru dan menghadirkan solusi yang berdampak nyata.",
-      "cta": "Mari Berkolaborasi"
+    "consoleTag": {
+      "label": "Pesan Console",
+      "placeholder": "Hello World!"
     },
-    "service": {
-      "titleLine1": "Layanan",
-      "description1": "Solusi lengkap untuk kebutuhan pengembangan web modern dengan teknologi terdepan dan desain yang memukau",
-      "loading" :"Memuat Layanan...",
-      "error" : "Gagal memuat layanan"
+    "bio": {
+      "label": "Deskripsi Singkat",
+      "placeholder": "Tulis bio singkat..."
+    }
+  },
+
+  "typewriter": {
+    "title": "Animasi Typewriter",
+    "description": "Teks berputar yang menggambarkan peran Anda.",
+    "empty": "Belum ada teks typewriter.",
+    "inputPlaceholder": "Tambahkan peran baru (contoh: Full Stack Developer)",
+    "add": "Tambah",
+    "items": "Item"
+  },
+
+  "cv": {
+    "title": "CV / Resume",
+    "description": "Kelola file PDF yang bisa diunduh di website.",
+    "currentStatus": "Status Saat Ini",
+    "uploadNew": "Unggah File Baru",
+    "noCv": "Belum ada CV yang diunggah.",
+    "preview": "Pratinjau File",
+    "pendingTitle": "File Baru Dipilih",
+    "pendingDesc": "siap untuk diunggah.",
+    "pendingHint": "Klik \"Simpan Perubahan\" untuk menerapkan.",
+    "change": "Ganti Pilihan"
+  },
+
+  "actions": {
+    "save": "Simpan Perubahan",
+    "saving": "Menyimpan...",
+    "unsavedCv": "Ada perubahan yang belum disimpan (CV)"
+  },
+
+  "toast": {
+    "loading": "Menyimpan perubahan...",
+    "uploading": "Mengunggah CV...",
+    "updating": "Memperbarui konten...",
+    "success": "Semua perubahan berhasil disimpan!",
+    "loadError": "Gagal memuat data hero",
+    "saveError": "Gagal menyimpan perubahan",
+    "pdfOnly": "Silakan unggah file PDF"
+  },
+    "techIcons": {
+      "fullStack": "Full Stack",
+      "aiMl": "AI/ML",
+      "performance": "Performa",
+      "cloud": "Cloud"
+    }
+  },
+  "stats": {
+    "projects": {
+      "label": "Proyek Selesai",
+      "description": "Berhasil diselesaikan"
     },
-    "educations": {
-      "titleLine1": "Pengalaman &",
-      "titleLine2": "Pendidikan",
-      "description1": "Perjalanan karir dan pendidikan yang membentuk keahlian saya dalam teknologi dan pengembangan",
-      "tabbuttons1": "Pengalaman",
-      "tabbuttons2": "Pendidikan",
-      "showMore" : "Lihat Lainnya",
-      "showLess" : "Lebih Sedikit"
+    "experience": {
+      "label": "Tahun Pengalaman",
+      "description": "Dalam industri tech"
     },
-    "projects" : {
-      "titleLine1" : "Proyek Terbaru",
-      "description1" : "Portofolio proyek terpilih yang menunjukkan kemampuan dan pengalaman saya dalam mengembangkan solusi digital modern",
-      "noProjectsTitle": "Proyek tidak ditemukan",
-      "noProjectsDescription": "Coba sesuaikan filter atau permintaan pencarian Anda."
-     },
-    "skills":{
-      "titleLine1" : "Alat dan Teknologi",
-      "description1": "Teknologi dan alat yang saya gunakan untuk membangun aplikasi web modern dan skalabel",
-      "loadError" : "Gagal memuat keahlian"
-   },
-   "certifications" : {
-    "titleLine1" : "Sertifikasi",
-    "description1" : "Sertifikat profesional yang mendukung keahlian teknis dan kompetensi saya dalam pengembangan teknologi",
+    "clients": {
+      "label": "Klien Puas",
+      "description": "Rating kepuasan tinggi"
+    },
+    "trustedBy": "Dipercaya oleh perusahaan terdepan",
+    "trustedDescription": "Bergabung dengan klien yang telah merasakan hasil terbaik",
+    "loadError": "Gagal memuat statistik"
+  },
+  "companies": {
+    "techcorp": "TechCorp",
+    "innovatelab": "InnovateLab",
+    "digitalflow": "DigitalFlow",
+    "cloudsync": "CloudSync",
+    "datavision": "DataVision",
+    "systempro": "SystemPro"
+  },
+  "about": {
+    "titleLine1": "Sedikit Penasaran?",
+    "titleLine2": "Yuk intip sekilasnya",
+    "description1": "Saya seorang Web Developer dan siswa SMKN 1 Karawang dengan minat yang tinggi dalam membangun solusi digital modern.",
+    "description2": "Terampil dalam berbagai bahasa pemrograman dan berbagai framework populer serta berpengalaman di proyek frontend dan backend.",
+    "description3": "Saya selalu termotivasi untuk belajar teknologi baru dan menghadirkan solusi yang berdampak nyata.",
+    "cta": "Mari Berkolaborasi"
+  },
+  "service": {
+    "titleLine1": "Layanan",
+    "description1": "Solusi lengkap untuk kebutuhan pengembangan web modern dengan teknologi terdepan dan desain yang memukau",
+    "loading": "Memuat Layanan...",
+    "error": "Gagal memuat layanan"
+  },
+  "educations": {
+    "titleLine1": "Pengalaman &",
+    "titleLine2": "Pendidikan",
+    "description1": "Perjalanan karir dan pendidikan yang membentuk keahlian saya dalam teknologi dan pengembangan",
+    "tabbuttons1": "Pengalaman",
+    "tabbuttons2": "Pendidikan",
+    "showMore": "Lihat Lainnya",
+    "showLess": "Lebih Sedikit"
+  },
+  "projects": {
+    "titleLine1": "Proyek Terbaru",
+    "description1": "Portofolio proyek terpilih yang menunjukkan kemampuan dan pengalaman saya dalam mengembangkan solusi digital modern",
+    "noProjectsTitle": "Proyek tidak ditemukan",
+    "noProjectsDescription": "Coba sesuaikan filter atau permintaan pencarian Anda."
+  },
+  "skills": {
+    "titleLine1": "Alat dan Teknologi",
+    "description1": "Teknologi dan alat yang saya gunakan untuk membangun aplikasi web modern dan skalabel",
+    "loadError": "Gagal memuat keahlian"
+  },
+  "certifications": {
+    "titleLine1": "Sertifikasi",
+    "description1": "Sertifikat profesional yang mendukung keahlian teknis dan kompetensi saya dalam pengembangan teknologi",
     "certificate1": "Deskripsi",
     "certificate2": "Keahlian yang dipelajari",
     "loading": "loading",
-    "error" : "error",
+    "error": "error",
     "page1": "Halaman",
-    "page2" : "dari"
-   },
-   "testimonials": {
+    "page2": "dari"
+  },
+  "testimonials": {
     "titleLine1": "Apa Kata Mereka?",
-    "description1" : "Lebih dari 50+ klien telah mempercayakan proyek mereka dan merasakan hasil yang luar biasa"
-   },
-   "articles":{
+    "description1": "Lebih dari 50+ klien telah mempercayakan proyek mereka dan merasakan hasil yang luar biasa"
+  },
+  "articles": {
     "titleLine1": "Artikel & Media",
     "description1": "Artikel terbaru, tutorial mendalam, dan insight tentang pengembangan web modern dari perspektif praktisi industri",
-    "button" : "Jelajahi semua artikel",
-    "loading" :"Memuat artikel...",
-    "error" :"Gagal memuat artikel"
-   },
-   "faqs": {
-    "titleLine1" : "Pertanyaan yang Sering Diajukan",
-    "description1" : "Pertanyaan yang sering ditanyakan tentang layanan dan proses kerja saya"
-   },
-   "contacts": {
-     "title": "Hubungi Saya",
-     "description": "Siap untuk mewujudkan ide digital Anda? Mari diskusikan proyek dan kebutuhan Anda dengan sesi konsultasi gratis",
-     "form": {
-       "title": "Kirim Pesan",
-       "description": "Ceritakan tentang proyek Anda dan mari kita mulai diskusi",
-       "name": {
-         "label": "Nama Lengkap",
-         "placeholder": "Masukkan nama lengkap"
-       },
-       "email": {
-         "label": "Email",
-         "placeholder": "nama@email.com"
-       },
-       "phone": {
-         "label": "Nomor Telepon",
-         "placeholder": "+62 812-3456-7890"
-       },
-       "subject": {
-         "label": "Subjek",
-         "placeholder": "Pilih layanan"
-       },
-       "message": {
-         "label": "Pesan",
-         "placeholder": "Ceritakan tentang proyek Anda, timeline, budget, dan requirements lainnya..."
-       },
-       "attachment": {
-         "label": "Lampiran (Opsional)",
-         "description": "Max 5MB. Format: PDF, DOC, DOCX, PNG, JPG"
-       },
-       "submit": {
-         "sending": "Mengirim...",
-         "send": "Kirim Pesan"
-       },
-       "responseTime": "Respon biasanya dalam 24 jam. Untuk urgent, bisa kontak via WhatsApp."
-     },
-     "services": {
-       "frontend": "Frontend Development",
-       "uiux": "UI/UX Design",
-       "performance": "Performance Optimization",
-       "webapp": "Web App Development",
-       "consulting": "Technical Consulting",
-       "other": "Lainnya"
-     },
-     "contactInfo": {
-       "title": "Informasi Kontak",
-       "location": "Lokasi",
-       "locationValue": "Jawa Barat, Indonesia",
-       "whatsapp": "WhatsApp",
-       "whatsappReveal": "Klik untuk melihat nomor",
-       "email": "Email",
-       "emailReveal": "Klik untuk melihat email",
-       "workingHours": "Jam Kerja",
-       "workingHoursValue": "Senin - Jumat, 09:00 - 18:00 WIB"
-     },
-     "socialMedia": {
-       "title": "Media Sosial"
-     },
-     "consultation": {
-       "title": "Konsultasi Gratis",
-       "description": "Konsultasi gratis 30 menit untuk diskusi awal tentang proyek Anda. Mari explore kemungkinan dan solusi terbaik.",
-       "bookButton": "Pesan Konsultasi",
-       "dialog": {
-         "title": "Pesan Konsultasi Gratis",
-         "description": "Pilih waktu yang sesuai untuk diskusi proyek Anda",
-         "placeholder": "Form booking akan ditampilkan di sini..."
-       }
-     },
-     "alerts": {
-       "recaptcha": "Harap verifikasi reCAPTCHA dulu!",
-       "success": "Pesan berhasil dikirim!",
-       "error": "Terjadi kesalahan saat mengirim pesan. Silakan coba lagi."
-     }
-   },
-    "Footer": {
-      "brandName": "Habibi Ahmad Aziz",
-      "brandDesc": "Bersemangat menciptakan pengalaman digital yang berdampak. Ahli dalam membangun sistem yang scalable dan antarmuka yang berpusat pada pengguna dengan fokus kuat pada performa dan maintainability jangka panjang.",
-      "quickLinks": "Tautan Cepat",
-      "services": "Layanan",
-      "copyright": "© 2025 Habibi Ahmad Aziz. Semua hak cipta dilindungi.",
-      "links": {
-        "about": "Tentang Saya",
-        "services": "Layanan",
-        "projects": "Proyek",
-        "experience": "Pengalaman",
-        "contact": "Kontak"
+    "button": "Jelajahi semua artikel",
+    "loading": "Memuat artikel...",
+    "error": "Gagal memuat artikel"
+  },
+  "faqs": {
+    "titleLine1": "Pertanyaan yang Sering Diajukan",
+    "description1": "Pertanyaan yang sering ditanyakan tentang layanan dan proses kerja saya"
+  },
+  "contacts": {
+    "title": "Hubungi Saya",
+    "description": "Siap untuk mewujudkan ide digital Anda? Mari diskusikan proyek dan kebutuhan Anda dengan sesi konsultasi gratis",
+    "form": {
+      "title": "Kirim Pesan",
+      "description": "Ceritakan tentang proyek Anda dan mari kita mulai diskusi",
+      "name": {
+        "label": "Nama Lengkap",
+        "placeholder": "Masukkan nama lengkap"
       },
-      "serviceList": {
-        "frontend": "Pengembangan Frontend",
-        "uiux": "Desain UI/UX",
-        "performance": "Optimasi Performa",
-        "consulting": "Konsultasi Teknis",
-        "webapp": "Pengembangan Aplikasi Web"
+      "email": {
+        "label": "Email",
+        "placeholder": "nama@email.com"
+      },
+      "phone": {
+        "label": "Nomor Telepon",
+        "placeholder": "+62 812-3456-7890"
+      },
+      "subject": {
+        "label": "Subjek",
+        "placeholder": "Pilih layanan"
+      },
+      "message": {
+        "label": "Pesan",
+        "placeholder": "Ceritakan tentang proyek Anda, timeline, budget, dan requirements lainnya..."
+      },
+      "attachment": {
+        "label": "Lampiran (Opsional)",
+        "description": "Max 5MB. Format: PDF, DOC, DOCX, PNG, JPG"
+      },
+      "submit": {
+        "sending": "Mengirim...",
+        "send": "Kirim Pesan"
+      },
+      "responseTime": "Respon biasanya dalam 24 jam. Untuk urgent, bisa kontak via WhatsApp."
+    },
+    "services": {
+      "frontend": "Frontend Development",
+      "uiux": "UI/UX Design",
+      "performance": "Performance Optimization",
+      "webapp": "Web App Development",
+      "consulting": "Technical Consulting",
+      "other": "Lainnya"
+    },
+    "contactInfo": {
+      "title": "Informasi Kontak",
+      "location": "Lokasi",
+      "locationValue": "Jawa Barat, Indonesia",
+      "whatsapp": "WhatsApp",
+      "whatsappReveal": "Klik untuk melihat nomor",
+      "email": "Email",
+      "emailReveal": "Klik untuk melihat email",
+      "workingHours": "Jam Kerja",
+      "workingHoursValue": "Senin - Jumat, 09:00 - 18:00 WIB"
+    },
+    "socialMedia": {
+      "title": "Media Sosial"
+    },
+    "consultation": {
+      "title": "Konsultasi Gratis",
+      "description": "Konsultasi gratis 30 menit untuk diskusi awal tentang proyek Anda. Mari explore kemungkinan dan solusi terbaik.",
+      "bookButton": "Pesan Konsultasi",
+      "dialog": {
+        "title": "Pesan Konsultasi Gratis",
+        "description": "Pilih waktu yang sesuai untuk diskusi proyek Anda",
+        "placeholder": "Form booking akan ditampilkan di sini..."
       }
-    }  
+    },
+    "alerts": {
+      "recaptcha": "Harap verifikasi reCAPTCHA dulu!",
+      "success": "Pesan berhasil dikirim!",
+      "error": "Terjadi kesalahan saat mengirim pesan. Silakan coba lagi."
+    }
+  },
+  "Footer": {
+    "brandName": "Habibi Ahmad Aziz",
+    "brandDesc": "Bersemangat menciptakan pengalaman digital yang berdampak. Ahli dalam membangun sistem yang scalable dan antarmuka yang berpusat pada pengguna dengan fokus kuat pada performa dan maintainability jangka panjang.",
+    "quickLinks": "Tautan Cepat",
+    "services": "Layanan",
+    "copyright": "© 2025 Habibi Ahmad Aziz. Semua hak cipta dilindungi.",
+    "links": {
+      "about": "Tentang Saya",
+      "services": "Layanan",
+      "projects": "Proyek",
+      "experience": "Pengalaman",
+      "contact": "Kontak"
+    },
+    "serviceList": {
+      "frontend": "Pengembangan Frontend",
+      "uiux": "Desain UI/UX",
+      "performance": "Optimasi Performa",
+      "consulting": "Konsultasi Teknis",
+      "webapp": "Pengembangan Aplikasi Web"
+    }
+  }
 }
