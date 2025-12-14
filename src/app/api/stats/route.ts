@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { supabase, supabaseAdmin } from "@/lib/supabase";
 
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
@@ -24,6 +24,7 @@ export async function GET(req: Request) {
         if (error) throw error;
 
         const formattedStats = statsData.map(stat => ({
+            id: stat.id,
             key: stat.key,
             count: stat.count_value,
             icon: stat.icon,
@@ -39,5 +40,48 @@ export async function GET(req: Request) {
     } catch (err) {
         console.error("Error fetching stats:", err);
         return NextResponse.json({ error: "Failed to fetch stats" }, { status: 500 });
+    }
+}
+
+export async function PATCH(req: Request) {
+    try {
+        const body = await req.json()
+        const { id, language = 'en', statistic } = body
+
+        if (!id || !statistic) {
+            return NextResponse.json({ error: 'Missing id or statistic payload' }, { status: 400 })
+        }
+
+        const client = supabaseAdmin || supabase
+
+        const { data: statUpdate, error: statErr } = await client
+            .from('statistics')
+            .update({
+                count_value: statistic.count,
+                icon: statistic.icon,
+                color: statistic.color,
+                bg_color_light: statistic.bgColorLight,
+                bg_color_dark: statistic.bgColorDark,
+            })
+            .eq('id', id)
+
+        if (statErr) throw statErr
+
+        const { error: transErr } = await client
+            .from('statistic_translations')
+            .update({
+                label: statistic.label,
+                description: statistic.description,
+                suffix: statistic.suffix,
+            })
+            .eq('statistic_id', id)
+            .eq('language', language)
+
+        if (transErr) throw transErr
+
+        return NextResponse.json({ data: { statUpdate } }, { status: 200 })
+    } catch (err) {
+        console.error('Error updating stat:', err)
+        return NextResponse.json({ error: 'Failed to update stat' }, { status: 500 })
     }
 }

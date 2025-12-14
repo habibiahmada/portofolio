@@ -6,14 +6,37 @@ import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { useLocale } from "next-intl";
 
-// Map icon names to components
+// Local icon list and color palettes to avoid relying on DB-provided icon/color
+const IconList: LucideIcon[] = [Users, CheckCircle, Clock];
+
 const IconMap: { [key: string]: LucideIcon } = {
-  'CheckCircle': CheckCircle,
-  'Clock': Clock,
-  'Users': Users,
-  // Fallback
-  'default': CheckCircle
+  // kept for compatibility but will not be used to read values from DB
+  CheckCircle,
+  Clock,
+  Users,
+  default: CheckCircle,
 };
+
+const gradientColors = [
+  'from-indigo-500 to-blue-500',
+  'from-emerald-500 to-teal-500',
+  'from-rose-500 to-pink-500',
+  'from-yellow-500 to-amber-500',
+];
+
+const bgOverlayLight = [
+  'from-indigo-50 to-white',
+  'from-emerald-50 to-white',
+  'from-rose-50 to-white',
+  'from-yellow-50 to-white',
+];
+
+const bgOverlayDark = [
+  'from-indigo-900 to-slate-950',
+  'from-emerald-900 to-slate-950',
+  'from-rose-900 to-slate-950',
+  'from-yellow-900 to-slate-950',
+];
 
 interface StatItem {
   key: string;
@@ -90,7 +113,12 @@ export default function Stats() {
             ))
           ) : (
             stats.map((stat, i) => {
-              const Icon = IconMap[stat.icon] || IconMap['default'];
+              // Choose icon and color based on index so UI is consistent and
+              // does not depend on values stored in the database.
+              const Icon = IconList[i % IconList.length] || IconList[0];
+              const colorClass = gradientColors[i % gradientColors.length];
+              const overlayLight = bgOverlayLight[i % bgOverlayLight.length];
+              const overlayDark = bgOverlayDark[i % bgOverlayDark.length];
               return (
                 <div
                   key={i}
@@ -98,37 +126,33 @@ export default function Stats() {
                     }`}
                 >
                   <div
-                    className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${isDark ? stat.bgColorDark : stat.bgColorLight
-                      } opacity-80`}
+                    className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${isDark ? overlayDark : overlayLight} opacity-80`}
                   />
                   <div className="relative z-10">
                     <div
-                      className={`inline-flex p-3 rounded-xl bg-gradient-to-r ${stat.color} text-white shadow-lg mb-6`}
+                      className={`inline-flex p-3 rounded-xl bg-gradient-to-r ${colorClass} text-white shadow-lg mb-6`}
                     >
                       <Icon size={24} />
                     </div>
                     <div className="flex items-baseline gap-1 mb-2">
                       <span
-                        className={`text-4xl md:text-5xl font-bold tabular-nums ${isDark ? "text-white" : "text-slate-900"
-                          }`}
+                        className={`text-4xl md:text-5xl font-bold tabular-nums ${isDark ? "text-white" : "text-slate-900"}`}
                       >
                         {stat.count}
                       </span>
                       <span
-                        className={`text-2xl font-semibold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}
+                        className={`text-2xl font-semibold bg-gradient-to-r ${colorClass} bg-clip-text text-transparent`}
                       >
                         {stat.suffix}
                       </span>
                     </div>
                     <div
-                      className={`text-lg font-semibold mb-1 ${isDark ? "text-slate-200" : "text-slate-800"
-                        }`}
+                      className={`text-lg font-semibold mb-1 ${isDark ? "text-slate-200" : "text-slate-800"}`}
                     >
                       {stat.label}
                     </div>
                     <p
-                      className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"
-                        }`}
+                      className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}
                     >
                       {stat.description}
                     </p>

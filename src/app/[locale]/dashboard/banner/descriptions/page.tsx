@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { Plus, Trash2, FileText } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { toast } from "sonner";
 
@@ -30,6 +30,7 @@ export default function Page() {
   const [cvUrl, setCvUrl] = useState("");
   const [selectedCVFile, setSelectedCVFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const initialRef = useRef<any | null>(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -44,6 +45,16 @@ export default function Page() {
           setDeveloperTag(data.developer_tag ?? "<Developer />");
           setConsoleTag(data.console_tag ?? "Hello World!");
           setCvUrl(data.cv_url ?? "");
+          // store initial snapshot for change detection
+          initialRef.current = {
+            greeting: data.greeting ?? "",
+            description: data.description ?? "",
+            typewriter_texts: data.typewriter_texts ?? [],
+            developer_tag: data.developer_tag ?? "<Developer />",
+            console_tag: data.console_tag ?? "Hello World!",
+            cv_url: data.cv_url ?? "",
+            cv_file: null
+          };
         }
       } catch (err) {
         console.error(err);
@@ -60,6 +71,35 @@ export default function Page() {
     if (!newTypewriterText.trim()) return;
     setTypewriterTexts(prev => [...prev, newTypewriterText.trim()]);
     setNewTypewriterText("");
+  };
+
+  const hasChanges = useMemo(() => {
+    if (!initialRef.current) return false;
+    const current = {
+      greeting,
+      description,
+      typewriter_texts: typewriterTexts,
+      developer_tag: developerTag,
+      console_tag: consoleTag,
+      cv_url: cvUrl,
+      cv_file: selectedCVFile ? selectedCVFile.name : null
+    };
+    try {
+      return JSON.stringify(current) !== JSON.stringify(initialRef.current);
+    } catch (_) {
+      return false;
+    }
+  }, [greeting, description, typewriterTexts, developerTag, consoleTag, cvUrl, selectedCVFile]);
+
+  const resetToInitial = () => {
+    if (!initialRef.current) return;
+    setGreeting(initialRef.current.greeting ?? "");
+    setDescription(initialRef.current.description ?? "");
+    setTypewriterTexts(initialRef.current.typewriter_texts ?? []);
+    setDeveloperTag(initialRef.current.developer_tag ?? "<Developer />");
+    setConsoleTag(initialRef.current.console_tag ?? "Hello World!");
+    setCvUrl(initialRef.current.cv_url ?? "");
+    setSelectedCVFile(null);
   };
 
   const removeTypewriterText = (index: number) => {
@@ -131,25 +171,23 @@ export default function Page() {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="animate-pulse text-muted-foreground">
-          {t("loading")}
-        </div>
-      </div>
-    );
-  }
-
-  
 
   return (
-    <div className="min-w-11/12 mx-auto pb-10">
-      {/* Header */}
-      <div className="mb-6">
-        <h2 className="text-3xl font-bold tracking-tight">{t("title")}</h2>
-        <p className="text-muted-foreground mt-2">{t("subtitle")}</p>
-      </div>
+    <div className="min-h-screen">
+      {/* Loading overlay */}
+      {loading && (
+        <div className="fixed inset-0 bg-black/10 backdrop-blur-sm flex items-center justify-center">
+          <div className="bg-card px-4 py-2 rounded-md shadow">
+            Loading...
+          </div>
+        </div>
+      )}
+      <div className="mx-auto p-6 space-y-6">
+        {/* Header */}
+        <div className="bg-card rounded-xl p-4 sm:p-6 shadow-sm border border-border">
+          <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-50">{t("title")}</h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t("subtitle")}</p>
+        </div>
 
       <div className="grid gap-6">
         {/* Content */}
@@ -303,11 +341,20 @@ export default function Page() {
       </div>
 
       {/* Actions */}
-      <div className="flex justify-end pt-6">
-        <Button onClick={handleSave} disabled={saving}>
+      <div className="flex items-center gap-3 justify-end pt-6">
+        {hasChanges && (
+          <Badge variant="secondary">
+            {t("actions.unsavedChanges") || "Unsaved changes"}
+          </Badge>
+        )}
+        <Button variant="outline" onClick={resetToInitial} disabled={!hasChanges || saving}>
+          {t("actions.reset") || "Reset"}
+        </Button>
+        <Button onClick={handleSave} disabled={saving || !hasChanges}>
           {saving ? t("actions.saving") : t("actions.save")}
         </Button>
       </div>
+    </div>
     </div>
   );
 }

@@ -108,7 +108,10 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
     }))
   }, [locale])
 
-  const isDashboardActive = pathname === withLocale("/dashboard", locale) || pathname?.startsWith(withLocale("/dashboard/", locale))
+  const isDashboardActive =
+  pathname === "/dashboard" ||
+  pathname === `/${locale}/dashboard`
+
 
   return (
     <Sidebar collapsible="icon" {...props}>

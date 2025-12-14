@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Bell, Search, Shield, TrendingUp, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Toaster } from "sonner";
 
 export const metadata = {
   title: "Dashboard | Portofolio",
@@ -29,6 +30,7 @@ export const metadata = {
 export default function Layout({children}: { children: ReactNode }) {
   return (
     <SidebarProvider>
+      <Toaster position="top-center" />
       <AppSidebar />
       <SidebarInset>
         <header className="sticky top-0 z-50 py-3 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 bg-background">

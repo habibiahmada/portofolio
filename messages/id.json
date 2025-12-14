@@ -67,7 +67,8 @@
   "actions": {
     "save": "Simpan Perubahan",
     "saving": "Menyimpan...",
-    "unsavedCv": "Ada perubahan yang belum disimpan (CV)"
+    "reset": "Reset",
+    "unsavedChanges": "Ada perubahan yang belum disimpan"
   },
 
   "toast": {
@@ -87,6 +88,26 @@
     }
   },
   "stats": {
+    "headerTitle": "Manajemen Statistik",
+    "headerSubtitle": "Sunting dan pratinjau kartu statistik",
+    "editStatistic": "Sunting Statistik ({key})",
+    "placeholders": {
+      "label": "Label",
+      "count": "Jumlah",
+      "suffix": "Sufiks",
+      "description": "Deskripsi"
+    },
+    "button": {
+      "saveChanges": "Simpan Perubahan"
+    },
+    "preview": {
+      "defaultLabel": "Label"
+    },
+    "invalidStatisticId": "ID statistik tidak valid",
+    "saving": "Menyimpan...",
+    "saveSuccess": "Tersimpan",
+    "saveFailed": "Simpan gagal",
+    "loadingOverlay": "Memuat...",
     "projects": {
       "label": "Proyek Selesai",
       "description": "Berhasil diselesaikan"
@@ -104,6 +125,30 @@
     "loadError": "Gagal memuat statistik"
   },
   "companies": {
+    "admin": {
+      "loading": "Memuat...",
+      "headerTitle": "Manajemen Perusahaan",
+      "subtitle": "Sunting dan pratinjau perusahaan Anda",
+      "logoPreview": "Pratinjau Logo",
+      "noLogo": "Belum ada logo",
+      "companyName": "Nama Perusahaan",
+      "enterNamePlaceholder": "Masukkan nama perusahaan",
+      "logoUploadLabel": "Logo (unggah)",
+      "orKeepUrl": "Atau pertahankan URL",
+      "logoUrlPlaceholder": "https://example.com/logo.png",
+      "actionsLabel": "Aksi",
+      "save": "Simpan",
+      "deleteConfirm": "Hapus perusahaan ini?",
+      "updating": "Memperbarui perusahaan...",
+      "creating": "Membuat perusahaan...",
+      "saved": "Perusahaan tersimpan",
+      "saveFailed": "Simpan gagal",
+      "addNew": "Tambah Perusahaan Baru",
+      "refresh": "Segarkan",
+      "emptyTitle": "Belum ada perusahaan",
+      "emptyDescription": "Mulai dengan menambahkan perusahaan pertama Anda",
+      "idLabel": "ID: {id}"
+    },
     "techcorp": "TechCorp",
     "innovatelab": "InnovateLab",
     "digitalflow": "DigitalFlow",

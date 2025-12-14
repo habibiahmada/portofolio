@@ -72,7 +72,9 @@
   "actions": {
     "save": "Save Changes",
     "saving": "Saving...",
-    "unsavedCv": "You have unsaved changes (CV)"
+    "reset": "Reset",
+    "unsavedChanges": "Unsaved Changes"
+
   },
 
   "toast": {
@@ -86,6 +88,26 @@
   }
   },
   "stats": {
+    "headerTitle": "Statistics Management",
+    "headerSubtitle": "Edit and preview statistics cards",
+    "editStatistic": "Edit Statistic ({key})",
+    "placeholders": {
+      "label": "Label",
+      "count": "Count",
+      "suffix": "Suffix",
+      "description": "Description"
+    },
+    "button": {
+      "saveChanges": "Save Changes"
+    },
+    "preview": {
+      "defaultLabel": "Label"
+    },
+    "invalidStatisticId": "Invalid statistic ID",
+    "saving": "Saving...",
+    "saveSuccess": "Saved",
+    "saveFailed": "Save failed",
+    "loadingOverlay": "Loading...",
     "projects": {
       "label": "Projects Completed",
       "description": "Successfully delivered"
@@ -103,6 +125,30 @@
     "loadError": "Failed to load statistics"
   },
   "companies": {
+    "admin": {
+      "loading": "Loading...",
+      "headerTitle": "Companies Management",
+      "subtitle": "Edit and preview your companies",
+      "logoPreview": "Logo Preview",
+      "noLogo": "No logo",
+      "companyName": "Company Name",
+      "enterNamePlaceholder": "Enter company name",
+      "logoUploadLabel": "Logo (upload)",
+      "orKeepUrl": "Or keep URL",
+      "logoUrlPlaceholder": "https://example.com/logo.png",
+      "actionsLabel": "Actions",
+      "save": "Save",
+      "deleteConfirm": "Delete this company?",
+      "updating": "Updating company...",
+      "creating": "Creating company...",
+      "saved": "Company saved",
+      "saveFailed": "Save failed",
+      "addNew": "Add New Company",
+      "refresh": "Refresh",
+      "emptyTitle": "No companies yet",
+      "emptyDescription": "Get started by adding your first company",
+      "idLabel": "ID: {id}"
+    },
     "techcorp": "TechCorp",
     "innovatelab": "InnovateLab",
     "digitalflow": "DigitalFlow",
