@@ -1,28 +1,26 @@
-"use client";
+"use client"
 
-import { useTranslations } from "next-intl";
-import SectionHeader from "../SectionHeader";
-// import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
-import SkillGridSkeleton from "./skillgridskeleton";
-import SkillCard from "./skillcard";
-import "./skills.css";
-import useTechstacks from "@/hooks/useTechstacks";
-import { TechItem } from "@/lib/types/database";
+import { useTranslations } from "next-intl"
+import SectionHeader from "../SectionHeader"
+import { useEffect, useState } from "react"
+import SkillGridSkeleton from "./skillgridskeleton"
+import SkillCard from "./skillcard"
+import useTechstacks from "@/hooks/useTechstacks"
+import { TechItem } from "@/lib/types/database"
+import { loadSiIcons } from "@/lib/si-icon-cache"
+import "./skills.css"
 
 export default function SkillsSection() {
-  const t = useTranslations("skills");
-  // const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  const { techStacks, loading, error } = useTechstacks();
+  const t = useTranslations("skills")
+  const [mounted, setMounted] = useState(false)
+  const { techStacks, loading, error } = useTechstacks()
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
+    setMounted(true)
+    loadSiIcons()
+  }, [])
 
-  // const isDark = resolvedTheme === "dark";
-
-  if (!mounted) return null;
+  if (!mounted) return null
 
   return (
     <section
@@ -56,5 +54,5 @@ export default function SkillsSection() {
         )}
       </div>
     </section>
-  );
+  )
 }
