@@ -357,10 +357,10 @@ export default function Page() {
     <div className="min-h-screen bg-background">
       <div className="mx-auto p-6">
         <div className='py-5'>
-            <Button type="button" variant="ghost" size="sm" onClick={cancelForm} className="gap-2">
-                <ArrowLeft className="w-4 h-4" />
-                Back
-            </Button>
+          <Button type="button" variant="ghost" size="sm" onClick={cancelForm} className="gap-2">
+            <ArrowLeft className="w-4 h-4" />
+            Back
+          </Button>
         </div>
         <div className="space-y-6">
           <div className="flex items-center justify-between bg-card border rounded-xl p-6">
@@ -509,9 +509,8 @@ export default function Page() {
                           key={color.class}
                           type="button"
                           onClick={() => updateForm('color', color.class)}
-                          className={`h-12 rounded-lg ${color.bg} transition-transform hover:scale-105 ${
-                            form.color === color.class ? 'ring-2 ring-offset-2 ring-primary' : ''
-                          }`}
+                          className={`h-12 rounded-lg ${color.bg} transition-transform hover:scale-105 ${form.color === color.class ? 'ring-2 ring-offset-2 ring-primary' : ''
+                            }`}
                         />
                       ))}
                     </div>

@@ -123,7 +123,7 @@ export default async function DashboardPage() {
           title="Tools & Tech"
           value={counts.tools}
           color="purple"
-          href="/dashboard/tools-tech/all"
+          href="/dashboard/tools-tech"
         />
         <StatCard
           icon={GraduationCap}

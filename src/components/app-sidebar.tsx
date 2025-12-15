@@ -56,7 +56,7 @@ const data = {
     },
     { title: "Services", url: "/dashboard/services", icon: BookOpen },
     { title: "Projects", url: "/dashboard/projects", icon: Frame },
-    { title: "Tools & Technology", url: "/dashboard/tools-tech/all", icon: Wrench },
+    { title: "Tools & Technology", url: "/dashboard/tools-tech", icon: Wrench },
     { title: "Experience & Education", url: "/dashboard/exp-edu/all", icon: GraduationCap },
     { title: "Certifications", url: "/dashboard/certificates/all", icon: Award },
     { title: "Testimonials", url: "/dashboard/testimonials/all", icon: MessageSquare },
