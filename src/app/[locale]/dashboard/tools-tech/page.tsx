@@ -42,6 +42,7 @@ export default function Page() {
     /* ================= FETCH ================= */
     async function fetchTools() {
         try {
+            setLoading(true)
             const res = await fetch("/api/techstacks/all")
             if (!res.ok) throw new Error("Failed to fetch tools")
 
@@ -50,6 +51,8 @@ export default function Page() {
         } catch (err) {
             console.error(err)
             toast.error("Failed to load tools")
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -155,7 +158,14 @@ export default function Page() {
     )
 
     return (
-        <div className="min-h-screen">
+        <div className="min-h-screen p-6 space-y-6">
+            {loading && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black/10 backdrop-blur-sm">
+                    <div className="rounded-md bg-card px-4 py-2 shadow">
+                        Loading...
+                    </div>
+                </div>
+            )}
             {/* Header */}
             <div className="flex items-center justify-between bg-card border rounded-xl p-6">
                 <div>
@@ -173,13 +183,13 @@ export default function Page() {
             </div>
 
             {/* Content */}
-            <div className="max-w-7xl mx-auto px-6 py-8">
+            <div className="mx-auto py-8">
                 {tools.length === 0 ? (
                     <p className="text-center text-muted-foreground">
                         No tools yet
                     </p>
                 ) : (
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <div className="grid grid-cols-2 md:grid-cols-6 lg:grid-cols-8 gap-4">
                         {tools.map((tool) => (
                             <Button
                                 key={tool.id}

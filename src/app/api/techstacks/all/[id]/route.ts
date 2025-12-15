@@ -5,7 +5,7 @@ export async function PUT(
   req: Request,
   context: { params: Promise<{ id: string }> }
 ) {
-  const { id } = await context.params   // 🔥 WAJIB await
+  const { id } = await context.params
 
   if (!id) {
     return NextResponse.json(

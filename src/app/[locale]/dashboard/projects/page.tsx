@@ -193,7 +193,7 @@ export default function Page() {
   return (
     <div className="min-h-screen p-6 space-y-6">
       {loading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/10 backdrop-blur-sm">
+        <div className="fixed inset-0 flex items-center justify-center bg-black/10 backdrop-blur-sm">
           <div className="rounded-md bg-card px-4 py-2 shadow">
             Loading...
           </div>

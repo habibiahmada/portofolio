@@ -130,7 +130,7 @@ export default async function DashboardPage() {
           title="Experience"
           value={counts.experiences}
           color="indigo"
-          href="/dashboard/exp-edu/all"
+          href="/dashboard/exp-edu"
         />
         <StatCard
           icon={Award}
