@@ -100,9 +100,7 @@ const CertificateModal: React.FC<{ certificate: Certificate | null; index: numbe
               <div className={previewLoading ? "invisible" : "visible"}>
                 <CertificatePreview
                   file={certificate.preview}
-                  width={500}
                   className="mx-auto"
-                  showAllPages={true}
                   onLoadingChange={setPreviewLoading}
                 />
               </div>

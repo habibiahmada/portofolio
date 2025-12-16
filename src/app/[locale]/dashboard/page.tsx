@@ -137,7 +137,7 @@ export default async function DashboardPage() {
           title="Certifications"
           value={counts.certifications}
           color="yellow"
-          href="/dashboard/certificates/all"
+          href="/dashboard/certificates"
         />
         <StatCard
           icon={Users}

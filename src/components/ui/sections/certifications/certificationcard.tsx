@@ -41,7 +41,6 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
         {/* Preview dengan efek zoom */}
         <CertificatePreview
           file={certificate.preview}
-          width={300}
           className="shadow-lg group-hover:scale-110 transition-transform duration-300"
         />
 
@@ -75,11 +74,10 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
           {skills.slice(0, 2).map((skill, idx) => (
             <span
               key={idx}
-              className={`px-2 py-1 rounded-md text-xs font-medium ${
-                isBlue
-                  ? "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400"
-                  : "bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
-              }`}
+              className={`px-2 py-1 rounded-md text-xs font-medium ${isBlue
+                ? "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400"
+                : "bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
+                }`}
             >
               {skill}
             </span>

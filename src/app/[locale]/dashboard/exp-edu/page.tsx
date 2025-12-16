@@ -33,6 +33,25 @@ type ExperienceItem = {
   highlight: string
 }
 
+type ExperienceTranslationAPI = {
+  title?: string
+  description?: string
+  location_type?: string
+  highlight?: string
+}
+
+type ExperienceAPI = {
+  id: string
+  type: "experience" | "education"
+  company: string
+  location: string
+  start_date: string | null
+  end_date: string | null
+  skills?: string[]
+  experience_translations?: ExperienceTranslationAPI[]
+}
+
+
 type FilterType = "all" | "experience" | "education"
 type ModalMode = "create" | "edit" | "view" | null
 
@@ -67,11 +86,11 @@ export default function Page() {
     setLoading(true)
     try {
       const res = await fetch(`/api/experiences?lang=${locale}`)
-      const json = await res.json()
+      const json: { data?: ExperienceAPI[] } = await res.json()
 
       setData(
-        (json.data ?? []).map((item: any) => {
-          const t = item.experience_translations?.[0] ?? {}
+        (json.data ?? []).map((item) => {
+          const t = item.experience_translations?.[0]
           return {
             id: item.id,
             type: item.type,
@@ -80,10 +99,10 @@ export default function Page() {
             start_date: item.start_date,
             end_date: item.end_date,
             skills: item.skills ?? [],
-            title: t.title ?? "",
-            description: t.description ?? "",
-            location_type: t.location_type ?? "",
-            highlight: t.highlight ?? "",
+            title: t?.title ?? "",
+            description: t?.description ?? "",
+            location_type: t?.location_type ?? "",
+            highlight: t?.highlight ?? "",
           }
         })
       )

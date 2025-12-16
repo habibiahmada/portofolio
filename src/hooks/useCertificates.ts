@@ -13,7 +13,7 @@ export default function useCertificates() {
   useEffect(() => {
     async function fetchCertificate() {
       try {
-        const res = await fetch(`/api/certificates/all?lang=${lang}`, { next: { revalidate: 0 } });
+        const res = await fetch(`/api/certificates?lang=${lang}`, { next: { revalidate: 0 } });
         const json = await res.json();
         setCertificates((json?.data as Certificate[]) || []);
       } catch (err) {

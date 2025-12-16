@@ -1,15 +1,31 @@
-import { NextResponse } from 'next/server'
-import { supabase, supabaseAdmin } from '@/lib/supabase'
+import { NextResponse } from "next/server"
+import { supabase, supabaseAdmin } from "@/lib/supabase"
+
+/* ================= TYPES ================= */
+
+type ExperienceCreatePayload = {
+  type: "experience" | "education"
+  company: string
+  location?: string
+  start_date?: string | null
+  end_date?: string | null
+  skills?: string[]
+  title: string
+  description?: string
+  language: string
+  location_type?: string
+  highlight?: string
+}
 
 /* ================= GET ================= */
 
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url)
-    const lang = searchParams.get('lang') ?? 'en'
+    const lang = searchParams.get("lang") ?? "en"
 
     const { data, error } = await supabase
-      .from('experiences')
+      .from("experiences")
       .select(`
         id,
         type,
@@ -26,21 +42,25 @@ export async function GET(req: Request) {
           highlight
         )
       `)
-      .eq('experience_translations.language', lang)
-      .order('start_date', { ascending: false })
+      .eq("experience_translations.language", lang)
+      .order("start_date", { ascending: false })
 
     if (error) {
-      console.error('GET experiences error:', error)
+      console.error("GET experiences error:", error)
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
     return NextResponse.json({ data }, { status: 200 })
-  } catch (err: any) {
-    console.error('GET experiences fatal:', err)
+  } catch (err: unknown) {
+    console.error("GET experiences fatal:", err)
+
+    const message =
+      err instanceof Error ? err.message : "Unknown error"
+
     return NextResponse.json(
       {
-        error: 'Failed to fetch experiences',
-        details: err?.message ?? err,
+        error: "Failed to fetch experiences",
+        details: message,
       },
       { status: 500 }
     )
@@ -51,7 +71,7 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json()
+    const body: ExperienceCreatePayload = await req.json()
 
     const {
       type,
@@ -69,7 +89,7 @@ export async function POST(req: Request) {
 
     if (!type || !company || !title || !language) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        { error: "Missing required fields" },
         { status: 400 }
       )
     }
@@ -78,7 +98,7 @@ export async function POST(req: Request) {
 
     /* insert main experience */
     const { data: experience, error: expError } = await client
-      .from('experiences')
+      .from("experiences")
       .insert({
         type,
         company,
@@ -87,17 +107,17 @@ export async function POST(req: Request) {
         end_date,
         skills,
       })
-      .select('id')
+      .select("id")
       .single()
 
     if (expError || !experience) {
-      console.error('Insert experiences error:', expError)
+      console.error("Insert experiences error:", expError)
       throw expError
     }
 
     /* insert translation */
     const { error: transError } = await client
-      .from('experience_translations')
+      .from("experience_translations")
       .insert({
         experience_id: experience.id,
         language,
@@ -108,17 +128,21 @@ export async function POST(req: Request) {
       })
 
     if (transError) {
-      console.error('Insert translations error:', transError)
+      console.error("Insert translations error:", transError)
       throw transError
     }
 
     return NextResponse.json({ success: true }, { status: 201 })
-  } catch (err: any) {
-    console.error('POST experiences fatal:', err)
+  } catch (err: unknown) {
+    console.error("POST experiences fatal:", err)
+
+    const message =
+      err instanceof Error ? err.message : "Unknown error"
+
     return NextResponse.json(
       {
-        error: 'Failed to create experience',
-        details: err?.message ?? err,
+        error: "Failed to create experience",
+        details: message,
       },
       { status: 500 }
     )
