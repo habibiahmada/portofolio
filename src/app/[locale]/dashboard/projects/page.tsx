@@ -144,9 +144,9 @@ export default function Page() {
         year: form.year || undefined,
         technologies: form.technologies
           ? form.technologies
-              .split(',')
-              .map(t => t.trim())
-              .filter(Boolean)
+            .split(',')
+            .map(t => t.trim())
+            .filter(Boolean)
           : undefined,
         live_url: form.live_url || undefined,
         github_url: form.github_url || undefined,

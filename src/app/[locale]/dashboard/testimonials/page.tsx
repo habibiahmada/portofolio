@@ -6,13 +6,12 @@ import { Card } from "@/components/ui/card";
 import { Trash2, Pencil, Plus } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import { toast } from "sonner";
 import DashboardHeader from "@/components/ui/sections/admin/dashboardheader";
 import { useRouter } from "next/navigation";
 
 interface Testimonial {
-    avatar: string | StaticImport;
+    avatar: string
     id: string;
     name: string;
     role: string;
@@ -80,44 +79,53 @@ export default function Page() {
                     {data.map((item) => (
                         <Card
                             key={item.id}
-                            className="p-4 flex justify-between items-start"
+                            className="p-4 flex flex-col justify-between gap-4"
                         >
-                            <div className="space-y-1">
-                                <div className="flex items-center justify-between gap-2">
-                                    <div>
-                                        <p className="font-semibold">{item.name}</p>
-                                        <p className="text-sm text-muted-foreground">
-                                            {item.role} · {item.company}
-                                        </p>
-                                    </div>
-                                    <Image
-                                        className="rounded-full mr-5"
-                                        src={item.avatar}
-                                        alt={item.name}
-                                        width={50}
-                                        height={50}
-                                    />
+                            {/* Top Section */}
+                            <div className="flex items-start justify-between gap-4">
+                                {/* Left Content */}
+                                <div className="space-y-1">
+                                    <p className="font-semibold">{item.name}</p>
+                                    <p className="text-sm text-muted-foreground">
+                                        {item.role} · {item.company}
+                                    </p>
                                 </div>
-                                <p className="text-sm line-clamp-2">
-                                    {item.testimonial_translations?.[0]?.content}
-                                </p>
-                                <div className="flex gap-2 justify-end">
-                                    <Link href={`/dashboard/testimonials/${item.id}/edit`}>
-                                        <Button size="sm">
-                                            <Pencil className="w-4 h-4" />
-                                        </Button>
-                                    </Link>
-                                    <Button
-                                        size="sm"
-                                        onClick={() => deleteTestimonial(item.id)}
-                                    >
-                                        <Trash2 className="w-4 h-4" />
+
+                                {/* Avatar Right */}
+                                <Image
+                                    src={item.avatar}
+                                    alt={item.name}
+                                    width={56}
+                                    height={56}
+                                    className="rounded-full object-cover shrink-0"
+                                />
+                            </div>
+
+                            {/* Testimonial */}
+                            <p className="text-sm text-muted-foreground line-clamp-3">
+                                {item.testimonial_translations?.[0]?.content}
+                            </p>
+
+                            {/* Action Buttons */}
+                            <div className="flex justify-end gap-2 pt-2">
+                                <Link href={`/dashboard/testimonials/${item.id}/edit`}>
+                                    <Button size="sm" variant="outline">
+                                        <Pencil className="w-4 h-4" />
                                     </Button>
-                                </div>
+                                </Link>
+
+                                <Button
+                                    size="sm"
+                                    variant="destructive"
+                                    onClick={() => deleteTestimonial(item.id)}
+                                >
+                                    <Trash2 className="w-4 h-4" />
+                                </Button>
                             </div>
                         </Card>
                     ))}
                 </div>
+
             )}
         </div>
     );
