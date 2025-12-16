@@ -1,7 +1,7 @@
 "use client";
 
 import { Document, Page, pdfjs } from "react-pdf";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "../../button";
@@ -15,71 +15,114 @@ if (typeof window !== "undefined" && !pdfjs.GlobalWorkerOptions.workerSrc) {
 
 interface CertificatePreviewProps {
   file: string;
-  width?: number;
   className?: string;
-  showAllPages?: boolean;
   initialPage?: number;
-  persistPage?: boolean;
   onLoadingChange?: (loading: boolean) => void;
 }
 
 const CertificatePreview: React.FC<CertificatePreviewProps> = ({
   file,
-  width = 300,
   className = "",
-  showAllPages = false,
   initialPage = 1,
-  persistPage = true,
   onLoadingChange,
 }) => {
-  const [mounted, setMounted] = useState(false);
-  const [numPages, setNumPages] = useState<number | null>(null);
-  const t = useTranslations("certifications")
+  const t = useTranslations("certifications");
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const [pdfData, setPdfData] = useState<ArrayBuffer | null>(null);
+  const [numPages, setNumPages] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState(initialPage);
+  const [pageWidth, setPageWidth] = useState(300);
 
-  useEffect(() => setMounted(true), []);
+  const [pdfLoading, setPdfLoading] = useState(true);
+  const [pageLoading, setPageLoading] = useState(true);
+  const MAX_PDF_WIDTH = 420;
 
-      useEffect(() => {
-    if (!persistPage) setCurrentPage(initialPage);
-  }, [initialPage, persistPage]);
-
+  /* ---------- fetch PDF ONCE ---------- */
   useEffect(() => {
+    let active = true;
+
+    setPdfLoading(true);
     onLoadingChange?.(true);
+
+    fetch(file)
+      .then((res) => res.arrayBuffer())
+      .then((buffer) => {
+        if (!active) return;
+        setPdfData(buffer);
+        setPdfLoading(false);
+        onLoadingChange?.(false);
+      });
+
+    return () => {
+      active = false;
+    };
   }, [file, onLoadingChange]);
 
-  if (!mounted) return null;
+  /* ---------- responsive width ---------- */
+  useEffect(() => {
+    if (!containerRef.current) return;
 
-  const goToPrevPage = () =>
-    setCurrentPage((prev) => (prev > 1 ? prev - 1 : prev));
-  const goToNextPage = () =>
-    setCurrentPage((prev) => (numPages && prev < numPages ? prev + 1 : prev));
+    const observer = new ResizeObserver(entries => {
+      const containerWidth = entries[0].contentRect.width;
+      setPageWidth(Math.min(containerWidth, MAX_PDF_WIDTH));
+    });
+
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  const goPrev = () =>
+    setCurrentPage((p) => (p > 1 ? p - 1 : p));
+  const goNext = () =>
+    setCurrentPage((p) => (p < numPages ? p + 1 : p));
 
   return (
-    <div className={`flex flex-col items-center justify-center gap-4`}>
-      <Document
-        file={file}
-        onLoadSuccess={({ numPages }) => {
-          setNumPages(numPages)
-          onLoadingChange?.(false)
-        }}
-        loading={<div className="text-slate-400">Loading preview...</div>}
-        className={className}
+    <div
+      className={`w-full max-w-3xl h-[40vh] flex flex-col ${className}`}
+    >
+      {/* PDF AREA */}
+      <div
+        ref={containerRef}
+        className="relative flex-1 overflow-auto flex items-center justify-center bg-slate-50 dark:bg-slate-950 rounded-lg"
       >
-        <Page
-          pageNumber={showAllPages ? currentPage : initialPage}
-          width={width}
-          renderTextLayer={false}
-          renderAnnotationLayer={false}
-        />
-      </Document>
+        {(pdfLoading || pageLoading) && (
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/60 dark:bg-black/40">
+            <span className="text-sm text-slate-500">
+              Loading preview…
+            </span>
+          </div>
+        )}
 
-      {showAllPages && numPages && numPages > 1 && (
-        <div className="flex items-center gap-4 mt-2">
+        {pdfData && (
+          <Document
+            file={pdfData}
+            onLoadSuccess={({ numPages }) => {
+              setNumPages(numPages);
+              setCurrentPage(initialPage);
+            }}
+            loading={null}
+          >
+            <Page
+              pageNumber={currentPage}
+              width={pageWidth}
+              renderTextLayer={false}
+              renderAnnotationLayer={false}
+              onLoadSuccess={() => setPageLoading(false)}
+              onLoadStart={() => setPageLoading(true)}
+            />
+          </Document>
+        )}
+      </div>
+
+      {/* PAGINATION */}
+      {numPages > 1 && (
+        <div className="flex items-center justify-center gap-4 mt-4">
           <Button
-            onClick={goToPrevPage}
+            onClick={goPrev}
             disabled={currentPage === 1}
-            className="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 disabled:opacity-40 cursor-pointer text-slate-600 dark:text-slate-300"
+            className="p-2"
           >
             <ChevronLeft className="w-5 h-5" />
           </Button>
@@ -89,9 +132,9 @@ const CertificatePreview: React.FC<CertificatePreviewProps> = ({
           </span>
 
           <Button
-            onClick={goToNextPage}
+            onClick={goNext}
             disabled={currentPage === numPages}
-            className="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 disabled:opacity-40 cursor-pointer text-slate-600 dark:text-slate-300"
+            className="p-2"
           >
             <ChevronRight className="w-5 h-5" />
           </Button>

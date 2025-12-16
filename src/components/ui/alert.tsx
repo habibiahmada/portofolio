@@ -22,9 +22,9 @@ const Alert: React.FC<AlertProps> = ({ open, type = "info", message, onClose, du
 
   const base = "max-w-sm w-full shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black/5";
   const variants: Record<string, string> = {
-    success: "bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 border border-green-100 dark:border-green-900",
-    error: "bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 border border-red-100 dark:border-red-900",
-    info: "bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 border border-slate-100 dark:border-slate-800",
+    success: "bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-100 border border-green-100 dark:border-green-900",
+    error: "bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-100 border border-red-100 dark:border-red-900",
+    info: "bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-100 border border-slate-100 dark:border-slate-800",
   };
 
   const icon = type === "success" ? (

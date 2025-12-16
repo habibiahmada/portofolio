@@ -87,7 +87,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         throw new Error('Access denied. This portfolio is private.')
       }
 
-      // Update state immediately after successful login
       setUser(data.user as AuthUser)
       setSession(data.session)
     } catch (error) {
@@ -128,7 +127,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  const signOut = async (lang: string = 'en') => {
+  const signOut = async () => {
     try {
       const { error } = await supabase.auth.signOut()
       if (error) {

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { ChevronLeft, ChevronRight, Star, Quote, Briefcase, Zap } from "lucide-react";
 import { Button } from "../../button";
 import { Card } from "../../card";
@@ -101,7 +101,7 @@ const TestimonialSection = () => {
         {/* Testimonial Card */}
         <div className="max-w-6xl mx-auto">
           <Card
-            className={`relative p-8 lg:p-12 backdrop-blur-xl bg-white/80 dark:bg-slate-900/80 border-slate-200/50 dark:border-slate-700/50 transition-transform duration-300 ${isAnimating ? "opacity-50 scale-95" : "opacity-100 scale-100"
+            className={`relative p-8 lg:p-12 backdrop-blur-xl bg-white/80 dark:bg-slate-950/80 border-slate-200/50 dark:border-slate-700/50 transition-transform duration-300 ${isAnimating ? "opacity-50 scale-95" : "opacity-100 scale-100"
               }`}
           >
             {/* Quote Icon */}
@@ -178,8 +178,8 @@ const TestimonialSection = () => {
                 key={index}
                 onClick={() => goToSlide(index)}
                 className={`w-3 h-3 rounded-full cursor-pointer ${index === currentIndex
-                    ? "bg-blue-600 dark:bg-blue-400 w-8"
-                    : "bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500"
+                  ? "bg-blue-600 dark:bg-blue-400 w-8"
+                  : "bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500"
                   }`}
               />
             ))}

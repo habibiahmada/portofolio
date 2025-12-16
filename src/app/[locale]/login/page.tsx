@@ -110,7 +110,7 @@ export default function LoginPage() {
           </p>
         </div>
 
-        <div className={`mt-8 rounded-xl shadow-2xl ${isDark ? 'bg-slate-900 border border-slate-700' : 'bg-white'
+        <div className={`mt-8 rounded-xl shadow-2xl ${isDark ? 'bg-slate-950 border border-slate-700' : 'bg-white'
           }`}>
           <div className="px-8 py-10">
             {error && (
@@ -148,8 +148,8 @@ export default function LoginPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className={`block w-full pl-10 pr-3 py-3 px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${isDark
-                        ? 'bg-slate-800 border-slate-600 text-white placeholder-slate-400'
-                        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
+                      ? 'bg-slate-800 border-slate-600 text-white placeholder-slate-400'
+                      : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
                       }`}
                     placeholder="Enter your email"
                   />
@@ -171,8 +171,8 @@ export default function LoginPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className={`block w-full pl-10 pr-12 py-3 px-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${isDark
-                        ? 'bg-slate-800 border-slate-600 text-white placeholder-slate-400'
-                        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
+                      ? 'bg-slate-800 border-slate-600 text-white placeholder-slate-400'
+                      : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
                       }`}
                     placeholder="Enter your password"
                   />
@@ -196,7 +196,7 @@ export default function LoginPage() {
                     }`} />
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className={`px-2 ${isDark ? 'bg-slate-900 text-slate-400' : 'bg-white text-gray-500'
+                  <span className={`px-2 ${isDark ? 'bg-slate-950 text-slate-400' : 'bg-white text-gray-500'
                     }`}>
                     Or continue with
                   </span>
@@ -210,8 +210,8 @@ export default function LoginPage() {
                 onClick={handleGoogleLogin}
                 disabled={loading}
                 className={`w-full inline-flex justify-center py-3 px-4 border rounded-lg shadow-sm text-sm font-medium transition-colors ${isDark
-                    ? 'bg-slate-800 border-slate-600 text-white hover:bg-slate-700'
-                    : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+                  ? 'bg-slate-800 border-slate-600 text-white hover:bg-slate-700'
+                  : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
                   } disabled:opacity-50 disabled:cursor-not-allowed`}
               >
                 <Chrome className="h-5 w-5 mr-2" />
@@ -222,8 +222,8 @@ export default function LoginPage() {
                 onClick={handleGitHubLogin}
                 disabled={loading}
                 className={`w-full inline-flex justify-center py-3 px-4 border rounded-lg shadow-sm text-sm font-medium transition-colors ${isDark
-                    ? 'bg-slate-800 border-slate-600 text-white hover:bg-slate-700'
-                    : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+                  ? 'bg-slate-800 border-slate-600 text-white hover:bg-slate-700'
+                  : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
                   } disabled:opacity-50 disabled:cursor-not-allowed`}
               >
                 <Github className="h-5 w-5 mr-2" />

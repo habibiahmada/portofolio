@@ -55,7 +55,7 @@ const CertificationsSection: React.FC = () => {
           {loading && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {Array.from({ length: 6 }).map((_, idx) => (
-                <div key={idx} className="group relative bg-white dark:bg-slate-900 rounded-2xl shadow-lg overflow-hidden border border-slate-200 dark:border-slate-700">
+                <div key={idx} className="group relative bg-white dark:bg-slate-950 rounded-2xl shadow-lg overflow-hidden border border-slate-200 dark:border-slate-700">
                   {/* Preview skeleton */}
                   <div className="h-48 w-full">
                     <Skeleton className="h-full w-full rounded-none" />

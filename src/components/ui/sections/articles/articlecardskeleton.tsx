@@ -4,7 +4,7 @@ import React from "react";
 
 const ArticleCardSkeleton: React.FC = () => {
   return (
-    <div className="rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden shadow-sm bg-white dark:bg-slate-900 animate-pulse">
+    <div className="rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden shadow-sm bg-white dark:bg-slate-950 animate-pulse">
       {/* Image placeholder */}
       <div className="h-48 w-full bg-gray-200 dark:bg-gray-700" />
 

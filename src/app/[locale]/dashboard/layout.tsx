@@ -30,7 +30,7 @@ export const metadata = {
 export default function Layout({children}: { children: ReactNode }) {
   return (
     <SidebarProvider>
-      <Toaster position="top-center" />
+      <Toaster position="top-center" richColors/>
       <AppSidebar />
       <SidebarInset>
         <header className="sticky top-0 z-50 py-3 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 bg-background">

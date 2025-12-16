@@ -8,6 +8,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Users, CheckCircle, Clock, LucideIcon } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { useLocale, useTranslations } from 'next-intl'
+import DashboardHeader from '@/components/ui/sections/admin/dashboardheader'
 
 const IconList: LucideIcon[] = [Users, CheckCircle, Clock]
 
@@ -48,20 +49,16 @@ export default function StatsAdminPage() {
   const locale = useLocale()
   const t = useTranslations('stats')
   const [stats, setStats] = useState<StatItem[]>([])
-  const [loading, setLoading] = useState(false)
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === 'dark'
 
   const fetchStats = useCallback(async () => {
-    setLoading(true)
     try {
       const res = await fetch(`/api/stats?lang=${locale}`)
       const json = await res.json()
       setStats(json.data || [])
     } catch {
       toast.error(t('loadError'))
-    } finally {
-      setLoading(false)
     }
   }, [locale, t])
 
@@ -120,20 +117,10 @@ export default function StatsAdminPage() {
 
   return (
     <div className="min-h-screen p-6 space-y-6 relative">
-
-      {/* Loading overlay */}
-      {loading && (
-        <div className="fixed inset-0 bg-black/10 backdrop-blur-sm flex items-center justify-center">
-          <div className="bg-card px-4 py-2 rounded-md shadow">
-            {t('loadingOverlay')}
-          </div>
-        </div>
-      )}
-
-      <header className="bg-card border rounded-xl p-6">
-        <h1 className="text-2xl font-semibold">{t('headerTitle')}</h1>
-        <p className="text-sm text-muted-foreground">{t('headerSubtitle')}</p>
-      </header>
+      <DashboardHeader
+        title={t("headerTitle")}
+        description={t("headerSubtitle")}
+      />
 
       <div className="space-y-6">
         {stats.map((s, i) => {

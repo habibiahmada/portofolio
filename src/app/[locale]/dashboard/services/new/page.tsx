@@ -1,0 +1,99 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import ServiceForm from '@/components/ui/sections/admin/forms/serviceform';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
+
+interface ServiceFormData {
+  key: string;
+  icon: string;
+  color: string;
+  title: string;
+  description: string;
+  bullets: string[];
+}
+
+export default function Page() {
+  const router = useRouter();
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const handleSubmit = async (data: ServiceFormData) => {
+    setLoading(true);
+
+    try {
+      const response = await fetch('/api/services', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error('Create service failed');
+      }
+
+      toast.success('Service berhasil ditambahkan');
+      router.push('/dashboard/services');
+    } catch (error) {
+      console.error('Create service error:', error);
+      toast.error('Gagal menambahkan service');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen">
+      {/* ================= BREADCRUMB ================= */}
+      <Breadcrumb className="mb-4">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/dashboard">
+              Dashboard
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+
+          <BreadcrumbSeparator />
+
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/dashboard/services">
+              Services
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+
+          <BreadcrumbSeparator />
+
+          <BreadcrumbItem>
+            <BreadcrumbPage>New</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
+      {/* ================= HEADER ================= */}
+      <div className="mb-6 flex items-center justify-between rounded-xl border bg-card p-6">
+        <div>
+          <h1 className="text-2xl font-bold">New Service</h1>
+          <p className="text-sm text-muted-foreground">
+            Add a new service to your platform
+          </p>
+        </div>
+      </div>
+
+      {/* ================= FORM ================= */}
+      <ServiceForm
+        onSubmit={handleSubmit}
+        loading={loading}
+      />
+    </div>
+  );
+}

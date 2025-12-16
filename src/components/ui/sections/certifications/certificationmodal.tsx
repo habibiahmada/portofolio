@@ -6,7 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const CertificatePreview = dynamic(
   () => import("./certificatepreview"),
-  { ssr: false } 
+  { ssr: false }
 );
 
 interface Certificate {
@@ -65,7 +65,7 @@ const CertificateModal: React.FC<{ certificate: Certificate | null; index: numbe
     >
       <div
         ref={modalRef}
-        className="bg-white dark:bg-slate-900 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+        className="bg-white dark:bg-slate-950 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
       >
         {/* Header */}
         <div className="p-6 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
@@ -100,9 +100,7 @@ const CertificateModal: React.FC<{ certificate: Certificate | null; index: numbe
               <div className={previewLoading ? "invisible" : "visible"}>
                 <CertificatePreview
                   file={certificate.preview}
-                  width={500}
                   className="mx-auto"
-                  showAllPages={true}
                   onLoadingChange={setPreviewLoading}
                 />
               </div>
@@ -127,11 +125,10 @@ const CertificateModal: React.FC<{ certificate: Certificate | null; index: numbe
                 {skills.slice(0, 2).map((skill, idx) => (
                   <span
                     key={idx}
-                    className={`px-3 py-1 rounded-full text-sm font-medium ${
-                      isBlue
+                    className={`px-3 py-1 rounded-full text-sm font-medium ${isBlue
                         ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
                         : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
-                    }`}
+                      }`}
                   >
                     {skill}
                   </span>
