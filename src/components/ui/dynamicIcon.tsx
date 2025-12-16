@@ -14,21 +14,16 @@ export function DynamicIcon({ name, className }: DynamicIconProps) {
 
   useEffect(() => {
     if (!name) return
-
     const cached = getLucideCache()
     if (cached?.[name]) {
       setIcon(() => cached[name])
       return
     }
-
     loadLucideIcons().then((icons) => {
       setIcon(() => icons[name] || icons["CircleHelp"])
     })
   }, [name])
 
-  if (!Icon) {
-    return <span className="w-6 h-6 inline-block" />
-  }
-
+  if (!Icon) return <span className="w-6 h-6 inline-block" />
   return <Icon className={className} />
 }

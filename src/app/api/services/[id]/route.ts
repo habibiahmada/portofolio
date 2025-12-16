@@ -20,17 +20,16 @@ type Translation = {
   [k: string]: unknown;
 };
 
-/* =========================
-   UPDATE SERVICE
+/* ========================= PUT =========================
    PUT /api/services/:id
-   ========================= */
+========================================================= */
 export async function PUT(
   req: Request,
   context: { params: Promise<{ id: string }> }
 ) {
   if (!supabaseAdmin) {
     return NextResponse.json(
-      { error: "Supabase admin not initialized" },
+      { error: "Server misconfiguration" },
       { status: 500 }
     );
   }
@@ -39,25 +38,20 @@ export async function PUT(
     const { id } = await context.params;
     const body = await req.json();
 
-    const { translations, ...servicePayload } = body;
+    const { translations, ...serviceData } = body;
 
     /* 1️⃣ Update services table */
     const { error: serviceError } = await supabaseAdmin
       .from("services")
-      .update(servicePayload)
+      .update(serviceData)
       .eq("id", id);
 
-    if (serviceError) {
-      return NextResponse.json(
-        { error: serviceError },
-        { status: 400 }
-      );
-    }
+    if (serviceError) throw serviceError;
 
-    /* 2️⃣ Upsert service_translations */
+    /* 2️⃣ Update translations */
     if (Array.isArray(translations)) {
-      for (const t of translations as Translation[]) {
-        const language = t.language;
+      for (const t of translations) {
+        const { language, title, description, bullets } = t;
 
         const { data: existing } = await supabaseAdmin
           .from("service_translations")
@@ -69,11 +63,7 @@ export async function PUT(
         if (existing) {
           await supabaseAdmin
             .from("service_translations")
-            .update({
-              title: t.title,
-              description: t.description,
-              bullets: t.bullets,
-            })
+            .update({ title, description, bullets })
             .eq("service_id", id)
             .eq("language", language);
         } else {
@@ -83,9 +73,9 @@ export async function PUT(
               {
                 service_id: id,
                 language,
-                title: t.title,
-                description: t.description,
-                bullets: t.bullets,
+                title,
+                description,
+                bullets,
               },
             ]);
         }
@@ -93,25 +83,25 @@ export async function PUT(
     }
 
     return NextResponse.json({ success: true });
-  } catch (err: unknown) {
+  } catch (e: any) {
     return NextResponse.json(
-      { error: getMessage(err) },
+      { error: e.message ?? "Unknown error" },
       { status: 500 }
     );
   }
 }
 
-/* =========================
-   DELETE SERVICE
+
+/* ========================= DELETE =========================
    DELETE /api/services/:id
-   ========================= */
+============================================================ */
 export async function DELETE(
-  _req: Request,
+  req: Request,
   context: { params: Promise<{ id: string }> }
 ) {
   if (!supabaseAdmin) {
     return NextResponse.json(
-      { error: "Supabase admin not initialized" },
+      { error: "Server misconfiguration" },
       { status: 500 }
     );
   }
@@ -119,31 +109,17 @@ export async function DELETE(
   try {
     const { id } = await context.params;
 
-    /* 1️⃣ Delete translations first (FK safe) */
-    const { error: translationError } = await supabaseAdmin
+    await supabaseAdmin
       .from("service_translations")
       .delete()
       .eq("service_id", id);
 
-    if (translationError) {
-      return NextResponse.json(
-        { error: translationError },
-        { status: 400 }
-      );
-    }
-
-    /* 2️⃣ Delete service */
-    const { error: serviceError } = await supabaseAdmin
+    const { error } = await supabaseAdmin
       .from("services")
       .delete()
       .eq("id", id);
 
-    if (serviceError) {
-      return NextResponse.json(
-        { error: serviceError },
-        { status: 400 }
-      );
-    }
+    if (error) throw new Error(getMessage(error));
 
     return NextResponse.json({ success: true });
   } catch (err: unknown) {
