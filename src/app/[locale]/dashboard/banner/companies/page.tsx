@@ -21,18 +21,14 @@ export default function CompaniesAdminPage() {
   const t = useTranslations("companies")
 
   const [companies, setCompanies] = useState<CompanyItem[]>([])
-  const [loading, setLoading] = useState(false)
 
   const fetchCompanies = useCallback(async () => {
-    setLoading(true)
     try {
       const res = await fetch(`/api/companies/all?lang=${locale}`)
       const json: { data?: CompanyItem[] } = await res.json()
       setCompanies(json.data ?? [])
     } catch (error) {
       console.error(error)
-    } finally {
-      setLoading(false)
     }
   }, [locale])
 

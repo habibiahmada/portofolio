@@ -1,8 +1,9 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import ServiceForm from "@/components/ui/sections/admin/forms/serviceform";
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import ServiceForm from '@/components/ui/sections/admin/forms/serviceform';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -10,31 +11,45 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { toast } from "sonner";
+} from '@/components/ui/breadcrumb';
+
+interface ServiceFormData {
+  key: string;
+  icon: string;
+  color: string;
+  title: string;
+  description: string;
+  bullets: string[];
+}
 
 export default function Page() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const submit = async (data: any) => {
+  const handleSubmit = async (data: ServiceFormData) => {
     setLoading(true);
 
-    const res = await fetch("/api/services", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
+    try {
+      const response = await fetch('/api/services', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
 
-    setLoading(false);
+      if (!response.ok) {
+        throw new Error('Create service failed');
+      }
 
-    if (!res.ok) {
-      toast.error("Gagal menambahkan service");
-      return;
+      toast.success('Service berhasil ditambahkan');
+      router.push('/dashboard/services');
+    } catch (error) {
+      console.error('Create service error:', error);
+      toast.error('Gagal menambahkan service');
+    } finally {
+      setLoading(false);
     }
-
-    toast.success("Service berhasil ditambahkan");
-    router.push("/dashboard/services");
   };
 
   return (
@@ -43,7 +58,9 @@ export default function Page() {
       <Breadcrumb className="mb-4">
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+            <BreadcrumbLink href="/dashboard">
+              Dashboard
+            </BreadcrumbLink>
           </BreadcrumbItem>
 
           <BreadcrumbSeparator />
@@ -63,7 +80,7 @@ export default function Page() {
       </Breadcrumb>
 
       {/* ================= HEADER ================= */}
-      <div className="flex items-center justify-between mb-6 rounded-xl border bg-card p-6">
+      <div className="mb-6 flex items-center justify-between rounded-xl border bg-card p-6">
         <div>
           <h1 className="text-2xl font-bold">New Service</h1>
           <p className="text-sm text-muted-foreground">
@@ -73,7 +90,10 @@ export default function Page() {
       </div>
 
       {/* ================= FORM ================= */}
-      <ServiceForm onSubmit={submit} loading={loading} />
+      <ServiceForm
+        onSubmit={handleSubmit}
+        loading={loading}
+      />
     </div>
   );
 }

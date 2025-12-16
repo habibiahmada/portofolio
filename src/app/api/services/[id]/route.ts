@@ -1,130 +1,160 @@
-import { NextResponse } from "next/server";
-import { supabaseAdmin } from "@/lib/supabase";
+import { NextResponse } from 'next/server';
+import { supabaseAdmin } from '@/lib/supabase';
 
-function getMessage(e: unknown): string {
-  if (e instanceof Error) return e.message;
-  const maybe = (e as { message?: unknown }).message;
-  if (typeof maybe === "string") return maybe;
-  try {
-    return JSON.stringify(e);
-  } catch {
-    return String(e);
-  }
-}
+/* ================= TYPES ================= */
 
-type Translation = {
-  language?: string;
+interface ServiceTranslationPayload {
+  language: string;
   title?: string;
   description?: string;
   bullets?: string[];
-  [k: string]: unknown;
-};
+}
 
-/* ========================= PUT =========================
-   PUT /api/services/:id
-========================================================= */
+interface ServiceUpdatePayload {
+  key?: string;
+  icon?: string;
+  color?: string;
+  is_active?: boolean;
+  translations?: ServiceTranslationPayload[];
+}
+
+interface RouteParams {
+  params: {
+    id: string;
+  };
+}
+
+/* ================= UTILS ================= */
+
+function getMessage(error: unknown): string {
+  if (error instanceof Error) return error.message;
+
+  if (
+    typeof error === 'object' &&
+    error !== null &&
+    'message' in error &&
+    typeof (error as { message: unknown }).message === 'string'
+  ) {
+    return (error as { message: string }).message;
+  }
+
+  try {
+    return JSON.stringify(error);
+  } catch {
+    return String(error);
+  }
+}
+
+/* ================= PUT =================
+   PUT /api/services/[id]
+========================================= */
 export async function PUT(
   req: Request,
-  context: { params: Promise<{ id: string }> }
+  { params }: RouteParams
 ) {
   if (!supabaseAdmin) {
     return NextResponse.json(
-      { error: "Server misconfiguration" },
+      { error: 'Server misconfiguration' },
       { status: 500 }
     );
   }
 
   try {
-    const { id } = await context.params;
-    const body = await req.json();
-
+    const body = (await req.json()) as ServiceUpdatePayload;
     const { translations, ...serviceData } = body;
 
-    /* 1️⃣ Update services table */
+    /* ===== Update service ===== */
     const { error: serviceError } = await supabaseAdmin
-      .from("services")
+      .from('services')
       .update(serviceData)
-      .eq("id", id);
+      .eq('id', params.id);
 
-    if (serviceError) throw serviceError;
+    if (serviceError) {
+      throw serviceError;
+    }
 
-    /* 2️⃣ Update translations */
-    if (Array.isArray(translations)) {
-      for (const t of translations) {
-        const { language, title, description, bullets } = t;
+    /* ===== Upsert translations ===== */
+    if (Array.isArray(translations) && translations.length > 0) {
+      const rows = translations.map((t) => ({
+        service_id: params.id,
+        language: t.language,
+        title: t.title,
+        description: t.description,
+        bullets: t.bullets,
+      }));
 
-        const { data: existing } = await supabaseAdmin
-          .from("service_translations")
-          .select("id")
-          .eq("service_id", id)
-          .eq("language", language)
-          .maybeSingle();
+      const { error: translationError } =
+        await supabaseAdmin
+          .from('service_translations')
+          .upsert(rows, {
+            onConflict: 'service_id,language',
+          });
 
-        if (existing) {
-          await supabaseAdmin
-            .from("service_translations")
-            .update({ title, description, bullets })
-            .eq("service_id", id)
-            .eq("language", language);
-        } else {
-          await supabaseAdmin
-            .from("service_translations")
-            .insert([
-              {
-                service_id: id,
-                language,
-                title,
-                description,
-                bullets,
-              },
-            ]);
-        }
+      if (translationError) {
+        throw translationError;
       }
     }
 
     return NextResponse.json({ success: true });
-  } catch (e: any) {
+  } catch (error) {
+    console.error(
+      'PUT /api/services/[id] error:',
+      error
+    );
+
     return NextResponse.json(
-      { error: e.message ?? "Unknown error" },
+      { error: getMessage(error) },
       { status: 500 }
     );
   }
 }
 
-
-/* ========================= DELETE =========================
-   DELETE /api/services/:id
-============================================================ */
+/* ================= DELETE =================
+   DELETE /api/services/[id]
+=========================================== */
 export async function DELETE(
-  req: Request,
-  context: { params: Promise<{ id: string }> }
+  _: Request,
+  { params }: RouteParams
 ) {
   if (!supabaseAdmin) {
     return NextResponse.json(
-      { error: "Server misconfiguration" },
+      { error: 'Server misconfiguration' },
       { status: 500 }
     );
   }
 
   try {
-    const { id } = await context.params;
+    /* ===== Delete translations first ===== */
+    const { error: translationError } =
+      await supabaseAdmin
+        .from('service_translations')
+        .delete()
+        .eq('service_id', params.id);
 
-    await supabaseAdmin
-      .from("service_translations")
-      .delete()
-      .eq("service_id", id);
+    if (translationError) {
+      throw translationError;
+    }
 
-    const { error } = await supabaseAdmin
-      .from("services")
-      .delete()
-      .eq("id", id);
+    /* ===== Delete service ===== */
+    const { error: serviceError } =
+      await supabaseAdmin
+        .from('services')
+        .delete()
+        .eq('id', params.id);
 
-    if (error) throw new Error(getMessage(error));
+    if (serviceError) {
+      throw serviceError;
+    }
 
     return NextResponse.json({ success: true });
-  } catch (err: unknown) {
+  } catch (error) {
+    console.error(
+      'DELETE /api/services/[id] error:',
+      error
+    );
+
     return NextResponse.json(
-      { error: getMessage(err) },
+      { error: getMessage(error) },
       { status: 500 }
     );
   }

@@ -1,44 +1,61 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import TestimonialForm from "@/components/ui/sections/admin/forms/testimonialform";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { toast } from "sonner";
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
-interface Props {
-  initialData?: any;
-  onSubmit: (data: any) => Promise<void>;
-  loading?: boolean;
+import TestimonialForm from '@/components/ui/sections/admin/forms/testimonialform';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
+
+interface TestimonialFormData {
+  name: string;
+  role?: string;
+  avatar?: string;
+  language: string;
+  content: string;
 }
 
 export default function Page() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const submit = async (data: any) => {
+  /* ================= SUBMIT ================= */
+  const handleSubmit = async (data: TestimonialFormData) => {
     setLoading(true);
 
-    const res = await fetch("/api/testimonials", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
+    try {
+      const response = await fetch('/api/testimonials', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
 
-    setLoading(false);
+      if (!response.ok) {
+        throw new Error('Create testimonial failed');
+      }
 
-    if (!res.ok) {
-      toast.error("Gagal menambahkan testimonial");
-      return;
+      toast.success('Testimonial berhasil ditambahkan');
+      router.push('/dashboard/testimonials');
+    } catch (error) {
+      console.error('Create testimonial error:', error);
+      toast.error('Gagal menambahkan testimonial');
+    } finally {
+      setLoading(false);
     }
-
-    toast.success("Testimonial berhasil ditambahkan");
-    router.push("/dashboard/testimonials");
   };
-
 
   return (
     <div className="min-h-screen">
+      {/* ================= BREADCRUMB ================= */}
       <Breadcrumb className="mb-4">
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -63,15 +80,23 @@ export default function Page() {
         </BreadcrumbList>
       </Breadcrumb>
 
-      <div className="flex items-center justify-between mb-6 rounded-xl border bg-card p-6">
+      {/* ================= HEADER ================= */}
+      <div className="mb-6 flex items-center justify-between rounded-xl border bg-card p-6">
         <div>
-          <h1 className="text-2xl font-bold">New Testimonial</h1>
+          <h1 className="text-2xl font-bold">
+            New Testimonial
+          </h1>
           <p className="text-sm text-muted-foreground">
             Add a new testimonial to your profile
           </p>
         </div>
       </div>
-      <TestimonialForm onSubmit={submit} loading={loading} />
+
+      {/* ================= FORM ================= */}
+      <TestimonialForm
+        onSubmit={handleSubmit}
+        loading={loading}
+      />
     </div>
   );
 }

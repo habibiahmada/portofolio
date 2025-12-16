@@ -1,82 +1,143 @@
-'use client'
+'use client';
 
-import { useEffect, useState } from 'react'
-import { Plus, Edit3, Trash2 } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { useLocale } from 'next-intl'
-import { toast } from 'sonner'
-import { useRouter } from 'next/navigation'
-import DashboardHeader from '@/components/ui/sections/admin/dashboardheader'
-import { DynamicIcon } from '@/components/ui/dynamicIcon'
-import Image from 'next/image'
+import { useCallback, useEffect, useState } from 'react';
+import { Plus, Edit3, Trash2 } from 'lucide-react';
+import Image from 'next/image';
+import { useLocale } from 'next-intl';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import DashboardHeader from '@/components/ui/sections/admin/dashboardheader';
+import { DynamicIcon } from '@/components/ui/dynamicIcon';
+
+interface ServiceTranslation {
+  title: string;
+  description: string;
+}
+
+interface ServiceItem {
+  id: string;
+  icon: string;
+  color: string;
+  service_translations: ServiceTranslation[];
+}
+
+interface ServicesResponse {
+  data: ServiceItem[];
+}
 
 export default function ServicesPage() {
-  const locale = useLocale()
-  const router = useRouter()
-  const [services, setServices] = useState<any[]>([])
-  const [loading, setLoading] = useState(false)
+  const locale = useLocale();
+  const router = useRouter();
 
-  async function fetchServices() {
-    setLoading(true)
+  const [services, setServices] = useState<ServiceItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  /* ================= FETCH ================= */
+  const fetchServices = useCallback(async () => {
+    setLoading(true);
+
     try {
-      const res = await fetch(`/api/services?lang=${locale}`)
-      const json = await res.json()
-      setServices(json.data || [])
-    } catch {
-      toast.error('Failed to load services')
-    } finally {
-      setLoading(false)
-    }
-  }
+      const response = await fetch(`/api/services?lang=${locale}`, {
+        cache: 'no-store',
+      });
 
-  async function handleDelete(id: string) {
-    if (!confirm('Delete this service?')) return
-    await fetch(`/api/services/${id}`, { method: 'DELETE' })
-    toast.success('Deleted')
-    fetchServices()
-  }
+      if (!response.ok) {
+        throw new Error('Fetch failed');
+      }
+
+      const result: ServicesResponse = await response.json();
+      setServices(result.data ?? []);
+    } catch (error) {
+      console.error('Fetch services error:', error);
+      toast.error('Failed to load services');
+    } finally {
+      setLoading(false);
+    }
+  }, [locale]);
 
   useEffect(() => {
-    fetchServices()
-  }, [])
+    fetchServices();
+  }, [fetchServices]);
+
+  /* ================= DELETE ================= */
+  const handleDelete = async (id: string) => {
+    const confirmed = window.confirm('Delete this service?');
+    if (!confirmed) return;
+
+    try {
+      const response = await fetch(`/api/services/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Delete failed');
+      }
+
+      toast.success('Service deleted');
+      fetchServices();
+    } catch (error) {
+      console.error('Delete service error:', error);
+      toast.error('Failed to delete service');
+    }
+  };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="space-y-6 p-6">
       <DashboardHeader
         title="Services"
         description="Manage services"
         actionLabel="New Service"
+        actionIcon={<Plus className="h-4 w-4" />}
         onClick={() => router.push('/dashboard/services/new')}
-        actionIcon={<Plus className="w-4 h-4" />}
       />
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {loading && [...Array(3)].map((_, i) => (
-          <div key={i} className="h-64 rounded-xl border animate-pulse" />
-        ))}
+      <div className="grid gap-4 mdmd:grid-cols-2 lg:grid-cols-3">
+        {/* ================= LOADING ================= */}
+        {loading &&
+          Array.from({ length: 3 }).map((_, index) => (
+            <div
+              key={index}
+              className="h-64 animate-pulse rounded-xl border"
+            />
+          ))}
 
-        {services.map(s => {
-          const icon = s.icon
-          const isImg = /^https?:\/\//.test(icon || '')
+        {/* ================= DATA ================= */}
+        {services.map((service) => {
+          const translation = service.service_translations[0];
+          const isImageIcon =
+            typeof service.icon === 'string' &&
+            /^https?:\/\//.test(service.icon);
 
           return (
-            <Card key={s.id}>
-              <CardContent className="p-6 space-y-4">
-                <div className={`w-12 h-12 flex items-center justify-center rounded-lg bg-gradient-to-r ${s.color}`}>
-                  {isImg ? (
-                    <Image src={icon} alt="" fill />
+            <Card key={service.id}>
+              <CardContent className="space-y-4 p-6">
+                <div
+                  className={`flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-r ${service.color}`}
+                >
+                  {isImageIcon ? (
+                    <Image
+                      src={service.icon}
+                      alt=""
+                      width={24}
+                      height={24}
+                    />
                   ) : (
-                    <DynamicIcon name={icon} className="w-6 h-6 text-white" />
+                    <DynamicIcon
+                      name={service.icon}
+                      className="h-6 w-6 text-white"
+                    />
                   )}
                 </div>
 
                 <div>
                   <h3 className="font-semibold">
-                    {s.service_translations?.[0]?.title}
+                    {translation?.title ?? '-'}
                   </h3>
-                  <p className="text-sm text-muted-foreground line-clamp-2">
-                    {s.service_translations?.[0]?.description}
+                  <p className="line-clamp-2 text-sm text-muted-foreground">
+                    {translation?.description ?? ''}
                   </p>
                 </div>
 
@@ -84,24 +145,30 @@ export default function ServicesPage() {
                   <Button
                     size="sm"
                     variant="outline"
-                    onClick={() => router.push(`/dashboard/services/${s.id}/edit`)}
-                    className="flex-1 gap-2"
+                    className="flex flex-1 items-center gap-2"
+                    onClick={() =>
+                      router.push(
+                        `/dashboard/services/${service.id}/edit`
+                      )
+                    }
                   >
-                    <Edit3 className="w-3 h-3" /> Edit
+                    <Edit3 className="h-3 w-3" />
+                    Edit
                   </Button>
+
                   <Button
                     size="sm"
                     variant="destructive"
-                    onClick={() => handleDelete(s.id)}
+                    onClick={() => handleDelete(service.id)}
                   >
-                    <Trash2 className="w-3 h-3" />
+                    <Trash2 className="h-3 w-3" />
                   </Button>
                 </div>
               </CardContent>
             </Card>
-          )
+          );
         })}
       </div>
     </div>
-  )
+  );
 }

@@ -32,7 +32,6 @@ export default function Page() {
   const locale = useLocale();
   const t = useTranslations("hero");
 
-  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
   const [greeting, setGreeting] = useState("");
@@ -76,8 +75,6 @@ export default function Page() {
       } catch (error) {
         console.error(error);
         toast.error(t("toast.loadError"));
-      } finally {
-        setLoading(false);
       }
     }
 

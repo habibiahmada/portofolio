@@ -3,7 +3,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { Search, Plus, Edit2, Eye, Calendar, Award, Tag, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";

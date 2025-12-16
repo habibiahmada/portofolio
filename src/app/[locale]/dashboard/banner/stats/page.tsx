@@ -49,20 +49,16 @@ export default function StatsAdminPage() {
   const locale = useLocale()
   const t = useTranslations('stats')
   const [stats, setStats] = useState<StatItem[]>([])
-  const [loading, setLoading] = useState(false)
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === 'dark'
 
   const fetchStats = useCallback(async () => {
-    setLoading(true)
     try {
       const res = await fetch(`/api/stats?lang=${locale}`)
       const json = await res.json()
       setStats(json.data || [])
     } catch {
       toast.error(t('loadError'))
-    } finally {
-      setLoading(false)
     }
   }, [locale, t])
 

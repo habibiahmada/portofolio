@@ -1,33 +1,49 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useLocale } from "next-intl";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { useState, type FormEvent } from 'react';
+import { useLocale } from 'next-intl';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+
+interface FAQTranslation {
+  lang: string;
+  question: string;
+  answer: string;
+}
+
+interface FAQData {
+  id: string;
+  order_index: number;
+  is_active: boolean;
+  faq_translations: FAQTranslation[];
+}
 
 interface FAQFormProps {
-  initialData?: any;
+  initialData?: FAQData;
   onSuccess: () => void;
 }
 
-export default function FAQForm({ initialData, onSuccess }: FAQFormProps) {
-  const locale = useLocale(); // id | en
+export default function FAQForm({
+  initialData,
+  onSuccess,
+}: FAQFormProps) {
+  const locale = useLocale();
 
-  const existingTranslation = initialData?.faq_translations?.find(
-    (t: any) => t.lang === locale
+  const existingTranslation = initialData?.faq_translations.find(
+    (translation) => translation.lang === locale
   );
 
-  const [question, setQuestion] = useState(
-    existingTranslation?.question || ""
+  const [question, setQuestion] = useState<string>(
+    existingTranslation?.question ?? ''
   );
-  const [answer, setAnswer] = useState(
-    existingTranslation?.answer || ""
+  const [answer, setAnswer] = useState<string>(
+    existingTranslation?.answer ?? ''
   );
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setLoading(true);
 
     const payload = {
@@ -42,19 +58,28 @@ export default function FAQForm({ initialData, onSuccess }: FAQFormProps) {
       ],
     };
 
-    await fetch(
-      initialData ? `/api/faqs/${initialData.id}` : "/api/faqs",
-      {
-        method: initialData ? "PUT" : "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      }
-    );
+    try {
+      const response = await fetch(
+        initialData ? `/api/faqs/${initialData.id}` : '/api/faqs',
+        {
+          method: initialData ? 'PUT' : 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        }
+      );
 
-    setLoading(false);
-    onSuccess();
+      if (!response.ok) {
+        throw new Error('Failed to save FAQ');
+      }
+
+      onSuccess();
+    } catch (error) {
+      console.error('FAQ save error:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -65,7 +90,7 @@ export default function FAQForm({ initialData, onSuccess }: FAQFormProps) {
         </label>
         <Input
           value={question}
-          onChange={(e) => setQuestion(e.target.value)}
+          onChange={(event) => setQuestion(event.target.value)}
           required
         />
       </div>
@@ -77,14 +102,14 @@ export default function FAQForm({ initialData, onSuccess }: FAQFormProps) {
         <Textarea
           rows={5}
           value={answer}
-          onChange={(e) => setAnswer(e.target.value)}
+          onChange={(event) => setAnswer(event.target.value)}
           required
         />
       </div>
 
       <div className="flex justify-end">
         <Button type="submit" disabled={loading}>
-          {loading ? "Menyimpan..." : "Simpan"}
+          {loading ? 'Menyimpan...' : 'Simpan'}
         </Button>
       </div>
     </form>

@@ -1,8 +1,9 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import ServiceForm from "@/components/ui/sections/admin/forms/serviceform";
+import { useCallback, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+import ServiceForm from '@/components/ui/sections/admin/forms/serviceform';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -10,69 +11,110 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { toast } from "sonner";
+} from '@/components/ui/breadcrumb';
 
-export default function Page({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+interface ServiceTranslation {
+  title: string;
+  description: string;
+  bullets: string[];
+}
+
+interface ServiceApiItem {
+  id: string;
+  key: string;
+  icon: string;
+  color: string;
+  service_translations: ServiceTranslation[];
+}
+
+interface ServiceFormData {
+  key: string;
+  icon: string;
+  color: string;
+  title: string;
+  description: string;
+  bullets: string[];
+}
+
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default function Page({ params }: PageProps) {
   const router = useRouter();
-  const [id, setId] = useState<string | null>(null);
-  const [data, setData] = useState<any>(null);
-  const [loading, setLoading] = useState(false);
+  const { id } = params;
+
+  const [data, setData] = useState<ServiceFormData | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   /* ================= FETCH DATA ================= */
+  const fetchService = useCallback(async () => {
+    try {
+      const response = await fetch('/api/services?lang=en', {
+        cache: 'no-store',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch services');
+      }
+
+      const result: { data: ServiceApiItem[] } = await response.json();
+
+      const item = result.data.find((service) => service.id === id);
+
+      if (!item) {
+        toast.error('Data service tidak ditemukan');
+        router.push('/dashboard/services');
+        return;
+      }
+
+      const translation = item.service_translations[0];
+
+      setData({
+        key: item.key,
+        icon: item.icon,
+        color: item.color,
+        title: translation?.title ?? '',
+        description: translation?.description ?? '',
+        bullets: translation?.bullets ?? [],
+      });
+    } catch (error) {
+      console.error('Fetch service error:', error);
+      toast.error('Gagal memuat data service');
+    }
+  }, [id, router]);
+
   useEffect(() => {
-    params.then(({ id }) => {
-      setId(id);
-
-      fetch(`/api/services?lang=en`)
-        .then((res) => res.json())
-        .then((res) => {
-          const item = res.data.find((s: any) => s.id === id);
-
-          if (!item) {
-            toast.error("Data service tidak ditemukan");
-            router.push("/dashboard/services");
-            return;
-          }
-
-          setData({
-            key: item.key,
-            icon: item.icon,
-            color: item.color,
-            title: item.service_translations?.[0]?.title,
-            description: item.service_translations?.[0]?.description,
-            bullets: item.service_translations?.[0]?.bullets,
-          });
-        });
-    });
-  }, [params]);
-
+    fetchService();
+  }, [fetchService]);
 
   /* ================= SUBMIT ================= */
-  const submit = async (formData: any) => {
-    if (!id) return;
-
+  const handleSubmit = async (formData: ServiceFormData) => {
     setLoading(true);
 
-    const res = await fetch(`/api/services/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
+    try {
+      const response = await fetch(`/api/services/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
-    setLoading(false);
+      if (!response.ok) {
+        throw new Error('Update failed');
+      }
 
-    if (!res.ok) {
-      toast.error("Gagal memperbarui service");
-      return;
+      toast.success('Service berhasil diperbarui');
+      router.push('/dashboard/services');
+    } catch (error) {
+      console.error('Update service error:', error);
+      toast.error('Gagal memperbarui service');
+    } finally {
+      setLoading(false);
     }
-
-    toast.success("Service berhasil diperbarui");
-    router.push("/dashboard/services");
   };
 
   if (!data) {
@@ -85,7 +127,9 @@ export default function Page({
       <Breadcrumb className="mb-4">
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+            <BreadcrumbLink href="/dashboard">
+              Dashboard
+            </BreadcrumbLink>
           </BreadcrumbItem>
 
           <BreadcrumbSeparator />
@@ -105,7 +149,7 @@ export default function Page({
       </Breadcrumb>
 
       {/* ================= HEADER ================= */}
-      <div className="flex items-center justify-between mb-6 rounded-xl border bg-card p-6">
+      <div className="mb-6 flex items-center justify-between rounded-xl border bg-card p-6">
         <div>
           <h1 className="text-2xl font-bold">Edit Service</h1>
           <p className="text-sm text-muted-foreground">
@@ -117,7 +161,7 @@ export default function Page({
       {/* ================= FORM ================= */}
       <ServiceForm
         initialData={data}
-        onSubmit={submit}
+        onSubmit={handleSubmit}
         loading={loading}
       />
     </div>

@@ -1,7 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Plus, X, Save, Eye, EyeOff, Search } from "lucide-react";
+import {
+  Plus,
+  X,
+  Save,
+  Eye,
+  EyeOff,
+  Search,
+  Check,
+} from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -9,11 +17,46 @@ import { loadLucideIcons } from "@/lib/lucide-cache";
 import { DynamicIcon } from "@/components/ui/dynamicIcon";
 import PreviewCard from "../preview/cardservice";
 
+/* ================= TYPES ================= */
+
+interface ServiceTranslation {
+  language: string;
+  title: string;
+  description: string;
+  bullets: string[];
+}
+
+interface ServiceInitialData {
+  key?: string;
+  icon?: string;
+  color?: string;
+  translations?: ServiceTranslation[];
+  service_translations?: ServiceTranslation[];
+}
+
+interface ServiceFormData {
+  key: string;
+  title: string;
+  description: string;
+  bullets: string[];
+  icon: string;
+  color: string;
+}
+
+interface SubmitPayload {
+  key: string;
+  icon: string;
+  color: string;
+  translations: ServiceTranslation[];
+}
+
 interface Props {
-  initialData?: any;
-  onSubmit: (data: any) => Promise<void>;
+  initialData?: ServiceInitialData;
+  onSubmit: (data: SubmitPayload) => Promise<void>;
   loading?: boolean;
 }
+
+/* ================= CONST ================= */
 
 const colorOptions = [
   "from-indigo-500 to-blue-500",
@@ -34,7 +77,7 @@ export default function ServiceForm({
   const [iconSearch, setIconSearch] = useState("");
   const [showIconPicker, setShowIconPicker] = useState(false);
 
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<ServiceFormData>({
     key: "",
     title: "",
     description: "",
@@ -43,22 +86,22 @@ export default function ServiceForm({
     color: colorOptions[0],
   });
 
-  /* ================= INIT DATA (FIXED) ================= */
+  /* ================= INIT ================= */
   useEffect(() => {
     if (!initialData) return;
 
-    const translation =
+    const t =
       initialData.translations?.[0] ??
-      initialData.service_translations?.[0] ??
-      initialData;
+      initialData.service_translations?.[0];
 
     setForm({
       key: initialData.key ?? "",
-      title: translation?.title ?? "",
-      description: translation?.description ?? "",
-      bullets: Array.isArray(translation?.bullets) && translation.bullets.length
-        ? translation.bullets
-        : [""],
+      title: t?.title ?? "",
+      description: t?.description ?? "",
+      bullets:
+        Array.isArray(t?.bullets) && t.bullets.length
+          ? t.bullets
+          : [""],
       icon: initialData.icon ?? "",
       color: initialData.color ?? colorOptions[0],
     });
@@ -66,18 +109,25 @@ export default function ServiceForm({
 
   /* ================= ICONS ================= */
   useEffect(() => {
-    loadLucideIcons().then((i) => {
-      setIcons(Object.keys(i).filter((k) => /^[A-Z]/.test(k)));
+    loadLucideIcons().then((icons) => {
+      setIcons(
+        Object.keys(icons).filter((i) => /^[A-Z]/.test(i))
+      );
     });
   }, []);
 
-  /* ================= HANDLERS ================= */
-  const update = (key: string, value: any) => {
+  /* ================= HELPERS ================= */
+  const update = <K extends keyof ServiceFormData>(
+    key: K,
+    value: ServiceFormData[K]
+  ) => {
     setForm((prev) => ({ ...prev, [key]: value }));
   };
 
   const submit = async () => {
-    await onSubmit({
+    if (loading) return;
+
+    const payload: SubmitPayload = {
       key: form.key,
       icon: form.icon,
       color: form.color,
@@ -89,7 +139,9 @@ export default function ServiceForm({
           bullets: form.bullets.filter(Boolean),
         },
       ],
-    });
+    };
+
+    await onSubmit(payload);
   };
 
   /* ================= UI ================= */
@@ -97,39 +149,52 @@ export default function ServiceForm({
     <div className="grid lg:grid-cols-4 gap-6">
       {/* ================= FORM ================= */}
       <div className="lg:col-span-3 space-y-6">
+        {/* BASIC */}
         <Card>
           <CardContent className="p-6 space-y-4">
             <Input
-              placeholder="Service key (e.g. web-development)"
+              placeholder="Service key (web-development)"
               value={form.key}
-              onChange={(e) => update("key", e.target.value)}
+              onChange={(e) =>
+                update("key", e.target.value)
+              }
             />
 
             <Input
               placeholder="Service title"
               value={form.title}
-              onChange={(e) => update("title", e.target.value)}
+              onChange={(e) =>
+                update("title", e.target.value)
+              }
             />
 
             <Input
               placeholder="Service description"
               value={form.description}
-              onChange={(e) => update("description", e.target.value)}
+              onChange={(e) =>
+                update("description", e.target.value)
+              }
             />
           </CardContent>
         </Card>
 
-        {/* ================= ICON & COLOR ================= */}
+        {/* ICON & COLOR */}
         <Card>
           <CardContent className="p-6 space-y-4">
             <Button
+              type="button"
               variant="outline"
-              onClick={() => setShowIconPicker((v) => !v)}
+              onClick={() =>
+                setShowIconPicker((v) => !v)
+              }
               className="gap-2"
             >
               {form.icon ? (
                 <>
-                  <DynamicIcon name={form.icon} className="w-4 h-4" />
+                  <DynamicIcon
+                    name={form.icon}
+                    className="w-5 h-5"
+                  />
                   {form.icon}
                 </>
               ) : (
@@ -138,36 +203,57 @@ export default function ServiceForm({
             </Button>
 
             {showIconPicker && (
-              <div className="border rounded-lg p-3">
+              <div className="border rounded-xl p-3">
                 <div className="relative mb-3">
                   <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
                   <Input
                     className="pl-9"
                     placeholder="Search icon..."
                     value={iconSearch}
-                    onChange={(e) => setIconSearch(e.target.value)}
+                    onChange={(e) =>
+                      setIconSearch(e.target.value)
+                    }
                   />
                 </div>
 
-                <div className="grid grid-cols-8 gap-2 max-h-64 overflow-y-auto">
+                <div className="grid grid-cols-6 md:grid-cols-8 gap-2 max-h-72 overflow-y-auto">
                   {icons
                     .filter((i) =>
-                      i.toLowerCase().includes(iconSearch.toLowerCase())
+                      i
+                        .toLowerCase()
+                        .includes(
+                          iconSearch.toLowerCase()
+                        )
                     )
-                    .slice(0, 80)
-                    .map((i) => (
-                      <button
-                        key={i}
-                        type="button"
-                        onClick={() => {
-                          update("icon", i);
-                          setShowIconPicker(false);
-                        }}
-                        className="p-2 rounded hover:bg-muted"
-                      >
-                        <DynamicIcon name={i} className="w-6 h-6" />
-                      </button>
-                    ))}
+                    .slice(0, 120)
+                    .map((i) => {
+                      const active =
+                        i === form.icon;
+                      return (
+                        <button
+                          key={i}
+                          type="button"
+                          onClick={() => {
+                            update("icon", i);
+                            setShowIconPicker(false);
+                          }}
+                          className={`relative flex items-center justify-center h-12 rounded-lg border
+                          ${
+                            active
+                              ? "bg-primary/10 border-primary"
+                              : "hover:bg-muted"
+                          }`}
+                        >
+                          <DynamicIcon
+                            name={i}
+                            className="w-7 h-7"
+                          />
+                          {active && (
+                            <Check className="w-4 h-4 absolute top-1 right-1 text-primary" />
+                          )}
+                        </button>
+                      );
+                    })}
                 </div>
               </div>
             )}
@@ -177,16 +263,22 @@ export default function ServiceForm({
                 <button
                   key={c}
                   type="button"
-                  onClick={() => update("color", c)}
-                  className={`h-12 rounded-lg bg-gradient-to-r ${c}
-                  ${form.color === c ? "ring-2 ring-primary" : ""}`}
+                  onClick={() =>
+                    update("color", c)
+                  }
+                  className={`h-12 rounded-xl bg-gradient-to-r ${c}
+                  ${
+                    form.color === c
+                      ? "ring-2 ring-primary ring-offset-2"
+                      : ""
+                  }`}
                 />
               ))}
             </div>
           </CardContent>
         </Card>
 
-        {/* ================= FEATURES ================= */}
+        {/* FEATURES */}
         <Card>
           <CardContent className="p-6 space-y-3">
             {form.bullets.map((b, i) => (
@@ -195,19 +287,23 @@ export default function ServiceForm({
                   placeholder={`Feature ${i + 1}`}
                   value={b}
                   onChange={(e) => {
-                    const next = [...form.bullets];
+                    const next = [
+                      ...form.bullets,
+                    ];
                     next[i] = e.target.value;
                     update("bullets", next);
                   }}
                 />
                 {form.bullets.length > 1 && (
                   <Button
-                    size="sm"
+                    size="icon"
                     variant="ghost"
                     onClick={() =>
                       update(
                         "bullets",
-                        form.bullets.filter((_, x) => x !== i)
+                        form.bullets.filter(
+                          (_, x) => x !== i
+                        )
                       )
                     }
                   >
@@ -220,7 +316,12 @@ export default function ServiceForm({
             <Button
               size="sm"
               variant="outline"
-              onClick={() => update("bullets", [...form.bullets, ""])}
+              onClick={() =>
+                update("bullets", [
+                  ...form.bullets,
+                  "",
+                ])
+              }
               className="gap-2"
             >
               <Plus className="w-3 h-3" />
@@ -229,19 +330,29 @@ export default function ServiceForm({
           </CardContent>
         </Card>
 
-        {/* ================= ACTION ================= */}
+        {/* ACTION */}
         <div className="flex items-center gap-3">
           <Button
             type="button"
             variant="outline"
-            onClick={() => setShowPreview((v) => !v)}
+            onClick={() =>
+              setShowPreview((v) => !v)
+            }
             className="gap-2"
           >
-            {showPreview ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+            {showPreview ? (
+              <EyeOff className="w-4 h-4" />
+            ) : (
+              <Eye className="w-4 h-4" />
+            )}
             Preview
           </Button>
 
-          <Button onClick={submit} disabled={loading} className="gap-2">
+          <Button
+            onClick={submit}
+            disabled={loading}
+            className="gap-2"
+          >
             <Save className="w-4 h-4" />
             {loading ? "Saving..." : "Save"}
           </Button>
@@ -250,13 +361,15 @@ export default function ServiceForm({
 
       {/* ================= PREVIEW ================= */}
       {showPreview && (
-        <PreviewCard
-          title={form.title}
-          description={form.description}
-          bullets={form.bullets.filter(Boolean)}
-          icon={form.icon}
-          color={form.color}
-        />
+        <div className="lg:sticky lg:top-6 h-fit">
+          <PreviewCard
+            title={form.title}
+            description={form.description}
+            bullets={form.bullets.filter(Boolean)}
+            icon={form.icon}
+            color={form.color}
+          />
+        </div>
       )}
     </div>
   );
