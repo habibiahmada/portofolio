@@ -13,7 +13,7 @@ const Consultation: React.FC = () => {
   const t = useTranslations("contacts");
 
   return (
-    <Card className="bg-white border border-slate-200 dark:bg-slate-900 dark:border-slate-800 backdrop-blur-xl shadow-lg">
+    <Card className="bg-white border border-slate-200 dark:bg-slate-950 dark:border-slate-800 backdrop-blur-xl shadow-lg">
       <CardContent className="p-8">
         <div className="flex items-start space-x-4">
           <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-blue-500/10 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400 group-hover:scale-110">
@@ -21,7 +21,7 @@ const Consultation: React.FC = () => {
           </div>
           <div className="flex-1">
             <h4 className="font-bold text-blue-800 dark:text-blue-100 text-lg mb-2">
-              {t('consultation.title')} 
+              {t('consultation.title')}
             </h4>
             <p className="text-blue-600/80 dark:text-blue-200/80 mb-6 leading-relaxed">
               {t('consultation.description')}
@@ -33,7 +33,7 @@ const Consultation: React.FC = () => {
                   {t('consultation.bookButton')}
                 </Button>
               </DialogTrigger>
-              <DialogContent className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+              <DialogContent className="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
                 <DialogHeader>
                   <DialogTitle className="text-slate-800 dark:text-white">{t('consultation.dialog.title')}</DialogTitle>
                   <DialogDescription className="text-slate-600 dark:text-slate-400">

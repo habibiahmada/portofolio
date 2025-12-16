@@ -85,7 +85,7 @@ const CertificatePreview: React.FC<CertificatePreviewProps> = ({
       {/* PDF AREA */}
       <div
         ref={containerRef}
-        className="relative flex-1 overflow-auto flex items-center justify-center bg-slate-50 dark:bg-slate-900 rounded-lg"
+        className="relative flex-1 overflow-auto flex items-center justify-center bg-slate-50 dark:bg-slate-950 rounded-lg"
       >
         {(pdfLoading || pageLoading) && (
           <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/60 dark:bg-black/40">

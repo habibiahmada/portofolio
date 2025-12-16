@@ -215,11 +215,10 @@ export default function TestimonialForm({
               onClick={() => update("rating", v)}
             >
               <Star
-                className={`w-6 h-6 ${
-                  v <= form.rating
+                className={`w-6 h-6 ${v <= form.rating
                     ? "fill-yellow-400 text-yellow-400"
                     : "text-muted-foreground"
-                }`}
+                  }`}
               />
             </button>
           ))}
@@ -248,7 +247,7 @@ export default function TestimonialForm({
 
       {/* ================= PREVIEW ================= */}
       <div className="lg:sticky lg:top-6 h-fit">
-        <Card className="relative p-8 backdrop-blur bg-white/80 dark:bg-slate-900/80">
+        <Card className="relative p-8 backdrop-blur bg-white/80 dark:bg-slate-950/80">
           <div className="absolute -top-4 left-8">
             <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-slate-600 rounded-full flex items-center justify-center">
               <Quote className="w-4 h-4 text-white" />

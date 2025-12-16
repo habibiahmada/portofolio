@@ -4,7 +4,7 @@ export default function SkillGridSkeleton() {
       {Array.from({ length: 4 }).map((_, i) => (
         <div
           key={i}
-          className="p-6 rounded-2xl bg-slate-100 dark:bg-slate-900/50 
+          className="p-6 rounded-2xl bg-slate-100 dark:bg-slate-950/50 
             border border-slate-300 dark:border-slate-800/50 animate-pulse"
         >
           <div className="flex flex-col items-center">

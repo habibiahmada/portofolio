@@ -2,10 +2,10 @@
 
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { 
-  MapPin, 
-  Mail, 
-  Clock, 
+import {
+  MapPin,
+  Mail,
+  Clock,
   Linkedin,
   Github,
   Instagram,
@@ -53,17 +53,17 @@ const ContactInfoItem: React.FC<{ info: ContactInfo }> = ({ info }) => {
       </div>
       <div className="flex-1">
         <h4 className="font-semibold dark:text-white mb-1">{info.title}</h4>
-                        {info.action ? (
-                          <button
-                            onClick={info.action}
-                            className="text-blue-400 hover:text-blue-300 text-left cursor-pointer"
-                            aria-label={`Reveal ${info.title}`}
-                          >
-                            {info.content}
-                          </button>
-                        ) : (
-                          <p className="text-slate-400">{info.content}</p>
-                        )}
+        {info.action ? (
+          <button
+            onClick={info.action}
+            className="text-blue-400 hover:text-blue-300 text-left cursor-pointer"
+            aria-label={`Reveal ${info.title}`}
+          >
+            {info.content}
+          </button>
+        ) : (
+          <p className="text-slate-400">{info.content}</p>
+        )}
       </div>
     </div>
   );
@@ -72,7 +72,7 @@ const ContactInfoItem: React.FC<{ info: ContactInfo }> = ({ info }) => {
 const SocialLinkItem: React.FC<{ social: SocialLink; index: number }> = ({ social, index }) => {
   const IconComponent = social.icon;
   const platformName = social.icon.name || 'Social Media';
-  
+
   return (
     <Link
       key={index}
@@ -105,7 +105,7 @@ const ContactSection: React.FC = () => {
   const [mounted, setMounted] = useState(false);
 
 
-  
+
   // State Management
   const [showContactInfo, setShowContactInfo] = useState({
     phone: false,
@@ -182,86 +182,86 @@ const ContactSection: React.FC = () => {
     }
   ];
 
-  
+
   useEffect(() => {
     setMounted(true);
 
   }, []);
 
   if (!mounted) return null;
-  
+
   const isDark = resolvedTheme === "dark";
 
   return (
-<section 
-  id="contact" 
-  className={`
+    <section
+      id="contact"
+      className={`
     relative overflow-hidden
     py-16 sm:py-24 lg:py-32 transition-colors duration-300
     ${isDark ? "bg-slate-950" : "bg-gray-50"}
   `}
->
-  {/* Background Effects */}
-  <div className="absolute inset-0">
-    <div className="absolute top-1/4 left-1/4 w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
-    <div className="absolute bottom-1/4 right-1/4 w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 bg-slate-500/10 rounded-full blur-3xl"></div>
-  </div>
-
-  <div className="container mx-auto px-4 relative z-10">
-    {/* Header */}
-    <div className="mb-12 sm:mb-16 lg:mb-20">
-      <SectionHeader
-        title={t('title')}
-        description={t('description')}
-        align="center"
-      />
-    </div>
-    
-    {/* Grid layout */}
-    <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 items-start">
-      {/* Contact Form */}
-      <div className="lg:col-span-3 order-2 lg:order-1">
-        <ContactForm onSubmit={handleFormSubmit} />
+    >
+      {/* Background Effects */}
+      <div className="absolute inset-0">
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 bg-slate-500/10 rounded-full blur-3xl"></div>
       </div>
-      
-      {/* Contact Info & Social */}
-      <div className="lg:col-span-2 space-y-6 lg:space-y-8 order-1 lg:order-2">
-        {/* Contact Information */}
-        <Card className="bg-white border border-slate-200 dark:bg-slate-900 dark:border-slate-800 backdrop-blur-xl shadow-lg">
-          <CardHeader>
-            <CardTitle className="text-xl sm:text-2xl text-slate-800 dark:text-white flex items-center gap-3">
-              {t('contactInfo.title')}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4 sm:space-y-6">
-            {contactInfo.map((info, index) => (
-              <ContactInfoItem key={index} info={info} />
-            ))}
-          </CardContent>
-        </Card>
-        
-        {/* Social Media */}
-        <Card className="bg-white border border-slate-200 dark:bg-slate-900 dark:border-slate-800 backdrop-blur-xl shadow-lg">
-          <CardHeader>
-            <CardTitle className="text-xl sm:text-2xl text-slate-800 dark:text-white flex items-center gap-3">
-              {t('socialMedia.title')}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-wrap gap-3 sm:gap-4">
-              {SOCIAL_LINKS.map((social, index) => (
-                <SocialLinkItem key={index} social={social} index={index} />
-              ))}
-            </div>
-          </CardContent>
-        </Card>     
 
-        {/* Free Consultation CTA */}
-        <Consultation />
+      <div className="container mx-auto px-4 relative z-10">
+        {/* Header */}
+        <div className="mb-12 sm:mb-16 lg:mb-20">
+          <SectionHeader
+            title={t('title')}
+            description={t('description')}
+            align="center"
+          />
+        </div>
+
+        {/* Grid layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 items-start">
+          {/* Contact Form */}
+          <div className="lg:col-span-3 order-2 lg:order-1">
+            <ContactForm onSubmit={handleFormSubmit} />
+          </div>
+
+          {/* Contact Info & Social */}
+          <div className="lg:col-span-2 space-y-6 lg:space-y-8 order-1 lg:order-2">
+            {/* Contact Information */}
+            <Card className="bg-white border border-slate-200 dark:bg-slate-950 dark:border-slate-800 backdrop-blur-xl shadow-lg">
+              <CardHeader>
+                <CardTitle className="text-xl sm:text-2xl text-slate-800 dark:text-white flex items-center gap-3">
+                  {t('contactInfo.title')}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4 sm:space-y-6">
+                {contactInfo.map((info, index) => (
+                  <ContactInfoItem key={index} info={info} />
+                ))}
+              </CardContent>
+            </Card>
+
+            {/* Social Media */}
+            <Card className="bg-white border border-slate-200 dark:bg-slate-950 dark:border-slate-800 backdrop-blur-xl shadow-lg">
+              <CardHeader>
+                <CardTitle className="text-xl sm:text-2xl text-slate-800 dark:text-white flex items-center gap-3">
+                  {t('socialMedia.title')}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-wrap gap-3 sm:gap-4">
+                  {SOCIAL_LINKS.map((social, index) => (
+                    <SocialLinkItem key={index} social={social} index={index} />
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Free Consultation CTA */}
+            <Consultation />
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
   );
 };

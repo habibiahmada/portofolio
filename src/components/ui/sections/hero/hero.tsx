@@ -20,62 +20,57 @@ interface HeroData {
 }
 
 // CV Preview Modal Component
-const CVPreviewModal = ({ isOpen, onClose, cvUrl, isDark, locale }: { 
-  isOpen: boolean; 
-  onClose: () => void; 
-  cvUrl: string; 
+const CVPreviewModal = ({ isOpen, onClose, cvUrl, isDark, locale }: {
+  isOpen: boolean;
+  onClose: () => void;
+  cvUrl: string;
   isDark: boolean;
   locale: string;
 }) => {
   if (!isOpen) return null;
 
   return (
-    <div 
+    <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-200"
       onClick={onClose}
     >
-      <div 
-        className={`relative w-full max-w-4xl h-[85vh] rounded-2xl shadow-2xl overflow-hidden ${
-          isDark ? 'bg-slate-900' : 'bg-white'
-        }`}
+      <div
+        className={`relative w-full max-w-4xl h-[85vh] rounded-2xl shadow-2xl overflow-hidden ${isDark ? 'bg-slate-950' : 'bg-white'
+          }`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className={`flex items-center justify-between p-4 border-b ${
-          isDark ? 'border-slate-700 bg-slate-800' : 'border-slate-200 bg-slate-50'
-        }`}>
+        <div className={`flex items-center justify-between p-4 border-b ${isDark ? 'border-slate-700 bg-slate-800' : 'border-slate-200 bg-slate-50'
+          }`}>
           <div className="flex items-center gap-3">
             <FileText className={`w-5 h-5 ${isDark ? 'text-blue-400' : 'text-blue-600'}`} />
-            <h3 className={`text-lg font-semibold ${
-              isDark ? 'text-slate-100' : 'text-slate-900'
-            }`}>
+            <h3 className={`text-lg font-semibold ${isDark ? 'text-slate-100' : 'text-slate-900'
+              }`}>
               {locale === 'id' ? 'Preview CV' : 'CV Preview'}
             </h3>
           </div>
-          
+
           <div className="flex items-center gap-2">
             <a
               href={cvUrl}
               download
               target="_blank"
               rel="noopener noreferrer"
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all ${
-                isDark 
-                  ? 'bg-blue-600 hover:bg-blue-700 text-white' 
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all ${isDark
+                  ? 'bg-blue-600 hover:bg-blue-700 text-white'
                   : 'bg-blue-500 hover:bg-blue-600 text-white'
-              }`}
+                }`}
             >
               <Download size={16} />
               {locale === 'id' ? 'Download' : 'Download'}
             </a>
-            
+
             <button
               onClick={onClose}
-              className={`p-2 rounded-lg transition-all ${
-                isDark 
-                  ? 'hover:bg-slate-700 text-slate-400 hover:text-slate-200' 
+              className={`p-2 rounded-lg transition-all ${isDark
+                  ? 'hover:bg-slate-700 text-slate-400 hover:text-slate-200'
                   : 'hover:bg-slate-200 text-slate-600 hover:text-slate-900'
-              }`}
+                }`}
               aria-label="Close modal"
             >
               <X size={20} />
@@ -219,11 +214,11 @@ export default function Hero() {
     <>
       <section
         id="home"
-        className={`relative overflow-hidden min-h-screen flex items-center 
+        className={`relative overflow-hidden flex items-center 
           pt-24 sm:pt-28 lg:pt-32 pb-24 transition-colors duration-300
           ${isDark
-            ? "bg-gradient-to-br from-slate-950 to-slate-950"
-            : "bg-gradient-to-br from-slate-50 via-white to-blue-50/30"
+            ? "bg-gradient-to-br from-gray-950 to-gray-950"
+            : "bg-gradient-to-br from-gray-50 via-white to-gray-50/30"
           }`}
         aria-labelledby="hero-heading"
       >
@@ -267,7 +262,7 @@ export default function Hero() {
 
               <button
                 onClick={() => setShowCVModal(true)}
-                className={`inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-semibold text-lg border-2 backdrop-blur-sm transform focus:outline-none focus:ring-4 transition-all ${isDark
+                className={`inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-semibold text-lg border-2 backdrop-blur-sm transform focus:outline-none focus:ring-4 transition-all cursor-pointer ${isDark
                   ? "bg-white/5 border-white/20 text-slate-200 hover:bg-white/10 hover:border-blue-500/50 focus:ring-white/20"
                   : "bg-white/70 border-slate-200 text-slate-700 hover:bg-white hover:border-blue-400 focus:ring-slate-300"
                   }`}
@@ -283,17 +278,6 @@ export default function Hero() {
             className={`relative delay-300 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
               }`}
           >
-            {/* Decorative rings behind image */}
-            <div className="absolute inset-0 -z-10">
-              <div
-                className={`absolute hidden sm:block top-14 left-16 transform -translate-x-1 -translate-y-1/2 w-80 h-80 rounded-full border-2 opacity-20 ${isDark ? "border-blue-400" : "border-blue-500"
-                  }`}
-              />
-              <div
-                className={`absolute hidden sm:block top-1 left-1 transform -translate-x-1 -translate-y-1/2 w-96 h-96 rounded-full border opacity-10 ${isDark ? "border-cyan-400" : "border-cyan-500"
-                  }`}
-              />
-            </div>
 
             <HeroImage isDark={isDark} imageAlt={heroData?.greeting || "Profile Photo"} imageUrl={heroData?.image_url} />
 
@@ -326,7 +310,7 @@ export default function Hero() {
       </section>
 
       {/* CV Preview Modal */}
-      <CVPreviewModal 
+      <CVPreviewModal
         isOpen={showCVModal}
         onClose={() => setShowCVModal(false)}
         cvUrl={heroData?.cv_url || "#"}

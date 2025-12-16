@@ -3,7 +3,7 @@ import { Card } from '../../card';
 const TestimonialCardSkeleton = () => {
   return (
     <div className="max-w-6xl mx-auto">
-      <Card className="relative p-8 lg:p-12 backdrop-blur-xl bg-white/80 dark:bg-slate-900/80 border-slate-200/50 dark:border-slate-700/50">
+      <Card className="relative p-8 lg:p-12 backdrop-blur-xl bg-white/80 dark:bg-slate-950/80 border-slate-200/50 dark:border-slate-700/50">
         <div className="grid lg:grid-cols-3 gap-8 lg:gap-12 animate-pulse">
           <div className="lg:col-span-2">
             <div className="flex items-center gap-1 mb-6">
