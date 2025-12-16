@@ -61,7 +61,7 @@ const data = {
     { title: "Certifications", url: "/dashboard/certificates", icon: Award },
     { title: "Testimonials", url: "/dashboard/testimonials", icon: MessageSquare },
     { title: "Articles", url: "/dashboard/articles/all", icon: Newspaper },
-    { title: "FAQs", url: "/dashboard/faqs/all", icon: HelpCircle },
+    { title: "FAQs", url: "/dashboard/faqs", icon: HelpCircle },
     {
       title: "Contacts",
       icon: Mail,
