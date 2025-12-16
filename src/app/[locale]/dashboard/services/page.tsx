@@ -10,6 +10,7 @@ import { loadLucideIcons } from '@/lib/lucide-cache'
 import { DynamicIcon } from '@/components/ui/dynamicIcon'
 import { Plus, X, Search, Eye, EyeOff, Trash2, Edit3, Save, ArrowLeft } from 'lucide-react'
 import Image from 'next/image'
+import DashboardHeader from '@/components/ui/sections/admin/dashboardheader'
 
 interface ServiceItem {
   id: string
@@ -267,18 +268,13 @@ export default function Page() {
     return (
       <div className="min-h-screen bg-background">
         <div className="mx-auto p-6 space-y-6">
-          <div className="flex items-center justify-between bg-card border rounded-xl p-6">
-            <div>
-              <h1 className="text-3xl font-bold tracking-tight">Services</h1>
-              <p className="text-sm text-muted-foreground mt-1">
-                Manage your services and features
-              </p>
-            </div>
-            <Button onClick={startCreate} className="gap-2">
-              <Plus className="w-4 h-4" />
-              New Service
-            </Button>
-          </div>
+          <DashboardHeader
+            title="Services"
+            description="Manage your services and features"
+            onClick={startCreate}
+            actionLabel="New Service"
+            actionIcon={<Plus className="w-4 h-4" />}
+          />
 
           {loading ? (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">

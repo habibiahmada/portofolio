@@ -1,5 +1,5 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbLink } from "@/components/ui/breadcrumb";
-import CertificateForm from "@/components/ui/sections/admin/certificateform";
+import CertificateForm from "@/components/ui/sections/admin/forms/certificateform";
 
 export default function NewCertificatePage() {
     return (
@@ -36,7 +36,7 @@ export default function NewCertificatePage() {
                 </div>
             </div>
 
-            <CertificateForm mode="create"/>
+            <CertificateForm mode="create" />
         </div>
     );
 }

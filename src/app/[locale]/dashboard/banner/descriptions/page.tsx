@@ -16,6 +16,7 @@ import { Plus, Trash2, FileText } from "lucide-react";
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { toast } from "sonner";
+import DashboardHeader from "@/components/ui/sections/admin/dashboardheader";
 
 interface HeroSnapshot {
   greeting: string;
@@ -188,19 +189,12 @@ export default function Page() {
 
   return (
     <div className="min-h-screen">
-      {loading && (
-        <div className="fixed inset-0 bg-black/10 backdrop-blur-sm flex items-center justify-center">
-          <div className="bg-card px-4 py-2 rounded-md shadow">
-            Loading...
-          </div>
-        </div>
-      )}
       <div className="mx-auto p-6 space-y-6">
         {/* Header */}
-        <div className="bg-card rounded-xl p-4 sm:p-6 shadow-sm border border-border">
-          <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-50">{t("title")}</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t("subtitle")}</p>
-        </div>
+        <DashboardHeader
+          title={t("title")}
+          description={t("subtitle")}
+        />
 
       <div className="grid gap-6">
         {/* Content */}

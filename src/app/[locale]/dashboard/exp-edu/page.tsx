@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import {
   ExperienceFormModal,
   ExperienceForm,
-} from "@/components/ui/sections/admin/experienceformmodal"
+} from "@/components/ui/sections/admin/forms/experienceformmodal"
 import {
   Briefcase,
   GraduationCap,
@@ -16,6 +16,7 @@ import {
   Pencil,
   Trash2,
 } from "lucide-react"
+import DashboardHeader from "@/components/ui/sections/admin/dashboardheader"
 
 /* ================= TYPES ================= */
 
@@ -209,30 +210,13 @@ export default function Page() {
 
   return (
     <div className="min-h-screen p-6 space-y-6">
-
-      {/* GLOBAL LOADING OVERLAY */}
-      {loading && (
-        <div className="fixed inset-0 bg-black/10 backdrop-blur-sm flex items-center justify-center">
-          <div className="rounded-md bg-card px-4 py-2 shadow">
-            Loading...
-          </div>
-        </div>
-      )}
-
-      <div className="flex justify-between items-center rounded-xl border bg-card p-6">
-        <div>
-          <h1 className="text-2xl font-bold">Experience & Education</h1>
-          <p className="text-sm text-muted-foreground">
-            Manage your experience and education
-          </p>
-        </div>
-        <div className="flex gap-2">
-          <Button onClick={openCreate} disabled={loading}>
-            <Plus className="h-4 w-4 mr-2" />
-            Tambah
-          </Button>
-        </div>
-      </div>
+      <DashboardHeader 
+        title="Experience & Education" 
+        description="Manage your experience and education" 
+        onClick={openCreate}
+        actionLabel="Add Experience & Education"
+        actionIcon={<Plus />}
+      />
 
       <div className="flex gap-2">
         {(["all", "experience", "education"] as FilterType[]).map((f) => (

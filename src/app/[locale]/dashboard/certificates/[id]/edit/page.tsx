@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import CertificateForm from "@/components/ui/sections/admin/certificateform";
+import CertificateForm from "@/components/ui/sections/admin/forms/certificateform";
 import {
     Breadcrumb,
     BreadcrumbItem,

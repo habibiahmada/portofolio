@@ -12,7 +12,7 @@ export default function useTestimonials() {
   useEffect(() => {
     async function fetchTestimonials() {
       try {
-        const res = await fetch(`/api/testimonials/all?lang=${lang}`, { next: { revalidate: 0 } });
+        const res = await fetch(`/api/testimonials?lang=${lang}`, { next: { revalidate: 0 } });
         const json = await res.json();
         setTestimonials(json.data || []);
       } catch (err) {

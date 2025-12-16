@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { ChevronLeft, ChevronRight, Star, Quote, Briefcase, Zap } from "lucide-react";
 import { Button } from "../../button";
 import { Card } from "../../card";
@@ -178,8 +178,8 @@ const TestimonialSection = () => {
                 key={index}
                 onClick={() => goToSlide(index)}
                 className={`w-3 h-3 rounded-full cursor-pointer ${index === currentIndex
-                    ? "bg-blue-600 dark:bg-blue-400 w-8"
-                    : "bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500"
+                  ? "bg-blue-600 dark:bg-blue-400 w-8"
+                  : "bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500"
                   }`}
               />
             ))}

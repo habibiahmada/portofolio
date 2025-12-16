@@ -15,6 +15,7 @@ import {
     DialogFooter,
     DialogClose,
 } from "@/components/ui/dialog"
+import DashboardHeader from "@/components/ui/sections/admin/dashboardheader"
 
 interface Tool {
     id: string
@@ -159,28 +160,14 @@ export default function Page() {
 
     return (
         <div className="min-h-screen p-6 space-y-6">
-            {loading && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black/10 backdrop-blur-sm">
-                    <div className="rounded-md bg-card px-4 py-2 shadow">
-                        Loading...
-                    </div>
-                </div>
-            )}
             {/* Header */}
-            <div className="flex items-center justify-between bg-card border rounded-xl p-6">
-                <div>
-                    <h1 className="text-3xl font-bold tracking-tight">
-                        Tools & Tech
-                    </h1>
-                    <p className="text-sm text-muted-foreground mt-1">
-                        Manage your tools and technologies
-                    </p>
-                </div>
-                <Button onClick={openCreate} className="gap-2">
-                    <Plus className="w-4 h-4" />
-                    New Tool
-                </Button>
-            </div>
+            <DashboardHeader
+                title="Tools & Tech"
+                description="Manage your tools and technologies"
+                actionLabel="New Tool"
+                actionIcon={<Plus />}
+                onClick={openCreate}
+            />
 
             {/* Content */}
             <div className="mx-auto py-8">

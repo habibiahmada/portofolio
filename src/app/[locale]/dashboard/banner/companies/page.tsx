@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Building2, Plus, Save, Trash2, RefreshCw } from "lucide-react"
 import { toast } from "sonner"
 import { useLocale, useTranslations } from "next-intl"
+import DashboardHeader from "@/components/ui/sections/admin/dashboardheader"
 
 interface CompanyItem {
   id?: number
@@ -121,21 +122,11 @@ export default function CompaniesAdminPage() {
 
   return (
     <div className="min-h-screen">
-      {loading && (
-        <div className="fixed inset-0 bg-black/10 backdrop-blur-sm flex items-center justify-center">
-          <div className="bg-card px-4 py-2 rounded-md shadow">
-            {t("admin.loading")}
-          </div>
-        </div>
-      )}
-
       <div className="mx-auto p-6 space-y-6">
-        <div className="bg-card rounded-xl p-6 shadow-sm border">
-          <h1 className="text-2xl font-semibold">{t("admin.headerTitle")}</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            {t("admin.subtitle")}
-          </p>
-        </div>
+        <DashboardHeader  
+          title={t("admin.headerTitle")}
+          description={t("admin.subtitle")}
+        />
 
         <div className="space-y-4">
           {companies.map((c, i) => (

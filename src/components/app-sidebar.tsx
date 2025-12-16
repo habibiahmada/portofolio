@@ -59,7 +59,7 @@ const data = {
     { title: "Tools & Technology", url: "/dashboard/tools-tech", icon: Wrench },
     { title: "Experience & Education", url: "/dashboard/exp-edu", icon: GraduationCap },
     { title: "Certifications", url: "/dashboard/certificates", icon: Award },
-    { title: "Testimonials", url: "/dashboard/testimonials/all", icon: MessageSquare },
+    { title: "Testimonials", url: "/dashboard/testimonials", icon: MessageSquare },
     { title: "Articles", url: "/dashboard/articles/all", icon: Newspaper },
     { title: "FAQs", url: "/dashboard/faqs/all", icon: HelpCircle },
     {

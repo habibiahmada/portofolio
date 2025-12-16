@@ -6,6 +6,8 @@ import { useLocale } from 'next-intl'
 import { toast } from 'sonner'
 import { Plus, Pencil, Trash2 } from 'lucide-react'
 
+import DashboardHeader from '@/components/ui/sections/admin/dashboardheader'
+
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -14,8 +16,9 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog'
+
+/* ================= TYPES ================= */
 
 interface ProjectItem {
   id: string
@@ -40,6 +43,8 @@ interface ProjectForm {
   file: File | null
 }
 
+/* ================= CONST ================= */
+
 const EMPTY_FORM: ProjectForm = {
   title: '',
   description: '',
@@ -50,6 +55,8 @@ const EMPTY_FORM: ProjectForm = {
   file: null,
 }
 
+/* ================= PAGE ================= */
+
 export default function Page() {
   const locale = useLocale()
 
@@ -58,6 +65,8 @@ export default function Page() {
   const [dialogOpen, setDialogOpen] = useState(false)
   const [editing, setEditing] = useState<ProjectItem | null>(null)
   const [form, setForm] = useState<ProjectForm>(EMPTY_FORM)
+
+  /* ================= FETCH ================= */
 
   const fetchProjects = useCallback(async () => {
     setLoading(true)
@@ -75,6 +84,8 @@ export default function Page() {
   useEffect(() => {
     fetchProjects()
   }, [fetchProjects])
+
+  /* ================= HANDLERS ================= */
 
   const openCreate = () => {
     setEditing(null)
@@ -114,9 +125,7 @@ export default function Page() {
       body: fd,
     })
 
-    if (!res.ok) {
-      throw new Error('Upload gagal')
-    }
+    if (!res.ok) throw new Error('Upload gagal')
 
     const json = await res.json()
     return json.url as string
@@ -156,9 +165,7 @@ export default function Page() {
         body: JSON.stringify(payload),
       })
 
-      if (!res.ok) {
-        throw new Error('Request gagal')
-      }
+      if (!res.ok) throw new Error('Request gagal')
 
       toast.success(editing ? 'Project diperbarui' : 'Project dibuat', {
         id: toastId,
@@ -180,9 +187,8 @@ export default function Page() {
     const toastId = toast.loading('Menghapus...')
     try {
       const res = await fetch(`/api/projects?id=${id}`, { method: 'DELETE' })
-      if (!res.ok) {
-        throw new Error('Delete gagal')
-      }
+      if (!res.ok) throw new Error('Delete gagal')
+
       toast.success('Project dihapus', { id: toastId })
       fetchProjects()
     } catch {
@@ -190,108 +196,18 @@ export default function Page() {
     }
   }
 
+  /* ================= RENDER ================= */
+
   return (
     <div className="min-h-screen p-6 space-y-6">
-      {loading && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/10 backdrop-blur-sm">
-          <div className="rounded-md bg-card px-4 py-2 shadow">
-            Loading...
-          </div>
-        </div>
-      )}
 
-      <header className="flex items-center justify-between rounded-xl border bg-card p-6">
-        <div>
-          <h1 className="text-2xl font-semibold">Projects</h1>
-          <p className="text-sm text-muted-foreground">
-            Kelola project portofolio
-          </p>
-        </div>
-
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <DialogTrigger asChild>
-            <Button onClick={openCreate} className="flex gap-2">
-              <Plus className="h-4 w-4" />
-              Tambah Project
-            </Button>
-          </DialogTrigger>
-
-          <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle>
-                {editing ? 'Edit Project' : 'Tambah Project'}
-              </DialogTitle>
-            </DialogHeader>
-
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <Input
-                placeholder="Judul"
-                value={form.title}
-                onChange={e => updateForm('title', e.target.value)}
-                required
-              />
-
-              <Input
-                placeholder="Deskripsi"
-                value={form.description}
-                onChange={e => updateForm('description', e.target.value)}
-              />
-
-              <Input
-                type="number"
-                placeholder="Tahun"
-                value={form.year}
-                onChange={e =>
-                  updateForm(
-                    'year',
-                    e.target.value ? Number(e.target.value) : '',
-                  )
-                }
-              />
-
-              <Input
-                placeholder="React, Next.js, Tailwind"
-                value={form.technologies}
-                onChange={e => updateForm('technologies', e.target.value)}
-              />
-
-              <Input
-                placeholder="Live URL"
-                value={form.live_url}
-                onChange={e => updateForm('live_url', e.target.value)}
-              />
-
-              <Input
-                placeholder="Github URL"
-                value={form.github_url}
-                onChange={e => updateForm('github_url', e.target.value)}
-              />
-
-              <input
-                type="file"
-                accept="image/*"
-                onChange={e =>
-                  updateForm('file', e.target.files?.[0] ?? null)
-                }
-                className="block w-full text-sm file:mr-4 file:rounded file:border-0 file:bg-primary file:px-4 file:py-2 file:text-primary-foreground"
-              />
-
-              <div className="flex gap-2 pt-4">
-                <Button type="submit" className="flex-1">
-                  {editing ? 'Update' : 'Simpan'}
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setDialogOpen(false)}
-                >
-                  Batal
-                </Button>
-              </div>
-            </form>
-          </DialogContent>
-        </Dialog>
-      </header>
+      <DashboardHeader
+        title="Projects"
+        description="Kelola project portofolio"
+        actionLabel="Tambah Project"
+        actionIcon={<Plus className="h-4 w-4 mr-2" />}
+        onClick={openCreate}
+      />
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
         {!loading && projects.length === 0 && (
@@ -357,6 +273,83 @@ export default function Page() {
           </Card>
         ))}
       </div>
+
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>
+              {editing ? 'Edit Project' : 'Tambah Project'}
+            </DialogTitle>
+          </DialogHeader>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <Input
+              placeholder="Judul"
+              value={form.title}
+              onChange={e => updateForm('title', e.target.value)}
+              required
+            />
+
+            <Input
+              placeholder="Deskripsi"
+              value={form.description}
+              onChange={e => updateForm('description', e.target.value)}
+            />
+
+            <Input
+              type="number"
+              placeholder="Tahun"
+              value={form.year}
+              onChange={e =>
+                updateForm(
+                  'year',
+                  e.target.value ? Number(e.target.value) : '',
+                )
+              }
+            />
+
+            <Input
+              placeholder="React, Next.js, Tailwind"
+              value={form.technologies}
+              onChange={e => updateForm('technologies', e.target.value)}
+            />
+
+            <Input
+              placeholder="Live URL"
+              value={form.live_url}
+              onChange={e => updateForm('live_url', e.target.value)}
+            />
+
+            <Input
+              placeholder="Github URL"
+              value={form.github_url}
+              onChange={e => updateForm('github_url', e.target.value)}
+            />
+
+            <input
+              type="file"
+              accept="image/*"
+              onChange={e =>
+                updateForm('file', e.target.files?.[0] ?? null)
+              }
+              className="block w-full text-sm file:mr-4 file:rounded file:border-0 file:bg-primary file:px-4 file:py-2 file:text-primary-foreground"
+            />
+
+            <div className="flex gap-2 pt-4">
+              <Button type="submit" className="flex-1">
+                {editing ? 'Update' : 'Simpan'}
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setDialogOpen(false)}
+              >
+                Batal
+              </Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

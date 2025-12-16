@@ -13,6 +13,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { supabase, supabaseAdmin } from '@/lib/supabase'
 import Link from 'next/link'
+import DashboardHeader from '@/components/ui/sections/admin/dashboardheader'
 
 // Force dynamic rendering since we are fetching data
 export const dynamic = 'force-dynamic'
@@ -86,14 +87,11 @@ export default async function DashboardPage() {
   const { counts, messages } = await getDashboardData()
 
   return (
-    <div className="flex flex-1 flex-col gap-4 sm:gap-6 p-2 bg-background min-h-screen">
-      {/* Header */}
-      <div className="bg-card rounded-xl p-4 sm:p-6 shadow-sm border border-border">
-        <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">Dashboard</h1>
-        <p className="text-muted-foreground text-sm sm:text-base">
-          Overview of your portfolio content and messages.
-        </p>
-      </div>
+    <div className="min-h-screen p-6 space-y-6 relative">
+      <DashboardHeader
+        title="Dashboard"
+        description="Overview of your portfolio content and messages."
+      />
 
       {/* Stats Cards Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-3 sm:gap-4">
@@ -144,7 +142,7 @@ export default async function DashboardPage() {
           title="Testimonials"
           value={counts.testimonials}
           color="pink"
-          href="/dashboard/testimonials/all"
+          href="/dashboard/testimonials"
         />
         <StatCard
           icon={Mail}

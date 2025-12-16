@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import DashboardHeader from "@/components/ui/sections/admin/dashboardheader";
 
 interface CertificateTranslation {
     title: string;
@@ -104,24 +105,15 @@ export default function AdminCertificatesPage() {
 
     return (
         <div className="min-h-screen">
-            <div className="mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div className="mx-auto p-6 space-y-6">
                 {/* Header */}
-                <div className="mb-8">
-                    <div className="flex items-center justify-between mb-6 rounded-xl border bg-card p-6">
-                        <div>
-                            <h1 className="text-2xl font-bold">Certificates</h1>
-                            <p className="text-sm text-muted-foreground">
-                                Manage your professional certificates and achievements
-                            </p>
-                        </div>
-                        <Link
-                            href="/dashboard/certificates/new"
-                            className="flex items-center gap-2 rounded-xl border bg-neutral-950 dark:bg-neutral-50 text-neutral-50 dark:text-neutral-950 p-3"
-                        >
-                            <Plus size={18} />
-                            Add Certificate
-                        </Link>
-                    </div>
+                    <DashboardHeader
+                        title="Certificates"
+                        description="Manage your professional certificates and achievements"
+                        onClick={() => router.push("/dashboard/certificates/new")}
+                        actionLabel="Add Certificate"
+                        actionIcon={<Plus />}
+                    />
 
                     {/* Search */}
                     <div className="relative">
@@ -134,7 +126,6 @@ export default function AdminCertificatesPage() {
                             className="w-full pl-12 pr-4 py-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-neutral-900"
                         />
                     </div>
-                </div>
 
                 {/* Stats */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
@@ -142,7 +133,7 @@ export default function AdminCertificatesPage() {
                     <Stat
                         icon={<Calendar size={20} />}
                         label="This Year"
-                        value={data.filter((c) => c.year === "2024").length}
+                        value={data.filter((c) => c.year.toString() === new Date().getFullYear().toString()).length}
                     />
                     <Stat
                         icon={<Tag size={20} />}
