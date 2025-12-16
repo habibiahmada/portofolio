@@ -3,7 +3,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import ServiceForm from '@/components/ui/sections/admin/forms/serviceform';
+import ServiceForm, {
+  ServiceFormData,
+} from '@/components/ui/sections/admin/forms/serviceform';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -27,15 +29,6 @@ interface ServiceApiItem {
   service_translations: ServiceTranslation[];
 }
 
-interface ServiceFormData {
-  key: string;
-  icon: string;
-  color: string;
-  title: string;
-  description: string;
-  bullets: string[];
-}
-
 interface PageProps {
   params: {
     id: string;
@@ -47,7 +40,7 @@ export default function Page({ params }: PageProps) {
   const { id } = params;
 
   const [data, setData] = useState<ServiceFormData | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
 
   /* ================= FETCH DATA ================= */
   const fetchService = useCallback(async () => {
@@ -61,8 +54,7 @@ export default function Page({ params }: PageProps) {
       }
 
       const result: { data: ServiceApiItem[] } = await response.json();
-
-      const item = result.data.find((service) => service.id === id);
+      const item = result.data.find((s) => s.id === id);
 
       if (!item) {
         toast.error('Data service tidak ditemukan');
@@ -70,15 +62,15 @@ export default function Page({ params }: PageProps) {
         return;
       }
 
-      const translation = item.service_translations[0];
+      const t = item.service_translations[0];
 
       setData({
         key: item.key,
         icon: item.icon,
         color: item.color,
-        title: translation?.title ?? '',
-        description: translation?.description ?? '',
-        bullets: translation?.bullets ?? [],
+        title: t?.title ?? '',
+        description: t?.description ?? '',
+        bullets: t?.bullets ?? [],
       });
     } catch (error) {
       console.error('Fetch service error:', error);
@@ -95,12 +87,26 @@ export default function Page({ params }: PageProps) {
     setLoading(true);
 
     try {
+      const payload = {
+        key: formData.key,
+        icon: formData.icon,
+        color: formData.color,
+        translations: [
+          {
+            language: 'en',
+            title: formData.title,
+            description: formData.description,
+            bullets: formData.bullets.filter(Boolean),
+          },
+        ],
+      };
+
       const response = await fetch(`/api/services/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {

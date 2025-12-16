@@ -19,6 +19,15 @@ import PreviewCard from "../preview/cardservice";
 
 /* ================= TYPES ================= */
 
+export interface ServiceFormData {
+  key: string;
+  title: string;
+  description: string;
+  bullets: string[];
+  icon: string;
+  color: string;
+}
+
 interface ServiceTranslation {
   language: string;
   title: string;
@@ -34,25 +43,9 @@ interface ServiceInitialData {
   service_translations?: ServiceTranslation[];
 }
 
-interface ServiceFormData {
-  key: string;
-  title: string;
-  description: string;
-  bullets: string[];
-  icon: string;
-  color: string;
-}
-
-interface SubmitPayload {
-  key: string;
-  icon: string;
-  color: string;
-  translations: ServiceTranslation[];
-}
-
 interface Props {
   initialData?: ServiceInitialData;
-  onSubmit: (data: SubmitPayload) => Promise<void>;
+  onSubmit: (data: ServiceFormData) => Promise<void>;
   loading?: boolean;
 }
 
@@ -126,22 +119,7 @@ export default function ServiceForm({
 
   const submit = async () => {
     if (loading) return;
-
-    const payload: SubmitPayload = {
-      key: form.key,
-      icon: form.icon,
-      color: form.color,
-      translations: [
-        {
-          language: "en",
-          title: form.title,
-          description: form.description,
-          bullets: form.bullets.filter(Boolean),
-        },
-      ],
-    };
-
-    await onSubmit(payload);
+    await onSubmit(form);
   };
 
   /* ================= UI ================= */
@@ -287,9 +265,7 @@ export default function ServiceForm({
                   placeholder={`Feature ${i + 1}`}
                   value={b}
                   onChange={(e) => {
-                    const next = [
-                      ...form.bullets,
-                    ];
+                    const next = [...form.bullets];
                     next[i] = e.target.value;
                     update("bullets", next);
                   }}

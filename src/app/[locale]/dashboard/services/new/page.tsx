@@ -3,7 +3,9 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import ServiceForm from '@/components/ui/sections/admin/forms/serviceform';
+import ServiceForm, {
+  ServiceFormData,
+} from '@/components/ui/sections/admin/forms/serviceform';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -13,29 +15,34 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 
-interface ServiceFormData {
-  key: string;
-  icon: string;
-  color: string;
-  title: string;
-  description: string;
-  bullets: string[];
-}
-
 export default function Page() {
   const router = useRouter();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (data: ServiceFormData) => {
     setLoading(true);
 
     try {
+      const payload = {
+        key: data.key,
+        icon: data.icon,
+        color: data.color,
+        translations: [
+          {
+            language: 'en',
+            title: data.title,
+            description: data.description,
+            bullets: data.bullets.filter(Boolean),
+          },
+        ],
+      };
+
       const response = await fetch('/api/services', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
@@ -90,10 +97,7 @@ export default function Page() {
       </div>
 
       {/* ================= FORM ================= */}
-      <ServiceForm
-        onSubmit={handleSubmit}
-        loading={loading}
-      />
+      <ServiceForm onSubmit={handleSubmit} loading={loading} />
     </div>
   );
 }
