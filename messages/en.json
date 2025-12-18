@@ -174,8 +174,8 @@
     "titleLine1": "Experiences &",
     "titleLine2": "Educations",
     "description1": "My career and educational journey shaped my expertise in technology and development.",
-    "tabbuttons1": "Experience",
-    "tabbuttons2": "Education",
+    "tabbuttonsexperience": "Experience",
+    "tabbuttonseducation": "Education",
     "showMore": "Show More",
     "showLess": "Show Less"
   },

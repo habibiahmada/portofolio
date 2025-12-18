@@ -174,8 +174,8 @@
     "titleLine1": "Pengalaman &",
     "titleLine2": "Pendidikan",
     "description1": "Perjalanan karir dan pendidikan yang membentuk keahlian saya dalam teknologi dan pengembangan",
-    "tabbuttons1": "Pengalaman",
-    "tabbuttons2": "Pendidikan",
+    "tabbuttonsexperience": "Pengalaman",
+    "tabbuttonseducation": "Pendidikan",
     "showMore": "Lihat Lainnya",
     "showLess": "Lebih Sedikit"
   },

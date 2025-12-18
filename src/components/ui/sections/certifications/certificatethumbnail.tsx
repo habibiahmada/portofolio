@@ -16,23 +16,36 @@ interface CertificateThumbnailProps {
 
 const CertificateThumbnail: React.FC<CertificateThumbnailProps> = ({ file }) => {
   const [pdfData, setPdfData] = useState<ArrayBuffer | null>(null);
+  const [docReady, setDocReady] = useState(false);
 
   useEffect(() => {
-    fetch(file)
-      .then((res) => res.arrayBuffer())
-      .then(setPdfData);
-  }, [file]);
+  const controller = new AbortController();
+
+  fetch(file, { signal: controller.signal })
+    .then(res => res.arrayBuffer())
+    .then(setPdfData)
+    .catch(() => {});
+
+  return () => controller.abort();
+}, [file]);
 
   return (
     <div className="w-full h-full flex items-center justify-center bg-slate-100 dark:bg-slate-800 overflow-hidden">
       {pdfData && (
-        <Document file={pdfData} loading={null}>
-          <Page
-            pageNumber={1}
-            width={240}
-            renderTextLayer={false}
-            renderAnnotationLayer={false}
-          />
+        <Document
+          file={pdfData}
+          loading={null}
+          onLoadSuccess={() => setDocReady(true)}
+          onLoadError={() => setDocReady(false)}
+        >
+          {docReady && (
+            <Page
+              pageNumber={1}
+              width={240}
+              renderTextLayer={false}
+              renderAnnotationLayer={false}
+            />
+          )}
         </Document>
       )}
     </div>
