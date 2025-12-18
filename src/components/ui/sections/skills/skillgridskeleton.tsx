@@ -1,18 +1,24 @@
 export default function SkillGridSkeleton() {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8">
-      {Array.from({ length: 4 }).map((_, i) => (
-        <div
-          key={i}
-          className="p-6 rounded-2xl bg-slate-100 dark:bg-slate-950/50 
-            border border-slate-300 dark:border-slate-800/50 animate-pulse"
-        >
-          <div className="flex flex-col items-center">
-            <div className="w-16 h-16 rounded-full bg-slate-200 dark:bg-slate-700" />
-            <div className="mt-4 h-4 w-20 bg-slate-200 dark:bg-slate-700 rounded" />
-          </div>
-        </div>
-      ))}
+    <div className="flex flex-col gap-6 opacity-50">
+      {/* Baris 1 Skeleton */}
+      <div className="flex gap-6 overflow-hidden mask-image-linear-gradient">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <div
+            key={`skel-1-${i}`}
+            className="w-[200px] h-[72px] shrink-0 rounded-xl bg-slate-200 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 animate-pulse"
+          />
+        ))}
+      </div>
+       {/* Baris 2 Skeleton */}
+       <div className="flex gap-6 overflow-hidden mask-image-linear-gradient translate-x-12">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <div
+            key={`skel-2-${i}`}
+            className="w-[200px] h-[72px] shrink-0 rounded-xl bg-slate-200 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 animate-pulse"
+          />
+        ))}
+      </div>
     </div>
   );
 }

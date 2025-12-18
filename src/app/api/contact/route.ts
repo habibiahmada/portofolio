@@ -4,12 +4,13 @@ import { remark } from 'remark';
 import html from 'remark-html';
 import { NextResponse } from 'next/server';
 import { supabase, supabaseAdmin } from '@/lib/supabase';
+import { rateLimit } from '@/lib/ratelimit';
 
 type AttachmentPayload = {
   name: string;
   type: string;
   size: number;
-  dataUrl: string; // data:<mime>;base64,...
+  dataUrl: string;
 };
 
 type ContactPayload = {
@@ -23,6 +24,16 @@ type ContactPayload = {
 
 export async function POST(req: Request) {
   try {
+    const ip =
+    req.headers.get("x-forwarded-for")?.split(",")[0] ??
+    "unknown";
+    const limit = rateLimit(ip);
+    if (!limit.success) {
+      return NextResponse.json(
+        { message: "Too many requests. Please wait." },
+        { status: 429 }
+      );
+    }
     const body = (await req.json()) as Partial<ContactPayload> | undefined;
     const { name, email, phone, subject, message, attachment } = (body ?? {}) as ContactPayload;
 

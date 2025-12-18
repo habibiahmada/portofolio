@@ -1,6 +1,6 @@
 import CursorFollower from "@/components/ui/cursor-follower";
 import Navbar from "@/components/ui/navbar/main";
-import Hero from "@/components/ui/sections/hero/hero";
+import HeroServer from "@/components/ui/sections/hero/hero.server";
 import Stats from "@/components/ui/sections/stats/stats";
 import About from "@/components/ui/sections/about/about";
 import MyService from "@/components/ui/sections/service/service";
@@ -18,11 +18,10 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      {/* Cursor follower */}
       <CursorFollower />
 
       <main id="main" role="main">
-        <Hero />
+        <HeroServer />
         <Stats />
         <About />
         <MyService />

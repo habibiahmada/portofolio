@@ -12,10 +12,10 @@ export default function Ctabutton({ isDark, icon: Icon, text, href }: Props) {
   return (
     <Link
       href={href ?? "#"}
-      className={`group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-semibold text-lg  hover:scale-105 focus:outline-none focus:ring-4 transition-all duration-300 ${
+      className={`group inline-flex items-center justify-center gap-3 px-5 py-2 rounded-full font-semibold text-lg  hover:scale-105 focus:outline-none focus:ring-4 transition-all duration-300 ${
         isDark
           ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white hover:shadow-xl hover:shadow-blue-500/30 focus:ring-blue-500/50"
-          : "bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg hover:shadow-blue-400/30 focus:ring-blue-400/50"
+          : "bg-gradient-to-r from-blue-600 to-cyan-600 text-white hover:shadow-lg hover:shadow-blue-500/30 focus:ring-blue-500/50"
       }`}
     >
       {/* render icon kalau ada */}

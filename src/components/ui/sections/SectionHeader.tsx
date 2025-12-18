@@ -8,6 +8,7 @@ type SectionHeaderProps = {
   description?: string;
   align?: "left" | "center" | "right";
   className?: string;
+  underline?: boolean;
 };
 
 export default function SectionHeader({
@@ -16,6 +17,7 @@ export default function SectionHeader({
   description,
   align = "center",
   className,
+  underline = true,
 }: SectionHeaderProps) {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
@@ -32,26 +34,28 @@ export default function SectionHeader({
 
   return (
     <div className={`w-full flex flex-col gap-4 ${alignmentClasses} ${className ?? ""}`}>
-      <h2 id={id} className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
+      <h2 id={id} className="text-4xl lg:text-5xl font-bold leading-tight">
         <span className={`block bg-gradient-to-r ${
                     isDark
-                      ? "from-cyan-400 via-blue-400 to-cyan-400"
+                      ? "from-cyan-500 via-blue-400 to-cyan-400"
                       : "from-blue-600 via-cyan-600 to-blue-600"
                   } bg-clip-text text-transparent`}>{title}</span>
       </h2>
       {description ? (
         <p
-          className={`text-base sm:text-lg lg:text-xl max-w-3xl leading-relaxed ${
-            isDark ? "text-slate-300" : "text-slate-600"
+          className={`text-muted-foreground sm:text-lg max-w-3xl leading-relaxed ${
+            isDark ? "text-slate-400" : "text-slate-600"
           } ${align === "center" ? "mx-auto" : ""}`}
         >
           {description}
         </p>
       ) : null}
-      <div className={`flex ${underlineWrapperAlignment} gap-2`}>
-        <div className={`h-1 w-20 rounded-full ${isDark ? "bg-cyan-400" : "bg-blue-600"}`} />
-        <div className={`h-1 w-8 rounded-full ${isDark ? "bg-blue-400" : "bg-cyan-600"} opacity-60`} />
-      </div>
+      {underline && (
+        <div className={`flex ${underlineWrapperAlignment} gap-2`}>
+          <div className={`h-1 w-20 rounded-full ${isDark ? "bg-cyan-400" : "bg-blue-600"}`} />
+          <div className={`h-1 w-8 rounded-full ${isDark ? "bg-blue-400" : "bg-cyan-600"} opacity-60`} />
+        </div>
+      )}
     </div>
   );
 }

@@ -16,8 +16,6 @@ const CertificationCard = dynamic(
 );
 
 
-// Using shared Certificate type from hook
-
 const CertificationsSection: React.FC = () => {
   const [selectedCertificate, setSelectedCertificate] = useState<Certificate | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);

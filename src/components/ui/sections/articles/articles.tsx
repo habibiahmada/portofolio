@@ -1,92 +1,129 @@
 'use client';
+
 import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { BookOpen } from "lucide-react";
-import { useTranslations } from "next-intl";
-import SectionHeader from "../SectionHeader";
-import { useTheme } from "next-themes";
+import { ArrowUpRight } from "lucide-react";
 import useArticles from "@/hooks/useArticles";
-import ArticleGrid from "./articlegrid";
+import Image from "next/image";
 
-const ArticlesSection: React.FC = () => {
-  const { resolvedTheme } = useTheme();
+interface UIArticle {
+  id: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  readTime: string;
+  image: string;
+  href: string;
+}
+
+const Articles: React.FC = () => {
   const [mounted, setMounted] = useState(false);
-  const t = useTranslations("articles");
   const { articles, loading, error } = useArticles(3);
+
+  function formatDate(dateString: string, locale = "id-ID") {
+    if (!dateString) return "";
+
+    const date = new Date(dateString);
+
+    return date.toLocaleDateString(locale, {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  }
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const uiArticles = useMemo(() => {
+  const uiArticles: UIArticle[] = useMemo(() => {
     return (articles || []).map((a, idx) => {
-      const tr = a.article_translations?.[0] || undefined;
+      const tr = a.article_translations?.[0];
       return {
-        id: a.id ? Number(a.id) : idx + 1, // fallback ke index
-        title: tr?.title || "",
-        excerpt: tr?.excerpt || "",
-        date: a.published_at || a.created_at,
-        readTime: tr?.read_time || "",
+        id: a.id ?? `article-${idx}`,
+        title: tr?.title ?? "",
+        excerpt: tr?.excerpt ?? "",
+        date: a.published_at ?? a.created_at ?? "",
+        readTime: tr?.read_time ?? "",
         image: a.image || "/about-illustration.webp",
-        tags: tr?.tags || [],
         href: tr?.slug ? `/articles/${tr.slug}` : "#",
       };
     });
-  }, [articles]);  
+  }, [articles]);
 
   if (!mounted) return null;
-  const isDark = resolvedTheme === "dark";
+  if (loading) return null;
+  if (error) return null;
 
   return (
     <section
-      className={`
-        relative min-h-screen overflow-hidden
-        py-28 sm:py-36 lg:py-40 transition-colors duration-300
-        ${isDark ? "bg-slate-950" : "bg-gray-50"}
-      `}
+      id="articles"
+      className="py-24 bg-white dark:bg-slate-950 text-slate-900 dark:text-white"
     >
-      {/* Background */}
-      <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/4 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-400/5 rounded-full blur-3xl" />
-      </div>
-
-      <div className="container relative z-10 mx-auto px-6">
+      <div className="container px-6 mx-auto">
         {/* Header */}
-        <div className="mb-20">
-          <SectionHeader
-            title={t("titleLine1")}
-            description={t("description1")}
-            align="center"
-          />
-        </div>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+          <div>
+            <span className="text-sm text-blue-600 dark:text-blue-400 uppercase tracking-widest font-semibold">
+              Blog
+            </span>
+            <h2 className="text-4xl md:text-5xl font-bold mt-4">
+              Latest{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">
+                Articles
+              </span>
+            </h2>
+          </div>
 
-        {/* Articles Grid */}
-        <div className="mb-16 min-h-24">
-          <ArticleGrid
-            articles={uiArticles}
-            loading={loading}
-            error={error ? t("error") : null}
-            columns={3}
-          />
-        </div>
-
-        {/* CTA */}
-        <div className="text-center">
-          <Link href="/articles">
-            <Button
-              size="lg"
-              className="px-8 py-4 text-base font-semibold text-white shadow-lg shadow-blue-500/25 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/30 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 transition-transform duration-300"
-            >
-              <BookOpen className="mr-2 h-5 w-5" />
-              {t("button")}
-            </Button>
+          <Link
+            href="/articles"
+            className="text-sm text-slate-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 transition-colors flex items-center gap-2 font-medium"
+          >
+            View All Articles
+            <ArrowUpRight className="w-4 h-4" />
           </Link>
+        </div>
+
+        {/* Articles */}
+        <div className="space-y-6">
+          {uiArticles.map((article) => (
+            <Link
+              key={article.id}
+              href={article.href}
+              className="group grid md:grid-cols-[250px_1fr] gap-6 p-6 border-b border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all"
+            >
+              {/* Thumbnail */}
+              <div className="aspect-video md:h-full overflow-hidden">
+                <Image
+                  src={article.image}
+                  alt={article.title}
+                  width={250}
+                  height={250}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+
+              {/* Content */}
+              <div className="flex flex-col justify-center">
+                <div className="text-sm text-slate-500 dark:text-slate-400 mb-3">
+                  {formatDate(article.date)}
+                  {article.readTime && ` • ${article.readTime} read`}
+                </div>
+                <h3 className="text-xl md:text-2xl font-bold mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors flex items-center gap-2">
+                  {article.title}
+                  <ArrowUpRight className="w-5 h-5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                </h3>
+
+                <p className="text-slate-600 dark:text-slate-400 line-clamp-2">
+                  {article.excerpt}
+                </p>
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
     </section>
   );
 };
 
-export default ArticlesSection;
+export default Articles;

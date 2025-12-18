@@ -2,124 +2,143 @@
 
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
-import { Building2, GraduationCap } from "lucide-react";
+import { Briefcase, GraduationCap } from "lucide-react";
 import useExperiences from "@/hooks/useExperiences";
-import "./education.css";
 import { useTranslations } from "next-intl";
-import SectionHeader from "../SectionHeader";
-import TabButton from "./tabbutton";
-import CollapsibleTimeline from "./callapsibletimeline";
+import StickyNav from "./stickynav";
+import TimelineCard from "./timelinecard";
 
 export default function Education() {
-  const {experiences, loading} = useExperiences();
+  const { experiences, loading } = useExperiences();
   const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
+
   const [mounted, setMounted] = useState(false);
-  const [activeTab, setActiveTab] = useState("experience");
+  const [activeTab, setActiveTab] = useState<"experience" | "education">("experience");
+  const [activeCardIndex, setActiveCardIndex] = useState(0);
+
   const t = useTranslations("educations");
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  // Reset active index saat ganti tab
+  useEffect(() => {
+    setActiveCardIndex(0);
+  }, [activeTab]);
+
+  // Scroll observer
+  useEffect(() => {
+    const handleScroll = () => {
+      const cards = document.querySelectorAll('.timeline-card-wrapper');
+      cards.forEach((card, index) => {
+        const rect = card.getBoundingClientRect();
+        if (rect.top >= 0 && rect.top <= window.innerHeight / 2) {
+          setActiveCardIndex(index);
+        }
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [activeTab]);
+
   if (!mounted) return null;
-  
-  const isDark = resolvedTheme === "dark";
 
-
-  const experienceList = experiences.filter((exp) =>
-    ["experience", "pengalaman"].includes(exp.type)
+  const filteredExperiences = experiences.filter(
+    (item) => item.type === activeTab
   );
-  
-  const educationList = experiences.filter((exp) =>
-    ["education", "pendidikan"].includes(exp.type)
-  );
-
 
   return (
     <section
       id="experience"
-      className={`relative min-h-screen pt-28 sm:pt-36 lg:pt-40 pb-10 overflow-hidden transition-colors duration-300 ${
-        isDark ? "bg-slate-950" : "bg-gradient-to-t from-white to-slate-50"
+      className={`w-full py-20 transition-colors duration-500 ${
+        isDark ? "bg-[#0B1120]" : "bg-slate-50"
       }`}
     >
-      {/* Animated Background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div
-          className={`absolute top-50 -right-20 sm:top-70 sm:-right-40 w-64 h-64 sm:w-96 sm:h-96 rounded-full blur-3xl ${
-            isDark ? "bg-blue-600/15" : "bg-blue-400/15"
-          }`}
-          style={{ animation: "float 8s ease-in-out infinite" }}
-        />
-        <div
-          className={`absolute -bottom-20 -left-20 sm:-bottom-40 sm:-left-40 w-48 h-48 sm:w-80 sm:h-80 rounded-full blur-3xl ${
-            isDark ? "bg-slate-600/15" : "bg-slate-400/15"
-          }`}
-          style={{ 
-            animation: "float 10s ease-in-out infinite reverse", 
-            animationDelay: "2s" 
-          }}
-        />
-        <div
-          className={`absolute top-1/2 left-1/2 w-32 h-32 sm:w-64 sm:h-64 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 ${
-            isDark ? "bg-cyan-600/10" : "bg-cyan-400/10"
-          }`}
-          style={{ 
-            animation: "pulse-slow 1s ease-in-out infinite", 
-            animationDelay: "1s" 
-          }}
-        />
-      </div>
+      <div className="max-w-[95rem] mx-auto">
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Header */}
-        <div className="mb-12 sm:mb-16">
-          <SectionHeader
-            title={`${t("titleLine1")} ${t("titleLine2")}`}
-            description={t("description1")}
-            align="center"
-          />
-        </div>
-
-        {/* Tabs */}
-        <div className="w-full">
-          {/* Tab Buttons */}
-          <div className="flex justify-center mb-8 sm:mb-12">
-            <div
-              className={`flex gap-3 w-full max-w-md rounded-2xl p-1.5 ${
-                isDark
-                  ? "bg-slate-800/70 backdrop-blur-md border border-slate-700/60"
-                  : "bg-white/90 backdrop-blur-md border border-slate-200 shadow-sm"
-              }`}
-            >
-              {/* Experience Button */}
-              <TabButton
-                isActive={activeTab === "experience"}
-                onClick={() => setActiveTab("experience")}
-                icon={<Building2 className="w-4 h-4 sm:w-5 sm:h-5" />}
-                label={t("tabbuttons1")}
-                isDark={isDark}
-              />
-
-              {/* Education Button */}
-              <TabButton
-                isActive={activeTab === "education"}
-                onClick={() => setActiveTab("education")}
-                icon={<GraduationCap className="w-4 h-4 sm:w-5 sm:h-5" />}
-                label={t("tabbuttons2")}
-                isDark={isDark}
-              />
-            </div>
+        {/* HEADER */}
+        <div className="relative mb-20 text-center space-y-4">
+          <div className="absolute inset-0 flex justify-center items-center pointer-events-none">
+            <div className="w-[200px] h-[100px] bg-blue-500/20 blur-[100px] rounded-full" />
           </div>
 
-          {/* Tab Content */}
-          <div className="mt-0">
-            <CollapsibleTimeline
-              items={activeTab === "experience" ? experienceList : educationList}
+          <h2 className={`text-4xl font-extrabold ${isDark ? "text-white" : "text-slate-900"}`}>
+            {t("titleLine1")}{" "}
+            <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+              {t("titleLine2")}
+            </span>
+          </h2>
+
+          <p className={`${isDark ? "text-slate-400" : "text-slate-600"} max-w-2xl mx-auto`}>
+            {t("description1")}
+          </p>
+        </div>
+
+        {/* TABS */}
+        <div className="flex justify-center mb-16">
+          <div className={`p-1.5 rounded-2xl flex gap-1 ${
+            isDark ? "bg-slate-900 border border-slate-800" : "bg-white border border-slate-200"
+          }`}>
+            {(["experience", "education"] as const).map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`relative px-6 py-3 text-sm font-bold transition-all cursor-pointer ${
+                  activeTab === tab
+                    ? isDark
+                      ? "text-white"
+                      : "text-slate-800"
+                    : isDark
+                      ? "text-slate-500 hover:text-slate-300"
+                      : "text-slate-500 hover:text-slate-700"
+                }`}
+              >
+                {activeTab === tab && (
+                  <div className={`absolute inset-0 ${
+                    isDark ? "bg-slate-800" : "bg-slate-100"
+                  }`} />
+                )}
+                <span className="relative z-10 flex items-center gap-2">
+                  {tab === "experience" ? <Briefcase size={16} /> : <GraduationCap size={16} />}
+                  {t(`tabbuttons${tab}`)}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* CONTENT */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div className="hidden lg:block lg:col-span-3">
+            <StickyNav
+              items={filteredExperiences}
+              activeIndex={activeCardIndex}
               isDark={isDark}
-              type={activeTab as "experience" | "education"}
-              t={t}
-              loading={loading}
             />
+          </div>
+
+          <div className="lg:col-span-9 space-y-12 pb-24 relative">
+            {filteredExperiences.map((exp, index) => (
+              <div
+                key={exp.id}
+                className="timeline-card-wrapper relative pl-12 lg:pl-0"
+              >
+                <TimelineCard
+                  data={exp}
+                  isDark={isDark}
+                  isActive={activeCardIndex === index}
+                />
+              </div>
+            ))}
+
+            {!loading && filteredExperiences.length === 0 && (
+              <div className="text-center py-20 text-slate-400">
+                No data available.
+              </div>
+            )}
           </div>
         </div>
       </div>
