@@ -18,19 +18,6 @@ const gradientColors = [
   'from-yellow-500 to-amber-500',
 ];
 
-const bgOverlayLight = [
-  'from-indigo-50 to-white',
-  'from-emerald-50 to-white',
-  'from-rose-50 to-white',
-  'from-yellow-50 to-white',
-];
-
-const bgOverlayDark = [
-  'from-indigo-900 to-slate-950',
-  'from-emerald-900 to-slate-950',
-  'from-rose-900 to-slate-950',
-  'from-yellow-900 to-slate-950',
-];
 
 interface StatItem {
   key: string;
@@ -43,6 +30,7 @@ interface StatItem {
   bgColorLight: string;
   bgColorDark: string;
 }
+
 
 export default function Stats() {
   const { resolvedTheme } = useTheme();
@@ -76,89 +64,84 @@ export default function Stats() {
   const isDark = resolvedTheme === "dark";
 
   return (
-    <section
-      id="stats"
-      className="relative py-28 sm:py-36 lg:py-40 overflow-hidden"
-    >
-      {/* Background */}
-      <div
-        className={`absolute inset-0 bg-gradient-to-b transition-colors duration-300 ease-in-out ${isDark
-            ? "from-slate-950 via-gray-950 to-slate-950"
-            : "from-slate-50 via-gray-50 to-slate-50"
-          }`}
-      />
-
-      <div
-        className={`absolute inset-0 opacity-[1] bg-[size:40px_40px]
-          [mask-image:radial-gradient(ellipse_50%_45%_at_50%_50%,#000_70%,transparent_100%)]
-          ${isDark
-            ? "bg-[linear-gradient(rgba(59,130,246,0.15)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.15)_1px,transparent_1px)]"
-            : "bg-[linear-gradient(rgba(148,163,184,0.3)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.3)_1px,transparent_1px)]"
-          }`}
-      />
+    <section id="stats" className="relative py-20 overflow-hidden">
+      <div className="absolute top-1/2 left-1/2  -translate-x-1/2 -translate-y-1/2 w-3/4 h-32 bg-blue-500/10 blur-[100px] rounded-full pointer-events-none" />
 
       <div className="relative container mx-auto px-6 max-w-7xl">
-        {/* Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-20">
-          {loading ? (
-            // Skeleton loading
-            [1, 2, 3].map((i) => (
-              <div key={i} className="h-64 rounded-2xl border bg-muted/10 animate-pulse border-border/50"></div>
-            ))
-          ) : (
-            stats.map((stat, i) => {
-              // Choose icon and color based on index so UI is consistent and
-              // does not depend on values stored in the database.
+        
+        <div 
+          className={`relative border overflow-hidden transition-all duration-300 mb-12
+            ${isDark 
+              ? "bg-slate-900/40 border-slate-800 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)]" 
+              : "bg-white/60 border-slate-200 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)]"
+            } backdrop-blur-xl`}
+        >
+          <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
+
+          <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x dark:divide-slate-800 divide-slate-300/50">
+            {loading ? (
+              [1, 2, 3].map((i) => (
+                <div key={i} className="p-10 flex flex-col items-center justify-center gap-4 animate-pulse">
+                  <div className="h-12 w-32 bg-slate-200 dark:bg-slate-800 rounded-lg"></div>
+                  <div className="h-4 w-24 bg-slate-200 dark:bg-slate-800 rounded"></div>
+                </div>
+              ))
+            ) : (
+              stats.map((stat, i) => {
               const Icon = IconList[i % IconList.length] || IconList[0];
               const colorClass = gradientColors[i % gradientColors.length];
-              const overlayLight = bgOverlayLight[i % bgOverlayLight.length];
-              const overlayDark = bgOverlayDark[i % bgOverlayDark.length];
-              return (
-                <div
-                  key={i}
-                  className={`relative p-8 rounded-2xl border backdrop-blur-sm hover:-translate-y-1 transition-all duration-300 ${isDark ? "border-slate-700/60" : "border-slate-200/60"
-                    }`}
-                >
-                  <div
-                    className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${isDark ? overlayDark : overlayLight} opacity-80`}
-                  />
-                  <div className="relative z-10">
-                    <div
-                      className={`inline-flex p-3 rounded-xl bg-gradient-to-r ${colorClass} text-white shadow-lg mb-6`}
+                
+                return (
+                  <div 
+                    key={i} 
+                    className="group relative p-6 flex flex-col items-center text-center transition-colors duration-300 hover:bg-slate-500/5"
+                  >
+                    <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 bg-gradient-to-br ${gradientColors[i % gradientColors.length]}`} />
+
+                    {/* Content */}
+                    <div className="relative z-10 flex flex-col items-center">
+                 <div
+                      className={`inline-flex p-3 bg-gradient-to-r ${colorClass} text-white mb-3`}
                     >
                       <Icon size={24} />
-                    </div>
-                    <div className="flex items-baseline gap-1 mb-2">
-                      <span
-                        className={`text-4xl md:text-5xl font-bold tabular-nums ${isDark ? "text-white" : "text-slate-900"}`}
+                    </div>  
+
+                      <div className="flex items-baseline gap-1 mb-2">
+                        <span className={`text-3xl md:text-4xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-b
+                          ${isDark 
+                            ? "from-white via-slate-200 to-slate-400" 
+                            : "from-slate-900 via-slate-700 to-slate-500"}`}
+                        >
+                          {stat.count}
+                        </span>
+                        <span className={`text-3xl font-bold bg-gradient-to-r ${gradientColors[i % gradientColors.length]} bg-clip-text text-transparent`}>
+                          {stat.suffix}
+                        </span>
+                      </div>
+
+                      <h3 className={`text-lg font-semibold tracking-wide uppercase mb-2
+                        ${isDark ? "text-slate-300" : "text-slate-600"}`}
                       >
-                        {stat.count}
-                      </span>
-                      <span
-                        className={`text-2xl font-semibold bg-gradient-to-r ${colorClass} bg-clip-text text-transparent`}
+                        {stat.label}
+                      </h3>
+                      
+                      <p className={`text-sm max-w-[200px] leading-relaxed
+                        ${isDark ? "text-slate-500" : "text-slate-400"}`}
                       >
-                        {stat.suffix}
-                      </span>
+                        {stat.description}
+                      </p>
                     </div>
-                    <div
-                      className={`text-lg font-semibold mb-1 ${isDark ? "text-slate-200" : "text-slate-800"}`}
-                    >
-                      {stat.label}
-                    </div>
-                    <p
-                      className={`text-sm ${isDark ? "text-slate-400" : "text-slate-600"}`}
-                    >
-                      {stat.description}
-                    </p>
                   </div>
-                </div>
-              );
-            })
-          )}
+                );
+              })
+            )}
+          </div>
         </div>
 
-        {/* Companies dengan animasi geser */}
-        <Companieslist />
+        {/* Companies Section */}
+        <div className="relative">
+          <Companieslist />
+        </div>
       </div>
     </section>
   );

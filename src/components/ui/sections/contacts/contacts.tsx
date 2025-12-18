@@ -21,6 +21,7 @@ import SectionHeader from "../SectionHeader";
 import ContactForm, { ContactFormData } from './contactform';
 import Consultation from './consultation';
 import { useTheme } from 'next-themes';
+import { toast } from 'sonner';
 
 // Types and Interfaces
 interface ContactInfo {
@@ -113,38 +114,61 @@ const ContactSection: React.FC = () => {
   });
 
   // Event Handlers
+
   const handleFormSubmit = async (formData: ContactFormData) => {
-    // If there is an attachment, convert it to base64 so server can receive it in JSON.
-    const payload: Record<string, unknown> = { ...formData };
-    if (formData.attachment) {
-      try {
+    try {
+      // Prepare payload
+      const payload: Record<string, unknown> = { ...formData };
+
+      if (formData.attachment) {
         const file = formData.attachment as File;
+
         const dataUrl = await new Promise<string>((resolve, reject) => {
           const reader = new FileReader();
           reader.onload = () => resolve(String(reader.result ?? ""));
-          reader.onerror = (e) => reject(e);
+          reader.onerror = reject;
           reader.readAsDataURL(file);
         });
+
         payload.attachment = {
           name: file.name,
           type: file.type,
           size: file.size,
           dataUrl,
         };
-      } catch (e: unknown) {
-        console.error("Failed to read attachment", e instanceof Error ? e.message : String(e));
       }
-    }
 
-    const formRes = await fetch("/api/contact", {
-      method: "POST",
-      body: JSON.stringify(payload),
-      headers: { "Content-Type": "application/json" },
-      next: { revalidate: 0 },
-    });
+      // Send request
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+        next: { revalidate: 0 },
+      });
 
-    if (!formRes.ok) {
-      throw new Error("Failed to submit form");
+      // Handle errors explicitly
+      if (!res.ok) {
+        if (res.status === 429) {
+          toast.error("Terlalu banyak permintaan", {
+            description: "Silakan tunggu sebentar sebelum mengirim pesan lagi.",
+          });
+          return;
+        }
+
+        throw new Error("FAILED");
+      }
+
+      // Success
+      toast.success("Pesan terkirim", {
+        description: "Terima kasih, pesanmu sudah masuk dan akan dibalas.",
+      });
+
+    } catch (error) {
+      console.error("Contact form error:", error);
+
+      toast.error("Gagal mengirim pesan", {
+        description: "Terjadi kesalahan. Coba lagi beberapa saat.",
+      });
     }
   };
 

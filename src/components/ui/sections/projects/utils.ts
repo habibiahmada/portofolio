@@ -10,6 +10,13 @@ export const getTagColor = (tag: string): string => {
     graphql: "bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300",
     shopify: "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300",
     laravel: "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300",
+    "node.js": "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300",
+    php: "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300",
+    javascript: "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300",
+    python: "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300",
+    "machine learning": "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300",
+    "deep learning": "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300",
+    "artificial intelligence": "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300",
   };
 
   return (

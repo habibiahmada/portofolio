@@ -4,7 +4,7 @@ interface ServiceCardProps {
   icon: React.ReactNode
   title: string
   description: string
-  bullets: string[]
+  technologies: string[]
   color?: string
 }
 
@@ -12,39 +12,49 @@ export default function ServiceCard({
   icon,
   title,
   description,
-  bullets,
+  technologies,
   color,
 }: ServiceCardProps) {
   return (
-    <div className="group relative bg-white/70 dark:bg-slate-800/50 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 rounded-3xl p-8 hover:bg-white dark:hover:bg-slate-800/70 hover:shadow-2xl hover:shadow-blue-500/10 hover:-translate-y-2 transition-all duration-300">
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-slate-500/5 dark:from-blue-400/10 dark:to-slate-400/10 rounded-3xl opacity-0 group-hover:opacity-100 duration-500" />
+    <div
+      className="
+        p-6
+        border-border       
+        border-r border-b
+        hover:bg-muted
+        transition-colors duration-500
+        md:[&:nth-child(3n)]:border-r-0
+        lg:[&:nth-child(3n)]:border-r-0
+        [&:nth-last-child(-n+1)]:border-b-0
+        md:[&:nth-last-child(-n+2)]:border-b-0
+        lg:[&:nth-last-child(-n+3)]:border-b-0
+      "
+    >
 
-      <div className="relative">
-        <div
-          className={`w-16 h-16 bg-gradient-to-br ${color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}
-        >
-          {icon}
-        </div>
+      <div
+        className={`w-14 h-14 flex items-center justify-center bg-gradient-to-br ${color}
+        rounded-lg mb-6`}
+      >
+        {icon}
+      </div>
 
-        <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
-          {title}
-        </h3>
+      <h3 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors duration-300">
+        {title}
+      </h3>
 
-        <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
-          {description}
-        </p>
+      <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+        {description}
+      </p>
 
-        <div className="space-y-3">
-          {bullets.map((item, i) => (
-            <div
-              key={i}
-              className="flex items-center text-sm text-slate-500 dark:text-slate-400"
-            >
-              <div className="w-2 h-2 bg-blue-500 rounded-full mr-3" />
-              {item}
-            </div>
-          ))}
-        </div>
+      <div className="flex flex-wrap gap-2">
+        {technologies.map((tech, i) => (
+          <span
+            key={i}
+            className="text-xs px-3 py-1 bg-muted text-muted-foreground rounded-full"
+          >
+            {tech}
+          </span>
+        ))}
       </div>
     </div>
   )

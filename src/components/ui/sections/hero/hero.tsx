@@ -1,13 +1,15 @@
 'use client';
 
 import Image from "next/image";
-import { ChevronDown, Eye, Download, Mouse, X, FileText } from "lucide-react";
+import { ChevronDown, Eye, Mouse, FileText } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
 import Ctabutton from "../ctabutton";
 import TechIconsDecorations from "./techicon";
 import Writertext from "./writertext";
 import { useLocale } from "next-intl";
+import HeroSkeleton from "./heroskeleton";
+import CVPreviewModal from "./cvpreviewmodal";
 
 interface HeroData {
   image_url: string;
@@ -19,79 +21,18 @@ interface HeroData {
   console_tag: string;
 }
 
-// CV Preview Modal Component
-const CVPreviewModal = ({ isOpen, onClose, cvUrl, isDark, locale }: {
-  isOpen: boolean;
-  onClose: () => void;
-  cvUrl: string;
+const HeroImage = ({
+  isDark,
+  imageAlt,
+  imageUrl,
+  blurDataURL,
+}: {
   isDark: boolean;
-  locale: string;
-}) => {
-  if (!isOpen) return null;
+  imageAlt: string;
+  imageUrl?: string;
+  blurDataURL: string;
+}) => (
 
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-200"
-      onClick={onClose}
-    >
-      <div
-        className={`relative w-full max-w-4xl h-[85vh] rounded-2xl shadow-2xl overflow-hidden ${isDark ? 'bg-slate-950' : 'bg-white'
-          }`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Header */}
-        <div className={`flex items-center justify-between p-4 border-b ${isDark ? 'border-slate-700 bg-slate-800' : 'border-slate-200 bg-slate-50'
-          }`}>
-          <div className="flex items-center gap-3">
-            <FileText className={`w-5 h-5 ${isDark ? 'text-blue-400' : 'text-blue-600'}`} />
-            <h3 className={`text-lg font-semibold ${isDark ? 'text-slate-100' : 'text-slate-900'
-              }`}>
-              {locale === 'id' ? 'Preview CV' : 'CV Preview'}
-            </h3>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <a
-              href={cvUrl}
-              download
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all ${isDark
-                  ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                  : 'bg-blue-500 hover:bg-blue-600 text-white'
-                }`}
-            >
-              <Download size={16} />
-              {locale === 'id' ? 'Download' : 'Download'}
-            </a>
-
-            <button
-              onClick={onClose}
-              className={`p-2 rounded-lg transition-all ${isDark
-                  ? 'hover:bg-slate-700 text-slate-400 hover:text-slate-200'
-                  : 'hover:bg-slate-200 text-slate-600 hover:text-slate-900'
-                }`}
-              aria-label="Close modal"
-            >
-              <X size={20} />
-            </button>
-          </div>
-        </div>
-
-        {/* PDF Viewer */}
-        <div className="w-full h-[calc(100%-4rem)] overflow-hidden">
-          <iframe
-            src={`${cvUrl}#toolbar=0`}
-            className="w-full h-full"
-            title="CV Preview"
-          />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const HeroImage = ({ isDark, imageAlt, imageUrl }: { isDark: boolean; imageAlt: string; imageUrl?: string }) => (
   <div className="relative">
     {/* Unique hexagonal background */}
     <div className="absolute -inset-8">
@@ -111,11 +52,9 @@ const HeroImage = ({ isDark, imageAlt, imageUrl }: { isDark: boolean; imageAlt: 
       height={600}
       className="w-full select-none max-w-sm sm:max-w-md lg:max-w-lg mx-auto rounded-3xl drop-shadow-[0_15px_25px_rgba(0,0,0,0.4)] hover:scale-105 transition-transform duration-500 ease-in-out object-cover"
       draggable={false}
-      priority
-      fetchPriority="high"
       sizes="(max-width: 768px) 100vw, 600px"
       placeholder="blur"
-      blurDataURL="/self-photo-habibi-ahmad-aziz-small.webp"
+      blurDataURL={blurDataURL}
     />
   </div>
 );
@@ -146,36 +85,8 @@ const BackgroundGrid = ({ isDark }: { isDark: boolean }) => (
   />
 );
 
-const HeroSkeleton = () => (
-  <section
-    id="home"
-    className="relative overflow-hidden min-h-screen flex items-center pt-24 sm:pt-28 lg:pt-32 pb-24 bg-slate-50 dark:bg-slate-950"
-  >
-    <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-      {/* Left Column - Text skeleton */}
-      <div className="space-y-6 animate-pulse">
-        <div className="h-5 w-32 bg-slate-200 dark:bg-slate-800 rounded" />
-        <div className="h-10 sm:h-12 lg:h-14 w-3/4 bg-slate-200 dark:bg-slate-800 rounded" />
-        <div className="h-10 sm:h-12 lg:h-14 w-2/3 bg-slate-200 dark:bg-slate-800 rounded" />
-        <div className="h-4 w-24 bg-slate-200 dark:bg-slate-800 rounded" />
-        <div className="h-5 sm:h-6 w-5/6 bg-slate-200 dark:bg-slate-800 rounded" />
-        <div className="h-5 sm:h-6 w-4/6 bg-slate-200 dark:bg-slate-800 rounded" />
 
-        <div className="flex flex-col sm:flex-row gap-4 pt-6">
-          <div className="h-12 w-40 bg-slate-200 dark:bg-slate-800 rounded-xl" />
-          <div className="h-12 w-40 bg-slate-200 dark:bg-slate-800 rounded-xl" />
-        </div>
-      </div>
-
-      {/* Right Column - Image skeleton */}
-      <div className="relative animate-pulse">
-        <div className="mx-auto w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-3xl bg-slate-200 dark:bg-slate-800" />
-      </div>
-    </div>
-  </section>
-);
-
-export default function Hero() {
+export default function Hero({ blurDataURL }: { blurDataURL: string }) {
   const { resolvedTheme } = useTheme();
   const [isVisible, setIsVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -215,7 +126,7 @@ export default function Hero() {
       <section
         id="home"
         className={`relative overflow-hidden flex items-center 
-          pt-24 sm:pt-28 lg:pt-32 pb-24 transition-colors duration-300
+          pt-24 sm:pt-28 lg:pt-36 pb-24 transition-colors duration-300
           ${isDark
             ? "bg-gradient-to-br from-gray-950 to-gray-950"
             : "bg-gradient-to-br from-gray-50 via-white to-gray-50/30"
@@ -262,7 +173,7 @@ export default function Hero() {
 
               <button
                 onClick={() => setShowCVModal(true)}
-                className={`inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-semibold text-lg border-2 backdrop-blur-sm transform focus:outline-none focus:ring-4 transition-all cursor-pointer ${isDark
+                className={`inline-flex items-center justify-center gap-3 px-5 py-2 rounded-full font-semibold text-lg border-2 backdrop-blur-sm transform focus:outline-none focus:ring-4 transition-all cursor-pointer ${isDark
                   ? "bg-white/5 border-white/20 text-slate-200 hover:bg-white/10 hover:border-blue-500/50 focus:ring-white/20"
                   : "bg-white/70 border-slate-200 text-slate-700 hover:bg-white hover:border-blue-400 focus:ring-slate-300"
                   }`}
@@ -279,7 +190,12 @@ export default function Hero() {
               }`}
           >
 
-            <HeroImage isDark={isDark} imageAlt={heroData?.greeting || "Profile Photo"} imageUrl={heroData?.image_url} />
+            <HeroImage
+              isDark={isDark}
+              imageAlt={heroData?.greeting || "Profile Photo"}
+              imageUrl={heroData?.image_url}
+              blurDataURL={blurDataURL}
+            />
 
             <TechIconsDecorations isDark={isDark} />
 

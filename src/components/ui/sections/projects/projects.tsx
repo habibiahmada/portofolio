@@ -3,90 +3,84 @@
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { useTranslations } from "next-intl";
-import SectionHeader from "../SectionHeader";
+import { ExternalLink } from "lucide-react";
 
 import useProjects from "@/hooks/useProjects";
-import ProjectFilters from "./projectfilter";
-import ProjectSearch from "./projectsearch";
-import ProjectGrid from "./projectgrid";
-import SkeletonProjectCard from "./skeletonprojectcard";
-import { SearchX } from "lucide-react";
+import ProjectRow from "./projectrow";
+import Link from "next/link";
+import SectionHeader from "../SectionHeader";
+
+
 
 export default function Projects() {
   const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
   const t = useTranslations("projects");
 
-  
+  const [mounted, setMounted] = useState(false);
   const { projects, loading } = useProjects();
-  const [activeFilter, setActiveFilter] = useState("all");
-  const [searchTerm, setSearchTerm] = useState("");
-  
+
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  
   if (!mounted) return null;
-  
-  const isDark = resolvedTheme === "dark";
 
-  const filteredProjects = projects.filter((project) => {
-    const translation = project.projects_translations?.[0];
-    const matchesFilter =
-      activeFilter === "all";
-    const matchesSearch =
-      translation?.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      translation?.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      project.technologies.some((tag: string) =>
-        tag.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    return matchesFilter && matchesSearch;
-  });
+  const isDark = resolvedTheme === "dark";
 
   return (
     <section
       id="projects"
-      className={`relative overflow-hidden py-28 sm:py-36 lg:py-40 pb-5 transition-colors duration-300 
-        ${isDark ? "bg-slate-950" : "bg-gradient-to-b from-white to-slate-50"}`}
+      className={`relative py-32 overflow-hidden transition-colors duration-500
+        ${isDark ? "bg-slate-950" : "bg-slate-50"}`}
     >
-      <div className="container mx-auto px-4 max-w-7xl">
+      <div className="container mx-auto px-6 relative z-10">
         {/* Header */}
-        <div className="mb-16">
+        <div className="flex justify-between items-center mb-16 border-b border-slate-200 dark:border-slate-800 pb-8">
           <SectionHeader
             title={t("titleLine1")}
             description={t("description1")}
-            align="center"
+            align="left"
+            underline={false}
           />
+          <div>
+            <Link
+              href="https://github.com/habibiahmada"
+              target="_blank"
+              className="inline-flex items-center gap-2 text-sm font-medium text-slate-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+            >
+              {"selengkapnya"}
+              <ExternalLink className="w-5 h-5" />
+            </Link>
+          </div>
         </div>
 
-        {/* Filters */}
-        <ProjectFilters activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
-
-        {/* Search */}
-        <ProjectSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-
-        {/* Grid */}
+        {/* Content */}
         {loading ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {Array.from({ length: 3 }).map((_, i) => (
-              <SkeletonProjectCard key={i} />
+          <div className="space-y-32 animate-pulse">
+            {[1, 2].map((i) => (
+              <div
+                key={i}
+                className="flex flex-col lg:flex-row gap-12 items-center"
+              >
+                <div className="w-full lg:w-7/12 aspect-[16/10] bg-slate-200 dark:bg-slate-800 rounded-[2.5rem]" />
+                <div className="w-full lg:w-5/12 space-y-4">
+                  <div className="h-10 w-3/4 bg-slate-200 dark:bg-slate-800 rounded-lg" />
+                  <div className="h-4 w-full bg-slate-200 dark:bg-slate-800 rounded" />
+                  <div className="h-4 w-2/3 bg-slate-200 dark:bg-slate-800 rounded" />
+                </div>
+              </div>
             ))}
           </div>
-        ) : filteredProjects.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16 text-center text-slate-500 dark:text-slate-400">
-            <SearchX className="h-16 w-16 mb-4 text-slate-400"/>
-            <p className="text-lg font-medium">
-              {t("noProjectsTitle", { defaultValue: "No projects found" })}
-            </p>
-            <p className="text-sm">
-              {t("noProjectsDescription", {
-                defaultValue: "Try adjusting your filters or search query.",
-              })}
-            </p>
-          </div>
         ) : (
-          <ProjectGrid projects={filteredProjects} />
+          <div className="flex flex-col">
+            {projects.map((project, index) => (
+              <ProjectRow
+                key={project.id}
+                project={project}
+                index={index}
+              />
+            ))}
+          </div>
         )}
       </div>
     </section>
