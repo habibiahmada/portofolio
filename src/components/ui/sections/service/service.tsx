@@ -3,7 +3,7 @@
 import { useTheme } from "next-themes"
 import { useEffect, useState } from "react"
 import { useTranslations } from "next-intl"
-import useServices from "@/hooks/useServices"
+import useServices from "@/hooks/api/public/useServices";
 import ServiceCard from "./servicecard"
 import ServiceCardSkeleton from "./servicecardskeleton"
 import SectionHeader from "../SectionHeader"
@@ -27,15 +27,15 @@ export default function MyService() {
   return (
     <section
       id="services"
-      className={`relative pt-28 sm:pt-36 lg:pt-40 pb-32 transition-colors duration-300
-    ${isDark ? "bg-slate-950" : "bg-gradient-to-b from-white to-slate-50"}`}
+      className={`relative pt - 28 sm: pt - 36 lg: pt - 40 pb - 32 transition - colors duration - 300
+    ${isDark ? "bg-slate-950" : "bg-gradient-to-b from-white to-slate-50"} `}
     >
 
 
       {/* Background */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className={`absolute top-1/4 -left-20 w-80 h-80 rounded-full blur-3xl opacity-10 ${isDark ? "bg-blue-500" : "bg-blue-300"} animate-blob`} />
-        <div className={`absolute bottom-1/4 -right-20 w-72 h-72 rounded-full blur-3xl opacity-10 ${isDark ? "bg-cyan-500" : "bg-cyan-300"} animate-blob animation-delay-2000`} />
+        <div className={`absolute top - 1 / 4 - left - 20 w - 80 h - 80 rounded - full blur - 3xl opacity - 10 ${isDark ? "bg-blue-500" : "bg-blue-300"} animate - blob`} />
+        <div className={`absolute bottom - 1 / 4 - right - 20 w - 72 h - 72 rounded - full blur - 3xl opacity - 10 ${isDark ? "bg-cyan-500" : "bg-cyan-300"} animate - blob animation - delay - 2000`} />
       </div>
 
       <div className="container mx-auto px-4 max-w-8xl relative">

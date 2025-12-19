@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabase, supabaseAdmin } from "@/lib/supabase";
+import { translateObject } from "@/lib/translator";
 
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
@@ -21,7 +22,7 @@ export async function GET(req: Request) {
         `)
             .eq("hero_section_translations.language", lang)
             .limit(1)
-            .maybeSingle();
+            .maybeSingle() as unknown as { data: { hero_section_translations: Array<{ language: string, greeting: string, description: string, typewriter_texts: string[], developer_tag: string, console_tag: string }>, image_url: string, cv_url: string } | null, error: unknown };
 
         if (error) throw error;
 
@@ -94,17 +95,34 @@ export async function PUT(req: Request) {
         }
 
         // 2. Update/Upsert Translations
+        const finalTranslations = [{
+            hero_section_id: heroId,
+            language: lang,
+            greeting,
+            description,
+            typewriter_texts,
+            developer_tag,
+            console_tag
+        }];
+
+        // Auto translate to the other language
+        const targetLang = lang === "id" ? "en" : "id";
+        const translated = await translateObject(
+            { greeting, description, typewriter_texts, developer_tag, console_tag },
+            targetLang,
+            lang,
+            ["greeting", "description", "typewriter_texts", "developer_tag", "console_tag"]
+        );
+
+        finalTranslations.push({
+            hero_section_id: heroId,
+            language: targetLang,
+            ...translated
+        });
+
         const { error: transError } = await supabaseAdmin
             .from("hero_section_translations")
-            .upsert({
-                hero_section_id: heroId,
-                language: lang,
-                greeting,
-                description,
-                typewriter_texts,
-                developer_tag,
-                console_tag
-            }, { onConflict: 'hero_section_id, language' });
+            .upsert(finalTranslations, { onConflict: 'hero_section_id, language' });
 
         if (transError) throw transError;
 

@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl"
 import { useEffect, useState, useMemo } from "react"
 import SkillGridSkeleton from "./skillgridskeleton"
 import SkillCard from "./skillcard"
-import useTechstacks from "@/hooks/useTechstacks"
+import useTechstacks from "@/hooks/api/public/useTechstacks";
 import { TechItem } from "@/lib/types/database"
 import { loadSiIcons } from "@/lib/si-icon-cache"
 import "./skills.css"
@@ -44,13 +44,13 @@ export default function SkillsSection() {
           </p>
         ) : (
           <div className="relative -mx-6 md:-mx-12 lg:-mx-20">
-            
+
             {/* Gradient Masks untuk efek Fade di kiri dan kanan */}
             <div className="absolute left-0 top-0 bottom-0 w-12 md:w-32 z-10 bg-gradient-to-r from-slate-50 dark:from-slate-950 to-transparent pointer-events-none" />
             <div className="absolute right-0 top-0 bottom-0 w-12 md:w-32 z-10 bg-gradient-to-l from-slate-50 dark:from-slate-950 to-transparent pointer-events-none" />
 
             <div className="flex flex-col gap-6 md:gap-8 opacity-90 hover:opacity-100 transition-opacity duration-500">
-              
+
               {/* Row 1: Bergerak ke Kiri */}
               <div className="flex relative overflow-hidden group">
                 <div className="flex gap-4 md:gap-6 animate-scroll whitespace-nowrap pl-4 md:pl-6">

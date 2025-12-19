@@ -6,7 +6,7 @@ import { useTheme } from 'next-themes';
 import SectionHeader from "../SectionHeader";
 import dynamic from 'next/dynamic';
 import CertificateModal from './certificationmodal';
-import useCertificates from '@/hooks/useCertificates';
+import useCertificates from '@/hooks/api/public/useCertificates';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Certificate } from '@/lib/types/database';
 

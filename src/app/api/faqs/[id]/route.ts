@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
+import { translateObject } from '@/lib/translator'
 
 interface FAQTranslationPayload {
   lang: string
@@ -44,21 +45,33 @@ export async function PUT(
 
     if (faqError) throw faqError
 
-    for (const t of translations) {
-      const { error } = await supabaseAdmin
-        .from('faq_translations')
-        .upsert(
-          {
-            faq_id: id,
-            lang: t.lang,
-            question: t.question,
-            answer: t.answer,
-          },
-          { onConflict: 'faq_id,lang' }
-        )
+    const finalTranslations = [...translations]
 
-      if (error) throw error
+    // Auto translate if only one is provided
+    if (translations.length === 1) {
+      const source = translations[0]
+      const targetLang = source.lang === "id" ? "en" : "id"
+      const translated = await translateObject(
+        source,
+        targetLang,
+        source.lang,
+        ["question", "answer"]
+      )
+      finalTranslations.push({ ...translated, lang: targetLang })
     }
+
+    const rows = finalTranslations.map((t) => ({
+      faq_id: id,
+      lang: t.lang,
+      question: t.question,
+      answer: t.answer,
+    }))
+
+    const { error: translationError } = await supabaseAdmin
+      .from('faq_translations')
+      .upsert(rows, { onConflict: 'faq_id,lang' })
+
+    if (translationError) throw translationError
 
     return NextResponse.json({ success: true })
   } catch (error) {

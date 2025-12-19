@@ -4,7 +4,7 @@ import { CheckCircle, Clock, Users, LucideIcon } from "lucide-react";
 import Companieslist from "./companieslist";
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
-import { useLocale } from "next-intl";
+import useStats from "@/hooks/api/public/useStats";
 
 // Local icon list and color palettes to avoid relying on DB-provided icon/color
 const IconList: LucideIcon[] = [Users, CheckCircle, Clock];
@@ -19,45 +19,18 @@ const gradientColors = [
 ];
 
 
-interface StatItem {
-  key: string;
-  count: number;
-  icon: string;
-  suffix: string;
-  label: string;
-  description: string;
-  color: string;
-  bgColorLight: string;
-  bgColorDark: string;
-}
+
 
 
 export default function Stats() {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const [stats, setStats] = useState<StatItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const locale = useLocale();
+
+  const { stats, loading } = useStats();
 
   useEffect(() => {
     setMounted(true);
-
-    async function fetchStats() {
-      try {
-        const res = await fetch(`/api/stats?lang=${locale}`);
-        const result = await res.json();
-        if (result.data) {
-          setStats(result.data);
-        }
-      } catch (error) {
-        console.error("Failed to fetch stats", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchStats();
-  }, [locale]);
+  }, []);
 
   if (!mounted) return null;
 
@@ -68,11 +41,11 @@ export default function Stats() {
       <div className="absolute top-1/2 left-1/2  -translate-x-1/2 -translate-y-1/2 w-3/4 h-32 bg-blue-500/10 blur-[100px] rounded-full pointer-events-none" />
 
       <div className="relative container mx-auto px-6 max-w-7xl">
-        
-        <div 
+
+        <div
           className={`relative border overflow-hidden transition-all duration-300 mb-12
-            ${isDark 
-              ? "bg-slate-900/40 border-slate-800 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)]" 
+            ${isDark
+              ? "bg-slate-900/40 border-slate-800 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)]"
               : "bg-white/60 border-slate-200 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)]"
             } backdrop-blur-xl`}
         >
@@ -88,28 +61,28 @@ export default function Stats() {
               ))
             ) : (
               stats.map((stat, i) => {
-              const Icon = IconList[i % IconList.length] || IconList[0];
-              const colorClass = gradientColors[i % gradientColors.length];
-                
+                const Icon = IconList[i % IconList.length] || IconList[0];
+                const colorClass = gradientColors[i % gradientColors.length];
+
                 return (
-                  <div 
-                    key={i} 
+                  <div
+                    key={i}
                     className="group relative p-6 flex flex-col items-center text-center transition-colors duration-300 hover:bg-slate-500/5"
                   >
                     <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 bg-gradient-to-br ${gradientColors[i % gradientColors.length]}`} />
 
                     {/* Content */}
                     <div className="relative z-10 flex flex-col items-center">
-                 <div
-                      className={`inline-flex p-3 bg-gradient-to-r ${colorClass} text-white mb-3`}
-                    >
-                      <Icon size={24} />
-                    </div>  
+                      <div
+                        className={`inline-flex p-3 bg-gradient-to-r ${colorClass} text-white mb-3`}
+                      >
+                        <Icon size={24} />
+                      </div>
 
                       <div className="flex items-baseline gap-1 mb-2">
                         <span className={`text-3xl md:text-4xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-b
-                          ${isDark 
-                            ? "from-white via-slate-200 to-slate-400" 
+                          ${isDark
+                            ? "from-white via-slate-200 to-slate-400"
                             : "from-slate-900 via-slate-700 to-slate-500"}`}
                         >
                           {stat.count}
@@ -124,7 +97,7 @@ export default function Stats() {
                       >
                         {stat.label}
                       </h3>
-                      
+
                       <p className={`text-sm max-w-[200px] leading-relaxed
                         ${isDark ? "text-slate-500" : "text-slate-400"}`}
                       >

@@ -1,8 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
+import { useRouter, useParams } from 'next/navigation';
 
 import TestimonialForm from '@/components/ui/sections/admin/forms/testimonialform';
 import {
@@ -14,111 +12,18 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 
-interface TestimonialTranslation {
-  language: string;
-  content: string;
-}
 
-interface TestimonialApiItem {
-  id: string;
-  name: string;
-  role?: string;
-  avatar?: string;
-  testimonial_translations: TestimonialTranslation[];
-}
+import useAdminTestimonials from '@/hooks/api/admin/testimonials/useAdminTestimonials';
 
-interface TestimonialFormData {
-  name: string;
-  role?: string;
-  avatar?: string;
-  language: string;
-  content: string;
-}
-
-interface PageProps {
-  params: {
-    id: string;
-  };
-}
-
-export default function Page({ params }: PageProps) {
+export default function Page() {
   const router = useRouter();
-  const { id } = params;
+  const routeParams = useParams();
+  const id = routeParams.id as string;
 
-  const [data, setData] = useState<TestimonialFormData | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const { testimonials, loading: fetching } = useAdminTestimonials();
+  const initialData = testimonials.find(t => t.id === id);
 
-  /* ================= FETCH ================= */
-  const fetchTestimonial = useCallback(async () => {
-    try {
-      const response = await fetch('/api/testimonials?lang=en', {
-        cache: 'no-store',
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch testimonials');
-      }
-
-      const result: { data: TestimonialApiItem[] } =
-        await response.json();
-
-      const item = result.data.find(
-        (testimonial) => testimonial.id === id
-      );
-
-      if (!item) {
-        toast.error('Data testimonial tidak ditemukan');
-        router.push('/dashboard/testimonials');
-        return;
-      }
-
-      const translation = item.testimonial_translations[0];
-
-      setData({
-        name: item.name,
-        role: item.role,
-        avatar: item.avatar,
-        language: translation?.language ?? 'en',
-        content: translation?.content ?? '',
-      });
-    } catch (error) {
-      console.error('Fetch testimonial error:', error);
-      toast.error('Gagal memuat data testimonial');
-    }
-  }, [id, router]);
-
-  useEffect(() => {
-    fetchTestimonial();
-  }, [fetchTestimonial]);
-
-  /* ================= SUBMIT ================= */
-  const handleSubmit = async (formData: TestimonialFormData) => {
-    setLoading(true);
-
-    try {
-      const response = await fetch(`/api/testimonials/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        throw new Error('Update failed');
-      }
-
-      toast.success('Testimonial berhasil diperbarui');
-      router.push('/dashboard/testimonials');
-    } catch (error) {
-      console.error('Update testimonial error:', error);
-      toast.error('Gagal memperbarui testimonial');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (!data) {
+  if (fetching) {
     return <p className="p-8">Loading...</p>;
   }
 
@@ -162,11 +67,12 @@ export default function Page({ params }: PageProps) {
       </div>
 
       {/* ================= FORM ================= */}
-      <TestimonialForm
-        initialData={data}
-        onSubmit={handleSubmit}
-        loading={loading}
-      />
+      {initialData && (
+        <TestimonialForm
+          initialData={initialData}
+          onSuccess={() => router.push('/dashboard/testimonials')}
+        />
+      )}
     </div>
   );
 }

@@ -83,10 +83,6 @@ export default function CompaniesAdminPage() {
         finalLogo = uploadJson.url ?? finalLogo
       }
 
-      toast.loading(
-        company.id ? t("admin.updating") : t("admin.creating")
-      )
-
       const res = await fetch("/api/companies/all", {
         method: company.id ? "PATCH" : "POST",
         headers: { "Content-Type": "application/json" },

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabase, supabaseAdmin } from "@/lib/supabase";
+import { translateObject } from "@/lib/translator";
 
 type CertificationTranslationPayload = {
   language: string
@@ -82,7 +83,21 @@ export async function POST(req: Request) {
       )
     }
 
-    const translationPayload = translations.map(
+    const finalTranslations = [...translations];
+
+    if (translations.length === 1) {
+      const source = translations[0];
+      const targetLang = source.language === "id" ? "en" : "id";
+      const translated = await translateObject(
+        source,
+        targetLang,
+        source.language,
+        ["title", "description", "skills"]
+      );
+      finalTranslations.push({ ...translated, language: targetLang });
+    }
+
+    const translationPayload = finalTranslations.map(
       (t: CertificationTranslationPayload) => ({
         certification_id: cert.id,
         language: t.language,

@@ -1,199 +1,33 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
-import Image from 'next/image'
-import { useLocale } from 'next-intl'
-import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { Plus, Pencil, Trash2 } from 'lucide-react'
+import Image from 'next/image'
 
 import DashboardHeader from '@/components/ui/sections/admin/dashboardheader'
-
-import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
+import useAdminProjects from '@/hooks/api/admin/projects/useAdminProjects'
+import useProjectActions from '@/hooks/api/admin/projects/useProjectActions'
 
-/* ================= TYPES ================= */
-
-interface ProjectItem {
-  id: string
-  image_url?: string
-  year?: number
-  technologies?: string[]
-  live_url?: string
-  github_url?: string
-  translation?: {
-    title?: string
-    description?: string
-  } | null
-}
-
-interface ProjectForm {
-  title: string
-  description: string
-  year: number | ''
-  technologies: string
-  live_url: string
-  github_url: string
-  file: File | null
-}
-
-/* ================= CONST ================= */
-
-const EMPTY_FORM: ProjectForm = {
-  title: '',
-  description: '',
-  year: '',
-  technologies: '',
-  live_url: '',
-  github_url: '',
-  file: null,
-}
-
-/* ================= PAGE ================= */
+// Expecting the structure from useAdminProjects
+// AdminProject in useAdminProjects has translation object.
+// We can define it here if needed or just use the hook's return type implicitly.
 
 export default function Page() {
-  const locale = useLocale()
+  const router = useRouter()
+  const t = useTranslations("Dashboard.projects")
+  const tc = useTranslations("Common")
 
-  const [projects, setProjects] = useState<ProjectItem[]>([])
-  const [loading, setLoading] = useState(false)
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const [editing, setEditing] = useState<ProjectItem | null>(null)
-  const [form, setForm] = useState<ProjectForm>(EMPTY_FORM)
-
-  /* ================= FETCH ================= */
-
-  const fetchProjects = useCallback(async () => {
-    setLoading(true)
-    try {
-      const res = await fetch(`/api/projects?lang=${locale}`)
-      const json = await res.json()
-      setProjects(json.data ?? [])
-    } catch {
-      toast.error('Gagal memuat project')
-    } finally {
-      setLoading(false)
-    }
-  }, [locale])
-
-  useEffect(() => {
-    fetchProjects()
-  }, [fetchProjects])
+  const { projects, loading, refreshProjects } = useAdminProjects()
+  const { deleteProject } = useProjectActions(refreshProjects)
 
   /* ================= HANDLERS ================= */
 
-  const openCreate = () => {
-    setEditing(null)
-    setForm(EMPTY_FORM)
-    setDialogOpen(true)
-  }
-
-  const openEdit = (project: ProjectItem) => {
-    setEditing(project)
-    setForm({
-      title: project.translation?.title ?? '',
-      description: project.translation?.description ?? '',
-      year: project.year ?? '',
-      technologies: project.technologies?.join(', ') ?? '',
-      live_url: project.live_url ?? '',
-      github_url: project.github_url ?? '',
-      file: null,
-    })
-    setDialogOpen(true)
-  }
-
-  const updateForm = <K extends keyof ProjectForm>(
-    key: K,
-    value: ProjectForm[K],
-  ) => {
-    setForm(prev => ({ ...prev, [key]: value }))
-  }
-
-  const uploadImage = async (): Promise<string | undefined> => {
-    if (!form.file) return undefined
-
-    const fd = new FormData()
-    fd.append('file', form.file)
-
-    const res = await fetch('/api/upload/image', {
-      method: 'POST',
-      body: fd,
-    })
-
-    if (!res.ok) throw new Error('Upload gagal')
-
-    const json = await res.json()
-    return json.url as string
-  }
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const toastId = toast.loading('Menyimpan...')
-
-    try {
-      const imageUrl = await uploadImage()
-
-      const payload = {
-        ...(editing && { id: editing.id }),
-        image_url: imageUrl,
-        year: form.year || undefined,
-        technologies: form.technologies
-          ? form.technologies
-            .split(',')
-            .map(t => t.trim())
-            .filter(Boolean)
-          : undefined,
-        live_url: form.live_url || undefined,
-        github_url: form.github_url || undefined,
-        translations: [
-          {
-            language: locale,
-            title: form.title,
-            description: form.description,
-          },
-        ],
-      }
-
-      const res = await fetch('/api/projects', {
-        method: editing ? 'PATCH' : 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      })
-
-      if (!res.ok) throw new Error('Request gagal')
-
-      toast.success(editing ? 'Project diperbarui' : 'Project dibuat', {
-        id: toastId,
-      })
-
-      setDialogOpen(false)
-      setForm(EMPTY_FORM)
-      setEditing(null)
-      fetchProjects()
-    } catch {
-      toast.error('Gagal menyimpan', { id: toastId })
-    }
-  }
-
-  const handleDelete = async (id?: string) => {
-    if (!id) return
-    if (!window.confirm('Hapus project ini?')) return
-
-    const toastId = toast.loading('Menghapus...')
-    try {
-      const res = await fetch(`/api/projects?id=${id}`, { method: 'DELETE' })
-      if (!res.ok) throw new Error('Delete gagal')
-
-      toast.success('Project dihapus', { id: toastId })
-      fetchProjects()
-    } catch {
-      toast.error('Gagal menghapus', { id: toastId })
-    }
+  const handleDelete = async (id: string) => {
+    // Hook handles confirmation if implemented there, but current useProjectActions implementation has confirm inside it.
+    await deleteProject(id)
   }
 
   /* ================= RENDER ================= */
@@ -202,52 +36,66 @@ export default function Page() {
     <div className="min-h-screen p-6 space-y-6">
 
       <DashboardHeader
-        title="Projects"
-        description="Kelola project portofolio"
-        actionLabel="Tambah Project"
+        title={t('title')}
+        description={t('description')}
+        actionLabel={t('add')}
         actionIcon={<Plus className="h-4 w-4 mr-2" />}
-        onClick={openCreate}
+        onClick={() => router.push('/dashboard/projects/new')}
       />
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+        {loading &&
+          Array.from({ length: 4 }).map((_, index) => (
+            <div
+              key={index}
+              className="h-[300px] animate-pulse rounded-xl border bg-card"
+            />
+          ))}
+
         {!loading && projects.length === 0 && (
           <div className="col-span-full py-12 text-center text-muted-foreground">
-            Belum ada project. Portofolio kosong itu bukan strategi.
+            {t('empty')}
           </div>
         )}
 
         {projects.map(project => (
-          <Card key={project.id}>
+          <Card key={project.id} className="overflow-hidden">
             {project.image_url && (
-              <Image
-                src={project.image_url}
-                alt={project.translation?.title ?? 'Project image'}
-                width={640}
-                height={360}
-                className="aspect-video object-cover"
-              />
+              <div className="aspect-video relative">
+                <Image
+                  src={project.image_url}
+                  alt={project.translation?.title ?? 'Project image'}
+                  fill
+                  className="object-cover"
+                />
+              </div>
             )}
 
-            <CardHeader>
-              <CardTitle>
+            <CardHeader className="p-4">
+              <CardTitle className="text-lg">
                 {project.translation?.title ?? 'Untitled'}
               </CardTitle>
-              <p className="text-sm text-muted-foreground">
+              <p className="line-clamp-2 text-sm text-muted-foreground min-h-[40px]">
                 {project.translation?.description}
               </p>
             </CardHeader>
 
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-4 p-4 pt-0">
               {project.technologies && (
                 <div className="flex flex-wrap gap-1">
-                  {project.technologies.map(tech => (
+                  {project.technologies.slice(0, 3).map(tech => (
                     <span
                       key={tech}
-                      className="rounded bg-primary/10 px-2 py-1 text-xs text-primary"
+                      className="rounded bg-primary/10 px-2 py-0.5 text-[10px] text-primary font-medium"
                     >
                       {tech}
                     </span>
                   ))}
+                  {project.technologies.length > 3 && (
+                    <span className="text-[10px] text-muted-foreground pt-0.5">
+                      +{project.technologies.length - 3} more
+                    </span>
+                  )}
                 </div>
               )}
 
@@ -256,10 +104,10 @@ export default function Page() {
                   size="sm"
                   variant="outline"
                   className="flex-1"
-                  onClick={() => openEdit(project)}
+                  onClick={() => router.push(`/dashboard/projects/${project.id}/edit`)}
                 >
                   <Pencil className="mr-1 h-3 w-3" />
-                  Edit
+                  {tc('actions.edit')}
                 </Button>
                 <Button
                   size="sm"
@@ -273,83 +121,6 @@ export default function Page() {
           </Card>
         ))}
       </div>
-
-      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>
-              {editing ? 'Edit Project' : 'Tambah Project'}
-            </DialogTitle>
-          </DialogHeader>
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <Input
-              placeholder="Judul"
-              value={form.title}
-              onChange={e => updateForm('title', e.target.value)}
-              required
-            />
-
-            <Input
-              placeholder="Deskripsi"
-              value={form.description}
-              onChange={e => updateForm('description', e.target.value)}
-            />
-
-            <Input
-              type="number"
-              placeholder="Tahun"
-              value={form.year}
-              onChange={e =>
-                updateForm(
-                  'year',
-                  e.target.value ? Number(e.target.value) : '',
-                )
-              }
-            />
-
-            <Input
-              placeholder="React, Next.js, Tailwind"
-              value={form.technologies}
-              onChange={e => updateForm('technologies', e.target.value)}
-            />
-
-            <Input
-              placeholder="Live URL"
-              value={form.live_url}
-              onChange={e => updateForm('live_url', e.target.value)}
-            />
-
-            <Input
-              placeholder="Github URL"
-              value={form.github_url}
-              onChange={e => updateForm('github_url', e.target.value)}
-            />
-
-            <input
-              type="file"
-              accept="image/*"
-              onChange={e =>
-                updateForm('file', e.target.files?.[0] ?? null)
-              }
-              className="block w-full text-sm file:mr-4 file:rounded file:border-0 file:bg-primary file:px-4 file:py-2 file:text-primary-foreground"
-            />
-
-            <div className="flex gap-2 pt-4">
-              <Button type="submit" className="flex-1">
-                {editing ? 'Update' : 'Simpan'}
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setDialogOpen(false)}
-              >
-                Batal
-              </Button>
-            </div>
-          </form>
-        </DialogContent>
-      </Dialog>
     </div>
   )
 }

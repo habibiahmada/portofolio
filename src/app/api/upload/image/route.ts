@@ -17,7 +17,7 @@ export async function POST(req: Request) {
 
     const { data, error } = await supabaseAdmin.storage
       .from(BUCKET)
-      .upload(fileName, fileBuffer, {
+      .upload(fileName, fileBuffer, { 
         contentType: file.type,
         cacheControl: '3600',
         upsert: false,

@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import useArticles from "@/hooks/useArticles";
+import useArticles from "@/hooks/api/public/useArticles";
 import Image from "next/image";
 
 interface UIArticle {
@@ -38,7 +38,7 @@ const Articles: React.FC = () => {
 
   const uiArticles: UIArticle[] = useMemo(() => {
     return (articles || []).map((a, idx) => {
-      const tr = a.article_translations?.[0];
+      const tr = a.translation;
       return {
         id: a.id ?? `article-${idx}`,
         title: tr?.title ?? "",

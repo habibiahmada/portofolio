@@ -4,12 +4,12 @@ import React, { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { Eye, EyeOff, Save, Type } from 'lucide-react'
+import { toast } from 'sonner'
 
 export default function EmailTemplateEditor() {
   const [subject, setSubject] = useState('')
   const [body, setBody] = useState('')
   const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState<string | null>(null)
   const [preview, setPreview] = useState(true)
 
   useEffect(() => {
@@ -27,12 +27,13 @@ export default function EmailTemplateEditor() {
           )
         }
       })
-      .catch((err) => console.error(err))
+      .catch(() => {
+        toast.error('Failed to load email template')
+      })
       .finally(() => setLoading(false))
   }, [])
 
   const save = async () => {
-    setMessage(null)
     setLoading(true)
     try {
       const res = await fetch('/api/email-template', {
@@ -41,171 +42,148 @@ export default function EmailTemplateEditor() {
         body: JSON.stringify({ key: 'contact', subject, body }),
         next: { revalidate: 0 },
       })
+
       const data = await res.json()
+
       if (res.ok && data.ok) {
-        setMessage('Template saved successfully')
+        toast.success('Template saved successfully')
       } else {
-        setMessage('Failed to save template: ' + (data?.error || JSON.stringify(data)))
+        toast.error(
+          data?.error
+            ? `Failed to save template: ${data.error}`
+            : 'Failed to save template'
+        )
       }
-    } catch (err: unknown) {
-      const messageText = err instanceof Error ? err.message : String(err)
-      setMessage('Error: ' + messageText)
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err)
+      toast.error(`Error: ${msg}`)
     } finally {
       setLoading(false)
     }
   }
 
-  const renderPreviewSubject = () => {
-    return subject
+  const renderPreviewSubject = () =>
+    subject
       .replace(/{{name}}/g, 'Habibi')
       .replace(/{{subject}}/g, 'Business Inquiry')
       .replace(/{{email}}/g, 'habibi@example.com')
-  }
 
-  const renderPreviewBody = () => {
-    return body
+  const renderPreviewBody = () =>
+    body
       .replace(/{{name}}/g, 'Habibi')
       .replace(/{{email}}/g, 'habibi@example.com')
       .replace(/{{phone}}/g, '+62 812 3456 7890')
       .replace(/{{subject}}/g, 'Business Inquiry')
-      .replace(/{{message}}/g, 'Hi, I would like to discuss a potential collaboration opportunity. Looking forward to hearing from you.')
-  }
+      .replace(
+        /{{message}}/g,
+        'Hi, I would like to discuss a potential collaboration opportunity. Looking forward to hearing from you.'
+      )
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="flex flex-1 flex-col gap-4 sm:gap-6 p-2 bg-background min-h-screen">
+      <div className="flex flex-1 flex-col gap-4 sm:gap-6 p-2 min-h-screen">
         {/* Header */}
         <div className="mb-8">
           <div className="bg-card rounded-xl p-4 sm:p-6 shadow-sm border border-border">
-            <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">Email Template Editor</h1>
-            <p className="text-muted-foreground text-sm sm:text-base">Customize your contact form notification template</p>
+            <h1 className="text-2xl sm:text-3xl font-bold mb-2">
+              Email Template Editor
+            </h1>
+            <p className="text-muted-foreground text-sm sm:text-base">
+              Customize your contact form notification template
+            </p>
           </div>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-6">
-          {/* Editor Section */}
+          {/* Editor */}
           <div className="space-y-6">
             <div className="bg-card rounded-xl shadow-sm border border-border p-6">
               <div className="flex items-center gap-2 mb-4">
                 <Type className="w-4 h-4 text-slate-600" />
-                <h2 className="text-lg font-medium text-foreground">Template Configuration</h2>
+                <h2 className="text-lg font-medium">
+                  Template Configuration
+                </h2>
               </div>
 
-              {/* Subject Field */}
               <div className="mb-6">
-                <label className="block text-sm font-medium text-muted-foreground mb-2">
+                <label className="block text-sm font-medium mb-2">
                   Email Subject
                 </label>
                 <input
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
-                  placeholder="Enter email subject line..."
-                  className="w-full border border-border rounded-lg px-4 py-2.5 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition bg-transparent"
+                  className="w-full border rounded-lg px-4 py-2.5 bg-transparent"
                 />
-                <p className="mt-2 text-xs text-slate-500">
-                  Available: <code className="bg-slate-100 px-1.5 py-0.5 rounded text-slate-700">{'{{name}}'}</code>, <code className="bg-slate-100 px-1.5 py-0.5 rounded text-slate-700">{'{{subject}}'}</code>
-                </p>
               </div>
 
-              {/* Body Field */}
               <div>
-                <label className="block text-sm font-medium text-muted-foreground mb-2">
+                <label className="block text-sm font-medium mb-2">
                   Email Body
                 </label>
                 <textarea
                   value={body}
                   onChange={(e) => setBody(e.target.value)}
                   rows={14}
-                  placeholder="Enter email body content..."
-                  className="w-full border border-border rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground font-mono text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition resize-none bg-transparent"
+                  className="w-full border rounded-lg px-4 py-3 font-mono text-sm bg-transparent resize-none"
                 />
-                <p className="mt-2 text-xs text-slate-500">
-                  Available: <code className="bg-slate-100 px-1.5 py-0.5 rounded text-slate-700">{'{{name}}'}</code>, <code className="bg-slate-100 px-1.5 py-0.5 rounded text-slate-700">{'{{email}}'}</code>, <code className="bg-slate-100 px-1.5 py-0.5 rounded text-slate-700">{'{{message}}'}</code>, <code className="bg-slate-100 px-1.5 py-0.5 rounded text-slate-700">{'{{phone}}'}</code>
-                </p>
               </div>
             </div>
 
-            {/* Action Buttons */}
             <div className="bg-card rounded-xl shadow-sm border border-border p-6">
-              <div className="flex flex-wrap items-center gap-3">
+              <div className="flex gap-3 flex-wrap">
                 <button
                   onClick={save}
                   disabled={loading}
-                  className="flex items-center gap-2 bg-primary text-primary-foreground hover:opacity-95 disabled:opacity-50 px-5 py-2.5 rounded-lg font-medium transition-colors"
+                  className="flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 rounded-lg disabled:opacity-50"
                 >
                   <Save className="w-4 h-4" />
                   {loading ? 'Saving...' : 'Save Template'}
                 </button>
+
                 <button
-                  onClick={() => setPreview((p) => !p)}
-                  className="flex items-center gap-2 border border-border hover:bg-muted/50 text-muted-foreground px-4 py-2.5 rounded-lg font-medium transition-colors"
                   type="button"
+                  onClick={() => setPreview((p) => !p)}
+                  className="flex items-center gap-2 border px-4 py-2.5 rounded-lg"
                 >
-                  {preview ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {preview ? <EyeOff size={16} /> : <Eye size={16} />}
                   {preview ? 'Hide Preview' : 'Show Preview'}
                 </button>
               </div>
-              {message && (
-                <div className={`mt-4 px-4 py-3 rounded-lg text-sm ${
-                  message.includes('success')
-                    ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                    : 'bg-red-50 text-red-700 border border-red-200'
-                }`}>
-                  {message}
-                </div>
-              )}
             </div>
           </div>
 
-          {/* Preview Section */}
+          {/* Preview */}
           {preview && (
             <div className="space-y-6">
-              <div className="bg-card rounded-xl shadow-sm border border-border overflow-hidden">
-                <div className="border-b border-border px-6 py-4">
-                  <h3 className="text-lg font-medium text-foreground flex items-center gap-2">
+              <div className="bg-card rounded-xl border shadow-sm overflow-hidden">
+                <div className="border-b px-6 py-4">
+                  <h3 className="text-lg font-medium flex items-center gap-2">
                     <Eye className="w-4 h-4" />
                     Live Preview
                   </h3>
                 </div>
 
-                {/* Email Preview Container */}
                 <div className="p-6">
-                  {/* Subject Preview */}
                   <div className="mb-6">
-                    <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2">Subject Line</div>
-                    <div className="bg-card border border-border rounded-lg px-4 py-3">
-                      <p className="text-foreground font-medium">{renderPreviewSubject()}</p>
+                    <div className="text-xs uppercase mb-2">
+                      Subject Line
+                    </div>
+                    <div className="border rounded-lg px-4 py-3">
+                      {renderPreviewSubject()}
                     </div>
                   </div>
 
-                  {/* Body Preview */}
                   <div>
-                    <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2">Email Content</div>
-                    <div className="bg-card border border-border rounded-lg p-6">
-                      <div className="prose prose-slate prose-sm max-w-none">
-                        <ReactMarkdown 
-                          remarkPlugins={[remarkGfm]}
-                          components={{
-                            p: (props) => <p className="text-muted-foreground leading-relaxed mb-3 last:mb-0" {...props} />,
-                            strong: (props) => <strong className="text-foreground font-semibold" {...props} />,
-                            a: (props) => <a className="text-primary underline" {...props} />,
-                            code: (props) => <code className="bg-muted/30 text-foreground px-1 py-0.5 rounded text-xs" {...props} />
-                          }}
-                        >
-                          {renderPreviewBody()}
-                        </ReactMarkdown>
-                      </div>
+                    <div className="text-xs uppercase mb-2">
+                      Email Content
+                    </div>
+                    <div className="border rounded-lg p-6">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        {renderPreviewBody()}
+                      </ReactMarkdown>
                     </div>
                   </div>
                 </div>
-              </div>
-
-              {/* Info Card */}
-              <div className="bg-card border border-border rounded-xl p-6">
-                <h4 className="text-sm font-medium text-foreground mb-3">Preview Information</h4>
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  The preview above shows how your email will appear with sample data. Placeholders are automatically replaced with example values to help you visualize the final result.
-                </p>
               </div>
             </div>
           )}

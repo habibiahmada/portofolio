@@ -5,7 +5,7 @@ import { useTheme } from "next-themes";
 import { useTranslations } from "next-intl";
 import { ExternalLink } from "lucide-react";
 
-import useProjects from "@/hooks/useProjects";
+import useProjects from "@/hooks/api/public/useProjects";
 import ProjectRow from "./projectrow";
 import Link from "next/link";
 import SectionHeader from "../SectionHeader";

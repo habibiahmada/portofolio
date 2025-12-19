@@ -7,19 +7,12 @@ import { useState, useEffect } from "react";
 import Ctabutton from "../ctabutton";
 import TechIconsDecorations from "./techicon";
 import Writertext from "./writertext";
-import { useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import HeroSkeleton from "./heroskeleton";
 import CVPreviewModal from "./cvpreviewmodal";
+import useHero from "@/hooks/api/public/useHero";
 
-interface HeroData {
-  image_url: string;
-  cv_url: string;
-  greeting: string;
-  description: string;
-  typewriter_texts: string[];
-  developer_tag: string;
-  console_tag: string;
-}
+
 
 const HeroImage = ({
   isDark,
@@ -88,34 +81,19 @@ const BackgroundGrid = ({ isDark }: { isDark: boolean }) => (
 
 export default function Hero({ blurDataURL }: { blurDataURL: string }) {
   const { resolvedTheme } = useTheme();
-  const [isVisible, setIsVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [heroData, setHeroData] = useState<HeroData | null>(null);
-  const [loading, setLoading] = useState(true);
   const [showCVModal, setShowCVModal] = useState(false);
-  const locale = useLocale();
+  const t = useTranslations("hero");
+
+  const { heroData, loading } = useHero();
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-
-    // Fetch hero data
-    async function fetchData() {
-      try {
-        const res = await fetch(`/api/hero?lang=${locale}`);
-        const result = await res.json();
-        if (result.data) {
-          setHeroData(result.data);
-        }
-      } catch (error) {
-        console.error("Failed to fetch hero data", error);
-      } finally {
-        setLoading(false);
-        setIsVisible(true);
-      }
+    if (!loading && heroData) {
+      setIsVisible(true);
     }
-
-    fetchData();
-  }, [locale]);
+  }, [loading, heroData]);
 
   if (!mounted || loading) return <HeroSkeleton />;
 
@@ -146,14 +124,14 @@ export default function Hero({ blurDataURL }: { blurDataURL: string }) {
           >
             <div className="space-y-2">
               <span className="text-lg font-medium tracking-wide text-blue-600 dark:text-blue-400">
-                {heroData?.greeting || "Hello, I'm..."}
+                {heroData?.greeting || t("hello", { default: "Hello, I'm..." })}
               </span>
               <h1
                 id="hero-heading"
                 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight"
                 style={{ minHeight: "10rem" }}
               >
-                <Writertext isDark={isDark} texts={heroData?.typewriter_texts || ["Fullstack Developer", "Software Engineer"]} />
+                <Writertext isDark={isDark} texts={heroData?.typewriter_texts || t.raw("fallbackTypewriter")} />
               </h1>
               <div
                 className={`h-1 w-24 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 ${isVisible ? "animate-pulse" : ""
@@ -165,11 +143,11 @@ export default function Hero({ blurDataURL }: { blurDataURL: string }) {
               className={`text-lg sm:text-xl lg:text-2xl leading-relaxed max-w-lg font-light ${isDark ? "text-slate-300" : "text-slate-600"
                 }`}
             >
-              {heroData?.description || "Building modern web applications."}
+              {heroData?.description || t("fallbackDescription", { default: "Building modern web applications." })}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Ctabutton isDark={isDark} icon={Eye} text={locale === 'id' ? 'Lihat Projects' : 'View Projects'} href="#projects" />
+              <Ctabutton isDark={isDark} icon={Eye} text={t("viewProjects", { default: "View Projects" })} href="#projects" />
 
               <button
                 onClick={() => setShowCVModal(true)}
@@ -179,7 +157,7 @@ export default function Hero({ blurDataURL }: { blurDataURL: string }) {
                   }`}
               >
                 <FileText size={20} />
-                {locale === 'id' ? 'Lihat CV' : 'View CV'}
+                {t("viewCV", { default: "View CV" })}
               </button>
             </div>
           </div>
@@ -231,7 +209,6 @@ export default function Hero({ blurDataURL }: { blurDataURL: string }) {
         onClose={() => setShowCVModal(false)}
         cvUrl={heroData?.cv_url || "#"}
         isDark={isDark}
-        locale={locale}
       />
     </>
   );

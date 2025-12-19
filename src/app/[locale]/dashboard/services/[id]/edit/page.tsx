@@ -1,8 +1,9 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { toast } from 'sonner';
+import { useLocale } from 'next-intl';
 import ServiceForm, {
   ServiceFormData,
 } from '@/components/ui/sections/admin/forms/serviceform';
@@ -16,6 +17,7 @@ import {
 } from '@/components/ui/breadcrumb';
 
 interface ServiceTranslation {
+  language: string;
   title: string;
   description: string;
   bullets: string[];
@@ -29,54 +31,38 @@ interface ServiceApiItem {
   service_translations: ServiceTranslation[];
 }
 
-interface PageProps {
-  params: {
-    id: string;
-  };
-}
-
-export default function Page({ params }: PageProps) {
+export default function Page() {
   const router = useRouter();
-  const { id } = params;
+  const routeParams = useParams();
+  const id = routeParams.id as string;
+  const locale = useLocale();
 
-  const [data, setData] = useState<ServiceFormData | null>(null);
+  const [data, setData] = useState<ServiceApiItem | null>(null);
   const [loading, setLoading] = useState(false);
 
   /* ================= FETCH DATA ================= */
   const fetchService = useCallback(async () => {
     try {
-      const response = await fetch('/api/services?lang=en', {
+      const response = await fetch(`/api/services/${id}?lang=${locale}`, {
         cache: 'no-store',
       });
 
       if (!response.ok) {
-        throw new Error('Failed to fetch services');
+        if (response.status === 404) {
+          toast.error('Data service tidak ditemukan');
+          router.push('/dashboard/services');
+          return;
+        }
+        throw new Error('Failed to fetch service');
       }
 
-      const result: { data: ServiceApiItem[] } = await response.json();
-      const item = result.data.find((s) => s.id === id);
-
-      if (!item) {
-        toast.error('Data service tidak ditemukan');
-        router.push('/dashboard/services');
-        return;
-      }
-
-      const t = item.service_translations[0];
-
-      setData({
-        key: item.key,
-        icon: item.icon,
-        color: item.color,
-        title: t?.title ?? '',
-        description: t?.description ?? '',
-        bullets: t?.bullets ?? [],
-      });
+      const result: { data: ServiceApiItem } = await response.json();
+      setData(result.data);
     } catch (error) {
       console.error('Fetch service error:', error);
       toast.error('Gagal memuat data service');
     }
-  }, [id, router]);
+  }, [id, router, locale]);
 
   useEffect(() => {
     fetchService();
@@ -93,7 +79,7 @@ export default function Page({ params }: PageProps) {
         color: formData.color,
         translations: [
           {
-            language: 'en',
+            language: locale,
             title: formData.title,
             description: formData.description,
             bullets: formData.bullets.filter(Boolean),

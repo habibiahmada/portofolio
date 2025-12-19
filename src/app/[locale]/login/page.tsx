@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from '@/i18n/navigation'
-import { useLocale } from 'next-intl'
+
 import { useAuth } from '@/contexts/AuthContext'
 import { Github, Chrome } from 'lucide-react'
 import { useTheme } from 'next-themes'
+import { useLocale, useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -24,6 +25,7 @@ export default function LoginPage() {
   const router = useRouter()
   const locale = useLocale()
   const { resolvedTheme } = useTheme()
+  const t = useTranslations('Login')
 
   useEffect(() => {
     setMounted(true)
@@ -60,7 +62,7 @@ export default function LoginPage() {
       await signIn(email, password)
       router.push('/dashboard')
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Login failed')
+      setError(err instanceof Error ? err.message : t('errors.loginFailed'))
     } finally {
       setLoading(false)
     }
@@ -73,7 +75,7 @@ export default function LoginPage() {
     try {
       await signInWithGoogle(locale)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Google login failed')
+      setError(err instanceof Error ? err.message : t('errors.googleFailed'))
       setLoading(false)
     }
   }
@@ -85,7 +87,7 @@ export default function LoginPage() {
     try {
       await signInWithGitHub(locale)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'GitHub login failed')
+      setError(err instanceof Error ? err.message : t('errors.githubFailed'))
       setLoading(false)
     }
   }
@@ -102,11 +104,11 @@ export default function LoginPage() {
         <div className="text-center">
           <h2 className="text-4xl lg:text-5xl font-bold leading-tight block bg-gradient-to-r
               from-cyan-500 via-blue-500 to-cyan-500 bg-clip-text text-transparent mb-5">
-            Portfolio Access
+            {t('title')}
           </h2>
           <p className={`mt-2 text-sm ${isDark ? 'text-slate-400' : 'text-gray-600'
             }`}>
-            This is a private portfolio. Access is restricted.
+            {t('description')}
           </p>
         </div>
 
@@ -116,13 +118,13 @@ export default function LoginPage() {
             {error && (
               <div className="mb-6 p-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
                 <p className="text-sm font-medium text-red-600 dark:text-red-400 mb-1">
-                  {error === 'oauth_error' && 'OAuth Error'}
-                  {error === 'no_code' && 'No Authorization Code'}
-                  {error === 'exchange_error' && 'Session Exchange Failed'}
-                  {error === 'no_session' && 'Session Creation Failed'}
-                  {error === 'unauthorized' && 'Access Denied'}
-                  {error === 'callback_error' && 'Callback Error'}
-                  {error === 'auth_callback_error' && 'Authentication Error'}
+                  {error === 'oauth_error' && t('errors.oauth_error')}
+                  {error === 'no_code' && t('errors.no_code')}
+                  {error === 'exchange_error' && t('errors.exchange_error')}
+                  {error === 'no_session' && t('errors.no_session')}
+                  {error === 'unauthorized' && t('errors.unauthorized')}
+                  {error === 'callback_error' && t('errors.callback_error')}
+                  {error === 'auth_callback_error' && t('errors.auth_callback_error')}
                   {!['oauth_error', 'no_code', 'exchange_error', 'no_session', 'unauthorized', 'callback_error', 'auth_callback_error'].includes(error) && error}
                 </p>
                 {errorDescription && (
@@ -136,7 +138,7 @@ export default function LoginPage() {
               <div>
                 <Label htmlFor="email" className={`block text-sm font-medium ${isDark ? 'text-slate-300' : 'text-gray-700'
                   }`}>
-                  Email Address
+                  {t('form.emailLabel')}
                 </Label>
                 <div className="mt-1 relative">
                   <Input
@@ -151,7 +153,7 @@ export default function LoginPage() {
                       ? 'bg-slate-800 border-slate-600 text-white placeholder-slate-400'
                       : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
                       }`}
-                    placeholder="Enter your email"
+                    placeholder={t('form.emailPlaceholder')}
                   />
                 </div>
               </div>
@@ -159,7 +161,7 @@ export default function LoginPage() {
               <div>
                 <Label htmlFor="password" className={`block text-sm font-medium ${isDark ? 'text-slate-300' : 'text-gray-700'
                   }`}>
-                  Password
+                  {t('form.passwordLabel')}
                 </Label>
                 <div className="mt-1 relative">
                   <Input
@@ -174,7 +176,7 @@ export default function LoginPage() {
                       ? 'bg-slate-800 border-slate-600 text-white placeholder-slate-400'
                       : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
                       }`}
-                    placeholder="Enter your password"
+                    placeholder={t('form.passwordPlaceholder')}
                   />
                 </div>
               </div>
@@ -184,7 +186,7 @@ export default function LoginPage() {
                 disabled={loading}
                 className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
-                {loading ? 'Signing in...' : 'Sign In'}
+                {loading ? t('form.signingIn') : t('form.signIn')}
               </Button>
             </form>
 
@@ -198,7 +200,7 @@ export default function LoginPage() {
                 <div className="relative flex justify-center text-sm">
                   <span className={`px-2 ${isDark ? 'bg-slate-950 text-slate-400' : 'bg-white text-gray-500'
                     }`}>
-                    Or continue with
+                    {t('divider')}
                   </span>
                 </div>
               </div>
@@ -239,7 +241,7 @@ export default function LoginPage() {
                 className={`text-sm ${isDark ? 'text-slate-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'
                   } transition-colors`}
               >
-                ← Back to Portfolio
+                {t('backToHome')}
               </Link>
             </div>
           </div>

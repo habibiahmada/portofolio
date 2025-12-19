@@ -7,55 +7,23 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from "@/components/ui/accordion";
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import SectionHeader from "../SectionHeader";
 import { useTheme } from "next-themes";
+import useFaqs from "@/hooks/api/public/useFaqs";
 
-interface FAQ {
-  id: string;
-  order_index: number;
-  faq_translations: {
-    question: string;
-    answer: string;
-    lang: string;
-  }[];
-}
+
 
 const ModernFAQSection: React.FC = () => {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const [faqs, setFaqs] = useState<FAQ[]>([]);
-  const [loading, setLoading] = useState(true);
-
   const t = useTranslations("faqs");
-  const locale = useLocale();
+
+  const { faqs, loading } = useFaqs();
 
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  useEffect(() => {
-    if (!mounted) return;
-
-    const fetchFaqs = async () => {
-      try {
-        const res = await fetch(`/api/faqs?lang=${locale}`, {
-          cache: "no-store",
-        });
-
-        if (!res.ok) throw new Error("Failed to fetch FAQs");
-
-        const data = await res.json();
-        setFaqs(data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchFaqs();
-  }, [mounted, locale]);
 
   if (!mounted) return null;
 

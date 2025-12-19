@@ -14,29 +14,30 @@ import { Button } from '@/components/ui/button'
 import { supabase, supabaseAdmin } from '@/lib/supabase'
 import Link from 'next/link'
 import DashboardHeader from '@/components/ui/sections/admin/dashboardheader'
+import { getTranslations } from 'next-intl/server'
 
 // Force dynamic rendering since we are fetching data
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
-function timeAgo(dateString: string) {
+function timeAgo(dateString: string, t: (key: string, values?: Record<string, string | number | Date>) => string) {
   const date = new Date(dateString)
   const now = new Date()
   const seconds = Math.floor((now.getTime() - date.getTime()) / 1000)
 
-  if (seconds < 60) return 'just now'
+  if (seconds < 60) return t('time.justNow')
 
   let interval = seconds / 31536000
-  if (interval > 1) return Math.floor(interval) + " years ago"
+  if (interval > 1) return t('time.yearsAgo', { count: Math.floor(interval) })
   interval = seconds / 2592000
-  if (interval > 1) return Math.floor(interval) + " months ago"
+  if (interval > 1) return t('time.monthsAgo', { count: Math.floor(interval) })
   interval = seconds / 86400
-  if (interval > 1) return Math.floor(interval) + " days ago"
+  if (interval > 1) return t('time.daysAgo', { count: Math.floor(interval) })
   interval = seconds / 3600
-  if (interval > 1) return Math.floor(interval) + " hours ago"
+  if (interval > 1) return t('time.hoursAgo', { count: Math.floor(interval) })
   interval = seconds / 60
-  if (interval > 1) return Math.floor(interval) + " minutes ago"
-  return Math.floor(seconds) + " seconds ago"
+  if (interval > 1) return t('time.minutesAgo', { count: Math.floor(interval) })
+  return t('time.secondsAgo', { count: Math.floor(seconds) })
 }
 
 async function getDashboardData() {
@@ -83,70 +84,73 @@ async function getDashboardData() {
   }
 }
 
-export default async function DashboardPage() {
+export default async function DashboardPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'Dashboard' });
+  const tc = await getTranslations({ locale, namespace: 'Common' });
   const { counts, messages } = await getDashboardData()
 
   return (
     <div className="min-h-screen p-6 space-y-6 relative">
       <DashboardHeader
-        title="Dashboard"
-        description="Overview of your portfolio content and messages."
+        title={t('header.title')}
+        description={t('header.description')}
       />
 
       {/* Stats Cards Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-3 sm:gap-4">
         <StatCard
           icon={FolderOpen}
-          title="Projects"
+          title={t('stats.projects')}
           value={counts.projects}
           color="blue"
           href="/dashboard/projects"
         />
         <StatCard
           icon={FileText}
-          title="Articles"
+          title={t('stats.articles')}
           value={counts.articles}
           color="green"
-          href="/dashboard/articles/all"
+          href="/dashboard/articles"
         />
         <StatCard
           icon={BookOpen}
-          title="Services"
+          title={t('stats.services')}
           value={counts.services}
           color="orange"
           href="/dashboard/services"
         />
         <StatCard
           icon={Wrench}
-          title="Tools & Tech"
+          title={t('stats.tools')}
           value={counts.tools}
           color="purple"
           href="/dashboard/tools-tech"
         />
         <StatCard
           icon={GraduationCap}
-          title="Experience"
+          title={t('stats.experience')}
           value={counts.experiences}
           color="indigo"
           href="/dashboard/exp-edu"
         />
         <StatCard
           icon={Award}
-          title="Certifications"
+          title={t('stats.certifications')}
           value={counts.certifications}
           color="yellow"
           href="/dashboard/certificates"
         />
         <StatCard
           icon={Users}
-          title="Testimonials"
+          title={t('stats.testimonials')}
           value={counts.testimonials}
           color="pink"
           href="/dashboard/testimonials"
         />
         <StatCard
           icon={Mail}
-          title="Messages"
+          title={t('stats.messages')}
           value={counts.messages}
           color="red"
           href="/dashboard/contacts"
@@ -159,7 +163,7 @@ export default async function DashboardPage() {
         {/* Recent Messages */}
         <div className="lg:col-span-2 bg-card rounded-xl p-4 sm:p-6 shadow-sm border border-border">
           <div className="flex items-center justify-between mb-4 sm:mb-6">
-            <h2 className="text-lg sm:text-xl font-semibold text-foreground">Recent Messages</h2>
+            <h2 className="text-lg sm:text-xl font-semibold text-foreground">{t('recentMessages.title')}</h2>
             <MessageSquare className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" />
           </div>
           <div className="space-y-3 mb-4">
@@ -177,7 +181,7 @@ export default async function DashboardPage() {
                       </div>
                     </div>
                     <span className="text-xs text-muted-foreground whitespace-nowrap">
-                      {timeAgo(message.created_at)}
+                      {timeAgo(message.created_at, tc)}
                     </span>
                   </div>
                   <p className="text-sm font-medium text-foreground mb-1">{message.subject}</p>
@@ -186,44 +190,44 @@ export default async function DashboardPage() {
               ))
             ) : (
               <div className="text-center py-8 text-muted-foreground text-sm">
-                No messages found.
+                {t('recentMessages.empty')}
               </div>
             )}
           </div>
           <Link href="/dashboard/contacts">
             <Button variant="outline" className="w-full">
-              View All Messages
+              {t('recentMessages.viewAll')}
             </Button>
           </Link>
         </div>
 
         {/* Quick Actions */}
         <div className="bg-card rounded-xl p-4 sm:p-6 shadow-sm border border-border h-fit">
-          <h2 className="text-lg sm:text-xl font-semibold text-foreground mb-4">Quick Actions</h2>
+          <h2 className="text-lg sm:text-xl font-semibold text-foreground mb-4">{t('quickActions.title')}</h2>
           <div className="flex flex-col gap-3">
             <QuickActionButton
-              label="Add Project"
-              href="/dashboard/projects/add"
+              label={t('quickActions.addProject')}
+              href="/dashboard/projects/new"
               color="blue"
             />
             <QuickActionButton
-              label="Add Article"
-              href="/dashboard/articles/add"
+              label={t('quickActions.addArticle')}
+              href="/dashboard/articles/new"
               color="green"
             />
             <QuickActionButton
-              label="Add Service"
-              href="/dashboard/services"
+              label={t('quickActions.addService')}
+              href="/dashboard/services/new"
               color="orange"
             />
             <QuickActionButton
-              label="Add Link/Tool"
-              href="/dashboard/tools-tech/add"
+              label={t('quickActions.addTool')}
+              href="/dashboard/tools-tech"
               color="purple"
             />
             <QuickActionButton
-              label="Add Certification"
-              href="/dashboard/certificates/add"
+              label={t('quickActions.addCertification')}
+              href="/dashboard/certificates/new"
               color="yellow"
             />
           </div>

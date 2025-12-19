@@ -27,7 +27,7 @@ export default function ProjectRow({
                 <div className="relative overflow-hidden shadow-xl bg-slate-100 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 transition-all duration-500 ">
                     <div className="aspect-[12/6] relative overflow-hidden">
                         <Image
-                            src={project.image_url}
+                            src={project.image_url || "/projects/project-1.png"}
                             alt={translation?.title || "Untitled Project"}
                             width={450}
                             height={450}

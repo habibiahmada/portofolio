@@ -1,4 +1,28 @@
 {
+  "Metadata": {
+    "title": "Habibi Ahmad Aziz | Portofolio",
+    "description": "My personal portfolio website",
+    "dashboardTitle": "Dashboard | Portofolio"
+  },
+  "Common": {
+    "time": {
+      "justNow": "just now",
+      "yearsAgo": "{count} years ago",
+      "monthsAgo": "{count} months ago",
+      "daysAgo": "{count} days ago",
+      "hoursAgo": "{count} hours ago",
+      "minutesAgo": "{count} minutes ago",
+      "secondsAgo": "{count} seconds ago"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "save": "Save",
+      "cancel": "Cancel",
+      "add": "Add",
+      "back": "Back"
+    }
+  },
   "Header": {
     "brand": "habibiahmada",
     "nav": {
@@ -16,76 +40,82 @@
     "subtitle": "Manage your homepage hero banner content, typewriter texts, and downloadable assets.",
     "loading": "Loading hero data...",
     "error": "Failed to load hero data.",
-
+    "viewProjects": "View Projects",
+    "viewCV": "View CV",
+    "hello": "Hello, I'm...",
+    "fallbackDescription": "Building modern web applications.",
+    "fallbackTypewriter": [
+      "Fullstack Developer",
+      "Software Engineer"
+    ],
     "contentCard": {
       "title": "Content & Configuration",
       "description": "Configure the main text and technical badges shown on the banner.",
-    "greeting": {
-      "label": "Greeting Text",
-      "placeholder": "e.g. Hi! I'm a..."
+      "greeting": {
+        "label": "Greeting Text",
+        "placeholder": "e.g. Hi! I'm a..."
+      },
+      "developerTag": {
+        "label": "Developer Tag",
+        "placeholder": "<Developer />"
+      },
+      "consoleTag": {
+        "label": "Console Log Message",
+        "placeholder": "Hello World!"
+      },
+      "bio": {
+        "label": "Bio Description",
+        "placeholder": "Write a short bio..."
+      }
     },
-    "developerTag": {
-      "label": "Developer Tag",
-      "placeholder": "<Developer />"
+    "techIcons": {
+      "fullStack": "Full Stack",
+      "aiMl": "AI/ML",
+      "performance": "Performance",
+      "cloud": "Cloud"
     },
-    "consoleTag": {
-      "label": "Console Log Message",
-      "placeholder": "Hello World!"
+    "typewriter": {
+      "title": "Typewriter Animation",
+      "description": "Rotating text phrases that describe your roles.",
+      "empty": "No typewriter texts added yet.",
+      "inputPlaceholder": "Add a new role (e.g. Full Stack Developer)",
+      "add": "Add",
+      "items": "Items"
     },
-    "bio": {
-      "label": "Bio Description",
-      "placeholder": "Write a short bio..."
+    "cv": {
+      "title": "CV / Resume",
+      "description": "Manage the PDF file available for download on your site.",
+      "currentLabel": "Current CV",
+      "none": "No CV uploaded",
+      "view": "View CV",
+      "currentStatus": "Current Status",
+      "uploadNew": "Upload New File",
+      "noCv": "No CV uploaded yet.",
+      "preview": "Preview Current File",
+      "pendingTitle": "New File Selected",
+      "pendingDesc": "is ready to upload.",
+      "pendingHint": "Click \"Save Changes\" below to apply.",
+      "change": "Change Selection",
+      "modal": {
+        "title": "CV Preview",
+        "download": "Download"
+      }
+    },
+    "actions": {
+      "save": "Save Changes",
+      "saving": "Saving...",
+      "reset": "Reset",
+      "unsavedChanges": "Unsaved Changes"
+    },
+    "toast": {
+      "loading": "Saving changes...",
+      "uploading": "Uploading CV...",
+      "updating": "Updating content...",
+      "success": "All changes saved successfully!",
+      "loadError": "Failed to load hero data",
+      "saveError": "Failed to save changes",
+      "pdfOnly": "Please upload a PDF file"
     }
-  },
-  "techIcons": {
-    "fullStack": "Full Stack",
-    "aiMl": "AI/ML",
-    "performance": "Performance",
-    "cloud": "Cloud"
-  },
-
-  "typewriter": {
-    "title": "Typewriter Animation",
-    "description": "Rotating text phrases that describe your roles.",
-    "empty": "No typewriter texts added yet.",
-    "inputPlaceholder": "Add a new role (e.g. Full Stack Developer)",
-    "add": "Add",
-    "items": "Items"
-  },
-
-  "cv": {
-    "title": "CV / Resume",
-    "description": "Manage the PDF file available for download on your site.",
-    "currentLabel": "Current CV",
-    "none": "No CV uploaded",
-    "view": "View CV",
-    "currentStatus": "Current Status",
-    "uploadNew": "Upload New File",
-    "noCv": "No CV uploaded yet.",
-    "preview": "Preview Current File",
-    "pendingTitle": "New File Selected",
-    "pendingDesc": "is ready to upload.",
-    "pendingHint": "Click \"Save Changes\" below to apply.",
-    "change": "Change Selection"
-  },
-
-  "actions": {
-    "save": "Save Changes",
-    "saving": "Saving...",
-    "reset": "Reset",
-    "unsavedChanges": "Unsaved Changes"
-
-  },
-
-  "toast": {
-    "loading": "Saving changes...",
-    "uploading": "Uploading CV...",
-    "updating": "Updating content...",
-    "success": "All changes saved successfully!",
-    "loadError": "Failed to load hero data",
-    "saveError": "Failed to save changes",
-    "pdfOnly": "Please upload a PDF file"
-  }
   },
   "stats": {
     "headerTitle": "Statistics Management",
@@ -205,11 +235,21 @@
     "description1": "More than 50+ clients have entrusted their projects and experienced extraordinary results."
   },
   "articles": {
-    "titleLine1": "Articles & Media",
+    "badge": "Blog",
+    "titleLine1": "Insights &",
+    "titleHighlight": "Articles",
     "description1": "Latest articles, in-depth tutorials, and insights into modern web development from an industry professional perspective",
     "button": "Browse all articles",
     "loading": "Loading articles...",
-    "error": "Failed to load articles"
+    "error": "Failed to load articles",
+    "empty": "This is the articles section",
+    "searchPlaceholder": "Search articles...",
+    "allTags": "All",
+    "noArticles": "No articles found",
+    "noArticlesDesc": "Try adjusting your search or filter.",
+    "featured": "Featured",
+    "readMore": "Read More",
+    "moreArticles": "More Articles"
   },
   "faqs": {
     "titleLine1": "Frequently Asked Questions",
@@ -308,6 +348,126 @@
       "performance": "Performance Optimization",
       "consulting": "Technical Consulting",
       "webapp": "Web App Development"
+    }
+  },
+  "Login": {
+    "title": "Portfolio Access",
+    "description": "This is a private portfolio. Access is restricted.",
+    "form": {
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "Enter your email",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "signIn": "Sign In",
+      "signingIn": "Signing in..."
+    },
+    "divider": "Or continue with",
+    "backToHome": "← Back to Portfolio",
+    "errors": {
+      "oauth_error": "OAuth Error",
+      "no_code": "No Authorization Code",
+      "exchange_error": "Session Exchange Failed",
+      "no_session": "Session Creation Failed",
+      "unauthorized": "Access Denied",
+      "callback_error": "Callback Error",
+      "auth_callback_error": "Authentication Error",
+      "loginFailed": "Login failed",
+      "googleFailed": "Google login failed",
+      "githubFailed": "GitHub login failed"
+    }
+  },
+  "Dashboard": {
+    "header": {
+      "title": "Dashboard",
+      "description": "Overview of your portfolio content and messages.",
+      "notifications": "Notifications",
+      "notificationCount": "You have {count} notifications",
+      "search": "Search...",
+      "systemStatus": "System Status",
+      "online": "Online",
+      "secure": "Secure"
+    },
+    "stats": {
+      "projects": "Projects",
+      "articles": "Articles",
+      "services": "Services",
+      "tools": "Tools & Tech",
+      "experience": "Experience",
+      "certifications": "Certifications",
+      "testimonials": "Testimonials",
+      "messages": "Messages"
+    },
+    "recentMessages": {
+      "title": "Recent Messages",
+      "viewAll": "View All Messages",
+      "empty": "No messages found."
+    },
+    "quickActions": {
+      "title": "Quick Actions",
+      "addProject": "Add Project",
+      "addArticle": "Add Article",
+      "addService": "Add Service",
+      "addTool": "Add Link/Tool",
+      "addCertification": "Add Certification"
+    },
+    "projects": {
+      "title": "Projects",
+      "description": "Manage portfolio projects",
+      "add": "Add Project",
+      "edit": "Edit Project",
+      "empty": "No projects yet. A portfolio is more than just a strategy.",
+      "confirmDelete": "Delete this project?",
+      "saving": "Saving...",
+      "deleting": "Deleting...",
+      "saveSuccess": "Project saved",
+      "deleteSuccess": "Project deleted",
+      "saveError": "Failed to save",
+      "deleteError": "Failed to delete",
+      "loadError": "Failed to load projects",
+      "placeholders": {
+        "title": "Title",
+        "description": "Description",
+        "year": "Year",
+        "technologies": "React, Next.js, Tailwind",
+        "liveUrl": "Live URL",
+        "githubUrl": "Github URL"
+      }
+    },
+    "articles": {
+      "title": "Articles",
+      "description": "Manage blog articles",
+      "add": "Add Article",
+      "new": "New Article",
+      "newDescription": "Create a new article with rich text content",
+      "edit": "Edit Article",
+      "editDescription": "Update article content and settings",
+      "empty": "No articles yet. Start sharing your thoughts.",
+      "untitled": "Untitled",
+      "confirmDelete": "Delete this article?",
+      "loading": "Loading...",
+      "saving": "Saving...",
+      "deleting": "Deleting...",
+      "publishing": "Publishing...",
+      "unpublishing": "Unpublishing...",
+      "saveSuccess": "Article saved",
+      "deleteSuccess": "Article deleted",
+      "publishSuccess": "Article published",
+      "unpublishSuccess": "Article unpublished",
+      "saveError": "Failed to save",
+      "deleteError": "Failed to delete",
+      "updateError": "Failed to update",
+      "loadError": "Failed to load articles",
+      "published": "Published",
+      "draft": "Draft",
+      "table": {
+        "image": "Image",
+        "title": "Title",
+        "tags": "Tags",
+        "readTime": "Read Time",
+        "status": "Status",
+        "date": "Date",
+        "actions": "Actions"
+      }
     }
   }
 }

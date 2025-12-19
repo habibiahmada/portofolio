@@ -8,15 +8,15 @@ if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error('Missing Supabase environment variables. Please check your .env.local file.')
 }
 
-
 if (!supabaseServiceRoleKey) {
   console.warn('SUPABASE_SERVICE_ROLE_KEY is not set. Some server-side operations may not work.')
-  
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const supabase = createClient<any>(supabaseUrl, supabaseAnonKey)
 
-export const supabaseAdmin = supabaseServiceRoleKey ? createClient(
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const supabaseAdmin = supabaseServiceRoleKey ? createClient<any>(
   supabaseUrl,
   supabaseServiceRoleKey,
   {
@@ -26,4 +26,3 @@ export const supabaseAdmin = supabaseServiceRoleKey ? createClient(
     }
   }
 ) : null
-

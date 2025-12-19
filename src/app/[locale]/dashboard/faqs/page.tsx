@@ -1,7 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
-import { useLocale } from 'next-intl';
+import { useState } from 'react';
 import DashboardHeader from '@/components/ui/sections/admin/dashboardheader';
 import { Button } from '@/components/ui/button';
 import {
@@ -11,65 +10,20 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import FAQForm from '@/components/ui/sections/admin/forms/faqform';
+import useAdminFaqs from '@/hooks/api/admin/faqs/useAdminFaqs';
+import useFaqActions from '@/hooks/api/admin/faqs/useFaqActions';
 
-interface FAQTranslation {
-  lang: string;
-  question: string;
-  answer: string;
-}
-
-interface FAQ {
-  id: string;
-  order_index: number;
-  is_active: boolean;
-  faq_translations: FAQTranslation[];
-}
+import { FAQ } from '@/lib/types/database';
 
 export default function FAQAdminPage() {
-  const locale = useLocale();
-
-  const [faqs, setFaqs] = useState<FAQ[]>([]);
   const [open, setOpen] = useState<boolean>(false);
   const [editingFAQ, setEditingFAQ] = useState<FAQ | null>(null);
 
-  const fetchFaqs = useCallback(async () => {
-    try {
-      const response = await fetch(`/api/faqs?lang=${locale}`, {
-        cache: 'no-store',
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch FAQs');
-      }
-
-      const data: FAQ[] = await response.json();
-      setFaqs(data);
-    } catch (error) {
-      console.error('Fetch FAQs error:', error);
-    }
-  }, [locale]);
-
-  useEffect(() => {
-    fetchFaqs();
-  }, [fetchFaqs]);
+  const { faqs, refreshFaqs } = useAdminFaqs();
+  const { deleteFaq } = useFaqActions(refreshFaqs);
 
   const handleDelete = async (id: string) => {
-    const confirmed = window.confirm('Delete this FAQ?');
-    if (!confirmed) return;
-
-    try {
-      const response = await fetch(`/api/faqs/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to delete FAQ');
-      }
-
-      fetchFaqs();
-    } catch (error) {
-      console.error('Delete FAQ error:', error);
-    }
+    await deleteFaq(id);
   };
 
   return (
@@ -86,7 +40,7 @@ export default function FAQAdminPage() {
 
       <div className="grid gap-4">
         {faqs.map((faq) => {
-          const translation = faq.faq_translations[0];
+          const translation = faq.faq_translations?.[0];
 
           return (
             <div
@@ -139,7 +93,7 @@ export default function FAQAdminPage() {
             initialData={editingFAQ ?? undefined}
             onSuccess={() => {
               setOpen(false);
-              fetchFaqs();
+              refreshFaqs();
             }}
           />
         </DialogContent>

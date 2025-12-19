@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
+import { translateObject } from '@/lib/translator';
 
 interface FAQTranslationPayload {
   lang: string;
@@ -98,7 +99,16 @@ export async function POST(req: Request) {
     }
 
     /* ===== Insert Translations ===== */
-    const rows = translations.map(
+    const finalTranslations = [...translations];
+
+    if (translations.length === 1) {
+      const source = translations[0];
+      const targetLang = source.lang === 'id' ? 'en' : 'id';
+      const translated = await translateObject(source, targetLang, source.lang, ['question', 'answer']);
+      finalTranslations.push({ ...translated, lang: targetLang });
+    }
+
+    const rows = finalTranslations.map(
       (translation): FAQTranslationPayload & { faq_id: string } => ({
         faq_id: faq.id,
         lang: translation.lang,

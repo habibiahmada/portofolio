@@ -5,28 +5,36 @@ import { Locale, routing } from '@/i18n/routing';
 import { Providers } from './providers';
 import { getMessages } from '@/lib/getMessages';
 import { Analytics } from "@vercel/analytics/next"
+import { Toaster } from "sonner";
 import Script from 'next/script';
+
+import { getTranslations } from 'next-intl/server';
 
 type Props = {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 };
 
-export const metadata = {
-  title: "Habibi Ahmad Aziz | Portofolio",
-  description: "My personal portfolio website",
-  openGraph: {
-    title: "Habibi Ahmad Aziz | Portofolio",
-  },
-  icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
-    ],
-    shortcut: "/favicon-96x96.png",
-    apple: "/apple-touch-icon.png",
-  },
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'Metadata' });
+
+  return {
+    title: t('title'),
+    description: t('description'),
+    openGraph: {
+      title: t('title'),
+    },
+    icons: {
+      icon: [
+        { url: "/favicon.ico", sizes: "any" },
+        { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+      ],
+      shortcut: "/favicon-96x96.png",
+      apple: "/apple-touch-icon.png",
+    },
+  };
+}
 
 export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params;
@@ -60,6 +68,7 @@ export default async function LocaleLayout({ children, params }: Props) {
           >
             {children}
             <Analytics />
+            <Toaster position="top-center" richColors />
           </Providers>
         </NextIntlClientProvider>
       </body>
