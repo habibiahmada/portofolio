@@ -15,10 +15,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
+import useTestimonialActions from "@/hooks/api/admin/testimonials/useTestimonialActions";
 
 /* ================= TYPES ================= */
 
 interface TestimonialInitialData {
+  id?: string;
   name?: string;
   role?: string;
   company?: string;
@@ -35,23 +37,14 @@ interface FormState {
   content: string;
 }
 
-interface SubmitPayload extends FormState {
-  avatar: string;
-  language: "en" | "id";
-}
-
 interface Props {
   initialData?: TestimonialInitialData;
-  onSubmit: (data: SubmitPayload) => Promise<void>;
-  loading?: boolean;
-  language?: "en" | "id";
+  onSuccess?: () => void;
 }
 
 export default function TestimonialForm({
   initialData,
-  onSubmit,
-  loading = false,
-  language = "en",
+  onSuccess,
 }: Props) {
   /* ================= FORM ================= */
   const [form, setForm] = useState<FormState>({
@@ -71,6 +64,9 @@ export default function TestimonialForm({
     useState<string>("");
   const [uploadingAvatar, setUploadingAvatar] =
     useState(false);
+
+  // Hooks
+  const { createTestimonial, updateTestimonial, uploadImage, submitting } = useTestimonialActions(onSuccess);
 
   /* ================= INIT ================= */
   useEffect(() => {
@@ -99,32 +95,17 @@ export default function TestimonialForm({
   };
 
   /* ================= AVATAR UPLOAD ================= */
-  async function uploadAvatar() {
+  async function handleUpload() {
     if (!selectedAvatar) return;
 
-    const toastId = toast.loading("Uploading avatar...");
     setUploadingAvatar(true);
-
     try {
-      const fd = new FormData();
-      fd.append("file", selectedAvatar);
-
-      const res = await fetch("/api/upload/avatar", {
-        method: "POST",
-        body: fd,
-      });
-
-      if (!res.ok) throw new Error();
-
-      const data: { url: string } = await res.json();
-
-      setAvatarUrl(data.url);
-      setAvatarPreview(data.url);
+      const url = await uploadImage(selectedAvatar);
+      setAvatarUrl(url);
+      setAvatarPreview(url);
       setSelectedAvatar(null);
-
-      toast.success("Avatar uploaded", { id: toastId });
     } catch {
-      toast.error("Avatar upload failed", { id: toastId });
+      // Error handled in hook
     } finally {
       setUploadingAvatar(false);
     }
@@ -139,13 +120,16 @@ export default function TestimonialForm({
       return;
     }
 
-    const payload: SubmitPayload = {
+    const payload = {
       ...form,
       avatar: avatarUrl,
-      language,
     };
 
-    await onSubmit(payload);
+    if (initialData?.id) {
+      await updateTestimonial(initialData.id, payload);
+    } else {
+      await createTestimonial(payload);
+    }
   }
 
   /* ================= UI ================= */
@@ -195,7 +179,7 @@ export default function TestimonialForm({
         {selectedAvatar && (
           <Button
             type="button"
-            onClick={uploadAvatar}
+            onClick={handleUpload}
             disabled={uploadingAvatar}
             className="gap-2"
           >
@@ -216,8 +200,8 @@ export default function TestimonialForm({
             >
               <Star
                 className={`w-6 h-6 ${v <= form.rating
-                    ? "fill-yellow-400 text-yellow-400"
-                    : "text-muted-foreground"
+                  ? "fill-yellow-400 text-yellow-400"
+                  : "text-muted-foreground"
                   }`}
               />
             </button>
@@ -236,10 +220,10 @@ export default function TestimonialForm({
 
         <Button
           type="submit"
-          disabled={loading || !avatarUrl}
+          disabled={submitting || !avatarUrl}
           className="w-full"
         >
-          {loading
+          {submitting
             ? "Saving..."
             : "Save Testimonial"}
         </Button>

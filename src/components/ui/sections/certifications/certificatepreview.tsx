@@ -2,63 +2,51 @@
 
 import { Document, Page, pdfjs } from "react-pdf";
 import { useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import useCertificatePdf from "@/hooks/api/public/useCertificatePdf";
 import { useTranslations } from "next-intl";
-import { Button } from "../../button";
+import { Button } from "@/components/ui/button";
 
 if (typeof window !== "undefined" && !pdfjs.GlobalWorkerOptions.workerSrc) {
   pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-    "pdfjs-dist/build/pdf.worker.mjs",
+    "pdfjs-dist/build/pdf.worker.min.mjs",
     import.meta.url
   ).toString();
 }
 
-interface CertificatePreviewProps {
-  file: string;
-  className?: string;
-  initialPage?: number;
+export interface DashboardCertificatePreviewProps {
+  fileUrl: string;
+  active: boolean;
+  onClose: () => void;
   onLoadingChange?: (loading: boolean) => void;
+  className?: string;
 }
 
-const CertificatePreview: React.FC<CertificatePreviewProps> = ({
-  file,
-  className = "",
-  initialPage = 1,
+export default function CertificatePreview({
+  fileUrl,
+  active,
   onLoadingChange,
-}) => {
+  className = "",
+}: DashboardCertificatePreviewProps) {
   const t = useTranslations("certifications");
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const [pdfData, setPdfData] = useState<ArrayBuffer | null>(null);
   const [numPages, setNumPages] = useState<number>(0);
-  const [currentPage, setCurrentPage] = useState(initialPage);
-  const [pageWidth, setPageWidth] = useState(300);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageWidth, setPageWidth] = useState(0);
+  const [pageLoading, setPageLoading] = useState(false);
 
-  const [pdfLoading, setPdfLoading] = useState(true);
-  const [pageLoading, setPageLoading] = useState(true);
+  const { pdfData, loading: pdfLoading } = useCertificatePdf(fileUrl);
+
+  const initialPage = 1;
   const MAX_PDF_WIDTH = 420;
 
-  /* ---------- fetch PDF ONCE ---------- */
   useEffect(() => {
-    let active = true;
-
-    setPdfLoading(true);
-    onLoadingChange?.(true);
-
-    fetch(file)
-      .then((res) => res.arrayBuffer())
-      .then((buffer) => {
-        if (!active) return;
-        setPdfData(buffer);
-        setPdfLoading(false);
-        onLoadingChange?.(false);
-      });
-
-    return () => {
-      active = false;
-    };
-  }, [file, onLoadingChange]);
+    if (active) {
+      onLoadingChange?.(pdfLoading);
+    }
+  }, [active, pdfLoading, onLoadingChange]);
 
   /* ---------- responsive width ---------- */
   useEffect(() => {
@@ -142,6 +130,4 @@ const CertificatePreview: React.FC<CertificatePreviewProps> = ({
       )}
     </div>
   );
-};
-
-export default CertificatePreview;
+}

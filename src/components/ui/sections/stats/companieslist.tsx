@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 import "./stats.css";
-import useCompanies from "@/hooks/useCompanies";
+import useCompanies from "@/hooks/api/public/useCompanies";
 import { Company } from "@/lib/types/database";
 
 export default function Companieslist() {

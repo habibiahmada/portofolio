@@ -8,7 +8,7 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import SectionHeader from "../SectionHeader";
 import { useTheme } from "next-themes";
-import useTestimonials from "@/hooks/useTestimonials";
+import useTestimonials from "@/hooks/api/public/useTestimonials";
 import TestimonialCardSkeleton from "./testimonialcardskeleton";
 
 const TestimonialSection = () => {

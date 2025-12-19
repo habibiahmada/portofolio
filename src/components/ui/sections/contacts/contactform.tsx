@@ -16,15 +16,7 @@ import ReCaptcha from '../../reCaptcha';
 import Alert from '@/components/ui/alert';
 
 // Types and Interfaces
-export interface ContactFormData {
-  name: string;
-  email: string;
-  phone: string;
-  subject: string;
-  message: string;
-  attachment?: File | null;
-  recaptcha: boolean;
-}
+import { ContactFormData } from '@/hooks/api/public/useContact';
 
 interface ServiceOption {
   value: string;

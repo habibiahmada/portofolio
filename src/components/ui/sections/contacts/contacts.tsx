@@ -18,7 +18,8 @@ import { toast } from 'sonner';
 
 // UI Components
 import SectionHeader from "../SectionHeader";
-import ContactForm, { ContactFormData } from './contactform';
+import ContactForm from './contactform';
+import useContact, { ContactFormData } from "@/hooks/api/public/useContact";
 
 // Types and Interfaces
 interface ContactInfo {
@@ -39,23 +40,23 @@ interface SocialLink {
 }
 
 const SOCIAL_LINKS: SocialLink[] = [
-  { 
-    icon: Linkedin, 
-    href: 'https://www.linkedin.com/in/habibi-ahmad-aziz', 
+  {
+    icon: Linkedin,
+    href: 'https://www.linkedin.com/in/habibi-ahmad-aziz',
     label: 'LinkedIn',
     bgClass: 'hover:bg-[#0077b5]',
     textClass: 'group-hover:text-white'
   },
-  { 
-    icon: Github, 
-    href: 'https://www.github.com/habibiahmada', 
+  {
+    icon: Github,
+    href: 'https://www.github.com/habibiahmada',
     label: 'GitHub',
     bgClass: 'hover:bg-[#333]',
     textClass: 'group-hover:text-white'
   },
-  { 
-    icon: Instagram, 
-    href: 'https://www.instagram.com/habibiahmad.a/', 
+  {
+    icon: Instagram,
+    href: 'https://www.instagram.com/habibiahmad.a/',
     label: 'Instagram',
     bgClass: 'hover:bg-gradient-to-tr hover:from-[#f09433] hover:via-[#dc2743] hover:to-[#bc1888]',
     textClass: 'group-hover:text-white'
@@ -95,9 +96,9 @@ const ContactInfoItem: React.FC<{ info: ContactInfo }> = ({ info }) => {
           </p>
         )}
         {info.subContent && (
-           <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-             {info.subContent}
-           </p>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+            {info.subContent}
+          </p>
         )}
       </div>
     </div>
@@ -142,45 +143,11 @@ const ContactSection: React.FC = () => {
     email: false
   });
 
+  const { submitContact } = useContact();
+
   const handleFormSubmit = async (formData: ContactFormData) => {
     try {
-      // Prepare payload
-      const payload: Record<string, unknown> = { ...formData };
-
-      if (formData.attachment) {
-        const file = formData.attachment as File;
-        const dataUrl = await new Promise<string>((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(String(reader.result ?? ""));
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
-        });
-
-        payload.attachment = {
-          name: file.name,
-          type: file.type,
-          size: file.size,
-          dataUrl,
-        };
-      }
-
-      // Send request
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-        next: { revalidate: 0 },
-      });
-
-      if (!res.ok) {
-        if (res.status === 429) {
-          toast.error("Terlalu banyak permintaan", {
-            description: "Silakan tunggu sebentar sebelum mengirim pesan lagi.",
-          });
-          return;
-        }
-        throw new Error("FAILED");
-      }
+      await submitContact(formData);
 
       toast.success("Pesan terkirim", {
         description: "Terima kasih, pesanmu sudah masuk dan akan dibalas.",
@@ -188,9 +155,15 @@ const ContactSection: React.FC = () => {
 
     } catch (error) {
       console.error("Contact form error:", error);
-      toast.error("Gagal mengirim pesan", {
-        description: "Terjadi kesalahan. Coba lagi beberapa saat.",
-      });
+      if ((error as Error).message === "TOO_MANY_REQUESTS") {
+        toast.error("Terlalu banyak permintaan", {
+          description: "Silakan tunggu sebentar sebelum mengirim pesan lagi.",
+        });
+      } else {
+        toast.error("Gagal mengirim pesan", {
+          description: "Terjadi kesalahan. Coba lagi beberapa saat.",
+        });
+      }
     }
   };
 
@@ -254,7 +227,7 @@ const ContactSection: React.FC = () => {
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        
+
         {/* Header - More space below */}
         <div className="mb-16 lg:mb-24">
           <SectionHeader
@@ -266,17 +239,17 @@ const ContactSection: React.FC = () => {
 
         {/* Layout Grid - Updated Proportions */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          
+
           {/* Left Column: Contact Info & Socials (4 cols) */}
           <div className="lg:col-span-5 space-y-10 order-2 lg:order-1">
-            
+
             {/* Intro Text for Info */}
             <div className="space-y-4">
               <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
                 {t('contactInfo.title')}
               </h3>
               <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-                 Feel free to reach out for collaborations, questions, or just a friendly hello. I usually respond within a few hours.
+                Feel free to reach out for collaborations, questions, or just a friendly hello. I usually respond within a few hours.
               </p>
             </div>
 

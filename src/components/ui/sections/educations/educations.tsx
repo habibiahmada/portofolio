@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { Briefcase, GraduationCap } from "lucide-react";
-import useExperiences from "@/hooks/useExperiences";
+import useExperiences from "@/hooks/api/public/useExperiences";
 import { useTranslations } from "next-intl";
 import StickyNav from "./stickynav";
 import TimelineCard from "./timelinecard";
@@ -53,9 +53,8 @@ export default function Education() {
   return (
     <section
       id="experience"
-      className={`w-full py-20 transition-colors duration-500 ${
-        isDark ? "bg-[#0B1120]" : "bg-slate-50"
-      }`}
+      className={`w-full py-20 transition-colors duration-500 ${isDark ? "bg-[#0B1120]" : "bg-slate-50"
+        }`}
     >
       <div className="max-w-[95rem] mx-auto">
 
@@ -79,27 +78,24 @@ export default function Education() {
 
         {/* TABS */}
         <div className="flex justify-center mb-16">
-          <div className={`p-1.5 rounded-2xl flex gap-1 ${
-            isDark ? "bg-slate-900 border border-slate-800" : "bg-white border border-slate-200"
-          }`}>
+          <div className={`p-1.5 rounded-2xl flex gap-1 ${isDark ? "bg-slate-900 border border-slate-800" : "bg-white border border-slate-200"
+            }`}>
             {(["experience", "education"] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`relative px-6 py-3 text-sm font-bold transition-all cursor-pointer ${
-                  activeTab === tab
+                className={`relative px-6 py-3 text-sm font-bold transition-all cursor-pointer ${activeTab === tab
                     ? isDark
                       ? "text-white"
                       : "text-slate-800"
                     : isDark
                       ? "text-slate-500 hover:text-slate-300"
                       : "text-slate-500 hover:text-slate-700"
-                }`}
+                  }`}
               >
                 {activeTab === tab && (
-                  <div className={`absolute inset-0 ${
-                    isDark ? "bg-slate-800" : "bg-slate-100"
-                  }`} />
+                  <div className={`absolute inset-0 ${isDark ? "bg-slate-800" : "bg-slate-100"
+                    }`} />
                 )}
                 <span className="relative z-10 flex items-center gap-2">
                   {tab === "experience" ? <Briefcase size={16} /> : <GraduationCap size={16} />}

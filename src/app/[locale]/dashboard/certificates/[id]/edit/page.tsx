@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import CertificateForm from "@/components/ui/sections/admin/forms/certificateform";
 import {
@@ -11,43 +10,25 @@ import {
     BreadcrumbSeparator,
     BreadcrumbLink,
 } from "@/components/ui/breadcrumb";
-import { useLocale } from "next-intl";
-
-interface Certificate {
-    id: string;
-    title: string;
-    issuer?: string;
-    issue_date?: string;
-    expiry_date?: string | null;
-    credential_url?: string | null;
-    description?: string | null;
-}
-
-interface CertificateResponse {
-    data: Certificate[];
-}
+import useAdminCertificates from "@/hooks/api/admin/certificates/useAdminCertificates";
 
 export default function EditCertificatePage() {
     const params = useParams<{ id: string }>();
     const id = params.id;
-    const locale = useLocale();
 
-    const [data, setData] = useState<Certificate | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
+    const { certificates, loading } = useAdminCertificates();
+    const certificate = certificates.find(c => c.id === id);
 
-    useEffect(() => {
-        if (!id) return;
+    // Initial data might need mapping if the form expects specific structure
+    // Certificate in useAdminCertificates has certification_translations or translation
+    // CertificateForm expects CertificateInitialData which has issuer, year, preview, certification_translations
 
-        fetch(`/api/certificates?lang=${locale}`)
-            .then((res) => res.json() as Promise<CertificateResponse>)
-            .then((json) => {
-                const found = json.data?.find(
-                    (c: Certificate) => c.id === id
-                );
-                setData(found ?? null);
-            })
-            .finally(() => setLoading(false));
-    }, [id, locale]);
+    const initialData = certificate ? {
+        issuer: certificate.issuer,
+        year: Number(certificate.year),
+        preview: certificate.preview,
+        certification_translations: certificate.certification_translations
+    } : undefined;
 
     return (
         <div className="min-h-screen">
@@ -92,10 +73,10 @@ export default function EditCertificatePage() {
                 </div>
             </div>
 
-            {data && id && (
+            {initialData && id && (
                 <CertificateForm
                     mode="edit"
-                    initialData={data}
+                    initialData={initialData}
                     certificateId={id}
                 />
             )}

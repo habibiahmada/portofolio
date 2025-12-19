@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import {
     Plus,
     X,
@@ -11,7 +12,6 @@ import {
     FileText,
     Clock,
 } from "lucide-react";
-import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -22,6 +22,7 @@ import { toast } from "sonner";
 import TiptapEditor from "@/components/ui/tiptap-editor";
 import HtmlRenderer from "@/components/ui/html-renderer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import useArticleActions from "@/hooks/api/admin/articles/useArticleActions";
 
 /* ================= TYPES ================= */
 
@@ -33,11 +34,29 @@ export interface ArticleFormData {
     tags: string[];
     read_time: string;
     image: string;
+    image_url: string; // Helper for image preview logic if needed, but mainly 'image' is sent to API? 
+    // Wait, API likely expects 'image_url' or 'image'? 
+    // useArticleActions interface has 'image_url'. 
+    // Let's align with useArticleActions: 'image_url'.
     published: boolean;
 }
 
+// Aligning with the hook's expected data structure
+interface ArticleActionData {
+    title: string;
+    slug: string;
+    content: string;
+    excerpt: string;
+    image_url: string;
+    published: boolean;
+    tags: string[];
+    read_time: string;
+}
+
 interface ArticleInitialData {
+    id?: string;
     image?: string;
+    image_url?: string;
     published?: boolean;
     article_translations?: Array<{
         language: string;
@@ -48,12 +67,20 @@ interface ArticleInitialData {
         tags: string[];
         read_time: string;
     }>;
+    // Fallback if data comes flattened
+    translation?: {
+        title: string;
+        slug: string;
+        content: string;
+        excerpt: string;
+        tags: string[];
+        read_time: string;
+    };
 }
 
 interface Props {
     initialData?: ArticleInitialData;
-    onSubmit: (data: ArticleFormData) => Promise<void>;
-    loading?: boolean;
+    onSuccess?: () => void; // Optional callback
 }
 
 function generateSlug(title: string): string {
@@ -75,8 +102,7 @@ function calculateReadTime(content: string): string {
 
 export default function ArticleForm({
     initialData,
-    onSubmit,
-    loading = false,
+    onSuccess,
 }: Props) {
     const [showPreview, setShowPreview] = useState(true);
     const [tagInput, setTagInput] = useState("");
@@ -89,18 +115,23 @@ export default function ArticleForm({
         tags: [],
         read_time: "1 min",
         image: "",
+        image_url: "",
         published: false,
     });
 
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string>("");
-    const [uploading, setUploading] = useState(false);
+
+    // Use the hook
+    const { createArticle, updateArticle, uploadImage, submitting } = useArticleActions(onSuccess);
+    const [uploading, setUploading] = useState(false); // Local uploading state for file upload specifically
 
     /* ================= INIT ================= */
     useEffect(() => {
         if (!initialData) return;
 
-        const t = initialData.article_translations?.[0];
+        const t = initialData.article_translations?.[0] || initialData.translation;
+        const img = initialData.image_url || initialData.image || "";
 
         setForm({
             title: t?.title ?? "",
@@ -109,12 +140,13 @@ export default function ArticleForm({
             excerpt: t?.excerpt ?? "",
             tags: t?.tags ?? [],
             read_time: t?.read_time ?? "1 min",
-            image: initialData.image ?? "",
+            image: img,
+            image_url: img,
             published: initialData.published ?? false,
         });
 
-        if (initialData.image) {
-            setPreviewUrl(initialData.image);
+        if (img) {
+            setPreviewUrl(img);
         }
     }, [initialData]);
 
@@ -156,34 +188,24 @@ export default function ArticleForm({
     const handleUpload = async () => {
         if (!selectedFile) return;
 
-        const toastId = toast.loading("Uploading image...");
         setUploading(true);
-
         try {
-            const fd = new FormData();
-            fd.append("file", selectedFile);
-
-            const res = await fetch("/api/upload/image", {
-                method: "POST",
-                body: fd,
-            });
-
-            if (!res.ok) throw new Error("Upload failed");
-
-            const data = await res.json();
-            update("image", data.url);
-            setPreviewUrl(data.url);
+            const url = await uploadImage(selectedFile);
+            update("image_url", url);
+            update("image", url); // Keep both in sync for now
+            setPreviewUrl(url);
             setSelectedFile(null);
-            toast.success("Image uploaded", { id: toastId });
         } catch {
-            toast.error("Failed to upload image", { id: toastId });
+            // Hook handles toast error
         } finally {
             setUploading(false);
         }
     };
 
+    /* ================= SUBMIT ================= */
     const submit = async () => {
-        if (loading || uploading) return;
+        if (submitting || uploading) return;
+
         if (!form.title.trim()) {
             toast.error("Please enter a title");
             return;
@@ -192,7 +214,23 @@ export default function ArticleForm({
             toast.error("Please enter content");
             return;
         }
-        await onSubmit(form);
+
+        const payload: ArticleActionData = {
+            title: form.title,
+            slug: form.slug,
+            content: form.content,
+            excerpt: form.excerpt,
+            image_url: form.image_url || form.image,
+            published: form.published,
+            tags: form.tags,
+            read_time: form.read_time
+        };
+
+        if (initialData?.id) {
+            await updateArticle(initialData.id, payload);
+        } else {
+            await createArticle(payload);
+        }
     };
 
     /* ================= UI ================= */
@@ -372,9 +410,9 @@ export default function ArticleForm({
                         Preview Card
                     </Button>
 
-                    <Button onClick={submit} disabled={loading || uploading} className="gap-2">
+                    <Button onClick={submit} disabled={submitting || uploading} className="gap-2">
                         <Save className="w-4 h-4" />
-                        {loading ? "Saving..." : "Save Article"}
+                        {submitting ? "Saving..." : "Save Article"}
                     </Button>
                 </div>
             </div>

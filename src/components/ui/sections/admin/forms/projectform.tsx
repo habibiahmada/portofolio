@@ -15,20 +15,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
+import useProjectActions, { ProjectFormData } from "@/hooks/api/admin/projects/useProjectActions";
 
 /* ================= TYPES ================= */
 
-export interface ProjectFormData {
-    title: string;
-    description: string;
-    year: number;
-    technologies: string[];
-    live_url: string;
-    github_url: string;
-    image_url: string;
-}
-
 interface ProjectInitialData {
+    id?: string;
     image_url?: string;
     year?: number;
     technologies?: string[];
@@ -39,18 +31,21 @@ interface ProjectInitialData {
         title: string;
         description: string;
     }>;
+    // Fallback if data comes flattened or transformed
+    translation?: {
+        title: string;
+        description: string;
+    } | null;
 }
 
 interface Props {
     initialData?: ProjectInitialData;
-    onSubmit: (data: ProjectFormData) => Promise<void>;
-    loading?: boolean;
+    onSuccess?: () => void;
 }
 
 export default function ProjectForm({
     initialData,
-    onSubmit,
-    loading = false,
+    onSuccess,
 }: Props) {
     const [showPreview, setShowPreview] = useState(true);
     const [techInput, setTechInput] = useState("");
@@ -67,13 +62,16 @@ export default function ProjectForm({
 
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string>("");
+
+    // Hooks
+    const { createProject, updateProject, uploadImage, submitting } = useProjectActions(onSuccess);
     const [uploading, setUploading] = useState(false);
 
     /* ================= INIT ================= */
     useEffect(() => {
         if (!initialData) return;
 
-        const t = initialData.projects_translations?.[0];
+        const t = initialData.projects_translations?.[0] || initialData.translation;
 
         setForm({
             title: t?.title ?? "",
@@ -116,39 +114,37 @@ export default function ProjectForm({
     const handleUpload = async () => {
         if (!selectedFile) return;
 
-        const toastId = toast.loading("Uploading image...");
         setUploading(true);
-
         try {
-            const fd = new FormData();
-            fd.append("file", selectedFile);
-
-            const res = await fetch("/api/upload/image", {
-                method: "POST",
-                body: fd,
-            });
-
-            if (!res.ok) throw new Error("Upload failed");
-
-            const data = await res.json();
-            update("image_url", data.url);
-            setPreviewUrl(data.url);
+            const url = await uploadImage(selectedFile);
+            update("image_url", url);
+            setPreviewUrl(url);
             setSelectedFile(null);
-            toast.success("Image uploaded", { id: toastId });
         } catch {
-            toast.error("Failed to upload image", { id: toastId });
+            // Toast handled in hook
         } finally {
             setUploading(false);
         }
     };
 
+    /* ================= SUBMIT ================= */
     const submit = async () => {
-        if (loading || uploading) return;
+        if (submitting || uploading) return;
         if (!form.image_url) {
             toast.error("Please upload an image first");
             return;
         }
-        await onSubmit(form);
+        // Basic validation
+        if (!form.title) {
+            toast.error("Title is required");
+            return;
+        }
+
+        if (initialData?.id) {
+            await updateProject(initialData.id, form);
+        } else {
+            await createProject(form);
+        }
     };
 
     /* ================= UI ================= */
@@ -281,9 +277,9 @@ export default function ProjectForm({
                         Preview
                     </Button>
 
-                    <Button onClick={submit} disabled={loading || uploading} className="gap-2">
+                    <Button onClick={submit} disabled={submitting || uploading} className="gap-2">
                         <Save className="w-4 h-4" />
-                        {loading ? "Saving..." : "Save Project"}
+                        {submitting ? "Saving..." : "Save Project"}
                     </Button>
                 </div>
             </div>

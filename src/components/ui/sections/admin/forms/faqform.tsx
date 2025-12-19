@@ -5,6 +5,7 @@ import { useLocale } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import useFaqActions, { FAQFormData } from '@/hooks/api/admin/faqs/useFaqActions';
 
 interface FAQTranslation {
   lang: string;
@@ -16,7 +17,7 @@ interface FAQData {
   id: string;
   order_index: number;
   is_active: boolean;
-  faq_translations: FAQTranslation[];
+  faq_translations?: FAQTranslation[];
 }
 
 interface FAQFormProps {
@@ -30,7 +31,7 @@ export default function FAQForm({
 }: FAQFormProps) {
   const locale = useLocale();
 
-  const existingTranslation = initialData?.faq_translations.find(
+  const existingTranslation = initialData?.faq_translations?.find(
     (translation) => translation.lang === locale
   );
 
@@ -40,45 +41,23 @@ export default function FAQForm({
   const [answer, setAnswer] = useState<string>(
     existingTranslation?.answer ?? ''
   );
-  const [loading, setLoading] = useState<boolean>(false);
+
+  const { createFaq, updateFaq, submitting } = useFaqActions(onSuccess);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setLoading(true);
 
-    const payload = {
+    const payload: FAQFormData = {
+      question,
+      answer,
       order_index: initialData?.order_index ?? 0,
       is_active: true,
-      translations: [
-        {
-          lang: locale,
-          question,
-          answer,
-        },
-      ],
     };
 
-    try {
-      const response = await fetch(
-        initialData ? `/api/faqs/${initialData.id}` : '/api/faqs',
-        {
-          method: initialData ? 'PUT' : 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error('Failed to save FAQ');
-      }
-
-      onSuccess();
-    } catch (error) {
-      console.error('FAQ save error:', error);
-    } finally {
-      setLoading(false);
+    if (initialData) {
+      await updateFaq(initialData.id, payload);
+    } else {
+      await createFaq(payload);
     }
   };
 
@@ -108,8 +87,8 @@ export default function FAQForm({
       </div>
 
       <div className="flex justify-end">
-        <Button type="submit" disabled={loading}>
-          {loading ? 'Menyimpan...' : 'Simpan'}
+        <Button type="submit" disabled={submitting}>
+          {submitting ? 'Menyimpan...' : 'Simpan'}
         </Button>
       </div>
     </form>

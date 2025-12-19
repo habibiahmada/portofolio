@@ -1,75 +1,33 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useLocale, useTranslations } from 'next-intl'
-import { toast } from 'sonner'
+import { useTranslations } from 'next-intl'
 import { Plus, Pencil, Trash2 } from 'lucide-react'
+import Image from 'next/image'
 
 import DashboardHeader from '@/components/ui/sections/admin/dashboardheader'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import useAdminProjects from '@/hooks/api/admin/projects/useAdminProjects'
+import useProjectActions from '@/hooks/api/admin/projects/useProjectActions'
 
-interface ProjectItem {
-  id: string
-  image_url?: string
-  year?: number
-  technologies?: string[]
-  live_url?: string
-  github_url?: string
-  translation?: {
-    title?: string
-    description?: string
-  } | null
-}
-
-/* ================= PAGE ================= */
+// Expecting the structure from useAdminProjects
+// AdminProject in useAdminProjects has translation object.
+// We can define it here if needed or just use the hook's return type implicitly.
 
 export default function Page() {
-  const locale = useLocale()
   const router = useRouter()
   const t = useTranslations("Dashboard.projects")
   const tc = useTranslations("Common")
 
-  const [projects, setProjects] = useState<ProjectItem[]>([])
-  const [loading, setLoading] = useState(false)
-
-  /* ================= FETCH ================= */
-
-  const fetchProjects = useCallback(async () => {
-    setLoading(true)
-    try {
-      const res = await fetch(`/api/projects?lang=${locale}`)
-      const json = await res.json()
-      setProjects(json.data ?? [])
-    } catch {
-      toast.error(t('loadError'))
-    } finally {
-      setLoading(false)
-    }
-  }, [locale, t])
-
-  useEffect(() => {
-    fetchProjects()
-  }, [fetchProjects])
+  const { projects, loading, refreshProjects } = useAdminProjects()
+  const { deleteProject } = useProjectActions(refreshProjects)
 
   /* ================= HANDLERS ================= */
 
-  const handleDelete = async (id?: string) => {
-    if (!id) return
-    if (!window.confirm(t('confirmDelete'))) return
-
-    const toastId = toast.loading(t('deleting'))
-    try {
-      const res = await fetch(`/api/projects/${id}`, { method: 'DELETE' })
-      if (!res.ok) throw new Error(t('deleteError'))
-
-      toast.success(t('deleteSuccess'), { id: toastId })
-      fetchProjects()
-    } catch {
-      toast.error(t('deleteError'), { id: toastId })
-    }
+  const handleDelete = async (id: string) => {
+    // Hook handles confirmation if implemented there, but current useProjectActions implementation has confirm inside it.
+    await deleteProject(id)
   }
 
   /* ================= RENDER ================= */

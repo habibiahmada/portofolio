@@ -7,19 +7,12 @@ import { useState, useEffect } from "react";
 import Ctabutton from "../ctabutton";
 import TechIconsDecorations from "./techicon";
 import Writertext from "./writertext";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import HeroSkeleton from "./heroskeleton";
 import CVPreviewModal from "./cvpreviewmodal";
+import useHero from "@/hooks/api/public/useHero";
 
-interface HeroData {
-  image_url: string;
-  cv_url: string;
-  greeting: string;
-  description: string;
-  typewriter_texts: string[];
-  developer_tag: string;
-  console_tag: string;
-}
+
 
 const HeroImage = ({
   isDark,
@@ -88,35 +81,19 @@ const BackgroundGrid = ({ isDark }: { isDark: boolean }) => (
 
 export default function Hero({ blurDataURL }: { blurDataURL: string }) {
   const { resolvedTheme } = useTheme();
-  const [isVisible, setIsVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [heroData, setHeroData] = useState<HeroData | null>(null);
-  const [loading, setLoading] = useState(true);
   const [showCVModal, setShowCVModal] = useState(false);
-  const locale = useLocale();
   const t = useTranslations("hero");
+
+  const { heroData, loading } = useHero();
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-
-    // Fetch hero data
-    async function fetchData() {
-      try {
-        const res = await fetch(`/api/hero?lang=${locale}`);
-        const result = await res.json();
-        if (result.data) {
-          setHeroData(result.data);
-        }
-      } catch (error) {
-        console.error("Failed to fetch hero data", error);
-      } finally {
-        setLoading(false);
-        setIsVisible(true);
-      }
+    if (!loading && heroData) {
+      setIsVisible(true);
     }
-
-    fetchData();
-  }, [locale]);
+  }, [loading, heroData]);
 
   if (!mounted || loading) return <HeroSkeleton />;
 

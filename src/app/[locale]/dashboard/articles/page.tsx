@@ -1,11 +1,9 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useLocale, useTranslations } from 'next-intl'
-import { toast } from 'sonner'
+import { useTranslations } from 'next-intl'
 import { Plus, Pencil, Trash2, Eye, EyeOff, Clock, Tag } from 'lucide-react'
+import Image from 'next/image'
 
 import DashboardHeader from '@/components/ui/sections/admin/dashboardheader'
 import { Button } from '@/components/ui/button'
@@ -19,7 +17,13 @@ import {
     TableRow,
 } from '@/components/ui/table'
 import { Switch } from '@/components/ui/switch'
+import useAdminArticles from '@/hooks/api/admin/articles/useAdminArticles'
+import useArticleActions from '@/hooks/api/admin/articles/useArticleActions'
 
+// Define the shape we expect from the API (which the hook returns)
+// We cast the hook result or assume it matches this if the hook type is generic enough
+// The hook imports 'Article' from database, which might not have 'translation' if it's raw.
+// So we extend/override locally for the UI usage.
 interface ArticleItem {
     id: string
     image?: string
@@ -35,74 +39,32 @@ interface ArticleItem {
     } | null
 }
 
-/* ================= PAGE ================= */
-
 export default function Page() {
-    const locale = useLocale()
     const router = useRouter()
     const t = useTranslations("Dashboard.articles")
     const tc = useTranslations("Common")
 
-    const [articles, setArticles] = useState<ArticleItem[]>([])
-    const [loading, setLoading] = useState(false)
-
-    /* ================= FETCH ================= */
-
-    const fetchArticles = useCallback(async () => {
-        setLoading(true)
-        try {
-            const res = await fetch(`/api/articles?lang=${locale}`)
-            const json = await res.json()
-            setArticles(json.data ?? [])
-        } catch {
-            toast.error(t('loadError'))
-        } finally {
-            setLoading(false)
-        }
-    }, [locale, t])
-
-    useEffect(() => {
-        fetchArticles()
-    }, [fetchArticles])
+    // Use hooks
+    const { articles, loading, refreshArticles } = useAdminArticles()
+    const { deleteArticle, togglePublish, submitting } = useArticleActions(refreshArticles)
 
     /* ================= HANDLERS ================= */
 
-    const handleDelete = async (id?: string) => {
-        if (!id) return
-        if (!window.confirm(t('confirmDelete'))) return
-
-        const toastId = toast.loading(t('deleting'))
-        try {
-            const res = await fetch(`/api/articles/${id}`, { method: 'DELETE' })
-            if (!res.ok) throw new Error(t('deleteError'))
-
-            toast.success(t('deleteSuccess'), { id: toastId })
-            fetchArticles()
-        } catch {
-            toast.error(t('deleteError'), { id: toastId })
-        }
+    const handleDelete = async (id: string) => {
+        // Validation handled in hook or we can add confirm here too if hook doesn't (hook has confirm)
+        // Hook `deleteArticle` has confirm check.
+        await deleteArticle(id)
     }
 
     const handleTogglePublish = async (id: string, currentPublished: boolean) => {
-        const toastId = toast.loading(currentPublished ? t('unpublishing') : t('publishing'))
-        try {
-            const res = await fetch(`/api/articles/${id}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ published: !currentPublished }),
-            })
-            if (!res.ok) throw new Error('Failed to update')
-
-            toast.success(currentPublished ? t('unpublishSuccess') : t('publishSuccess'), { id: toastId })
-            fetchArticles()
-        } catch {
-            toast.error(t('updateError'), { id: toastId })
-        }
+        await togglePublish(id, currentPublished)
     }
 
     const formatDate = (dateString?: string) => {
         if (!dateString) return '-'
-        return new Date(dateString).toLocaleDateString(locale === 'id' ? 'id-ID' : 'en-US', {
+        // We can use a stable locale or the current one (hook uses locale)
+        // ideally we use the user's locale.
+        return new Date(dateString).toLocaleDateString(undefined, {
             day: 'numeric',
             month: 'short',
             year: 'numeric',
@@ -110,6 +72,9 @@ export default function Page() {
     }
 
     /* ================= RENDER ================= */
+
+    // Cast articles to the expected local type for UI
+    const displayedArticles = articles as unknown as ArticleItem[];
 
     return (
         <div className="min-h-screen p-6 space-y-6">
@@ -148,7 +113,7 @@ export default function Page() {
                                 </>
                             )}
 
-                            {!loading && articles.length === 0 && (
+                            {!loading && displayedArticles.length === 0 && (
                                 <TableRow>
                                     <TableCell colSpan={7} className="text-center py-12 text-muted-foreground">
                                         {t('empty')}
@@ -156,7 +121,7 @@ export default function Page() {
                                 </TableRow>
                             )}
 
-                            {articles.map((article) => (
+                            {displayedArticles.map((article) => (
                                 <TableRow key={article.id}>
                                     <TableCell>
                                         {article.image ? (
@@ -211,6 +176,7 @@ export default function Page() {
                                             <Switch
                                                 checked={article.published}
                                                 onCheckedChange={() => handleTogglePublish(article.id, article.published)}
+                                                disabled={submitting}
                                             />
                                             <span className="text-sm">
                                                 {article.published ? (
@@ -244,6 +210,7 @@ export default function Page() {
                                                 size="sm"
                                                 variant="destructive"
                                                 onClick={() => handleDelete(article.id)}
+                                                disabled={submitting}
                                             >
                                                 <Trash2 className="h-3 w-3" />
                                                 <span className="sr-only">{tc('actions.delete')}</span>

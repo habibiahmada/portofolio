@@ -124,7 +124,7 @@ Buat file `.env.local` (frontend) & `.env` (backend):
 
 ```env
 # Frontend
-NEXT_PUBLIC_SITE_URL=https://yourdomain.com
+NEXT_PUBLIC_APP_URL=https://yourdomain.com
 NEXT_PUBLIC_GOOGLE_RECAPTCHA_KEY=...
 
 # Backend

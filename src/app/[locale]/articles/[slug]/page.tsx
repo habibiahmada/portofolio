@@ -15,48 +15,13 @@ interface PageProps {
   }>;
 }
 
-interface ArticleData {
-  id: string;
-  image_url?: string;
-  image?: string; // Alias
-  published: boolean;
-  published_at?: string;
-  created_at: string;
-  updated_at?: string;
-  translation?: {
-    title: string;
-    slug: string;
-    content: string;
-    excerpt: string;
-    tags: string[];
-    read_time: string;
-  } | null;
-}
-
-async function getArticle(slug: string, locale: string): Promise<ArticleData | null> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-
-  try {
-    const res = await fetch(`${baseUrl}/api/articles/by-slug/${slug}?lang=${locale}`, {
-      cache: 'no-store',
-    });
-
-    if (!res.ok) {
-      return null;
-    }
-
-    const json = await res.json();
-    return json.data;
-  } catch {
-    return null;
-  }
-}
+import { getArticleBySlug } from '@/services/api/public/articles';
 
 export default async function ArticlePage({ params }: PageProps) {
   const resolvedParams = await params;
   const { slug, locale } = resolvedParams;
 
-  const article = await getArticle(slug, locale);
+  const article = await getArticleBySlug(slug, locale);
 
   if (!article || !article.published) {
     notFound();

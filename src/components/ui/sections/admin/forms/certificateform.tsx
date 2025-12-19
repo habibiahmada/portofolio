@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import CertificatePreview from "../../certifications/certificatepreview"
-import { useLocale } from "next-intl"
-import { useRouter } from "next/navigation"
+
 import { toast } from "sonner"
+import useCertificateActions from "@/hooks/api/admin/certificates/useCertificateActions"
 
 /* ================= TYPES ================= */
 
@@ -34,6 +34,7 @@ interface Props {
   mode: "create" | "edit"
   initialData?: CertificateInitialData
   certificateId?: string
+  onSuccess?: () => void
 }
 
 /* ================= COMPONENT ================= */
@@ -42,6 +43,7 @@ export default function CertificateForm({
   mode,
   initialData,
   certificateId,
+  onSuccess,
 }: Props) {
   /* ---------- main fields ---------- */
   const [issuer, setIssuer] = useState("")
@@ -53,10 +55,10 @@ export default function CertificateForm({
   const [uploadedUrl, setUploadedUrl] = useState<string>("")
 
   const [uploading, setUploading] = useState(false)
-  const [submitting, setSubmitting] = useState(false)
 
-  const locale = useLocale() || "en"
-  const router = useRouter()
+
+  // Hooks
+  const { createCertificate, updateCertificate, uploadFile, submitting } = useCertificateActions(onSuccess);
 
   /* ---------- translations ---------- */
   const [translations, setTranslations] = useState<
@@ -93,31 +95,14 @@ export default function CertificateForm({
   async function uploadPdf() {
     if (!selectedFile) return
 
-    const toastId = toast.loading("Uploading PDF...")
     setUploading(true)
-
-    const formData = new FormData()
-    formData.append("file", selectedFile)
-
     try {
-      const res = await fetch("/api/upload/certificate", {
-        method: "POST",
-        body: formData,
-      })
-
-      if (!res.ok) throw new Error("Failed to upload PDF")
-
-      const data: { url: string } = await res.json()
-
-      setUploadedUrl(data.url)
-      setPreviewUrl(data.url)
+      const url = await uploadFile(selectedFile);
+      setUploadedUrl(url)
+      setPreviewUrl(url)
       setSelectedFile(null)
-
-      toast.success("PDF uploaded successfully", { id: toastId })
-    } catch (err: unknown) {
-      const message =
-        err instanceof Error ? err.message : "Upload error"
-      toast.error(message, { id: toastId })
+    } catch {
+      // Handled in hook
     } finally {
       setUploading(false)
     }
@@ -135,49 +120,22 @@ export default function CertificateForm({
       return
     }
 
-    const toastId = toast.loading("Saving...")
-    setSubmitting(true)
-
     const payload = {
       issuer,
-      year: Number(year),
+      year,
       preview: uploadedUrl,
-      translations: translations.map(t => ({
-        language: locale,
-        title: t.title,
-        description: t.description,
-        skills: t.skills
-          .split(",")
-          .map(s => s.trim())
-          .filter(Boolean),
-      })),
+      title: translations[0].title,
+      description: translations[0].description,
+      skills: translations[0].skills
+        .split(",")
+        .map(s => s.trim())
+        .filter(Boolean),
     }
 
-    try {
-      const res = await fetch(
-        mode === "create"
-          ? "/api/certificates"
-          : `/api/certificates/${certificateId}`,
-        {
-          method: mode === "create" ? "POST" : "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        }
-      )
-
-      if (!res.ok) {
-        const errData: { error?: string } = await res.json()
-        throw new Error(errData.error || "Failed to save certificate")
-      }
-
-      toast.success("Certificate saved successfully", { id: toastId })
-      router.push("/dashboard/certificates")
-    } catch (err: unknown) {
-      const message =
-        err instanceof Error ? err.message : "Submit error"
-      toast.error(message, { id: toastId })
-    } finally {
-      setSubmitting(false)
+    if (mode === "edit" && certificateId) {
+      await updateCertificate(certificateId, payload);
+    } else {
+      await createCertificate(payload);
     }
   }
 
@@ -264,7 +222,7 @@ export default function CertificateForm({
       {/* RIGHT */}
       <div>
         {previewUrl ? (
-          <CertificatePreview file={previewUrl} />
+          <CertificatePreview fileUrl={previewUrl} active={true} onClose={() => setPreviewUrl(null)} />
         ) : (
           <p className="text-sm text-muted-foreground">
             Select PDF to preview

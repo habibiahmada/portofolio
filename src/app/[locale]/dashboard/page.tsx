@@ -207,27 +207,27 @@ export default async function DashboardPage({ params }: { params: Promise<{ loca
           <div className="flex flex-col gap-3">
             <QuickActionButton
               label={t('quickActions.addProject')}
-              href="/dashboard/projects/add"
+              href="/dashboard/projects/new"
               color="blue"
             />
             <QuickActionButton
               label={t('quickActions.addArticle')}
-              href="/dashboard/articles/add"
+              href="/dashboard/articles/new"
               color="green"
             />
             <QuickActionButton
               label={t('quickActions.addService')}
-              href="/dashboard/services"
+              href="/dashboard/services/new"
               color="orange"
             />
             <QuickActionButton
               label={t('quickActions.addTool')}
-              href="/dashboard/tools-tech/add"
+              href="/dashboard/tools-tech"
               color="purple"
             />
             <QuickActionButton
               label={t('quickActions.addCertification')}
-              href="/dashboard/certificates/add"
+              href="/dashboard/certificates/new"
               color="yellow"
             />
           </div>

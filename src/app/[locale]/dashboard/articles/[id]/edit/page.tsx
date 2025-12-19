@@ -1,12 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { toast } from 'sonner';
-import { useLocale, useTranslations } from 'next-intl';
-import ArticleForm, {
-    ArticleFormData,
-} from '@/components/ui/sections/admin/forms/articleform';
+import { useTranslations } from 'next-intl';
+import ArticleForm from '@/components/ui/sections/admin/forms/articleform';
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -16,102 +12,16 @@ import {
     BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 
-interface ArticleData {
-    id: string;
-    image?: string;
-    published: boolean;
-    article_translations?: Array<{
-        language: string;
-        title: string;
-        slug: string;
-        content: string;
-        excerpt: string;
-        tags: string[];
-        read_time: string;
-    }>;
-}
+import useAdminArticles from '@/hooks/api/admin/articles/useAdminArticles';
 
 export default function ArticleEditPage() {
     const router = useRouter();
     const params = useParams();
-    const locale = useLocale();
     const t = useTranslations('Dashboard.articles');
 
-    const [loading, setLoading] = useState(false);
-    const [fetching, setFetching] = useState(true);
-    const [initialData, setInitialData] = useState<ArticleData | null>(null);
-
     const id = params?.id as string;
-
-    /* ================= FETCH ================= */
-    useEffect(() => {
-        async function fetchArticle() {
-            if (!id) return;
-
-            try {
-                const res = await fetch(`/api/articles/${id}?lang=${locale}`);
-                const json = await res.json();
-
-                if (json.error) {
-                    toast.error(t('loadError'));
-                    router.push('/dashboard/articles');
-                    return;
-                }
-
-                setInitialData(json.data);
-            } catch {
-                toast.error(t('loadError'));
-                router.push('/dashboard/articles');
-            } finally {
-                setFetching(false);
-            }
-        }
-
-        fetchArticle();
-    }, [id, locale, router, t]);
-
-    /* ================= SUBMIT ================= */
-    const handleSubmit = async (formData: ArticleFormData) => {
-        setLoading(true);
-
-        try {
-            const payload = {
-                image: formData.image || null,
-                published: formData.published,
-                translations: [
-                    {
-                        language: locale,
-                        title: formData.title,
-                        slug: formData.slug,
-                        content: formData.content,
-                        excerpt: formData.excerpt,
-                        tags: formData.tags,
-                        read_time: formData.read_time,
-                    },
-                ],
-            };
-
-            const response = await fetch(`/api/articles/${id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload),
-            });
-
-            if (!response.ok) {
-                throw new Error('Update failed');
-            }
-
-            toast.success(t('saveSuccess'));
-            router.push('/dashboard/articles');
-        } catch (error) {
-            console.error('Update article error:', error);
-            toast.error(t('saveError'));
-        } finally {
-            setLoading(false);
-        }
-    };
+    const { articles, loading: fetching } = useAdminArticles();
+    const initialData = articles.find(a => a.id === id);
 
     if (fetching) {
         return (
@@ -150,11 +60,12 @@ export default function ArticleEditPage() {
                 </div>
             </div>
 
-            <ArticleForm
-                initialData={initialData ?? undefined}
-                onSubmit={handleSubmit}
-                loading={loading}
-            />
+            {initialData && (
+                <ArticleForm
+                    initialData={initialData}
+                    onSuccess={() => router.push('/dashboard/articles')}
+                />
+            )}
         </div>
     );
 }

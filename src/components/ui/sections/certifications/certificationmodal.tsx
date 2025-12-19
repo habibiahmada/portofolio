@@ -88,8 +88,10 @@ const CertificateModal: React.FC<{ certificate: Certificate | null; index: numbe
               )}
               <div className={previewLoading ? "invisible" : "visible"}>
                 <CertificatePreview
-                  file={certificate.preview || ""}
+                  fileUrl={certificate.preview || ""}
                   className="mx-auto"
+                  active={true}
+                  onClose={onClose}
                   onLoadingChange={setPreviewLoading}
                 />
               </div>

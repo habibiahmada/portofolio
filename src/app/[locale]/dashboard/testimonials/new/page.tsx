@@ -1,8 +1,6 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { toast } from 'sonner';
 
 import TestimonialForm from '@/components/ui/sections/admin/forms/testimonialform';
 import {
@@ -14,44 +12,8 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 
-interface TestimonialFormData {
-  name: string;
-  role?: string;
-  avatar?: string;
-  language: string;
-  content: string;
-}
-
 export default function Page() {
   const router = useRouter();
-  const [loading, setLoading] = useState<boolean>(false);
-
-  /* ================= SUBMIT ================= */
-  const handleSubmit = async (data: TestimonialFormData) => {
-    setLoading(true);
-
-    try {
-      const response = await fetch('/api/testimonials', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        throw new Error('Create testimonial failed');
-      }
-
-      toast.success('Testimonial berhasil ditambahkan');
-      router.push('/dashboard/testimonials');
-    } catch (error) {
-      console.error('Create testimonial error:', error);
-      toast.error('Gagal menambahkan testimonial');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <div className="min-h-screen">
@@ -94,8 +56,7 @@ export default function Page() {
 
       {/* ================= FORM ================= */}
       <TestimonialForm
-        onSubmit={handleSubmit}
-        loading={loading}
+        onSuccess={() => router.push('/dashboard/testimonials')}
       />
     </div>
   );

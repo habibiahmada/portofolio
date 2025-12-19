@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from "@/components/ui/navbar/main";
@@ -9,45 +9,17 @@ import { useTranslations, useLocale } from "next-intl";
 import { ArrowRight, Clock, Tag, Search, Calendar, ChevronRight } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import useArticles from '@/hooks/api/public/useArticles';
 
-interface ArticleData {
-  id: string;
-  image_url?: string;
-  image?: string; // Alias
-  published: boolean;
-  published_at?: string;
-  created_at: string;
-  translation?: {
-    title: string;
-    slug: string;
-    excerpt: string;
-    tags: string[];
-    read_time: string;
-  } | null;
-}
+
 
 export default function ArticlesPage() {
   const t = useTranslations("articles");
   const locale = useLocale();
-  const [articles, setArticles] = useState<ArticleData[]>([]);
-  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
 
-  useEffect(() => {
-    async function fetchArticles() {
-      try {
-        const res = await fetch(`/api/articles?lang=${locale}&published=true`);
-        const json = await res.json();
-        setArticles(json.data || []);
-      } catch (error) {
-        console.error('Failed to fetch articles:', error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchArticles();
-  }, [locale]);
+  const { articles, loading } = useArticles();
 
   // Get all unique tags
   const allTags = useMemo(() => {
