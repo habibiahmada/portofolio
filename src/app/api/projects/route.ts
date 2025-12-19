@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabase, supabaseAdmin } from "@/lib/supabase";
+import { translateObject } from "@/lib/translator";
 
 function getMessage(e: unknown): string {
   if (e instanceof Error) return e.message;
@@ -9,6 +10,17 @@ function getMessage(e: unknown): string {
 }
 
 export const revalidate = 0;
+
+interface ProjectTranslation {
+  language: string;
+  title: string;
+  description: string;
+}
+
+interface ProjectWithTranslations {
+  projects_translations: ProjectTranslation[];
+  [k: string]: unknown;
+}
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -31,13 +43,13 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  const normalized = data.map((p) => {
+  const normalized = (data as unknown as ProjectWithTranslations[] || []).map((p) => {
     const byLang = p.projects_translations?.find(
-      (t: { language?: string }) => t.language === lang
+      (t) => t.language === lang
     );
 
     const fallback = p.projects_translations?.find(
-      (t: { language?: string }) => t.language === "en"
+      (t) => t.language === "en"
     );
 
     return {
@@ -81,8 +93,16 @@ export async function POST(req: Request) {
       throw new Error(projectError?.message || "Failed to create project");
     }
 
-    // 2️⃣ Insert translations (W A J I B)
-    const preparedTranslations = translations.map((t: { language?: string; title?: string; description?: string }) => ({
+    // 2️⃣ Insert translations (with auto-translation)
+    const finalTranslations = [...translations];
+    if (translations.length === 1) {
+      const source = translations[0];
+      const targetLang = source.language === "id" ? "en" : "id";
+      const translated = await translateObject(source, targetLang, source.language, ["title", "description"]);
+      finalTranslations.push({ ...translated, language: targetLang });
+    }
+
+    const preparedTranslations = finalTranslations.map((t: { language?: string; title?: string; description?: string }) => ({
       projects_id: project.id,
       language: t.language,
       title: t.title ?? "",
@@ -132,9 +152,24 @@ export async function PATCH(req: Request) {
       if (error) throw new Error(error.message);
     }
 
-    // Upsert translations
-    if (Array.isArray(translations)) {
-      const upserts = translations.map((t: { language?: string; title?: string; description?: string }) => ({
+    // Upsert translations (with auto-translation)
+    if (Array.isArray(translations) && translations.length > 0) {
+      const finalTranslations = [...translations];
+      if (translations.length === 1) {
+        const source = translations[0];
+        const targetLang = source.language === "id" ? "en" : "id";
+        const translated = await translateObject(source, targetLang, source.language, ["title", "description"]);
+        finalTranslations.push({ ...translated, language: targetLang });
+      }
+
+      const languages = finalTranslations.map(t => t.language)
+      await supabaseAdmin
+        .from('projects_translations')
+        .delete()
+        .eq('projects_id', id)
+        .in('language', languages)
+
+      const upserts = finalTranslations.map((t: { language?: string; title?: string; description?: string }) => ({
         projects_id: id,
         language: t.language,
         title: t.title ?? "",
@@ -143,9 +178,7 @@ export async function PATCH(req: Request) {
 
       const { error } = await supabaseAdmin
         .from("projects_translations")
-        .upsert(upserts, {
-          onConflict: "projects_id,language",
-        });
+        .insert(upserts);
 
       if (error) throw new Error(error.message);
     }

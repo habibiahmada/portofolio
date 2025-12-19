@@ -131,7 +131,7 @@ const TestimonialSection = () => {
                   <div className="flex items-center gap-4 mb-4">
                     <div className="relative">
                       <Image
-                        src={currentTestimonial.avatar}
+                        src={currentTestimonial.avatar || ""}
                         alt={currentTestimonial.name}
                         width={64}
                         height={64}

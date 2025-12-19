@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase";
+import { translateObject } from "@/lib/translator";
 
 /* ================= PUT ================= */
 
@@ -45,26 +46,37 @@ export async function PUT(
   }
 
   /* ---------- upsert translations ---------- */
-  for (const t of translations ?? []) {
-    const { error: transError } = await supabaseAdmin
-      .from("certification_translations")
-      .upsert(
-        {
-          certification_id: id,
-          language: t.language,
-          title: t.title,
-          description: t.description,
-          skills: t.skills,
-        },
-        { onConflict: "certification_id,language" }
-      );
+  const finalTranslations = [...(translations ?? [])];
 
-    if (transError) {
-      return NextResponse.json(
-        { error: transError.message },
-        { status: 400 }
-      );
-    }
+  if (finalTranslations.length === 1) {
+    const source = finalTranslations[0];
+    const targetLang = source.language === "id" ? "en" : "id";
+    const translated = await translateObject(
+      source,
+      targetLang,
+      source.language,
+      ["title", "description", "skills"]
+    );
+    finalTranslations.push({ ...translated, language: targetLang });
+  }
+
+  const payload = finalTranslations.map((t) => ({
+    certification_id: id,
+    language: t.language,
+    title: t.title,
+    description: t.description,
+    skills: t.skills,
+  }));
+
+  const { error: transError } = await supabaseAdmin
+    .from("certification_translations")
+    .upsert(payload, { onConflict: "certification_id,language" });
+
+  if (transError) {
+    return NextResponse.json(
+      { error: transError.message },
+      { status: 400 }
+    );
   }
 
   return NextResponse.json({ success: true });

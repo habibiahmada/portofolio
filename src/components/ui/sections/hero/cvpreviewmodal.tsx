@@ -1,14 +1,16 @@
 'use client';
 
 import { Download, FileText, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 
-export default function CVPreviewModal({ isOpen, onClose, cvUrl, isDark, locale }: {
+export default function CVPreviewModal({ isOpen, onClose, cvUrl, isDark }: {
   isOpen: boolean;
   onClose: () => void;
   cvUrl: string;
   isDark: boolean;
-  locale: string;
 }) {
+  const t = useTranslations("hero.cv.modal");
+
   if (!isOpen) return null;
 
   return (
@@ -28,7 +30,7 @@ export default function CVPreviewModal({ isOpen, onClose, cvUrl, isDark, locale 
             <FileText className={`w-5 h-5 ${isDark ? 'text-blue-400' : 'text-blue-600'}`} />
             <h3 className={`text-lg font-semibold ${isDark ? 'text-slate-100' : 'text-slate-900'
               }`}>
-              {locale === 'id' ? 'Preview CV' : 'CV Preview'}
+              {t('title')}
             </h3>
           </div>
 
@@ -44,7 +46,7 @@ export default function CVPreviewModal({ isOpen, onClose, cvUrl, isDark, locale 
                 }`}
             >
               <Download size={16} />
-              {locale === 'id' ? 'Download' : 'Download'}
+              {t('download')}
             </a>
 
             <button
@@ -65,7 +67,7 @@ export default function CVPreviewModal({ isOpen, onClose, cvUrl, isDark, locale 
           <iframe
             src={`${cvUrl}#zoom=100`}
             className="w-full min-h-[1000px]"
-            title="CV Preview"
+            title={t('title')}
           />
         </div>
       </div>

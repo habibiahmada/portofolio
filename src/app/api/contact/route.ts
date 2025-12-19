@@ -25,8 +25,8 @@ type ContactPayload = {
 export async function POST(req: Request) {
   try {
     const ip =
-    req.headers.get("x-forwarded-for")?.split(",")[0] ??
-    "unknown";
+      req.headers.get("x-forwarded-for")?.split(",")[0] ??
+      "unknown";
     const limit = rateLimit(ip);
     if (!limit.success) {
       return NextResponse.json(
@@ -110,6 +110,11 @@ export async function POST(req: Request) {
       console.warn('SMTP config missing; skipping email send');
       return NextResponse.json({ ok: true, saved: true });
     }
+
+    console.log("SMTP_HOST:", smtpHost);
+    console.log("SMTP_PORT:", smtpPort);
+    console.log("SMTP_USER:", smtpUser);
+    console.log("SMTP_PASS exists:", !!smtpPass);
 
     const transporter = nodemailer.createTransport({
       host: smtpHost,

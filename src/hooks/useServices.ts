@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useLocale } from "next-intl";
-import { Services } from "@/lib/types/database";
+import { Service } from "@/lib/types/database";
 
 
 export default function useServices() {
-  const [services, setServices] = useState<Services[]>([]);
+  const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -15,7 +15,7 @@ export default function useServices() {
       try {
         const res = await fetch(`/api/services?lang=${lang}`, { next: { revalidate: 0 } });
         const json = await res.json();
-        setServices((json?.data as Services[]) || []);
+        setServices((json?.data as Service[]) || []);
       } catch (err) {
         setError(err as Error);
       } finally {

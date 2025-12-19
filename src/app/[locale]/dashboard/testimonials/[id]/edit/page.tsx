@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { toast } from 'sonner';
 
 import TestimonialForm from '@/components/ui/sections/admin/forms/testimonialform';
@@ -13,6 +13,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import { useLocale } from 'next-intl';
 
 interface TestimonialTranslation {
   language: string;
@@ -23,6 +24,8 @@ interface TestimonialApiItem {
   id: string;
   name: string;
   role?: string;
+  company?: string;
+  rating?: number;
   avatar?: string;
   testimonial_translations: TestimonialTranslation[];
 }
@@ -30,62 +33,58 @@ interface TestimonialApiItem {
 interface TestimonialFormData {
   name: string;
   role?: string;
+  company?: string;
+  rating?: number;
   avatar?: string;
   language: string;
   content: string;
 }
 
-interface PageProps {
-  params: {
-    id: string;
-  };
-}
-
-export default function Page({ params }: PageProps) {
+export default function Page() {
   const router = useRouter();
-  const { id } = params;
+  const routeParams = useParams();
+  const id = routeParams.id as string;
 
   const [data, setData] = useState<TestimonialFormData | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
+  const locale = useLocale();
+
   /* ================= FETCH ================= */
   const fetchTestimonial = useCallback(async () => {
     try {
-      const response = await fetch('/api/testimonials?lang=en', {
+      const response = await fetch(`/api/testimonials/${id}?lang=${locale}`, {
         cache: 'no-store',
       });
 
       if (!response.ok) {
-        throw new Error('Failed to fetch testimonials');
+        if (response.status === 404) {
+          toast.error('Data testimonial tidak ditemukan');
+          router.push('/dashboard/testimonials');
+          return;
+        }
+        throw new Error('Failed to fetch testimonial');
       }
 
-      const result: { data: TestimonialApiItem[] } =
-        await response.json();
-
-      const item = result.data.find(
-        (testimonial) => testimonial.id === id
-      );
-
-      if (!item) {
-        toast.error('Data testimonial tidak ditemukan');
-        router.push('/dashboard/testimonials');
-        return;
-      }
+      const result: { data: TestimonialApiItem } = await response.json();
+      const item = result.data;
 
       const translation = item.testimonial_translations[0];
 
       setData({
         name: item.name,
         role: item.role,
+        company: item.company,
+        rating: item.rating,
         avatar: item.avatar,
-        language: translation?.language ?? 'en',
+        language: translation?.language ?? locale,
         content: translation?.content ?? '',
       });
     } catch (error) {
       console.error('Fetch testimonial error:', error);
       toast.error('Gagal memuat data testimonial');
     }
-  }, [id, router]);
+  }, [id, router, locale]);
 
   useEffect(() => {
     fetchTestimonial();

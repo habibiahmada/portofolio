@@ -9,18 +9,7 @@ const CertificatePreview = dynamic(
   { ssr: false }
 );
 
-interface Certificate {
-  id: string;
-  issuer: string;
-  year: string;
-  preview: string;
-  skills: string[];
-  certification_translations?: {
-    title: string;
-    description: string;
-    skills: string[];
-  }[];
-}
+import { Certificate } from "@/lib/types/database";
 
 const CertificateModal: React.FC<{ certificate: Certificate | null; index: number | null; onClose: () => void }> = ({
   certificate,
@@ -99,7 +88,7 @@ const CertificateModal: React.FC<{ certificate: Certificate | null; index: numbe
               )}
               <div className={previewLoading ? "invisible" : "visible"}>
                 <CertificatePreview
-                  file={certificate.preview}
+                  file={certificate.preview || ""}
                   className="mx-auto"
                   onLoadingChange={setPreviewLoading}
                 />
@@ -126,8 +115,8 @@ const CertificateModal: React.FC<{ certificate: Certificate | null; index: numbe
                   <span
                     key={idx}
                     className={`px-3 py-1 rounded-full text-sm font-medium ${isBlue
-                        ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
-                        : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                      ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
+                      : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
                       }`}
                   >
                     {skill}

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabase, supabaseAdmin } from "@/lib/supabase";
+import { translateObject } from "@/lib/translator";
 
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
@@ -67,15 +68,32 @@ export async function PATCH(req: Request) {
 
         if (statErr) throw statErr
 
+        const finalTranslations = [{
+            statistic_id: id,
+            language: language,
+            label: statistic.label,
+            description: statistic.description,
+            suffix: statistic.suffix,
+        }];
+
+        // Auto translate to the other language
+        const targetLang = language === 'id' ? 'en' : 'id';
+        const translated = await translateObject(
+            { label: statistic.label, description: statistic.description, suffix: statistic.suffix },
+            targetLang,
+            language,
+            ['label', 'description', 'suffix']
+        );
+
+        finalTranslations.push({
+            statistic_id: id,
+            language: targetLang,
+            ...translated
+        });
+
         const { error: transErr } = await client
             .from('statistic_translations')
-            .update({
-                label: statistic.label,
-                description: statistic.description,
-                suffix: statistic.suffix,
-            })
-            .eq('statistic_id', id)
-            .eq('language', language)
+            .upsert(finalTranslations, { onConflict: 'statistic_id, language' })
 
         if (transErr) throw transErr
 

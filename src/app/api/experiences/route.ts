@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { supabase, supabaseAdmin } from "@/lib/supabase"
+import { translateObject } from "@/lib/translator"
 
 /* ================= TYPES ================= */
 
@@ -116,16 +117,33 @@ export async function POST(req: Request) {
     }
 
     /* insert translation */
+    const finalTranslations = [{
+      experience_id: experience.id,
+      language,
+      title,
+      description,
+      location_type,
+      highlight,
+    }];
+
+    // Auto translate to the other language
+    const targetLang = language === "id" ? "en" : "id";
+    const translated = await translateObject(
+      { title, description, location_type, highlight },
+      targetLang,
+      language,
+      ["title", "description", "location_type", "highlight"]
+    );
+
+    finalTranslations.push({
+      experience_id: experience.id,
+      language: targetLang,
+      ...translated
+    });
+
     const { error: transError } = await client
       .from("experience_translations")
-      .insert({
-        experience_id: experience.id,
-        language,
-        title,
-        description,
-        location_type,
-        highlight,
-      })
+      .insert(finalTranslations)
 
     if (transError) {
       console.error("Insert translations error:", transError)

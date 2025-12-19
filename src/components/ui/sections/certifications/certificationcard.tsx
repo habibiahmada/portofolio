@@ -39,7 +39,7 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
         onClick={onClick}
       >
         <div className="h-full w-full transition-transform duration-300 group-hover:scale-105">
-          <CertificateThumbnail file={certificate.preview} />
+          <CertificateThumbnail file={certificate.preview || ''} />
         </div>
 
         {/* Overlay */}

@@ -9,25 +9,23 @@ import {
   Linkedin,
   Github,
   Instagram,
-  MessageSquare
+  MessageSquare,
+  ArrowRight
 } from 'lucide-react';
-
-// UI Components
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
-import SectionHeader from "../SectionHeader";
-
-// Modular Components
-import ContactForm, { ContactFormData } from './contactform';
-import Consultation from './consultation';
 import { useTheme } from 'next-themes';
 import { toast } from 'sonner';
+
+// UI Components
+import SectionHeader from "../SectionHeader";
+import ContactForm, { ContactFormData } from './contactform';
 
 // Types and Interfaces
 interface ContactInfo {
   icon: React.ComponentType<{ className?: string }>;
   title: string;
   content: string;
+  subContent?: string;
   color: string;
   action?: () => void;
 }
@@ -35,65 +33,98 @@ interface ContactInfo {
 interface SocialLink {
   icon: React.ComponentType<{ className?: string }>;
   href: string;
-  color: string;
+  label: string;
+  bgClass: string;
+  textClass: string;
 }
 
 const SOCIAL_LINKS: SocialLink[] = [
-  { icon: Linkedin, href: 'https://www.linkedin.com/in/habibi-ahmad-aziz', color: 'hover:bg-blue-600' },
-  { icon: Github, href: 'https://www.github.com/habibiahmada', color: 'hover:bg-slate-700' },
-  { icon: Instagram, href: 'https://www.instagram.com/habibiahmad.a/', color: 'hover:bg-pink-600' }
+  { 
+    icon: Linkedin, 
+    href: 'https://www.linkedin.com/in/habibi-ahmad-aziz', 
+    label: 'LinkedIn',
+    bgClass: 'hover:bg-[#0077b5]',
+    textClass: 'group-hover:text-white'
+  },
+  { 
+    icon: Github, 
+    href: 'https://www.github.com/habibiahmada', 
+    label: 'GitHub',
+    bgClass: 'hover:bg-[#333]',
+    textClass: 'group-hover:text-white'
+  },
+  { 
+    icon: Instagram, 
+    href: 'https://www.instagram.com/habibiahmad.a/', 
+    label: 'Instagram',
+    bgClass: 'hover:bg-gradient-to-tr hover:from-[#f09433] hover:via-[#dc2743] hover:to-[#bc1888]',
+    textClass: 'group-hover:text-white'
+  }
 ];
 
-// Helper Components
+// Helper Component for Info Item
 const ContactInfoItem: React.FC<{ info: ContactInfo }> = ({ info }) => {
   const IconComponent = info.icon;
   return (
-    <div className="flex items-start space-x-4 group">
-      <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${info.color} group-hover:scale-110 transition-transform duration-300`}>
-        <IconComponent className="w-5 h-5" />
+    <div className="flex items-start p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 transition-all duration-300 hover:shadow-md hover:border-slate-200 dark:hover:border-slate-700 group">
+      <div className={`
+        shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center 
+        ${info.color} 
+        bg-opacity-10 dark:bg-opacity-10
+        group-hover:scale-110 transition-transform duration-500 ease-out
+      `}>
+        <IconComponent className="w-6 h-6" />
       </div>
-      <div className="flex-1">
-        <h4 className="font-semibold dark:text-white mb-1">{info.title}</h4>
+      <div className="ml-5 flex-1 min-w-0">
+        <h4 className="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">
+          {info.title}
+        </h4>
         {info.action ? (
           <button
             onClick={info.action}
-            className="text-blue-400 hover:text-blue-300 text-left cursor-pointer"
-            aria-label={`Reveal ${info.title}`}
+            className="text-lg font-medium text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-left truncate w-full flex items-center gap-2 group/btn"
           >
             {info.content}
+            <span className="opacity-0 group-hover/btn:opacity-100 transition-opacity">
+              <ArrowRight className="w-4 h-4" />
+            </span>
           </button>
         ) : (
-          <p className="text-slate-400">{info.content}</p>
+          <p className="text-lg font-medium text-slate-900 dark:text-slate-100 leading-snug">
+            {info.content}
+          </p>
+        )}
+        {info.subContent && (
+           <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+             {info.subContent}
+           </p>
         )}
       </div>
     </div>
   );
 };
 
-const SocialLinkItem: React.FC<{ social: SocialLink; index: number }> = ({ social, index }) => {
+const SocialLinkItem: React.FC<{ social: SocialLink }> = ({ social }) => {
   const IconComponent = social.icon;
-  const platformName = social.icon.name || 'Social Media';
 
   return (
     <Link
-      key={index}
       href={social.href}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={`Visit my ${platformName} profile`}
       className={`
-        w-12 h-12 
-        flex items-center justify-center 
-        rounded-xl 
-        border 
-        hover:scale-110 hover:text-white
-        ${social.color} 
-        bg-slate-100 border-slate-300 text-slate-600 
-        dark:bg-slate-800 dark:border-slate-700 dark:text-slate-400
-        transition-transform duration-300
+        group flex items-center gap-3 px-5 py-3
+        bg-white dark:bg-slate-900/80 
+        border border-slate-200 dark:border-slate-700
+        rounded-xl shadow-sm hover:shadow-md
+        transition-all duration-300
+        ${social.bgClass} hover:border-transparent
       `}
     >
-      <IconComponent className="w-5 h-5" />
+      <IconComponent className={`w-5 h-5 text-slate-600 dark:text-slate-400 ${social.textClass} transition-colors`} />
+      <span className={`font-medium text-slate-700 dark:text-slate-300 ${social.textClass} transition-colors`}>
+        {social.label}
+      </span>
     </Link>
   );
 };
@@ -105,15 +136,11 @@ const ContactSection: React.FC = () => {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-
-
   // State Management
   const [showContactInfo, setShowContactInfo] = useState({
     phone: false,
     email: false
   });
-
-  // Event Handlers
 
   const handleFormSubmit = async (formData: ContactFormData) => {
     try {
@@ -122,7 +149,6 @@ const ContactSection: React.FC = () => {
 
       if (formData.attachment) {
         const file = formData.attachment as File;
-
         const dataUrl = await new Promise<string>((resolve, reject) => {
           const reader = new FileReader();
           reader.onload = () => resolve(String(reader.result ?? ""));
@@ -146,7 +172,6 @@ const ContactSection: React.FC = () => {
         next: { revalidate: 0 },
       });
 
-      // Handle errors explicitly
       if (!res.ok) {
         if (res.status === 429) {
           toast.error("Terlalu banyak permintaan", {
@@ -154,18 +179,15 @@ const ContactSection: React.FC = () => {
           });
           return;
         }
-
         throw new Error("FAILED");
       }
 
-      // Success
       toast.success("Pesan terkirim", {
         description: "Terima kasih, pesanmu sudah masuk dan akan dibalas.",
       });
 
     } catch (error) {
       console.error("Contact form error:", error);
-
       toast.error("Gagal mengirim pesan", {
         description: "Terjadi kesalahan. Coba lagi beberapa saat.",
       });
@@ -182,34 +204,33 @@ const ContactSection: React.FC = () => {
       icon: MapPin,
       title: t('contactInfo.location'),
       content: t('contactInfo.locationValue'),
-      color: 'bg-blue-500/10 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400'
+      subContent: 'Indonesia',
+      color: 'text-blue-600 bg-blue-500 dark:text-blue-400 dark:bg-blue-400'
     },
     {
       icon: MessageSquare,
       title: t('contactInfo.whatsapp'),
       content: showContactInfo.phone ? '+62 856-9339-0636' : t('contactInfo.whatsappReveal'),
-      color: 'bg-green-500/10 text-green-600 dark:bg-green-500/20 dark:text-green-400',
+      color: 'text-green-600 bg-green-500 dark:text-green-400 dark:bg-green-400',
       action: () => revealContact('phone')
     },
     {
       icon: Mail,
       title: t('contactInfo.email'),
       content: showContactInfo.email ? 'habibiahmadaziz@gmail.com' : t('contactInfo.emailReveal'),
-      color: 'bg-blue-500/10 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400',
+      color: 'text-purple-600 bg-purple-500 dark:text-purple-400 dark:bg-purple-400',
       action: () => revealContact('email')
     },
     {
       icon: Clock,
       title: t('contactInfo.workingHours'),
       content: t('contactInfo.workingHoursValue'),
-      color: 'bg-purple-500/10 text-purple-600 dark:bg-purple-500/20 dark:text-purple-400'
+      color: 'text-orange-600 bg-orange-500 dark:text-orange-400 dark:bg-orange-400'
     }
   ];
 
-
   useEffect(() => {
     setMounted(true);
-
   }, []);
 
   if (!mounted) return null;
@@ -220,20 +241,22 @@ const ContactSection: React.FC = () => {
     <section
       id="contact"
       className={`
-    relative overflow-hidden
-    py-16 sm:py-24 lg:py-32 transition-colors duration-300
-    ${isDark ? "bg-slate-950" : "bg-gray-50"}
-  `}
+        relative overflow-hidden
+        py-20 lg:py-32 transition-colors duration-500
+        ${isDark ? "bg-slate-950" : "bg-white"}
+      `}
     >
-      {/* Background Effects */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 bg-slate-500/10 rounded-full blur-3xl"></div>
+      {/* Modern Gradient Backgrounds - More subtle and larger */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-[800px] h-[800px] bg-blue-400/5 dark:bg-blue-600/10 rounded-full blur-[100px] opacity-60"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-400/5 dark:bg-purple-600/10 rounded-full blur-[120px] opacity-40"></div>
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-emerald-400/5 dark:bg-emerald-600/10 rounded-full blur-[100px] opacity-40"></div>
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
-        {/* Header */}
-        <div className="mb-12 sm:mb-16 lg:mb-20">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
+        
+        {/* Header - More space below */}
+        <div className="mb-16 lg:mb-24">
           <SectionHeader
             title={t('title')}
             description={t('description')}
@@ -241,52 +264,53 @@ const ContactSection: React.FC = () => {
           />
         </div>
 
-        {/* Grid layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 items-start">
-          {/* Contact Form */}
-          <div className="lg:col-span-3 order-2 lg:order-1">
+        {/* Layout Grid - Updated Proportions */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          
+          {/* Left Column: Contact Info & Socials (4 cols) */}
+          <div className="lg:col-span-5 space-y-10 order-2 lg:order-1">
+            
+            {/* Intro Text for Info */}
+            <div className="space-y-4">
+              <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
+                {t('contactInfo.title')}
+              </h3>
+              <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
+                 Feel free to reach out for collaborations, questions, or just a friendly hello. I usually respond within a few hours.
+              </p>
+            </div>
+
+            {/* Contact Details List */}
+            <div className="grid gap-4">
+              {contactInfo.map((info, index) => (
+                <ContactInfoItem key={index} info={info} />
+              ))}
+            </div>
+
+            {/* Divider */}
+            <div className="h-px w-full bg-slate-200 dark:bg-slate-800" />
+
+            {/* Social Media - Expanded Look */}
+            <div className="space-y-4">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">
+                {t('socialMedia.title')}
+              </h3>
+              <div className="flex flex-wrap gap-3">
+                {SOCIAL_LINKS.map((social, index) => (
+                  <SocialLinkItem key={index} social={social} />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Contact Form (7 cols) - Giving form more prominence */}
+          <div className="lg:col-span-7 order-1 lg:order-2">
             <ContactForm onSubmit={handleFormSubmit} />
           </div>
 
-          {/* Contact Info & Social */}
-          <div className="lg:col-span-2 space-y-6 lg:space-y-8 order-1 lg:order-2">
-            {/* Contact Information */}
-            <Card className="bg-white border border-slate-200 dark:bg-slate-950 dark:border-slate-800 backdrop-blur-xl shadow-lg">
-              <CardHeader>
-                <CardTitle className="text-xl sm:text-2xl text-slate-800 dark:text-white flex items-center gap-3">
-                  {t('contactInfo.title')}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4 sm:space-y-6">
-                {contactInfo.map((info, index) => (
-                  <ContactInfoItem key={index} info={info} />
-                ))}
-              </CardContent>
-            </Card>
-
-            {/* Social Media */}
-            <Card className="bg-white border border-slate-200 dark:bg-slate-950 dark:border-slate-800 backdrop-blur-xl shadow-lg">
-              <CardHeader>
-                <CardTitle className="text-xl sm:text-2xl text-slate-800 dark:text-white flex items-center gap-3">
-                  {t('socialMedia.title')}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-3 sm:gap-4">
-                  {SOCIAL_LINKS.map((social, index) => (
-                    <SocialLinkItem key={index} social={social} index={index} />
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Free Consultation CTA */}
-            <Consultation />
-          </div>
         </div>
       </div>
     </section>
-
   );
 };
 

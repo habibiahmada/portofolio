@@ -1,4 +1,28 @@
 {
+  "Metadata": {
+    "title": "Habibi Ahmad Aziz | Portofolio",
+    "description": "Website portofolio pribadi saya",
+    "dashboardTitle": "Dashboard | Portofolio"
+  },
+  "Common": {
+    "time": {
+      "justNow": "baru saja",
+      "yearsAgo": "{count} tahun lalu",
+      "monthsAgo": "{count} bulan lalu",
+      "daysAgo": "{count} hari lalu",
+      "hoursAgo": "{count} jam lalu",
+      "minutesAgo": "{count} menit lalu",
+      "secondsAgo": "{count} detik lalu"
+    },
+    "actions": {
+      "edit": "Ubah",
+      "delete": "Hapus",
+      "save": "Simpan",
+      "cancel": "Batal",
+      "add": "Tambah",
+      "back": "Kembali"
+    }
+  },
   "Header": {
     "brand": "habibiahmada",
     "nav": {
@@ -12,74 +36,80 @@
     }
   },
   "hero": {
-  "title": "Hero Section",
-  "subtitle": "Kelola konten banner utama, teks animasi, dan file unduhan.",
-  "loading": "Memuat data hero...",
-  "error": "Gagal memuat data hero.",
-
-  "contentCard": {
-    "title": "Konten & Konfigurasi",
-    "description": "Atur teks utama dan badge teknis yang tampil di banner.",
-
-    "greeting": {
-      "label": "Teks Sapaan",
-      "placeholder": "contoh: Hai! Saya seorang..."
+    "title": "Hero Section",
+    "subtitle": "Kelola konten banner utama, teks animasi, dan file unduhan.",
+    "loading": "Memuat data hero...",
+    "error": "Gagal memuat data hero.",
+    "viewProjects": "Lihat Proyek",
+    "viewCV": "Lihat CV",
+    "hello": "Halo, Saya...",
+    "fallbackDescription": "Membangun aplikasi web modern.",
+    "fallbackTypewriter": [
+      "Fullstack Developer",
+      "Software Engineer"
+    ],
+    "contentCard": {
+      "title": "Konten & Konfigurasi",
+      "description": "Atur teks utama dan badge teknis yang tampil di banner.",
+      "greeting": {
+        "label": "Teks Sapaan",
+        "placeholder": "contoh: Hai! Saya seorang..."
+      },
+      "developerTag": {
+        "label": "Tag Developer",
+        "placeholder": "<Developer />"
+      },
+      "consoleTag": {
+        "label": "Pesan Console",
+        "placeholder": "Hello World!"
+      },
+      "bio": {
+        "label": "Deskripsi Singkat",
+        "placeholder": "Tulis bio singkat..."
+      }
     },
-    "developerTag": {
-      "label": "Tag Developer",
-      "placeholder": "<Developer />"
+    "typewriter": {
+      "title": "Animasi Typewriter",
+      "description": "Teks berputar yang menggambarkan peran Anda.",
+      "empty": "Belum ada teks typewriter.",
+      "inputPlaceholder": "Tambahkan peran baru (contoh: Full Stack Developer)",
+      "add": "Tambah",
+      "items": "Item"
     },
-    "consoleTag": {
-      "label": "Pesan Console",
-      "placeholder": "Hello World!"
+    "cv": {
+      "title": "CV / Resume",
+      "description": "Kelola file PDF yang bisa diunduh di website.",
+      "currentLabel": "CV Saat Ini",
+      "none": "Belum ada CV",
+      "view": "Lihat CV",
+      "currentStatus": "Status Saat Ini",
+      "uploadNew": "Unggah File Baru",
+      "noCv": "Belum ada CV yang diunggah.",
+      "preview": "Pratinjau File",
+      "pendingTitle": "File Baru Dipilih",
+      "pendingDesc": "siap untuk diunggah.",
+      "pendingHint": "Klik \"Simpan Perubahan\" untuk menerapkan.",
+      "change": "Ganti Pilihan",
+      "modal": {
+        "title": "Pratinjau CV",
+        "download": "Unduh"
+      }
     },
-    "bio": {
-      "label": "Deskripsi Singkat",
-      "placeholder": "Tulis bio singkat..."
-    }
-  },
-
-  "typewriter": {
-    "title": "Animasi Typewriter",
-    "description": "Teks berputar yang menggambarkan peran Anda.",
-    "empty": "Belum ada teks typewriter.",
-    "inputPlaceholder": "Tambahkan peran baru (contoh: Full Stack Developer)",
-    "add": "Tambah",
-    "items": "Item"
-  },
-
-  "cv": {
-    "title": "CV / Resume",
-    "description": "Kelola file PDF yang bisa diunduh di website.",
-    "currentLabel": "CV Saat Ini",
-    "none": "Belum ada CV",
-    "view": "Lihat CV",
-    "currentStatus": "Status Saat Ini",
-    "uploadNew": "Unggah File Baru",
-    "noCv": "Belum ada CV yang diunggah.",
-    "preview": "Pratinjau File",
-    "pendingTitle": "File Baru Dipilih",
-    "pendingDesc": "siap untuk diunggah.",
-    "pendingHint": "Klik \"Simpan Perubahan\" untuk menerapkan.",
-    "change": "Ganti Pilihan"
-  },
-
-  "actions": {
-    "save": "Simpan Perubahan",
-    "saving": "Menyimpan...",
-    "reset": "Reset",
-    "unsavedChanges": "Ada perubahan yang belum disimpan"
-  },
-
-  "toast": {
-    "loading": "Menyimpan perubahan...",
-    "uploading": "Mengunggah CV...",
-    "updating": "Memperbarui konten...",
-    "success": "Semua perubahan berhasil disimpan!",
-    "loadError": "Gagal memuat data hero",
-    "saveError": "Gagal menyimpan perubahan",
-    "pdfOnly": "Silakan unggah file PDF"
-  },
+    "actions": {
+      "save": "Simpan Perubahan",
+      "saving": "Menyimpan...",
+      "reset": "Reset",
+      "unsavedChanges": "Ada perubahan yang belum disimpan"
+    },
+    "toast": {
+      "loading": "Menyimpan perubahan...",
+      "uploading": "Mengunggah CV...",
+      "updating": "Memperbarui konten...",
+      "success": "Semua perubahan berhasil disimpan!",
+      "loadError": "Gagal memuat data hero",
+      "saveError": "Gagal menyimpan perubahan",
+      "pdfOnly": "Silakan unggah file PDF"
+    },
     "techIcons": {
       "fullStack": "Full Stack",
       "aiMl": "AI/ML",
@@ -209,7 +239,8 @@
     "description1": "Artikel terbaru, tutorial mendalam, dan insight tentang pengembangan web modern dari perspektif praktisi industri",
     "button": "Jelajahi semua artikel",
     "loading": "Memuat artikel...",
-    "error": "Gagal memuat artikel"
+    "error": "Gagal memuat artikel",
+    "empty": "ini bagian artikel"
   },
   "faqs": {
     "titleLine1": "Pertanyaan yang Sering Diajukan",
@@ -308,6 +339,90 @@
       "performance": "Optimasi Performa",
       "consulting": "Konsultasi Teknis",
       "webapp": "Pengembangan Aplikasi Web"
+    }
+  },
+  "Login": {
+    "title": "Akses Portofolio",
+    "description": "Ini adalah portofolio pribadi. Akses dibatasi.",
+    "form": {
+      "emailLabel": "Alamat Email",
+      "emailPlaceholder": "Masukkan email Anda",
+      "passwordLabel": "Kata Sandi",
+      "passwordPlaceholder": "Masukkan kata sandi Anda",
+      "signIn": "Masuk",
+      "signingIn": "Masuk..."
+    },
+    "divider": "Atau lanjutkan dengan",
+    "backToHome": "← Kembali ke Portofolio",
+    "errors": {
+      "oauth_error": "Kesalahan OAuth",
+      "no_code": "Tidak Ada Kode Otorisasi",
+      "exchange_error": "Pertukaran Sesi Gagal",
+      "no_session": "Pembuatan Sesi Gagal",
+      "unauthorized": "Akses Ditolak",
+      "callback_error": "Kesalahan Callback",
+      "auth_callback_error": "Kesalahan Otentikasi",
+      "loginFailed": "Login gagal",
+      "googleFailed": "Login Google gagal",
+      "githubFailed": "Login GitHub gagal"
+    }
+  },
+  "Dashboard": {
+    "header": {
+      "title": "Dashboard",
+      "description": "Ikhtisar konten portofolio dan pesan Anda.",
+      "notifications": "Notifikasi",
+      "notificationCount": "Anda memiliki {count} notifikasi",
+      "search": "Cari...",
+      "systemStatus": "Status Sistem",
+      "online": "Online",
+      "secure": "Aman"
+    },
+    "stats": {
+      "projects": "Proyek",
+      "articles": "Artikel",
+      "services": "Layanan",
+      "tools": "Alat & Teknologi",
+      "experience": "Pengalaman",
+      "certifications": "Sertifikasi",
+      "testimonials": "Testimoni",
+      "messages": "Pesan"
+    },
+    "recentMessages": {
+      "title": "Pesan Terbaru",
+      "viewAll": "Lihat Semua Pesan",
+      "empty": "Pesan tidak ditemukan."
+    },
+    "quickActions": {
+      "title": "Aksi Cepat",
+      "addProject": "Tambah Proyek",
+      "addArticle": "Tambah Artikel",
+      "addService": "Tambah Layanan",
+      "addTool": "Tambah Alat/Teknologi",
+      "addCertification": "Tambah Sertifikasi"
+    },
+    "projects": {
+      "title": "Proyek",
+      "description": "Kelola proyek portofolio",
+      "add": "Tambah Proyek",
+      "edit": "Ubah Proyek",
+      "empty": "Belum ada proyek. Portofolio kosong itu bukan strategi.",
+      "confirmDelete": "Hapus proyek ini?",
+      "saving": "Menyimpan...",
+      "deleting": "Menghapus...",
+      "saveSuccess": "Proyek disimpan",
+      "deleteSuccess": "Proyek dihapus",
+      "saveError": "Gagal menyimpan",
+      "deleteError": "Gagal menghapus",
+      "loadError": "Gagal memuat proyek",
+      "placeholders": {
+        "title": "Judul",
+        "description": "Deskripsi",
+        "year": "Tahun",
+        "technologies": "React, Next.js, Tailwind",
+        "liveUrl": "URL Live",
+        "githubUrl": "URL Github"
+      }
     }
   }
 }
