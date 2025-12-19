@@ -235,12 +235,21 @@
     "description1": "Lebih dari 50+ klien telah mempercayakan proyek mereka dan merasakan hasil yang luar biasa"
   },
   "articles": {
-    "titleLine1": "Artikel & Media",
+    "badge": "Blog",
+    "titleLine1": "Wawasan &",
+    "titleHighlight": "Artikel",
     "description1": "Artikel terbaru, tutorial mendalam, dan insight tentang pengembangan web modern dari perspektif praktisi industri",
     "button": "Jelajahi semua artikel",
     "loading": "Memuat artikel...",
     "error": "Gagal memuat artikel",
-    "empty": "ini bagian artikel"
+    "empty": "ini bagian artikel",
+    "searchPlaceholder": "Cari artikel...",
+    "allTags": "Semua",
+    "noArticles": "Artikel tidak ditemukan",
+    "noArticlesDesc": "Coba sesuaikan pencarian atau filter Anda.",
+    "featured": "Unggulan",
+    "readMore": "Baca Selengkapnya",
+    "moreArticles": "Artikel Lainnya"
   },
   "faqs": {
     "titleLine1": "Pertanyaan yang Sering Diajukan",
@@ -422,6 +431,42 @@
         "technologies": "React, Next.js, Tailwind",
         "liveUrl": "URL Live",
         "githubUrl": "URL Github"
+      }
+    },
+    "articles": {
+      "title": "Artikel",
+      "description": "Kelola artikel blog",
+      "add": "Tambah Artikel",
+      "new": "Artikel Baru",
+      "newDescription": "Buat artikel baru dengan konten rich text",
+      "edit": "Ubah Artikel",
+      "editDescription": "Perbarui konten dan pengaturan artikel",
+      "empty": "Belum ada artikel. Mulai bagikan pemikiran Anda.",
+      "untitled": "Tanpa Judul",
+      "confirmDelete": "Hapus artikel ini?",
+      "loading": "Memuat...",
+      "saving": "Menyimpan...",
+      "deleting": "Menghapus...",
+      "publishing": "Menerbitkan...",
+      "unpublishing": "Membatalkan penerbitan...",
+      "saveSuccess": "Artikel disimpan",
+      "deleteSuccess": "Artikel dihapus",
+      "publishSuccess": "Artikel diterbitkan",
+      "unpublishSuccess": "Penerbitan artikel dibatalkan",
+      "saveError": "Gagal menyimpan",
+      "deleteError": "Gagal menghapus",
+      "updateError": "Gagal memperbarui",
+      "loadError": "Gagal memuat artikel",
+      "published": "Diterbitkan",
+      "draft": "Draf",
+      "table": {
+        "image": "Gambar",
+        "title": "Judul",
+        "tags": "Tag",
+        "readTime": "Waktu Baca",
+        "status": "Status",
+        "date": "Tanggal",
+        "actions": "Aksi"
       }
     }
   }

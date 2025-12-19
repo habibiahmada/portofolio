@@ -235,12 +235,21 @@
     "description1": "More than 50+ clients have entrusted their projects and experienced extraordinary results."
   },
   "articles": {
-    "titleLine1": "Articles & Media",
+    "badge": "Blog",
+    "titleLine1": "Insights &",
+    "titleHighlight": "Articles",
     "description1": "Latest articles, in-depth tutorials, and insights into modern web development from an industry professional perspective",
     "button": "Browse all articles",
     "loading": "Loading articles...",
     "error": "Failed to load articles",
-    "empty": "This is the articles section"
+    "empty": "This is the articles section",
+    "searchPlaceholder": "Search articles...",
+    "allTags": "All",
+    "noArticles": "No articles found",
+    "noArticlesDesc": "Try adjusting your search or filter.",
+    "featured": "Featured",
+    "readMore": "Read More",
+    "moreArticles": "More Articles"
   },
   "faqs": {
     "titleLine1": "Frequently Asked Questions",
@@ -422,6 +431,42 @@
         "technologies": "React, Next.js, Tailwind",
         "liveUrl": "Live URL",
         "githubUrl": "Github URL"
+      }
+    },
+    "articles": {
+      "title": "Articles",
+      "description": "Manage blog articles",
+      "add": "Add Article",
+      "new": "New Article",
+      "newDescription": "Create a new article with rich text content",
+      "edit": "Edit Article",
+      "editDescription": "Update article content and settings",
+      "empty": "No articles yet. Start sharing your thoughts.",
+      "untitled": "Untitled",
+      "confirmDelete": "Delete this article?",
+      "loading": "Loading...",
+      "saving": "Saving...",
+      "deleting": "Deleting...",
+      "publishing": "Publishing...",
+      "unpublishing": "Unpublishing...",
+      "saveSuccess": "Article saved",
+      "deleteSuccess": "Article deleted",
+      "publishSuccess": "Article published",
+      "unpublishSuccess": "Article unpublished",
+      "saveError": "Failed to save",
+      "deleteError": "Failed to delete",
+      "updateError": "Failed to update",
+      "loadError": "Failed to load articles",
+      "published": "Published",
+      "draft": "Draft",
+      "table": {
+        "image": "Image",
+        "title": "Title",
+        "tags": "Tags",
+        "readTime": "Read Time",
+        "status": "Status",
+        "date": "Date",
+        "actions": "Actions"
       }
     }
   }

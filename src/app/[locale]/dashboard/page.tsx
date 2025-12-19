@@ -111,7 +111,7 @@ export default async function DashboardPage({ params }: { params: Promise<{ loca
           title={t('stats.articles')}
           value={counts.articles}
           color="green"
-          href="/dashboard/articles/all"
+          href="/dashboard/articles"
         />
         <StatCard
           icon={BookOpen}

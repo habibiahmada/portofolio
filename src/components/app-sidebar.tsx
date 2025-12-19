@@ -60,7 +60,7 @@ const data = {
     { title: "Experience & Education", url: "/dashboard/exp-edu", icon: GraduationCap },
     { title: "Certifications", url: "/dashboard/certificates", icon: Award },
     { title: "Testimonials", url: "/dashboard/testimonials", icon: MessageSquare },
-    { title: "Articles", url: "/dashboard/articles/all", icon: Newspaper },
+    { title: "Articles", url: "/dashboard/articles", icon: Newspaper },
     { title: "FAQs", url: "/dashboard/faqs", icon: HelpCircle },
     {
       title: "Contacts",
