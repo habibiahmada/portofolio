@@ -32,7 +32,7 @@ export async function GET(request: Request) {
     }
 
     const user = data.session.user
-    const authorizedEmails = ['habibiahmadaziz@gmail.com']
+    const authorizedEmails = [process.env.AUTHORIZED_EMAIL]
 
     if (!authorizedEmails.includes(user.email!)) {
       await supabase.auth.signOut()

@@ -249,7 +249,11 @@
     "noArticlesDesc": "Coba sesuaikan pencarian atau filter Anda.",
     "featured": "Unggulan",
     "readMore": "Baca Selengkapnya",
-    "moreArticles": "Artikel Lainnya"
+    "moreArticles": "Artikel Lainnya",
+    "breadcrumb": {
+      "home": "Beranda",
+      "articles": "Artikel"
+    }
   },
   "faqs": {
     "titleLine1": "Pertanyaan yang Sering Diajukan",

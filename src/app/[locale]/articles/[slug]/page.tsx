@@ -16,8 +16,11 @@ interface PageProps {
 }
 
 import { getArticleBySlug } from '@/services/api/public/articles';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
+import { getTranslations } from 'next-intl/server';
 
 export default async function ArticlePage({ params }: PageProps) {
+  const t = await getTranslations('articles');
   const resolvedParams = await params;
   const { slug, locale } = resolvedParams;
 
@@ -55,13 +58,25 @@ export default async function ArticlePage({ params }: PageProps) {
 
           <div className="container mx-auto px-6 relative">
             {/* Back Button */}
-            <Link
-              href="/articles"
-              className="inline-flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors mb-8"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span>{locale === 'id' ? 'Kembali ke Artikel' : 'Back to Articles'}</span>
-            </Link>
+            <Breadcrumb className="mb-4">
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/">{t('breadcrumb.home')}</BreadcrumbLink>
+                </BreadcrumbItem>
+
+                <BreadcrumbSeparator />
+
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/articles">{t('breadcrumb.articles')}</BreadcrumbLink>
+                </BreadcrumbItem>
+
+                <BreadcrumbSeparator />
+
+                <BreadcrumbItem>
+                  <BreadcrumbPage>{article.translation?.title}</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
 
             {/* Article Header */}
             <div className="max-w-4xl">

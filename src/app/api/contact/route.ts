@@ -104,7 +104,7 @@ export async function POST(req: Request) {
     const smtpPort = Number(process.env.SMTP_PORT || 587);
     const smtpUser = process.env.SMTP_USER;
     const smtpPass = process.env.SMTP_PASS;
-    const toEmail = process.env.CONTACT_TO_EMAIL || 'habibiahmadaziz@gmail.com';
+    const toEmail = process.env.AUTHORIZED_EMAIL;
 
     if (!smtpHost || !smtpUser || !smtpPass) {
       console.warn('SMTP config missing; skipping email send');

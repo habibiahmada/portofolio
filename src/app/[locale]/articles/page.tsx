@@ -10,6 +10,7 @@ import { ArrowRight, Clock, Tag, Search, Calendar, ChevronRight } from 'lucide-r
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import useArticles from '@/hooks/api/public/useArticles';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 
 
 
@@ -71,9 +72,20 @@ export default function ArticlesPage() {
 
           <div className="container mx-auto relative">
             <div className="max-w-3xl">
-              <span className="inline-block px-4 py-1.5 mb-6 text-sm font-semibold text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/30 rounded-full">
-                {t('badge')}
-              </span>
+              <Breadcrumb className="mb-4">
+                <BreadcrumbList>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href="/">{t('breadcrumb.home')}</BreadcrumbLink>
+                  </BreadcrumbItem>
+
+                  <BreadcrumbSeparator />
+
+                  <BreadcrumbItem>
+                    <BreadcrumbPage>{t('breadcrumb.articles')}</BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+
               <h1 className="text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6">
                 {t('titleLine1')}{' '}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-600">

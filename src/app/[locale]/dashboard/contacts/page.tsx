@@ -1,7 +1,14 @@
-export default function Page(){
-    return(
+import DashboardHeader from "@/components/ui/sections/admin/dashboardheader";
+
+export default function Page() {
+    return (
         <>
-            ini bagian Contacts
+            <div className="min-h-screen p-6 space-y-6">
+                <DashboardHeader
+                    title="Contacts"
+                    description="Manage your contacts"
+                />
+            </div>
         </>
     )
 }

@@ -110,7 +110,7 @@ export function isAuthorizedUser(user: AuthUser | null): boolean {
 
   // List of authorized emails (add your email here)
   const authorizedEmails = [
-    'habibiahmadaziz@gmail.com',
+    process.env.AUTHORIZED_EMAIL,
   ]
 
   return authorizedEmails.includes(user.email || '')

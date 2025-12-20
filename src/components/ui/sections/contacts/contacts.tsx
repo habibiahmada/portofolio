@@ -132,7 +132,11 @@ const SocialLinkItem: React.FC<{ social: SocialLink }> = ({ social }) => {
 
 
 // Component
-const ContactSection: React.FC = () => {
+interface ContactSectionProps {
+  email?: string;
+}
+
+const ContactSection: React.FC<ContactSectionProps> = ({ email }) => {
   const t = useTranslations("contacts");
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -178,27 +182,27 @@ const ContactSection: React.FC = () => {
       title: t('contactInfo.location'),
       content: t('contactInfo.locationValue'),
       subContent: 'Indonesia',
-      color: 'text-blue-600 bg-blue-500 dark:text-blue-400 dark:bg-blue-400'
+      color: 'text-blue-600 bg-blue-500 dark:text-blue-200 dark:bg-blue-400'
     },
     {
       icon: MessageSquare,
       title: t('contactInfo.whatsapp'),
       content: showContactInfo.phone ? '+62 856-9339-0636' : t('contactInfo.whatsappReveal'),
-      color: 'text-green-600 bg-green-500 dark:text-green-400 dark:bg-green-400',
+      color: 'text-green-600 bg-green-500 dark:text-green-200 dark:bg-green-400',
       action: () => revealContact('phone')
     },
     {
       icon: Mail,
       title: t('contactInfo.email'),
-      content: showContactInfo.email ? 'habibiahmadaziz@gmail.com' : t('contactInfo.emailReveal'),
-      color: 'text-purple-600 bg-purple-500 dark:text-purple-400 dark:bg-purple-400',
+      content: showContactInfo.email ? (email || 'habibi.ahmada@gmail.com') : t('contactInfo.emailReveal'),
+      color: 'text-purple-600 bg-purple-500 dark:text-purple-200 dark:bg-purple-400',
       action: () => revealContact('email')
     },
     {
       icon: Clock,
       title: t('contactInfo.workingHours'),
       content: t('contactInfo.workingHoursValue'),
-      color: 'text-orange-600 bg-orange-500 dark:text-orange-400 dark:bg-orange-400'
+      color: 'text-orange-600 bg-orange-500 dark:text-orange-200 dark:bg-orange-400'
     }
   ];
 

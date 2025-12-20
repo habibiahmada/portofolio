@@ -249,7 +249,11 @@
     "noArticlesDesc": "Try adjusting your search or filter.",
     "featured": "Featured",
     "readMore": "Read More",
-    "moreArticles": "More Articles"
+    "moreArticles": "More Articles",
+    "breadcrumb": {
+      "home": "Home",
+      "articles": "Articles"
+    }
   },
   "faqs": {
     "titleLine1": "Frequently Asked Questions",

@@ -76,10 +76,10 @@ export async function proxy(req: NextRequest) {
   const [{ data: { user } }] = await Promise.all([
     supabase.auth.getUser(),
   ])
-
+  
   // List of authorized emails (add your email here)
   const authorizedEmails = [
-    'habibiahmadaziz@gmail.com',
+    process.env.AUTHORIZED_EMAIL,
   ]
 
   // Check if user is authorized
