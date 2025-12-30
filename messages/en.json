@@ -1,8 +1,19 @@
 {
   "Metadata": {
-    "title": "Habibi Ahmad Aziz | Portofolio",
-    "description": "My personal portfolio website",
-    "dashboardTitle": "Dashboard | Portofolio"
+    "title": "Habibi Ahmad | Web Developer Portfolio",
+    "description": "Habibi Ahmad's portfolio, a Web Developer focused on building modern websites using Next.js, React, and modern web technologies. Explore my projects, skills, and experience.",
+    "openGraph": {
+      "title": "Habibi Ahmad | Web Developer",
+      "description": "Explore the portfolio, projects, and skills of Habibi Ahmad as a Web Developer focused on Frontend and Backend development.",
+      "siteName": "Habibi Ahmad Portfolio",
+      "imageAlt": "Habibi Ahmad Portfolio - Web Developer"
+    },
+    "twitter": {
+      "title": "Habibi Ahmad | Web Developer",
+      "description": "Explore the portfolio, projects, and skills of Habibi Ahmad as a Web Developer focused on Frontend and Backend development.",
+      "card": "summary_large_image",
+      "imageAlt": "Habibi Ahmad Portfolio - Web Developer"
+    }
   },
   "Common": {
     "time": {
