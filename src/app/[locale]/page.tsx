@@ -32,9 +32,9 @@ export default function Home() {
         <TestimonialSection />
         <ArticlesSection />
         <ModernFAQSection />
-        <ContactSection />
+        <ContactSection email={process.env.AUTHORIZED_EMAIL} />
       </main>
-      
+
       <Footer />
     </>
   );

@@ -108,7 +108,7 @@ export default function Education() {
 
         {/* CONTENT */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <div className="hidden lg:block lg:col-span-3">
+          <div className="hidden md:block lg:col-span-3">
             <StickyNav
               items={filteredExperiences}
               activeIndex={activeCardIndex}
@@ -120,7 +120,7 @@ export default function Education() {
             {filteredExperiences.map((exp, index) => (
               <div
                 key={exp.id}
-                className="timeline-card-wrapper relative pl-12 lg:pl-0"
+                className="timeline-card-wrapper relative px-12 lg:px-0"
               >
                 <TimelineCard
                   data={exp}

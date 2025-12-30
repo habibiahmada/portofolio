@@ -27,7 +27,7 @@ export default function FAQAdminPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="min-h-screen p-6 space-y-6">
       <DashboardHeader
         title="FAQs"
         description="Manage questions that appear on the website"

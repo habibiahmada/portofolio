@@ -22,9 +22,6 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return {
     title: t('title'),
     description: t('description'),
-    openGraph: {
-      title: t('title'),
-    },
     icons: {
       icon: [
         { url: "/favicon.ico", sizes: "any" },
@@ -33,6 +30,43 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       shortcut: "/favicon-96x96.png",
       apple: "/apple-touch-icon.png",
     },
+    openGraph: {
+      title: t('openGraph.title'),
+      description: t('openGraph.description'),
+      siteName: t('openGraph.siteName'),
+      url: process.env.NEXT_PUBLIC_APP_URL,
+      images: [
+        {
+          url: '/og-image.png',
+          width: 1200,
+          height: 630,
+          alt: t('openGraph.imageAlt'),
+        }
+      ],
+      locale,
+      type: 'website',
+    },
+    twitter: {
+      title: t('twitter.title'),
+      description: t('twitter.description'),
+      card: 'summary_large_image',
+      images: [
+        {
+          url: '/og-image.png',
+          width: 1200,
+          height: 630,
+          alt: t('twitter.imageAlt'),
+        }
+      ],
+    },
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_APP_URL}/${locale}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+    keywords: ['Habibi Ahmad', 'Web Developer', 'Fullstack Developer', 'Software Engineer', 'Coding Camp', 'Coding', 'Habibi Ahmad Aziz', 'SMKN 1 Karawang', 'Habibi Ahmad Aziz SMKN 1 Karawang', 'Habibi Ahmad SMKN 1 Karawang', 'Siswa SMKN 1 Karawang', 'Siswa Coding Camp', 'PPLG', 'RPL', 'Siswa PPLG', 'Siswa RPL', 'PPLG SMKN 1 Karawang', 'RPL SMKN 1 Karawang'],
   };
 }
 
