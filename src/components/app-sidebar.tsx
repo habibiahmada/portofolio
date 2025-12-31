@@ -81,17 +81,17 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
 
   const userData = React.useMemo(() => {
     if (loading) {
-      return { name: "Loading...", email: "", avatar: "/self-photo-habibi-ahmad-aziz.webp" }
+      return { name: "Loading...", email: "", avatar: "/images/self-photo-habibi-ahmad-aziz.webp" }
     }
 
     if (!user) {
-      return { name: "Guest User", email: "", avatar: "/self-photo-habibi-ahmad-aziz.webp" }
+      return { name: "Guest User", email: "", avatar: "/images/self-photo-habibi-ahmad-aziz.webp" }
     }
 
     return {
       name: userDisplayName,
       email: user.email || "",
-      avatar: user.user_metadata?.avatar_url || "/self-photo-habibi-ahmad-aziz.webp",
+      avatar: user.user_metadata?.avatar_url || "/images/self-photo-habibi-ahmad-aziz.webp",
     }
   }, [user, userDisplayName, loading])
 

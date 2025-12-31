@@ -85,7 +85,7 @@ export default function ServicesPage() {
   };
 
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-6">
       <DashboardHeader
         title="Services"
         description="Manage services"

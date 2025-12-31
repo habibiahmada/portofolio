@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://habibiahmada.dev
+Host: http://localhost:3000
 
 # Sitemaps
-Sitemap: https://habibiahmada.dev/sitemap.xml
+Sitemap: http://localhost:3000/sitemap.xml

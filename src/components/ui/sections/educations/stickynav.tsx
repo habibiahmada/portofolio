@@ -16,6 +16,7 @@ export default function StickyNav({
         const monthName = date.toLocaleString("id-ID", {
           month: "long",
         });
+        const year = date.getFullYear();
 
         const active = idx === activeIndex;
 
@@ -35,7 +36,7 @@ export default function StickyNav({
                     : "text-slate-600"
                 }`}
             >
-              {monthName}
+              {monthName} {year}
             </span>
 
             <span

@@ -77,7 +77,7 @@ export default function Page() {
     const displayedArticles = articles as unknown as ArticleItem[];
 
     return (
-        <div className="min-h-screen p-6 space-y-6">
+        <div className="min-h-screen space-y-6">
             <DashboardHeader
                 title={t('title')}
                 description={t('description')}

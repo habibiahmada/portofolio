@@ -186,7 +186,7 @@ export default function Page() {
 
   return (
     <div className="min-h-screen">
-      <div className="mx-auto p-6 space-y-6">
+      <div className="mx-auto space-y-6">
         {/* Header */}
         <DashboardHeader
           title={t("title")}

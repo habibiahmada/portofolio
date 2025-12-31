@@ -65,6 +65,10 @@ const config = {
           changefreq: 'daily',
           priority: 0.7,
           lastmod: new Date().toISOString(),
+          alternateRefs: locales.map((lang) => ({
+            href: `${config.siteUrl}/${lang}/articles/${article.slug}`,
+            hreflang: lang,
+          })),
         });
       }
     }

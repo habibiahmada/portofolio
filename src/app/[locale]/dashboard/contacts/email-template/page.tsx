@@ -81,7 +81,7 @@ export default function EmailTemplateEditor() {
       )
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <div className="flex flex-1 flex-col gap-4 sm:gap-6 p-2 min-h-screen">
         {/* Header */}
         <div className="mb-8">

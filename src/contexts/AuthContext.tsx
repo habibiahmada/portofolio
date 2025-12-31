@@ -2,7 +2,10 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { createClient } from '@/utils/supabase/client'
-import { onAuthStateChange, isAuthorizedUser, getUserDisplayName } from '@/lib/auth'
+import {
+  isAuthorizedUser,
+  getUserDisplayName,
+} from '@/lib/auth'
 import type { AuthUser, AuthState } from '@/lib/auth'
 import type { Session } from '@supabase/supabase-js'
 
@@ -24,128 +27,85 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null)
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    // Get initial session
-    const getInitialSession = async () => {
-      try {
-        // Get validated user from Supabase Auth server
-        const { data: { user } } = await supabase.auth.getUser()
-        setUser((user as AuthUser) || null)
-        // Optionally keep session state for tokens, but do not trust session.user
-        const { data: { session } } = await supabase.auth.getSession()
-        setSession(session)
-      } catch (error) {
-        console.error('Error getting session:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
+  // Single source of truth
+  const syncAuthState = async () => {
+    const [{ data: userData }, { data: sessionData }] = await Promise.all([
+      supabase.auth.getUser(),
+      supabase.auth.getSession(),
+    ])
 
-    getInitialSession()
+    const validatedUser = userData.user as AuthUser | null
 
-    // Listen for auth changes
-    try {
-      const { data: { subscription } } = onAuthStateChange(async (event) => {
-        try {
-          if (event === 'SIGNED_OUT') {
-            setUser(null)
-            setSession(null)
-          } else {
-            // For SIGNED_IN, TOKEN_REFRESHED, etc., fetch validated user
-            const [{ data: { user } }, { data: { session } }] = await Promise.all([
-              supabase.auth.getUser(),
-              supabase.auth.getSession(),
-            ])
-            setUser((user as AuthUser) || null)
-            setSession(session)
-          }
-        } finally {
-          setLoading(false)
-        }
-      })
-
-      return () => subscription.unsubscribe()
-    } catch (error) {
-      console.error('Error setting up auth listener:', error)
+    // Auto sign-out unauthorized users (after OAuth callback)
+    if (validatedUser && !isAuthorizedUser(validatedUser)) {
+      await supabase.auth.signOut()
+      setUser(null)
+      setSession(null)
       setLoading(false)
+      return
     }
-  }, [])
 
-  const signIn = async (email: string, password: string) => {
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      })
-
-      if (error) {
-        throw new Error(error.message)
-      }
-
-      if (data.user && !isAuthorizedUser(data.user as AuthUser)) {
-        await supabase.auth.signOut()
-        throw new Error('Access denied. This portfolio is private.')
-      }
-
-      setUser(data.user as AuthUser)
-      setSession(data.session)
-    } catch (error) {
-      console.error('Sign in error:', error)
-      throw error
-    }
+    setUser(validatedUser)
+    setSession(sessionData.session)
+    setLoading(false)
   }
 
-  const signInWithGoogle = async (lang: string = 'en') => {
+  useEffect(() => {
+    syncAuthState()
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(() => {
+      syncAuthState()
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
+
+  // Auth actions
+  const signIn = async (email: string, password: string) => {
+    // Check if email is authorized before attempting login
+    const authorizedEmail = process.env.NEXT_PUBLIC_AUTHORIZED_EMAIL
+    if (authorizedEmail && email.toLowerCase() !== authorizedEmail.toLowerCase()) {
+      throw new Error('Email tidak diizinkan untuk login')
+    }
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
+
+    if (error) throw new Error(error.message)
+  }
+
+  const signInWithGoogle = async (lang = 'en') => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: `${window.location.origin}/api/auth/callback?next=/${lang}/dashboard`,
-        queryParams: {
-          flowType: 'pkce',
-        },
-      }
+        queryParams: { flowType: 'pkce' },
+      },
     })
 
-    if (error) {
-      throw new Error(error.message)
-    }
+    if (error) throw new Error(error.message)
   }
 
-  const signInWithGitHub = async (lang: string = 'en') => {
+  const signInWithGitHub = async (lang = 'en') => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'github',
       options: {
         redirectTo: `${window.location.origin}/api/auth/callback?next=/${lang}/dashboard`,
-        queryParams: {
-          flowType: 'pkce',
-        },
-      }
+        queryParams: { flowType: 'pkce' },
+      },
     })
 
-    if (error) {
-      throw new Error(error.message)
-    }
+    if (error) throw new Error(error.message)
   }
 
   const signOut = async () => {
-    try {
-      const { error } = await supabase.auth.signOut()
-      if (error) {
-        throw new Error(error.message)
-      }
-      setUser(null)
-      setSession(null)
-      if(!setSession){
-        console.log('No active session found.')
-      }
-    } catch (error) {
-      console.error('Sign out error:', error)
-      throw error
-    }
+    const { error } = await supabase.auth.signOut()
+    if (error) throw new Error(error.message)
   }
-
-  const isAuthorized = isAuthorizedUser(user)
-  const userDisplayName = getUserDisplayName(user)
 
   const value: AuthContextType = {
     user,
@@ -155,21 +115,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     signInWithGoogle,
     signInWithGitHub,
     signOut,
-    isAuthorized,
-    userDisplayName,
+    isAuthorized: isAuthorizedUser(user),
+    userDisplayName: getUserDisplayName(user),
   }
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  )
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
 export function useAuth() {
-  const context = useContext(AuthContext)
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider')
+  const ctx = useContext(AuthContext)
+  if (!ctx) {
+    throw new Error('useAuth must be used within AuthProvider')
   }
-  return context
+  return ctx
 }

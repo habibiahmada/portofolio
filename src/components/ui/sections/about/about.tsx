@@ -58,6 +58,8 @@ export default function About() {
                 height={800}
                 className="w-full h-auto object-cover transform transition-transform duration-700"
                 draggable={false}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
+                priority
               />
               {/* Decorative Elements */}
               <div

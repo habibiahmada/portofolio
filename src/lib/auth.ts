@@ -108,9 +108,9 @@ export function onAuthStateChange(callback: (event: string, session: Session | n
 export function isAuthorizedUser(user: AuthUser | null): boolean {
   if (!user) return false
 
-  // List of authorized emails (add your email here)
+  // Use NEXT_PUBLIC_ prefix for client-side access
   const authorizedEmails = [
-    process.env.AUTHORIZED_EMAIL,
+    process.env.NEXT_PUBLIC_AUTHORIZED_EMAIL,
   ]
 
   return authorizedEmails.includes(user.email || '')

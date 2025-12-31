@@ -7,11 +7,11 @@ import SectionHeader from "../SectionHeader";
 import dynamic from 'next/dynamic';
 import CertificateModal from './certificationmodal';
 import useCertificates from '@/hooks/api/public/useCertificates';
-import { Skeleton } from '@/components/ui/skeleton';
 import { Certificate } from '@/lib/types/database';
+import CertificationSkeleton from './certificationskeleton';
 
 const CertificationCard = dynamic(
-  () => import("@/components/ui/sections/certifications/certificationcard"),
+  () => import("./certificationcard"),
   { ssr: false }
 );
 
@@ -51,37 +51,7 @@ const CertificationsSection: React.FC = () => {
 
           {/* Loading & Error State */}
           {loading && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {Array.from({ length: 6 }).map((_, idx) => (
-                <div key={idx} className="group relative bg-white dark:bg-slate-950 rounded-2xl shadow-lg overflow-hidden border border-slate-200 dark:border-slate-700">
-                  {/* Preview skeleton */}
-                  <div className="h-48 w-full">
-                    <Skeleton className="h-full w-full rounded-none" />
-                  </div>
-
-                  {/* Content skeleton */}
-                  <div className="p-6 space-y-4">
-                    <div className="space-y-2">
-                      <Skeleton className="h-5 w-3/4" />
-                      <Skeleton className="h-4 w-1/2" />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Skeleton className="h-4 w-full" />
-                      <Skeleton className="h-4 w-5/6" />
-                    </div>
-
-                    <div className="flex gap-2">
-                      <Skeleton className="h-6 w-20 rounded-md" />
-                      <Skeleton className="h-6 w-16 rounded-md" />
-                      <Skeleton className="h-6 w-14 rounded-md" />
-                    </div>
-
-                    <Skeleton className="h-9 w-full rounded-lg" />
-                  </div>
-                </div>
-              ))}
-            </div>
+            <CertificationSkeleton />
           )}
           {error && (
             <div className="text-center text-red-500">
