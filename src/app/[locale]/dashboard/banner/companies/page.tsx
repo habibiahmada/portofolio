@@ -114,7 +114,7 @@ export default function CompaniesAdminPage() {
 
   return (
     <div className="min-h-screen">
-      <div className="mx-auto p-6 space-y-6">
+      <div className="mx-auto space-y-6">
         <DashboardHeader  
           title={t("admin.headerTitle")}
           description={t("admin.subtitle")}

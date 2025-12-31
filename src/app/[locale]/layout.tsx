@@ -1,5 +1,5 @@
 import "./globals.css";
-import { Outfit } from "next/font/google";
+import { Inter } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
 import { Locale, routing } from "@/i18n/routing";
@@ -7,16 +7,15 @@ import { Providers } from "./providers";
 import { getMessages } from "@/lib/getMessages";
 import { Analytics } from "@vercel/analytics/next";
 import { Toaster } from "sonner";
-import Script from "next/script";
 import { getTranslations } from "next-intl/server";
 
-const outfit = Outfit({
+const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   preload: true,
   variable: "--font-outfit",
 
-  // 🔥 penting untuk Lighthouse
+  // penting untuk Lighthouse
   adjustFontFallback: true,
 });
 
@@ -33,8 +32,7 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Metadata" });
 
-  const baseUrl =
-    process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
   return {
     metadataBase: new URL(baseUrl),
@@ -115,13 +113,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
-        {/* Recaptcha – non blocking */}
-        {process.env.NEXT_PUBLIC_RECAPTCHA_ENTERPRISE_SITE_KEY && (
-          <Script
-            src={`https://www.google.com/recaptcha/enterprise.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_ENTERPRISE_SITE_KEY}`}
-            strategy="afterInteractive"
-          />
-        )}
+        {/* reCAPTCHA is now lazy-loaded only in the contact form component */}
         <link
           rel="preload"
           as="image"
@@ -132,14 +124,14 @@ export default async function LocaleLayout({ children, params }: Props) {
       </head>
 
       <body
-        className={`${outfit.variable} font-sans antialiased bg-background`}
+        className={`${inter.variable} ${inter.className} font-sans antialiased bg-background`}
       >
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Providers attribute="class" defaultTheme="system" enableSystem>
             <main className="min-h-screen">
               {children}
             </main>
-            <Analytics />
+            {process.env.NODE_ENV === 'production' && <Analytics />}
             <Toaster position="top-center" richColors />
           </Providers>
         </NextIntlClientProvider>

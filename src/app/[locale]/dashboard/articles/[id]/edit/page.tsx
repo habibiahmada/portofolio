@@ -25,7 +25,7 @@ export default function ArticleEditPage() {
 
     if (fetching) {
         return (
-            <div className="min-h-screen p-6 flex items-center justify-center">
+            <div className="min-h-screen flex items-center justify-center">
                 <div className="animate-pulse text-muted-foreground">
                     {t('loading')}
                 </div>
@@ -34,7 +34,7 @@ export default function ArticleEditPage() {
     }
 
     return (
-        <div className="min-h-screen p-6 space-y-6">
+        <div className="min-h-screen space-y-6">
             <Breadcrumb>
                 <BreadcrumbList>
                     <BreadcrumbItem>

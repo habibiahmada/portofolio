@@ -67,6 +67,7 @@ export interface Certificate {
   skills: string[];
   created_at?: string;
   updated_at?: string;
+  thumbnail?: string;
   certification_translations?: CertificationTranslation[];
 }
 

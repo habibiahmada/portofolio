@@ -26,7 +26,7 @@ export default function ProjectEditPage() {
     }
 
     return (
-        <div className="min-h-screen p-6 space-y-6">
+        <div className="min-h-screen space-y-6">
             <Breadcrumb>
                 <BreadcrumbList>
                     <BreadcrumbItem>

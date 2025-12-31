@@ -112,17 +112,13 @@ export async function proxy(req: NextRequest) {
     return NextResponse.redirect(new URL(loginRoute, req.url))
   }
 
-  // If accessing login page while already authorized
+  // If accessing login page while already authorized, redirect to dashboard
   if (isLoginRoute && user && isAuthorized) {
     return NextResponse.redirect(new URL(`/${locale}/dashboard`, req.url))
   }
 
-  // If accessing login page but not authorized (wrong device/email)
-  if (isLoginRoute && user && !isAuthorized) {
-    // Sign out the unauthorized user
-    await supabase.auth.signOut()
-    return NextResponse.redirect(new URL(`/${locale}`, req.url))
-  }
+  // Let unauthorized users access login page normally
+  // The callback will handle validation for OAuth, AuthContext handles password login
 
   return response
 }

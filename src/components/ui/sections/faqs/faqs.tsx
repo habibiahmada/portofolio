@@ -33,7 +33,7 @@ const ModernFAQSection: React.FC = () => {
     <section
       className={`
         relative overflow-hidden
-        py-28 sm:py-36 lg:py-40 transition-colors duration-300
+        py-24 sm:py-36 lg:py-40 transition-colors duration-300
         ${isDark ? "bg-slate-950" : "bg-slate-50"}
       `}
     >
@@ -64,13 +64,13 @@ const ModernFAQSection: React.FC = () => {
               return (
                 <AccordionItem key={faq.id} value={faq.id}>
                   <AccordionTrigger>
-                    <p className="text-xl text-left">
+                    <p className="text-lg text-left">
                       {translation.question}
                     </p>
                   </AccordionTrigger>
 
                   <AccordionContent>
-                    <p className="text-lg text-muted-foreground">
+                    <p className="text-md text-muted-foreground">
                       {translation.answer}
                     </p>
                   </AccordionContent>

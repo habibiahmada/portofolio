@@ -19,15 +19,15 @@ const CertificateThumbnail: React.FC<CertificateThumbnailProps> = ({ file }) => 
   const [docReady, setDocReady] = useState(false);
 
   useEffect(() => {
-  const controller = new AbortController();
+    const controller = new AbortController();
 
-  fetch(file, { signal: controller.signal })
-    .then(res => res.arrayBuffer())
-    .then(setPdfData)
-    .catch(() => {});
+    fetch(file, { signal: controller.signal })
+      .then(res => res.arrayBuffer())
+      .then(setPdfData)
+      .catch(() => { });
 
-  return () => controller.abort();
-}, [file]);
+    return () => controller.abort();
+  }, [file]);
 
   return (
     <div className="w-full h-full flex items-center justify-center bg-slate-100 dark:bg-slate-800 overflow-hidden">

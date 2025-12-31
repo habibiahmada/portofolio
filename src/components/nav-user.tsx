@@ -44,18 +44,21 @@ export function NavUser({
   const isAccountSection = ["/account", "/billing", "/notifications"].some((s) =>
     pathname?.includes(s)
   )
-  
+
 
   const handleSignOut = async () => {
-    try {
-      toast.loading('Signing out...')
-      await signOut()
-      router.push('/login')
-      toast.success('Signed out successfully')
-    } catch (error) {
-      console.error('Error signing out:', error)
-    }
+    toast.promise(
+      signOut().then(() => {
+        router.push('/login')
+      }),
+      {
+        loading: 'Signing out...',
+        success: 'Signed out successfully',
+        error: 'Failed to sign out',
+      }
+    )
   }
+
 
   return (
     <SidebarMenu>

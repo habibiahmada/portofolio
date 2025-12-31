@@ -116,7 +116,7 @@ export default function StatsAdminPage() {
   }
 
   return (
-    <div className="min-h-screen p-6 space-y-6 relative">
+    <div className="min-h-screen space-y-6 relative">
       <DashboardHeader
         title={t("headerTitle")}
         description={t("headerSubtitle")}

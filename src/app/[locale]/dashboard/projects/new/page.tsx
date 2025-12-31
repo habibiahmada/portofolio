@@ -15,7 +15,7 @@ export default function ProjectNewPage() {
     const router = useRouter();
 
     return (
-        <div className="min-h-screen p-6 space-y-6">
+        <div className="min-h-screen space-y-6">
             <Breadcrumb>
                 <BreadcrumbList>
                     <BreadcrumbItem>

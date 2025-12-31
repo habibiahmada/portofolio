@@ -28,7 +28,7 @@ export default function HeroImage({
       </div>
 
       <Image
-        src={imageUrl || "/self-photo-habibi-ahmad-aziz.webp"}
+        src={imageUrl || "/images/self-photo-habibi-ahmad-aziz.webp"}
         alt={imageAlt}
         width={600}
         height={600}

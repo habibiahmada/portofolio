@@ -7,6 +7,7 @@ import useExperiences from "@/hooks/api/public/useExperiences";
 import { useTranslations } from "next-intl";
 import StickyNav from "./stickynav";
 import TimelineCard from "./timelinecard";
+import SectionHeader from "../SectionHeader";
 
 export default function Education() {
   const { experiences, loading } = useExperiences();
@@ -50,67 +51,45 @@ export default function Education() {
   return (
     <section
       id="experience"
-      className={`w-full py-20 transition-colors duration-500 ${
-        isDark ? "bg-slate-900" : "bg-slate-50"
-      }`}
+      className={`w-full pt-20 transition-colors duration-500 ${isDark ? "bg-slate-900" : "bg-slate-50"
+        }`}
     >
-      <div className="container mx-auto px-4 sm:px-6 relative">
+      <div className="container mx-auto px-4 relative">
 
         {/* HEADER */}
-        <div className="relative mb-20 text-center space-y-4">
-          <div className="absolute inset-0 flex justify-center items-center pointer-events-none">
-            <div className="w-[200px] h-[100px] bg-blue-500/20 blur-[100px] rounded-full" />
-          </div>
-
-          <h2
-            className={`text-4xl font-extrabold ${
-              isDark ? "text-white" : "text-slate-900"
-            }`}
-          >
-            {t("titleLine1")}{" "}
-            <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-              {t("titleLine2")}
-            </span>
-          </h2>
-
-          <p
-            className={`max-w-2xl mx-auto text-base ${
-              isDark ? "text-slate-300" : "text-slate-600"
-            }`}
-          >
-            {t("description1")}
-          </p>
-        </div>
+        <SectionHeader
+          glow
+          titleLine1={t("titleLine1")}
+          titleLine2={t("titleLine2")}
+          description={t("description1")}
+        />
 
         {/* TABS */}
-        <div className="flex justify-center mb-16">
+        <div className="flex justify-center my-14">
           <div
-            className={`p-1.5 rounded-2xl flex gap-1 border ${
-              isDark
+            className={`p-1.5 rounded-2xl flex items-center justify-center gap-1 border ${isDark
                 ? "bg-slate-900 border-slate-800"
                 : "bg-white border-slate-200"
-            }`}
+              }`}
           >
             {(["experience", "education"] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 aria-label={t(`tabbuttons${tab}`)}
-                className={`relative px-6 py-3 text-sm font-semibold transition-all ${
-                  activeTab === tab
+                className={`relative px-4 py-3 text-sm font-semibold transition-all ${activeTab === tab
                     ? isDark
                       ? "text-white"
                       : "text-slate-900"
                     : isDark
-                    ? "text-slate-300 hover:text-white"
-                    : "text-slate-600 hover:text-slate-900"
-                }`}
+                      ? "text-slate-300 hover:text-white"
+                      : "text-slate-600 hover:text-slate-900"
+                  }`}
               >
                 {activeTab === tab && (
                   <div
-                    className={`absolute inset-0 rounded-xl ${
-                      isDark ? "bg-slate-800" : "bg-slate-100"
-                    }`}
+                    className={`absolute inset-0 rounded-xl ${isDark ? "bg-slate-800" : "bg-slate-100"
+                      }`}
                   />
                 )}
 
@@ -141,7 +120,7 @@ export default function Education() {
             {filteredExperiences.map((exp, index) => (
               <div
                 key={exp.id}
-                className="timeline-card-wrapper relative px-12 lg:px-0"
+                className="timeline-card-wrapper relative"
               >
                 <TimelineCard
                   data={exp}

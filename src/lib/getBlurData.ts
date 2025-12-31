@@ -4,7 +4,7 @@ import path from "path";
 
 export async function getBlurData(imagePath: string) {
   const file = await fs.readFile(
-    path.join(process.cwd(), "public", "images", imagePath)
+    path.join(process.cwd(), "public", imagePath)
   );
 
   const { base64 } = await getPlaiceholder(file);

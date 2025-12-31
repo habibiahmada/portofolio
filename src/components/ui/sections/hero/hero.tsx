@@ -11,6 +11,7 @@ import { useTranslations } from "next-intl";
 import HeroSkeleton from "./heroskeleton";
 import CVPreviewModal from "./cvpreviewmodal";
 import useHero from "@/hooks/api/public/useHero";
+import { DecorativeCode, BackgroundGrid, HexagonalShape } from "../../decorativeelement";
 
 const HeroImage = ({
   isDark,
@@ -27,17 +28,10 @@ const HeroImage = ({
   <div className="relative">
     {/* Unique hexagonal background */}
     <div className="absolute -inset-8">
-      <div
-        className={`w-full h-full opacity-20 ${isDark ? "bg-blue-500/20" : "bg-blue-400/30"
-          }`}
-        style={{
-          clipPath: "polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)",
-          transform: "scale(1.1)",
-        }}
-      />
+      <HexagonalShape isDark={isDark} />
     </div>
     <Image
-      src={imageUrl || "images/self-photo-habibi-ahmad-aziz.webp"}
+      src={imageUrl || "/images/self-photo-habibi-ahmad-aziz.webp"}
       alt={imageAlt}
       width={600}
       height={600}
@@ -46,35 +40,9 @@ const HeroImage = ({
       sizes="(max-width: 768px) 100vw, 600px"
       placeholder="blur"
       blurDataURL={blurDataURL}
-      priority
+      fetchPriority="high"
     />
   </div>
-);
-
-const DecorativeCode = ({ isDark, developerTag, consoleTag }: { isDark: boolean; developerTag?: string; consoleTag?: string }) => (
-  <>
-    <div
-      className={`absolute -top-8 left-4 px-3 py-1 rounded-lg text-xs font-mono ${isDark ? "bg-slate-800/80 text-green-400" : "bg-slate-100/80 text-green-600"
-        } backdrop-blur-sm`}
-    >
-      {developerTag || "<Developer />"}
-    </div>
-    <div
-      className={`absolute top-0 right-2 px-3 py-1 lg:top-20 rounded-lg text-xs font-mono ${isDark ? "bg-slate-800/80 text-blue-400" : "bg-slate-100/80 text-blue-600"
-        } backdrop-blur-sm`}
-    >
-      console.log(&quot;{consoleTag || "Hello World!"}&quot;)
-    </div>
-  </>
-);
-
-const BackgroundGrid = ({ isDark }: { isDark: boolean }) => (
-  <div
-    className={`absolute inset-0 opacity-30 ${isDark
-      ? "bg-[linear-gradient(rgba(59,130,246,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.1)_1px,transparent_1px)]"
-      : "bg-[linear-gradient(rgba(148,163,184,0.2)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.2)_1px,transparent_1px)]"
-      } bg-[size:60px_60px] [mask-image:radial-gradient(ellipse_70%_50%_at_50%_50%,#000_60%,transparent_100%)]`}
-  />
 );
 
 
@@ -103,7 +71,7 @@ export default function Hero({ blurDataURL }: { blurDataURL: string }) {
       <section
         id="home"
         className={`relative overflow-hidden flex items-center 
-          pt-24 sm:pt-28 lg:pt-36 pb-24 transition-colors duration-300 min-h-[calc(100vh-4rem)]
+          pt-24 sm:pt-28 lg:pt-36 pb-24 transition-colors duration-300 min-h-[50rem]
           ${isDark
             ? "bg-gradient-to-br from-gray-950 to-gray-950"
             : "bg-gradient-to-br from-gray-50 via-white to-gray-50/30"
@@ -139,7 +107,7 @@ export default function Hero({ blurDataURL }: { blurDataURL: string }) {
             </div>
 
             <p
-              className={`text-lg sm:text-xl lg:text-2xl leading-relaxed max-w-lg font-light ${isDark ? "text-slate-300" : "text-slate-600"
+              className={`text-md sm:text-lg lg:text-xl leading-relaxed max-w-lg font-light ${isDark ? "text-slate-300" : "text-slate-600"
                 }`}
             >
               {heroData?.description || t("fallbackDescription", { default: "Building modern web applications." })}
@@ -170,7 +138,7 @@ export default function Hero({ blurDataURL }: { blurDataURL: string }) {
             <HeroImage
               isDark={isDark}
               imageAlt={heroData?.greeting || "Profile Photo"}
-              imageUrl={heroData?.image_url}
+              imageUrl="/images/self-photo-habibi-ahmad-aziz.webp"
               blurDataURL={blurDataURL}
             />
 

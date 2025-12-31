@@ -209,7 +209,7 @@ export default function Page() {
   /* ================= UI ================= */
 
   return (
-    <div className="min-h-screen p-6 space-y-6">
+    <div className="min-h-screen space-y-6">
       <DashboardHeader 
         title="Experience & Education" 
         description="Manage your experience and education" 

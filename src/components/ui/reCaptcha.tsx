@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 declare global {
   interface Window {
@@ -27,12 +27,36 @@ interface ReCaptchaProps {
 }
 
 export default function ReCaptcha({ siteKey, onVerify, className, theme, size }: ReCaptchaProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const recaptchaRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<number | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
+  // IntersectionObserver to detect when component is in viewport
   useEffect(() => {
-    if (!siteKey) {
-      console.error("ReCaptcha: Missing siteKey. Set NEXT_PUBLIC_RECAPTCHA_SITE_KEY.");
+    if (!containerRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect(); // Only need to detect once
+        }
+      },
+      { rootMargin: "100px" } // Start loading slightly before visible
+    );
+
+    observer.observe(containerRef.current);
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Load reCAPTCHA script only when visible
+  useEffect(() => {
+    if (!isVisible || !siteKey) {
+      if (!siteKey) {
+        console.error("ReCaptcha: Missing siteKey. Set NEXT_PUBLIC_RECAPTCHA_SITE_KEY.");
+      }
       return;
     }
 
@@ -55,7 +79,7 @@ export default function ReCaptcha({ siteKey, onVerify, className, theme, size }:
       // Avoid double-render if element already has children (Fast Refresh/StrictMode)
       if (recaptchaRef.current.childNodes.length > 0) return;
       if (!window.grecaptcha || typeof window.grecaptcha.render !== "function") return;
-        try {
+      try {
         // determine theme
         let resolvedTheme: "light" | "dark" = "light";
         if (theme) resolvedTheme = theme;
@@ -108,9 +132,15 @@ export default function ReCaptcha({ siteKey, onVerify, className, theme, size }:
     return () => {
       // nothing to cleanup explicitly; widget is managed by Google API inside the div
     };
-  }, [siteKey, onVerify, size, theme]);
+  }, [isVisible, siteKey, onVerify, size, theme]);
 
-  return <div className={className ?? "flex justify-center"}>
-    <div ref={recaptchaRef} />
-  </div>;
+  return (
+    <div ref={containerRef} className={className ?? "flex justify-center"}>
+      {isVisible ? (
+        <div ref={recaptchaRef} />
+      ) : (
+        <div className="h-[78px] w-[304px] bg-slate-100 dark:bg-slate-800 rounded animate-pulse" />
+      )}
+    </div>
+  );
 }

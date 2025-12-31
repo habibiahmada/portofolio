@@ -2,7 +2,6 @@
 
 import dynamic from "next/dynamic";
 import { ExternalLink } from "lucide-react";
-import { useEffect } from "react";
 import { Certificate } from "@/lib/types/database";
 
 const CertificateThumbnail = dynamic(
@@ -26,10 +25,6 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
     certificate.certification_translations?.[0]?.skills ??
     certificate.skills ??
     [];
-
-  useEffect(() => {
-    // Component mounted
-  }, []);
 
   return (
     <div className="group relative bg-white dark:bg-slate-950 rounded-2xl shadow-lg hover:shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600 transition-colors duration-300">

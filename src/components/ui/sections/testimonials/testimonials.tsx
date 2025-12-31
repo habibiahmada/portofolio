@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { ChevronLeft, ChevronRight, Star, Quote, Briefcase, Zap } from "lucide-react";
+import { ChevronLeft, ChevronRight, Star, Quote, Briefcase } from "lucide-react";
 import { Button } from "../../button";
 import { Card } from "../../card";
 import { useTranslations } from "next-intl";
@@ -67,7 +67,7 @@ const TestimonialSection = () => {
     return (
       <section
         id="testimonials"
-        className="relative min-h-screen overflow-hidden py-28 sm:py-36 lg:py-40"
+        className="relative overflow-hidden py-24 sm:py-36 lg:py-40"
       >
         <div className="container mx-auto px-4 relative z-10">
           <div className="mb-20">
@@ -89,7 +89,7 @@ const TestimonialSection = () => {
   return (
     <section
       id="testimonials"
-      className={`relative min-h-screen overflow-hidden py-28 sm:py-36 lg:py-40 transition-colors duration-300 ${isDark ? "dark:bg-slate-950" : "bg-slate-50"
+      className={`relative py-24 transition-colors duration-300 ${isDark ? "dark:bg-slate-950" : "bg-slate-50"
         }`}
     >
       <div className="container mx-auto px-4 relative z-10">
@@ -120,7 +120,7 @@ const TestimonialSection = () => {
                   ))}
                 </div>
 
-                <blockquote className="text-xl lg:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed mb-8 font-medium">
+                <blockquote className="text-md text-slate-700 dark:text-slate-300 mb-8">
                   &quot;{currentTestimonial.testimonial_translations?.[0]?.content}&quot;
                 </blockquote>
               </div>
@@ -135,9 +135,9 @@ const TestimonialSection = () => {
                         alt={currentTestimonial.name}
                         width={64}
                         height={64}
-                        className="w-16 h-16 rounded-full object-cover border-3 border-white dark:border-slate-700 shadow-lg"
+                        className="w-12 h-12 rounded-full object-cover border-3 border-white dark:border-slate-700 shadow-lg"
                       />
-                      <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-white dark:border-slate-800 flex items-center justify-center">
+                      <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white dark:border-slate-800 flex items-center justify-center">
                         <div className="w-2 h-2 bg-white rounded-full"></div>
                       </div>
                     </div>
@@ -145,22 +145,17 @@ const TestimonialSection = () => {
                       <p
                         role="heading"
                         aria-level={3}
-                        className="font-bold text-slate-900 dark:text-slate-100 text-lg"
+                        className="font-semibold text-slate-900 dark:text-slate-100 text-md"
                       >
                         {currentTestimonial.name}
                       </p>
 
-                      <p className="text-slate-600 dark:text-slate-400 flex items-center gap-1">
-                        <Briefcase className="w-3 h-3" />
+                      <p className="text-slate-600 dark:text-slate-400 flex items-center gap-1 text-md">
+                        <Briefcase className="w-5 h-5 mr-2" />
                         {currentTestimonial.role}
                       </p>
-                      <p className="text-blue-600 dark:text-blue-400 font-semibold text-sm">{currentTestimonial.company}</p>
+                      <p className="text-blue-600 dark:text-blue-400 font-semibold text-md">{currentTestimonial.company}</p>
                     </div>
-                  </div>
-
-                  <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
-                    <Zap className="w-4 h-4 text-blue-500" />
-                    Verified Client
                   </div>
                 </div>
               </div>
@@ -177,16 +172,16 @@ const TestimonialSection = () => {
             className="hover:bg-blue-100 dark:hover:bg-blue-900/30 hover:text-blue-600 dark:hover:text-blue-400"
             aria-label="Previous Testimonial"
           >
-            <ChevronLeft className="w-5 h-5" />
+            <ChevronLeft className="w-4 h-4" />
           </Button>
 
           <div className="flex gap-3">
             {testimonials.map((_, index) => (
-              <Button
+              <button
                 key={index}
                 onClick={() => goToSlide(index)}
                 className={`w-3 h-3 rounded-full cursor-pointer ${index === currentIndex
-                  ? "bg-blue-600 dark:bg-blue-400 w-8"
+                  ? "bg-blue-600 dark:bg-blue-400"
                   : "bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500"
                   }`}
                 aria-label={`Testimonial ${index + 1}`}
@@ -201,7 +196,7 @@ const TestimonialSection = () => {
             className="hover:bg-blue-100 dark:hover:bg-blue-900/30 hover:text-blue-600 dark:hover:text-blue-400"
             aria-label="Next Testimonial"
           >
-            <ChevronRight className="w-5 h-5" />
+            <ChevronRight className="w-4 h-4" />
           </Button>
         </div>
       </div>
