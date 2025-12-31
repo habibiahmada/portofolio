@@ -35,13 +35,13 @@ export default function DashboardHeader({
       {actionLabel && (
         href ? (
           <Link href={href}>
-            <Button>
+            <Button aria-label={actionLabel}>
               {actionIcon}
               {actionLabel}
             </Button>
           </Link>
         ) : (
-          <Button onClick={onClick}>
+          <Button onClick={onClick} aria-label={actionLabel}>
             {actionIcon}
             {actionLabel}
           </Button>

@@ -111,6 +111,7 @@ export default function CertificatePreview({
             onClick={goPrev}
             disabled={currentPage === 1}
             className="p-2"
+            aria-label={t("prevPage")}
           >
             <ChevronLeft className="w-5 h-5" />
           </Button>
@@ -123,6 +124,7 @@ export default function CertificatePreview({
             onClick={goNext}
             disabled={currentPage === numPages}
             className="p-2"
+            aria-label={t("nextPage")}
           >
             <ChevronRight className="w-5 h-5" />
           </Button>

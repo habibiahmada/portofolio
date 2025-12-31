@@ -62,6 +62,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
                 size="sm"
                 onClick={() => editor.chain().focus().toggleBold().run()}
                 className={cn('h-8 w-8 p-0', editor.isActive('bold') && 'bg-accent')}
+                aria-label="Bold"
             >
                 <Bold className="h-4 w-4" />
             </Button>
@@ -71,6 +72,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
                 size="sm"
                 onClick={() => editor.chain().focus().toggleItalic().run()}
                 className={cn('h-8 w-8 p-0', editor.isActive('italic') && 'bg-accent')}
+                aria-label="Italic"
             >
                 <Italic className="h-4 w-4" />
             </Button>
@@ -80,6 +82,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
                 size="sm"
                 onClick={() => editor.chain().focus().toggleStrike().run()}
                 className={cn('h-8 w-8 p-0', editor.isActive('strike') && 'bg-accent')}
+                aria-label="Strikethrough"
             >
                 <Strikethrough className="h-4 w-4" />
             </Button>
@@ -89,6 +92,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
                 size="sm"
                 onClick={() => editor.chain().focus().toggleCode().run()}
                 className={cn('h-8 w-8 p-0', editor.isActive('code') && 'bg-accent')}
+                aria-label="Code"
             >
                 <Code className="h-4 w-4" />
             </Button>
@@ -102,6 +106,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
                 size="sm"
                 onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
                 className={cn('h-8 w-8 p-0', editor.isActive('heading', { level: 1 }) && 'bg-accent')}
+                aria-label="Heading 1"
             >
                 <Heading1 className="h-4 w-4" />
             </Button>
@@ -111,6 +116,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
                 size="sm"
                 onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
                 className={cn('h-8 w-8 p-0', editor.isActive('heading', { level: 2 }) && 'bg-accent')}
+                aria-label="Heading 2"
             >
                 <Heading2 className="h-4 w-4" />
             </Button>
@@ -120,6 +126,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
                 size="sm"
                 onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
                 className={cn('h-8 w-8 p-0', editor.isActive('heading', { level: 3 }) && 'bg-accent')}
+                aria-label="Heading 3"
             >
                 <Heading3 className="h-4 w-4" />
             </Button>
@@ -133,6 +140,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
                 size="sm"
                 onClick={() => editor.chain().focus().toggleBulletList().run()}
                 className={cn('h-8 w-8 p-0', editor.isActive('bulletList') && 'bg-accent')}
+                aria-label="Bullet List"
             >
                 <List className="h-4 w-4" />
             </Button>
@@ -142,6 +150,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
                 size="sm"
                 onClick={() => editor.chain().focus().toggleOrderedList().run()}
                 className={cn('h-8 w-8 p-0', editor.isActive('orderedList') && 'bg-accent')}
+                aria-label="Ordered List"
             >
                 <ListOrdered className="h-4 w-4" />
             </Button>
@@ -155,6 +164,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
                 size="sm"
                 onClick={() => editor.chain().focus().toggleBlockquote().run()}
                 className={cn('h-8 w-8 p-0', editor.isActive('blockquote') && 'bg-accent')}
+                aria-label="Blockquote"
             >
                 <Quote className="h-4 w-4" />
             </Button>
@@ -163,7 +173,8 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
                 variant="ghost"
                 size="sm"
                 onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-                className={cn('h-8 w-8 p-0', editor.isActive('codeBlock') && 'bg-accent')}
+                className={cn('h-8 w-8 p-0', editor.isActive('codeBlock') && 'bg-accent')}  
+                aria-label="Code Block"
             >
                 <CodeSquare className="h-4 w-4" />
             </Button>
@@ -173,6 +184,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
                 size="sm"
                 onClick={() => editor.chain().focus().setHorizontalRule().run()}
                 className="h-8 w-8 p-0"
+                aria-label="Horizontal Rule"
             >
                 <Minus className="h-4 w-4" />
             </Button>
@@ -186,6 +198,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
                 size="sm"
                 onClick={setLink}
                 className={cn('h-8 w-8 p-0', editor.isActive('link') && 'bg-accent')}
+                aria-label="Link"
             >
                 <LinkIcon className="h-4 w-4" />
             </Button>
@@ -196,6 +209,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
                 onClick={() => editor.chain().focus().unsetLink().run()}
                 disabled={!editor.isActive('link')}
                 className="h-8 w-8 p-0"
+                aria-label="Unlink"
             >
                 <Unlink className="h-4 w-4" />
             </Button>
@@ -210,6 +224,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
                 onClick={() => editor.chain().focus().undo().run()}
                 disabled={!editor.can().undo()}
                 className="h-8 w-8 p-0"
+                aria-label="Undo"
             >
                 <Undo className="h-4 w-4" />
             </Button>
@@ -220,6 +235,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
                 onClick={() => editor.chain().focus().redo().run()}
                 disabled={!editor.can().redo()}
                 className="h-8 w-8 p-0"
+                aria-label="Redo"
             >
                 <Redo className="h-4 w-4" />
             </Button>

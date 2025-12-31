@@ -182,6 +182,7 @@ export default function TestimonialForm({
             onClick={handleUpload}
             disabled={uploadingAvatar}
             className="gap-2"
+            aria-label="Upload avatar"
           >
             <UploadCloud className="w-4 h-4" />
             {uploadingAvatar
@@ -197,6 +198,7 @@ export default function TestimonialForm({
               key={v}
               type="button"
               onClick={() => update("rating", v)}
+              aria-label={`Select rating ${v}`}
             >
               <Star
                 className={`w-6 h-6 ${v <= form.rating
@@ -222,6 +224,7 @@ export default function TestimonialForm({
           type="submit"
           disabled={submitting || !avatarUrl}
           className="w-full"
+          aria-label="Save testimonial"
         >
           {submitting
             ? "Saving..."

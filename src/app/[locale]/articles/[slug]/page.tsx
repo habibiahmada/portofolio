@@ -168,7 +168,7 @@ export default async function ArticlePage({ params }: PageProps) {
             {/* Back to Articles */}
             <div className="mt-12 text-center">
               <Link href="/articles">
-                <Button variant="outline" size="lg" className="gap-2">
+                <Button variant="outline" size="lg" className="gap-2" aria-label={t('backToArticles')}>
                   <ArrowLeft className="w-4 h-4" />
                   {locale === 'id' ? 'Lihat Semua Artikel' : 'View All Articles'}
                 </Button>

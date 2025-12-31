@@ -340,6 +340,7 @@ export default function ArticleForm({
                                     onClick={handleUpload}
                                     disabled={uploading}
                                     className="gap-2 w-fit"
+                                    aria-label="Upload image"
                                 >
                                     <UploadCloud className="w-4 h-4" />
                                     {uploading ? "Uploading..." : "Upload Now"}
@@ -374,7 +375,7 @@ export default function ArticleForm({
                                     e.key === "Enter" && (e.preventDefault(), addTag())
                                 }
                             />
-                            <Button type="button" variant="outline" onClick={addTag}>
+                            <Button type="button" variant="outline" onClick={addTag} aria-label="Add tag">
                                 <Plus className="w-4 h-4" />
                             </Button>
                         </div>
@@ -385,7 +386,7 @@ export default function ArticleForm({
                                     className="flex items-center gap-1 px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium"
                                 >
                                     {t}
-                                    <button type="button" onClick={() => removeTag(t)}>
+                                    <button type="button" onClick={() => removeTag(t)} aria-label="Remove tag">
                                         <X className="w-3 h-3 hover:text-destructive" />
                                     </button>
                                 </span>
@@ -401,6 +402,7 @@ export default function ArticleForm({
                         variant="outline"
                         onClick={() => setShowPreview((v) => !v)}
                         className="gap-2"
+                        aria-label="Toggle preview"
                     >
                         {showPreview ? (
                             <EyeOff className="w-4 h-4" />
@@ -410,7 +412,7 @@ export default function ArticleForm({
                         Preview Card
                     </Button>
 
-                    <Button onClick={submit} disabled={submitting || uploading} className="gap-2">
+                    <Button onClick={submit} disabled={submitting || uploading} className="gap-2" aria-label="Save article">
                         <Save className="w-4 h-4" />
                         {submitting ? "Saving..." : "Save Article"}
                     </Button>

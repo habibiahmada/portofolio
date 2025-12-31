@@ -12,8 +12,6 @@ import HeroSkeleton from "./heroskeleton";
 import CVPreviewModal from "./cvpreviewmodal";
 import useHero from "@/hooks/api/public/useHero";
 
-
-
 const HeroImage = ({
   isDark,
   imageAlt,
@@ -39,7 +37,7 @@ const HeroImage = ({
       />
     </div>
     <Image
-      src={imageUrl || "/self-photo-habibi-ahmad-aziz.webp"}
+      src={imageUrl || "images/self-photo-habibi-ahmad-aziz.webp"}
       alt={imageAlt}
       width={600}
       height={600}
@@ -48,6 +46,7 @@ const HeroImage = ({
       sizes="(max-width: 768px) 100vw, 600px"
       placeholder="blur"
       blurDataURL={blurDataURL}
+      priority
     />
   </div>
 );
@@ -104,7 +103,7 @@ export default function Hero({ blurDataURL }: { blurDataURL: string }) {
       <section
         id="home"
         className={`relative overflow-hidden flex items-center 
-          pt-24 sm:pt-28 lg:pt-36 pb-24 transition-colors duration-300
+          pt-24 sm:pt-28 lg:pt-36 pb-24 transition-colors duration-300 min-h-[calc(100vh-4rem)]
           ${isDark
             ? "bg-gradient-to-br from-gray-950 to-gray-950"
             : "bg-gradient-to-br from-gray-50 via-white to-gray-50/30"

@@ -50,6 +50,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                     variant="outline"
                     size="icon"
                     type="submit"
+                    aria-label={t('search')}
                   >
                     <Search />
                   </Button>

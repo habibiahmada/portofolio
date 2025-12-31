@@ -142,7 +142,14 @@ const TestimonialSection = () => {
                       </div>
                     </div>
                     <div>
-                      <h4 className="font-bold text-slate-900 dark:text-slate-100 text-lg">{currentTestimonial.name}</h4>
+                      <p
+                        role="heading"
+                        aria-level={3}
+                        className="font-bold text-slate-900 dark:text-slate-100 text-lg"
+                      >
+                        {currentTestimonial.name}
+                      </p>
+
                       <p className="text-slate-600 dark:text-slate-400 flex items-center gap-1">
                         <Briefcase className="w-3 h-3" />
                         {currentTestimonial.role}
@@ -168,19 +175,21 @@ const TestimonialSection = () => {
             variant="ghost"
             size="icon"
             className="hover:bg-blue-100 dark:hover:bg-blue-900/30 hover:text-blue-600 dark:hover:text-blue-400"
+            aria-label="Previous Testimonial"
           >
             <ChevronLeft className="w-5 h-5" />
           </Button>
 
           <div className="flex gap-3">
             {testimonials.map((_, index) => (
-              <button
+              <Button
                 key={index}
                 onClick={() => goToSlide(index)}
                 className={`w-3 h-3 rounded-full cursor-pointer ${index === currentIndex
                   ? "bg-blue-600 dark:bg-blue-400 w-8"
                   : "bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500"
                   }`}
+                aria-label={`Testimonial ${index + 1}`}
               />
             ))}
           </div>
@@ -190,6 +199,7 @@ const TestimonialSection = () => {
             variant="ghost"
             size="icon"
             className="hover:bg-blue-100 dark:hover:bg-blue-900/30 hover:text-blue-600 dark:hover:text-blue-400"
+            aria-label="Next Testimonial"
           >
             <ChevronRight className="w-5 h-5" />
           </Button>

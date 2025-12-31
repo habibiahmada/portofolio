@@ -206,16 +206,16 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
                   <SelectTrigger className="cursor-pointer bg-white border border-slate-300 text-slate-800
                     focus:border-blue-500 focus:ring-blue-200
                     dark:bg-slate-800 dark:border-slate-700 dark:text-white
-                    dark:focus:border-blue-500 dark:focus:ring-blue-500/20">
+                    dark:focus:border-blue-500 dark:focus:ring-blue-500/20" aria-label={t('form.subject.placeholder')}>
                     <SelectValue placeholder={t('form.subject.placeholder')} />
                   </SelectTrigger>
-                  <SelectContent className="bg-white border border-slate-300 dark:bg-slate-800 dark:border-slate-700">
+                  <SelectContent className="bg-white border border-slate-300 dark:bg-slate-800 dark:border-slate-700" aria-label={t('form.subject.placeholder')}>
                     {SERVICES.map((service) => (
                       <SelectItem
                         key={service.value}
                         value={service.value}
                         className="cursor-pointer hover:bg-slate-100 focus:bg-slate-100 dark:hover:bg-slate-700 dark:focus:bg-slate-700
-                        text-slate-800 dark:text-slate-200">
+                        text-slate-800 dark:text-slate-200" aria-label={service.label}>
                         {service.label}
                       </SelectItem>
                     ))}
@@ -305,6 +305,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
               disabled={isSubmitting || !recaptchaToken || !siteKey}
               className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-6 text-lg font-medium transform disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               aria-describedby="submit-help"
+              aria-label={t('form.submit.label')}
             >
               {isSubmitting ? (
                 <div className="flex items-center justify-center space-x-2">

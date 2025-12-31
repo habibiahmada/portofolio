@@ -166,6 +166,7 @@ export default function ServiceForm({
                 setShowIconPicker((v) => !v)
               }
               className="gap-2"
+              aria-label="Select icon"
             >
               {form.icon ? (
                 <>
@@ -215,6 +216,7 @@ export default function ServiceForm({
                             update("icon", i);
                             setShowIconPicker(false);
                           }}
+                          aria-label={`Select icon ${i}`}
                           className={`relative flex items-center justify-center h-12 rounded-lg border
                           ${
                             active
@@ -244,6 +246,7 @@ export default function ServiceForm({
                   onClick={() =>
                     update("color", c)
                   }
+                  aria-label={`Select color ${c}`}
                   className={`h-12 rounded-xl bg-gradient-to-r ${c}
                   ${
                     form.color === c
@@ -282,6 +285,7 @@ export default function ServiceForm({
                         )
                       )
                     }
+                    aria-label="Remove feature"
                   >
                     <X className="w-4 h-4" />
                   </Button>
@@ -299,6 +303,7 @@ export default function ServiceForm({
                 ])
               }
               className="gap-2"
+              aria-label="Add feature"
             >
               <Plus className="w-3 h-3" />
               Add feature
@@ -315,6 +320,7 @@ export default function ServiceForm({
               setShowPreview((v) => !v)
             }
             className="gap-2"
+            aria-label="Toggle preview"
           >
             {showPreview ? (
               <EyeOff className="w-4 h-4" />
@@ -328,6 +334,7 @@ export default function ServiceForm({
             onClick={submit}
             disabled={loading}
             className="gap-2"
+            aria-label="Save service"
           >
             <Save className="w-4 h-4" />
             {loading ? "Saving..." : "Save"}

@@ -27,6 +27,7 @@ export default function ShareButton({ title, label }: ShareButtonProps) {
             size="sm"
             className="gap-2"
             onClick={handleShare}
+            aria-label="Share"
         >
             <Share2 className="w-4 h-4" />
             {label}

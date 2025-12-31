@@ -227,6 +227,7 @@ export default function Page() {
             onClick={() => setFilter(f)}
             disabled={loading}
             className="gap-2"
+            aria-label={f === "experience" ? "Experience" : "Education"}
           >
             {f === "experience" && <Briefcase className="h-3 w-3" />}
             {f === "education" && <GraduationCap className="h-3 w-3" />}
@@ -250,16 +251,17 @@ export default function Page() {
               </div>
 
               <div className="flex gap-2">
-                <Button size="sm" variant="outline" onClick={() => openView(item)}>
+                <Button size="sm" variant="outline" onClick={() => openView(item)} aria-label="View Experience">
                   <Eye className="h-4 w-4" />
                 </Button>
-                <Button size="sm" variant="outline" onClick={() => openEdit(item)}>
+                <Button size="sm" variant="outline" onClick={() => openEdit(item)} aria-label="Edit Experience">
                   <Pencil className="h-4 w-4" />
                 </Button>
                 <Button
                   size="sm"
                   variant="destructive"
                   onClick={() => deleteData(item.id)}
+                  aria-label="Delete Experience"
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>

@@ -84,6 +84,7 @@ const ContactInfoItem: React.FC<{ info: ContactInfo }> = ({ info }) => {
           <button
             onClick={info.action}
             className="text-lg font-medium text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-left truncate w-full flex items-center gap-2 group/btn"
+            aria-label={info.title}
           >
             {info.content}
             <span className="opacity-0 group-hover/btn:opacity-100 transition-opacity">

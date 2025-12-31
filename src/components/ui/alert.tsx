@@ -2,6 +2,7 @@
 
 import React, { useEffect } from "react";
 import { CheckCircle, XCircle, X } from "lucide-react";
+import { Button } from "./button";
 
 type AlertProps = {
   open: boolean;
@@ -47,13 +48,14 @@ const Alert: React.FC<AlertProps> = ({ open, type = "info", message, onClose, du
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium">{message}</p>
           </div>
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={onClose}
             aria-label="Close notification"
-            className="ml-3 inline-flex rounded-md p-1 text-slate-500 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800"
           >
             <X className="w-4 h-4" />
-          </button>
+          </Button>
         </div>
       </div>
     </div>

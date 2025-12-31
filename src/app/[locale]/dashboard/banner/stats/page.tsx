@@ -170,7 +170,9 @@ export default function StatsAdminPage() {
                     }
                   />
 
-                  <Button onClick={() => saveStat(i)}>{t('button.saveChanges')}</Button>
+                  <Button onClick={() => saveStat(i)} aria-label={t('button.saveChanges')}>
+                    {t('button.saveChanges')}
+                  </Button>
                 </div>
 
                 {/* Preview */}

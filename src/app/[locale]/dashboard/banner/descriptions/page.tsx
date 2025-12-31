@@ -268,6 +268,7 @@ export default function Page() {
                     size="icon"
                     variant="ghost"
                     onClick={() => removeTypewriterText(i)}
+                    aria-label={t("admin.delete")}
                   >
                     <Trash2 className="w-4 h-4" />
                   </Button>
@@ -282,7 +283,7 @@ export default function Page() {
                 placeholder={t("typewriter.inputPlaceholder")}
                 onKeyDown={e => e.key === "Enter" && addTypewriterText()}
               />
-              <Button onClick={addTypewriterText}>
+              <Button onClick={addTypewriterText} aria-label={t("typewriter.add")}>
                 <Plus className="w-4 h-4 mr-2" />
                 {t("typewriter.add")}
               </Button>
@@ -318,12 +319,14 @@ export default function Page() {
                   size="sm"
                   onClick={() => cvUrl && window.open(cvUrl, '_blank')}
                   disabled={!cvUrl}
+                  aria-label={t("cv.view")}
                 >
                   {t("cv.view")}
                 </Button>
                 <Button
                   size="sm"
                   onClick={() => fileInputRef.current?.click()}
+                  aria-label={t("cv.change")}
                 >
                   {t("cv.change")}
                 </Button>
@@ -351,10 +354,10 @@ export default function Page() {
             {t("actions.unsavedChanges") || "Unsaved changes"}
           </Badge>
         )}
-        <Button variant="outline" onClick={resetToInitial} disabled={!hasChanges || saving}>
+        <Button variant="outline" onClick={resetToInitial} disabled={!hasChanges || saving} aria-label={t("actions.reset")}>
           {t("actions.reset") || "Reset"}
         </Button>
-        <Button onClick={handleSave} disabled={saving || !hasChanges}>
+        <Button onClick={handleSave} disabled={saving || !hasChanges} aria-label={t("actions.save")}>
           {saving ? t("actions.saving") : t("actions.save")}
         </Button>
       </div>

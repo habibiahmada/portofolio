@@ -183,12 +183,14 @@ export default function Page() {
                                 variant="outline"
                                 onClick={() => openEdit(tool)}
                                 className="h-auto p-6"
+                                aria-label="Edit Tool"
                             >
                                 <div className="flex flex-col items-center gap-4">
                                     <DynamicSiIcon
                                         name={tool.key}
                                         size={56}
                                         color={tool.color}
+                                        aria-label="Tool Icon"
                                     />
                                     <p className="font-semibold truncate">
                                         {tool.name}
@@ -213,6 +215,7 @@ export default function Page() {
                                 variant="ghost"
                                 size="icon"
                                 className="absolute right-4 top-4"
+                                aria-label="Close Dialog"
                             >
                                 <X className="w-4 h-4" />
                             </Button>
@@ -238,6 +241,7 @@ export default function Page() {
                                 onClick={() =>
                                     setShowIconPicker(!showIconPicker)
                                 }
+                                aria-label="Select Icon"
                             >
                                 {form.key || "Select icon"}
                                 <Search className="w-4 h-4" />
@@ -266,6 +270,7 @@ export default function Page() {
                                                     })
                                                     setShowIconPicker(false)
                                                 }}
+                                                aria-label="Select Icon"
                                             >
                                                 <DynamicSiIcon
                                                     name={name}
@@ -294,6 +299,7 @@ export default function Page() {
                                 variant="destructive"
                                 onClick={deleteTool}
                                 disabled={loading}
+                                aria-label="Delete Tool"
                             >
                                 Delete
                             </Button>
@@ -301,12 +307,14 @@ export default function Page() {
                         <Button
                             variant="outline"
                             onClick={() => setOpen(false)}
+                            aria-label="Cancel"
                         >
                             Cancel
                         </Button>
                         <Button
                             onClick={submit}
                             disabled={loading || !form.name || !form.key}
+                            aria-label="Save Tool"
                         >
                             <Check className="w-4 h-4 mr-2" />
                             {loading ? "Saving..." : "Save"}

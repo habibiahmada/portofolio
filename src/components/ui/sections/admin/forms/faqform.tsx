@@ -87,7 +87,7 @@ export default function FAQForm({
       </div>
 
       <div className="flex justify-end">
-        <Button type="submit" disabled={submitting}>
+        <Button type="submit" disabled={submitting} aria-label="Submit FAQ">
           {submitting ? 'Menyimpan...' : 'Simpan'}
         </Button>
       </div>

@@ -185,6 +185,7 @@ export default function LoginPage() {
                 type="submit"
                 disabled={loading}
                 className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                aria-label="Sign In"
               >
                 {loading ? t('form.signingIn') : t('form.signIn')}
               </Button>
@@ -215,6 +216,7 @@ export default function LoginPage() {
                   ? 'bg-slate-800 border-slate-600 text-white hover:bg-slate-700'
                   : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
                   } disabled:opacity-50 disabled:cursor-not-allowed`}
+                aria-label="Sign In with Google"
               >
                 <Chrome className="h-5 w-5 mr-2" />
                 Google
@@ -227,6 +229,7 @@ export default function LoginPage() {
                   ? 'bg-slate-800 border-slate-600 text-white hover:bg-slate-700'
                   : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
                   } disabled:opacity-50 disabled:cursor-not-allowed`}
+                aria-label="Sign In with GitHub"
               >
                 <Github className="h-5 w-5 mr-2" />
                 GitHub

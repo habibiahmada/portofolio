@@ -180,7 +180,7 @@ export default function CertificateForm({
         />
 
         {selectedFile && (
-          <Button onClick={uploadPdf} disabled={uploading}>
+          <Button onClick={uploadPdf} disabled={uploading} aria-label="Upload PDF">
             {uploading ? "Uploading..." : "Upload PDF"}
           </Button>
         )}
@@ -212,6 +212,7 @@ export default function CertificateForm({
         <Button
           onClick={handleSubmit}
           disabled={submitting || !uploadedUrl}
+          aria-label="Submit certificate"
         >
           {mode === "create"
             ? "Create Certificate"

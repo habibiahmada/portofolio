@@ -1,16 +1,16 @@
 {
   "Metadata": {
     "title": "Habibi Ahmad | Web Developer Portfolio",
-    "description": "Habibi Ahmad's portfolio, a Web Developer focused on building modern websites using Next.js, React, and modern web technologies. Explore my projects, skills, and experience.",
+    "description": "Professional portfolio showcasing web projects, technical skills, and experience in building modern, scalable, and high-performance applications.",
     "openGraph": {
       "title": "Habibi Ahmad | Web Developer",
-      "description": "Explore the professional portfolio of Habibi Ahmad, a passionate Web Developer specializing in Frontend and Backend development. Discover real-world projects, technical skills, and experience in building modern, responsive, and high-performance web applications using technologies such as Next.js, React, Laravel, Tailwind CSS, Supabase, Firebase, and REST APIs. Learn about his development approach, problem-solving mindset, and journey as a software developer focused on clean code, scalability, and user experience.",
+      "description": "Professional portfolio showcasing web projects, technical skills, and experience in building modern, scalable, and high-performance applications.",
       "siteName": "Habibi Ahmad Portfolio",
       "imageAlt": "Habibi Ahmad Portfolio - Web Developer"
     },
     "twitter": {
       "title": "Habibi Ahmad | Web Developer",
-      "description": "Explore the professional portfolio of Habibi Ahmad, a passionate Web Developer specializing in Frontend and Backend development. Discover real-world projects, technical skills, and experience in building modern, responsive, and high-performance web applications using technologies such as Next.js, React, Laravel, Tailwind CSS, Supabase, Firebase, and REST APIs. Learn about his development approach, problem-solving mindset, and journey as a software developer focused on clean code, scalability, and user experience.",
+      "description": "Professional portfolio showcasing web projects, technical skills, and experience in building modern, scalable, and high-performance applications.",
       "card": "summary_large_image",
       "imageAlt": "Habibi Ahmad Portfolio - Web Developer"
     }
@@ -237,6 +237,8 @@
     "certificate1": "Description",
     "certificate2": "skills learned",
     "loading": "loading",
+    "prevPage": "Previous page",
+    "nextPage": "Next page",
     "error": "error",
     "page1": "Page",
     "page2": "of"
@@ -256,6 +258,7 @@
     "empty": "This is the articles section",
     "searchPlaceholder": "Search articles...",
     "allTags": "All",
+    "backToArticles": "Back to Articles",
     "noArticles": "No articles found",
     "noArticlesDesc": "Try adjusting your search or filter.",
     "featured": "Featured",
@@ -301,6 +304,7 @@
         "description": "Max 5MB. Format: PDF, DOC, DOCX, PNG, JPG"
       },
       "submit": {
+        "label": "Send Message",
         "sending": "Sending...",
         "send": "Send Message"
       },

@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { Github, Linkedin, Twitter, Instagram } from "lucide-react";
+import { Github, Linkedin, Instagram } from "lucide-react";
 import { LanguageSwitcher } from "@/components/lang/languageswitcher";
 import ThemeSwitcher from "@/components/theme/theme-toggle";
 import { useEffect, useState } from "react";
@@ -12,6 +12,24 @@ export default function Footer() {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const t = useTranslations("Footer");
+
+  const  socials = [
+    {
+      name: "Linkedin",
+      href: "https://linkedin.com/in/habibi-ahmad-aziz",
+      icon: Linkedin,
+    },
+    {
+      name: "Github",
+      href: "https://github.com/habibiahmada",
+      icon: Github,
+    },
+    {
+      name: "Instagram",
+      href: "https://instagram.com/habibiahmad.a",
+      icon: Instagram,
+    },
+  ];
 
   useEffect(() => {
     setMounted(true);
@@ -48,17 +66,18 @@ export default function Footer() {
 
             {/* Socials */}
             <div className="flex space-x-4">
-              {[Linkedin, Github, Twitter, Instagram].map((Icon, i) => (
+              {socials.map((social, i) => (
                 <Link
                   key={i}
-                  href="#"
+                  href={social.href}
                   className={`p-2 rounded-lg transition-colors duration-300 ${
                     isDark
                       ? "bg-gray-800 hover:bg-gray-700"
                       : "bg-gray-200 hover:bg-gray-300"
                   }`}
+                  aria-label={social.name}
                 >
-                  <Icon className="w-5 h-5" />
+                  <social.icon className="w-5 h-5" />
                 </Link>
               ))}
             </div>

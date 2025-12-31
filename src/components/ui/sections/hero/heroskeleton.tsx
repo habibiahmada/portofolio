@@ -4,7 +4,7 @@ export default function HeroSkeleton() {
   return (
   <section
     id="home"
-    className="relative overflow-hidden min-h-screen flex items-center pt-24 sm:pt-28 lg:pt-32 pb-24 bg-slate-50 dark:bg-slate-950"
+    className="relative overflow-hidden min-h-[calc(100vh-2rem)] flex items-center pt-24 sm:pt-28 lg:pt-32 pb-24 bg-slate-50 dark:bg-slate-950"
   >
     <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
       {/* Left Column - Text skeleton */}

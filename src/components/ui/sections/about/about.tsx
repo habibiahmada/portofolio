@@ -52,7 +52,7 @@ export default function About() {
               <div className={`absolute inset-0 z-10 opacity-20 group-hover:opacity-20 transition-opacity duration-500 
                   bg-gradient-to-tr from-blue-600 to-transparent mix-blend-overlay`} />
               <Image
-                src="/about-photo.png"
+                src="/images/about-photo.png"
                 alt="Habibi Ahmad Aziz - Web Developer"
                 width={800}
                 height={800}

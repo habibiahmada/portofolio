@@ -47,6 +47,7 @@ export default function Projects() {
               href="https://github.com/habibiahmada"
               target="_blank"
               className="inline-flex items-center gap-2 text-sm font-medium text-slate-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              
             >
               {"selengkapnya"}
               <ExternalLink className="w-5 h-5" />

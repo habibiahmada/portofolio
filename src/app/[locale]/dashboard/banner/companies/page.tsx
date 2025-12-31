@@ -184,7 +184,7 @@ export default function CompaniesAdminPage() {
                 </div>
 
                 <div className="flex gap-2 items-end">
-                  <Button size="sm" onClick={() => saveCompany(i)}>
+                  <Button size="sm" onClick={() => saveCompany(i)} aria-label={t("admin.save")}>
                     <Save className="w-4 h-4 mr-1" />
                     {t("admin.save")}
                   </Button>
@@ -192,6 +192,7 @@ export default function CompaniesAdminPage() {
                     size="sm"
                     variant="outline"
                     onClick={() => deleteCompany(i)}
+                    aria-label={t("admin.delete")}
                   >
                     <Trash2 className="w-4 h-4" />
                   </Button>
@@ -202,11 +203,11 @@ export default function CompaniesAdminPage() {
         </div>
 
         <div className="flex gap-3">
-          <Button variant="outline" onClick={addEmpty}>
+          <Button variant="outline" onClick={addEmpty} aria-label={t("admin.addNew")}>
             <Plus className="w-4 h-4 mr-2" />
             {t("admin.addNew")}
           </Button>
-          <Button variant="outline" onClick={fetchCompanies}>
+          <Button variant="outline" onClick={fetchCompanies} aria-label={t("admin.refresh")}>
             <RefreshCw className="w-4 h-4 mr-2" />
             {t("admin.refresh")}
           </Button>
