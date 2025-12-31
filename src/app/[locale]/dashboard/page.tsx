@@ -195,7 +195,7 @@ export default async function DashboardPage({ params }: { params: Promise<{ loca
             )}
           </div>
           <Link href="/dashboard/contacts">
-            <Button variant="outline" className="w-full">
+            <Button variant="outline" className="w-full" aria-label={t('recentMessages.viewAll')}>
               {t('recentMessages.viewAll')}
             </Button>
           </Link>
@@ -290,6 +290,7 @@ function QuickActionButton({ label, href, color = "blue" }: {
       <Button
         variant="outline"
         className={`w-full justify-start gap-2 h-auto py-3 ${colorStyles[color]}`}
+        aria-label={label}
       >
         <Plus className="h-4 w-4" />
         <span>{label}</span>

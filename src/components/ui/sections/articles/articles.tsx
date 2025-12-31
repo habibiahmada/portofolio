@@ -45,7 +45,7 @@ const Articles: React.FC = () => {
         excerpt: tr?.excerpt ?? "",
         date: a.published_at ?? a.created_at ?? "",
         readTime: tr?.read_time ?? "",
-        image: a.image || "/about-illustration.webp",
+        image: a.image || "/images/about-illustration.webp",
         href: tr?.slug ? `/articles/${tr.slug}` : "#",
       };
     });

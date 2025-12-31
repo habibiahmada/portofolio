@@ -6,10 +6,7 @@ import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import useStats from "@/hooks/api/public/useStats";
 
-// Local icon list and color palettes to avoid relying on DB-provided icon/color
 const IconList: LucideIcon[] = [Users, CheckCircle, Clock];
-
-// IconMap removed — component uses local IconList for rendering consistency
 
 const gradientColors = [
   'from-indigo-500 to-blue-500',
@@ -18,14 +15,9 @@ const gradientColors = [
   'from-yellow-500 to-amber-500',
 ];
 
-
-
-
-
 export default function Stats() {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-
   const { stats, loading } = useStats();
 
   useEffect(() => {
@@ -38,68 +30,92 @@ export default function Stats() {
 
   return (
     <section id="stats" className="relative py-20 overflow-hidden">
-      <div className="absolute top-1/2 left-1/2  -translate-x-1/2 -translate-y-1/2 w-3/4 h-32 bg-blue-500/10 blur-[100px] rounded-full pointer-events-none" />
+      <h2 className="sr-only">Platform statistics</h2>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-32 bg-blue-500/10 blur-[100px] rounded-full pointer-events-none" />
 
       <div className="relative container mx-auto px-6 max-w-7xl">
-
         <div
           className={`relative border overflow-hidden transition-all duration-300 mb-12
             ${isDark
-              ? "bg-slate-900/40 border-slate-800 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)]"
-              : "bg-white/60 border-slate-200 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)]"
+              ? "bg-slate-900/70 border-slate-800 shadow-[0_0_50px_-12px_rgba(0,0,0,0.6)]"
+              : "bg-white/90 border-slate-200 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.12)]"
             } backdrop-blur-xl`}
         >
           <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x dark:divide-slate-800 divide-slate-300/50">
+          <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x dark:divide-slate-800 divide-slate-300/60">
             {loading ? (
               [1, 2, 3].map((i) => (
-                <div key={i} className="p-10 flex flex-col items-center justify-center gap-4 animate-pulse">
-                  <div className="h-12 w-32 bg-slate-200 dark:bg-slate-800 rounded-lg"></div>
-                  <div className="h-4 w-24 bg-slate-200 dark:bg-slate-800 rounded"></div>
+                <div
+                  key={i}
+                  className="p-10 flex flex-col items-center justify-center gap-4 animate-pulse"
+                >
+                  <div className="h-12 w-32 bg-slate-200 dark:bg-slate-800 rounded-lg" />
+                  <div className="h-4 w-24 bg-slate-200 dark:bg-slate-800 rounded" />
                 </div>
               ))
             ) : (
               stats.map((stat, i) => {
-                const Icon = IconList[i % IconList.length] || IconList[0];
-                const colorClass = gradientColors[i % gradientColors.length];
+                const Icon = IconList[i % IconList.length];
+                const gradient = gradientColors[i % gradientColors.length];
 
                 return (
                   <div
                     key={i}
                     className="group relative p-6 flex flex-col items-center text-center transition-colors duration-300 hover:bg-slate-500/5"
                   >
-                    <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 bg-gradient-to-br ${gradientColors[i % gradientColors.length]}`} />
+                    <div
+                      className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 bg-gradient-to-br ${gradient}`}
+                    />
 
-                    {/* Content */}
                     <div className="relative z-10 flex flex-col items-center">
+                      {/* Icon */}
                       <div
-                        className={`inline-flex p-3 bg-gradient-to-r ${colorClass} text-white mb-3`}
+                        className={`inline-flex p-3 bg-gradient-to-r ${gradient} text-white mb-3`}
                       >
                         <Icon size={24} />
                       </div>
 
+                      {/* Number */}
                       <div className="flex items-baseline gap-1 mb-2">
-                        <span className={`text-3xl md:text-4xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-b
-                          ${isDark
-                            ? "from-white via-slate-200 to-slate-400"
-                            : "from-slate-900 via-slate-700 to-slate-500"}`}
+                        <span
+                          className={`
+                            text-3xl md:text-4xl font-bold tracking-tight
+                            ${isDark ? "text-slate-100" : "text-slate-900"}
+                            supports-[background-clip:text]:bg-clip-text
+                            supports-[background-clip:text]:text-transparent
+                            supports-[background-clip:text]:bg-gradient-to-b
+                            ${isDark
+                              ? "supports-[background-clip:text]:from-white supports-[background-clip:text]:via-slate-200 supports-[background-clip:text]:to-slate-400"
+                              : "supports-[background-clip:text]:from-slate-900 supports-[background-clip:text]:via-slate-700 supports-[background-clip:text]:to-slate-500"
+                            }
+                          `}
                         >
                           {stat.count}
                         </span>
-                        <span className={`text-3xl font-bold bg-gradient-to-r ${gradientColors[i % gradientColors.length]} bg-clip-text text-transparent`}>
+
+                        <span
+                          className={`text-3xl font-bold bg-gradient-to-r ${gradient} bg-clip-text text-transparent`}
+                        >
                           {stat.suffix}
                         </span>
                       </div>
 
-                      <h3 className={`text-lg font-semibold tracking-wide uppercase mb-2
-                        ${isDark ? "text-slate-300" : "text-slate-600"}`}
+                      {/* Label */}
+                      <p
+                        role="heading"
+                        aria-level={3}
+                        className={`text-lg font-semibold tracking-wide uppercase mb-2
+                                    ${isDark ? "text-slate-300" : "text-slate-700"}`}
                       >
                         {stat.label}
-                      </h3>
+                      </p>
 
-                      <p className={`text-sm max-w-[200px] leading-relaxed
-                        ${isDark ? "text-slate-500" : "text-slate-400"}`}
+
+                      {/* Description */}
+                      <p
+                        className={`max-w-[200px] leading-relaxed
+                          ${isDark ? "text-slate-400" : "text-slate-600"}`}
                       >
                         {stat.description}
                       </p>
@@ -111,7 +127,6 @@ export default function Stats() {
           </div>
         </div>
 
-        {/* Companies Section */}
         <div className="relative">
           <Companieslist />
         </div>

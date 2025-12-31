@@ -200,6 +200,7 @@ export default function ProjectForm({
                                     onClick={handleUpload}
                                     disabled={uploading}
                                     className="gap-2 w-fit"
+                                    aria-label="Upload image"
                                 >
                                     <UploadCloud className="w-4 h-4" />
                                     {uploading ? "Uploading..." : "Upload Now"}
@@ -221,7 +222,7 @@ export default function ProjectForm({
                                     onChange={(e) => setTechInput(e.target.value)}
                                     onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addTech())}
                                 />
-                                <Button type="button" variant="outline" onClick={addTech}>
+                                <Button type="button" variant="outline" onClick={addTech} aria-label="Add technology">
                                     <Plus className="w-4 h-4" />
                                 </Button>
                             </div>
@@ -232,7 +233,7 @@ export default function ProjectForm({
                                         className="flex items-center gap-1 px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium"
                                     >
                                         {t}
-                                        <button type="button" onClick={() => removeTech(t)}>
+                                        <button type="button" onClick={() => removeTech(t)} aria-label="Remove technology">
                                             <X className="w-3 h-3 hover:text-destructive" />
                                         </button>
                                     </span>
@@ -268,6 +269,7 @@ export default function ProjectForm({
                         variant="outline"
                         onClick={() => setShowPreview((v) => !v)}
                         className="gap-2"
+                        aria-label="Toggle preview"
                     >
                         {showPreview ? (
                             <EyeOff className="w-4 h-4" />
@@ -277,7 +279,7 @@ export default function ProjectForm({
                         Preview
                     </Button>
 
-                    <Button onClick={submit} disabled={submitting || uploading} className="gap-2">
+                    <Button onClick={submit} disabled={submitting || uploading} className="gap-2" aria-label="Save project">
                         <Save className="w-4 h-4" />
                         {submitting ? "Saving..." : "Save Project"}
                     </Button>

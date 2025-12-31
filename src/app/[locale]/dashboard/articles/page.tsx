@@ -202,6 +202,7 @@ export default function Page() {
                                                 size="sm"
                                                 variant="outline"
                                                 onClick={() => router.push(`/dashboard/articles/${article.id}/edit`)}
+                                                aria-label={tc('actions.edit')}
                                             >
                                                 <Pencil className="h-3 w-3" />
                                                 <span className="sr-only">{tc('actions.edit')}</span>
@@ -211,6 +212,7 @@ export default function Page() {
                                                 variant="destructive"
                                                 onClick={() => handleDelete(article.id)}
                                                 disabled={submitting}
+                                                aria-label={tc('actions.delete')}
                                             >
                                                 <Trash2 className="h-3 w-3" />
                                                 <span className="sr-only">{tc('actions.delete')}</span>

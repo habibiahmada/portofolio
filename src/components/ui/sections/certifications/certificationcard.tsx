@@ -90,6 +90,7 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
         <button
           className="w-full flex items-center justify-center gap-2 py-2 px-4 bg-slate-50 dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-900/20 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg group-hover:bg-blue-50 dark:group-hover:bg-blue-900/20 group-hover:text-blue-600 dark:group-hover:text-blue-400 cursor-pointer"
           onClick={onClick}
+          aria-label="View certificate"
         >
           <ExternalLink className="w-4 h-4" />
           <span className="font-medium text-sm">Lihat Sertifikat</span>

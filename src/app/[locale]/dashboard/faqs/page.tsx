@@ -64,6 +64,7 @@ export default function FAQAdminPage() {
                     setEditingFAQ(faq);
                     setOpen(true);
                   }}
+                  aria-label="Edit FAQ"
                 >
                   Edit
                 </Button>
@@ -72,6 +73,7 @@ export default function FAQAdminPage() {
                   size="sm"
                   variant="destructive"
                   onClick={() => handleDelete(faq.id)}
+                  aria-label="Delete FAQ"
                 >
                   Delete
                 </Button>

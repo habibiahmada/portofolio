@@ -5,6 +5,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { Eye, EyeOff, Save, Type } from 'lucide-react'
 import { toast } from 'sonner'
+import { Button } from '@/components/ui/button'
 
 export default function EmailTemplateEditor() {
   const [subject, setSubject] = useState('')
@@ -131,23 +132,25 @@ export default function EmailTemplateEditor() {
 
             <div className="bg-card rounded-xl shadow-sm border border-border p-6">
               <div className="flex gap-3 flex-wrap">
-                <button
+                <Button
                   onClick={save}
                   disabled={loading}
+                  aria-label="Save Template"
                   className="flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 rounded-lg disabled:opacity-50"
                 >
                   <Save className="w-4 h-4" />
                   {loading ? 'Saving...' : 'Save Template'}
-                </button>
+                </Button>
 
-                <button
+                <Button
                   type="button"
                   onClick={() => setPreview((p) => !p)}
+                  aria-label="Toggle Preview"
                   className="flex items-center gap-2 border px-4 py-2.5 rounded-lg"
                 >
                   {preview ? <EyeOff size={16} /> : <Eye size={16} />}
                   {preview ? 'Hide Preview' : 'Show Preview'}
-                </button>
+                </Button>
               </div>
             </div>
           </div>

@@ -5,7 +5,15 @@ import { routing } from './i18n/routing'
 
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl
-  
+
+  if (
+    pathname === '/sitemap.xml' ||
+    pathname.startsWith('/sitemap-') ||
+    pathname === '/robots.txt'
+  ) {
+    return NextResponse.next()
+  }
+
   // Handle root redirect to default locale
   if (pathname === '/') {
     return NextResponse.redirect(new URL(`/${routing.defaultLocale}`, req.url))
@@ -76,7 +84,7 @@ export async function proxy(req: NextRequest) {
   const [{ data: { user } }] = await Promise.all([
     supabase.auth.getUser(),
   ])
-  
+
   // List of authorized emails (add your email here)
   const authorizedEmails = [
     process.env.AUTHORIZED_EMAIL,
@@ -91,7 +99,7 @@ export async function proxy(req: NextRequest) {
 
   // Protected routes (with locale)
   const protectedRoutes = [`/${locale}/dashboard`]
-  const isProtectedRoute = protectedRoutes.some(route => 
+  const isProtectedRoute = protectedRoutes.some(route =>
     pathname.startsWith(route)
   )
 
@@ -127,6 +135,6 @@ export const config = {
     // - _next/image (image optimization files)
     // - favicon.ico (favicon file)
     // - public folder
-    '/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|sitemap-.*\\.xml|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }

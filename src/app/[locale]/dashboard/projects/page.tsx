@@ -105,6 +105,7 @@ export default function Page() {
                   variant="outline"
                   className="flex-1"
                   onClick={() => router.push(`/dashboard/projects/${project.id}/edit`)}
+                  aria-label="Edit Project"
                 >
                   <Pencil className="mr-1 h-3 w-3" />
                   {tc('actions.edit')}
@@ -113,6 +114,7 @@ export default function Page() {
                   size="sm"
                   variant="destructive"
                   onClick={() => handleDelete(project.id)}
+                  aria-label="Delete Project"
                 >
                   <Trash2 className="h-3 w-3" />
                 </Button>

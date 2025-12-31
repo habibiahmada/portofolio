@@ -16,14 +16,23 @@ export default function ThemeToggle({
     setMounted(true);
   }, []);
 
-  if (!mounted) return null;
+  // ⬇️ PLACEHOLDER agar tidak CLS
+  if (!mounted) {
+    return (
+      <div
+        className={`w-9 h-9 rounded-full border ${className}`}
+        aria-hidden
+      />
+    );
+  }
 
   return (
     <Button
       variant="outline"
       size="icon"
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-      className={`rounded-full cursor-pointer ${className}`}
+      className={`rounded-full ${className}`}
+      aria-label="Toggle theme"
       {...props}
     >
       {theme === 'dark' ? (

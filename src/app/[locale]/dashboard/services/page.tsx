@@ -151,6 +151,7 @@ export default function ServicesPage() {
                         `/dashboard/services/${service.id}/edit`
                       )
                     }
+                    aria-label="Edit Service"
                   >
                     <Edit3 className="h-3 w-3" />
                     Edit
@@ -160,6 +161,7 @@ export default function ServicesPage() {
                     size="sm"
                     variant="destructive"
                     onClick={() => handleDelete(service.id)}
+                    aria-label="Delete Service"
                   >
                     <Trash2 className="h-3 w-3" />
                   </Button>

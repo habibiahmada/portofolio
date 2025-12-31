@@ -121,6 +121,7 @@ export default function ArticlesPage() {
                   size="sm"
                   onClick={() => setSelectedTag(null)}
                   className="rounded-full"
+                  aria-label={t('allTags')}
                 >
                   {t('allTags')}
                 </Button>
@@ -131,6 +132,7 @@ export default function ArticlesPage() {
                     size="sm"
                     onClick={() => setSelectedTag(tag)}
                     className="rounded-full"
+                    aria-label={tag}
                   >
                     {tag}
                   </Button>

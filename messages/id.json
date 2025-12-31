@@ -1,16 +1,16 @@
 {
   "Metadata": {
     "title": "Habibi Ahmad | Web Developer Portfolio",
-    "description": "Portofolio Habibi Ahmad, Web Developer yang fokus pada pengembangan website modern menggunakan Next.js, React, dan teknologi web terkini. Lihat project, skill, dan pengalaman saya di sini.",
+    "description": "Portofolio profesional yang menampilkan proyek web, keahlian teknis, serta pengalaman membangun aplikasi modern yang responsif dan scalable.",
     "openGraph": {
       "title": "Habibi Ahmad | Web Developer",
-      "description": "Jelajahi portofolio profesional Habibi Ahmad, seorang Web Developer yang berfokus pada Frontend dan Backend development. Temukan berbagai proyek nyata, keahlian teknis, serta pengalaman dalam membangun aplikasi web modern, responsif, dan berkinerja tinggi menggunakan teknologi seperti Next.js, React, Laravel, Tailwind CSS, Supabase, Firebase, serta integrasi API. Pelajari pendekatan pengembangan, kemampuan problem solving, dan perjalanan Habibi Ahmad sebagai developer yang mengutamakan clean code, skalabilitas, dan pengalaman pengguna.",
+      "description": "Portofolio profesional yang menampilkan proyek web, keahlian teknis, serta pengalaman membangun aplikasi modern yang responsif dan scalable.",
       "siteName": "Habibi Ahmad Portfolio",
       "imageAlt": "Portofolio Habibi Ahmad - Web Developer"
     },
     "twitter": {
       "title": "Habibi Ahmad | Web Developer",
-      "description": "Jelajahi portofolio profesional Habibi Ahmad, seorang Web Developer yang berfokus pada Frontend dan Backend development. Temukan berbagai proyek nyata, keahlian teknis, serta pengalaman dalam membangun aplikasi web modern, responsif, dan berkinerja tinggi menggunakan teknologi seperti Next.js, React, Laravel, Tailwind CSS, Supabase, Firebase, serta integrasi API. Pelajari pendekatan pengembangan, kemampuan problem solving, dan perjalanan Habibi Ahmad sebagai developer yang mengutamakan clean code, skalabilitas, dan pengalaman pengguna.",
+      "description": "Portofolio profesional yang menampilkan proyek web, keahlian teknis, serta pengalaman membangun aplikasi modern yang responsif dan scalable.",
       "card": "summary_large_image",
       "imageAlt": "Portofolio Habibi Ahmad - Web Developer"
     }
@@ -239,7 +239,9 @@
     "loading": "loading",
     "error": "error",
     "page1": "Halaman",
-    "page2": "dari"
+    "page2": "dari",
+    "prevPage": "Halaman sebelumnya",
+    "nextPage": "Halaman berikutnya"
   },
   "testimonials": {
     "titleLine1": "Apa Kata Mereka?",
@@ -261,6 +263,7 @@
     "featured": "Unggulan",
     "readMore": "Baca Selengkapnya",
     "moreArticles": "Artikel Lainnya",
+    "backToArticles": "Kembali ke Artikel",
     "breadcrumb": {
       "home": "Beranda",
       "articles": "Artikel"
@@ -301,6 +304,7 @@
         "description": "Max 5MB. Format: PDF, DOC, DOCX, PNG, JPG"
       },
       "submit": {
+        "label": "Kirim Pesan",
         "sending": "Mengirim...",
         "send": "Kirim Pesan"
       },
