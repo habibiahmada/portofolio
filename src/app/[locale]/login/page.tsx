@@ -38,7 +38,6 @@ export default function LoginPage() {
             email={email}
             password={password}
             loading={loading}
-            isDark={isDark}
             onEmailChange={setEmail}
             onPasswordChange={setPassword}
             onSubmit={handleEmailLogin}

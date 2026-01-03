@@ -56,11 +56,12 @@ export default function About() {
                 alt="Habibi Ahmad Aziz - Web Developer"
                 width={800}
                 height={800}
-                className="w-full h-auto object-cover transform transition-transform duration-700"
-                draggable={false}
+                placeholder="blur"
+                blurDataURL="/images/about-photo-blur.png"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
-                priority
+                draggable={false}
               />
+
               {/* Decorative Elements */}
               <div
                 className={`absolute -bottom-4 -left-4 w-12 h-12 rounded-full ${isDark ? "bg-blue-400/30" : "bg-blue-500/40"

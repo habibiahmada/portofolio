@@ -18,15 +18,16 @@ const gradientColors = [
 export default function Stats() {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const { stats, loading } = useStats();
+  const { stats, loading, error } = useStats();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null;
+  // Use a stable wrapper even during loading
+  const isDark = resolvedTheme === "dark" || !mounted;
 
-  const isDark = resolvedTheme === "dark";
+  if (error) return null;
 
   return (
     <section id="stats" className="relative py-20 overflow-hidden">
@@ -39,19 +40,20 @@ export default function Stats() {
             ${isDark
               ? "bg-slate-900/70 border-slate-800 shadow-[0_0_50px_-12px_rgba(0,0,0,0.6)]"
               : "bg-white/90 border-slate-200 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.12)]"
-            } backdrop-blur-xl`}
+            } backdrop-blur-xl min-h-[500px] md:min-h-[200px]`}
         >
           <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x dark:divide-slate-800 divide-slate-300/60">
-            {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x dark:divide-slate-800 divide-slate-300/60 h-full">
+            {loading || !mounted ? (
               [1, 2, 3].map((i) => (
                 <div
                   key={i}
                   className="p-10 flex flex-col items-center justify-center gap-4 animate-pulse"
                 >
-                  <div className="h-12 w-32 bg-slate-200 dark:bg-slate-800 rounded-lg" />
-                  <div className="h-4 w-24 bg-slate-200 dark:bg-slate-800 rounded" />
+                  <div className="h-16 w-32 bg-slate-200 dark:bg-slate-800 rounded-lg" />
+                  <div className="h-6 w-24 bg-slate-200 dark:bg-slate-800 rounded" />
+                  <div className="h-6 w-40 bg-slate-200 dark:bg-slate-800 rounded" />
                 </div>
               ))
             ) : (

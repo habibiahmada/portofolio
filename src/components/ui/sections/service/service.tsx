@@ -3,7 +3,7 @@
 import { useTheme } from "next-themes"
 import { useEffect, useState } from "react"
 import { useTranslations } from "next-intl"
-import useServices from "@/hooks/api/public/useServices";
+import useServices from "@/hooks/api/public/useServices"
 import ServiceCard from "./servicecard"
 import ServiceCardSkeleton from "./servicecardskeleton"
 import SectionHeader from "../SectionHeader"
@@ -18,29 +18,31 @@ export default function MyService() {
 
   useEffect(() => {
     setMounted(true)
-    loadLucideIcons() // ✅ preload icon (dipakai DynamicIcon)
+    loadLucideIcons()
   }, [])
 
   if (!mounted) return null
+
   const isDark = resolvedTheme === "dark"
 
   return (
     <section
       id="services"
-      className={`relative pt - 28 sm: pt - 36 lg: pt - 40 pb - 32 transition - colors duration - 300
-    ${isDark ? "bg-slate-950" : "bg-gradient-to-b from-white to-slate-50"} `}
+      className={`relative pt-28 sm:pt-36 lg:pt-40 pb-32 transition-colors duration-300
+        ${isDark ? "bg-slate-950" : "bg-gradient-to-b from-white to-slate-50"}
+      `}
     >
-
-
-      {/* Background */}
+      {/* Background blobs */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className={`absolute top - 1 / 4 - left - 20 w - 80 h - 80 rounded - full blur - 3xl opacity - 10 ${isDark ? "bg-blue-500" : "bg-blue-300"} animate - blob`} />
-        <div className={`absolute bottom - 1 / 4 - right - 20 w - 72 h - 72 rounded - full blur - 3xl opacity - 10 ${isDark ? "bg-cyan-500" : "bg-cyan-300"} animate - blob animation - delay - 2000`} />
+        <div className={`absolute top-1/4 -left-20 w-80 h-80 rounded-full blur-3xl opacity-10
+          ${isDark ? "bg-blue-500" : "bg-blue-300"} animate-blob`} />
+        <div className={`absolute bottom-1/4 -right-20 w-72 h-72 rounded-full blur-3xl opacity-10
+          ${isDark ? "bg-cyan-500" : "bg-cyan-300"} animate-blob animation-delay-2000`} />
       </div>
 
       <div className="container mx-auto px-4 max-w-8xl relative">
         <div className="flex flex-col lg:flex-row gap-16">
-          {/* LEFT: Section Header */}
+          {/* LEFT */}
           <div className="lg:w-1/3">
             <div className="sticky top-[calc(var(--navbar-height)+2rem)]">
               <SectionHeader
@@ -51,25 +53,25 @@ export default function MyService() {
             </div>
           </div>
 
-
-          {/* RIGHT: Services Grid */}
+          {/* RIGHT */}
           <div className="lg:w-2/3">
             <div className="grid md:grid-cols-2 lg:grid-cols-3 overflow-hidden">
 
-
+              {/* Loading */}
               {loading &&
                 Array.from({ length: 6 }).map((_, i) => (
                   <ServiceCardSkeleton key={i} />
                 ))}
 
-              {error && (
+              {/* Error */}
+              {!loading && error && (
                 <div className="col-span-full text-center text-red-600">
                   {t("error", { default: "Failed to load services" })}
                 </div>
               )}
 
-              {!loading &&
-                !error &&
+              {/* Data */}
+              {!loading && !error &&
                 services.map((service) => {
                   const tr = Array.isArray(service.service_translations)
                     ? service.service_translations[0]
@@ -98,7 +100,6 @@ export default function MyService() {
           </div>
         </div>
       </div>
-
     </section>
   )
 }

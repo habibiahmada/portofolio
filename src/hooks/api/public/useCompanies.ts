@@ -1,45 +1,29 @@
-import { useEffect, useState, useRef } from "react";
+import useSWR from "swr";
 import { Company } from "@/lib/types/database";
 
+const fetcher = async (url: string): Promise<Company[]> => {
+    const res = await fetch(url);
+    if (!res.ok) {
+        throw new Error("Failed to fetch companies");
+    }
+    const json = await res.json();
+    return json.data ?? [];
+};
+
 export default function useCompanies() {
-    const [companies, setCompanies] = useState<Company[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<Error | null>(null);
-
-    const fetchedRef = useRef(false);
-
-    useEffect(() => {
-        if (fetchedRef.current) return;
-        let isMounted = true;
-
-        async function fetchCompanies() {
-            try {
-                const res = await fetch(`/api/public/companies`, { next: { revalidate: 0 } });
-                if (!res.ok) throw new Error("Failed to fetch companies");
-
-                const json = await res.json();
-
-                if (isMounted) {
-                    setCompanies((json?.data as Company[]) || []);
-                    fetchedRef.current = true;
-                }
-            } catch (err) {
-                if (isMounted) {
-                    setError(err as Error);
-                }
-            } finally {
-                if (isMounted) {
-                    setLoading(false);
-                }
-            }
+    const { data, error, isLoading } = useSWR<Company[]>(
+        `/api/public/companies`,
+        fetcher,
+        {
+            revalidateOnFocus: false,
+            revalidateOnReconnect: false,
+            dedupingInterval: 60000, 
         }
+    );
 
-        fetchCompanies();
-
-        return () => {
-            isMounted = false;
-        };
-    }, []);
-
-    return { companies, loading, error };
+    return {
+        companies: data ?? [],
+        loading: isLoading,
+        error: error ?? null
+    };
 }

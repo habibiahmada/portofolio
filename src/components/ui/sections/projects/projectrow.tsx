@@ -10,9 +10,11 @@ import Image from "next/image";
 export default function ProjectRow({
     project,
     index,
+    t,
 }: {
     project: Project;
     index: number;
+    t: (key: string) => string;
 }) {
     const translation = project.projects_translations?.[0];
     const isEven = index % 2 === 0;
@@ -73,7 +75,7 @@ export default function ProjectRow({
                     {project.live_url && (
                         <ProjectActionButton
                             href={project.live_url}
-                            label="Lihat Live"
+                            label={t("viewLive")}
                             icon={ArrowUpRight}
                             variant="primary"
                         />
@@ -82,7 +84,7 @@ export default function ProjectRow({
                     {project.github_url && (
                         <ProjectActionButton
                             href={project.github_url}
-                            label="Source"
+                            label={t("viewSource")}
                             icon={Github}
                             variant="secondary"
                         />

@@ -8,7 +8,7 @@ type Props = {
 
 export default function CertificationSkeleton({ count = 6 }: Props) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-8">
       {Array.from({ length: count }).map((_, idx) => (
         <div
           key={idx}

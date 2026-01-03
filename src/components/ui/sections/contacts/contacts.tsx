@@ -6,13 +6,11 @@ import {
   MapPin,
   Mail,
   Clock,
+  MessageSquare,
   Linkedin,
   Github,
-  Instagram,
-  MessageSquare,
-  ArrowRight
+  Instagram
 } from 'lucide-react';
-import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import { toast } from 'sonner';
 
@@ -20,6 +18,8 @@ import { toast } from 'sonner';
 import SectionHeader from "../SectionHeader";
 import ContactForm from './contactform';
 import useContact, { ContactFormData } from "@/hooks/api/public/useContact";
+import SocialLinkItem from './sociallinkitem';
+import ContactInfoItem from './contactinfoitem';
 
 // Types and Interfaces
 interface ContactInfo {
@@ -63,75 +63,6 @@ const SOCIAL_LINKS: SocialLink[] = [
   }
 ];
 
-// Helper Component for Info Item
-const ContactInfoItem: React.FC<{ info: ContactInfo }> = ({ info }) => {
-  const IconComponent = info.icon;
-  return (
-    <div className="flex items-start p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 transition-all duration-300 hover:shadow-md hover:border-slate-200 dark:hover:border-slate-700 group">
-      <div className={`
-        shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center 
-        ${info.color} 
-        bg-opacity-10 dark:bg-opacity-10
-        group-hover:scale-110 transition-transform duration-500 ease-out
-      `}>
-        <IconComponent className="w-6 h-6" />
-      </div>
-      <div className="ml-5 flex-1 min-w-0">
-        <h4 className="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">
-          {info.title}
-        </h4>
-        {info.action ? (
-          <button
-            onClick={info.action}
-            className="text-lg font-medium text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-left truncate w-full flex items-center gap-2 group/btn"
-            aria-label={info.title}
-          >
-            {info.content}
-            <span className="opacity-0 group-hover/btn:opacity-100 transition-opacity">
-              <ArrowRight className="w-4 h-4" />
-            </span>
-          </button>
-        ) : (
-          <p className="text-lg font-medium text-slate-900 dark:text-slate-100 leading-snug">
-            {info.content}
-          </p>
-        )}
-        {info.subContent && (
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-            {info.subContent}
-          </p>
-        )}
-      </div>
-    </div>
-  );
-};
-
-const SocialLinkItem: React.FC<{ social: SocialLink }> = ({ social }) => {
-  const IconComponent = social.icon;
-
-  return (
-    <Link
-      href={social.href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`
-        group flex items-center gap-3 px-5 py-3
-        bg-white dark:bg-slate-900/80 
-        border border-slate-200 dark:border-slate-700
-        rounded-xl shadow-sm hover:shadow-md
-        transition-all duration-300
-        ${social.bgClass} hover:border-transparent
-      `}
-    >
-      <IconComponent className={`w-5 h-5 text-slate-600 dark:text-slate-400 ${social.textClass} transition-colors`} />
-      <span className={`font-medium text-slate-700 dark:text-slate-300 ${social.textClass} transition-colors`}>
-        {social.label}
-      </span>
-    </Link>
-  );
-};
-
-
 // Component
 interface ContactSectionProps {
   email?: string;
@@ -148,27 +79,21 @@ const ContactSection: React.FC<ContactSectionProps> = ({ email }) => {
     email: false
   });
 
-  const { submitContact } = useContact();
+  const { submitContact, loading } = useContact();
 
   const handleFormSubmit = async (formData: ContactFormData) => {
     try {
       await submitContact(formData);
-
-      toast.success("Pesan terkirim", {
-        description: "Terima kasih, pesanmu sudah masuk dan akan dibalas.",
+      toast.success('Pesan terkirim', {
+        description: 'Terima kasih, pesanmu sudah masuk.',
       });
-
-    } catch (error) {
-      console.error("Contact form error:", error);
-      if ((error as Error).message === "TOO_MANY_REQUESTS") {
-        toast.error("Terlalu banyak permintaan", {
-          description: "Silakan tunggu sebentar sebelum mengirim pesan lagi.",
-        });
+    } catch (e) {
+      if ((e as Error).message === 'TOO_MANY_REQUESTS') {
+        toast.error('Terlalu banyak permintaan');
       } else {
-        toast.error("Gagal mengirim pesan", {
-          description: "Terjadi kesalahan. Coba lagi beberapa saat.",
-        });
+        toast.error('Gagal mengirim pesan');
       }
+      throw e;
     }
   };
 
@@ -283,7 +208,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ email }) => {
 
           {/* Right Column: Contact Form (7 cols) - Giving form more prominence */}
           <div className="lg:col-span-7 order-1 lg:order-2">
-            <ContactForm onSubmit={handleFormSubmit} />
+            <ContactForm onSubmit={handleFormSubmit} loading={loading} />
           </div>
 
         </div>

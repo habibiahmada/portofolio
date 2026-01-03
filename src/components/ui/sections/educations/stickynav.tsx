@@ -4,16 +4,18 @@ export default function StickyNav({
   items,
   activeIndex,
   isDark,
+  locale,
 }: {
   items: Experience[];
   activeIndex: number;
   isDark: boolean;
+  locale: string;
 }) {
   return (
     <div className="sticky top-32 flex flex-col gap-6">
       {items.map((item, idx) => {
         const date = new Date(item.start_date);
-        const monthName = date.toLocaleString("id-ID", {
+        const monthName = date.toLocaleString(`${locale}-ID`, {
           month: "long",
         });
         const year = date.getFullYear();
