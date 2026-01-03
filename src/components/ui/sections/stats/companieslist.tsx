@@ -50,7 +50,7 @@ export default function Companieslist() {
         {isLoading ? (
           <div className="flex animate-pulse py-4">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <Skeletonlogolist key={i} i={i} isDark={isDark} />
+              <Skeletonlogolist key={i} i={i}/>
             ))}
           </div>
         ) : (

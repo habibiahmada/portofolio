@@ -114,7 +114,7 @@ export default function Education() {
           {/* LEFT */}
           <div className="hidden md:block lg:col-span-3">
             {loading ? (
-              <StickyNavSkeleton isDark={isDark} />
+              <StickyNavSkeleton />
             ) : (
               <StickyNav
                 items={filteredExperiences}
