@@ -194,6 +194,7 @@ export default function CertificateForm({
         />
 
         <Textarea
+          className="min-h-[150px]"
           placeholder="Description"
           value={translations[0].description}
           onChange={e =>

@@ -20,10 +20,6 @@ import { Switch } from '@/components/ui/switch'
 import useAdminArticles from '@/hooks/api/admin/articles/useAdminArticles'
 import useArticleActions from '@/hooks/api/admin/articles/useArticleActions'
 
-// Define the shape we expect from the API (which the hook returns)
-// We cast the hook result or assume it matches this if the hook type is generic enough
-// The hook imports 'Article' from database, which might not have 'translation' if it's raw.
-// So we extend/override locally for the UI usage.
 interface ArticleItem {
     id: string
     image?: string
@@ -51,8 +47,6 @@ export default function Page() {
     /* ================= HANDLERS ================= */
 
     const handleDelete = async (id: string) => {
-        // Validation handled in hook or we can add confirm here too if hook doesn't (hook has confirm)
-        // Hook `deleteArticle` has confirm check.
         await deleteArticle(id)
     }
 
@@ -62,8 +56,6 @@ export default function Page() {
 
     const formatDate = (dateString?: string) => {
         if (!dateString) return '-'
-        // We can use a stable locale or the current one (hook uses locale)
-        // ideally we use the user's locale.
         return new Date(dateString).toLocaleDateString(undefined, {
             day: 'numeric',
             month: 'short',
@@ -73,7 +65,6 @@ export default function Page() {
 
     /* ================= RENDER ================= */
 
-    // Cast articles to the expected local type for UI
     const displayedArticles = articles as unknown as ArticleItem[];
 
     return (

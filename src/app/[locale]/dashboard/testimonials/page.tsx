@@ -71,7 +71,7 @@ export default function Page() {
 
                             {/* Action Buttons */}
                             <div className="flex justify-end gap-2 pt-2">
-                                <Link href={`/ dashboard / testimonials / ${item.id}/edit`}>
+                                <Link href={`/dashboard/testimonials/${item.id}/edit`}>
                                     <Button size="sm" variant="outline" aria-label="Edit Testimonial">
                                         <Pencil className="w-4 h-4" />
                                     </Button>

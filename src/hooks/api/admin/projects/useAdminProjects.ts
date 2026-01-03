@@ -30,7 +30,7 @@ export default function useAdminProjects(): UseAdminProjectsReturn {
 
     const fetchProjects = useCallback(async () => {
         try {
-            const res = await fetch(`/api/projects?lang=${locale}`, {
+            const res = await fetch(`/api/public/projects?lang=${locale}`, {
                 cache: 'no-store'
             });
             if (!res.ok) throw new Error("Failed to fetch projects");

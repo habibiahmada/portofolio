@@ -14,7 +14,7 @@ export default function useTestimonials() {
 
         async function fetchTestimonials() {
             try {
-                const res = await fetch(`/api/testimonials?lang=${lang}`, { next: { revalidate: 0 } });
+                const res = await fetch(`/api/public/testimonials?lang=${lang}`, { next: { revalidate: 0 } });
                 const json = await res.json();
 
                 if (isMounted) {

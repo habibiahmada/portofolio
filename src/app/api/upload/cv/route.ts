@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabaseAdmin } from "@/lib/supabase";
+import { supabaseAdmin } from "@/lib/supabase/admin";
 
 export async function POST(req: Request) {
     try {
@@ -19,7 +19,7 @@ export async function POST(req: Request) {
         // Convert File to ArrayBuffer for Supabase upload
         const arrayBuffer = await file.arrayBuffer();
         const fileBuffer = Buffer.from(arrayBuffer);
-        
+
         const { data, error } = await supabaseAdmin.storage
             .from("cv_storage")
             .upload(fileName, fileBuffer, {

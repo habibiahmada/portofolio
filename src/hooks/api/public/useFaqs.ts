@@ -29,7 +29,7 @@ export default function useFaqs(): UseFaqsReturn {
 
         async function fetchFaqs() {
             try {
-                const res = await fetch(`/api/faqs?lang=${locale}`, {
+                const res = await fetch(`/api/public/faqs?lang=${locale}`, {
                     cache: "no-store",
                 });
 

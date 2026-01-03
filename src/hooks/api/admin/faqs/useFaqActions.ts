@@ -27,7 +27,7 @@ export default function useFaqActions(onSuccess?: () => void): UseFaqActionsRetu
 
         setSubmitting(true);
         try {
-            const res = await fetch(`/api/faqs/${id}`, { method: 'DELETE' });
+            const res = await fetch(`/api/admin/faqs/${id}`, { method: 'DELETE' });
             if (!res.ok) throw new Error('Failed to delete');
             toast.success("FAQ deleted");
             onSuccess?.();
@@ -55,7 +55,7 @@ export default function useFaqActions(onSuccess?: () => void): UseFaqActionsRetu
                 ],
             };
 
-            const res = await fetch('/api/faqs', {
+            const res = await fetch('/api/admin/faqs', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),
@@ -90,7 +90,7 @@ export default function useFaqActions(onSuccess?: () => void): UseFaqActionsRetu
                 ],
             };
 
-            const res = await fetch(`/api/faqs/${id}`, {
+            const res = await fetch(`/api/admin/faqs/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),

@@ -24,7 +24,7 @@ export default function CompaniesAdminPage() {
 
   const fetchCompanies = useCallback(async () => {
     try {
-      const res = await fetch(`/api/companies/all?lang=${locale}`)
+      const res = await fetch(`/api/public/companies?lang=${locale}`)
       const json: { data?: CompanyItem[] } = await res.json()
       setCompanies(json.data ?? [])
     } catch (error) {
@@ -83,7 +83,7 @@ export default function CompaniesAdminPage() {
         finalLogo = uploadJson.url ?? finalLogo
       }
 
-      const res = await fetch("/api/companies/all", {
+      const res = await fetch("/api/admin/companies", {
         method: company.id ? "PATCH" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

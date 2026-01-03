@@ -18,7 +18,7 @@ export default function useAdminTestimonials(): UseAdminTestimonialsReturn {
         try {
             // API seems to accept lang param, or defaults to something. Component used 'en'.
             // We should use current locale if supported by API.
-            const res = await fetch(`/api/testimonials?lang=${locale}`, {
+            const res = await fetch(`/api/public/testimonials?lang=${locale}`, {
                 cache: 'no-store'
             });
             if (!res.ok) throw new Error("Failed to fetch testimonials");

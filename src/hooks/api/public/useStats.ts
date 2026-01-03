@@ -30,7 +30,7 @@ export default function useStats(): UseStatsReturn {
 
         async function fetchStats() {
             try {
-                const res = await fetch(`/api/stats?lang=${locale}`);
+                const res = await fetch(`/api/public/stats?lang=${locale}`);
                 const result = await res.json();
                 if (isMounted && result.data) {
                     setStats(result.data);

@@ -14,7 +14,7 @@ export default function useTechstacks() {
 
         async function fetchTechStacks() {
             try {
-                const res = await fetch(`/api/techstacks/all`, { next: { revalidate: 0 } });
+                const res = await fetch(`/api/public/techstacks`, { next: { revalidate: 0 } });
                 if (!res.ok) throw new Error("Failed to fetch tech stacks");
 
                 const json = await res.json();

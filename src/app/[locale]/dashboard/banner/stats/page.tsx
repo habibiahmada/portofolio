@@ -54,7 +54,7 @@ export default function StatsAdminPage() {
 
   const fetchStats = useCallback(async () => {
     try {
-      const res = await fetch(`/api/stats?lang=${locale}`)
+      const res = await fetch(`/api/public/stats?lang=${locale}`)
       const json = await res.json()
       setStats(json.data || [])
     } catch {
@@ -88,7 +88,7 @@ export default function StatsAdminPage() {
     const toastId = toast.loading(t('saving'))
 
     try {
-      const res = await fetch('/api/stats', {
+      const res = await fetch('/api/admin/stats', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

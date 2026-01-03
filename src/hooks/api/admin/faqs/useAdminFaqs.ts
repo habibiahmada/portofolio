@@ -16,7 +16,7 @@ export default function useAdminFaqs(): UseAdminFaqsReturn {
 
     const fetchFaqs = useCallback(async () => {
         try {
-            const res = await fetch(`/api/faqs?lang=${locale}`, {
+            const res = await fetch(`/api/public/faqs?lang=${locale}`, {
                 cache: 'no-store'
             });
             if (!res.ok) throw new Error("Failed to fetch FAQs");

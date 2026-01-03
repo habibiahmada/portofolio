@@ -3,14 +3,18 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 interface ArticleFormData {
-    title: string;
-    slug: string;
-    content: string;
-    excerpt: string;
-    image_url: string;
+    translations: {
+        language: string;
+        title: string;
+        slug: string;
+        content: string;
+        excerpt: string;
+        tags: string[];
+        read_time: string;
+    }[];
+    image: string;
     published: boolean;
-    tags: string[];
-    read_time: string;
+    published_at?: string;
 }
 
 interface UseArticleActionsReturn {
@@ -29,7 +33,7 @@ export default function useArticleActions(onSuccess?: () => void): UseArticleAct
     const deleteArticle = async (id: string) => {
         setSubmitting(true);
         try {
-            const res = await fetch(`/api/articles/${id}`, { method: 'DELETE' });
+            const res = await fetch(`/api/admin/articles/${id}`, { method: 'DELETE' });
             if (!res.ok) throw new Error('Failed to delete');
             toast.success("Article deleted successfully");
             onSuccess?.();
@@ -41,11 +45,9 @@ export default function useArticleActions(onSuccess?: () => void): UseArticleAct
     };
 
     const togglePublish = async (id: string, currentPublished: boolean) => {
-        // Optimistic UI updates or visual feedback usually handled by component, 
-        // but here we just perform the action
         const toastId = toast.loading(currentPublished ? "Unpublishing..." : "Publishing...");
         try {
-            const res = await fetch(`/api/articles/${id}`, {
+            const res = await fetch(`/api/admin/articles/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ published: !currentPublished }),
@@ -63,7 +65,7 @@ export default function useArticleActions(onSuccess?: () => void): UseArticleAct
     const createArticle = async (data: ArticleFormData) => {
         setSubmitting(true);
         try {
-            const res = await fetch('/api/articles', {
+            const res = await fetch('/api/admin/articles', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
@@ -73,7 +75,7 @@ export default function useArticleActions(onSuccess?: () => void): UseArticleAct
 
             toast.success("Article created successfully");
             onSuccess?.();
-            router.push('/admin/articles'); // Adjust path if needed, e.g. /dashboard/articles
+            router.push('/dashboard/articles');
         } catch (error) {
             toast.error("Failed to create article");
             throw error;
@@ -85,7 +87,7 @@ export default function useArticleActions(onSuccess?: () => void): UseArticleAct
     const updateArticle = async (id: string, data: ArticleFormData) => {
         setSubmitting(true);
         try {
-            const res = await fetch(`/api/articles/${id}`, {
+            const res = await fetch(`/api/admin/articles/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
@@ -95,7 +97,7 @@ export default function useArticleActions(onSuccess?: () => void): UseArticleAct
 
             toast.success("Article updated successfully");
             onSuccess?.();
-            router.push('/admin/articles');
+            router.push('/dashboard/articles');
         } catch (error) {
             toast.error("Failed to update article");
             throw error;

@@ -40,7 +40,7 @@ export default function useContact(): UseContactReturn {
                 };
             }
 
-            const res = await fetch("/api/contact", {
+            const res = await fetch("/api/public/contact", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),

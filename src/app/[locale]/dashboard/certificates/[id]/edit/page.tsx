@@ -18,11 +18,7 @@ export default function EditCertificatePage() {
 
     const { certificates, loading } = useAdminCertificates();
     const certificate = certificates.find(c => c.id === id);
-
-    // Initial data might need mapping if the form expects specific structure
-    // Certificate in useAdminCertificates has certification_translations or translation
-    // CertificateForm expects CertificateInitialData which has issuer, year, preview, certification_translations
-
+    
     const initialData = certificate ? {
         issuer: certificate.issuer,
         year: Number(certificate.year),

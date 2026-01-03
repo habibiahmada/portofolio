@@ -43,7 +43,7 @@ export default function Page() {
   /* ================= FETCH DATA ================= */
   const fetchService = useCallback(async () => {
     try {
-      const response = await fetch(`/api/services/${id}?lang=${locale}`, {
+      const response = await fetch(`/api/admin/services/${id}?lang=${locale}`, {
         cache: 'no-store',
       });
 
@@ -87,7 +87,7 @@ export default function Page() {
         ],
       };
 
-      const response = await fetch(`/api/services/${id}`, {
+      const response = await fetch(`/api/admin/services/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

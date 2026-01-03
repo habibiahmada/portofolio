@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabaseAdmin } from "@/lib/supabase";
+import { supabaseAdmin } from "@/lib/supabase/admin";
 
 const BUCKET = 'projects image';
 
@@ -17,7 +17,7 @@ export async function POST(req: Request) {
 
     const { data, error } = await supabaseAdmin.storage
       .from(BUCKET)
-      .upload(fileName, fileBuffer, { 
+      .upload(fileName, fileBuffer, {
         contentType: file.type,
         cacheControl: '3600',
         upsert: false,
