@@ -44,7 +44,7 @@ export default function Page() {
     async function fetchTools() {
         try {
             setLoading(true)
-            const res = await fetch("/api/techstacks/all")
+            const res = await fetch("/api/public/techstacks")
             if (!res.ok) throw new Error("Failed to fetch tools")
 
             const json = await res.json()
@@ -97,8 +97,8 @@ export default function Page() {
             setLoading(true)
 
             const url = editing
-                ? `/api/techstacks/all/${editing.id}`
-                : "/api/techstacks/all"
+                ? `/api/admin/techstacks/${editing.id}`
+                : "/api/admin/techstacks"
 
             const res = await fetch(url, {
                 method: editing ? "PUT" : "POST",
@@ -137,7 +137,7 @@ export default function Page() {
             setLoading(true)
 
             const res = await fetch(
-                `/api/techstacks/all/${editing.id}`,
+                `/api/admin/techstacks/${editing.id}`,
                 { method: "DELETE" }
             )
 

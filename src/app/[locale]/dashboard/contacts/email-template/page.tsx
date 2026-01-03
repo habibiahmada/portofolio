@@ -15,7 +15,7 @@ export default function EmailTemplateEditor() {
 
   useEffect(() => {
     setLoading(true)
-    fetch('/api/email-template?key=contact', { next: { revalidate: 0 } })
+    fetch('/api/admin/email-template?key=contact', { next: { revalidate: 0 } })
       .then((r) => r.json())
       .then((data) => {
         if (data?.template) {
@@ -37,7 +37,7 @@ export default function EmailTemplateEditor() {
   const save = async () => {
     setLoading(true)
     try {
-      const res = await fetch('/api/email-template', {
+      const res = await fetch('/api/admin/email-template', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ key: 'contact', subject, body }),

@@ -14,7 +14,7 @@ export default function useProjects() {
 
         async function fetchProjects() {
             try {
-                const res = await fetch(`/api/projects?lang=${lang}`, { next: { revalidate: 0 } });
+                const res = await fetch(`/api/public/projects?lang=${lang}`, { next: { revalidate: 0 } });
                 const json = await res.json();
 
                 if (isMounted) {

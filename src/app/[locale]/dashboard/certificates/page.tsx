@@ -49,7 +49,7 @@ export default function AdminCertificatesPage() {
 
         try {
             const response = await fetch(
-                `/api/certificates?lang=${locale}`,
+                `/api/public/certificates?lang=${locale}`,
                 { cache: "no-store" }
             );
 
@@ -79,7 +79,7 @@ export default function AdminCertificatesPage() {
         const toastId = toast.loading("Deleting certificate...");
 
         try {
-            const res = await fetch(`/api/certificates/${id}`, {
+            const res = await fetch(`/api/admin/certificates/${id}`, {
                 method: "DELETE",
             });
 

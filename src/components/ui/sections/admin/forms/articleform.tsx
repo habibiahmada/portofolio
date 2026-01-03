@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useLocale } from "next-intl";
 import {
     Plus,
     X,
@@ -42,16 +43,7 @@ export interface ArticleFormData {
 }
 
 // Aligning with the hook's expected data structure
-interface ArticleActionData {
-    title: string;
-    slug: string;
-    content: string;
-    excerpt: string;
-    image_url: string;
-    published: boolean;
-    tags: string[];
-    read_time: string;
-}
+
 
 interface ArticleInitialData {
     id?: string;
@@ -203,6 +195,8 @@ export default function ArticleForm({
     };
 
     /* ================= SUBMIT ================= */
+    const locale = useLocale();
+
     const submit = async () => {
         if (submitting || uploading) return;
 
@@ -215,15 +209,18 @@ export default function ArticleForm({
             return;
         }
 
-        const payload: ArticleActionData = {
-            title: form.title,
-            slug: form.slug,
-            content: form.content,
-            excerpt: form.excerpt,
-            image_url: form.image_url || form.image,
+        const payload = {
+            translations: [{
+                language: locale,
+                title: form.title,
+                slug: form.slug,
+                content: form.content,
+                excerpt: form.excerpt,
+                tags: form.tags,
+                read_time: form.read_time,
+            }],
+            image: form.image,
             published: form.published,
-            tags: form.tags,
-            read_time: form.read_time
         };
 
         if (initialData?.id) {

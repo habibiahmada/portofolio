@@ -188,7 +188,8 @@
       "refresh": "Refresh",
       "emptyTitle": "No companies yet",
       "emptyDescription": "Get started by adding your first company",
-      "idLabel": "ID: {id}"
+      "idLabel": "ID: {id}",
+      "delete": "Delete"
     },
     "techcorp": "TechCorp",
     "innovatelab": "InnovateLab",
@@ -487,6 +488,22 @@
         "date": "Date",
         "actions": "Actions"
       }
+    },
+    "contacts": {
+      "title": "Contacts",
+      "description": "Manage your contacts",
+      "add": "Add Contact",
+      "edit": "Edit Contact",
+      "empty": "No contacts yet. Start connecting with your audience.",
+      "confirmDelete": "Delete this contact?",
+      "loading": "Loading...",
+      "saving": "Saving...",
+      "deleting": "Deleting...",
+      "saveSuccess": "Contact saved",
+      "deleteSuccess": "Contact deleted",
+      "saveError": "Failed to save",
+      "deleteError": "Failed to delete",
+      "loadError": "Failed to load contacts"
     }
   }
 }

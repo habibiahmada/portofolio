@@ -33,7 +33,7 @@ export default function useArticles(limit?: number): UseArticlesReturn {
         async function fetchArticles() {
             try {
                 const res = await fetch(
-                    `/api/articles?lang=${lang}${limit ? `&limit=${limit}` : ""}&published=true`,
+                    `/api/public/articles?lang=${lang}${limit ? `&limit=${limit}` : ""}&published=true`,
                     { next: { revalidate: 0 } }
                 );
                 const json = await res.json();

@@ -37,7 +37,7 @@ export default function Page() {
         ],
       };
 
-      const response = await fetch('/api/services', {
+      const response = await fetch('/api/admin/services', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

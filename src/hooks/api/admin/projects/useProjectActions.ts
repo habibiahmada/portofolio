@@ -30,7 +30,7 @@ export default function useProjectActions(onSuccess?: () => void): UseProjectAct
         setSubmitting(true);
         const toastId = toast.loading("Deleting project...");
         try {
-            const res = await fetch(`/api/projects/${id}`, { method: 'DELETE' });
+            const res = await fetch(`/api/admin/projects/${id}`, { method: 'DELETE' });
             if (!res.ok) throw new Error('Failed to delete');
             toast.success("Project deleted", { id: toastId });
             onSuccess?.();
@@ -46,7 +46,7 @@ export default function useProjectActions(onSuccess?: () => void): UseProjectAct
         setSubmitting(true);
         const toastId = toast.loading("Creating project...");
         try {
-            const res = await fetch('/api/projects', {
+            const res = await fetch('/api/admin/projects', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
@@ -69,7 +69,7 @@ export default function useProjectActions(onSuccess?: () => void): UseProjectAct
         setSubmitting(true);
         const toastId = toast.loading("Updating project...");
         try {
-            const res = await fetch(`/api/projects/${id}`, {
+            const res = await fetch(`/api/admin/projects/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),

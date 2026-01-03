@@ -31,7 +31,7 @@ export default function useCertificateActions(onSuccess?: () => void): UseCertif
         setSubmitting(true);
         const toastId = toast.loading("Deleting certificate...");
         try {
-            const res = await fetch(`/api/certificates/${id}`, { method: 'DELETE' });
+            const res = await fetch(`/api/admin/certificates/${id}`, { method: 'DELETE' });
             if (!res.ok) throw new Error('Failed to delete');
             toast.success("Certificate deleted", { id: toastId });
             onSuccess?.();
@@ -61,7 +61,7 @@ export default function useCertificateActions(onSuccess?: () => void): UseCertif
                 ],
             };
 
-            const res = await fetch('/api/certificates', {
+            const res = await fetch('/api/admin/certificates', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),
@@ -98,7 +98,7 @@ export default function useCertificateActions(onSuccess?: () => void): UseCertif
                 ],
             };
 
-            const res = await fetch(`/api/certificates/${id}`, {
+            const res = await fetch(`/api/admin/certificates/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),
@@ -117,12 +117,6 @@ export default function useCertificateActions(onSuccess?: () => void): UseCertif
         }
     };
 
-    // For certificates, it might be a PDF or Image. Reusing image upload or specific endpoint?
-    // Project used /api/upload/image. CertificatePreview implies it's a file URL.
-    // Assuming same upload endpoint for now or need to check certificate form.
-    // Let's assume generic file upload or same image upload if it supports pdfs?
-    // ArticleForm uses /api/upload/image.
-    // Let's name it uploadFile and point to /api/upload/image for now (often used for assets).
     const uploadFile = async (file: File): Promise<string> => {
         setSubmitting(true);
         const toastId = toast.loading("Uploading file...");

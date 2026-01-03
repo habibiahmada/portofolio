@@ -14,7 +14,7 @@ export default function useCompanies() {
 
         async function fetchCompanies() {
             try {
-                const res = await fetch(`/api/companies/all`, { next: { revalidate: 0 } });
+                const res = await fetch(`/api/public/companies`, { next: { revalidate: 0 } });
                 if (!res.ok) throw new Error("Failed to fetch companies");
 
                 const json = await res.json();

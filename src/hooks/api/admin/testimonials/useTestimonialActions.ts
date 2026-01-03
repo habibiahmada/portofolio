@@ -9,6 +9,7 @@ export interface TestimonialFormData {
     rating: number;
     avatar: string;
     content: string; // The translation content
+    language?: string;
 }
 
 interface UseTestimonialActionsReturn {
@@ -29,7 +30,7 @@ export default function useTestimonialActions(onSuccess?: () => void): UseTestim
         setSubmitting(true);
         // const toastId = toast.loading("Deleting testimonial...");
         try {
-            const res = await fetch(`/api/testimonials/${id}`, { method: 'DELETE' });
+            const res = await fetch(`/api/admin/testimonials/${id}`, { method: 'DELETE' });
             if (!res.ok) throw new Error('Failed to delete');
             toast.success("Testimonial deleted");
             onSuccess?.();
@@ -45,10 +46,14 @@ export default function useTestimonialActions(onSuccess?: () => void): UseTestim
         setSubmitting(true);
         const toastId = toast.loading("Creating testimonial...");
         try {
-            const res = await fetch('/api/testimonials', {
+            const payload = {
+                language: 'en',
+                ...data
+            };
+            const res = await fetch('/api/admin/testimonials', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data),
+                body: JSON.stringify(payload),
             });
 
             if (!res.ok) throw new Error('Failed to create');
@@ -68,10 +73,14 @@ export default function useTestimonialActions(onSuccess?: () => void): UseTestim
         setSubmitting(true);
         const toastId = toast.loading("Updating testimonial...");
         try {
-            const res = await fetch(`/api/testimonials/${id}`, {
+            const payload = {
+                language: 'en',
+                ...data
+            };
+            const res = await fetch(`/api/admin/testimonials/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data),
+                body: JSON.stringify(payload),
             });
 
             if (!res.ok) throw new Error('Failed to update');

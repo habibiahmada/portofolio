@@ -11,78 +11,15 @@ import {
   BookOpen
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { supabase, supabaseAdmin } from '@/lib/supabase'
 import Link from 'next/link'
 import DashboardHeader from '@/components/ui/sections/admin/dashboardheader'
 import { getTranslations } from 'next-intl/server'
+import { getDashboardData } from '@/services/api/admin/getdashboarddata'
+import { timeAgo } from '@/lib/getTimes'
 
 // Force dynamic rendering since we are fetching data
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
-
-function timeAgo(dateString: string, t: (key: string, values?: Record<string, string | number | Date>) => string) {
-  const date = new Date(dateString)
-  const now = new Date()
-  const seconds = Math.floor((now.getTime() - date.getTime()) / 1000)
-
-  if (seconds < 60) return t('time.justNow')
-
-  let interval = seconds / 31536000
-  if (interval > 1) return t('time.yearsAgo', { count: Math.floor(interval) })
-  interval = seconds / 2592000
-  if (interval > 1) return t('time.monthsAgo', { count: Math.floor(interval) })
-  interval = seconds / 86400
-  if (interval > 1) return t('time.daysAgo', { count: Math.floor(interval) })
-  interval = seconds / 3600
-  if (interval > 1) return t('time.hoursAgo', { count: Math.floor(interval) })
-  interval = seconds / 60
-  if (interval > 1) return t('time.minutesAgo', { count: Math.floor(interval) })
-  return t('time.secondsAgo', { count: Math.floor(seconds) })
-}
-
-async function getDashboardData() {
-  const db = supabaseAdmin || supabase
-
-  // Parallel Fetching
-  const [
-    projects,
-    articles,
-    experiences,
-    certifications,
-    testimonials,
-    services,
-    tools,
-    messagesCount,
-    recentMessages
-  ] = await Promise.all([
-    db.from("projects").select("*", { count: "exact", head: true }),
-    db.from("articles").select("*", { count: "exact", head: true }),
-    db.from("experiences").select("*", { count: "exact", head: true }),
-    db.from("certifications").select("*", { count: "exact", head: true }),
-    db.from("testimonials").select("*", { count: "exact", head: true }),
-    db.from("services").select("*", { count: "exact", head: true }),
-    db.from("tools_logo").select("*", { count: "exact", head: true }),
-    db.from("contacts").select("*", { count: "exact", head: true }),
-    db.from("contacts")
-      .select("*")
-      .order('created_at', { ascending: false })
-      .limit(5)
-  ])
-
-  return {
-    counts: {
-      projects: projects.count ?? 0,
-      articles: articles.count ?? 0,
-      experiences: experiences.count ?? 0,
-      certifications: certifications.count ?? 0,
-      testimonials: testimonials.count ?? 0,
-      services: services.count ?? 0,
-      tools: tools.count ?? 0,
-      messages: messagesCount.count ?? 0
-    },
-    messages: recentMessages.data ?? []
-  }
-}
 
 export default async function DashboardPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;

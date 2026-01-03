@@ -15,10 +15,8 @@ export default function useAdminArticles(): UseAdminArticlesReturn {
     const locale = useLocale();
 
     const fetchArticles = useCallback(async () => {
-        // Keep loading state management local to prevent UI flicker if called internally for refresh
-        // But initially we are loading.
         try {
-            const res = await fetch(`/api/articles?lang=${locale}`, {
+            const res = await fetch(`/api/public/articles?lang=${locale}`, {
                 cache: 'no-store'
             });
             if (!res.ok) throw new Error("Failed to fetch articles");

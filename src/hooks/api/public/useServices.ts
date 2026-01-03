@@ -14,7 +14,7 @@ export default function useServices() {
 
         async function fetchServices() {
             try {
-                const res = await fetch(`/api/services?lang=${lang}`, { next: { revalidate: 0 } });
+                const res = await fetch(`/api/public/services?lang=${lang}`, { next: { revalidate: 0 } });
                 const json = await res.json();
 
                 if (isMounted) {

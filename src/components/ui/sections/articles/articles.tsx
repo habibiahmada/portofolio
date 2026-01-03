@@ -1,10 +1,12 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
-import useArticles from "@/hooks/api/public/useArticles";
 import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
+import { useLocale } from "next-intl";
+
+import useArticles from "@/hooks/api/public/useArticles";
 
 interface UIArticle {
   id: string;
@@ -16,29 +18,26 @@ interface UIArticle {
   href: string;
 }
 
+function formatDate(dateString?: string, locale?: string) {
+  if (!dateString) return "";
+
+  return new Date(dateString).toLocaleDateString(locale ?? "id-ID", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+}
+
 const Articles: React.FC = () => {
-  const [mounted, setMounted] = useState(false);
+  const locale = useLocale();
   const { articles, loading, error } = useArticles(3);
 
-  function formatDate(dateString: string, locale = "id-ID") {
-    if (!dateString) return "";
-
-    const date = new Date(dateString);
-
-    return date.toLocaleDateString(locale, {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
-  }
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   const uiArticles: UIArticle[] = useMemo(() => {
-    return (articles || []).map((a, idx) => {
+    if (!articles?.length) return [];
+
+    return articles.map((a, idx) => {
       const tr = a.translation;
+
       return {
         id: a.id ?? `article-${idx}`,
         title: tr?.title ?? "",
@@ -46,14 +45,12 @@ const Articles: React.FC = () => {
         date: a.published_at ?? a.created_at ?? "",
         readTime: tr?.read_time ?? "",
         image: a.image || "/images/about-illustration.webp",
-        href: tr?.slug ? `/articles/${tr.slug}` : "#",
+        href: tr?.slug ? `/${locale}/articles/${tr.slug}` : "#",
       };
     });
-  }, [articles]);
+  }, [articles, locale]);
 
-  if (!mounted) return null;
-  if (loading) return null;
-  if (error) return null;
+  if (loading || error || uiArticles.length === 0) return null;
 
   return (
     <section
@@ -76,7 +73,7 @@ const Articles: React.FC = () => {
           </div>
 
           <Link
-            href="/articles"
+            href={`/${locale}/articles`}
             className="text-sm text-slate-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 transition-colors flex items-center gap-2 font-medium"
           >
             View All Articles
@@ -106,9 +103,10 @@ const Articles: React.FC = () => {
               {/* Content */}
               <div className="flex flex-col justify-center">
                 <div className="text-sm text-slate-500 dark:text-slate-400 mb-3">
-                  {formatDate(article.date)}
+                  {formatDate(article.date, locale)}
                   {article.readTime && ` • ${article.readTime} read`}
                 </div>
+
                 <h3 className="text-xl md:text-2xl font-bold mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors flex items-center gap-2">
                   {article.title}
                   <ArrowUpRight className="w-5 h-5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />

@@ -188,7 +188,8 @@
       "refresh": "Segarkan",
       "emptyTitle": "Belum ada perusahaan",
       "emptyDescription": "Mulai dengan menambahkan perusahaan pertama Anda",
-      "idLabel": "ID: {id}"
+      "idLabel": "ID: {id}",
+      "delete" : "Hapus"
     },
     "techcorp": "TechCorp",
     "innovatelab": "InnovateLab",
@@ -487,6 +488,22 @@
         "date": "Tanggal",
         "actions": "Aksi"
       }
+    },
+    "contacts": {
+      "title": "Kontak",
+      "description": "Kelola kontak",
+      "add": "Tambah Kontak",
+      "edit": "Ubah Kontak",
+      "empty": "Belum ada kontak. Mulai berkomunikasi dengan pengunjung.",
+      "confirmDelete": "Hapus kontak ini?",
+      "loading": "Memuat...",
+      "saving": "Menyimpan...",
+      "deleting": "Menghapus...",
+      "saveSuccess": "Kontak disimpan",
+      "deleteSuccess": "Kontak dihapus",
+      "saveError": "Gagal menyimpan",
+      "deleteError": "Gagal menghapus",
+      "loadError": "Gagal memuat kontak"
     }
   }
 }

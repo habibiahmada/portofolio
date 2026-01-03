@@ -29,7 +29,7 @@ export default function useHero(): UseHeroReturn {
 
         async function fetchData() {
             try {
-                const res = await fetch(`/api/hero?lang=${locale}`);
+                const res = await fetch(`/api/public/hero?lang=${locale}`);
                 const result = await res.json();
 
                 if (isMounted && result.data) {

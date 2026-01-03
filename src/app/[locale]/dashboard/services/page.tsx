@@ -40,7 +40,7 @@ export default function ServicesPage() {
     setLoading(true);
 
     try {
-      const response = await fetch(`/api/services?lang=${locale}`, {
+      const response = await fetch(`/api/public/services?lang=${locale}`, {
         cache: 'no-store',
       });
 
@@ -68,7 +68,7 @@ export default function ServicesPage() {
     if (!confirmed) return;
 
     try {
-      const response = await fetch(`/api/services/${id}`, {
+      const response = await fetch(`/api/admin/services/${id}`, {
         method: 'DELETE',
       });
 

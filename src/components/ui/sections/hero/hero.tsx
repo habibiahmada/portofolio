@@ -1,50 +1,17 @@
 'use client';
 
-import Image from "next/image";
-import { ChevronDown, Eye, Mouse, FileText } from "lucide-react";
 import { useTheme } from "next-themes";
-import { useState, useEffect } from "react";
-import Ctabutton from "../ctabutton";
-import TechIconsDecorations from "./techicon";
-import Writertext from "./writertext";
 import { useTranslations } from "next-intl";
+import { useState, useEffect } from "react";
+import { ChevronDown, Eye, Mouse, FileText } from "lucide-react";
+import { DecorativeCode, BackgroundGrid } from "../../decorativeelement";
+import useHero from "@/hooks/api/public/useHero";
+import HeroImage from "./heroimage";
+import Ctabutton from "../ctabutton";
+import Writertext from "./writertext";
 import HeroSkeleton from "./heroskeleton";
 import CVPreviewModal from "./cvpreviewmodal";
-import useHero from "@/hooks/api/public/useHero";
-import { DecorativeCode, BackgroundGrid, HexagonalShape } from "../../decorativeelement";
-
-const HeroImage = ({
-  isDark,
-  imageAlt,
-  imageUrl,
-  blurDataURL,
-}: {
-  isDark: boolean;
-  imageAlt: string;
-  imageUrl?: string;
-  blurDataURL: string;
-}) => (
-
-  <div className="relative">
-    {/* Unique hexagonal background */}
-    <div className="absolute -inset-8">
-      <HexagonalShape isDark={isDark} />
-    </div>
-    <Image
-      src={imageUrl || "/images/self-photo-habibi-ahmad-aziz.webp"}
-      alt={imageAlt}
-      width={600}
-      height={600}
-      className="w-full select-none max-w-sm sm:max-w-md lg:max-w-lg mx-auto rounded-3xl drop-shadow-[0_15px_25px_rgba(0,0,0,0.4)] hover:scale-105 transition-transform duration-500 ease-in-out object-cover"
-      draggable={false}
-      sizes="(max-width: 768px) 100vw, 600px"
-      placeholder="blur"
-      blurDataURL={blurDataURL}
-      fetchPriority="high"
-    />
-  </div>
-);
-
+import TechIconsDecorations from "./techicon";
 
 export default function Hero({ blurDataURL }: { blurDataURL: string }) {
   const { resolvedTheme } = useTheme();

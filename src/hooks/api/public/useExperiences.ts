@@ -14,7 +14,7 @@ export default function useExperiences() {
 
         async function fetchExperience() {
             try {
-                const res = await fetch(`/api/experiences?lang=${lang}`, { next: { revalidate: 0 } });
+                const res = await fetch(`/api/public/experiences?lang=${lang}`, { next: { revalidate: 0 } });
                 const json = await res.json();
 
                 if (isMounted) {

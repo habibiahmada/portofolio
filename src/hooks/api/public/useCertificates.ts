@@ -14,7 +14,7 @@ export default function useCertificates() {
 
         async function fetchCertificates() {
             try {
-                const res = await fetch(`/api/certificates?lang=${lang}`, { next: { revalidate: 0 } });
+                const res = await fetch(`/api/public/certificates?lang=${lang}`, { next: { revalidate: 0 } });
                 const json = await res.json();
 
                 if (isMounted) {

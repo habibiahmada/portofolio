@@ -16,7 +16,7 @@ export default function useAdminCertificates(): UseAdminCertificatesReturn {
 
     const fetchCertificates = useCallback(async () => {
         try {
-            const res = await fetch(`/api/certificates?lang=${locale}`, {
+            const res = await fetch(`/api/public/certificates?lang=${locale}`, {
                 cache: 'no-store'
             });
             if (!res.ok) throw new Error("Failed to fetch certificates");

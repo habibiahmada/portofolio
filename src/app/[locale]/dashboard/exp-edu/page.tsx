@@ -86,7 +86,7 @@ export default function Page() {
   const fetchData = useCallback(async () => {
     setLoading(true)
     try {
-      const res = await fetch(`/api/experiences?lang=${locale}`)
+      const res = await fetch(`/api/public/experiences?lang=${locale}`)
       const json: { data?: ExperienceAPI[] } = await res.json()
 
       setData(
@@ -123,8 +123,8 @@ export default function Page() {
 
     const method = editingId ? "PUT" : "POST"
     const url = editingId
-      ? `/api/experiences/${editingId}`
-      : "/api/experiences"
+      ? `/api/admin/experiences/${editingId}`
+      : "/api/admin/experiences"
 
     try {
       const res = await fetch(url, {
@@ -157,7 +157,7 @@ export default function Page() {
 
     setLoading(true)
     try {
-      const res = await fetch(`/api/experiences/${id}`, { method: "DELETE" })
+      const res = await fetch(`/api/admin/experiences/${id}`, { method: "DELETE" })
       if (!res.ok) throw new Error()
 
       toast.success("Data terhapus")
