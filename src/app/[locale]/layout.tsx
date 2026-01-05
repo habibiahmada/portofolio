@@ -112,17 +112,6 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <head>
-        {/* reCAPTCHA is now lazy-loaded only in the contact form component */}
-        <link
-          rel="preload"
-          as="image"
-          href="/images/self-photo-habibi-ahmad-aziz.webp"
-          fetchPriority="high"
-          type="image/webp"
-        />
-      </head>
-
       <body
         className={`${inter.variable} ${inter.className} font-sans antialiased bg-background`}
       >

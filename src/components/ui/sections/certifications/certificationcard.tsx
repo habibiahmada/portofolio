@@ -1,52 +1,43 @@
-"use client";
+'use client';
 
-import dynamic from "next/dynamic";
-import { ExternalLink } from "lucide-react";
-import { Certificate } from "@/lib/types/database";
+import dynamic from 'next/dynamic';
+import { ExternalLink } from 'lucide-react';
+import { Certificate } from '@/lib/types/database';
 
 const CertificateThumbnail = dynamic(
-  () => import("./certificatethumbnail"),
-  { ssr: false }
+  () => import('./certificatethumbnail'),
+  { ssr: false },
 );
 
-interface CertificationCardProps {
+interface Props {
   certificate: Certificate;
   index: number;
   onClick: () => void;
 }
 
-const CertificationCard: React.FC<CertificationCardProps> = ({
+export default function CertificationCard({
   certificate,
   index,
   onClick,
-}) => {
+}: Props) {
   const isBlue = index % 2 === 0;
-  const skills =
-    certificate.certification_translations?.[0]?.skills ??
-    certificate.skills ??
-    [];
+  const translation = certificate.certification_translations?.[0];
+
+  const skills = translation?.skills ?? certificate.skills ?? [];
 
   return (
-    <div className="group relative bg-white dark:bg-slate-950 rounded-2xl shadow-lg hover:shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600 transition-colors duration-300">
-      {/* Card Preview */}
+    <div className="group rounded-2xl border bg-white shadow transition hover:shadow-xl dark:border-slate-700 dark:bg-slate-950">
       <div
-        className="h-48 w-full relative cursor-pointer overflow-hidden"
         onClick={onClick}
+        className="relative h-48 cursor-pointer overflow-hidden"
       >
-        <div className="h-full w-full transition-transform duration-300 group-hover:scale-105">
-          <CertificateThumbnail file={certificate.preview || ''} />
-        </div>
+        <CertificateThumbnail file={certificate.preview ?? ''} />
 
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-blue-600/20 dark:bg-blue-400/20 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all duration-300">
-          <div className="bg-white/90 dark:bg-slate-950/90 rounded-full p-3">
-            <ExternalLink className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-          </div>
+        <div className="absolute inset-0 flex items-center justify-center bg-blue-600/20 opacity-0 transition group-hover:opacity-100">
+          <ExternalLink className="h-5 w-5 text-blue-600" />
         </div>
       </div>
 
-
-      {/* Card Content */}
       <div className="p-6">
         <div className="flex items-start gap-4 mb-4">
           <div className="flex-1 min-w-0">
@@ -93,6 +84,4 @@ const CertificationCard: React.FC<CertificationCardProps> = ({
       </div>
     </div>
   );
-};
-
-export default CertificationCard;
+}

@@ -225,7 +225,10 @@
     "titleLine1": "Latest Projects",
     "description1": "A portfolio of selected projects that demonstrate my skills and experience in developing modern digital solutions.",
     "noProjectsTitle": "No projects found",
-    "noProjectsDescription": "Try adjusting your filters or search query."
+    "noProjectsDescription": "Try adjusting your filters or search query.",
+    "viewProjects": "View Projects",
+    "viewLive": "View Live",
+    "viewSource": "View Source"
   },
   "skills": {
     "titleLine1": "Tools and Technologies",
@@ -246,7 +249,7 @@
   },
   "testimonials": {
     "titleLine1": "What do they say?",
-    "description1": "More than 50+ clients have entrusted their projects and experienced extraordinary results."
+    "description1": "More than 10+ clients have entrusted their projects and experienced extraordinary results."
   },
   "articles": {
     "badge": "Blog",

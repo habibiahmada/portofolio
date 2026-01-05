@@ -1,41 +1,33 @@
-import { useEffect, useState } from "react";
-import { useLocale } from "next-intl";
-import type { Experience } from "@/lib/types/database";
+import useSWR from "swr"
+import { useLocale } from "next-intl"
+import type { Experience } from "@/lib/types/database"
+
+const fetcher = async (url: string): Promise<Experience[]> => {
+  const res = await fetch(url)
+  if (!res.ok) {
+    throw new Error("Failed to fetch experiences")
+  }
+
+  const json = await res.json()
+  return json.data ?? []
+}
 
 export default function useExperiences() {
-    const [experiences, setExperiences] = useState<Experience[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<Error | null>(null);
+  const lang = useLocale()
 
-    const lang = useLocale();
+  const { data, error, isLoading } = useSWR<Experience[]>(
+    `/api/public/experiences?lang=${lang}`,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 60_000,
+    }
+  )
 
-    useEffect(() => {
-        let isMounted = true;
-
-        async function fetchExperience() {
-            try {
-                const res = await fetch(`/api/public/experiences?lang=${lang}`, { next: { revalidate: 0 } });
-                const json = await res.json();
-
-                if (isMounted) {
-                    setExperiences((json.data as Experience[]) || []);
-                }
-            } catch (err) {
-                if (isMounted) {
-                    setError(err as Error);
-                }
-            } finally {
-                if (isMounted) {
-                    setLoading(false);
-                }
-            }
-        }
-        fetchExperience();
-
-        return () => {
-            isMounted = false;
-        };
-    }, [lang]);
-
-    return { experiences, loading, error, lang };
+  return {
+    experiences: data ?? [],
+    loading: isLoading,
+    error,
+    lang,
+  }
 }

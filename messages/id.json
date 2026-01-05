@@ -225,7 +225,10 @@
     "titleLine1": "Proyek Terbaru",
     "description1": "Portofolio proyek terpilih yang menunjukkan kemampuan dan pengalaman saya dalam mengembangkan solusi digital modern",
     "noProjectsTitle": "Proyek tidak ditemukan",
-    "noProjectsDescription": "Coba sesuaikan filter atau permintaan pencarian Anda."
+    "noProjectsDescription": "Coba sesuaikan filter atau permintaan pencarian Anda.",
+    "viewProjects": "Lihat Proyek",
+    "viewLive": "Lihat Live",
+    "viewSource": "Lihat Source"
   },
   "skills": {
     "titleLine1": "Alat dan Teknologi",
@@ -246,7 +249,7 @@
   },
   "testimonials": {
     "titleLine1": "Apa Kata Mereka?",
-    "description1": "Lebih dari 50+ klien telah mempercayakan proyek mereka dan merasakan hasil yang luar biasa"
+    "description1": "Lebih dari 10+ klien telah mempercayakan proyek mereka dan merasakan hasil yang luar biasa"
   },
   "articles": {
     "badge": "Blog",

@@ -113,7 +113,12 @@ export function isAuthorizedUser(user: AuthUser | null): boolean {
     process.env.NEXT_PUBLIC_AUTHORIZED_EMAIL,
   ]
 
-  return authorizedEmails.includes(user.email || '')
+  const isAuthorized = authorizedEmails.includes(user.email || '')
+  if (!isAuthorized && user.email) {
+    console.debug(`Authorization check failed for: ${user.email}. Authorized emails:`, authorizedEmails)
+  }
+
+  return isAuthorized
 }
 
 // Get user display name

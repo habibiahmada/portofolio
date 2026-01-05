@@ -1,41 +1,31 @@
-import { useEffect, useState } from "react";
+import useSWR from "swr";
 import { useLocale } from "next-intl";
 import { Testimonial } from "@/lib/types/database";
 
+const fetcher = async (url: string) => {
+  const res = await fetch(url);
+  if (!res.ok) {
+    throw new Error("Failed to fetch testimonials");
+  }
+  return res.json();
+};
+
 export default function useTestimonials() {
-    const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<Error | null>(null);
+  const lang = useLocale();
 
-    const lang = useLocale();
+  const { data, error, isLoading } = useSWR(
+    `/api/public/testimonials?lang=${lang}`,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+      keepPreviousData: true,
+    }
+  );
 
-    useEffect(() => {
-        let isMounted = true;
-
-        async function fetchTestimonials() {
-            try {
-                const res = await fetch(`/api/public/testimonials?lang=${lang}`, { next: { revalidate: 0 } });
-                const json = await res.json();
-
-                if (isMounted) {
-                    setTestimonials(json.data || []);
-                }
-            } catch (err) {
-                if (isMounted) {
-                    setError(err as Error);
-                }
-            } finally {
-                if (isMounted) {
-                    setLoading(false);
-                }
-            }
-        }
-        fetchTestimonials();
-
-        return () => {
-            isMounted = false;
-        };
-    }, [lang]);
-
-    return { testimonials, loading, error, lang };
+  return {
+    testimonials: (data?.data as Testimonial[]) ?? [],
+    loading: isLoading,
+    error,
+    lang,
+  };
 }

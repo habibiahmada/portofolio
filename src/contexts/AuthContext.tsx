@@ -38,6 +38,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     // Auto sign-out unauthorized users (after OAuth callback)
     if (validatedUser && !isAuthorizedUser(validatedUser)) {
+      console.warn(`User ${validatedUser.email} is not authorized. Signing out automatically.`)
       await supabase.auth.signOut()
       setUser(null)
       setSession(null)

@@ -12,7 +12,16 @@ import SectionHeader from "../SectionHeader";
 import { useTheme } from "next-themes";
 import useFaqs from "@/hooks/api/public/useFaqs";
 
-
+const FAQSkeleton = () => (
+  <div className="space-y-4">
+    {Array.from({ length: 4 }).map((_, i) => (
+      <div
+        key={i}
+        className="h-16 rounded-xl bg-slate-200/70 dark:bg-slate-800 animate-pulse"
+      />
+    ))}
+  </div>
+);
 
 const ModernFAQSection: React.FC = () => {
   const { resolvedTheme } = useTheme();
@@ -38,6 +47,7 @@ const ModernFAQSection: React.FC = () => {
       `}
     >
       <div className="container mx-auto px-4 max-w-7xl relative z-10">
+        {/* ===== Header (selalu tampil) ===== */}
         <div className="mb-16">
           <SectionHeader
             title={t("titleLine1")}
@@ -46,10 +56,9 @@ const ModernFAQSection: React.FC = () => {
           />
         </div>
 
+        {/* ===== Content ===== */}
         {loading ? (
-          <p className="text-center text-muted-foreground">
-            Loading FAQs...
-          </p>
+          <FAQSkeleton />
         ) : (
           <Accordion
             type="single"
@@ -81,7 +90,7 @@ const ModernFAQSection: React.FC = () => {
         )}
       </div>
 
-      {/* Background Pattern */}
+      {/* ===== Background Pattern ===== */}
       <div
         className="absolute inset-0 pointer-events-none bg-[size:40px_40px]
         bg-[linear-gradient(rgba(148,163,184,0.3)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.3)_1px,transparent_1px)]

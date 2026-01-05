@@ -19,7 +19,7 @@ export default function Hero({ blurDataURL }: { blurDataURL: string }) {
   const [showCVModal, setShowCVModal] = useState(false);
   const t = useTranslations("hero");
 
-  const { heroData, loading } = useHero();
+  const { heroData, loading, error } = useHero();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -29,9 +29,11 @@ export default function Hero({ blurDataURL }: { blurDataURL: string }) {
     }
   }, [loading, heroData]);
 
-  if (!mounted || loading) return <HeroSkeleton />;
+  const isLoading = loading || !mounted;
+  const isDark = resolvedTheme === "dark" || !mounted;
 
-  const isDark = resolvedTheme === "dark";
+  if (isLoading) return <HeroSkeleton />;
+  if (error) return null;
 
   return (
     <>

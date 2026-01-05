@@ -1,41 +1,29 @@
-import { useEffect, useState } from "react";
-import { useLocale } from "next-intl";
-import { Certificate } from "@/lib/types/database";
+import useSWR from "swr"
+import { useLocale } from "next-intl"
+import { Certificate } from "@/lib/types/database"
+
+const fetcher = async (url: string): Promise<Certificate[]> => {
+  const res = await fetch(url)
+  if (!res.ok) {
+    throw new Error("Failed to fetch certificates")
+  }
+
+  const json = await res.json()
+  return json.data ?? []
+}
 
 export default function useCertificates() {
-    const [certificates, setCertificates] = useState<Certificate[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<Error | null>(null);
+  const lang = useLocale()
 
-    const lang = useLocale();
+  const { data, error, isLoading } = useSWR<Certificate[]>(
+    `/api/public/certificates?lang=${lang}`,
+    fetcher
+  )
 
-    useEffect(() => {
-        let isMounted = true;
-
-        async function fetchCertificates() {
-            try {
-                const res = await fetch(`/api/public/certificates?lang=${lang}`, { next: { revalidate: 0 } });
-                const json = await res.json();
-
-                if (isMounted) {
-                    setCertificates(json.data || []);
-                }
-            } catch (err) {
-                if (isMounted) {
-                    setError(err as Error);
-                }
-            } finally {
-                if (isMounted) {
-                    setLoading(false);
-                }
-            }
-        }
-        fetchCertificates();
-
-        return () => {
-            isMounted = false;
-        };
-    }, [lang]);
-
-    return { certificates, loading, error, lang };
+  return {
+    certificates: data ?? [],
+    loading: isLoading,
+    error,
+    lang,
+  }
 }

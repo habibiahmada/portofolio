@@ -1,41 +1,35 @@
-import { useEffect, useState } from "react";
+import useSWR from "swr";
 import { useLocale } from "next-intl";
 import { Service } from "@/lib/types/database";
 
-export default function useServices() {
-    const [services, setServices] = useState<Service[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<Error | null>(null);
+interface UseServicesReturn {
+  services: Service[];
+  loading: boolean;
+  error: Error | null;
+  lang: string;
+}
 
-    const lang = useLocale();
+const fetcher = async (url: string): Promise<Service[]> => {
+  const res = await fetch(url);
+  if (!res.ok) {
+    throw new Error("Failed to fetch services");
+  }
+  const json = await res.json();
+  return (json?.data as Service[]) ?? [];
+};
 
-    useEffect(() => {
-        let isMounted = true;
+export default function useServices(): UseServicesReturn {
+  const lang = useLocale();
 
-        async function fetchServices() {
-            try {
-                const res = await fetch(`/api/public/services?lang=${lang}`, { next: { revalidate: 0 } });
-                const json = await res.json();
+  const { data, error, isLoading } = useSWR<Service[]>(
+    `/api/public/services?lang=${lang}`,
+    fetcher
+  );
 
-                if (isMounted) {
-                    setServices((json?.data as Service[]) || []);
-                }
-            } catch (err) {
-                if (isMounted) {
-                    setError(err as Error);
-                }
-            } finally {
-                if (isMounted) {
-                    setLoading(false);
-                }
-            }
-        }
-        fetchServices();
-
-        return () => {
-            isMounted = false;
-        };
-    }, [lang]);
-
-    return { services, loading, error, lang };
+  return {
+    services: data ?? [],
+    loading: isLoading,
+    error: error ?? null,
+    lang
+  };
 }

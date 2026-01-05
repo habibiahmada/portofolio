@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useMemo } from "react";
 import Link from "next/link";
@@ -32,12 +32,10 @@ const Articles: React.FC = () => {
   const locale = useLocale();
   const { articles, loading, error } = useArticles(3);
 
-  const uiArticles: UIArticle[] = useMemo(() => {
+  const uiArticles = useMemo<UIArticle[]>(() => {
     if (!articles?.length) return [];
-
     return articles.map((a, idx) => {
       const tr = a.translation;
-
       return {
         id: a.id ?? `article-${idx}`,
         title: tr?.title ?? "",
@@ -50,15 +48,13 @@ const Articles: React.FC = () => {
     });
   }, [articles, locale]);
 
-  if (loading || error || uiArticles.length === 0) return null;
-
   return (
     <section
       id="articles"
       className="py-24 bg-white dark:bg-slate-950 text-slate-900 dark:text-white"
     >
       <div className="container px-6 mx-auto">
-        {/* Header */}
+        {/* ================= HEADER (SELALU MUNCUL) ================= */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
           <div>
             <span className="text-sm text-blue-600 dark:text-blue-400 uppercase tracking-widest font-semibold">
@@ -81,43 +77,65 @@ const Articles: React.FC = () => {
           </Link>
         </div>
 
-        {/* Articles */}
+        {/* ================= CONTENT ================= */}
         <div className="space-y-6">
-          {uiArticles.map((article) => (
-            <Link
-              key={article.id}
-              href={article.href}
-              className="group grid md:grid-cols-[250px_1fr] gap-6 p-6 border-b border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all"
-            >
-              {/* Thumbnail */}
-              <div className="aspect-video md:h-full overflow-hidden">
-                <Image
-                  src={article.image}
-                  alt={article.title}
-                  width={250}
-                  height={250}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          {/* Loading */}
+          {loading && (
+            <>
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="h-40 rounded-xl bg-slate-100 dark:bg-slate-800 animate-pulse"
                 />
-              </div>
+              ))}
+            </>
+          )}
 
-              {/* Content */}
-              <div className="flex flex-col justify-center">
-                <div className="text-sm text-slate-500 dark:text-slate-400 mb-3">
-                  {formatDate(article.date, locale)}
-                  {article.readTime && ` • ${article.readTime} read`}
+          {/* Error / Empty */}
+          {!loading && (error || uiArticles.length === 0) && (
+            <p className="text-center text-slate-500 dark:text-slate-400">
+              No articles available.
+            </p>
+          )}
+
+          {/* Data */}
+          {!loading &&
+            !error &&
+            uiArticles.map((article) => (
+              <Link
+                key={article.id}
+                href={article.href}
+                className="group grid md:grid-cols-[250px_1fr] gap-6 p-6 border-b border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all"
+              >
+                {/* Thumbnail */}
+                <div className="aspect-video md:h-full overflow-hidden rounded-lg">
+                  <Image
+                    src={article.image}
+                    alt={article.title}
+                    width={250}
+                    height={250}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
                 </div>
 
-                <h3 className="text-xl md:text-2xl font-bold mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors flex items-center gap-2">
-                  {article.title}
-                  <ArrowUpRight className="w-5 h-5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
-                </h3>
+                {/* Content */}
+                <div className="flex flex-col justify-center">
+                  <div className="text-sm text-slate-500 dark:text-slate-400 mb-3">
+                    {formatDate(article.date, locale)}
+                    {article.readTime && ` • ${article.readTime} read`}
+                  </div>
 
-                <p className="text-slate-600 dark:text-slate-400 line-clamp-2">
-                  {article.excerpt}
-                </p>
-              </div>
-            </Link>
-          ))}
+                  <h3 className="text-xl md:text-2xl font-bold mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors flex items-center gap-2">
+                    {article.title}
+                    <ArrowUpRight className="w-5 h-5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                  </h3>
+
+                  <p className="text-slate-600 dark:text-slate-400 line-clamp-2">
+                    {article.excerpt}
+                  </p>
+                </div>
+              </Link>
+            ))}
         </div>
       </div>
     </section>

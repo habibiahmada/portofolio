@@ -43,9 +43,10 @@ export async function GET(request: Request) {
 
     // Check if user email is authorized
     const user = data.session.user
-    const authorizedEmail = process.env.AUTHORIZED_EMAIL
+    const authorizedEmail = process.env.NEXT_PUBLIC_AUTHORIZED_EMAIL
 
     if (!authorizedEmail || user.email?.toLowerCase() !== authorizedEmail.toLowerCase()) {
+      console.warn(`Unauthorized login attempt: ${user.email}`)
       await supabase.auth.signOut()
       return NextResponse.redirect(`${siteUrl}${loginUrl}?error=unauthorized`)
     }

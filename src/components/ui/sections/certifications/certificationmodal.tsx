@@ -1,136 +1,106 @@
-import { useEffect, useRef, useState } from "react";
-import { X } from "lucide-react";
-import dynamic from "next/dynamic";
-import { useTranslations } from "next-intl";
-import { Skeleton } from "@/components/ui/skeleton";
+'use client';
 
-const CertificatePreview = dynamic(
-  () => import("./certificatepreview"),
-  { ssr: false }
-);
+import { X } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
-import { Certificate } from "@/lib/types/database";
+import CertificatePreview from './certificatepreview';
+import { Certificate } from '@/lib/types/database';
 
-const CertificateModal: React.FC<{ certificate: Certificate | null; index: number | null; onClose: () => void }> = ({
+interface Props {
+  open: boolean;
+  certificate: Certificate | null;
+  onClose: () => void;
+}
+
+export default function CertificateModal({
+  open,
   certificate,
-  index,
   onClose,
-}) => {
-  const modalRef = useRef<HTMLDivElement>(null);
-  const t = useTranslations("certifications");
-  const [previewLoading, setPreviewLoading] = useState(true);
+}: Props) {
+  const t = useTranslations('certifications');
 
-  // Close with ESC key
-  useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        onClose();
-      }
-    };
-    document.addEventListener("keydown", handleEsc);
-    return () => document.removeEventListener("keydown", handleEsc);
-  }, [onClose]);
+  if (!open || !certificate) return null;
 
-  if (!certificate) return null;
+  const translation = certificate.certification_translations?.[0];
 
   const skills =
-    certificate.certification_translations?.[0]?.skills ??
+    translation?.skills ??
     certificate.skills ??
     [];
 
-  const isBlue = typeof index === "number" ? index % 2 === 0 : false;
-
   return (
     <div
-      className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-      role="dialog"
-      aria-modal="true"
-      onClick={(e) => {
-        // Close if clicking backdrop only
-        if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-          onClose();
-        }
-      }}
+      onClick={onClose}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
     >
       <div
-        ref={modalRef}
-        className="bg-white dark:bg-slate-950 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+        className="w-full max-w-3xl rounded-xl bg-white p-6 dark:bg-slate-900"
       >
         {/* Header */}
-        <div className="p-6 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div>
-              <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-                {certificate.certification_translations?.[0]?.title}
-              </h3>
-              <p className="text-slate-600 dark:text-slate-400">
-                {certificate.issuer} • {certificate.year}
-              </p>
-            </div>
+        <div className="mb-6 flex items-start justify-between">
+          <div>
+            <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+              {translation?.title}
+            </h2>
+            <p className="text-sm text-slate-500">
+              {certificate.issuer} • {certificate.year}
+            </p>
           </div>
+
           <button
             onClick={onClose}
-            className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg cursor-pointer"
             aria-label="Close modal"
+            className="rounded-md p-1 hover:bg-slate-100 dark:hover:bg-slate-800"
           >
-            <X className="w-5 h-5 text-slate-400" />
+            <X className="h-5 w-5" />
           </button>
         </div>
 
-        {/* Body */}
-        <div className="p-6">
-          <div className="mb-6">
-            <div className="relative">
-              {previewLoading && (
-                <div className="flex items-center justify-center">
-                  <Skeleton className="w-[500px] h-[350px] rounded-md" />
-                </div>
-              )}
-              <div className={previewLoading ? "invisible" : "visible"}>
-                <CertificatePreview
-                  fileUrl={certificate.preview || ""}
-                  className="mx-auto"
-                  active={true}
-                  onClose={onClose}
-                  onLoadingChange={setPreviewLoading}
-                />
-              </div>
-            </div>
+        {/* PDF Preview */}
+        <CertificatePreview
+          active
+          fileUrl={certificate.preview ?? ''}
+        />
+
+        {/* Content */}
+        <div className="grid gap-6 md:grid-cols-2">
+          {/* Description */}
+          <div>
+            <h4 className="mb-3 text-lg font-semibold text-slate-900 dark:text-slate-100">
+              {t('certificate1')}
+            </h4>
+            <p className="leading-relaxed text-slate-600 dark:text-slate-400">
+              {translation?.description}
+            </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            <div>
-              <h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-3">
-                {t("certificate1")}
-              </h4>
-              <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-                {certificate.certification_translations?.[0]?.description}
-              </p>
-            </div>
+          {/* Skills */}
+          <div>
+            <h4 className="mb-3 text-lg font-semibold text-slate-900 dark:text-slate-100">
+              {t('certificate2')}
+            </h4>
 
-            <div>
-              <h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-3">
-                {t("certificate2")}
-              </h4>
+            {skills.length > 0 ? (
               <div className="flex flex-wrap gap-2">
-                {skills.slice(0, 2).map((skill, idx) => (
+                {skills.map((skill) => (
                   <span
-                    key={idx}
-                    className={`px-3 py-1 rounded-full text-sm font-medium ${isBlue
-                      ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
-                      : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
-                      }`}
+                    key={skill}
+                    className="rounded-full bg-blue-100 px-3 py-1 text-sm font-medium
+                      text-blue-700 dark:bg-blue-900/30 dark:text-blue-300"
                   >
                     {skill}
                   </span>
                 ))}
               </div>
-            </div>
+            ) : (
+              <p className="text-sm text-slate-500">
+                {t('noSkills')}
+              </p>
+            )}
           </div>
         </div>
       </div>
     </div>
   );
-};
-
-export default CertificateModal;
+}

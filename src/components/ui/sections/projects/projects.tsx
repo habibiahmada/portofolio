@@ -4,20 +4,18 @@ import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { useTranslations } from "next-intl";
 import { ExternalLink } from "lucide-react";
+import Link from "next/link";
 
 import useProjects from "@/hooks/api/public/useProjects";
 import ProjectRow from "./projectrow";
-import Link from "next/link";
 import SectionHeader from "../SectionHeader";
-
-
 
 export default function Projects() {
   const { resolvedTheme } = useTheme();
   const t = useTranslations("projects");
 
   const [mounted, setMounted] = useState(false);
-  const { projects, loading } = useProjects();
+  const { projects, loading, error } = useProjects();
 
   useEffect(() => {
     setMounted(true);
@@ -25,13 +23,22 @@ export default function Projects() {
 
   if (!mounted) return null;
 
+  if (error) {
+    return (
+      <div className="container mx-auto px-6">
+        <p className="text-red-500">Error fetching projects</p>
+      </div>
+    );
+  }
+
   const isDark = resolvedTheme === "dark";
 
   return (
     <section
       id="projects"
-      className={`relative py-32 overflow-hidden transition-colors duration-500
-        ${isDark ? "bg-slate-950" : "bg-slate-50"}`}
+      className={`relative py-32 overflow-hidden transition-colors duration-500 ${
+        isDark ? "bg-slate-950" : "bg-slate-50"
+      }`}
     >
       <div className="container mx-auto px-6 relative z-10">
         {/* Header */}
@@ -42,17 +49,15 @@ export default function Projects() {
             align="left"
             underline={false}
           />
-          <div>
-            <Link
-              href="https://github.com/habibiahmada"
-              target="_blank"
-              className="inline-flex items-center gap-2 text-sm font-medium text-slate-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              
-            >
-              {"selengkapnya"}
-              <ExternalLink className="w-5 h-5" />
-            </Link>
-          </div>
+
+          <Link
+            href="https://github.com/habibiahmada"
+            target="_blank"
+            className="inline-flex items-center gap-2 text-sm font-medium text-slate-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+          >
+            {t("viewProjects")}
+            <ExternalLink className="w-5 h-5" />
+          </Link>
         </div>
 
         {/* Content */}
@@ -61,7 +66,7 @@ export default function Projects() {
             {[1, 2].map((i) => (
               <div
                 key={i}
-                className="flex flex-col lg:flex-row gap-12 items-center"
+                className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20 mb-32 last:mb-0"
               >
                 <div className="w-full lg:w-7/12 aspect-[16/10] bg-slate-200 dark:bg-slate-800 rounded-[2.5rem]" />
                 <div className="w-full lg:w-5/12 space-y-4">
@@ -77,6 +82,7 @@ export default function Projects() {
             {projects.map((project, index) => (
               <ProjectRow
                 key={project.id}
+                t={t}
                 project={project}
                 index={index}
               />
