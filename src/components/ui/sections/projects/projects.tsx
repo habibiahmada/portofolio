@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 
@@ -13,6 +13,7 @@ import SectionHeader from "../SectionHeader";
 export default function Projects() {
   const { resolvedTheme } = useTheme();
   const t = useTranslations("projects");
+  const locale = useLocale();
 
   const [mounted, setMounted] = useState(false);
   const { projects, loading, error } = useProjects();
@@ -85,6 +86,7 @@ export default function Projects() {
                 t={t}
                 project={project}
                 index={index}
+                locale={locale}
               />
             ))}
           </div>

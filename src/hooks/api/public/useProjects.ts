@@ -17,7 +17,11 @@ export default function useProjects() {
 
   const { data, error, isLoading } = useSWR(
     `/api/public/projects?lang=${lang}`,
-    fetcher
+    fetcher,
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
   )
 
   return {
