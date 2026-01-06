@@ -20,14 +20,14 @@ export default function PortalCard({
     return (
         <div className="group relative h-[350px] overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 transition-all hover:scale-[1.02] hover:shadow-xl dark:hover:shadow-none hover:border-slate-300 dark:hover:border-indigo-500/30">
             {/* Image */}
-            <div className="absolute inset-0">
+            <div className="absolute inset-0 h-full w-full">
                 {project.image_url ? (
                     <Image
                         src={project.image_url}
                         alt={translation.title}
-                        width={100}
-                        height={100}
-                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        className="object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                 ) : (
                     <div className="flex h-full items-center justify-center">
