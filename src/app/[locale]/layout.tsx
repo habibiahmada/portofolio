@@ -36,16 +36,16 @@ export async function generateMetadata({
 
   return {
     metadataBase: new URL(baseUrl),
-    title: t("title"),
-    description: t("description"),
+    title: t("page.main.title"),
+    description: t("page.main.description"),
 
     icons: {
       icon: [
         { url: "/favicon.ico", sizes: "any" },
-        { url: "/icon/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+        { url: "/icons/favicon-96x96.png", sizes: "96x96", type: "image/png" },
       ],
-      shortcut: "/icon/favicon-96x96.png",
-      apple: "/icon/apple-touch-icon.png",
+      shortcut: "/icons/favicon-96x96.png",
+      apple: "/icons/apple-touch-icon.png",
     },
 
     openGraph: {
@@ -89,7 +89,7 @@ export async function generateMetadata({
     },
 
     keywords: [
-      "Habibi Ahmad",
+      "Habibi Ahmad Aziz",
       "Web Developer",
       "Fullstack Developer",
       "Software Engineer",
@@ -98,6 +98,15 @@ export async function generateMetadata({
       "RPL",
       "SMKN 1 Karawang",
       "Habibi Ahmad Aziz",
+      "habibiahmada",
+      "habibiahmadaziz",
+      "HabibiAhmad",
+      "HabibiAhmadAziz",
+      "Siswa SMKN 1 Karawang",
+      "Siswa PPLG",
+      "Siswa RPL",
+      "Siswa SMK",
+      "Siswa"
     ],
   };
 }

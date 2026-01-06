@@ -16,7 +16,7 @@ export default function Projects() {
   const locale = useLocale();
 
   const [mounted, setMounted] = useState(false);
-  const { projects, loading, error } = useProjects();
+  const { projects, loading, error } = useProjects(true);
 
   useEffect(() => {
     setMounted(true);
@@ -37,11 +37,10 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className={`relative py-32 overflow-hidden transition-colors duration-500 ${
-        isDark ? "bg-slate-950" : "bg-slate-50"
-      }`}
+      className={`relative py-32 overflow-hidden transition-colors duration-500 ${isDark ? "bg-slate-950" : "bg-slate-50"
+        }`}
     >
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
         <div className="flex justify-between items-center mb-16 border-b border-slate-200 dark:border-slate-800 pb-8">
           <SectionHeader
@@ -52,7 +51,7 @@ export default function Projects() {
           />
 
           <Link
-            href="https://github.com/habibiahmada"
+            href="/projects"
             target="_blank"
             className="inline-flex items-center gap-2 text-sm font-medium text-slate-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
           >

@@ -1,45 +1,55 @@
-import { createClient } from '@supabase/supabase-js';
-import fs from 'fs';
-import path from 'path';
-import process from 'process';
+import { createClient } from '@supabase/supabase-js'
+import fs from 'fs'
+import path from 'path'
+import process from 'process'
 
-/** Load .env.local manually */
+/* Load .env.local (build-time only) */
 try {
-  const envPath = path.resolve(process.cwd(), '.env.local');
+  const envPath = path.resolve(process.cwd(), '.env.local')
   if (fs.existsSync(envPath)) {
     fs.readFileSync(envPath, 'utf8')
       .split('\n')
       .forEach((line) => {
-        const [key, ...rest] = line.split('=');
+        const [key, ...rest] = line.split('=')
         if (key && rest.length) {
           process.env[key.trim()] = rest
             .join('=')
             .trim()
-            .replace(/^["']|["']$/g, '');
+            .replace(/^["']|["']$/g, '')
         }
-      });
+      })
   }
 } catch {}
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+)
 
 /** @type {import('next-sitemap').IConfig} */
 const config = {
   siteUrl: process.env.NEXT_PUBLIC_APP_URL || 'https://habibiahmada.dev',
   generateRobotsTxt: true,
   sitemapSize: 7000,
-  exclude: ['/*'],
+
+  /* Jangan masukkan halaman redirect & internal */
+  exclude: [
+    '/',
+    '/login',
+    '/register',
+    '/dashboard',
+    '/admin/*',
+    '/api/*',
+  ],
 
   additionalPaths: async (config) => {
-    const locales = ['id', 'en'];
-    const result = [];
+    const locales = ['en', 'id']
+    const result = []
 
-    const pages = ['', '/articles'];
+    /* Static public pages */
+    const staticPages = ['', '/articles', '/projects']
 
-    for (const route of pages) {
+    for (const route of staticPages) {
       for (const locale of locales) {
         result.push({
           loc: `${config.siteUrl}/${locale}${route}`,
@@ -50,13 +60,14 @@ const config = {
             href: `${config.siteUrl}/${lang}${route}`,
             hreflang: lang,
           })),
-        });
+        })
       }
     }
 
+    /* Article detail pages */
     const { data: articles } = await supabase
       .from('article_translations')
-      .select('slug, language');
+      .select('slug, language')
 
     if (articles?.length) {
       for (const article of articles) {
@@ -65,16 +76,12 @@ const config = {
           changefreq: 'daily',
           priority: 0.7,
           lastmod: new Date().toISOString(),
-          alternateRefs: locales.map((lang) => ({
-            href: `${config.siteUrl}/${lang}/articles/${article.slug}`,
-            hreflang: lang,
-          })),
-        });
+        })
       }
     }
 
-    return result;
+    return result
   },
-};
+}
 
-export default config;
+export default config

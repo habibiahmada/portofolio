@@ -39,7 +39,7 @@ export default function CertificationsSection() {
         className={`relative py-28 sm:py-36 lg:py-40 transition-colors
         ${isDark ? 'bg-slate-950' : 'bg-slate-50'}`}
       >
-        <div className="container mx-auto max-w-7xl px-4">
+        <div className="container mx-auto px-4">
           <SectionHeader
             title={t('titleLine1')}
             description={t('description1')}

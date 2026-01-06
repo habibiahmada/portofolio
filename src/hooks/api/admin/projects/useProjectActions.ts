@@ -10,6 +10,7 @@ export interface ProjectFormData {
     image_url?: string;
     title: string;
     description: string;
+    featured?: boolean;
 }
 
 interface UseProjectActionsReturn {
@@ -18,6 +19,7 @@ interface UseProjectActionsReturn {
     createProject: (data: ProjectFormData) => Promise<void>;
     updateProject: (id: string, data: ProjectFormData) => Promise<void>;
     uploadImage: (file: File) => Promise<string>;
+    toggleFeatured: (id: string, currentFeatured: boolean) => Promise<void>;
 }
 
 export default function useProjectActions(onSuccess?: () => void): UseProjectActionsReturn {
@@ -113,5 +115,28 @@ export default function useProjectActions(onSuccess?: () => void): UseProjectAct
         }
     }
 
-    return { submitting, deleteProject, createProject, updateProject, uploadImage };
+    const toggleFeatured = async (id: string, currentFeatured: boolean) => {
+        setSubmitting(true);
+        const toastId = toast.loading("Updating project...");
+        try {
+            const res = await fetch(`/api/admin/projects/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ featured: !currentFeatured }),
+            });
+
+            if (!res.ok) throw new Error('Failed to update');
+
+            toast.success("Project updated", { id: toastId });
+            onSuccess?.();
+            router.push('/dashboard/projects');
+        } catch (error) {
+            toast.error("Failed to update project", { id: toastId });
+            throw error;
+        } finally {
+            setSubmitting(false);
+        }
+    }
+
+    return { submitting, deleteProject, createProject, updateProject, uploadImage, toggleFeatured };
 }

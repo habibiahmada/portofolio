@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
 import useProjectActions, { ProjectFormData } from "@/hooks/api/admin/projects/useProjectActions";
+import { Switch } from "@/components/ui/switch";
 
 /* ================= TYPES ================= */
 
@@ -26,6 +27,7 @@ interface ProjectInitialData {
     technologies?: string[];
     live_url?: string;
     github_url?: string;
+    featured?: boolean;
     projects_translations?: Array<{
         language: string;
         title: string;
@@ -58,6 +60,7 @@ export default function ProjectForm({
         live_url: "",
         github_url: "",
         image_url: "",
+        featured: false,
     });
 
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -81,6 +84,7 @@ export default function ProjectForm({
             live_url: initialData.live_url ?? "",
             github_url: initialData.github_url ?? "",
             image_url: initialData.image_url ?? "",
+            featured: initialData.featured ?? false,
         });
 
         if (initialData.image_url) {
@@ -178,6 +182,23 @@ export default function ProjectForm({
                         </div>
                     </CardContent>
                 </Card>
+                <Card>
+                    <CardContent className="p-6 flex items-center justify-between">
+                        <div className="space-y-1">
+                            <p className="text-sm font-medium">Featured Project</p>
+                            <p className="text-xs text-muted-foreground">
+                                Tampilkan project ini sebagai highlight
+                            </p>
+                        </div>
+
+                        <Switch
+                            checked={form.featured}
+                            onCheckedChange={(checked) => update("featured", checked)}
+                            disabled={submitting}
+                        />
+                    </CardContent>
+                </Card>
+
 
                 {/* IMAGE UPLOAD */}
                 <Card>

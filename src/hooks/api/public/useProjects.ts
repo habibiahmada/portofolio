@@ -12,11 +12,18 @@ const fetcher = async (url: string): Promise<Project[]> => {
   return json.data ?? []
 }
 
-export default function useProjects() {
+export default function useProjects(
+  featured?: boolean
+) {
   const lang = useLocale()
 
+  const query = new URLSearchParams({
+    lang,
+    ...(featured !== undefined && { featured: String(featured) }),
+  }).toString()
+
   const { data, error, isLoading } = useSWR(
-    `/api/public/projects?lang=${lang}`,
+    `/api/public/projects?${query}`,
     fetcher,
     {
       revalidateOnFocus: false,
@@ -28,6 +35,6 @@ export default function useProjects() {
     projects: data ?? [],
     loading: isLoading,
     error,
-    lang
+    lang,
   }
 }

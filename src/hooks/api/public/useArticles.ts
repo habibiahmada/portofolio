@@ -41,9 +41,8 @@ const fetcher = async (url: string) => {
 export default function useArticles(limit?: number): UseArticlesReturn {
   const lang = useLocale();
 
-  const query = `/api/public/articles?lang=${lang}${
-    limit ? `&limit=${limit}` : ""
-  }&published=true`;
+  const query = `/api/public/articles?lang=${lang}${limit ? `&limit=${limit}` : ""
+    }&published=true`;
 
   const { data, error, isLoading } = useSWR(
     query,

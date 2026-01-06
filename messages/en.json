@@ -1,7 +1,19 @@
 {
   "Metadata": {
-    "title": "Habibi Ahmad | Web Developer Portfolio",
-    "description": "Professional portfolio showcasing web projects, technical skills, and experience in building modern, scalable, and high-performance applications.",
+    "page": {
+      "main": {
+        "title": "Habibi Ahmad | Web Developer Portfolio",
+        "description": "Professional portfolio showcasing web projects, technical skills, and experience in building modern, scalable, and high-performance applications."
+      },
+      "projects": {
+        "title": "Projects | Habibi Ahmad",
+        "description": "Professional portfolio showcasing web projects, technical skills, and experience in building modern, scalable, and high-performance applications."
+      },
+      "articles": {
+        "title": "Articles | Habibi Ahmad",
+        "description": "Professional portfolio showcasing web projects, technical skills, and experience in building modern, scalable, and high-performance applications."
+      }
+    },
     "openGraph": {
       "title": "Habibi Ahmad | Web Developer",
       "description": "Professional portfolio showcasing web projects, technical skills, and experience in building modern, scalable, and high-performance applications.",
@@ -222,13 +234,20 @@
     "showLess": "Show Less"
   },
   "projects": {
-    "titleLine1": "Latest Projects",
+    "titleLine1": "Featured Projects",
     "description1": "A portfolio of selected projects that demonstrate my skills and experience in developing modern digital solutions.",
+    "allTitle1": "Archive",
+    "allTitle2": "Projects",
+    "allDescription": "A collection of projects where ideas turn into practical solutions, combining thoughtful design, clean code, and real-world problem solving.",
     "noProjectsTitle": "No projects found",
     "noProjectsDescription": "Try adjusting your filters or search query.",
     "viewProjects": "View Projects",
     "viewLive": "View Live",
-    "viewSource": "View Source"
+    "viewSource": "View Source",
+    "breadcrumb": {
+      "home": "Home",
+      "projects": "Projects"
+    }
   },
   "skills": {
     "titleLine1": "Tools and Technologies",

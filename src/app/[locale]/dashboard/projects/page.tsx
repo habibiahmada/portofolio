@@ -11,10 +11,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import useAdminProjects from '@/hooks/api/admin/projects/useAdminProjects'
 import useProjectActions from '@/hooks/api/admin/projects/useProjectActions'
 
-// Expecting the structure from useAdminProjects
-// AdminProject in useAdminProjects has translation object.
-// We can define it here if needed or just use the hook's return type implicitly.
-
 export default function Page() {
   const router = useRouter()
   const t = useTranslations("Dashboard.projects")
@@ -26,7 +22,6 @@ export default function Page() {
   /* ================= HANDLERS ================= */
 
   const handleDelete = async (id: string) => {
-    // Hook handles confirmation if implemented there, but current useProjectActions implementation has confirm inside it.
     await deleteProject(id)
   }
 

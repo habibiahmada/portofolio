@@ -156,7 +156,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ email }) => {
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-emerald-400/5 dark:bg-emerald-600/10 rounded-full blur-[100px] opacity-40"></div>
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 relative z-10">
+      <div className="container mx-auto px-4 relative z-10">
 
         {/* Header - More space below */}
         <div className="mb-16 lg:mb-24">

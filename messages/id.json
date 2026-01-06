@@ -1,7 +1,19 @@
 {
   "Metadata": {
-    "title": "Habibi Ahmad | Web Developer Portfolio",
-    "description": "Portofolio profesional yang menampilkan proyek web, keahlian teknis, serta pengalaman membangun aplikasi modern yang responsif dan scalable.",
+    "page": {
+      "main": {
+        "title": "Habibi Ahmad | Web Developer Portfolio",
+        "description": "Portofolio profesional yang menampilkan proyek web, keahlian teknis, serta pengalaman membangun aplikasi modern yang responsif dan scalable."
+      },
+      "projects": {
+        "title": "Proyek | Habibi Ahmad",
+        "description": "Portofolio profesional yang menampilkan proyek web, keahlian teknis, serta pengalaman membangun aplikasi modern yang responsif dan scalable."
+      },
+      "articles": {
+        "title": "Artikel | Habibi Ahmad",
+        "description": "Portofolio profesional yang menampilkan artikel, keahlian teknis, serta pengalaman membangun aplikasi modern yang responsif dan scalable."
+      }
+    },
     "openGraph": {
       "title": "Habibi Ahmad | Web Developer",
       "description": "Portofolio profesional yang menampilkan proyek web, keahlian teknis, serta pengalaman membangun aplikasi modern yang responsif dan scalable.",
@@ -189,7 +201,7 @@
       "emptyTitle": "Belum ada perusahaan",
       "emptyDescription": "Mulai dengan menambahkan perusahaan pertama Anda",
       "idLabel": "ID: {id}",
-      "delete" : "Hapus"
+      "delete": "Hapus"
     },
     "techcorp": "TechCorp",
     "innovatelab": "InnovateLab",
@@ -222,13 +234,20 @@
     "showLess": "Lebih Sedikit"
   },
   "projects": {
-    "titleLine1": "Proyek Terbaru",
+    "titleLine1": "Proyek Unggulan",
     "description1": "Portofolio proyek terpilih yang menunjukkan kemampuan dan pengalaman saya dalam mengembangkan solusi digital modern",
+    "allTitle1": "Arsip",
+    "allTitle2": "Proyek",
+    "allDescription": "Kumpulan proyek yang merepresentasikan proses berpikir, eksplorasi teknologi, dan upaya membangun solusi yang relevan di dunia nyata.",
     "noProjectsTitle": "Proyek tidak ditemukan",
     "noProjectsDescription": "Coba sesuaikan filter atau permintaan pencarian Anda.",
     "viewProjects": "Lihat Proyek",
     "viewLive": "Lihat Live",
-    "viewSource": "Lihat Source"
+    "viewSource": "Lihat Source",
+    "breadcrumb": {
+      "home": "Beranda",
+      "projects": "Proyek"
+    }
   },
   "skills": {
     "titleLine1": "Alat dan Teknologi",
