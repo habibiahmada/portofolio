@@ -52,7 +52,7 @@ export default function Hero({ blurDataURL }: { blurDataURL: string }) {
         </div>
 
         {/* Main Content */}
-        <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center relative z-10">
+        <div className="container mx-auto px-4 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center relative z-10">
           {/* Text Content */}
           <div
             className={`space-y-8 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"

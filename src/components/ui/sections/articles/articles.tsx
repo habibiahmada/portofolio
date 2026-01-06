@@ -53,7 +53,7 @@ const Articles: React.FC = () => {
       id="articles"
       className="py-24 bg-white dark:bg-slate-950 text-slate-900 dark:text-white"
     >
-      <div className="container px-6 mx-auto">
+      <div className="container mx-auto px-4">
         {/* ================= HEADER (SELALU MUNCUL) ================= */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
           <div>

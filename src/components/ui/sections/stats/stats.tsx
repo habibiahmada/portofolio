@@ -64,7 +64,7 @@ export default function Stats() {
                 return (
                   <div
                     key={i}
-                    className="group relative p-6 flex flex-col items-center text-center transition-colors duration-300 hover:bg-slate-500/5"
+                    className="group relative py-6 flex flex-col items-center text-center transition-colors duration-300 hover:bg-slate-500/5"
                   >
                     <div
                       className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 bg-gradient-to-br ${gradient}`}

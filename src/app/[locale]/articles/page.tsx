@@ -178,7 +178,7 @@ export default function ArticlesPage() {
                     href={`/articles/${featuredArticle.translation?.slug}`}
                     className="group block"
                   >
-                    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 to-slate-800">
+                    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br dark:from-slate-900 dark:to-slate-800 from-slate-100 to-slate-300">
                       <div className="grid md:grid-cols-2 gap-8 p-8 md:p-12">
                         <div className="flex flex-col justify-center space-y-6">
                           <span className="inline-flex items-center gap-2 px-3 py-1 w-fit text-sm font-medium text-blue-400 bg-blue-500/20 rounded-full">
@@ -189,11 +189,11 @@ export default function ArticlesPage() {
                             {t('featured')}
                           </span>
 
-                          <h2 className="text-3xl md:text-4xl font-bold text-white group-hover:text-blue-400 transition-colors">
+                          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white group-hover:text-blue-400 transition-colors">
                             {featuredArticle.translation?.title}
                           </h2>
 
-                          <p className="text-slate-300 line-clamp-3 text-lg">
+                          <p className="text-slate-600 dark:text-slate-400 line-clamp-3 text-lg">
                             {featuredArticle.translation?.excerpt}
                           </p>
 

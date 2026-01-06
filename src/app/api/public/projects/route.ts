@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase/client";
 
-
 export const revalidate = 0;
 
 interface ProjectTranslation {
@@ -17,9 +16,11 @@ interface ProjectWithTranslations {
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
-  const lang = searchParams.get("lang") || "en";
 
-  const { data, error } = await supabase
+  const lang = searchParams.get("lang") || "en";
+  const featuredParam = searchParams.get("featured");
+
+  let query = supabase
     .from("projects")
     .select(`
       *,
@@ -32,11 +33,20 @@ export async function GET(req: Request) {
     `)
     .order("created_at", { ascending: false });
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  if (featuredParam !== null) {
+    query = query.eq("featured", featuredParam === "true");
   }
 
-  const normalized = (data as unknown as ProjectWithTranslations[] || []).map((p) => {
+  const { data, error } = await query;
+
+  if (error) {
+    return NextResponse.json(
+      { error: error.message },
+      { status: 500 }
+    );
+  }
+
+  const normalized = ((data as ProjectWithTranslations[]) || []).map((p) => {
     const byLang = p.projects_translations?.find(
       (t) => t.language === lang
     );
