@@ -1,15 +1,8 @@
-"use client"
+"use client";
 
-import {
-  ChevronsUpDown,
-  LogOut,
-} from "lucide-react"
+import { ChevronsUpDown, LogOut } from "lucide-react";
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,48 +10,46 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar"
-import { useAuth } from "@/contexts/AuthContext"
-import { usePathname, useRouter } from "next/navigation"
-import { toast } from "sonner"
+} from "@/components/ui/sidebar";
+import { useAuth } from "@/contexts/AuthContext";
+import { usePathname, useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export function NavUser({
   user,
 }: {
   user: {
-    name: string
-    email: string
-    avatar: string
-  }
+    name: string;
+    email: string;
+    avatar: string;
+  };
 }) {
-  const { isMobile } = useSidebar()
-  const { signOut } = useAuth()
-  const pathname = usePathname()
-  const router = useRouter()
-  const isAccountSection = ["/account", "/billing", "/notifications"].some((s) =>
-    pathname?.includes(s)
-  )
-
+  const { isMobile } = useSidebar();
+  const { signOut } = useAuth();
+  const pathname = usePathname();
+  const router = useRouter();
+  const isAccountSection = ["/account", "/billing", "/notifications"].some(
+    (s) => pathname?.includes(s)
+  );
 
   const handleSignOut = async () => {
     toast.promise(
       signOut().then(() => {
-        router.push('/login')
+        router.push("/login");
       }),
       {
-        loading: 'Signing out...',
-        success: 'Signed out successfully',
-        error: 'Failed to sign out',
+        loading: "Signing out...",
+        success: "Signed out successfully",
+        error: "Failed to sign out",
       }
-    )
-  }
-
+    );
+  };
 
   return (
     <SidebarMenu>
@@ -73,7 +64,7 @@ export function NavUser({
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={user.avatar} alt={user.name} />
                 <AvatarFallback className="rounded-lg">
-                  {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                  {user.name ? user.name.charAt(0).toUpperCase() : "U"}
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
@@ -94,7 +85,7 @@ export function NavUser({
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage src={user.avatar} alt={user.name} />
                   <AvatarFallback className="rounded-lg">
-                    {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                    {user.name ? user.name.charAt(0).toUpperCase() : "U"}
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
@@ -104,7 +95,10 @@ export function NavUser({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">
+            <DropdownMenuItem
+              onClick={handleSignOut}
+              className="cursor-pointer"
+            >
               <LogOut />
               Log out
             </DropdownMenuItem>
@@ -112,5 +106,5 @@ export function NavUser({
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-  )
+  );
 }

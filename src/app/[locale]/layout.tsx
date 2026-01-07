@@ -15,7 +15,6 @@ const inter = Inter({
   preload: true,
   variable: "--font-outfit",
 
-  // penting untuk Lighthouse
   adjustFontFallback: true,
 });
 
