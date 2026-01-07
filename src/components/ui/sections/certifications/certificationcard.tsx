@@ -1,13 +1,12 @@
-'use client';
+"use client";
 
-import dynamic from 'next/dynamic';
-import { ExternalLink } from 'lucide-react';
-import { Certificate } from '@/lib/types/database';
+import dynamic from "next/dynamic";
+import { ExternalLink } from "lucide-react";
+import { Certificate } from "@/lib/types/database";
 
-const CertificateThumbnail = dynamic(
-  () => import('./certificatethumbnail'),
-  { ssr: false },
-);
+const CertificateThumbnail = dynamic(() => import("./certificatethumbnail"), {
+  ssr: false,
+});
 
 interface Props {
   certificate: Certificate;
@@ -26,12 +25,12 @@ export default function CertificationCard({
   const skills = translation?.skills ?? certificate.skills ?? [];
 
   return (
-    <div className="group rounded-2xl border bg-white shadow transition hover:shadow-xl dark:border-slate-700 dark:bg-slate-950">
+    <div className="group rounded-xl border bg-white shadow transition hover:shadow-xl dark:border-slate-700 dark:bg-slate-950">
       <div
         onClick={onClick}
         className="relative h-48 cursor-pointer overflow-hidden"
       >
-        <CertificateThumbnail file={certificate.preview ?? ''} />
+        <CertificateThumbnail file={certificate.preview ?? ""} />
 
         <div className="absolute inset-0 flex items-center justify-center bg-blue-600/20 opacity-0 transition group-hover:opacity-100">
           <ExternalLink className="h-5 w-5 text-blue-600" />
@@ -58,10 +57,11 @@ export default function CertificationCard({
           {skills.slice(0, 2).map((skill, idx) => (
             <span
               key={idx}
-              className={`px-2 py-1 rounded-md text-xs font-medium ${isBlue
-                ? "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400"
-                : "bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
-                }`}
+              className={`px-2 py-1 rounded-md text-xs font-medium ${
+                isBlue
+                  ? "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400"
+                  : "bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
+              }`}
             >
               {skill}
             </span>
