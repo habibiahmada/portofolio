@@ -25,9 +25,12 @@ export async function getArticleBySlug(slug: string, locale: string): Promise<Ar
 
     try {
         const res = await fetch(
-            `${baseUrl}/api/articles/by-slug/${slug}?lang=${locale}`,
+            `${baseUrl}/api/public/articles/by-slug/${slug}?lang=${locale}`,
             { cache: 'no-store' }
         );
+
+        console.table(res);
+        
 
         if (!res.ok) return null;
 
