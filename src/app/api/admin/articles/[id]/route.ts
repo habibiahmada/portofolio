@@ -17,6 +17,16 @@ interface ArticleTranslationPayload {
     created_at: string
 }
 
+interface ArticleWithTranslations {
+    id: string
+    image_url: string | null
+    published: boolean
+    published_at: string | null
+    created_at: string
+    updated_at: string | null
+    article_translations: ArticleTranslationPayload[]
+}
+
 interface ArticleUpdatePayload {
     image_url?: string
     published?: boolean
@@ -87,14 +97,17 @@ export async function GET(
         if (error) throw error
         if (!data) return NextResponse.json({ error: 'Article not found' }, { status: 404 })
 
+        // Type assertion for the response
+        const article = data as unknown as ArticleWithTranslations
+
         // Filter translations in memory
-        if (lang && data.article_translations) {
-            data.article_translations = (data.article_translations as ArticleTranslationPayload[]).filter(
+        if (lang && article.article_translations) {
+            article.article_translations = article.article_translations.filter(
                 (t) => t.language === lang
             )
         }
 
-        return NextResponse.json({ data })
+        return NextResponse.json({ data: article })
     } catch (error) {
         console.error('GET /api/articles/[id] error:', error)
         return NextResponse.json({ error: getMessage(error) }, { status: 500 })
