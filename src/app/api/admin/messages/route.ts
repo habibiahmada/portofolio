@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { getMessageData } from '@/services/api/admin/getmessagedata'
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const data = await getMessageData()

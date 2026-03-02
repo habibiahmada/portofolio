@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { optimizeImage, getOptimizedFileName, getContentType } from "@/lib/image-optimizer";
 
+export const dynamic = "force-dynamic";
+
 const BUCKET = 'projects image';
 
 export async function POST(req: Request) {

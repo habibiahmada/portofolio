@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { getDashboardData } from '@/services/api/admin/getdashboarddata'
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const data = await getDashboardData()

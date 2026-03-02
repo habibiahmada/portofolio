@@ -3,6 +3,7 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 import { translateObject } from "@/lib/translator";
 
 
+export const dynamic = "force-dynamic";
 type CertificationTranslationPayload = {
   language: string
   title: string

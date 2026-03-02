@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { translateObject } from "@/lib/translator";
 
+export const dynamic = "force-dynamic";
 /* ================= TYPES ================= */
 
 interface ProjectTranslationPayload {

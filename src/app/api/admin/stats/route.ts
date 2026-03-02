@@ -3,6 +3,7 @@ import { translateObject } from "@/lib/translator"
 import { NextResponse } from "next/server"
 
 
+export const dynamic = "force-dynamic";
 export async function PATCH(req: Request) {
     try {
         const body = await req.json()

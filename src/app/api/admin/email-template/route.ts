@@ -3,6 +3,7 @@ import { supabase } from '@/lib/supabase/client';
 import { supabaseAdmin } from '@/lib/supabase/admin';
 import { monitorQuery } from '@/lib/performance/monitor';
 
+export const dynamic = "force-dynamic";
 const TABLE = 'email_templates';
 
 export async function GET(req: Request) {

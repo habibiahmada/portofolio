@@ -7,7 +7,7 @@ import { supabase } from '@/lib/supabase/client';
 import { supabaseAdmin } from '@/lib/supabase/admin';
 import { checkRateLimit } from '@/lib/ratelimit';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+export const dynamic = "force-dynamic";
 
 type AttachmentPayload = {
   name: string;
@@ -176,6 +176,8 @@ ${message}
     }
 
     /* ================= SEND EMAIL ================= */
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    
     await resend.emails.send({
       from: 'Habibi Ahmad <contact@habibiahmada.dev>',
       to: ['contact@habibiahmada.dev'],

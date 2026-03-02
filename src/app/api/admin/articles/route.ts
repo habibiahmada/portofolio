@@ -4,6 +4,8 @@ import { translateObject } from "@/lib/translator";
 import { APIError, handleAPIError } from "@/lib/api-error-handler";
 import { checkRateLimit } from "@/lib/ratelimit";
 
+export const dynamic = "force-dynamic";
+
 interface ArticleTranslation {
   language: string;
   title: string;

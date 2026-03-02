@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { optimizeImage, getContentType } from "@/lib/image-optimizer";
 
+export const dynamic = "force-dynamic";
+
 const ALLOWED_TYPES = [
   "image/jpeg",
   "image/png",
