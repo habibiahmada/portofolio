@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { translateObject } from "@/lib/translator";
 
+export const dynamic = "force-dynamic";
 /* ================= TYPES ================= */
 
 interface ProjectTranslationPayload {
@@ -78,7 +79,24 @@ export async function GET(
 
     const { data, error } = await supabaseAdmin
       .from("projects")
-      .select(`*, projects_translations (*)`)
+      .select(`
+        id,
+        image_url,
+        year,
+        technologies,
+        live_url,
+        github_url,
+        created_at,
+        updated_at,
+        projects_translations (
+          id,
+          projects_id,
+          language,
+          title,
+          description,
+          created_at
+        )
+      `)
       .eq("id", id)
       .maybeSingle();
 

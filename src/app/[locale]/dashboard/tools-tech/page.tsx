@@ -41,35 +41,55 @@ export default function Page() {
     const [showIconPicker, setShowIconPicker] = useState(false)
 
     /* ================= FETCH ================= */
-    async function fetchTools() {
+    async function fetchTools(signal?: AbortSignal) {
         try {
             setLoading(true)
-            const res = await fetch("/api/public/techstacks")
+            const res = await fetch("/api/public/techstacks", { signal })
             if (!res.ok) throw new Error("Failed to fetch tools")
 
             const json = await res.json()
-            setTools(json.data || [])
+            if (!signal?.aborted) {
+                setTools(json.data || [])
+            }
         } catch (err) {
-            console.error(err)
-            toast.error("Failed to load tools")
+            // Don't show error if request was aborted
+            if (err instanceof Error && err.name !== 'AbortError') {
+                console.error(err)
+                toast.error("Failed to load tools")
+            }
         } finally {
-            setLoading(false)
+            if (!signal?.aborted) {
+                setLoading(false)
+            }
         }
     }
 
     useEffect(() => {
-        fetchTools()
+        const abortController = new AbortController();
+        
+        fetchTools(abortController.signal);
+        
+        let isMounted = true;
         loadSiIcons()
             .then((icons) => {
-                setIcons(
-                    Object.keys(icons)
-                        .filter((k) => k.startsWith("Si"))
-                        .sort()
-                )
+                if (isMounted) {
+                    setIcons(
+                        Object.keys(icons)
+                            .filter((k) => k.startsWith("Si"))
+                            .sort()
+                    )
+                }
             })
             .catch(() => {
-                toast.error("Failed to load icons")
+                if (isMounted) {
+                    toast.error("Failed to load icons")
+                }
             })
+        
+        return () => {
+            abortController.abort();
+            isMounted = false;
+        };
     }, [])
 
     /* ================= OPEN ================= */

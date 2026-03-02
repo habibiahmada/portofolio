@@ -23,7 +23,7 @@ export default function CertificateModal({
 
   const translation = certificate.certification_translations?.[0];
 
-  const skills = translation?.skills ?? certificate.skills ?? [];
+  const skills = translation?.skills ?? [];
 
   return (
     <div

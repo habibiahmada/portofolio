@@ -4,6 +4,7 @@ import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
 import useCompanies from "@/hooks/api/public/useCompanies";
 import Skeletonlogolist from "./skeletonlogolist";
+import styles from "./stats.module.css";
 
 export default function Companieslist() {
   const t = useTranslations();
@@ -54,7 +55,7 @@ export default function Companieslist() {
             ))}
           </div>
         ) : (
-          <div className="flex animate-scroll hover:[animation-play-state:paused] py-4">
+          <div className={`${styles.animateScroll} py-4`}>
             {displayCompanies.map((company, i) => (
               <div
                 key={`${company.name}-${i}`}
@@ -67,6 +68,7 @@ export default function Companieslist() {
                     alt={company.name}
                     width={120}
                     height={60}
+                    sizes="120px"
                     className="object-contain h-full w-auto"
                   />
                 </div>

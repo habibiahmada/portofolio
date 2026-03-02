@@ -40,6 +40,6 @@ export const FloatingShapes = ({ isDark }: { isDark: boolean }) => (
   <>
     <div className={`absolute top-10 right-10 w-32 h-32 border ${isDark ? 'border-blue-700' : 'border-blue-300'} rounded-lg rotate-12 opacity-30 pointer-events-none`} />
     <div className={`absolute bottom-20 left-10 w-24 h-24 border ${isDark ? 'border-cyan-700' : 'border-cyan-300'} rounded-full opacity-30 pointer-events-none`} />
-    <div className="absolute top-20 left-1/4 w-16 h-16 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-lg opacity-20 rotate-45 pointer-events-none" />
+    <div className="absolute top-20 left-1/4 w-16 h-16 bg-linear-to-r from-blue-400 to-cyan-400 rounded-lg opacity-20 rotate-45 pointer-events-none" />
   </>
 );

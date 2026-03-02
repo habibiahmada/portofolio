@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase/client";
 
-
-export const revalidate = 0;
+export const runtime = 'edge';
+export const revalidate = 300; // Cache for 5 minutes
 
 interface ArticleTranslation {
   language: string;
@@ -27,7 +27,7 @@ export async function GET(req: Request) {
 
   let query = supabase
     .from("articles")
-    .select("*, article_translations(*)")
+    .select("id, published_at, published, article_translations(language, title, slug, content, excerpt, tags, read_time)")
     .order("published_at", { ascending: false });
 
   if (published === "true") {
@@ -54,5 +54,12 @@ export async function GET(req: Request) {
     };
   });
 
-  return NextResponse.json({ data: normalized });
+  return NextResponse.json(
+    { data: normalized },
+    {
+      headers: {
+        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
+      },
+    }
+  );
 }

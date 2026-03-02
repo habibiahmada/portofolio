@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
+import { optimizeImage, getContentType } from "@/lib/image-optimizer";
+
+export const dynamic = "force-dynamic";
 
 const ALLOWED_TYPES = [
   "image/jpeg",
@@ -35,14 +38,26 @@ export async function POST(req: Request) {
     );
   }
 
-  const fileExt = file.name.split(".").pop();
-  const fileName = `${crypto.randomUUID()}.${fileExt}`;
+  // Convert file to buffer
+  const arrayBuffer = await file.arrayBuffer();
+  const fileBuffer = Buffer.from(arrayBuffer);
+
+  // Optimize image (avatars should be smaller)
+  const optimizedBuffer = await optimizeImage(fileBuffer, {
+    maxWidth: 512,
+    maxHeight: 512,
+    quality: 85,
+    format: 'webp',
+  });
+
+  const fileName = `${crypto.randomUUID()}.webp`;
   const filePath = fileName;
+  const contentType = getContentType('webp');
 
   const { error } = await supabaseAdmin.storage
     .from("avatar") // ⬅️ bucket avatar
-    .upload(filePath, file, {
-      contentType: file.type,
+    .upload(filePath, optimizedBuffer, {
+      contentType,
       upsert: false,
     });
 

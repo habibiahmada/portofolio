@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase/client";
 
-export const revalidate = 0;
+export const runtime = 'edge';
+export const revalidate = 300; // Cache for 5 minutes
 
 interface ProjectTranslation {
   language: string;
@@ -18,12 +19,17 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
 
   const lang = searchParams.get("lang") || "en";
-  const featuredParam = searchParams.get("featured");
 
-  let query = supabase
+  const query = supabase
     .from("projects")
     .select(`
-      *,
+      id,
+      image_url,
+      year,
+      live_url,
+      github_url,
+      technologies,
+      created_at,
       projects_translations (
         id,
         language,
@@ -32,10 +38,6 @@ export async function GET(req: Request) {
       )
     `)
     .order("created_at", { ascending: false });
-
-  if (featuredParam !== null) {
-    query = query.eq("featured", featuredParam === "true");
-  }
 
   const { data, error } = await query;
 
@@ -61,5 +63,12 @@ export async function GET(req: Request) {
     };
   });
 
-  return NextResponse.json({ data: normalized });
+  return NextResponse.json(
+    { data: normalized },
+    {
+      headers: {
+        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
+      },
+    }
+  );
 }

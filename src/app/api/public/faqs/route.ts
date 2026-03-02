@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase/client';
 
+export const runtime = 'edge';
+export const revalidate = 300; // Cache for 5 minutes
+
 /* ================= GET ================= */
 export async function GET(req: Request) {
   try {
@@ -36,7 +39,14 @@ export async function GET(req: Request) {
       throw error;
     }
 
-    return NextResponse.json(data);
+    return NextResponse.json(
+      data,
+      {
+        headers: {
+          'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
+        },
+      }
+    );
   } catch (error) {
     console.error('GET /api/public/faqs error:', error);
 

@@ -83,39 +83,48 @@ export default function Page() {
 
   /* ================= API ================= */
 
-  const fetchData = useCallback(async () => {
+  const fetchData = useCallback(async (signal?: AbortSignal) => {
     setLoading(true)
     try {
-      const res = await fetch(`/api/public/experiences?lang=${locale}`)
+      const res = await fetch(`/api/public/experiences?lang=${locale}`, { signal })
       const json: { data?: ExperienceAPI[] } = await res.json()
 
-      setData(
-        (json.data ?? []).map((item) => {
-          const t = item.experience_translations?.[0]
-          return {
-            id: item.id,
-            type: item.type,
-            company: item.company,
-            location: item.location,
-            start_date: item.start_date,
-            end_date: item.end_date,
-            skills: item.skills ?? [],
-            title: t?.title ?? "",
-            description: t?.description ?? "",
-            location_type: t?.location_type ?? "",
-            highlight: t?.highlight ?? "",
-          }
-        })
-      )
-    } catch {
+      if (!signal?.aborted) {
+        setData(
+          (json.data ?? []).map((item) => {
+            const t = item.experience_translations?.[0]
+            return {
+              id: item.id,
+              type: item.type,
+              company: item.company,
+              location: item.location,
+              start_date: item.start_date,
+              end_date: item.end_date,
+              skills: item.skills ?? [],
+              title: t?.title ?? "",
+              description: t?.description ?? "",
+              location_type: t?.location_type ?? "",
+              highlight: t?.highlight ?? "",
+            }
+          })
+        )
+      }
+    } catch (error) {
+      if (error instanceof Error && error.name === 'AbortError') {
+        return
+      }
       toast.error("Gagal mengambil data")
     } finally {
-      setLoading(false)
+      if (!signal?.aborted) {
+        setLoading(false)
+      }
     }
   }, [locale])
 
   useEffect(() => {
-    fetchData()
+    const abortController = new AbortController()
+    fetchData(abortController.signal)
+    return () => abortController.abort()
   }, [fetchData])
 
   const submit = async () => {

@@ -1,3 +1,5 @@
+'use client'
+
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbLink } from "@/components/ui/breadcrumb";
 import CertificateForm from "@/components/ui/sections/admin/forms/certificateform";
 

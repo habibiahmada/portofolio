@@ -102,11 +102,19 @@ export default function ServiceForm({
 
   /* ================= ICONS ================= */
   useEffect(() => {
+    let isMounted = true;
+    
     loadLucideIcons().then((icons) => {
-      setIcons(
-        Object.keys(icons).filter((i) => /^[A-Z]/.test(i))
-      );
+      if (isMounted) {
+        setIcons(
+          Object.keys(icons).filter((i) => /^[A-Z]/.test(i))
+        );
+      }
     });
+    
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   /* ================= HELPERS ================= */
@@ -247,7 +255,7 @@ export default function ServiceForm({
                     update("color", c)
                   }
                   aria-label={`Select color ${c}`}
-                  className={`h-12 rounded-xl bg-gradient-to-r ${c}
+                  className={`h-12 rounded-xl bg-linear-to-r ${c}
                   ${
                     form.color === c
                       ? "ring-2 ring-primary ring-offset-2"

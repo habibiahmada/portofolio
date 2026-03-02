@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase/client";
 
+export const runtime = 'edge';
+export const revalidate = 300; // Cache for 5 minutes
+
 export async function GET(req: Request) {
   if (!supabase) {
     return NextResponse.json(
@@ -34,5 +37,12 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: error.message }, { status: 400 });
   }
 
-  return NextResponse.json({ data });
+  return NextResponse.json(
+    { data },
+    {
+      headers: {
+        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
+      },
+    }
+  );
 }

@@ -34,7 +34,7 @@ export default function PortalCard({
                         <Layers className="h-16 w-16 text-slate-300 dark:text-slate-800" />
                     </div>
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-out" />
+                <div className="absolute inset-0 bg-linear-to-t from-black via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-out" />
 
             </div>
 

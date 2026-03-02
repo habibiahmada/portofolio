@@ -21,7 +21,7 @@ export default function PreviewCard({
   return (
     <div className="rounded-2xl border bg-card p-8 shadow-sm">
       <div
-        className={`w-16 h-16 mb-6 rounded-2xl bg-gradient-to-r ${color}
+        className={`w-16 h-16 mb-6 rounded-2xl bg-linear-to-r ${color}
         flex items-center justify-center`}
       >
         {icon ? (
@@ -50,7 +50,7 @@ export default function PreviewCard({
           {bullets.map((b, i) => (
             <li key={i} className="flex gap-2 text-sm">
               <span
-                className={`mt-2 w-1.5 h-1.5 rounded-full bg-gradient-to-r ${color}`}
+                className={`mt-2 w-1.5 h-1.5 rounded-full bg-linear-to-r ${color}`}
               />
               {b}
             </li>

@@ -1,0 +1,31 @@
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scrollReverse {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animateScroll {
+  animation: scroll 40s linear infinite;
+}
+
+.animateScrollReverse {
+  animation: scrollReverse 40s linear infinite;
+}
+
+/* Pause animation on hover for better UX */
+.group:hover .animateScroll,
+.group:hover .animateScrollReverse {
+  animation-play-state: paused;
+}

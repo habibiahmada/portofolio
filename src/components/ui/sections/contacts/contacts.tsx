@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import {
   MapPin,
@@ -58,7 +58,7 @@ const SOCIAL_LINKS: SocialLink[] = [
     icon: Instagram,
     href: 'https://www.instagram.com/habibiahmad.a/',
     label: 'Instagram',
-    bgClass: 'hover:bg-gradient-to-tr hover:from-[#f09433] hover:via-[#dc2743] hover:to-[#bc1888]',
+    bgClass: 'hover:bg-linear-to-tr hover:from-[#f09433] hover:via-[#dc2743] hover:to-[#bc1888]',
     textClass: 'group-hover:text-white'
   }
 ];
@@ -81,7 +81,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ email }) => {
 
   const { submitContact, loading } = useContact();
 
-  const handleFormSubmit = async (formData: ContactFormData) => {
+  const handleFormSubmit = useCallback(async (formData: ContactFormData) => {
     try {
       await submitContact(formData);
       toast.success('Pesan terkirim', {
@@ -95,14 +95,14 @@ const ContactSection: React.FC<ContactSectionProps> = ({ email }) => {
       }
       throw e;
     }
-  };
+  }, [submitContact]);
 
-  const revealContact = (type: 'phone' | 'email') => {
+  const revealContact = useCallback((type: 'phone' | 'email') => {
     setShowContactInfo(prev => ({ ...prev, [type]: true }));
-  };
+  }, []);
 
   // Derived Data
-  const contactInfo: ContactInfo[] = [
+  const contactInfo: ContactInfo[] = useMemo(() => [
     {
       icon: MapPin,
       title: t('contactInfo.location'),
@@ -130,7 +130,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ email }) => {
       content: t('contactInfo.workingHoursValue'),
       color: 'text-orange-600 bg-orange-500 dark:text-orange-200 dark:bg-orange-400'
     }
-  ];
+  ], [t, showContactInfo.phone, showContactInfo.email, email, revealContact]);
 
   useEffect(() => {
     setMounted(true);

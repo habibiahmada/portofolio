@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Star, Quote, Briefcase } from "lucide-react";
 import { Card } from "../../card";
+import { memo } from "react";
 import { Testimonial } from "@/lib/types/database";
 
 interface Props {
@@ -29,7 +30,7 @@ const TestimonialCard: React.FC<Props> = ({
       >
         {/* Quote Icon */}
         <div className="absolute -top-4 left-8">
-          <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-slate-600 rounded-full flex items-center justify-center">
+          <div className="w-8 h-8 bg-linear-to-r from-blue-600 to-slate-600 rounded-full flex items-center justify-center">
             <Quote className="w-4 h-4 text-white" />
           </div>
         </div>
@@ -55,7 +56,7 @@ const TestimonialCard: React.FC<Props> = ({
           <div>
             <div className="
               p-6 rounded-xl
-              bg-gradient-to-br from-slate-50 to-blue-50
+              bg-linear-to-br from-slate-50 to-blue-50
               dark:from-slate-800 dark:to-slate-800/50
               border border-slate-200/50 dark:border-slate-700/50
             ">
@@ -65,6 +66,8 @@ const TestimonialCard: React.FC<Props> = ({
                   alt={testimonial.name}
                   width={48}
                   height={48}
+                  loading="lazy"
+                  sizes="48px"
                   className="rounded-full object-cover border-2 border-white dark:border-slate-700 shadow-md"
                 />
 
@@ -91,4 +94,4 @@ const TestimonialCard: React.FC<Props> = ({
   );
 };
 
-export default TestimonialCard;
+export default memo(TestimonialCard);

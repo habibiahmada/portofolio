@@ -36,8 +36,8 @@ export default function TechIconsDecorations({ isDark }: Props) {
               >
                 <div
                   className={`p-3 rounded-xl group-hover:shadow-lg ${isDark
-                    ? "bg-gradient-to-br from-blue-500/20 to-cyan-500/20 text-blue-200 group-hover:from-blue-500/30 group-hover:to-cyan-500/30"
-                    : "bg-gradient-to-br from-blue-100 to-cyan-100 text-blue-600 group-hover:from-blue-200 group-hover:to-cyan-200"
+                    ? "bg-linear-to-br from-blue-500/20 to-cyan-500/20 text-blue-200 group-hover:from-blue-500/30 group-hover:to-cyan-500/30"
+                    : "bg-linear-to-br from-blue-100 to-cyan-100 text-blue-600 group-hover:from-blue-200 group-hover:to-cyan-200"
                     }`}
                 >
                   <IconComponent size={20} className="group-hover:rotate-12 transition-transform duration-300" />

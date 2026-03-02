@@ -16,7 +16,7 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
 
-  const t = await getTranslations({ locale, namespace: "Metadata.page" });
+  const t = await getTranslations({ locale, namespace: "Metadata" });
 
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 

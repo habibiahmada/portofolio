@@ -25,7 +25,7 @@ export default function About() {
     <section
       id="about"
       className={`relative overflow-hidden py-28 lg:py-36 transition-colors duration-300 ease-in-out 
-        ${isDark ? "bg-slate-950" : "bg-gradient-to-t from-slate-50 via-gray-50 to-slate-50"}`}
+        ${isDark ? "bg-slate-950" : "bg-linear-to-t from-slate-50 via-gray-50 to-slate-50"}`}
     >
       {/* Background Shapes */}
       <div className="absolute inset-0 overflow-hidden">
@@ -50,14 +50,14 @@ export default function About() {
           >
             <div className="relative group">
               <div className={`absolute inset-0 z-10 opacity-20 group-hover:opacity-20 transition-opacity duration-500 
-                  bg-gradient-to-tr from-blue-600 to-transparent mix-blend-overlay`} />
+                  bg-linear-to-tr from-blue-600 to-transparent mix-blend-overlay`} />
               <Image
-                src="/images/about-photo.png"
+                src="/images/about-photo.webp"
                 alt="Habibi Ahmad Aziz - Web Developer"
                 width={800}
                 height={800}
                 placeholder="blur"
-                blurDataURL="/images/about-photo-blur.png"
+                blurDataURL="/images/about-photo-blur.webp"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
                 draggable={false}
               />

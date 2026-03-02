@@ -1,14 +1,75 @@
+'use client'
+
 import DashboardHeader from "@/components/ui/sections/admin/dashboardheader";
 import { MessageSquare } from "lucide-react";
-import { getTranslations } from "next-intl/server";
-import { getMessageData } from "@/services/api/admin/getmessagedata";
+import { useTranslations } from "next-intl";
 import { timeAgo } from "@/lib/getTimes";
+import { useEffect, useState } from "react";
 
-export default async function Page({ params }: { params: { locale: string } }) {
-    const { locale } = await params;
-    const t = await getTranslations({ locale, namespace: 'Dashboard.contacts' });
-    const tc = await getTranslations({ locale, namespace: 'Common' });
-    const { messages } = await getMessageData()
+interface Message {
+    id: string
+    name: string
+    email: string
+    created_at: string
+    subject?: string
+    message?: string
+}
+
+export default function Page() {
+    const t = useTranslations('Dashboard.contacts');
+    const tc = useTranslations('Common');
+    const [messages, setMessages] = useState<Message[]>([])
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        const abortController = new AbortController()
+        
+        async function fetchMessages() {
+            try {
+                const response = await fetch('/api/admin/messages', {
+                    signal: abortController.signal
+                })
+                if (!response.ok) throw new Error('Failed to fetch messages')
+                const data = await response.json()
+                if (!abortController.signal.aborted) {
+                    setMessages(data.messages || [])
+                }
+            } catch (error) {
+                // Don't log error if request was aborted
+                if (error instanceof Error && error.name !== 'AbortError') {
+                    console.error('Error fetching messages:', error)
+                }
+            } finally {
+                if (!abortController.signal.aborted) {
+                    setLoading(false)
+                }
+            }
+        }
+        fetchMessages()
+        
+        return () => {
+            abortController.abort()
+        }
+    }, [])
+
+    if (loading) {
+        return (
+            <div className="min-h-screen">
+                <DashboardHeader
+                    title={t('title')}
+                    description={t('description')}
+                />
+                <div className="lg:col-span-2 bg-card rounded-xl p-4 sm:p-6 shadow-sm border border-border">
+                    <div className="animate-pulse space-y-3">
+                        {Array.from({ length: 3 }).map((_, i) => (
+                            <div key={i} className="h-24 bg-muted rounded-lg" />
+                        ))}
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
     return (
         <>
             <div className="min-h-screen">
@@ -24,7 +85,7 @@ export default async function Page({ params }: { params: { locale: string } }) {
                     </div>
                     <div className="space-y-3 mb-4">
                         {messages.length > 0 ? (
-                            messages.map((message: { id: string; name: string; email: string; created_at: string; subject?: string; message?: string }) => (
+                            messages.map((message) => (
                                 <div key={message.id} className="p-4 rounded-lg border border-border hover:bg-muted/30 transition-colors">
                                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
                                         <div className="flex items-center gap-2">

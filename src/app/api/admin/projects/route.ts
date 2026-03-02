@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { translateObject } from "@/lib/translator";
 
+export const dynamic = "force-dynamic";
 /* ================= TYPES ================= */
 
 interface ProjectTranslationPayload {
@@ -120,7 +121,7 @@ export async function POST(req: Request) {
     const { data: project, error: projectError } = await supabaseAdmin
       .from("projects")
       .insert([cleanedProject])
-      .select()
+      .select('id, image_url, year, technologies, live_url, github_url, created_at, updated_at')
       .single();
 
     if (projectError || !project) {

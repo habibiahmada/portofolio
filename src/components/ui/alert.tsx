@@ -44,7 +44,7 @@ const Alert: React.FC<AlertProps> = ({ open, type = "info", message, onClose, du
         aria-live="polite"
       >
         <div className="flex items-start space-x-3">
-          <div className="flex-shrink-0">{icon}</div>
+          <div className="shrink-0">{icon}</div>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium">{message}</p>
           </div>

@@ -1,13 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from "@/lib/supabase/admin"
 
+export const dynamic = "force-dynamic";
 /* ================= TYPES ================= */
 
 interface ServiceTranslationPayload {
+  id: string
+  service_id: string
   language: string
-  title?: string
-  description?: string
-  bullets?: string[]
+  title: string
+  description: string
+  bullet: string[]
+  created_at: string
 }
 
 interface ServiceUpdatePayload {
@@ -65,9 +69,21 @@ export async function GET(
     const { data, error } = await supabaseAdmin
       .from('services')
       .select(`
-        *,
+        id,
+        key,
+        icon,
+        color,
+        order_index,
+        created_at,
+        updated_at,
         service_translations (
-          *
+          id,
+          service_id,
+          language,
+          title,
+          description,
+          bullet,
+          created_at
         )
       `)
       .eq('id', id)
@@ -131,7 +147,7 @@ export async function PUT(
         language: t.language,
         title: t.title,
         description: t.description,
-        bullets: t.bullets,
+        bullet: t.bullet,
       }))
 
       const { error } = await supabaseAdmin

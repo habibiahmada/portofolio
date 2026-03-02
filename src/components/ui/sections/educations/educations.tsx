@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { useTheme } from "next-themes";
 import { Briefcase, GraduationCap } from "lucide-react";
 import useExperiences from "@/hooks/api/public/useExperiences";
@@ -30,26 +30,31 @@ export default function Education() {
     setActiveCardIndex(0);
   }, [activeTab]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const cards = document.querySelectorAll(".timeline-card-wrapper");
-      cards.forEach((card, index) => {
-        const rect = card.getBoundingClientRect();
-        if (rect.top >= 0 && rect.top <= window.innerHeight / 2) {
-          setActiveCardIndex(index);
-        }
-      });
-    };
+  const handleTabChange = useCallback((tab: "experience" | "education") => {
+    setActiveTab(tab);
+  }, []);
 
+  const handleScroll = useCallback(() => {
+    const cards = document.querySelectorAll(".timeline-card-wrapper");
+    cards.forEach((card, index) => {
+      const rect = card.getBoundingClientRect();
+      if (rect.top >= 0 && rect.top <= window.innerHeight / 2) {
+        setActiveCardIndex(index);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [activeTab]);
+  }, [handleScroll]);
+
+  const filteredExperiences = useMemo(
+    () => experiences.filter((item) => item.type === activeTab),
+    [experiences, activeTab]
+  );
 
   if (!mounted) return null;
-
-  const filteredExperiences = experiences.filter(
-    (item) => item.type === activeTab
-  );
 
   return (
     <section
@@ -78,7 +83,7 @@ export default function Education() {
             {(["experience", "education"] as const).map((tab) => (
               <button
                 key={tab}
-                onClick={() => setActiveTab(tab)}
+                onClick={() => handleTabChange(tab)}
                 aria-label={t(`tabbuttons${tab}`)}
                 className={`relative px-4 py-3 text-sm font-semibold transition-all ${activeTab === tab
                   ? isDark

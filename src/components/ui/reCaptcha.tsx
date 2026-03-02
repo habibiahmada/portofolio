@@ -7,6 +7,7 @@ import {
   useImperativeHandle,
   forwardRef,
 } from "react";
+import Script from "next/script";
 
 /* =========================
    Global grecaptcha typing
@@ -32,41 +33,55 @@ declare global {
 }
 
 /* =========================
-   Singleton script loader
+   Script loading state
 ========================= */
-let scriptPromise: Promise<void> | null = null;
+let isScriptLoaded = false;
+let scriptLoadPromise: Promise<void> | null = null;
+let activeTimers: { interval?: NodeJS.Timeout; timeout?: NodeJS.Timeout } = {};
 
-function loadRecaptchaScript(): Promise<void> {
-  if (scriptPromise) return scriptPromise;
+function waitForRecaptchaScript(): Promise<void> {
+  if (scriptLoadPromise) return scriptLoadPromise;
 
-  scriptPromise = new Promise((resolve, reject) => {
+  scriptLoadPromise = new Promise((resolve) => {
     if (window.grecaptcha) {
+      isScriptLoaded = true;
       resolve();
       return;
     }
 
-    const existing = document.getElementById(
-      "recaptcha-script"
-    ) as HTMLScriptElement | null;
+    // Poll for grecaptcha availability
+    activeTimers.interval = setInterval(() => {
+      if (window.grecaptcha) {
+        isScriptLoaded = true;
+        if (activeTimers.interval) clearInterval(activeTimers.interval);
+        if (activeTimers.timeout) clearTimeout(activeTimers.timeout);
+        activeTimers = {};
+        resolve();
+      }
+    }, 100);
 
-    if (existing) {
-      existing.addEventListener("load", () => resolve());
-      return;
-    }
-
-    const script = document.createElement("script");
-    script.id = "recaptcha-script";
-    script.src = "https://www.google.com/recaptcha/api.js?render=explicit";
-    script.async = true;
-    script.defer = true;
-
-    script.onload = () => resolve();
-    script.onerror = () => reject(new Error("Failed to load reCAPTCHA"));
-
-    document.body.appendChild(script);
+    // Timeout after 10 seconds
+    activeTimers.timeout = setTimeout(() => {
+      if (activeTimers.interval) clearInterval(activeTimers.interval);
+      activeTimers = {};
+      if (!isScriptLoaded) {
+        console.error("reCAPTCHA script failed to load");
+      }
+      resolve();
+    }, 10000);
   });
 
-  return scriptPromise;
+  return scriptLoadPromise;
+}
+
+function cleanupRecaptchaTimers(): void {
+  if (activeTimers.interval) {
+    clearInterval(activeTimers.interval);
+  }
+  if (activeTimers.timeout) {
+    clearTimeout(activeTimers.timeout);
+  }
+  activeTimers = {};
 }
 
 /* =========================
@@ -95,6 +110,7 @@ const ReCaptcha = forwardRef<ReCaptchaHandle, ReCaptchaProps>(
     const captchaRef = useRef<HTMLDivElement>(null);
     const widgetIdRef = useRef<number | null>(null);
     const [visible, setVisible] = useState(false);
+    const [scriptReady, setScriptReady] = useState(false);
 
     /* expose reset() */
     useImperativeHandle(ref, () => ({
@@ -117,18 +133,26 @@ const ReCaptcha = forwardRef<ReCaptchaHandle, ReCaptchaProps>(
       });
 
       observer.observe(containerRef.current);
-      return () => observer.disconnect();
+      return () => {
+        observer.disconnect();
+        // Clean up any pending timers from script loading
+        cleanupRecaptchaTimers();
+      };
     }, []);
 
     /* Render captcha */
     useEffect(() => {
-      if (!visible || !siteKey || !captchaRef.current) return;
+      if (!visible || !scriptReady || !siteKey || !captchaRef.current) return;
       if (widgetIdRef.current !== null) return;
 
-      loadRecaptchaScript()
+      let isMounted = true;
+
+      waitForRecaptchaScript()
         .then(() => {
+          if (!isMounted) return;
+          
           window.grecaptcha?.ready(() => {
-            if (!captchaRef.current) return;
+            if (!isMounted || !captchaRef.current) return;
             if (captchaRef.current.childNodes.length > 0) return;
 
             const resolvedTheme: "light" | "dark" =
@@ -155,18 +179,35 @@ const ReCaptcha = forwardRef<ReCaptchaHandle, ReCaptchaProps>(
           });
         })
         .catch((err) => {
-          console.error("ReCaptcha load error:", err);
+          if (isMounted) {
+            console.error("ReCaptcha load error:", err);
+          }
         });
-    }, [visible, siteKey, onVerify, onExpired, onError, theme, size]);
+
+      return () => {
+        isMounted = false;
+      };
+    }, [visible, scriptReady, siteKey, onVerify, onExpired, onError, theme, size]);
 
     return (
-      <div ref={containerRef} className={className ?? "flex justify-center"}>
-        {visible ? (
-          <div ref={captchaRef} />
-        ) : (
-          <div className="h-[78px] w-[304px] rounded bg-slate-200 dark:bg-slate-800 animate-pulse" />
+      <>
+        {/* Load reCAPTCHA script only when component is visible (conditional loading) */}
+        {visible && (
+          <Script
+            src="https://www.google.com/recaptcha/api.js?render=explicit"
+            strategy="lazyOnload"
+            onLoad={() => setScriptReady(true)}
+            onError={() => console.error("Failed to load reCAPTCHA script")}
+          />
         )}
-      </div>
+        <div ref={containerRef} className={className ?? "flex justify-center"}>
+          {visible ? (
+            <div ref={captchaRef} />
+          ) : (
+            <div className="h-[78px] w-[304px] rounded bg-slate-200 dark:bg-slate-800 animate-pulse" />
+          )}
+        </div>
+      </>
     );
   }
 );

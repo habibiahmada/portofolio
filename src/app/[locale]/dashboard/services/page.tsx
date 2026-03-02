@@ -36,12 +36,13 @@ export default function ServicesPage() {
   const [loading, setLoading] = useState<boolean>(false);
 
   /* ================= FETCH ================= */
-  const fetchServices = useCallback(async () => {
+  const fetchServices = useCallback(async (signal?: AbortSignal) => {
     setLoading(true);
 
     try {
       const response = await fetch(`/api/public/services?lang=${locale}`, {
         cache: 'no-store',
+        signal,
       });
 
       if (!response.ok) {
@@ -49,17 +50,29 @@ export default function ServicesPage() {
       }
 
       const result: ServicesResponse = await response.json();
-      setServices(result.data ?? []);
+      if (!signal?.aborted) {
+        setServices(result.data ?? []);
+      }
     } catch (error) {
-      console.error('Fetch services error:', error);
-      toast.error('Failed to load services');
+      // Don't show error if request was aborted
+      if (error instanceof Error && error.name !== 'AbortError') {
+        console.error('Fetch services error:', error);
+        toast.error('Failed to load services');
+      }
     } finally {
-      setLoading(false);
+      if (!signal?.aborted) {
+        setLoading(false);
+      }
     }
   }, [locale]);
 
   useEffect(() => {
-    fetchServices();
+    const abortController = new AbortController();
+    fetchServices(abortController.signal);
+    
+    return () => {
+      abortController.abort();
+    };
   }, [fetchServices]);
 
   /* ================= DELETE ================= */
@@ -115,7 +128,7 @@ export default function ServicesPage() {
             <Card key={service.id}>
               <CardContent className="space-y-4 p-6">
                 <div
-                  className={`flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-r ${service.color}`}
+                  className={`flex h-12 w-12 items-center justify-center rounded-lg bg-linear-to-r ${service.color}`}
                 >
                   {isImageIcon ? (
                     <Image
@@ -123,6 +136,7 @@ export default function ServicesPage() {
                       alt=""
                       width={24}
                       height={24}
+                      sizes="24px"
                     />
                   ) : (
                     <DynamicIcon

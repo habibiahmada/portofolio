@@ -18,7 +18,7 @@ const CursorFollower = () => {
     return (
         <div
             ref={followerRef}
-            className="fixed top-0 left-0 w-10 h-10 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full pointer-events-none z-10 opacity-50 blur-lg transition-transform duration-150 ease-out"
+            className="fixed top-0 left-0 w-10 h-10 bg-linear-to-r from-blue-500 to-cyan-500 rounded-full pointer-events-none z-10 opacity-50 blur-3xl transition-transform duration-150 ease-out"
             style={{ transform: 'translate(calc(var(--mouse-x, 0px) - 50%), calc(var(--mouse-y, 0px) - 50%))' }}
             aria-hidden="true"
         />

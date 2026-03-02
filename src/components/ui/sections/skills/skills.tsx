@@ -7,7 +7,7 @@ import SkillCard from "./skillcard"
 import useTechstacks from "@/hooks/api/public/useTechstacks";
 import { TechItem } from "@/lib/types/database"
 import { loadSiIcons } from "@/lib/si-icon-cache"
-import "./skills.css"
+import styles from "./skills.module.css"
 
 export default function SkillsSection() {
   const t = useTranslations("skills")
@@ -46,14 +46,14 @@ export default function SkillsSection() {
           <div className="relative -mx-6 md:-mx-12 lg:-mx-20">
 
             {/* Gradient Masks untuk efek Fade di kiri dan kanan */}
-            <div className="absolute left-0 top-0 bottom-0 w-12 md:w-32 z-10 bg-gradient-to-r from-slate-50 dark:from-slate-950 to-transparent pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-12 md:w-32 z-10 bg-gradient-to-l from-slate-50 dark:from-slate-950 to-transparent pointer-events-none" />
+            <div className="absolute left-0 top-0 bottom-0 w-12 md:w-32 z-10 bg-linear-to-r from-slate-50 dark:from-slate-950 to-transparent pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-12 md:w-32 z-10 bg-linear-to-l from-slate-50 dark:from-slate-950 to-transparent pointer-events-none" />
 
             <div className="flex flex-col gap-6 md:gap-8 opacity-90 hover:opacity-100 transition-opacity duration-500">
 
               {/* Row 1: Bergerak ke Kiri */}
               <div className="flex relative overflow-hidden group">
-                <div className="flex gap-4 md:gap-6 animate-scroll whitespace-nowrap pl-4 md:pl-6">
+                <div className={`flex gap-4 md:gap-6 ${styles.animateScroll} whitespace-nowrap pl-4 md:pl-6`}>
                   {[...row1, ...row1, ...row1].map((tech, i) => (
                     <div key={`row1-${i}`} className="w-[180px] md:w-[220px] flex-shrink-0">
                       <SkillCard tech={tech as TechItem} />
@@ -64,7 +64,7 @@ export default function SkillsSection() {
 
               {/* Row 2: Bergerak ke Kanan (Reverse) */}
               <div className="flex relative overflow-hidden group">
-                <div className="flex gap-4 md:gap-6 animate-scroll-reverse whitespace-nowrap pl-4 md:pl-6">
+                <div className={`flex gap-4 md:gap-6 ${styles.animateScrollReverse} whitespace-nowrap pl-4 md:pl-6`}>
                   {[...row2, ...row2, ...row2].map((tech, i) => (
                     <div key={`row2-${i}`} className="w-[180px] md:w-[220px] flex-shrink-0">
                       <SkillCard tech={tech as TechItem} />

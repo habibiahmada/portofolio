@@ -3,6 +3,7 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 import { translateObject } from "@/lib/translator";
 
 
+export const dynamic = "force-dynamic";
 export async function PUT(req: Request) {
     const { searchParams } = new URL(req.url);
     const lang = searchParams.get("lang") || "en";

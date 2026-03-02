@@ -72,18 +72,26 @@ export default function TestimonialForm({
   useEffect(() => {
     if (!initialData) return;
 
-    setForm({
-      name: initialData.name ?? "",
-      role: initialData.role ?? "",
-      company: initialData.company ?? "",
-      rating: initialData.rating ?? 0,
-      content: initialData.content ?? "",
-    });
+    let isMounted = true;
 
-    if (initialData.avatar) {
-      setAvatarPreview(initialData.avatar);
-      setAvatarUrl(initialData.avatar);
+    if (isMounted) {
+      setForm({
+        name: initialData.name ?? "",
+        role: initialData.role ?? "",
+        company: initialData.company ?? "",
+        rating: initialData.rating ?? 0,
+        content: initialData.content ?? "",
+      });
+
+      if (initialData.avatar) {
+        setAvatarPreview(initialData.avatar);
+        setAvatarUrl(initialData.avatar);
+      }
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, [initialData]);
 
   /* ================= HELPERS ================= */
@@ -236,7 +244,7 @@ export default function TestimonialForm({
       <div className="lg:sticky lg:top-6 h-fit">
         <Card className="relative p-8 backdrop-blur bg-white/80 dark:bg-slate-950/80">
           <div className="absolute -top-4 left-8">
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-slate-600 rounded-full flex items-center justify-center">
+            <div className="w-8 h-8 bg-linear-to-r from-blue-600 to-slate-600 rounded-full flex items-center justify-center">
               <Quote className="w-4 h-4 text-white" />
             </div>
           </div>
@@ -277,6 +285,7 @@ export default function TestimonialForm({
                     alt="Avatar"
                     width={64}
                     height={64}
+                    sizes="64px"
                     className="rounded-full object-cover"
                   />
                 ) : (

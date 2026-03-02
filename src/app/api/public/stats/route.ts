@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase/client";
 
+export const runtime = 'edge';
+export const revalidate = 300; // Cache for 5 minutes
+
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const lang = searchParams.get("lang") || "en";
@@ -10,7 +13,13 @@ export async function GET(req: Request) {
         const { data: statsData, error } = await supabase
             .from("statistics")
             .select(`
-        *,
+        id,
+        key,
+        count_value,
+        icon,
+        color,
+        bg_color_light,
+        bg_color_dark,
         statistic_translations!inner (
           label,
           description,
@@ -36,7 +45,15 @@ export async function GET(req: Request) {
             description: stat.statistic_translations[0].description,
         }));
 
-        return NextResponse.json({ data: formattedStats }, { status: 200 });
+        return NextResponse.json(
+            { data: formattedStats },
+            {
+                status: 200,
+                headers: {
+                    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
+                },
+            }
+        );
     } catch (err) {
         console.error("Error fetching stats:", err);
         return NextResponse.json({ error: "Failed to fetch stats" }, { status: 500 });

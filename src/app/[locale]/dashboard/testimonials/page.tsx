@@ -60,6 +60,7 @@ export default function Page() {
                                     alt={item.name}
                                     width={56}
                                     height={56}
+                                    sizes="56px"
                                     className="rounded-full object-cover shrink-0"
                                 />
                             </div>

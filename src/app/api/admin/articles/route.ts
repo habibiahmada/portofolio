@@ -1,7 +1,10 @@
 import { supabaseAdmin } from "@/lib/supabase/admin";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { translateObject } from "@/lib/translator";
+import { APIError, handleAPIError } from "@/lib/api-error-handler";
+import { checkRateLimit } from "@/lib/ratelimit";
 
+export const dynamic = "force-dynamic";
 
 interface ArticleTranslation {
   language: string;
@@ -13,10 +16,26 @@ interface ArticleTranslation {
   read_time: string;
 }
 
+export async function POST(req: NextRequest) {
+  // Apply rate limiting
+  const rateLimit = checkRateLimit(req, 10, 60000); // 10 requests per minute
+  
+  if (!rateLimit.allowed) {
+    return NextResponse.json(
+      { error: 'Too many requests' },
+      {
+        status: 429,
+        headers: {
+          'X-RateLimit-Limit': '10',
+          'X-RateLimit-Remaining': '0',
+          'X-RateLimit-Reset': rateLimit.resetTime.toString(),
+        },
+      }
+    );
+  }
 
-export async function POST(req: Request) {
   if (!supabaseAdmin) {
-    return NextResponse.json({ error: "Server misconfiguration" }, { status: 500 });
+    return handleAPIError(new APIError(500, "Server misconfiguration", "SERVER_ERROR"));
   }
 
   try {
@@ -24,10 +43,7 @@ export async function POST(req: Request) {
     const { translations, ...articlePayload } = body;
 
     if (!Array.isArray(translations) || translations.length === 0) {
-      return NextResponse.json(
-        { error: "At least one translation is required" },
-        { status: 400 }
-      );
+      throw new APIError(400, "At least one translation is required", "MISSING_TRANSLATIONS");
     }
 
     // Clean undefined values
@@ -44,11 +60,11 @@ export async function POST(req: Request) {
     const { data: article, error: articleError } = await supabaseAdmin
       .from("articles")
       .insert([cleanedArticle])
-      .select()
+      .select('id, image_url, published, published_at, created_at, updated_at')
       .single();
 
     if (articleError || !article) {
-      throw new Error(articleError?.message || "Failed to create article");
+      throw new APIError(500, articleError?.message || "Failed to create article", "DB_ERROR");
     }
 
     // 2️⃣ Insert translations (with auto-translation)
@@ -85,12 +101,21 @@ export async function POST(req: Request) {
     if (transError) {
       // Rollback
       await supabaseAdmin.from("articles").delete().eq("id", article.id);
-      throw new Error(transError.message);
+      throw new APIError(500, transError.message, "TRANSLATION_ERROR");
     }
 
-    return NextResponse.json({ data: article }, { status: 201 });
+    return NextResponse.json(
+      { data: article },
+      {
+        status: 201,
+        headers: {
+          'X-RateLimit-Limit': '10',
+          'X-RateLimit-Remaining': rateLimit.remaining.toString(),
+          'X-RateLimit-Reset': rateLimit.resetTime.toString(),
+        },
+      }
+    );
   } catch (err: unknown) {
-    const msg = err instanceof Error ? err.message : String(err);
-    return NextResponse.json({ error: msg ?? "Internal error" }, { status: 500 });
+    return handleAPIError(err);
   }
 }

@@ -64,20 +64,28 @@ export default function CertificateForm({
   useEffect(() => {
     if (!initialData) return;
 
-    setIssuer(initialData.issuer ?? "");
-    setYear(String(initialData.year ?? ""));
-    setUploadedUrl(initialData.preview ?? "");
-    setPreviewUrl(initialData.preview ?? "");
+    let isMounted = true;
 
-    if (Array.isArray(initialData.certification_translations)) {
-      setTranslations(
-        initialData.certification_translations.map(t => ({
-          title: t.title ?? "",
-          description: t.description ?? "",
-          skills: (t.skills ?? []).join(", "),
-        }))
-      );
+    if (isMounted) {
+      setIssuer(initialData.issuer ?? "");
+      setYear(String(initialData.year ?? ""));
+      setUploadedUrl(initialData.preview ?? "");
+      setPreviewUrl(initialData.preview ?? "");
+
+      if (Array.isArray(initialData.certification_translations)) {
+        setTranslations(
+          initialData.certification_translations.map(t => ({
+            title: t.title ?? "",
+            description: t.description ?? "",
+            skills: (t.skills ?? []).join(", "),
+          }))
+        );
+      }
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, [initialData]);
 
   /* ---------- file select ---------- */

@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import dynamic from "next/dynamic";
 import { ExternalLink } from "lucide-react";
 import { Certificate } from "@/lib/types/database";
@@ -14,15 +15,15 @@ interface Props {
   onClick: () => void;
 }
 
-export default function CertificationCard({
+const CertificationCard = ({
   certificate,
   index,
   onClick,
-}: Props) {
+}: Props) => {
   const isBlue = index % 2 === 0;
   const translation = certificate.certification_translations?.[0];
 
-  const skills = translation?.skills ?? certificate.skills ?? [];
+  const skills = translation?.skills ?? [];
 
   return (
     <div className="group rounded-xl border bg-white shadow transition hover:shadow-xl dark:border-slate-700 dark:bg-slate-950">
@@ -84,4 +85,6 @@ export default function CertificationCard({
       </div>
     </div>
   );
-}
+};
+
+export default memo(CertificationCard);

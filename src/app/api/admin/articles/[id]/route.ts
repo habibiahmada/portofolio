@@ -2,9 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { translateObject } from '@/lib/translator'
 
+export const dynamic = "force-dynamic";
 /* ================= TYPES ================= */
 
 interface ArticleTranslationPayload {
+    id: string
+    article_id: string
     language: string
     title: string
     slug: string
@@ -12,6 +15,17 @@ interface ArticleTranslationPayload {
     excerpt: string
     tags: string[]
     read_time: string
+    created_at: string
+}
+
+interface ArticleWithTranslations {
+    id: string
+    image_url: string | null
+    published: boolean
+    published_at: string | null
+    created_at: string
+    updated_at: string | null
+    article_translations: ArticleTranslationPayload[]
 }
 
 interface ArticleUpdatePayload {
@@ -59,8 +73,24 @@ export async function GET(
         const { data, error } = await supabaseAdmin
             .from('articles')
             .select(`
-            *,
-            article_translations (*)
+            id,
+            image_url,
+            published,
+            published_at,
+            created_at,
+            updated_at,
+            article_translations (
+              id,
+              article_id,
+              language,
+              title,
+              slug,
+              content,
+              excerpt,
+              tags,
+              read_time,
+              created_at
+            )
         `)
             .eq('id', id)
             .maybeSingle()
@@ -68,14 +98,17 @@ export async function GET(
         if (error) throw error
         if (!data) return NextResponse.json({ error: 'Article not found' }, { status: 404 })
 
+        // Type assertion for the response
+        const article = data as unknown as ArticleWithTranslations
+
         // Filter translations in memory
-        if (lang && data.article_translations) {
-            data.article_translations = (data.article_translations as ArticleTranslationPayload[]).filter(
+        if (lang && article.article_translations) {
+            article.article_translations = article.article_translations.filter(
                 (t) => t.language === lang
             )
         }
 
-        return NextResponse.json({ data })
+        return NextResponse.json({ data: article })
     } catch (error) {
         console.error('GET /api/articles/[id] error:', error)
         return NextResponse.json({ error: getMessage(error) }, { status: 500 })

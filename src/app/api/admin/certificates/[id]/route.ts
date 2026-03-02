@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { translateObject } from "@/lib/translator";
 
+export const dynamic = "force-dynamic";
 /* ================= PUT ================= */
 
 export async function PUT(
@@ -34,7 +35,6 @@ export async function PUT(
       issuer,
       year,
       preview,
-      updated_at: new Date().toISOString(),
     })
     .eq("id", id);
 

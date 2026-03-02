@@ -2,21 +2,17 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, Calendar, Clock, Tag } from "lucide-react";
+import { Metadata } from "next";
 import Navbar from "@/components/ui/navbar/main";
 import Footer from "@/components/ui/footer/footer";
 import HtmlRenderer from "@/components/ui/html-renderer";
 import ShareButton from "@/components/ui/share-button";
 import { Button } from "@/components/ui/button";
 import ArticleToc from "@/components/ui/article-toc";
-
-interface PageProps {
-  params: Promise<{
-    slug: string;
-    locale: string;
-  }>;
-}
-
-import { getArticleBySlug } from "@/services/api/public/articles";
+import { getArticleBySlug, getAllArticleSlugs } from "@/services/api/public/articles";
+import { routing } from "@/i18n/routing";
+import { generateArticleMetadata } from "@/lib/metadata";
+import { generateBlogPostingSchema, toJsonLdScript } from "@/lib/metadata/structured-data";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -26,6 +22,56 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { getTranslations } from "next-intl/server";
+
+interface PageProps {
+  params: Promise<{
+    slug: string;
+    locale: string;
+  }>;
+}
+
+// ISR configuration: revalidate every 180 seconds (3 minutes)
+export const revalidate = 180;
+
+// Generate static params for all article slugs and locale combinations
+export async function generateStaticParams() {
+  const slugs = await getAllArticleSlugs();
+  
+  const params = [];
+  for (const slug of slugs) {
+    for (const locale of routing.locales) {
+      params.push({ slug, locale });
+    }
+  }
+  
+  return params;
+}
+
+// Generate metadata for blog article pages
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const resolvedParams = await params;
+  const { slug, locale } = resolvedParams;
+
+  const article = await getArticleBySlug(slug, locale);
+
+  if (!article || !article.published) {
+    return {
+      title: "Article Not Found",
+      description: "The requested article could not be found.",
+    };
+  }
+
+  return generateArticleMetadata({
+    title: article.translation?.title || "Article",
+    description: article.translation?.excerpt || "",
+    image: article.image_url || article.image,
+    locale,
+    publishedAt: article.published_at || article.created_at,
+    updatedAt: article.updated_at,
+    author: "Habibi Ahmad Aziz",
+    tags: article.translation?.tags || [],
+  });
+}
 
 export default async function ArticlePage({ params }: PageProps) {
   const t = await getTranslations("articles");
@@ -95,8 +141,28 @@ export default async function ArticlePage({ params }: PageProps) {
     article.translation?.content || "",
   );
 
+  // Generate JSON-LD structured data for blog posting
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const articleUrl = `${baseUrl}/${locale}/articles/${slug}`;
+  
+  const jsonLd = generateBlogPostingSchema({
+    title: article.translation?.title || "Article",
+    description: article.translation?.excerpt || "",
+    author: "Habibi Ahmad Aziz",
+    publishedAt: article.published_at || article.created_at,
+    modifiedAt: article.updated_at || article.published_at || article.created_at,
+    image: article.image_url || article.image || "/open-graph/og-image.png",
+    url: articleUrl,
+    tags: article.translation?.tags || [],
+  });
+
   return (
     <>
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: toJsonLdScript(jsonLd) }}
+      />
       <Navbar withNavigation={false} />
       <main className="min-h-screen bg-white dark:bg-slate-950">
         {/* Hero Section */}
@@ -110,7 +176,7 @@ export default async function ArticlePage({ params }: PageProps) {
                   backgroundImage: `url(${article.image_url || article.image})`,
                 }}
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-white via-white to-transparent dark:from-slate-950 dark:via-slate-950" />
+              <div className="absolute inset-0 bg-linear-to-b from-white via-white to-transparent dark:from-slate-950 dark:via-slate-950" />
             </div>
           )}
 
@@ -199,8 +265,8 @@ export default async function ArticlePage({ params }: PageProps) {
                         src={article.image_url || article.image || ""}
                         alt={article.translation?.title || ""}
                         fill
+                        sizes="(max-width: 1024px) 100vw, 1024px"
                         className="object-cover"
-                        priority
                       />
                     </div>
                   </div>

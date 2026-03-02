@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server"
 import { supabaseAdmin } from "@/lib/supabase/admin"
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
   try {
     const body = await req.json()
@@ -11,7 +13,7 @@ export async function POST(req: Request) {
     const { data, error } = await supabaseAdmin
       .from('companies')
       .insert([{ name, logo }])
-      .select()
+      .select('id, name, logo, created_at')
 
     if (error) throw error
 
@@ -32,7 +34,7 @@ export async function PATCH(req: Request) {
       .from('companies')
       .update({ name, logo })
       .eq('id', id)
-      .select()
+      .select('id, name, logo, created_at')
 
     if (error) throw error
 

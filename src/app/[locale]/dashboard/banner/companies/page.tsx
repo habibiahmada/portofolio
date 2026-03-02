@@ -22,18 +22,25 @@ export default function CompaniesAdminPage() {
 
   const [companies, setCompanies] = useState<CompanyItem[]>([])
 
-  const fetchCompanies = useCallback(async () => {
+  const fetchCompanies = useCallback(async (signal?: AbortSignal) => {
     try {
-      const res = await fetch(`/api/public/companies?lang=${locale}`)
+      const res = await fetch(`/api/public/companies?lang=${locale}`, { signal })
       const json: { data?: CompanyItem[] } = await res.json()
-      setCompanies(json.data ?? [])
+      if (!signal?.aborted) {
+        setCompanies(json.data ?? [])
+      }
     } catch (error) {
+      if (error instanceof Error && error.name === 'AbortError') {
+        return
+      }
       console.error(error)
     }
   }, [locale])
 
   useEffect(() => {
-    fetchCompanies()
+    const abortController = new AbortController()
+    fetchCompanies(abortController.signal)
+    return () => abortController.abort()
   }, [fetchCompanies])
 
   function onFileChange(index: number, file: File | null) {
@@ -138,6 +145,7 @@ export default function CompaniesAdminPage() {
                         alt={c.name}
                         width={160}
                         height={96}
+                        sizes="160px"
                         className="object-contain"
                       />
                     ) : (
@@ -207,7 +215,7 @@ export default function CompaniesAdminPage() {
             <Plus className="w-4 h-4 mr-2" />
             {t("admin.addNew")}
           </Button>
-          <Button variant="outline" onClick={fetchCompanies} aria-label={t("admin.refresh")}>
+          <Button variant="outline" onClick={() => fetchCompanies()} aria-label={t("admin.refresh")}>
             <RefreshCw className="w-4 h-4 mr-2" />
             {t("admin.refresh")}
           </Button>

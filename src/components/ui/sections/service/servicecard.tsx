@@ -1,4 +1,4 @@
-import React from "react"
+import { memo } from "react"
 
 interface ServiceCardProps {
   icon: React.ReactNode
@@ -8,13 +8,13 @@ interface ServiceCardProps {
   color?: string
 }
 
-export default function ServiceCard({
+const ServiceCard = ({
   icon,
   title,
   description,
   technologies,
   color,
-}: ServiceCardProps) {
+}: ServiceCardProps) => {
   return (
     <div
       className="
@@ -32,7 +32,7 @@ export default function ServiceCard({
     >
 
       <div
-        className={`w-14 h-14 flex items-center justify-center bg-gradient-to-br ${color}
+        className={`w-14 h-14 flex items-center justify-center bg-linear-to-br ${color}
         rounded-lg mb-6`}
       >
         {icon}
@@ -59,3 +59,5 @@ export default function ServiceCard({
     </div>
   )
 }
+
+export default memo(ServiceCard);

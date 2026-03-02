@@ -1,13 +1,13 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { remark } from 'remark';
 import html from 'remark-html';
 
 import { supabase } from '@/lib/supabase/client';
 import { supabaseAdmin } from '@/lib/supabase/admin';
-import { rateLimit } from '@/lib/ratelimit';
+import { checkRateLimit } from '@/lib/ratelimit';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+export const dynamic = "force-dynamic";
 
 type AttachmentPayload = {
   name: string;
@@ -26,16 +26,23 @@ type ContactPayload = {
   attachment?: AttachmentPayload | null;
 };
 
-export async function POST(req: Request): Promise<NextResponse> {
+export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     /* ================= RATE LIMIT ================= */
-    const ip = req.headers.get('x-forwarded-for') ?? '127.0.0.1';
-    const limit = rateLimit(ip);
+    const rateLimit = checkRateLimit(req, 5, 60000); // 5 requests per minute
 
-    if (!limit.success) {
+    if (!rateLimit.allowed) {
       return NextResponse.json(
         { error: 'Too many requests' },
-        { status: 429 },
+        {
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': '5',
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': rateLimit.resetTime.toString(),
+            'Retry-After': Math.ceil((rateLimit.resetTime - Date.now()) / 1000).toString(),
+          },
+        },
       );
     }
 
@@ -169,6 +176,8 @@ ${message}
     }
 
     /* ================= SEND EMAIL ================= */
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    
     await resend.emails.send({
       from: 'Habibi Ahmad <contact@habibiahmada.dev>',
       to: ['contact@habibiahmada.dev'],

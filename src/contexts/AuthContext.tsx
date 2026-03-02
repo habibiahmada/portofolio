@@ -51,6 +51,47 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setLoading(false)
   }
 
+  // Automatic token refresh - check token expiry and refresh if needed
+  useEffect(() => {
+    if (!session) return
+
+    const checkAndRefreshToken = async () => {
+      const expiresAt = session.expires_at
+      if (!expiresAt) return
+
+      const expiresAtMs = expiresAt * 1000
+      const now = Date.now()
+      const timeUntilExpiry = expiresAtMs - now
+
+      // Refresh token 5 minutes before expiry
+      const refreshThreshold = 5 * 60 * 1000 // 5 minutes in ms
+
+      if (timeUntilExpiry < refreshThreshold) {
+        try {
+          const { data, error } = await supabase.auth.refreshSession()
+          if (error) {
+            console.error('Token refresh failed:', error)
+            // If refresh fails, sign out
+            await signOut()
+          } else if (data.session) {
+            setSession(data.session)
+            setUser(data.user as AuthUser)
+          }
+        } catch (err) {
+          console.error('Token refresh error:', err)
+        }
+      }
+    }
+
+    // Check immediately
+    checkAndRefreshToken()
+
+    // Check every minute
+    const interval = setInterval(checkAndRefreshToken, 60 * 1000)
+
+    return () => clearInterval(interval)
+  }, [session])
+
   useEffect(() => {
     syncAuthState()
 

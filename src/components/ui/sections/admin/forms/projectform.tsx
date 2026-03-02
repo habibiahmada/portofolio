@@ -72,24 +72,32 @@ export default function ProjectForm({
 
     /* ================= INIT ================= */
     useEffect(() => {
+        let isMounted = true;
+        
         if (!initialData) return;
 
         const t = initialData.projects_translations?.[0] || initialData.translation;
 
-        setForm({
-            title: t?.title ?? "",
-            description: t?.description ?? "",
-            year: initialData.year ?? new Date().getFullYear(),
-            technologies: initialData.technologies ?? [],
-            live_url: initialData.live_url ?? "",
-            github_url: initialData.github_url ?? "",
-            image_url: initialData.image_url ?? "",
-            featured: initialData.featured ?? false,
-        });
+        if (isMounted) {
+            setForm({
+                title: t?.title ?? "",
+                description: t?.description ?? "",
+                year: initialData.year ?? new Date().getFullYear(),
+                technologies: initialData.technologies ?? [],
+                live_url: initialData.live_url ?? "",
+                github_url: initialData.github_url ?? "",
+                image_url: initialData.image_url ?? "",
+                featured: initialData.featured ?? false,
+            });
 
-        if (initialData.image_url) {
-            setPreviewUrl(initialData.image_url);
+            if (initialData.image_url) {
+                setPreviewUrl(initialData.image_url);
+            }
         }
+        
+        return () => {
+            isMounted = false;
+        };
     }, [initialData]);
 
     /* ================= HELPERS ================= */

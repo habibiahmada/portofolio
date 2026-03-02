@@ -41,10 +41,11 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
 
   /* ================= FETCH DATA ================= */
-  const fetchService = useCallback(async () => {
+  const fetchService = useCallback(async (signal?: AbortSignal) => {
     try {
       const response = await fetch(`/api/admin/services/${id}?lang=${locale}`, {
         cache: 'no-store',
+        signal,
       });
 
       if (!response.ok) {
@@ -57,15 +58,25 @@ export default function Page() {
       }
 
       const result: { data: ServiceApiItem } = await response.json();
-      setData(result.data);
+      if (!signal?.aborted) {
+        setData(result.data);
+      }
     } catch (error) {
-      console.error('Fetch service error:', error);
-      toast.error('Gagal memuat data service');
+      // Don't show error if request was aborted
+      if (error instanceof Error && error.name !== 'AbortError') {
+        console.error('Fetch service error:', error);
+        toast.error('Gagal memuat data service');
+      }
     }
   }, [id, router, locale]);
 
   useEffect(() => {
-    fetchService();
+    const abortController = new AbortController();
+    fetchService(abortController.signal);
+    
+    return () => {
+      abortController.abort();
+    };
   }, [fetchService]);
 
   /* ================= SUBMIT ================= */
