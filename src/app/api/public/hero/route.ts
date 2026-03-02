@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase/client";
 
+export const runtime = 'edge';
+export const revalidate = 300; // Cache for 5 minutes
+
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const lang = searchParams.get("lang") || "en";
@@ -9,7 +12,8 @@ export async function GET(req: Request) {
         const { data: heroData, error } = await supabase
             .from("hero_sections")
             .select(`
-    *,
+    image_url,
+    cv_url,
     hero_section_translations!inner(
         greeting,
         description,
@@ -40,7 +44,15 @@ export async function GET(req: Request) {
             console_tag: heroData.hero_section_translations[0].console_tag,
         };
 
-        return NextResponse.json({ data: result }, { status: 200 });
+        return NextResponse.json(
+            { data: result },
+            {
+                status: 200,
+                headers: {
+                    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
+                },
+            }
+        );
     } catch (err) {
         console.error("Error fetching hero data:", err);
         return NextResponse.json({ error: "Failed to fetch hero data" }, { status: 500 });

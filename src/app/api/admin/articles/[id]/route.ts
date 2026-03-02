@@ -5,6 +5,8 @@ import { translateObject } from '@/lib/translator'
 /* ================= TYPES ================= */
 
 interface ArticleTranslationPayload {
+    id: string
+    article_id: string
     language: string
     title: string
     slug: string
@@ -12,6 +14,7 @@ interface ArticleTranslationPayload {
     excerpt: string
     tags: string[]
     read_time: string
+    created_at: string
 }
 
 interface ArticleUpdatePayload {
@@ -59,8 +62,24 @@ export async function GET(
         const { data, error } = await supabaseAdmin
             .from('articles')
             .select(`
-            *,
-            article_translations (*)
+            id,
+            image_url,
+            published,
+            published_at,
+            created_at,
+            updated_at,
+            article_translations (
+              id,
+              article_id,
+              language,
+              title,
+              slug,
+              content,
+              excerpt,
+              tags,
+              read_time,
+              created_at
+            )
         `)
             .eq('id', id)
             .maybeSingle()

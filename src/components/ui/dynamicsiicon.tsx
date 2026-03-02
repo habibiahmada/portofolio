@@ -26,15 +26,25 @@ export function DynamicSiIcon({
   useEffect(() => {
     if (!name) return
 
+    let isMounted = true
+
     const cached = getSiIconCache()
     if (cached?.[name]) {
-      setIcon(() => cached[name])
+      if (isMounted) {
+        setIcon(() => cached[name])
+      }
       return
     }
 
     loadSiIcons().then((icons) => {
-      setIcon(() => icons[name])
+      if (isMounted) {
+        setIcon(() => icons[name])
+      }
     })
+
+    return () => {
+      isMounted = false
+    }
   }, [name])
 
   if (!Icon) {

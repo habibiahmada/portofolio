@@ -264,7 +264,8 @@
     "page1": "Halaman",
     "page2": "dari",
     "prevPage": "Halaman sebelumnya",
-    "nextPage": "Halaman berikutnya"
+    "nextPage": "Halaman berikutnya",
+    "noSkills": "Tidak ada skills"
   },
   "testimonials": {
     "titleLine1": "Apa Kata Mereka?",

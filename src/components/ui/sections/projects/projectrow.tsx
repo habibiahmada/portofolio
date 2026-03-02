@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { Project } from "@/lib/types/database";
 import { ArrowUpRight, Github } from "lucide-react";
 import Image from "next/image";
@@ -13,12 +14,12 @@ type ProjectRowProps = {
   locale: string;
 };
 
-export default function ProjectRow({
+const ProjectRow = ({
   project,
   index,
   t,
   locale,
-}: ProjectRowProps) {
+}: ProjectRowProps) => {
   const isEven = index % 2 === 0;
 
   const translation =
@@ -41,6 +42,8 @@ export default function ProjectRow({
               alt={translation?.title || "Untitled Project"}
               width={900}
               height={450}
+              loading="lazy"
+              sizes="(max-width: 1024px) 100vw, 50vw"
               className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/10 transition-colors" />
@@ -103,4 +106,6 @@ export default function ProjectRow({
       </div>
     </div>
   );
-}
+};
+
+export default memo(ProjectRow);

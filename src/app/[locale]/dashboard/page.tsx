@@ -1,3 +1,5 @@
+'use client'
+
 import {
   FolderOpen,
   FileText,
@@ -13,19 +15,85 @@ import {
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import DashboardHeader from '@/components/ui/sections/admin/dashboardheader'
-import { getTranslations } from 'next-intl/server'
-import { getDashboardData } from '@/services/api/admin/getdashboarddata'
+import { useTranslations } from 'next-intl'
+import { useEffect, useState } from 'react'
 import { timeAgo } from '@/lib/getTimes'
 
-// Force dynamic rendering since we are fetching data
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+interface DashboardData {
+  counts: {
+    projects: number
+    articles: number
+    services: number
+    tools: number
+    experiences: number
+    certifications: number
+    testimonials: number
+    messages: number
+  }
+  messages: Array<{
+    id: string
+    name: string
+    email: string
+    created_at: string
+    subject?: string
+    message?: string
+  }>
+}
 
-export default async function DashboardPage({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'Dashboard' });
-  const tc = await getTranslations({ locale, namespace: 'Common' });
-  const { counts, messages } = await getDashboardData()
+export default function DashboardPage() {
+  const t = useTranslations('Dashboard')
+  const tc = useTranslations('Common')
+  const [data, setData] = useState<DashboardData | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const abortController = new AbortController();
+    
+    async function fetchData() {
+      try {
+        const response = await fetch('/api/admin/dashboard', {
+          signal: abortController.signal,
+        });
+        if (!response.ok) throw new Error('Failed to fetch dashboard data');
+        const result = await response.json();
+        if (!abortController.signal.aborted) {
+          setData(result);
+        }
+      } catch (error) {
+        // Don't log error if request was aborted
+        if (error instanceof Error && error.name !== 'AbortError') {
+          console.error('Error fetching dashboard data:', error);
+        }
+      } finally {
+        if (!abortController.signal.aborted) {
+          setLoading(false);
+        }
+      }
+    }
+    fetchData();
+
+    return () => {
+      abortController.abort();
+    };
+  }, [])
+
+  if (loading || !data) {
+    return (
+      <div className="min-h-screen space-y-6 relative">
+        <DashboardHeader
+          title={t('header.title')}
+          description={t('header.description')}
+        />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-3 sm:gap-4">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div key={i} className="bg-card rounded-xl p-4 sm:p-6 shadow-sm border border-border h-32 animate-pulse" />
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  const { counts, messages } = data
 
   return (
     <div className="min-h-screen space-y-6 relative">

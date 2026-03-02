@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     const { data, error } = await supabaseAdmin
       .from('companies')
       .insert([{ name, logo }])
-      .select()
+      .select('id, name, logo, created_at')
 
     if (error) throw error
 
@@ -32,7 +32,7 @@ export async function PATCH(req: Request) {
       .from('companies')
       .update({ name, logo })
       .eq('id', id)
-      .select()
+      .select('id, name, logo, created_at')
 
     if (error) throw error
 

@@ -63,7 +63,7 @@ export default function SectionHeader({
       >
         {title ? (
           <span
-            className={`block bg-gradient-to-r ${
+            className={`block bg-linear-to-r ${
               isDark
                 ? "from-cyan-400 via-blue-400 to-cyan-400"
                 : "from-blue-600 via-cyan-600 to-blue-600"
@@ -76,7 +76,7 @@ export default function SectionHeader({
             <span className={isDark ? "text-white" : "text-slate-900"}>
               {titleLine1}{" "}
             </span>
-            <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
               {titleLine2}
             </span>
           </>

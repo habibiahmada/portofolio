@@ -42,7 +42,7 @@ const Articles: React.FC = () => {
         excerpt: tr?.excerpt ?? "",
         date: a.published_at ?? a.created_at ?? "",
         readTime: tr?.read_time ?? "",
-        image: a.image || "/images/about-illustration.webp",
+        image: a.image || "/images/article-fallback.webp",
         href: tr?.slug ? `/${locale}/articles/${tr.slug}` : "#",
       };
     });
@@ -62,7 +62,7 @@ const Articles: React.FC = () => {
             </span>
             <h2 className="text-4xl md:text-5xl font-bold mt-4">
               Latest{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-600 to-cyan-500">
                 Articles
               </span>
             </h2>
@@ -113,8 +113,11 @@ const Articles: React.FC = () => {
                     src={article.image}
                     alt={article.title}
                     width={250}
-                    height={250}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    height={141}
+                    loading="lazy"
+                    sizes="(max-width: 768px) 100vw, 250px"
+                    style={{ width: '100%', height: 'auto' }}
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
 

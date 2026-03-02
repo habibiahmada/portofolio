@@ -122,24 +122,32 @@ export default function ArticleForm({
     useEffect(() => {
         if (!initialData) return;
 
+        let isMounted = true;
+
         const t = initialData.article_translations?.[0] || initialData.translation;
         const img = initialData.image_url || initialData.image || "";
 
-        setForm({
-            title: t?.title ?? "",
-            slug: t?.slug ?? "",
-            content: t?.content ?? "",
-            excerpt: t?.excerpt ?? "",
-            tags: t?.tags ?? [],
-            read_time: t?.read_time ?? "1 min",
-            image: img,
-            image_url: img,
-            published: initialData.published ?? false,
-        });
+        if (isMounted) {
+            setForm({
+                title: t?.title ?? "",
+                slug: t?.slug ?? "",
+                content: t?.content ?? "",
+                excerpt: t?.excerpt ?? "",
+                tags: t?.tags ?? [],
+                read_time: t?.read_time ?? "1 min",
+                image: img,
+                image_url: img,
+                published: initialData.published ?? false,
+            });
 
-        if (img) {
-            setPreviewUrl(img);
+            if (img) {
+                setPreviewUrl(img);
+            }
         }
+
+        return () => {
+            isMounted = false;
+        };
     }, [initialData]);
 
     /* ================= HELPERS ================= */

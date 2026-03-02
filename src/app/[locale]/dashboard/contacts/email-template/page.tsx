@@ -14,24 +14,42 @@ export default function EmailTemplateEditor() {
   const [preview, setPreview] = useState(true)
 
   useEffect(() => {
+    const abortController = new AbortController();
+    
     setLoading(true)
-    fetch('/api/admin/email-template?key=contact', { next: { revalidate: 0 } })
+    fetch('/api/admin/email-template?key=contact', { 
+      next: { revalidate: 0 },
+      signal: abortController.signal 
+    })
       .then((r) => r.json())
       .then((data) => {
-        if (data?.template) {
-          setSubject(data.template.subject ?? '')
-          setBody(data.template.body ?? '')
-        } else {
-          setSubject('New contact from {{name}} — {{subject}}')
-          setBody(
-            'Hello,\n\nYou have a new message from {{name}} ({{email}}):\n\n{{message}}\n\nPhone: {{phone}}\n\n--\nThis is an automated notification.'
-          )
+        if (!abortController.signal.aborted) {
+          if (data?.template) {
+            setSubject(data.template.subject ?? '')
+            setBody(data.template.body ?? '')
+          } else {
+            setSubject('New contact from {{name}} — {{subject}}')
+            setBody(
+              'Hello,\n\nYou have a new message from {{name}} ({{email}}):\n\n{{message}}\n\nPhone: {{phone}}\n\n--\nThis is an automated notification.'
+            )
+          }
         }
       })
-      .catch(() => {
-        toast.error('Failed to load email template')
+      .catch((error) => {
+        // Don't show error if request was aborted
+        if (error.name !== 'AbortError') {
+          toast.error('Failed to load email template')
+        }
       })
-      .finally(() => setLoading(false))
+      .finally(() => {
+        if (!abortController.signal.aborted) {
+          setLoading(false)
+        }
+      })
+    
+    return () => {
+      abortController.abort();
+    };
   }, [])
 
   const save = async () => {

@@ -1,3 +1,5 @@
+'use client'
+
 import type { ReactNode } from "react"
 import { AppSidebar } from "@/components/app-sidebar"
 import ThemeSwitcher from "@/components/theme/theme-toggle";
@@ -14,19 +16,6 @@ import { Bell, Search, Shield, TrendingUp, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Toaster } from "sonner";
-
-export const metadata = {
-  title: "Dashboard | Portofolio",
-  description: "My personal portfolio website",
-  openGraph: {
-    title: "Dashboard | Portofolio",
-  },
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/icons/favicon-32x32.png",
-    apple: "/icons/apple-touch-icon.png",
-  },
-};
 
 export default function Layout({ children }: { children: ReactNode }) {
   const t = useTranslations("Dashboard.header");

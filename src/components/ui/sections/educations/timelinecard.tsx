@@ -1,8 +1,9 @@
+import { memo } from "react";
 import { Experience } from "@/lib/types/database";
 import { Briefcase, MapPin } from "lucide-react";
 import { useRef, useState } from "react";
 
-const Badge = ({
+const Badge = memo(({
   children,
   isDark,
 }: {
@@ -18,9 +19,11 @@ const Badge = ({
   >
     {children}
   </span>
-);
+));
 
-export default function TimelineCard({
+Badge.displayName = 'Badge';
+
+const TimelineCard = ({
   data,
   isDark,
   isActive,
@@ -28,7 +31,7 @@ export default function TimelineCard({
   data: Experience;
   isDark: boolean;
   isActive: boolean;
-}) {
+}) => {
   const t = data.experience_translations?.[0];
   const ref = useRef<HTMLDivElement>(null);
   const [pos, setPos] = useState({ x: 0, y: 0 });
@@ -105,4 +108,6 @@ export default function TimelineCard({
       </div>
     </div>
   );
-}
+};
+
+export default memo(TimelineCard);

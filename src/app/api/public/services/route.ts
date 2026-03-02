@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase/client";
 
+export const runtime = 'edge';
+export const revalidate = 300; // Cache for 5 minutes
+
 type Translation = {
   language?: string;
   title?: string;
@@ -20,9 +23,14 @@ export async function GET(req: Request) {
     .from("services")
     .select(
       `
-        *,
+        id,
+        icon,
+        color,
         service_translations (
-          *
+          language,
+          title,
+          description,
+          bullets
         )
       `
     );
@@ -34,5 +42,12 @@ export async function GET(req: Request) {
     )
   }));
 
-  return NextResponse.json({ data: filteredData, error });
+  return NextResponse.json(
+    { data: filteredData, error },
+    {
+      headers: {
+        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
+      },
+    }
+  );
 }

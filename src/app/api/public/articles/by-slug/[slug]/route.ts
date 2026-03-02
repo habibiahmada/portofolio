@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase/client'
 
+export const runtime = 'edge';
+export const revalidate = 300; // Cache for 5 minutes
+
 /* ================= GET ARTICLE BY SLUG ================= */
 export async function GET(
     req: NextRequest,
@@ -17,8 +20,18 @@ export async function GET(
         const { data: articles, error } = await supabase
             .from('articles')
             .select(`
-                *,
-                article_translations (*)
+                id,
+                published_at,
+                published,
+                article_translations (
+                    language,
+                    title,
+                    slug,
+                    content,
+                    excerpt,
+                    tags,
+                    read_time
+                )
             `)
             .eq('published', true)
 
@@ -68,6 +81,10 @@ export async function GET(
             data: {
                 ...foundArticle,
                 translation: foundTranslation,
+            },
+        }, {
+            headers: {
+                'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
             },
         })
     } catch (error) {

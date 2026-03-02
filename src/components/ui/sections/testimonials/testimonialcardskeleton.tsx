@@ -20,7 +20,7 @@ const TestimonialCardSkeleton = () => {
             </div>
           </div>
           <div className="lg:col-span-1">
-            <div className="bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-800 dark:to-slate-800/50 p-6 rounded-xl border border-slate-200/50 dark:border-slate-700/50">
+            <div className="bg-linear-to-br from-slate-50 to-blue-50 dark:from-slate-800 dark:to-slate-800/50 p-6 rounded-xl border border-slate-200/50 dark:border-slate-700/50">
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-16 h-16 rounded-full bg-slate-200 dark:bg-slate-700" />
                 <div className="space-y-2 w-full">

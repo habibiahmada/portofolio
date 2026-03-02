@@ -54,6 +54,8 @@ const TestimonialCarousel: React.FC<Props> = ({ testimonials }) => {
      Controls
   ========================= */
   const next = useCallback(() => {
+    if (isAnimating) return;
+    
     setIsAnimating(true);
     setCurrentIndex(prev => (prev + 1) % testimonials.length);
 
@@ -62,9 +64,11 @@ const TestimonialCarousel: React.FC<Props> = ({ testimonials }) => {
       () => setIsAnimating(false),
       ANIMATION_DURATION
     );
-  }, [testimonials.length]);
+  }, [isAnimating, testimonials.length]);
 
   const prev = useCallback(() => {
+    if (isAnimating) return;
+    
     setIsAnimating(true);
     setCurrentIndex(
       prev => (prev - 1 + testimonials.length) % testimonials.length
@@ -75,7 +79,7 @@ const TestimonialCarousel: React.FC<Props> = ({ testimonials }) => {
       () => setIsAnimating(false),
       ANIMATION_DURATION
     );
-  }, [testimonials.length]);
+  }, [isAnimating, testimonials.length]);
 
   /* =========================
      Autoplay

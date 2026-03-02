@@ -64,7 +64,8 @@ export interface Certificate {
   issuer: string;
   year: string;
   preview?: string;
-  skills: string[];
+  // `skills` moved to translations; not stored on main table
+  skills?: string[];
   created_at?: string;
   updated_at?: string;
   thumbnail?: string;

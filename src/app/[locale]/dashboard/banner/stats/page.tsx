@@ -52,18 +52,26 @@ export default function StatsAdminPage() {
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === 'dark'
 
-  const fetchStats = useCallback(async () => {
+  const fetchStats = useCallback(async (signal?: AbortSignal) => {
     try {
-      const res = await fetch(`/api/public/stats?lang=${locale}`)
+      const res = await fetch(`/api/public/stats?lang=${locale}`, { signal })
       const json = await res.json()
       setStats(json.data || [])
-    } catch {
-      toast.error(t('loadError'))
+    } catch (error) {
+      // Don't show error if request was aborted
+      if (error instanceof Error && error.name !== 'AbortError') {
+        toast.error(t('loadError'))
+      }
     }
   }, [locale, t])
 
   useEffect(() => {
-    fetchStats()
+    const abortController = new AbortController()
+    fetchStats(abortController.signal)
+    
+    return () => {
+      abortController.abort()
+    }
   }, [fetchStats])
 
   function updateField<T extends keyof StatItem>(
@@ -179,11 +187,11 @@ export default function StatsAdminPage() {
                 <div className="flex justify-center items-center">
                   <div className="relative w-full max-w-xs p-6 rounded-lg border overflow-hidden">
                     <div
-                      className={`absolute inset-0 bg-gradient-to-br ${overlay} opacity-80`}
+                      className={`absolute inset-0 bg-linear-to-br ${overlay} opacity-80`}
                     />
                     <div className="relative z-10">
                       <div
-                        className={`inline-flex p-3 rounded-xl bg-gradient-to-r ${gradientColors[i % gradientColors.length]} text-white mb-4`}
+                        className={`inline-flex p-3 rounded-xl bg-linear-to-r ${gradientColors[i % gradientColors.length]} text-white mb-4`}
                       >
                         <Icon size={24} />
                       </div>

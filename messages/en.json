@@ -264,7 +264,8 @@
     "nextPage": "Next page",
     "error": "error",
     "page1": "Page",
-    "page2": "of"
+    "page2": "of",
+    "noSkills": "No skills found"
   },
   "testimonials": {
     "titleLine1": "What do they say?",

@@ -17,22 +17,23 @@ export default function useCertificate(fileUrl: string): UseCertificateReturn {
             return;
         }
 
-        let active = true;
+        const abortController = new AbortController();
         setLoading(true);
 
-        fetch(fileUrl)
+        fetch(fileUrl, { signal: abortController.signal })
             .then((res) => {
                 if (!res.ok) throw new Error("Failed to load PDF");
                 return res.arrayBuffer();
             })
             .then((buffer) => {
-                if (active) {
+                if (!abortController.signal.aborted) {
                     setPdfData(buffer);
                     setLoading(false);
                 }
             })
             .catch((err) => {
-                if (active) {
+                // Don't set error if request was aborted
+                if (!abortController.signal.aborted && err.name !== 'AbortError') {
                     console.error(err);
                     setError(err as Error);
                     setLoading(false);
@@ -40,7 +41,7 @@ export default function useCertificate(fileUrl: string): UseCertificateReturn {
             });
 
         return () => {
-            active = false;
+            abortController.abort();
         };
     }, [fileUrl]);
 

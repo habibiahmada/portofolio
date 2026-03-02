@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
+import { optimizeImage, getOptimizedFileName, getContentType } from "@/lib/image-optimizer";
 
 export async function POST(req: Request) {
   try {
@@ -14,15 +15,25 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Server misconfiguration" }, { status: 500 });
     }
 
-    const fileName = `companies/${Date.now()}-${file.name.replace(/\s+/g, '_')}`;
-
+    // Convert file to buffer
     const arrayBuffer = await file.arrayBuffer();
     const fileBuffer = Buffer.from(arrayBuffer);
 
+    // Optimize image (company logos should be smaller)
+    const optimizedBuffer = await optimizeImage(fileBuffer, {
+      maxWidth: 400,
+      maxHeight: 400,
+      quality: 85,
+      format: 'webp',
+    });
+
+    const fileName = `companies/${getOptimizedFileName(file.name, 'webp')}`;
+    const contentType = getContentType('webp');
+
     const { data, error } = await supabaseAdmin.storage
       .from("companies logo")
-      .upload(fileName, fileBuffer, {
-        contentType: file.type,
+      .upload(fileName, optimizedBuffer, {
+        contentType,
         cacheControl: "3600",
         upsert: false,
       });

@@ -41,7 +41,7 @@ export async function POST(req: Request) {
     const { data: cert, error } = await supabaseAdmin
       .from("certifications")
       .insert({ issuer, year, preview })
-      .select()
+      .select('id, issuer, year, preview, created_at')
       .single()
 
     if (error || !cert) {

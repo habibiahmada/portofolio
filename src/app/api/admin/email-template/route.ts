@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase/client';
 import { supabaseAdmin } from '@/lib/supabase/admin';
+import { monitorQuery } from '@/lib/performance/monitor';
 
 const TABLE = 'email_templates';
 
@@ -10,7 +11,22 @@ export async function GET(req: Request) {
     const key = url.searchParams.get('key') || 'contact';
 
     const db = supabaseAdmin ?? supabase;
-    const { data, error } = await db.from(TABLE).select('*').eq('key', key).limit(1).maybeSingle();
+    
+    const result = await monitorQuery(
+      'fetch-email-template',
+      async () => await db
+        .from(TABLE)
+        .select('key, subject, body')
+        .eq('key', key)
+        .limit(1)
+        .maybeSingle(),
+      {
+        table: TABLE,
+        operation: 'SELECT',
+      }
+    );
+
+    const { data, error } = result as { data: unknown; error: unknown };
 
     if (error) {
       console.error('Supabase error fetching template', error);
@@ -42,7 +58,21 @@ export async function POST(req: Request) {
       updated_at: new Date().toISOString(),
     };
 
-    const { data, error } = await db.from(TABLE).upsert(row, { onConflict: 'key' }).select().single();
+    const result = await monitorQuery(
+      'upsert-email-template',
+      async () => await db
+        .from(TABLE)
+        .upsert(row, { onConflict: 'key' })
+        .select('key, subject, body')
+        .single(),
+      {
+        table: TABLE,
+        operation: 'UPSERT',
+      }
+    );
+
+    const { data, error } = result as { data: unknown; error: unknown };
+
     if (error) {
       console.error('Supabase upsert error', error);
       return NextResponse.json({ error: 'Failed to save template' }, { status: 500 });

@@ -120,7 +120,7 @@ export async function POST(req: Request) {
     const { data: project, error: projectError } = await supabaseAdmin
       .from("projects")
       .insert([cleanedProject])
-      .select()
+      .select('id, image_url, year, technologies, live_url, github_url, created_at, updated_at')
       .single();
 
     if (projectError || !project) {

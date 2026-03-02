@@ -34,7 +34,6 @@ export async function PUT(
       issuer,
       year,
       preview,
-      updated_at: new Date().toISOString(),
     })
     .eq("id", id);
 

@@ -31,35 +31,48 @@ export function useHeroEditor() {
   const initialRef = useRef<HeroSnapshot | null>(null);
 
   useEffect(() => {
+    const abortController = new AbortController();
+    
     async function fetchData() {
       try {
-        const res = await fetch(`/api/public/hero?lang=${locale}`);
+        const res = await fetch(`/api/public/hero?lang=${locale}`, {
+          signal: abortController.signal
+        });
         const json = await res.json();
         const data = json.data;
         if (!data) return;
 
-        setGreeting(data.greeting ?? "");
-        setDescription(data.description ?? "");
-        setTypewriterTexts(data.typewriter_texts ?? []);
-        setDeveloperTag(data.developer_tag ?? "<Developer />");
-        setConsoleTag(data.console_tag ?? "Hello World!");
-        setCvUrl(data.cv_url ?? "");
+        if (!abortController.signal.aborted) {
+          setGreeting(data.greeting ?? "");
+          setDescription(data.description ?? "");
+          setTypewriterTexts(data.typewriter_texts ?? []);
+          setDeveloperTag(data.developer_tag ?? "<Developer />");
+          setConsoleTag(data.console_tag ?? "Hello World!");
+          setCvUrl(data.cv_url ?? "");
 
-        initialRef.current = {
-          greeting: data.greeting ?? "",
-          description: data.description ?? "",
-          typewriter_texts: data.typewriter_texts ?? [],
-          developer_tag: data.developer_tag ?? "<Developer />",
-          console_tag: data.console_tag ?? "Hello World!",
-          cv_url: data.cv_url ?? "",
-          cv_file: null
-        };
-      } catch {
-        toast.error(t("toast.loadError"));
+          initialRef.current = {
+            greeting: data.greeting ?? "",
+            description: data.description ?? "",
+            typewriter_texts: data.typewriter_texts ?? [],
+            developer_tag: data.developer_tag ?? "<Developer />",
+            console_tag: data.console_tag ?? "Hello World!",
+            cv_url: data.cv_url ?? "",
+            cv_file: null
+          };
+        }
+      } catch (error) {
+        // Don't show error if request was aborted
+        if (error instanceof Error && error.name !== 'AbortError') {
+          toast.error(t("toast.loadError"));
+        }
       }
     }
 
     fetchData();
+    
+    return () => {
+      abortController.abort();
+    };
   }, [locale, t]);
 
   const hasChanges = useMemo(() => {

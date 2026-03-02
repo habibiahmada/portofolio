@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     const { data: created, error } = await supabaseAdmin
       .from("services")
       .insert([body])
-      .select()
+      .select('id, key, icon, color, order_index, created_at, updated_at')
       .single();
 
     if (error) throw error;

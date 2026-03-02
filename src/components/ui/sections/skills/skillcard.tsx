@@ -12,7 +12,7 @@ export default function SkillCard({ tech }: { tech: TechItem }) {
       transition-all duration-300 cursor-pointer overflow-hidden"
     >
       {/* Subtle colorful glow background on hover */}
-      <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/0 via-indigo-500/5 to-purple-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="absolute inset-0 bg-linear-to-r from-indigo-500/0 via-indigo-500/5 to-purple-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       
       <DynamicSiIcon
         name={tech.key}

@@ -42,8 +42,8 @@ export default function Hero({ blurDataURL }: { blurDataURL: string }) {
         className={`relative overflow-hidden flex items-center 
           pt-24 sm:pt-28 lg:pt-36 pb-24 transition-colors duration-300 min-h-[50rem]
           ${isDark
-            ? "bg-gradient-to-br from-gray-950 to-gray-950"
-            : "bg-gradient-to-br from-gray-50 via-white to-gray-50/30"
+            ? "bg-linear-to-br from-gray-950 to-gray-950"
+            : "bg-linear-to-br from-gray-50 via-white to-gray-50/30"
           }`}
         aria-labelledby="hero-heading"
       >
@@ -70,7 +70,7 @@ export default function Hero({ blurDataURL }: { blurDataURL: string }) {
                 <Writertext isDark={isDark} texts={heroData?.typewriter_texts || t.raw("fallbackTypewriter")} />
               </h1>
               <div
-                className={`h-1 w-24 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 ${isVisible ? "animate-pulse" : ""
+                className={`h-1 w-24 rounded-full bg-linear-to-r from-blue-500 to-cyan-500 ${isVisible ? "animate-pulse" : ""
                   }`}
               />
             </div>
@@ -113,8 +113,8 @@ export default function Hero({ blurDataURL }: { blurDataURL: string }) {
 
             <TechIconsDecorations isDark={isDark} />
 
-            <div className="absolute -top-4 -right-4 w-20 h-20 rounded-full bg-gradient-to-br from-blue-500/20 to-cyan-500/20 animate-pulse-slow" />
-            <div className="absolute -bottom-8 -left-8 w-16 h-16 rounded-full bg-gradient-to-br from-cyan-500/20 to-blue-500/20 animate-pulse-slow delay-1000" />
+            <div className="absolute -top-4 -right-4 w-20 h-20 rounded-full bg-linear-to-br from-blue-500/20 to-cyan-500/20 animate-pulse-slow" />
+            <div className="absolute -bottom-8 -left-8 w-16 h-16 rounded-full bg-linear-to-br from-cyan-500/20 to-blue-500/20 animate-pulse-slow delay-1000" />
             <DecorativeCode isDark={isDark} developerTag={heroData?.developer_tag} consoleTag={heroData?.console_tag} />
           </div>
         </div>

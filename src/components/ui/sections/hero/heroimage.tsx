@@ -32,8 +32,10 @@ export default function HeroImage({
         alt={imageAlt}
         width={600}
         height={600}
+        priority={true}
         placeholder="blur"
         blurDataURL={blurDataURL}
+        sizes="(max-width: 640px) 384px, (max-width: 768px) 448px, 512px"
         className="w-full max-w-sm sm:max-w-md lg:max-w-lg mx-auto rounded-3xl drop-shadow-[0_15px_25px_rgba(0,0,0,0.4)] object-cover"
       />
     </div>

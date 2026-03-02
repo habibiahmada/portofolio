@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 export interface ContactFormData {
   name: string;
@@ -20,8 +20,18 @@ interface UseContactReturn {
 
 export default function useContact(): UseContactReturn {
   const [loading, setLoading] = useState(false);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   const submitContact = async (formData: ContactFormData) => {
+    // Cancel any pending request
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+
+    // Create new AbortController for this request
+    const abortController = new AbortController();
+    abortControllerRef.current = abortController;
+
     setLoading(true);
 
     try {
@@ -48,14 +58,23 @@ export default function useContact(): UseContactReturn {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
+        signal: abortController.signal,
       });
 
       if (!res.ok) {
         if (res.status === 429) throw new Error('TOO_MANY_REQUESTS');
         throw new Error('FAILED');
       }
+    } catch (error) {
+      // Don't throw if request was aborted
+      if (error instanceof Error && error.name === 'AbortError') {
+        return;
+      }
+      throw error;
     } finally {
-      setLoading(false);
+      if (!abortController.signal.aborted) {
+        setLoading(false);
+      }
     }
   };
 

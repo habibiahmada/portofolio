@@ -29,7 +29,7 @@ export default function MyService() {
     <section
       id="services"
       className={`relative pt-28 sm:pt-36 lg:pt-40 pb-32 transition-colors duration-300
-        ${isDark ? "bg-slate-950" : "bg-gradient-to-b from-white to-slate-50"}
+        ${isDark ? "bg-slate-950" : "bg-linear-to-b from-white to-slate-50"}
       `}
     >
       {/* Background blobs */}

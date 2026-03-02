@@ -94,7 +94,7 @@ export async function POST(req: Request) {
         avatar,
         rating,
       })
-      .select()
+      .select('id, name, role, company, avatar, rating, created_at, updated_at')
       .single();
 
     if (error) {
