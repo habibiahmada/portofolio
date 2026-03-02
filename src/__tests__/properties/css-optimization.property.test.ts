@@ -30,7 +30,7 @@ function getAllFiles(dirPath: string, arrayOfFiles: string[] = [], depth: number
       } else {
         arrayOfFiles.push(filePath)
       }
-    } catch (err) {
+    } catch {
       // Skip files that can't be accessed
       return
     }

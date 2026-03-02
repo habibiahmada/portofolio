@@ -43,7 +43,7 @@ async function getDirectorySize(dirPath: string): Promise<number> {
     const { stdout } = await execAsync(`du -sm "${dirPath}"`);
     const sizeMB = parseInt(stdout.split('\t')[0], 10);
     return sizeMB;
-  } catch (error) {
+  } catch {
     // Fallback to manual calculation
     let totalSize = 0;
 
@@ -90,8 +90,8 @@ async function measureBuildTime(): Promise<number> {
     const buildTime = Date.now() - startTime;
     console.log(`✓ Build completed in ${(buildTime / 1000).toFixed(2)}s\n`);
     return buildTime;
-  } catch (error) {
-    console.error('✗ Build failed:', error);
+  } catch {
+    console.error('✗ Build failed');
     return 0;
   }
 }
@@ -197,7 +197,7 @@ async function measureMemory(): Promise<{ devServer: number }> {
     console.log(`✓ Dev server memory: ${memoryMB.toFixed(2)} MB\n`);
 
     return { devServer: memoryMB };
-  } catch (error) {
+  } catch {
     console.log('✗ Could not measure dev server memory.\n');
     return { devServer: 0 };
   }
@@ -254,7 +254,6 @@ async function main() {
   console.log('='.repeat(60));
 }
 
-main().catch((error) => {
-  console.error('Error:', error);
+main().catch(() => {
   process.exit(1);
 });

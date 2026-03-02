@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 import { Sparkles } from "lucide-react";
-import { useTranslations } from "next-intl";
 import PortalCard from "@/components/ui/sections/projects/portalcard";
 import { ProjectData } from "@/services/api/public/projects";
 
@@ -14,7 +13,6 @@ interface ProjectsClientProps {
 }
 
 export default function ProjectsClient({ projects }: ProjectsClientProps) {
-  const t = useTranslations("projects");
   const [activeFilter, setActiveFilter] = useState("All");
 
   // ================= CATEGORIES =================

@@ -36,7 +36,7 @@ function getDirectorySize(dirPath: string): number {
         totalSize += stats.size;
       }
     }
-  } catch (error) {
+  } catch {
     // Ignore errors for inaccessible directories
   }
 
@@ -87,7 +87,7 @@ function countFiles(dirPath: string): number {
         count++;
       }
     }
-  } catch (error) {
+  } catch {
     // Ignore errors
   }
 

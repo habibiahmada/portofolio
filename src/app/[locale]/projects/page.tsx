@@ -1,11 +1,9 @@
-import { Sparkles } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Metadata } from "next";
 
 import Footer from "@/components/ui/footer/footer";
-import PortalCard from "@/components/ui/sections/projects/portalcard";
 import Navbar from "@/components/ui/navbar/main";
-import { getAllProjects, ProjectData } from "@/services/api/public/projects";
+import { getAllProjects } from "@/services/api/public/projects";
 import { routing } from "@/i18n/routing";
 import { generatePageMetadata } from "@/lib/metadata";
 import {
@@ -38,11 +36,11 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "projects" });
+  const translations = await getTranslations({ locale, namespace: "projects" });
 
   return generatePageMetadata({
-    title: `${t("allTitle1")} ${t("allTitle2")}`,
-    description: t("allDescription"),
+    title: `${translations("allTitle1")} ${translations("allTitle2")}`,
+    description: translations("allDescription"),
     image: "/open-graph/og-image.png",
     locale,
     type: "website",

@@ -63,6 +63,7 @@ export async function getAllProjects(locale: string, featured?: boolean): Promis
     const byLang = p.projects_translations?.find((t) => t.language === locale);
     const fallback = p.projects_translations?.find((t) => t.language === "en");
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { projects_translations, ...rest } = p;
     return {
       ...rest,

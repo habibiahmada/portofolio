@@ -44,6 +44,7 @@ export function useSafeAsync<T>(
     return () => {
       abortController.abort();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 
   return { data, error, loading };
@@ -107,6 +108,7 @@ export function useSafeFetch<T>(
     return () => {
       abortController.abort();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url, ...deps]);
 
   return { data, error, loading };

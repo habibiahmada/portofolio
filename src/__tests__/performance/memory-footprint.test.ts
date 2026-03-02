@@ -6,7 +6,7 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { exec, spawn } from 'child_process';
+import { exec } from 'child_process';
 import { promisify } from 'util';
 import { existsSync, readFileSync } from 'fs';
 import { resolve } from 'path';
@@ -18,38 +18,48 @@ describe('Memory Footprint Performance', () => {
   const MAX_MEMORY_INCREASE_PERCENT = 10; // 10% increase over 2 hours
 
   /**
-   * Get memory usage of a process by PID
+   * Get memory usage of a process by PID (cross-platform)
    */
   async function getProcessMemory(pid: number): Promise<number> {
     try {
-      // Use ps command to get memory usage in KB
-      const { stdout } = await execAsync(`ps -p ${pid} -o rss=`);
-      const memoryKB = parseInt(stdout.trim(), 10);
-      return memoryKB / 1024; // Convert to MB
-    } catch (error) {
+      if (process.platform === 'win32') {
+        const { stdout } = await execAsync(
+          `powershell -Command "(Get-Process -Id ${pid}).WorkingSet64"`,
+          { timeout: 10000 }
+        );
+        const memoryBytes = parseInt(stdout.trim(), 10);
+        return memoryBytes / (1024 * 1024); // Convert to MB
+      } else {
+        const { stdout } = await execAsync(`ps -p ${pid} -o rss=`);
+        const memoryKB = parseInt(stdout.trim(), 10);
+        return memoryKB / 1024; // Convert to MB
+      }
+    } catch {
       throw new Error(`Failed to get memory for PID ${pid}`);
     }
   }
 
   /**
-   * Find Next.js dev server process
+   * Find Next.js dev server process (cross-platform)
    */
   async function findDevServerProcess(): Promise<number | null> {
     try {
-      const { stdout } = await execAsync('ps aux | grep "next dev" | grep -v grep');
-      const lines = stdout.trim().split('\n');
-      
-      if (lines.length === 0 || lines[0] === '') {
-        return null;
+      if (process.platform === 'win32') {
+        const { stdout } = await execAsync(
+          'powershell -Command "Get-Process -Name node -ErrorAction SilentlyContinue | Where-Object { $_.CommandLine -match \"next dev\" } | Select-Object -First 1 -ExpandProperty Id"',
+          { timeout: 10000 }
+        );
+        const pid = parseInt(stdout.trim(), 10);
+        return isNaN(pid) ? null : pid;
+      } else {
+        const { stdout } = await execAsync('ps aux | grep "next dev" | grep -v grep');
+        const lines = stdout.trim().split('\n');
+        if (lines.length === 0 || lines[0] === '') return null;
+        const parts = lines[0].split(/\s+/);
+        const pid = parseInt(parts[1], 10);
+        return isNaN(pid) ? null : pid;
       }
-
-      // Parse PID from ps output (second column)
-      const firstLine = lines[0];
-      const parts = firstLine.split(/\s+/);
-      const pid = parseInt(parts[1], 10);
-      
-      return isNaN(pid) ? null : pid;
-    } catch (error) {
+    } catch {
       return null;
     }
   }
@@ -57,7 +67,7 @@ describe('Memory Footprint Performance', () => {
   it('should keep dev server memory under 4GB', async () => {
     // This test checks if a running dev server is within memory limits
     const pid = await findDevServerProcess();
-    
+
     if (!pid) {
       console.log('\nNo dev server running. Start dev server to test memory usage.');
       console.log('Run: pnpm run dev\n');
@@ -65,7 +75,7 @@ describe('Memory Footprint Performance', () => {
     }
 
     const memoryMB = await getProcessMemory(pid);
-    
+
     console.log(`\nDev Server Memory Usage: ${memoryMB.toFixed(2)} MB`);
     console.log(`Maximum Allowed: ${MAX_MEMORY_MB} MB (4GB)`);
     console.log(`Usage: ${((memoryMB / MAX_MEMORY_MB) * 100).toFixed(1)}%\n`);
@@ -84,7 +94,7 @@ describe('Memory Footprint Performance', () => {
     }
 
     const pid = await findDevServerProcess();
-    
+
     if (!pid) {
       console.log('\nNo dev server running. Start dev server first.');
       return;
@@ -97,19 +107,19 @@ describe('Memory Footprint Performance', () => {
     const testDurationMs = 2 * 60 * 60 * 1000; // 2 hours
     const checkIntervalMs = 5 * 60 * 1000; // Check every 5 minutes
     const startTime = Date.now();
-    
+
     const memoryReadings: number[] = [initialMemory];
 
     while (Date.now() - startTime < testDurationMs) {
       await new Promise(resolve => setTimeout(resolve, checkIntervalMs));
-      
+
       try {
         const currentMemory = await getProcessMemory(pid);
         memoryReadings.push(currentMemory);
-        
+
         const elapsed = ((Date.now() - startTime) / 1000 / 60).toFixed(0);
         console.log(`[${elapsed}m] Memory: ${currentMemory.toFixed(2)} MB`);
-      } catch (error) {
+      } catch {
         console.error('Dev server process ended');
         break;
       }
@@ -117,7 +127,7 @@ describe('Memory Footprint Performance', () => {
 
     const finalMemory = memoryReadings[memoryReadings.length - 1];
     const memoryIncrease = ((finalMemory - initialMemory) / initialMemory) * 100;
-    
+
     console.log(`\nFinal Memory: ${finalMemory.toFixed(2)} MB`);
     console.log(`Memory Increase: ${memoryIncrease.toFixed(1)}%`);
     console.log(`Maximum Allowed Increase: ${MAX_MEMORY_INCREASE_PERCENT}%\n`);
@@ -129,7 +139,7 @@ describe('Memory Footprint Performance', () => {
   it('should not have memory leaks in event listeners', () => {
     // This is a code analysis test
     // Check that components properly cleanup event listeners
-    
+
     // This would be better tested through actual runtime monitoring
     // For now, we verify the pattern exists in code
     console.log('\nMemory leak prevention is tested through:');
@@ -137,14 +147,14 @@ describe('Memory Footprint Performance', () => {
     console.log('- Property tests for request cancellation');
     console.log('- Property tests for timer cleanup');
     console.log('See: cleanup.property.test.ts\n');
-    
+
     expect(true).toBe(true);
   });
 
   it('should cleanup resources on hot reload', async () => {
     // This test verifies that hot reload doesn't accumulate memory
     const pid = await findDevServerProcess();
-    
+
     if (!pid) {
       console.log('\nNo dev server running. Start dev server to test hot reload.');
       return;
@@ -152,7 +162,7 @@ describe('Memory Footprint Performance', () => {
 
     const initialMemory = await getProcessMemory(pid);
     console.log(`\nInitial Memory: ${initialMemory.toFixed(2)} MB`);
-    
+
     // In a real test, we would trigger hot reloads and measure memory
     // For now, we just verify the dev server is running
     expect(initialMemory).toBeLessThan(MAX_MEMORY_MB);
@@ -171,15 +181,15 @@ describe('Memory Footprint Performance', () => {
     }
 
     const configContent = readFileSync(configPath, 'utf-8');
-    
+
     // Should have watchOptions or file watcher configuration
-    const hasWatchConfig = 
+    const hasWatchConfig =
       configContent.includes('watchOptions') ||
       configContent.includes('ignored') ||
       configContent.includes('node_modules');
-    
+
     console.log(`\nFile watcher exclusions configured: ${hasWatchConfig ? 'Yes' : 'No'}\n`);
-    
+
     // This helps reduce memory usage
     expect(hasWatchConfig).toBe(true);
   });

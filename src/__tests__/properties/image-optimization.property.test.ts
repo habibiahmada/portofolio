@@ -44,7 +44,7 @@ describe('Property 26: Images Use Next.js Image Component', () => {
             }
           }
         }
-      } catch (error) {
+      } catch {
         // Directory might not exist, skip
       }
       
@@ -116,7 +116,7 @@ describe('Property 27: Image Components Define Sizes', () => {
             }
           }
         }
-      } catch (error) {
+      } catch {
         // Directory might not exist, skip
       }
       
@@ -184,8 +184,6 @@ describe('Property 28: Below-Fold Images Use Lazy Loading', () => {
                   // Hero images and above-fold images should have priority={true}
                   // All others should have loading="lazy" or no priority
                   const hasPriority = match.includes('priority={true}') || match.includes('priority');
-                  const hasLazyLoading = match.includes('loading="lazy"') || match.includes("loading='lazy'");
-                  
                   // If it has priority={true}, it's above-fold, which is fine
                   // If it doesn't have priority, it should ideally have loading="lazy"
                   // But Next.js defaults to lazy loading, so we just check no priority={true} on non-hero images
@@ -201,7 +199,7 @@ describe('Property 28: Below-Fold Images Use Lazy Loading', () => {
             }
           }
         }
-      } catch (error) {
+      } catch {
         // Directory might not exist, skip
       }
       

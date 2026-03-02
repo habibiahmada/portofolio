@@ -121,6 +121,7 @@ export function formatPerformanceReport(result: ReturnType<typeof checkPerforman
  */
 export async function runLighthouseAudit(
   url: string,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   options: {
     formFactor?: 'mobile' | 'desktop';
     categories?: string[];
@@ -227,14 +228,14 @@ const SLOW_QUERY_THRESHOLD_MS = 100;
 export async function monitorQuery<T>(
   queryName: string,
   queryFn: () => Promise<T>,
-  options: {
+  queryOptions: {
     table?: string;
     operation?: string;
     threshold?: number;
   } = {}
 ): Promise<T> {
   const startTime = performance.now();
-  const threshold = options.threshold ?? SLOW_QUERY_THRESHOLD_MS;
+  const threshold = queryOptions.threshold ?? SLOW_QUERY_THRESHOLD_MS;
 
   try {
     const result = await queryFn();
@@ -245,15 +246,15 @@ export async function monitorQuery<T>(
         query: queryName,
         duration: Math.round(duration * 100) / 100,
         timestamp: new Date().toISOString(),
-        table: options.table,
-        operation: options.operation,
+        table: queryOptions.table,
+        operation: queryOptions.operation,
       };
 
       console.warn(
         `[SLOW QUERY] ${queryName} took ${metrics.duration}ms (threshold: ${threshold}ms)`,
         {
-          table: options.table,
-          operation: options.operation,
+          table: queryOptions.table,
+          operation: queryOptions.operation,
         }
       );
     }

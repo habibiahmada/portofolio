@@ -35,7 +35,7 @@ function hasUseClientDirective(filePath: string): boolean {
 }
 
 // Helper function to check if a file is imported by a client component
-function isImportedByClientComponent(filePath: string, adminFiles: string[]): boolean {
+function isImportedByClientComponent(filePath: string): boolean {
   // For simplicity, we'll check if it's a component that's likely imported
   // In a real implementation, you'd parse imports
   const fileName = path.basename(filePath)
@@ -64,7 +64,7 @@ describe('Property 2: Admin Components Are Client Components', () => {
 
     pageFiles.forEach(filePath => {
       const hasUseClient = hasUseClientDirective(filePath)
-      const isImported = isImportedByClientComponent(filePath, allFiles)
+      const isImported = isImportedByClientComponent(filePath)
       
       expect(
         hasUseClient || isImported,

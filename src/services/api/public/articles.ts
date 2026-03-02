@@ -59,6 +59,7 @@ export async function getAllArticles(locale: string, limit?: number): Promise<Ar
     const byLang = a.article_translations?.find((t) => t.language === locale);
     const fallback = a.article_translations?.find((t) => t.language === "en");
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { article_translations, ...rest } = a;
     return {
       ...rest,
