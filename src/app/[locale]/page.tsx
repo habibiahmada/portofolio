@@ -52,7 +52,7 @@ export default function Home() {
       <Navbar />
       <CursorFollower />
 
-      {/* <main id="main" role="main">
+      <main id="main" role="main">
         <HeroServer />
         <Stats />
         <About />
@@ -65,7 +65,7 @@ export default function Home() {
         <ArticlesSection />
         <ModernFAQSection />
         <ContactSection email={process.env.AUTHORIZED_EMAIL} />
-      </main> */}
+      </main>
 
       <Footer />
     </>
