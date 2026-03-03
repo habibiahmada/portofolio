@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import ThemeSwitcher from "@/components/theme/theme-toggle";
@@ -12,15 +12,17 @@ interface NavLink {
 
 interface Props {
   navLinks: NavLink[];
+  onNavLinkClick?: (event: MouseEvent<HTMLAnchorElement>, href: string) => void;
 }
 
-export default function MobileMenu({ navLinks }: Props) {
+export default function MobileMenu({ navLinks, onNavLinkClick }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const isClosingByLink = useRef(false);
 
-  const handleLinkClick = () => {
+  const handleLinkClick = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
+    onNavLinkClick?.(event, href);
     isClosingByLink.current = true;
     setIsOpen(false);
   };
@@ -94,7 +96,7 @@ export default function MobileMenu({ navLinks }: Props) {
             <Link
               key={link.href}
               href={link.href}
-              onClick={handleLinkClick}
+              onClick={(event) => handleLinkClick(event, link.href)}
               className="py-2 text-lg hover:text-blue-600 dark:hover:text-blue-400"
             >
               {link.label}

@@ -48,6 +48,7 @@ export function generatePageMetadata(params: PageMetadataParams): Metadata {
       type,
       locale,
       url: baseUrl,
+      siteName: 'Habibi Ahmad Aziz',
       images: [
         {
           url: ogImage,
