@@ -39,15 +39,16 @@ export default function Footer() {
   }, []);
 
   useEffect(() => {
-    let isCancelled = false;
+    const abortController = new AbortController();
 
     const loadFooterSvg = async () => {
       try {
-        const response = await fetch("/images/footer-name.svg");
+        const response = await fetch("/images/footer-name.svg", {
+          signal: abortController.signal,
+        });
         if (!response.ok) return;
 
         const svgText = await response.text();
-        if (isCancelled) return;
 
         const parser = new DOMParser();
         const parsed = parser.parseFromString(svgText, "image/svg+xml");
@@ -83,7 +84,7 @@ export default function Footer() {
     void loadFooterSvg();
 
     return () => {
-      isCancelled = true;
+      abortController.abort();
     };
   }, []);
 
