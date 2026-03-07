@@ -83,6 +83,10 @@ export async function generateMetadata({
 
     alternates: {
       canonical: `${baseUrl}/${locale}`,
+      languages: {
+        en: `${baseUrl}/en`,
+        id: `${baseUrl}/id`,
+      },
     },
 
     robots: {
