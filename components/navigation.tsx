@@ -18,11 +18,11 @@ export function Navigation() {
   }, [])
 
   const navItems = [
-    { label: 'Home', href: '#hero' },
-    { label: 'About', href: '#stats' },
-    { label: 'Work', href: '#projects' },
-    { label: 'Services', href: '#services' },
-    { label: 'Contact', href: '#cta' },
+    { label: 'Home', href: `/${locale}` },
+    { label: 'About', href: `/${locale}/about` },
+    { label: 'Work', href: `/${locale}#projects` },
+    { label: 'Services', href: `/${locale}#services` },
+    { label: 'Contact', href: `/${locale}/contact` },
   ]
 
   const toggleTheme = () => {
@@ -45,13 +45,13 @@ export function Navigation() {
         {/* Nav Items */}
         <div className="hidden md:flex items-center gap-8">
           {navItems.map((item) => (
-            <a
+            <Link
               key={item.label}
               href={item.href}
               className="text-sm font-semibold text-foreground/70 hover:text-foreground transition-colors duration-200 hover:translate-y-[-2px]"
             >
               {item.label}
-            </a>
+            </Link>
           ))}
         </div>
 
