@@ -61,8 +61,8 @@ export function Hero() {
         {/* Main Content */}
         <div className="space-y-8 text-center">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 backdrop-blur-md bg-black/5 dark:bg-white/5 px-4 py-2 rounded-full border border-border/40">
-            <div className="w-2 h-2 rounded-full bg-primary"></div>
+          <div className="inline-flex items-center gap-2 backdrop-blur-md bg-black/5 dark:bg-white/5 px-4 py-2 border border-border/40">
+            <div className="w-2 h-2 bg-primary"></div>
             <span className="text-sm font-semibold text-foreground">
               Welcome to Habibi Ahmad
             </span>
@@ -90,14 +90,14 @@ export function Hero() {
 
           {/* CTAs */}
           <div ref={ctasRef} className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
-            <button className="group backdrop-blur-md bg-primary/80 hover:bg-primary text-primary-foreground px-8 py-3.5 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-primary/40 hover:scale-105 flex items-center gap-2 w-full sm:w-auto justify-center">
+            <button className="group backdrop-blur-md bg-primary/80 hover:bg-primary text-primary-foreground px-8 py-3.5 font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-primary/40 hover:scale-105 flex items-center gap-2 w-full sm:w-auto justify-center border border-border">
               Get Free Consultation
               <ArrowRight
                 size={18}
                 className="group-hover:translate-x-1 transition-transform"
               />
             </button>
-            <button className="backdrop-blur-md bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-foreground px-8 py-3.5 rounded-lg font-semibold border border-border/40 hover:border-border/60 transition-all duration-300 w-full sm:w-auto">
+            <button className="backdrop-blur-md bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-foreground px-8 py-3.5 font-semibold border border-border/40 hover:border-border/60 transition-all duration-300 w-full sm:w-auto">
               View My Work
             </button>
           </div>
@@ -106,7 +106,7 @@ export function Hero() {
         {/* Stats Box */}
         <div
           ref={statsRef}
-          className="backdrop-blur-lg bg-black/5 dark:bg-white/5 border border-border/40 rounded-xl p-8 max-w-2xl mx-auto w-full"
+          className="backdrop-blur-lg bg-black/5 dark:bg-white/5 border border-border/40 p-8 max-w-2xl mx-auto w-full"
         >
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             <div className="flex items-center gap-4">

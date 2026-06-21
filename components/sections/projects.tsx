@@ -67,7 +67,7 @@ export function Projects() {
   }, [projects])
 
   return (
-    <section id="projects" ref={containerRef} className="py-20 px-6">
+    <section id="projects" ref={containerRef} className="py-20 px-6 border-t border-b border-border">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="mb-16">
@@ -95,7 +95,7 @@ export function Projects() {
             >
               {/* Image */}
               <div
-                className={`group relative h-80 md:h-96 rounded-xl overflow-hidden backdrop-blur-lg bg-black/5 dark:bg-white/5 border border-border/40 ${
+                className={`group relative h-80 md:h-96 overflow-hidden backdrop-blur-lg bg-black/5 dark:bg-white/5 border border-border/40 ${
                   index % 2 === 1 ? 'md:order-last' : ''
                 }`}
               >
@@ -121,7 +121,7 @@ export function Projects() {
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-3 py-1.5 text-sm font-medium backdrop-blur-md bg-primary/10 text-primary rounded-full border border-primary/30 hover:border-primary/60 transition-all duration-200"
+                      className="px-3 py-1.5 text-sm font-medium backdrop-blur-md bg-primary/10 text-primary border border-primary/30 hover:border-primary/60 transition-all duration-200"
                     >
                       {tag}
                     </span>

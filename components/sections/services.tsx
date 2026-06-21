@@ -71,7 +71,7 @@ export function Services() {
     <section
       id="services"
       ref={containerRef}
-      className="py-20 px-6"
+      className="py-20 px-6 border-t border-b border-border"
     >
       <div className="max-w-7xl mx-auto">
         {/* Header */}
@@ -100,7 +100,7 @@ export function Services() {
                 ref={(el) => {
                   cardsRef.current[index] = el
                 }}
-                className="group backdrop-blur-lg bg-black/5 dark:bg-white/5 border border-border/40 rounded-xl p-8 hover:border-primary/40 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10"
+                className="group backdrop-blur-lg bg-black/5 dark:bg-white/5 border border-border/40 p-8 hover:border-primary/40 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10"
               >
                 {/* Number */}
                 <div className="text-6xl font-bold text-primary/10 mb-4 group-hover:text-primary/20 transition-colors">

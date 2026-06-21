@@ -14,7 +14,7 @@ export function Footer() {
   ]
 
   return (
-    <footer className="backdrop-blur-lg border-t border-border/20 py-16 px-6">
+    <footer className="backdrop-blur-lg border-t border-border py-16 px-6">
       <div className="max-w-7xl mx-auto">
         {/* Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
@@ -80,7 +80,7 @@ export function Footer() {
                 <a
                   key={label}
                   href={href}
-                  className="p-2.5 backdrop-blur-md bg-black/5 dark:bg-white/5 rounded-lg hover:bg-primary/20 hover:text-primary transition-all duration-200 text-foreground/70 border border-border/40 hover:border-primary/40"
+                  className="p-2.5 backdrop-blur-md bg-black/5 dark:bg-white/5 hover:bg-primary/20 hover:text-primary transition-all duration-200 text-foreground/70 border border-border/40 hover:border-primary/40"
                   aria-label={label}
                   title={label}
                 >
@@ -92,7 +92,7 @@ export function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="border-t border-border/20 my-8" />
+        <div className="border-t border-border my-8" />
 
         {/* Bottom */}
         <div className="flex flex-col md:flex-row justify-between items-center text-sm text-foreground/60 gap-4">

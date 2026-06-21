@@ -71,7 +71,7 @@ export function Stats() {
     <section
       id="stats"
       ref={containerRef}
-      className="py-20 px-6 bg-secondary/30 border-t border-border"
+      className="py-20 px-6 border-t border-b border-border"
     >
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -81,7 +81,7 @@ export function Stats() {
               ref={(el) => {
                 statsRef.current[index] = el
               }}
-              className="text-center p-6 rounded-lg bg-card border border-border/50 hover:border-border transition-colors"
+              className="text-center p-6 bg-card border border-border/50 hover:border-border transition-colors"
             >
               <div className="text-4xl md:text-5xl font-bold text-primary mb-2">
                 <span className="counter">0</span>

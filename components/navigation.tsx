@@ -59,11 +59,11 @@ export function Navigation() {
         <div className="flex items-center gap-3">
           {/* Language Switcher */}
           <div className="relative group">
-            <button className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-all duration-200 flex items-center gap-2 text-foreground/70 hover:text-foreground">
+            <button className="p-2 hover:bg-black/5 dark:hover:bg-white/5 transition-all duration-200 flex items-center gap-2 text-foreground/70 hover:text-foreground border border-border/30">
               <Globe size={18} strokeWidth={1.5} />
               <span className="text-sm font-semibold">{locale.toUpperCase()}</span>
             </button>
-            <div className="absolute right-0 top-full mt-2 backdrop-blur-lg bg-card border border-border/40 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-2 min-w-max">
+            <div className="absolute right-0 top-full mt-2 backdrop-blur-lg bg-card border border-border/40 shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-2 min-w-max">
               <Link
                 href={`/${otherLocale}`}
                 className="block px-4 py-2 text-sm font-semibold text-foreground hover:bg-black/5 dark:hover:bg-white/5 transition-all duration-200"
@@ -77,7 +77,7 @@ export function Navigation() {
           {mounted && (
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-all duration-200 text-foreground/70 hover:text-foreground"
+              className="p-2 hover:bg-black/5 dark:hover:bg-white/5 transition-all duration-200 text-foreground/70 hover:text-foreground border border-border/30"
               aria-label="Toggle theme"
             >
               {theme === 'dark' ? (

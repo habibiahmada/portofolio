@@ -32,9 +32,9 @@ export function CTA() {
   }, [])
 
   return (
-    <section id="cta" ref={containerRef} className="py-24 px-6">
+    <section id="cta" ref={containerRef} className="py-24 px-6 border-t border-b border-border">
       <div className="max-w-4xl mx-auto text-center">
-        <div className="backdrop-blur-lg bg-black/5 dark:bg-white/5 border border-border/40 rounded-2xl p-16">
+        <div className="backdrop-blur-lg bg-black/5 dark:bg-white/5 border border-border/40 p-16">
           {/* Title */}
           <h2
             ref={titleRef}
@@ -57,7 +57,7 @@ export function CTA() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
               ref={buttonRef}
-              className="group backdrop-blur-md bg-primary/80 hover:bg-primary text-primary-foreground px-8 py-3.5 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-primary/40 hover:scale-105 inline-flex items-center gap-2 w-full sm:w-auto justify-center"
+              className="group backdrop-blur-md bg-primary/80 hover:bg-primary text-primary-foreground px-8 py-3.5 font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-primary/40 hover:scale-105 inline-flex items-center gap-2 w-full sm:w-auto justify-center border border-border"
             >
               Get Free Consultation
               <ArrowRight
@@ -65,7 +65,7 @@ export function CTA() {
                 className="group-hover:translate-x-1 transition-transform"
               />
             </button>
-            <button className="backdrop-blur-md bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-foreground px-8 py-3.5 rounded-lg font-semibold border border-border/40 hover:border-border/60 transition-all duration-300 w-full sm:w-auto">
+            <button className="backdrop-blur-md bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-foreground px-8 py-3.5 font-semibold border border-border/40 hover:border-border/60 transition-all duration-300 w-full sm:w-auto">
               Schedule a Call
             </button>
           </div>
