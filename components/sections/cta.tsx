@@ -1,6 +1,5 @@
 'use client'
 
-
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -35,36 +34,42 @@ export function CTA() {
   return (
     <section id="cta" ref={containerRef} className="py-24 px-6">
       <div className="max-w-4xl mx-auto text-center">
-        {/* Animated background */}
-        <div className="absolute inset-0 -z-10 pointer-events-none">
-          <div className="absolute top-0 left-1/4 w-80 h-80 bg-primary/5 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl" />
+        <div className="backdrop-blur-lg bg-black/5 dark:bg-white/5 border border-border/40 rounded-2xl p-16">
+          {/* Title */}
+          <h2
+            ref={titleRef}
+            className="text-4xl md:text-6xl font-bold mb-6 leading-tight"
+          >
+            <span className="bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
+              Ready to Build?
+            </span>
+          </h2>
+
+          {/* Subtitle */}
+          <p
+            ref={subtitleRef}
+            className="text-lg md:text-xl text-foreground/70 mb-12 max-w-2xl mx-auto leading-relaxed"
+          >
+            Let&apos;s work together to bring your ideas to life with cutting-edge technology and design.
+          </p>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button
+              ref={buttonRef}
+              className="group backdrop-blur-md bg-primary/80 hover:bg-primary text-primary-foreground px-8 py-3.5 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-primary/40 hover:scale-105 inline-flex items-center gap-2 w-full sm:w-auto justify-center"
+            >
+              Get Free Consultation
+              <ArrowRight
+                size={20}
+                className="group-hover:translate-x-1 transition-transform"
+              />
+            </button>
+            <button className="backdrop-blur-md bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-foreground px-8 py-3.5 rounded-lg font-semibold border border-border/40 hover:border-border/60 transition-all duration-300 w-full sm:w-auto">
+              Schedule a Call
+            </button>
+          </div>
         </div>
-
-        {/* Title */}
-        <h2
-          ref={titleRef}
-          className="text-4xl md:text-6xl font-bold mb-6 leading-tight"
-        >
-          Ready to build something amazing?
-        </h2>
-
-        {/* Subtitle */}
-        <p
-          ref={subtitleRef}
-          className="text-lg md:text-xl text-foreground/70 mb-12 max-w-2xl mx-auto leading-relaxed"
-        >
-          Let&apos;s work together to bring your ideas to life
-        </p>
-
-        {/* CTA Button */}
-        <button
-          ref={buttonRef}
-          className="px-10 py-4 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-all duration-300 hover:shadow-lg hover:shadow-primary/30 hover:scale-105 inline-flex items-center gap-2 group"
-        >
-          Start a Project
-          <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-        </button>
       </div>
     </section>
   )

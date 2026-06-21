@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { ArrowRight, CheckCircle2 } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -10,29 +11,40 @@ export function Hero() {
   const containerRef = useRef<HTMLDivElement>(null)
   const titleRef = useRef<HTMLHeadingElement>(null)
   const subtitleRef = useRef<HTMLParagraphElement>(null)
-  const ctaRef = useRef<HTMLButtonElement>(null)
+  const ctasRef = useRef<HTMLDivElement>(null)
+  const statsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Stagger animation for hero content
-      gsap.from([titleRef.current, subtitleRef.current, ctaRef.current], {
+      gsap.from(titleRef.current, {
         opacity: 0,
-        y: 30,
-        duration: 0.8,
-        stagger: 0.2,
+        y: 40,
+        duration: 0.9,
         ease: 'power3.out',
       })
 
-      // Parallax effect for background
-      gsap.to(containerRef.current, {
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1,
-        },
-        y: 100,
-        ease: 'power1.out',
+      gsap.from(subtitleRef.current, {
+        opacity: 0,
+        y: 40,
+        duration: 0.9,
+        delay: 0.15,
+        ease: 'power3.out',
+      })
+
+      gsap.from(ctasRef.current, {
+        opacity: 0,
+        y: 40,
+        duration: 0.9,
+        delay: 0.3,
+        ease: 'power3.out',
+      })
+
+      gsap.from(statsRef.current, {
+        opacity: 0,
+        y: 40,
+        duration: 0.9,
+        delay: 0.45,
+        ease: 'power3.out',
       })
     }, containerRef)
 
@@ -43,63 +55,83 @@ export function Hero() {
     <section
       id="hero"
       ref={containerRef}
-      className="relative min-h-screen flex items-center justify-center pt-20 px-6 overflow-hidden"
+      className="min-h-screen flex items-center justify-center pt-24 pb-12 px-6"
     >
-      {/* Animated background */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-10 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse animation-delay-2000" />
-      </div>
+      <div className="max-w-5xl mx-auto w-full space-y-12">
+        {/* Main Content */}
+        <div className="space-y-8 text-center">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 backdrop-blur-md bg-black/5 dark:bg-white/5 px-4 py-2 rounded-full border border-border/40">
+            <div className="w-2 h-2 rounded-full bg-primary"></div>
+            <span className="text-sm font-semibold text-foreground">
+              Welcome to Habibi Ahmad
+            </span>
+          </div>
 
-      <div className="max-w-4xl mx-auto text-center">
-        {/* Greeting */}
-        <p className="text-sm font-semibold text-primary mb-4 tracking-widest uppercase">
-          Hi, I&apos;m Habibi Ahmad
-        </p>
+          {/* Title */}
+          <h1
+            ref={titleRef}
+            className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight"
+          >
+            <span className="bg-gradient-to-r from-primary via-blue-500 to-primary bg-clip-text text-transparent">
+              Full-Stack Web Developer
+            </span>
+          </h1>
 
-        {/* Main Title */}
-        <h1
-          ref={titleRef}
-          className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-6"
+          {/* Description */}
+          <p
+            ref={subtitleRef}
+            className="text-lg md:text-xl text-foreground/70 max-w-3xl mx-auto leading-relaxed"
+          >
+            Crafting beautiful, performant digital experiences with modern
+            technologies. From concept to deployment, I deliver solutions that
+            matter.
+          </p>
+
+          {/* CTAs */}
+          <div ref={ctasRef} className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
+            <button className="group backdrop-blur-md bg-primary/80 hover:bg-primary text-primary-foreground px-8 py-3.5 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-primary/40 hover:scale-105 flex items-center gap-2 w-full sm:w-auto justify-center">
+              Get Free Consultation
+              <ArrowRight
+                size={18}
+                className="group-hover:translate-x-1 transition-transform"
+              />
+            </button>
+            <button className="backdrop-blur-md bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-foreground px-8 py-3.5 rounded-lg font-semibold border border-border/40 hover:border-border/60 transition-all duration-300 w-full sm:w-auto">
+              View My Work
+            </button>
+          </div>
+        </div>
+
+        {/* Stats Box */}
+        <div
+          ref={statsRef}
+          className="backdrop-blur-lg bg-black/5 dark:bg-white/5 border border-border/40 rounded-xl p-8 max-w-2xl mx-auto w-full"
         >
-          <span className="text-gradient">Full-Stack Web Developer</span>
-        </h1>
-
-        {/* Subtitle */}
-        <p
-          ref={subtitleRef}
-          className="text-lg md:text-2xl text-foreground/70 mb-12 max-w-2xl mx-auto leading-relaxed"
-        >
-          Crafting beautiful, performant digital experiences
-        </p>
-
-        {/* CTA Button */}
-        <button
-          ref={ctaRef}
-          onClick={() => {
-            document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })
-          }}
-          className="px-8 py-4 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 hover:scale-105"
-        >
-          View My Work
-        </button>
-      </div>
-
-      {/* Scroll indicator */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
-        <svg
-          className="w-6 h-6 text-foreground/50"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 14l-7 7m0 0l-7-7m7 7V3"
-          />
-        </svg>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div className="flex items-center gap-4">
+              <CheckCircle2 size={24} className="text-primary flex-shrink-0" />
+              <div>
+                <div className="text-2xl font-bold text-primary">50+</div>
+                <div className="text-sm text-foreground/60">Projects Completed</div>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <CheckCircle2 size={24} className="text-primary flex-shrink-0" />
+              <div>
+                <div className="text-2xl font-bold text-primary">5+</div>
+                <div className="text-sm text-foreground/60">Years Experience</div>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <CheckCircle2 size={24} className="text-primary flex-shrink-0" />
+              <div>
+                <div className="text-2xl font-bold text-primary">30+</div>
+                <div className="text-sm text-foreground/60">Happy Clients</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   )
