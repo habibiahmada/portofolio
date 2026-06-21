@@ -67,18 +67,22 @@ export function Projects() {
   }, [projects])
 
   return (
-    <section id="projects" ref={containerRef} className="py-20 px-6">
+    <section id="projects" ref={containerRef} className="py-20 px-6 border-t border-b border-border">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className="mb-16 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Featured Work</h2>
-          <p className="text-lg text-foreground/60 max-w-2xl mx-auto">
-            A selection of my recent projects
+        <div className="mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <span className="bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
+              Featured Work
+            </span>
+          </h2>
+          <p className="text-lg text-foreground/60 max-w-2xl">
+            A selection of my recent projects and case studies
           </p>
         </div>
 
         {/* Projects Grid */}
-        <div className="space-y-12">
+        <div className="space-y-16">
           {projects.map((project, index) => (
             <div
               key={project.id}
@@ -91,7 +95,7 @@ export function Projects() {
             >
               {/* Image */}
               <div
-                className={`relative h-96 rounded-lg overflow-hidden border border-border ${
+                className={`group relative h-80 md:h-96 overflow-hidden backdrop-blur-lg bg-black/5 dark:bg-white/5 border border-border/40 ${
                   index % 2 === 1 ? 'md:order-last' : ''
                 }`}
               >
@@ -99,23 +103,25 @@ export function Projects() {
                   src={project.image}
                   alt={project.title_en}
                   fill
-                  className="object-cover hover:scale-105 transition-transform duration-500"
+                  className="object-cover group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
 
               {/* Content */}
               <div className={index % 2 === 1 ? 'md:order-first' : ''}>
-                <h3 className="text-3xl font-bold mb-4">{project.title_en}</h3>
+                <h3 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
+                  {project.title_en}
+                </h3>
                 <p className="text-foreground/70 text-lg mb-6 leading-relaxed">
                   {project.description_en}
                 </p>
 
                 {/* Tags */}
-                <div className="flex flex-wrap gap-2 mb-8">
+                <div className="flex flex-wrap gap-3 mb-8">
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-3 py-1 text-sm font-medium bg-primary/10 text-primary rounded-full border border-primary/20"
+                      className="px-3 py-1.5 text-sm font-medium backdrop-blur-md bg-primary/10 text-primary border border-primary/30 hover:border-primary/60 transition-all duration-200"
                     >
                       {tag}
                     </span>
@@ -125,10 +131,13 @@ export function Projects() {
                 {/* Link */}
                 <a
                   href={project.link}
-                  className="inline-flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all"
+                  className="inline-flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all group"
                 >
-                  View Project
-                  <ArrowUpRight size={20} />
+                  View Case Study
+                  <ArrowUpRight
+                    size={20}
+                    className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
+                  />
                 </a>
               </div>
             </div>

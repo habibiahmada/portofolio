@@ -1,88 +1,135 @@
 'use client'
 
-
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { Code2, Zap, Palette } from 'lucide-react'
+import { Code2, Smartphone, Zap } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const serviceIcons = {
-  web_design: Palette,
-  web_dev: Code2,
-  optimization: Zap,
-}
-
 export function Services() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const servicesRef = useRef<(HTMLDivElement | null)[]>([])
-
-  const services = [
-    { key: 'web_design', icon: 'web_design' },
-    { key: 'web_dev', icon: 'web_dev' },
-    { key: 'optimization', icon: 'optimization' },
-  ]
+  const titleRef = useRef<HTMLHeadingElement>(null)
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([])
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from(servicesRef.current, {
+      gsap.from(titleRef.current, {
         scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top center',
+          trigger: titleRef.current,
+          start: 'top 80%',
         },
         opacity: 0,
         y: 30,
-        duration: 0.6,
-        stagger: 0.15,
+        duration: 0.8,
         ease: 'power3.out',
+      })
+
+      cardsRef.current.forEach((card, index) => {
+        gsap.from(card, {
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 80%',
+          },
+          opacity: 0,
+          y: 30,
+          duration: 0.8,
+          delay: index * 0.1,
+          ease: 'power3.out',
+        })
       })
     }, containerRef)
 
     return () => ctx.revert()
   }, [])
 
+  const services = [
+    {
+      number: '01',
+      title: 'Web Design',
+      description:
+        'Beautiful, responsive interfaces that engage users and drive conversions.',
+      icon: Code2,
+    },
+    {
+      number: '02',
+      title: 'Web Development',
+      description:
+        'Full-stack solutions with modern frameworks, ensuring scalability and performance.',
+      icon: Smartphone,
+    },
+    {
+      number: '03',
+      title: 'Optimization',
+      description:
+        'Fast, SEO-optimized experiences that rank well and load instantly.',
+      icon: Zap,
+    },
+  ]
+
   return (
-    <section id="services" ref={containerRef} className="py-20 px-6 bg-secondary/30">
+    <section
+      id="services"
+      ref={containerRef}
+      className="py-20 px-6 border-t border-b border-border"
+    >
       <div className="max-w-7xl mx-auto">
-        {/* Section Header */}
-        <div className="mb-16 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Services</h2>
-          <p className="text-lg text-foreground/60 max-w-2xl mx-auto">
-            What I can help you with
+        {/* Header */}
+        <div className="max-w-2xl mb-16">
+          <h2
+            ref={titleRef}
+            className="text-4xl md:text-5xl font-bold mb-6"
+          >
+            <span className="bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
+              Services
+            </span>
+          </h2>
+          <p className="text-lg text-foreground/70">
+            Comprehensive solutions tailored to your needs, from design to
+            deployment.
           </p>
         </div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {services.map((service, index) => {
-            const IconComponent = serviceIcons[service.icon as keyof typeof serviceIcons]
+            const Icon = service.icon
             return (
               <div
-                key={service.key}
+                key={service.number}
                 ref={(el) => {
-                  servicesRef.current[index] = el
+                  cardsRef.current[index] = el
                 }}
-                className="p-8 rounded-lg bg-card border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 group"
+                className="group backdrop-blur-lg bg-black/5 dark:bg-white/5 border border-border/40 p-8 hover:border-primary/40 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10"
               >
-                {/* Icon */}
-                <div className="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
-                  <IconComponent size={28} className="text-primary" />
+                {/* Number */}
+                <div className="text-6xl font-bold text-primary/10 mb-4 group-hover:text-primary/20 transition-colors">
+                  {service.number}
                 </div>
 
+                {/* Icon */}
+                <Icon size={32} className="text-primary mb-4" strokeWidth={1.5} />
+
                 {/* Title */}
-                <h3 className="text-2xl font-bold mb-3">
-                  {service.key === 'web_design' && 'Web Design'}
-                  {service.key === 'web_dev' && 'Web Development'}
-                  {service.key === 'optimization' && 'Performance'}
+                <h3 className="text-2xl font-bold mb-3 group-hover:text-primary transition-colors">
+                  {service.title}
                 </h3>
 
                 {/* Description */}
-                <p className="text-foreground/70 leading-relaxed">
-                  {service.key === 'web_design' && 'Beautiful, responsive interfaces'}
-                  {service.key === 'web_dev' && 'Full-stack solutions with modern tech'}
-                  {service.key === 'optimization' && 'Fast, optimized experiences'}
+                <p className="text-foreground/70 leading-relaxed mb-6">
+                  {service.description}
                 </p>
+
+                {/* Link */}
+                <a
+                  href="#"
+                  className="inline-flex items-center gap-2 text-primary font-semibold group-hover:gap-3 transition-all"
+                >
+                  Learn More
+                  <span className="group-hover:translate-x-1 transition-transform">
+                    →
+                  </span>
+                </a>
               </div>
             )
           })}

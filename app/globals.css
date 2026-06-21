@@ -51,119 +51,185 @@
 :root {
   color-scheme: light;
   --background: #ffffff;
-  --foreground: #0f172a;
-  --card: #f8fafc;
-  --card-foreground: #0f172a;
-  --popover: #ffffff;
-  --popover-foreground: #0f172a;
-  --primary: #0052cc;
+  --foreground: #1a1a1a;
+  --card: rgba(255, 255, 255, 0.7);
+  --card-foreground: #1a1a1a;
+  --popover: rgba(255, 255, 255, 0.7);
+  --popover-foreground: #1a1a1a;
+  --primary: #2563eb;
   --primary-foreground: #ffffff;
-  --secondary: #f1f5f9;
-  --secondary-foreground: #0f172a;
-  --muted: #e2e8f0;
-  --muted-foreground: #64748b;
-  --accent: #0052cc;
+  --secondary: #f0f0f0;
+  --secondary-foreground: #1a1a1a;
+  --muted: #d4d4d4;
+  --muted-foreground: #666666;
+  --accent: #2563eb;
   --accent-foreground: #ffffff;
-  --destructive: #dc2626;
-  --border: #e2e8f0;
-  --input: #e2e8f0;
-  --ring: #0052cc;
-  --chart-1: #3b82f6;
+  --destructive: #ef4444;
+  --border: #e5e5e5;
+  --input: #f5f5f5;
+  --ring: #2563eb;
+  --chart-1: #2563eb;
   --chart-2: #60a5fa;
   --chart-3: #93c5fd;
   --chart-4: #bfdbfe;
   --chart-5: #dbeafe;
-  --radius: 0.625rem;
-  --sidebar: #f8fafc;
-  --sidebar-foreground: #0f172a;
-  --sidebar-primary: #0052cc;
+  --radius: 0rem;
+  --sidebar: #f9f9f9;
+  --sidebar-foreground: #1a1a1a;
+  --sidebar-primary: #2563eb;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f1f5f9;
-  --sidebar-accent-foreground: #0f172a;
-  --sidebar-border: #e2e8f0;
-  --sidebar-ring: #0052cc;
+  --sidebar-accent: #f0f0f0;
+  --sidebar-accent-foreground: #1a1a1a;
+  --sidebar-border: #e5e5e5;
+  --sidebar-ring: #2563eb;
+  /* Tirai curtain effect colors */
+  --tirai-light: #ffffff;
+  --tirai-dark: #0a0a0a;
 }
 
 .dark {
   color-scheme: dark;
   --background: #0a0a0a;
-  --foreground: #f1f5f9;
-  --card: #1a1a2e;
-  --card-foreground: #f1f5f9;
-  --popover: #1a1a2e;
-  --popover-foreground: #f1f5f9;
-  --primary: #3b82f6;
+  --foreground: #ffffff;
+  --card: rgba(26, 26, 26, 0.7);
+  --card-foreground: #ffffff;
+  --popover: rgba(26, 26, 26, 0.7);
+  --popover-foreground: #ffffff;
+  --primary: #60a5fa;
   --primary-foreground: #0a0a0a;
-  --secondary: #1e293b;
-  --secondary-foreground: #f1f5f9;
-  --muted: #334155;
-  --muted-foreground: #94a3b8;
-  --accent: #3b82f6;
+  --secondary: #262626;
+  --secondary-foreground: #ffffff;
+  --muted: #404040;
+  --muted-foreground: #a0a0a0;
+  --accent: #60a5fa;
   --accent-foreground: #0a0a0a;
   --destructive: #f87171;
-  --border: #334155;
-  --input: #334155;
-  --ring: #3b82f6;
-  --chart-1: #3b82f6;
-  --chart-2: #60a5fa;
-  --chart-3: #93c5fd;
-  --chart-4: #bfdbfe;
-  --chart-5: #dbeafe;
-  --sidebar: #1a1a2e;
-  --sidebar-foreground: #f1f5f9;
-  --sidebar-primary: #3b82f6;
+  --border: #333333;
+  --input: #1a1a1a;
+  --ring: #60a5fa;
+  --chart-1: #60a5fa;
+  --chart-2: #3b82f6;
+  --chart-3: #2563eb;
+  --chart-4: #1e40af;
+  --chart-5: #1e3a8a;
+  --sidebar: #1a1a1a;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #60a5fa;
   --sidebar-primary-foreground: #0a0a0a;
-  --sidebar-accent: #1e293b;
-  --sidebar-accent-foreground: #f1f5f9;
-  --sidebar-border: #334155;
-  --sidebar-ring: #3b82f6;
+  --sidebar-accent: #262626;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #333333;
+  --sidebar-ring: #60a5fa;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not(.light) {
     color-scheme: dark;
     --background: #0a0a0a;
-    --foreground: #f1f5f9;
-    --card: #1a1a2e;
-    --card-foreground: #f1f5f9;
-    --popover: #1a1a2e;
-    --popover-foreground: #f1f5f9;
-    --primary: #3b82f6;
+    --foreground: #ffffff;
+    --card: rgba(26, 26, 26, 0.7);
+    --card-foreground: #ffffff;
+    --popover: rgba(26, 26, 26, 0.7);
+    --popover-foreground: #ffffff;
+    --primary: #60a5fa;
     --primary-foreground: #0a0a0a;
-    --secondary: #1e293b;
-    --secondary-foreground: #f1f5f9;
-    --muted: #334155;
-    --muted-foreground: #94a3b8;
-    --accent: #3b82f6;
+    --secondary: #262626;
+    --secondary-foreground: #ffffff;
+    --muted: #404040;
+    --muted-foreground: #a0a0a0;
+    --accent: #60a5fa;
     --accent-foreground: #0a0a0a;
     --destructive: #f87171;
-    --border: #334155;
-    --input: #334155;
-    --ring: #3b82f6;
-    --chart-1: #3b82f6;
-    --chart-2: #60a5fa;
-    --chart-3: #93c5fd;
-    --chart-4: #bfdbfe;
-    --chart-5: #dbeafe;
-    --sidebar: #1a1a2e;
-    --sidebar-foreground: #f1f5f9;
-    --sidebar-primary: #3b82f6;
+    --border: #333333;
+    --input: #1a1a1a;
+    --ring: #60a5fa;
+    --chart-1: #60a5fa;
+    --chart-2: #3b82f6;
+    --chart-3: #2563eb;
+    --chart-4: #1e40af;
+    --chart-5: #1e3a8a;
+    --sidebar: #1a1a1a;
+    --sidebar-foreground: #ffffff;
+    --sidebar-primary: #60a5fa;
     --sidebar-primary-foreground: #0a0a0a;
-    --sidebar-accent: #1e293b;
-    --sidebar-accent-foreground: #f1f5f9;
-    --sidebar-border: #334155;
-    --sidebar-ring: #3b82f6;
+    --sidebar-accent: #262626;
+    --sidebar-accent-foreground: #ffffff;
+    --sidebar-border: #333333;
+    --sidebar-ring: #60a5fa;
   }
+}
+
+/* Theme Tirai Curtain Effect System - Telegram Style */
+html {
+  position: relative;
+  background: var(--tirai-light);
+}
+
+html.dark {
+  background: var(--tirai-dark);
+}
+
+/* Curtain overlay for tirai animation */
+#tirai-curtain {
+  position: fixed;
+  top: -100%;
+  left: 0;
+  right: 0;
+  height: 100%;
+  z-index: 9999;
+  background: var(--tirai-dark);
+  pointer-events: none;
+}
+
+html:not(.dark) #tirai-curtain {
+  background: var(--tirai-light);
+}
+
+/* Tirai animation - slide down from top */
+@keyframes tirai-slide-down {
+  0% {
+    top: -100%;
+  }
+  50% {
+    top: 0%;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+#tirai-curtain.animate-tirai {
+  animation: tirai-slide-down 700ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+  
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
+    background: transparent !important;
   }
+  
   html {
     @apply font-sans;
+    background: transparent !important;
+  }
+}
+
+/* Component blur backgrounds instead of solid colors */
+@layer components {
+  /* Cards and containers use backdrop blur */
+  .card-blur {
+    @apply backdrop-blur-md bg-card border border-border/40;
+  }
+  
+  .glass-effect {
+    @apply backdrop-blur-lg bg-black/5 dark:bg-white/5;
+  }
+  
+  .glass-effect-strong {
+    @apply backdrop-blur-xl bg-white/10 dark:bg-black/10;
   }
 }
