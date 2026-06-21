@@ -48,6 +48,7 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="font-sans antialiased bg-background text-foreground">
+        <div id="tirai-curtain" />
         {children}
       </body>
     </html>
