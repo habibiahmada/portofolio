@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "title_en": "E-Commerce Platform",
+    "title_id": "Platform E-Commerce",
+    "description_en": "Full-stack e-commerce solution with Next.js, Stripe integration, and real-time inventory management.",
+    "description_id": "Solusi e-commerce full-stack dengan Next.js, integrasi Stripe, dan manajemen inventaris real-time.",
+    "image": "/images/project-1.png",
+    "tags": ["Next.js", "React", "Stripe", "PostgreSQL"],
+    "link": "#"
+  },
+  {
+    "id": 2,
+    "title_en": "Task Management App",
+    "title_id": "Aplikasi Manajemen Tugas",
+    "description_en": "Collaborative task management tool with real-time updates, team workspaces, and advanced filtering.",
+    "description_id": "Alat manajemen tugas kolaboratif dengan pembaruan real-time, ruang kerja tim, dan penyaringan lanjutan.",
+    "image": "/images/project-2.png",
+    "tags": ["React", "Firebase", "Tailwind CSS", "WebSocket"],
+    "link": "#"
+  },
+  {
+    "id": 3,
+    "title_en": "Analytics Dashboard",
+    "title_id": "Dashboard Analytics",
+    "description_en": "Real-time analytics dashboard with data visualization, custom reports, and export capabilities.",
+    "description_id": "Dashboard analytics real-time dengan visualisasi data, laporan kustom, dan kemampuan ekspor.",
+    "image": "/images/project-3.png",
+    "tags": ["Next.js", "Chart.js", "API Design", "PostgreSQL"],
+    "link": "#"
+  }
+]

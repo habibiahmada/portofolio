@@ -1,0 +1,45 @@
+{
+  "navigation": {
+    "home": "Beranda",
+    "about": "Tentang",
+    "work": "Karya",
+    "services": "Layanan",
+    "contact": "Kontak"
+  },
+  "hero": {
+    "greeting": "Hai, saya Habibi Ahmad",
+    "title": "Full-Stack Web Developer",
+    "subtitle": "Menciptakan pengalaman digital yang indah dan performa tinggi",
+    "cta": "Lihat Karya Saya"
+  },
+  "stats": {
+    "projects": "Proyek Selesai",
+    "experience": "Tahun Pengalaman",
+    "clients": "Klien Puas",
+    "code": "Baris Kode"
+  },
+  "projects": {
+    "title": "Karya Pilihan",
+    "subtitle": "Beberapa proyek terbaru saya",
+    "viewMore": "Lihat Proyek"
+  },
+  "services": {
+    "title": "Layanan",
+    "subtitle": "Apa yang bisa saya bantu",
+    "web_design": "Desain Web",
+    "web_design_desc": "Antarmuka responsif yang indah",
+    "web_dev": "Pengembangan Web",
+    "web_dev_desc": "Solusi full-stack dengan teknologi modern",
+    "optimization": "Performa",
+    "optimization_desc": "Pengalaman yang cepat dan optimal"
+  },
+  "cta": {
+    "title": "Siap membangun sesuatu yang luar biasa?",
+    "subtitle": "Mari kita bekerja sama mewujudkan ide Anda",
+    "button": "Mulai Proyek"
+  },
+  "footer": {
+    "copyright": "Hak cipta dilindungi",
+    "socials": "Ikuti saya"
+  }
+}
