@@ -1,137 +1,114 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { ArrowRight, CheckCircle2 } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { CpuArchitecture } from '@/components/ui/cpu-architecture'
 
-gsap.registerPlugin(ScrollTrigger)
+// Palet dari #15233e:
+// --navy-900: #15233e  (base)
+// --navy-700: #1e3460  (medium)
+// --navy-500: #2a4a85  (accent)
+// --navy-300: #4a72b8  (light accent)
 
-export function Hero() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const titleRef = useRef<HTMLHeadingElement>(null)
-  const subtitleRef = useRef<HTMLParagraphElement>(null)
-  const ctasRef = useRef<HTMLDivElement>(null)
-  const statsRef = useRef<HTMLDivElement>(null)
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 24 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] as const },
+})
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(titleRef.current, {
-        opacity: 0,
-        y: 40,
-        duration: 0.9,
-        ease: 'power3.out',
-      })
-
-      gsap.from(subtitleRef.current, {
-        opacity: 0,
-        y: 40,
-        duration: 0.9,
-        delay: 0.15,
-        ease: 'power3.out',
-      })
-
-      gsap.from(ctasRef.current, {
-        opacity: 0,
-        y: 40,
-        duration: 0.9,
-        delay: 0.3,
-        ease: 'power3.out',
-      })
-
-      gsap.from(statsRef.current, {
-        opacity: 0,
-        y: 40,
-        duration: 0.9,
-        delay: 0.45,
-        ease: 'power3.out',
-      })
-    }, containerRef)
-
-    return () => ctx.revert()
-  }, [])
-
+export function HeroSection() {
   return (
     <section
       id="hero"
-      ref={containerRef}
-      className="min-h-screen flex items-center justify-center pt-24 pb-12 px-6"
+      aria-label="Hero section"
+      className="relative min-h-screen flex flex-col items-center justify-center pt-28 pb-16 px-6 overflow-hidden"
     >
-      <div className="max-w-5xl mx-auto w-full space-y-12">
-        {/* Main Content */}
-        <div className="space-y-8 text-center">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 backdrop-blur-md bg-black/5 dark:bg-white/5 px-4 py-2 border border-border/40">
-            <div className="w-2 h-2 bg-primary"></div>
-            <span className="text-sm font-semibold text-foreground">
-              Welcome to Habibi Ahmad
-            </span>
-          </div>
+      {/* Background grid */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, rgba(100,100,100,0.1) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(100,100,100,0.1) 1px, transparent 1px)
+          `,
+          backgroundSize: '3rem 3rem',
+          WebkitMaskImage:
+            'radial-gradient(ellipse 80% 60% at 50% 50%, black 20%, transparent 100%)',
+          maskImage:
+            'radial-gradient(ellipse 80% 60% at 50% 50%, black 20%, transparent 100%)',
+        }}
+      />
 
-          {/* Title */}
-          <h1
-            ref={titleRef}
-            className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight"
-          >
-            <span className="bg-gradient-to-r from-primary via-blue-500 to-primary bg-clip-text text-transparent">
-              Full-Stack Web Developer
-            </span>
-          </h1>
+      {/* Content wrapper — rata tengah, satu kolom */}
+      <div className="relative z-10 w-full max-w-4xl mx-auto flex flex-col items-center text-center gap-8">
 
-          {/* Description */}
-          <p
-            ref={subtitleRef}
-            className="text-lg md:text-xl text-foreground/70 max-w-3xl mx-auto leading-relaxed"
-          >
-            Crafting beautiful, performant digital experiences with modern
-            technologies. From concept to deployment, I deliver solutions that
-            matter.
-          </p>
-
-          {/* CTAs */}
-          <div ref={ctasRef} className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
-            <button className="group backdrop-blur-md bg-primary/80 hover:bg-primary text-primary-foreground px-8 py-3.5 font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-primary/40 hover:scale-105 flex items-center gap-2 w-full sm:w-auto justify-center border border-border">
-              Get Free Consultation
-              <ArrowRight
-                size={18}
-                className="group-hover:translate-x-1 transition-transform"
-              />
-            </button>
-            <button className="backdrop-blur-md bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-foreground px-8 py-3.5 font-semibold border border-border/40 hover:border-border/60 transition-all duration-300 w-full sm:w-auto">
-              View My Work
-            </button>
-          </div>
-        </div>
-
-        {/* Stats Box */}
-        <div
-          ref={statsRef}
-          className="backdrop-blur-lg bg-black/5 dark:bg-white/5 border border-border/40 p-8 max-w-2xl mx-auto w-full"
+        {/* Heading */}
+        <motion.h1
+          {...fadeUp(0.1)}
+          className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-tight"
         >
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <div className="flex items-center gap-4">
-              <CheckCircle2 size={24} className="text-primary flex-shrink-0" />
-              <div>
-                <div className="text-2xl font-bold text-primary">50+</div>
-                <div className="text-sm text-foreground/60">Projects Completed</div>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <CheckCircle2 size={24} className="text-primary flex-shrink-0" />
-              <div>
-                <div className="text-2xl font-bold text-primary">5+</div>
-                <div className="text-sm text-foreground/60">Years Experience</div>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <CheckCircle2 size={24} className="text-primary flex-shrink-0" />
-              <div>
-                <div className="text-2xl font-bold text-primary">30+</div>
-                <div className="text-sm text-foreground/60">Happy Clients</div>
-              </div>
-            </div>
-          </div>
-        </div>
+          Building digital&nbsp;
+          <span style={{ color: '#2a4a85' }}>experiences</span>
+          <br />
+          that actually&nbsp;
+          <span style={{ color: '#2a4a85' }}>matter</span>
+        </motion.h1>
+
+        {/* Sub description */}
+        <motion.p
+          {...fadeUp(0.2)}
+          className="text-base md:text-lg text-foreground/60 max-w-lg"
+        >
+          Full-stack developer crafting fast, accessible, and beautifully
+          animated web products — from concept to deployment.
+        </motion.p>
+
+        {/* CTA buttons */}
+        <motion.div {...fadeUp(0.3)} className="flex flex-col sm:flex-row gap-3">
+          <a
+            href="#projects"
+            aria-label="View my projects"
+            className="px-7 py-3 text-white font-semibold text-sm transition-colors duration-200"
+            style={{
+              background: '#15233e',
+            }}
+            onMouseEnter={e => (e.currentTarget.style.background = '#1e3460')}
+            onMouseLeave={e => (e.currentTarget.style.background = '#15233e')}
+          >
+            View My Work
+          </a>
+          <a
+            href="#cta"
+            aria-label="Get in touch"
+            className="px-7 py-3 text-sm font-semibold transition-colors duration-200 border"
+            style={{ borderColor: '#15233e', color: '#15233e' }}
+            onMouseEnter={e => {
+              e.currentTarget.style.background = '#15233e'
+              e.currentTarget.style.color = '#ffffff'
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.background = 'transparent'
+              e.currentTarget.style.color = '#15233e'
+            }}
+          >
+            Get in Touch
+          </a>
+        </motion.div>
+
+        {/* CPU Architecture — tanpa wrapper bg/border/radius */}
+        <motion.div
+          {...fadeUp(0.35)}
+          className="w-full max-w-lg"
+          aria-hidden="true"
+        >
+          <CpuArchitecture
+            width="100%"
+            height="100%"
+            text="DEV"
+            className="cpu-svg-lines w-full h-auto"
+          />
+        </motion.div>
+
       </div>
     </section>
   )

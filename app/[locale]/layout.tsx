@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
-import { Providers } from '@/components/providers'
-import { Navigation } from '@/components/navigation'
+import { Navbar } from '@/components/navigation'
 import { Footer } from '@/components/sections/footer'
 
 export const metadata: Metadata = {
@@ -17,19 +16,12 @@ export async function generateStaticParams() {
   return [{ locale: 'en' }, { locale: 'id' }]
 }
 
-export default async function LocaleLayout({
-  children,
-  params,
-}: LocaleLayoutProps) {
-  const { locale } = await params
-
+export default async function LocaleLayout({ children, params }: LocaleLayoutProps) {
   return (
-    <Providers>
-      <Navigation />
-      <main>
-        {children}
-      </main>
+    <>
+      <Navbar />
+      <main>{children}</main>
       <Footer />
-    </Providers>
+    </>
   )
 }
