@@ -72,7 +72,7 @@ export function Projects() {
         {/* Section Header */}
         <div className="mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-primary to-blue-500 bg-clip-text text-transparent">
               Featured Work
             </span>
           </h2>

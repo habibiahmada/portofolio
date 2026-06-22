@@ -12,11 +12,33 @@
 :root {
   --background: #ffffff;
   --foreground: #0f172a;
+
+  /* Navy palette — light mode */
+  --navy-900: #15233e;
+  --navy-700: #1e3460;
+  --navy-500: #2a4a85;
+  --navy-300: #4a72b8;
+  --navy-accent-text: #2a4a85;   /* accent spans */
+  --navy-btn-bg: #15233e;        /* solid button bg */
+  --navy-btn-bg-hover: #1e3460;
+  --navy-btn-border: #15233e;    /* outline button border */
+  --navy-btn-text: #15233e;      /* outline button text */
 }
 
 .dark {
   --background: #0a0a0a;
   --foreground: #f8fafc;
+
+  /* Navy palette — dark mode */
+  --navy-900: #4a72b8;
+  --navy-700: #5580c8;
+  --navy-500: #6a96d8;
+  --navy-300: #a8c4f0;
+  --navy-accent-text: #6a96d8;   /* accent spans — lighter so readable on dark bg */
+  --navy-btn-bg: #1e3460;        /* solid button bg */
+  --navy-btn-bg-hover: #2a4a85;
+  --navy-btn-border: #4a72b8;    /* outline button border */
+  --navy-btn-text: #a8c4f0;      /* outline button text */
 }
 
 html {
