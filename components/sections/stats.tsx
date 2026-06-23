@@ -18,8 +18,8 @@ export function Stats() {
   const statsRef = useRef<(HTMLDivElement | null)[]>([])
 
   const stats: StatItem[] = [
-    { label: 'Projects Completed', value: 50, suffix: '+' },
-    { label: 'Years of Experience', value: 5, suffix: '+' },
+    { label: 'Projects Completed', value: 10, suffix: '+' },
+    { label: 'Years of Experience', value: 3, suffix: '+' },
     { label: 'Happy Clients', value: 30, suffix: '+' },
     { label: 'Lines of Code', value: 100000, suffix: '+' },
   ]
@@ -71,7 +71,7 @@ export function Stats() {
     <section
       id="stats"
       ref={containerRef}
-      className="py-20 px-6 border-t border-b border-border"
+      className="py-20 px-6 border-y border-zinc-400"
     >
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -81,10 +81,10 @@ export function Stats() {
               ref={(el) => {
                 statsRef.current[index] = el
               }}
-              className="text-center p-6 bg-card border border-border/50 hover:border-border transition-colors"
+              className="text-center p-6 bg-card border border-zinc-400 transition-colors"
             >
               <div className="text-4xl md:text-5xl font-bold text-primary mb-2">
-                <span className="counter">0</span>
+                <span className="counter">{stat.value}</span>
                 <span className="text-2xl md:text-3xl">{stat.suffix}</span>
               </div>
               <p className="text-sm md:text-base text-foreground/70 font-medium">

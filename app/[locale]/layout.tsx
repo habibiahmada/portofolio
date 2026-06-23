@@ -3,8 +3,13 @@ import { Navbar } from '@/components/navigation'
 import { Footer } from '@/components/sections/footer'
 
 export const metadata: Metadata = {
-  title: 'Habibi Ahmad | Full-Stack Web Developer',
-  description: 'Full-stack web developer crafting beautiful, performant digital experiences',
+  alternates: {
+    canonical: '/',
+    languages: {
+      'en-US': '/en',
+      'id-ID': '/id',
+    },
+  },
 }
 
 interface LocaleLayoutProps {

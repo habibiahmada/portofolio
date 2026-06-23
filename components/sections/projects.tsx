@@ -67,14 +67,12 @@ export function Projects() {
   }, [projects])
 
   return (
-    <section id="projects" ref={containerRef} className="py-20 px-6 border-t border-b border-border">
-      <div className="max-w-7xl mx-auto">
+    <section id="projects" ref={containerRef} className="py-20 px-6 border-b border-zinc-400">
+      <div className="max-w-[110em] mx-auto">
         {/* Section Header */}
         <div className="mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="bg-linear-to-r from-primary to-blue-500 bg-clip-text text-transparent">
               Featured Work
-            </span>
           </h2>
           <p className="text-lg text-foreground/60 max-w-2xl">
             A selection of my recent projects and case studies

@@ -71,18 +71,16 @@ export function Services() {
     <section
       id="services"
       ref={containerRef}
-      className="py-20 px-6 border-t border-b border-border"
+      className="py-20 px-6 border-b border-zinc-400"
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-[110em]   mx-auto">
         {/* Header */}
         <div className="max-w-2xl mb-16">
           <h2
             ref={titleRef}
             className="text-4xl md:text-5xl font-bold mb-6"
           >
-            <span className="bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
               Services
-            </span>
           </h2>
           <p className="text-lg text-foreground/70">
             Comprehensive solutions tailored to your needs, from design to

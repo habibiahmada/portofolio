@@ -32,17 +32,15 @@ export function CTA() {
   }, [])
 
   return (
-    <section id="cta" ref={containerRef} className="py-24 px-6 border-t border-b border-border">
+    <section id="cta" ref={containerRef} className="py-24 px-6 border-b border-zinc-400">
       <div className="max-w-4xl mx-auto text-center">
-        <div className="backdrop-blur-lg bg-black/5 dark:bg-white/5 border border-border/40 p-16">
+        <div className="backdrop-blur-lg bg-black/5 dark:bg-white/5 border border-zinc-400 p-16">
           {/* Title */}
           <h2
             ref={titleRef}
             className="text-4xl md:text-6xl font-bold mb-6 leading-tight"
           >
-            <span className="bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
               Ready to Build?
-            </span>
           </h2>
 
           {/* Subtitle */}
@@ -57,15 +55,16 @@ export function CTA() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
               ref={buttonRef}
-              className="group backdrop-blur-md bg-primary/80 hover:bg-primary text-primary-foreground px-8 py-3.5 font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-primary/40 hover:scale-105 inline-flex items-center gap-2 w-full sm:w-auto justify-center border border-border"
-            >
+                className="px-8 py-3.5 text-white font-semibold transition-colors duration-200"
+                style={{
+                  background: 'var(--navy-btn-bg)',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.background = 'var(--navy-btn-bg-hover)')}
+                onMouseLeave={e => (e.currentTarget.style.background = 'var(--navy-btn-bg)')}
+              >
               Get Free Consultation
-              <ArrowRight
-                size={20}
-                className="group-hover:translate-x-1 transition-transform"
-              />
             </button>
-            <button className="backdrop-blur-md bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-foreground px-8 py-3.5 font-semibold border border-border/40 hover:border-border/60 transition-all duration-300 w-full sm:w-auto">
+            <button className="backdrop-blur-md bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-foreground px-8 py-3.5 font-semibold border border-zinc-400 hover:border-zinc-500 transition-all duration-300 w-full sm:w-auto">
               Schedule a Call
             </button>
           </div>

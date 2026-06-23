@@ -65,11 +65,15 @@ function ThemeToggle() {
         ease: 'power3.inOut',
         onComplete: () => {
           setTheme('dark') // ganti tema saat layar tertutup penuh
-          // beri satu frame agar background gelap terapply sebelum curtain hilang
+          // Tunggu dua frame: frame pertama agar React flush state,
+          // frame kedua agar browser paint .dark class ke DOM,
+          // baru curtain dibuka — menghilangkan glitch warna.
           requestAnimationFrame(() => {
-            gsap.set(curtain, { clipPath: 'circle(0px at 50% 50%)' })
-            setIconState('enter')
-            setTimeout(() => setIconState('idle'), 400)
+            requestAnimationFrame(() => {
+              gsap.set(curtain, { clipPath: 'circle(0px at 50% 50%)' })
+              setIconState('enter')
+              setTimeout(() => setIconState('idle'), 400)
+            })
           })
         },
       })

@@ -43,8 +43,8 @@ export function Footer() {
   const year = new Date().getFullYear()
 
   return (
-    <footer aria-label="Site footer" className="border-t border-zinc-200 dark:border-zinc-800">
-      <div className="max-w-[110em] mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-3 gap-12">
+    <footer aria-label="Site footer">
+      <div className="max-w-[110em] mx-auto border-x border-zinc-400 px-6 py-16 grid grid-cols-1 md:grid-cols-3 gap-12">
 
         {/* Brand */}
         <div className="space-y-3">
@@ -104,9 +104,9 @@ export function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-zinc-200 dark:border-zinc-800">
-        <div className="max-w-[110em] mx-auto px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-foreground/40">
-          <p>&copy; {year} Habibi Ahmad. All rights reserved.</p>
+      <div >
+        <div className="max-w-[110em] mx-auto border border-zinc-400 px-6 py-6 flex items-center justify-between">
+          <p>&copy; {year} Habibi Ahmad Aziz. All rights reserved.</p>
           <p>Built with Next.js · Tailwind CSS · Framer Motion · GSAP</p>
         </div>
       </div>

@@ -62,22 +62,22 @@ export function HeroSection() {
       aria-label="Hero section"
       className="relative min-h-screen flex flex-col items-center justify-center pt-28 pb-16 px-6 overflow-hidden"
     >
-      {/* Background grid */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage: `
-            linear-gradient(to right, rgba(100,100,100,0.1) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(100,100,100,0.1) 1px, transparent 1px)
-          `,
-          backgroundSize: '3rem 3rem',
-          WebkitMaskImage:
-            'radial-gradient(ellipse 80% 60% at 50% 50%, black 20%, transparent 100%)',
-          maskImage:
-            'radial-gradient(ellipse 80% 60% at 50% 50%, black 20%, transparent 100%)',
-        }}
-      />
+    {/*  Background grid */}
+    <div
+      aria-hidden="true"
+      className="absolute inset-0 pointer-events-none"
+      style={{
+        backgroundImage: `
+          linear-gradient(to right, rgba(59, 130, 246, 0.4) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(59, 130, 246, 0.4) 1px, transparent 1px)
+        `,
+        backgroundSize: '3rem 3rem',
+        WebkitMaskImage:
+          'radial-gradient(ellipse 80% 50% at 50% 50%, black 20%, transparent 100%)',
+        maskImage:
+          'radial-gradient(ellipse 80% 50% at 50% 50%, black 20%, transparent 100%)',
+      }}
+    />
 
       {/* Content wrapper — rata tengah, satu kolom */}
       <div className="relative z-10 w-full max-w-4xl mx-auto flex flex-col items-center text-center gap-8">
