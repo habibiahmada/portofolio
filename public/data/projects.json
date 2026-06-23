@@ -1,32 +1,74 @@
 [
   {
-    "id": 1,
-    "title_en": "E-Commerce Platform",
-    "title_id": "Platform E-Commerce",
-    "description_en": "Full-stack e-commerce solution with Next.js, Stripe integration, and real-time inventory management.",
-    "description_id": "Solusi e-commerce full-stack dengan Next.js, integrasi Stripe, dan manajemen inventaris real-time.",
-    "image": "/images/project-1.png",
-    "tags": ["Next.js", "React", "Stripe", "PostgreSQL"],
-    "link": "#"
+    "id": "169275ea-ca4a-4701-857f-1417fc4fec23",
+    "title_en": "BagiBerkah | Interactive Digital THR Platform with Gamification and AI",
+    "title_id": "BagiBerkah | Platform THR Digital Interaktif dengan Gamifikasi dan AI",
+    "description_en": "AI-powered interactive digital THR platform that brings back the excitement of opening holiday envelopes through mini games and smart allocation recommendations.",
+    "description_id": "Platform THR digital interaktif bertenaga AI yang menghadirkan kembali kegembiraan membuka amplop liburan melalui mini game dan rekomendasi alokasi cerdas.",
+    "image": "/placeholder.jpg",
+    "tags": ["Next.js", "Express", "Prisma", "Mayar", "Xendit"],
+    "live_url": "https://bagiberkah.vercel.app",
+    "github_url": "https://github.com/habibiahmada/BagiBerkahTHR-client",
+    "year": 2026
   },
   {
-    "id": 2,
-    "title_en": "Task Management App",
-    "title_id": "Aplikasi Manajemen Tugas",
-    "description_en": "Collaborative task management tool with real-time updates, team workspaces, and advanced filtering.",
-    "description_id": "Alat manajemen tugas kolaboratif dengan pembaruan real-time, ruang kerja tim, dan penyaringan lanjutan.",
-    "image": "/images/project-2.png",
-    "tags": ["React", "Firebase", "Tailwind CSS", "WebSocket"],
-    "link": "#"
+    "id": "1dd8ca69-4921-4ca7-80e3-56177efaf499",
+    "title_en": "E-Democracy: From Voice to Action",
+    "title_id": "E-Demokrasi: Dari Suara ke Tindakan",
+    "description_en": "E-Vote is a platform that empowers students to voice their opinions confidently and shape the future of the school through digital student council president elections.",
+    "description_id": "E-Vote adalah platform yang memberdayakan siswa untuk menyuarakan pendapat mereka dengan percaya diri dan membentuk masa depan sekolah melalui pemilihan ketua OSIS secara digital.",
+    "image": "/placeholder.jpg",
+    "tags": ["PHP", "Laravel", "Bootstrap", "MySQL"],
+    "live_url": "https://vote.smkn1karawang.sch.id/",
+    "github_url": "#",
+    "year": 2025
   },
   {
-    "id": 3,
-    "title_en": "Analytics Dashboard",
-    "title_id": "Dashboard Analytics",
-    "description_en": "Real-time analytics dashboard with data visualization, custom reports, and export capabilities.",
-    "description_id": "Dashboard analytics real-time dengan visualisasi data, laporan kustom, dan kemampuan ekspor.",
-    "image": "/images/project-3.png",
-    "tags": ["Next.js", "Chart.js", "API Design", "PostgreSQL"],
-    "link": "#"
+    "id": "bde24764-8fcf-4d67-8bb2-697cb57fb66d",
+    "title_en": "Smartfarm AI: Smart Solutions for Modern Agriculture",
+    "title_id": "Smartfarm AI: Solusi Cerdas untuk Pertanian Modern",
+    "description_en": "We offer comprehensive solutions for modernizing Indonesian agriculture. By combining cutting-edge technology with a deep understanding of local conditions, we help farmers achieve optimal productivity.",
+    "description_id": "Kami menawarkan solusi komprehensif untuk memodernisasi pertanian Indonesia. Dengan memadukan teknologi mutakhir dan pemahaman mendalam terhadap kondisi lokal, kami membantu petani mencapai produktivitas optimal.",
+    "image": "/placeholder.jpg",
+    "tags": ["React", "Python", "Machine Learning", "JavaScript"],
+    "live_url": "#",
+    "github_url": "https://github.com/intel-farm-AI/smart-farmer-client",
+    "year": 2025
+  },
+  {
+    "id": "ff98b3c6-e267-4ee0-9059-9444858eacf4",
+    "title_en": "CultureConnect.: Come explore with us.",
+    "title_id": "CultureConnect.: Ayo jelajahi bersama kami.",
+    "description_en": "An AI-based platform that revolutionizes the way travelers discover cultural and tourism experiences that are more personalized, unique, and impactful for local communities.",
+    "description_id": "Platform berbasis AI yang merevolusi cara wisatawan menemukan pengalaman budaya dan pariwisata yang lebih personal, unik, dan berdampak bagi komunitas lokal.",
+    "image": "/placeholder.jpg",
+    "tags": ["Python", "React", "Machine Learning"],
+    "live_url": "https://culture-connect-iota.vercel.app/",
+    "github_url": "https://github.com/CultureConnect-team",
+    "year": 2025
+  },
+  {
+    "id": "13e602b8-c324-44e6-9c61-e9e40f388394",
+    "title_en": "Spacelab: Integrated School Management",
+    "title_id": "Spacelab: Manajemen Sekolah Terpadu",
+    "description_en": "An integrated platform to manage class schedules, rooms, teachers, and students without schedule conflicts, without manual hassle, without administrative errors.",
+    "description_id": "Platform terpadu untuk mengelola jadwal kelas, ruangan, guru, dan siswa tanpa konflik jadwal, tanpa kerumitan manual, tanpa kesalahan administratif.",
+    "image": "/placeholder.jpg",
+    "tags": ["Laravel", "PHP", "JavaScript"],
+    "live_url": "#",
+    "github_url": "https://github.com/habibiahmada/spacelab",
+    "year": 2025
+  },
+  {
+    "id": "f5c13a15-1bc6-4e82-8d62-d1196894d189",
+    "title_en": "Renshuu web",
+    "title_id": "Renshuu web",
+    "description_en": "Web application for job search, a collaboration between SMKN 1 Karawang and CV Smartplus.",
+    "description_id": "Aplikasi web untuk mencari kerja hasil kerjasama SMKN 1 Karawang dengan CV Smartplus.",
+    "image": "/placeholder.jpg",
+    "tags": ["React", "Laravel"],
+    "live_url": "#",
+    "github_url": "https://github.com/cvsmartplus/Renshuu-app",
+    "year": 2025
   }
 ]

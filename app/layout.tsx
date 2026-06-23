@@ -36,7 +36,7 @@ export const metadata: Metadata = {
       'Full-stack web developer crafting beautiful, performant digital experiences — from concept to deployment.',
     images: [
       {
-        url: '/images/habibiahmada.png',
+        url: '/open-graph/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Habibi Ahmad — Full-Stack Web Developer',
@@ -48,16 +48,14 @@ export const metadata: Metadata = {
     title: 'Habibi Ahmad | Full-Stack Web Developer',
     description:
       'Full-stack web developer crafting beautiful, performant digital experiences — from concept to deployment.',
-    images: ['/images/habibiahmada.png'],
+    images: ['/open-graph/og-image.png'],
     creator: '@habibiahmad',
   },
   icons: {
     icon: [
-      { url: '/icon-light-32x32.png', media: '(prefers-color-scheme: light)' },
-      { url: '/icon-dark-32x32.png',  media: '(prefers-color-scheme: dark)'  },
-      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/icons/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
     ],
-    apple: '/apple-icon.png',
+    apple: '/icons/apple-touch-icon.png',
   },
   robots: {
     index: true,

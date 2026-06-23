@@ -12,11 +12,8 @@
     "subtitle": "Menciptakan pengalaman digital yang indah dan performa tinggi",
     "cta": "Lihat Karya Saya"
   },
-  "stats": {
-    "projects": "Proyek Selesai",
-    "experience": "Tahun Pengalaman",
-    "clients": "Klien Puas",
-    "code": "Baris Kode"
+  "companies": {
+    "headline": "Dipercaya oleh perusahaan terkemuka"
   },
   "projects": {
     "title": "Karya Pilihan",

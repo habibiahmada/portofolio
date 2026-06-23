@@ -12,11 +12,8 @@
     "subtitle": "Crafting beautiful, performant digital experiences",
     "cta": "View My Work"
   },
-  "stats": {
-    "projects": "Projects Completed",
-    "experience": "Years of Experience",
-    "clients": "Happy Clients",
-    "code": "Lines of Code"
+  "companies": {
+    "headline": "Trusted by leading companies"
   },
   "projects": {
     "title": "Featured Work",
