@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
 import './globals.css'
+import { Navbar } from '@/components/navigation'
+import { Footer } from '@/components/sections/footer'
 
 const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] })
 const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] })
@@ -99,7 +101,9 @@ export default function RootLayout({
           disableTransitionOnChange={false}
         >
           <div className="relative flex flex-col flex-1" style={{ zIndex: 2 }}>
+            <Navbar />
             {children}
+            <Footer />
           </div>
         </ThemeProvider>
       </body>

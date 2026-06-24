@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useTheme } from 'next-themes'
+import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import gsap from 'gsap'
 import { Sun, Moon, Menu, X } from 'lucide-react'
@@ -131,10 +132,11 @@ function ThemeToggle() {
 // ─── Nav links ────────────────────────────────────────────────────────────────
 
 const NAV_LINKS = [
-  { label: 'Home', href: '#hero' },
-  { label: 'Work', href: '#projects' },
+  { label: 'Home',     href: '#hero' },
+  { label: 'Work',     href: '#projects' },
   { label: 'Services', href: '#services' },
-  { label: 'Contact', href: '#cta' },
+  { label: 'Contact',  href: '#cta' },
+  { label: 'About',    href: '/about' },
 ]
 
 // ─── Navbar ───────────────────────────────────────────────────────────────────
@@ -143,6 +145,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+  const pathname = usePathname()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -156,6 +159,9 @@ export function Navbar() {
     window.addEventListener('resize', onResize)
     return () => window.removeEventListener('resize', onResize)
   }, [])
+
+  // Close mobile menu on route change
+  useEffect(() => { setMobileOpen(false) }, [pathname])
 
   return (
     <header
@@ -171,7 +177,7 @@ export function Navbar() {
       >
         {/* Logo */}
         <motion.a
-          href="#hero"
+          href={pathname === '/' ? '#hero' : '/'}
           aria-label="Habibi Ahmad — home"
           initial={{ opacity: 0, x: -16 }}
           animate={{ opacity: 1, x: 0 }}
@@ -183,31 +189,45 @@ export function Navbar() {
 
         {/* Desktop links with sliding pill */}
         <ul className="hidden md:flex items-center gap-1.5 relative" role="list">
-          {NAV_LINKS.map((link, i) => (
-            <motion.li
-              key={link.href}
-              className="relative px-3.5 py-1.5"
-              onMouseEnter={() => setHoveredIndex(i)}
-              onMouseLeave={() => setHoveredIndex(null)}
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35, delay: 0.1 + i * 0.06, ease: 'easeOut' }}
-            >
-              <a
-                href={link.href}
-                className="relative text-xs font-semibold text-foreground/70 hover:text-foreground transition-colors z-10"
+          {NAV_LINKS.map((link, i) => {
+            const href = link.href.startsWith('#') && pathname !== '/'
+              ? `/${link.href}`
+              : link.href
+            const isActive = link.href === '/about'
+              ? pathname === '/about'
+              : pathname === '/'
+
+            return (
+              <motion.li
+                key={link.href}
+                className="relative px-3.5 py-1.5"
+                onMouseEnter={() => setHoveredIndex(i)}
+                onMouseLeave={() => setHoveredIndex(null)}
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, delay: 0.1 + i * 0.06, ease: 'easeOut' }}
               >
-                {link.label}
-              </a>
-              {hoveredIndex === i && (
-                <motion.div
-                  layoutId="nav-hover-pill"
-                  className="absolute inset-0 bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5 rounded-full"
-                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                />
-              )}
-            </motion.li>
-          ))}
+                <a
+                  href={href}
+                  aria-current={isActive && link.href !== '/about' ? undefined : isActive ? 'page' : undefined}
+                  className={`relative text-xs font-semibold transition-colors z-10 ${
+                    isActive && link.href === '/about'
+                      ? 'text-foreground'
+                      : 'text-foreground/70 hover:text-foreground'
+                  }`}
+                >
+                  {link.label}
+                </a>
+                {hoveredIndex === i && (
+                  <motion.div
+                    layoutId="nav-hover-pill"
+                    className="absolute inset-0 bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5 rounded-full"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+              </motion.li>
+            )
+          })}
         </ul>
 
         {/* Right controls */}
@@ -265,22 +285,34 @@ export function Navbar() {
             className="md:hidden overflow-hidden mt-2 border-t border-black/5 dark:border-white/5 bg-transparent"
           >
             <ul className="flex flex-col px-6 py-4 gap-1.5" role="list">
-              {NAV_LINKS.map((link, i) => (
-                <motion.li
-                  key={link.href}
-                  initial={{ opacity: 0, x: -16 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.06, duration: 0.25 }}
-                >
-                  <a
-                    href={link.href}
-                    onClick={() => setMobileOpen(false)}
-                    className="block py-2 text-sm font-semibold text-foreground/70 hover:text-foreground transition-colors"
+              {NAV_LINKS.map((link, i) => {
+                const href = link.href.startsWith('#') && pathname !== '/'
+                  ? `/${link.href}`
+                  : link.href
+                const isActive = link.href === '/about' ? pathname === '/about' : false
+
+                return (
+                  <motion.li
+                    key={link.href}
+                    initial={{ opacity: 0, x: -16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.06, duration: 0.25 }}
                   >
-                    {link.label}
-                  </a>
-                </motion.li>
-              ))}
+                    <a
+                      href={href}
+                      onClick={() => setMobileOpen(false)}
+                      className={`block py-2 text-sm font-semibold transition-colors ${
+                        isActive ? 'text-foreground' : 'text-foreground/70 hover:text-foreground'
+                      }`}
+                    >
+                      {link.label}
+                      {isActive && (
+                        <span className="ml-2 inline-block w-1.5 h-1.5 rounded-full bg-indigo-500 align-middle" />
+                      )}
+                    </a>
+                  </motion.li>
+                )
+              })}
             </ul>
           </motion.div>
         )}
