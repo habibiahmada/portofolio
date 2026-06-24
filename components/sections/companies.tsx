@@ -23,13 +23,13 @@ export function Companies() {
         </h2>
         
         {/* Fade-masked marquee container */}
-        <div className="relative w-full overflow-hidden flex items-center [mask-image:linear-gradient(to_right,transparent_0,black_20%,black_80%,transparent_100%)]">
+        <div className="relative w-full overflow-hidden flex items-center mask-[linear-gradient(to_right,transparent_0,black_20%,black_20%,transparent_100%)]">
           
           <div className="flex gap-16 py-4 animate-marquee whitespace-nowrap">
             {marqueeItems.map((company, index) => (
               <div
                 key={`${company.name}-${index}`}
-                className="relative h-12 w-32 shrink-0 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer"
+                className="relative h-20 w-32 shrink-0 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer"
               >
                 <Image
                   src={company.logo}

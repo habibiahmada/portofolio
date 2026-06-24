@@ -1,14 +1,22 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion, useInView, animate } from 'framer-motion'
 
 // ─── Component 1: Web Design Wireframe Visual ─────────────────────────────────
 
 export function LayoutDesignerVisual() {
   const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, margin: '-40px' })
+  const isInView = useInView(ref, { once: false, margin: '-40px' })
   const [tilt, setTilt] = useState({ x: 0, y: 0 })
+
+  // Loop: setiap 4 detik trigger "refresh" animasi wireframe
+  const [cycle, setCycle] = useState(0)
+  useEffect(() => {
+    if (!isInView) return
+    const id = setInterval(() => setCycle(c => c + 1), 4000)
+    return () => clearInterval(id)
+  }, [isInView])
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const el = ref.current
@@ -32,18 +40,20 @@ export function LayoutDesignerVisual() {
       <div
         className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
         style={{
-          backgroundImage: 'repeating-linear-gradient(0deg,currentColor 0,currentColor 1px,transparent 1px,transparent 28px),repeating-linear-gradient(90deg,currentColor 0,currentColor 1px,transparent 1px,transparent 28px)',
+          backgroundImage:
+            'repeating-linear-gradient(0deg,currentColor 0,currentColor 1px,transparent 1px,transparent 28px),repeating-linear-gradient(90deg,currentColor 0,currentColor 1px,transparent 1px,transparent 28px)',
         }}
       />
 
       {/* Browser mock */}
       <motion.div
-        animate={isInView ? {
-          opacity: 1,
-          y: 0,
-          rotateX: -tilt.y,
-          rotateY: tilt.x,
-        } : { opacity: 0, y: 20 }}
+        key={cycle}
+        animate={
+          isInView
+            ? { opacity: 1, y: 0, rotateX: -tilt.y, rotateY: tilt.x }
+            : { opacity: 0, y: 20 }
+        }
+        initial={{ opacity: 0, y: 20 }}
         transition={{ duration: 0.6, ease: [0.215, 0.61, 0.355, 1] }}
         style={{ perspective: 700 }}
         className="w-full max-w-xs"
@@ -54,33 +64,74 @@ export function LayoutDesignerVisual() {
             <span className="w-2 h-2 rounded-full bg-red-400/80" />
             <span className="w-2 h-2 rounded-full bg-yellow-400/80" />
             <span className="w-2 h-2 rounded-full bg-green-400/80" />
-            <div className="flex-1 mx-3 h-2.5 bg-zinc-200 dark:bg-zinc-800 rounded-full" />
+            {/* URL bar typing animation */}
+            <motion.div
+              key={cycle}
+              initial={{ width: '20%' }}
+              animate={{ width: '80%' }}
+              transition={{ delay: 0.3, duration: 0.8, ease: 'easeOut' }}
+              className="mx-3 h-2.5 bg-zinc-200 dark:bg-zinc-800 rounded-full"
+            />
           </div>
 
           {/* Layout wireframe */}
           <div className="p-3 grid grid-cols-3 gap-2">
             <motion.div
+              key={`header-${cycle}`}
               animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
+              initial={{ opacity: 0, x: -10 }}
               transition={{ delay: 0.25, duration: 0.5 }}
               className="col-span-2 h-10 rounded-lg bg-indigo-500/10 border border-indigo-500/15 flex items-center px-2 gap-1.5"
             >
-              <div className="h-1.5 w-10 rounded-full bg-indigo-400/40" />
-              <div className="h-1.5 w-6 rounded-full bg-indigo-400/20" />
+              {/* Animated bar widths */}
+              <motion.div
+                key={`b1-${cycle}`}
+                initial={{ width: 0 }}
+                animate={{ width: 40 }}
+                transition={{ delay: 0.4, duration: 0.5, ease: 'easeOut' }}
+                className="h-1.5 rounded-full bg-indigo-400/40"
+              />
+              <motion.div
+                key={`b2-${cycle}`}
+                initial={{ width: 0 }}
+                animate={{ width: 24 }}
+                transition={{ delay: 0.55, duration: 0.4, ease: 'easeOut' }}
+                className="h-1.5 rounded-full bg-indigo-400/20"
+              />
             </motion.div>
+
             <motion.div
+              key={`img-${cycle}`}
               animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 10 }}
+              initial={{ opacity: 0, x: 10 }}
               transition={{ delay: 0.35, duration: 0.5 }}
               className="h-10 rounded-lg bg-zinc-100 dark:bg-zinc-800 border border-black/5 dark:border-white/5 flex items-center justify-center"
             >
-              <div className="w-4 h-4 rounded-full border-2 border-dashed border-indigo-400/30" />
+              <motion.div
+                key={`spin-${cycle}`}
+                animate={{ rotate: 360 }}
+                transition={{ delay: 0.5, duration: 1.5, ease: 'easeInOut' }}
+                className="w-4 h-4 rounded-full border-2 border-dashed border-indigo-400/50"
+              />
             </motion.div>
+
             {[0, 1, 2].map((i) => (
               <motion.div
-                key={i}
+                key={`row-${cycle}-${i}`}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
+                initial={{ opacity: 0, y: 8 }}
                 transition={{ delay: 0.4 + i * 0.08, duration: 0.4 }}
-                className="h-6 rounded-md bg-zinc-100 dark:bg-zinc-800 border border-black/5 dark:border-white/5"
-              />
+                className="h-6 rounded-md bg-zinc-100 dark:bg-zinc-800 border border-black/5 dark:border-white/5 overflow-hidden"
+              >
+                {/* shimmer sweep */}
+                <motion.div
+                  key={`shimmer-${cycle}-${i}`}
+                  initial={{ x: '-100%' }}
+                  animate={{ x: '200%' }}
+                  transition={{ delay: 0.6 + i * 0.15, duration: 0.9, ease: 'easeInOut' }}
+                  className="h-full w-1/2 bg-linear-to-r from-transparent via-white/40 dark:via-white/10 to-transparent"
+                />
+              </motion.div>
             ))}
           </div>
         </div>
@@ -93,18 +144,27 @@ export function LayoutDesignerVisual() {
 
 export function CodeEditorVisual() {
   const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, margin: '-40px' })
+  const isInView = useInView(ref, { once: false, margin: '-40px' })
+  const [cycle, setCycle] = useState(0)
 
   const codeLines = [
     { text: "const Portfolio = () => {", delay: 0 },
-    { text: "  const [data, setData]", delay: 0.25 },
-    { text: "    = useState(null)", delay: 0.45 },
-    { text: "", delay: 0.6 },
-    { text: "  return (", delay: 0.7 },
-    { text: "    <BentoGrid data={data} />", delay: 0.9 },
-    { text: "  )", delay: 1.0 },
-    { text: "}", delay: 1.1 },
+    { text: "  const [data, setData]",   delay: 0.22 },
+    { text: "    = useState(null)",       delay: 0.40 },
+    { text: "",                           delay: 0.55 },
+    { text: "  return (",                 delay: 0.65 },
+    { text: "    <BentoGrid data={data} />", delay: 0.82 },
+    { text: "  )",                        delay: 0.96 },
+    { text: "}",                          delay: 1.08 },
   ]
+
+  // Total typing duration ~ 1.5s, then pause 2.5s, then restart
+  useEffect(() => {
+    if (!isInView) return
+    const loopDuration = 4500 // ms
+    const id = setInterval(() => setCycle(c => c + 1), loopDuration)
+    return () => clearInterval(id)
+  }, [isInView])
 
   const highlight = (text: string) =>
     text
@@ -134,10 +194,10 @@ export function CodeEditorVisual() {
       <div className="flex-1 px-4 py-3 font-mono text-[11px] text-zinc-400 leading-relaxed overflow-hidden">
         {codeLines.map((line, i) => (
           <motion.div
-            key={i}
+            key={`${cycle}-${i}`}
             initial={{ opacity: 0, x: -8 }}
             animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -8 }}
-            transition={{ delay: line.delay, duration: 0.4, ease: 'easeOut' }}
+            transition={{ delay: line.delay, duration: 0.35, ease: 'easeOut' }}
             className="flex gap-3 min-h-[1.4em]"
           >
             <span className="text-zinc-700 shrink-0 w-4 text-right">{i + 1}</span>
@@ -162,23 +222,44 @@ export function CodeEditorVisual() {
 
 export function SpeedometerGaugeVisual() {
   const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, margin: '-40px' })
+  const isInView = useInView(ref, { once: false, margin: '-40px' })
   const [score, setScore] = useState(0)
+  const [metricsVisible, setMetricsVisible] = useState(false)
 
   useEffect(() => {
     if (!isInView) return
-    let current = 0
-    const interval = setInterval(() => {
-      current += 2
-      if (current >= 98) { current = 98; clearInterval(interval) }
-      setScore(current)
-    }, 18)
-    return () => clearInterval(interval)
+
+    let rafId: ReturnType<typeof setInterval>
+    let loopId: ReturnType<typeof setTimeout>
+
+    const runCycle = () => {
+      setScore(0)
+      setMetricsVisible(false)
+
+      let current = 0
+      rafId = setInterval(() => {
+        current += 2
+        if (current >= 98) {
+          current = 98
+          clearInterval(rafId)
+          setMetricsVisible(true)
+          // restart after 3s pause
+          loopId = setTimeout(runCycle, 3000)
+        }
+        setScore(current)
+      }, 18)
+    }
+
+    runCycle()
+
+    return () => {
+      clearInterval(rafId)
+      clearTimeout(loopId)
+    }
   }, [isInView])
 
   const radius = 38
   const circumference = 2 * Math.PI * radius
-  // Only draw 270° arc (¾ of circle), so max offset is circumference * 0.75
   const arcLen = circumference * 0.75
   const filled = arcLen * (score / 100)
   const offset = arcLen - filled
@@ -195,9 +276,9 @@ export function SpeedometerGaugeVisual() {
       className="w-full h-44 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-black/5 dark:border-white/5 flex items-center justify-between px-6"
     >
       {/* Gauge */}
-      <div className="relative flex-shrink-0">
+      <div className="relative shrink-0">
         <svg width="88" height="88" viewBox="0 0 88 88">
-          {/* Background track — 270° arc starting at 135° */}
+          {/* Background track */}
           <circle
             cx="44" cy="44" r={radius}
             fill="none"
@@ -234,8 +315,8 @@ export function SpeedometerGaugeVisual() {
           <motion.div
             key={m.label}
             initial={{ opacity: 0, x: 12 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 12 }}
-            transition={{ delay: 0.3 + i * 0.1, duration: 0.45 }}
+            animate={metricsVisible ? { opacity: 1, x: 0 } : { opacity: 0, x: 12 }}
+            transition={{ delay: i * 0.12, duration: 0.45 }}
             className="flex items-center gap-3"
           >
             <span className="text-[9px] font-mono text-muted-foreground/60 w-8">{m.label}</span>
@@ -243,8 +324,8 @@ export function SpeedometerGaugeVisual() {
               <motion.div
                 className="h-full rounded-full bg-emerald-500"
                 initial={{ width: 0 }}
-                animate={isInView ? { width: '100%' } : { width: 0 }}
-                transition={{ delay: 0.4 + i * 0.1, duration: 0.8, ease: 'easeOut' }}
+                animate={metricsVisible ? { width: '100%' } : { width: 0 }}
+                transition={{ delay: i * 0.12 + 0.1, duration: 0.8, ease: 'easeOut' }}
               />
             </div>
             <span className={`text-[10px] font-mono font-bold ${m.color}`}>{m.val}</span>
@@ -259,8 +340,9 @@ export function SpeedometerGaugeVisual() {
 
 export function NodeGraphVisual() {
   const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, margin: '-40px' })
+  const isInView = useInView(ref, { once: false, margin: '-40px' })
   const [activeNode, setActiveNode] = useState<number | null>(null)
+  const [pulse, setPulse] = useState<{ from: number; to: number } | null>(null)
 
   const nodes = [
     { id: 1, cx: 44,  cy: 75,  label: 'Client',  color: '#818cf8' },
@@ -276,6 +358,20 @@ export function NodeGraphVisual() {
     { from: 3, to: 4 },
   ]
 
+  // Looping data pulse: traverse links one by one
+  useEffect(() => {
+    if (!isInView) return
+    let idx = 0
+    const step = () => {
+      const link = links[idx % links.length]
+      setPulse(link)
+      idx++
+    }
+    step()
+    const id = setInterval(step, 1200)
+    return () => clearInterval(id)
+  }, [isInView])
+
   return (
     <div
       ref={ref}
@@ -286,27 +382,40 @@ export function NodeGraphVisual() {
         {links.map((link, i) => {
           const from = nodes.find(n => n.id === link.from)!
           const to   = nodes.find(n => n.id === link.to)!
-          const isActive = activeNode === link.from || activeNode === link.to
+          const isHoverActive = activeNode === link.from || activeNode === link.to
+          const isPulsing = pulse?.from === link.from && pulse?.to === link.to
           return (
-            <motion.line
-              key={i}
-              x1={from.cx} y1={from.cy}
-              x2={to.cx}   y2={to.cy}
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={isInView ? { pathLength: 1, opacity: 1 } : {}}
-              transition={{ delay: 0.2 + i * 0.12, duration: 0.6, ease: 'easeOut' }}
-              stroke={isActive ? to.color : 'currentColor'}
-              strokeWidth={isActive ? 1.5 : 1}
-              strokeOpacity={isActive ? 0.7 : 0.15}
-              strokeDasharray={isActive ? undefined : '4 4'}
-              className="transition-all duration-300"
-            />
+            <g key={i}>
+              <motion.line
+                x1={from.cx} y1={from.cy}
+                x2={to.cx}   y2={to.cy}
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={isInView ? { pathLength: 1, opacity: 1 } : {}}
+                transition={{ delay: 0.2 + i * 0.12, duration: 0.6, ease: 'easeOut' }}
+                stroke={isHoverActive ? to.color : 'currentColor'}
+                strokeWidth={isHoverActive ? 1.5 : 1}
+                strokeOpacity={isHoverActive ? 0.7 : 0.15}
+                strokeDasharray={isHoverActive ? undefined : '4 4'}
+                className="transition-all duration-300"
+              />
+              {/* Traveling dot pulse */}
+              {isPulsing && isInView && (
+                <motion.circle
+                  r={3}
+                  fill={to.color}
+                  initial={{ cx: from.cx, cy: from.cy, opacity: 1 }}
+                  animate={{ cx: to.cx, cy: to.cy, opacity: [1, 1, 0] }}
+                  transition={{ duration: 0.9, ease: 'easeInOut' }}
+                />
+              )}
+            </g>
           )
         })}
 
         {/* Nodes */}
         {nodes.map((node, i) => {
           const isHovered = activeNode === node.id
+          const isPulseNode = pulse?.from === node.id || pulse?.to === node.id
           return (
             <motion.g
               key={node.id}
@@ -318,12 +427,22 @@ export function NodeGraphVisual() {
               onMouseLeave={() => setActiveNode(null)}
               className="cursor-pointer"
             >
-              {/* Outer ring glow */}
-              {isHovered && (
-                <circle
-                  cx={node.cx} cy={node.cy} r={18}
-                  fill={node.color} fillOpacity={0.08}
+              {/* Pulse ring on active node */}
+              {isPulseNode && (
+                <motion.circle
+                  cx={node.cx} cy={node.cy}
+                  r={14}
+                  fill="none"
+                  stroke={node.color}
+                  strokeWidth={1.5}
+                  initial={{ r: 11, opacity: 0.8 }}
+                  animate={{ r: 22, opacity: 0 }}
+                  transition={{ duration: 0.9, ease: 'easeOut' }}
                 />
+              )}
+              {/* Hover glow */}
+              {isHovered && (
+                <circle cx={node.cx} cy={node.cy} r={18} fill={node.color} fillOpacity={0.08} />
               )}
               {/* Main circle */}
               <circle
@@ -340,7 +459,7 @@ export function NodeGraphVisual() {
               <circle
                 cx={node.cx} cy={node.cy} r={4}
                 fill={node.color}
-                fillOpacity={isHovered ? 1 : 0.6}
+                fillOpacity={isPulseNode ? 1 : isHovered ? 1 : 0.6}
                 className="transition-all duration-300"
               />
               {/* Label */}
@@ -368,18 +487,33 @@ export function NodeGraphVisual() {
 
 export function TechCarouselVisual() {
   const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, margin: '-40px' })
+  const isInView = useInView(ref, { once: false, margin: '-40px' })
+  const [highlightIdx, setHighlightIdx] = useState<number | null>(null)
 
   const techs = [
-    { name: 'Next.js',     bg: 'bg-black dark:bg-white',              text: 'text-white dark:text-black' },
-    { name: 'React',       bg: 'bg-sky-500/10 dark:bg-sky-500/15',    text: 'text-sky-500' },
-    { name: 'TypeScript',  bg: 'bg-blue-500/10 dark:bg-blue-500/15',  text: 'text-blue-500' },
-    { name: 'Tailwind',    bg: 'bg-teal-500/10 dark:bg-teal-500/15',  text: 'text-teal-500' },
-    { name: 'GSAP',        bg: 'bg-green-500/10 dark:bg-green-500/15',text: 'text-green-500' },
-    { name: 'Framer',      bg: 'bg-pink-500/10 dark:bg-pink-500/15',  text: 'text-pink-500' },
-    { name: 'Node.js',     bg: 'bg-emerald-500/10',                   text: 'text-emerald-500' },
-    { name: 'Prisma',      bg: 'bg-indigo-500/10',                    text: 'text-indigo-500' },
+    { name: 'Next.js',    bg: 'bg-black dark:bg-white',              text: 'text-white dark:text-black' },
+    { name: 'React',      bg: 'bg-sky-500/10 dark:bg-sky-500/15',    text: 'text-sky-500' },
+    { name: 'TypeScript', bg: 'bg-blue-500/10 dark:bg-blue-500/15',  text: 'text-blue-500' },
+    { name: 'Tailwind',   bg: 'bg-teal-500/10 dark:bg-teal-500/15',  text: 'text-teal-500' },
+    { name: 'GSAP',       bg: 'bg-green-500/10 dark:bg-green-500/15',text: 'text-green-500' },
+    { name: 'Framer',     bg: 'bg-pink-500/10 dark:bg-pink-500/15',  text: 'text-pink-500' },
+    { name: 'Node.js',    bg: 'bg-emerald-500/10',                   text: 'text-emerald-500' },
+    { name: 'Prisma',     bg: 'bg-indigo-500/10',                    text: 'text-indigo-500' },
   ]
+
+  // Loop: spotlight each badge in sequence
+  useEffect(() => {
+    if (!isInView) return
+    let idx = 0
+    const id = setInterval(() => {
+      setHighlightIdx(idx % techs.length)
+      idx++
+    }, 600)
+    return () => {
+      clearInterval(id)
+      setHighlightIdx(null)
+    }
+  }, [isInView])
 
   return (
     <div
@@ -393,16 +527,20 @@ export function TechCarouselVisual() {
             initial={{ opacity: 0, scale: 0.6, y: 10 }}
             animate={isInView ? {
               opacity: 1,
-              scale: 1,
-              y: [0, -5, 0],
+              scale: highlightIdx === i ? 1.15 : 1,
+              y: highlightIdx === i ? -6 : [0, -4, 0],
             } : { opacity: 0, scale: 0.6 }}
             transition={{
-              opacity:   { delay: i * 0.07, duration: 0.35 },
-              scale:     { delay: i * 0.07, duration: 0.35, ease: [0.175, 0.885, 0.32, 1.275] },
-              y: { delay: i * 0.07 + 0.35, duration: 2.8, repeat: Infinity, ease: 'easeInOut' },
+              opacity: { delay: i * 0.07, duration: 0.35 },
+              scale:   { duration: 0.3, ease: [0.175, 0.885, 0.32, 1.275] },
+              y:       highlightIdx === i
+                ? { duration: 0.25, ease: 'easeOut' }
+                : { delay: i * 0.07 + 0.35, duration: 2.8, repeat: Infinity, ease: 'easeInOut' },
             }}
             whileHover={{ scale: 1.1, y: -6 }}
-            className={`px-3 py-1.5 rounded-full text-[10px] font-mono font-bold tracking-wide cursor-pointer select-none ${tech.bg} ${tech.text}`}
+            className={`px-3 py-1.5 rounded-full text-[10px] font-mono font-bold tracking-wide cursor-pointer select-none transition-shadow duration-300 ${tech.bg} ${tech.text} ${
+              highlightIdx === i ? 'ring-1 ring-current shadow-lg shadow-current/20' : ''
+            }`}
           >
             {tech.name}
           </motion.span>
