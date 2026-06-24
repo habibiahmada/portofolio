@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { CpuArchitecture } from '@/components/ui/cpu-architecture'
 import gsap from 'gsap'
@@ -8,26 +8,27 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// Palet dari #15233e:
-// --navy-900: #15233e  (base)
-// --navy-700: #1e3460  (medium)
-// --navy-500: #2a4a85  (accent)
-// --navy-300: #4a72b8  (light accent)
-
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 24 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] as const },
-})
-
 export function HeroSection() {
+  const containerRef = useRef<HTMLDivElement>(null)
   const cpuWrapperRef = useRef<HTMLDivElement>(null)
+  const spotlightRef = useRef<HTMLDivElement>(null)
+
+  // Track mouse coordinates for background spotlight without re-rendering React
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = containerRef.current
+    if (!el || !spotlightRef.current) return
+    const rect = el.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    spotlightRef.current.style.setProperty('--mouse-x', `${x}px`)
+    spotlightRef.current.style.setProperty('--mouse-y', `${y}px`)
+  }
 
   useEffect(() => {
     const el = cpuWrapperRef.current
     if (!el) return
 
-    // Initial isometric state — tilted like the reference image
+    // Initial isometric state 
     gsap.set(el, {
       rotationX: 38,
       rotationY: 58,
@@ -56,84 +57,126 @@ export function HeroSection() {
     }
   }, [])
 
+  const headingText = "Building digital experiences that actually matter"
+  const words = headingText.split(" ")
+
   return (
     <section
       id="hero"
+      ref={containerRef}
+      onMouseMove={handleMouseMove}
       aria-label="Hero section"
-      className="relative min-h-screen flex flex-col items-center justify-center pt-28 pb-16 px-6 overflow-hidden"
+      className="relative min-h-screen w-full flex items-center justify-center pt-28 pb-16 px-6 sm:px-12 md:px-16 lg:px-24 overflow-hidden group/hero"
     >
-      {/* Content wrapper — rata tengah, satu kolom */}
-      <div className="relative z-10 w-full max-w-4xl mx-auto flex flex-col items-center text-center gap-8">
+      {/* Dynamic spotlight overlay */}
+      <div
+        ref={spotlightRef}
+        className="absolute inset-0 pointer-events-none opacity-0 group-hover/hero:opacity-100 transition-opacity duration-700 -z-10"
+        style={{
+          background: 'radial-gradient(600px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(99, 102, 241, 0.06), transparent 80%)'
+        }}
+      />
 
-        {/* Heading */}
-        <motion.h1
-          {...fadeUp(0.1)}
-          className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-tight"
-        >
-          Building digital&nbsp;
-          <span style={{ color: 'var(--navy-accent-text)' }}>experiences</span>
-          <br />
-          that actually&nbsp;
-          <span style={{ color: 'var(--navy-accent-text)' }}>matter</span>
-        </motion.h1>
-
-        {/* Sub description */}
-        <motion.p
-          {...fadeUp(0.2)}
-          className="text-base md:text-lg text-foreground/60 max-w-lg"
-        >
-          Full-stack developer crafting fast, accessible, and beautifully
-          animated web products — from concept to deployment.
-        </motion.p>
-
-        {/* CTA buttons */}
-        <motion.div {...fadeUp(0.3)} className="flex flex-col sm:flex-row gap-3">
-          <a
-            href="#projects"
-            aria-label="View my projects"
-            className="px-7 py-3 text-white font-semibold text-sm transition-colors duration-200"
-            style={{
-              background: 'var(--navy-btn-bg)',
-            }}
-            onMouseEnter={e => (e.currentTarget.style.background = 'var(--navy-btn-bg-hover)')}
-            onMouseLeave={e => (e.currentTarget.style.background = 'var(--navy-btn-bg)')}
+      <div className="relative z-10 w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        {/* Left Col: Cinematic Copywriting */}
+        <div className="lg:col-span-7 flex flex-col items-start text-left gap-8">
+          
+          {/* Tagline */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+            className="flex items-center gap-2 px-3 py-1 rounded-full border border-black/5 dark:border-white/5 bg-black/[0.02] dark:bg-white/[0.02]"
           >
-            View My Work
-          </a>
-          <a
-            href="#cta"
-            aria-label="Get in touch"
-            className="px-7 py-3 text-sm font-semibold duration-200 border transition-colors"
-            style={{ borderColor: 'var(--navy-btn-border)', color: 'var(--navy-btn-text)' }}
-            onMouseEnter={e => {
-              e.currentTarget.style.background = 'var(--navy-btn-bg)'
-              e.currentTarget.style.color = '#ffffff'
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.background = 'transparent'
-              e.currentTarget.style.color = 'var(--navy-btn-text)'
-            }}
-          >
-            Get in Touch
-          </a>
-        </motion.div>
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+            </span>
+            <span className="text-[10px] font-mono tracking-widest text-muted-foreground uppercase">
+              Available for Freelance & Contracts
+            </span>
+          </motion.div>
 
-        {/* CPU Architecture — miring saat pertama load, lurus saat di-scroll */}
-        <motion.div
-          {...fadeUp(0.35)}
-          className="w-full max-w-lg"
-          aria-hidden="true"
-          style={{ perspective: 900 }}
-        >
-          <div ref={cpuWrapperRef} style={{ willChange: 'transform' }}>
-            <CpuArchitecture
-              width="100%"
-              height="100%"
-              text="DEV"
-              className="cpu-svg-lines w-full h-auto"
-            />
-          </div>
-        </motion.div>
+          {/* Heading with Split-Word Animation */}
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.08] select-none text-foreground">
+            {words.map((word, i) => {
+              const cleanWord = word.toLowerCase().replace(/[^a-z]/g, "")
+              const isAccent = cleanWord === "experiences" || cleanWord === "matter"
+              return (
+                <motion.span
+                  key={i}
+                  className="inline-block mr-[0.2em] origin-bottom"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ 
+                    duration: 0.5, 
+                    delay: i * 0.05 + 0.1, 
+                    ease: [0.215, 0.61, 0.355, 1] 
+                  }}
+                  style={isAccent ? { color: "var(--navy-accent-text)" } : undefined}
+                >
+                  {word}
+                </motion.span>
+              )
+            })}
+          </h1>
+
+          {/* Sub description */}
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6, ease: 'easeOut' }}
+            className="text-base md:text-lg text-muted-foreground/80 max-w-xl leading-relaxed font-medium"
+          >
+            Full-stack developer crafting high-performance, accessible, and beautifully animated web products from concept to deployment.
+          </motion.p>
+
+          {/* CTA buttons */}
+          <motion.div 
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.75, ease: 'easeOut' }}
+            className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
+          >
+            <a
+              href="#projects"
+              aria-label="View my projects"
+              className="px-8 py-3.5 bg-zinc-950 dark:bg-zinc-50 text-white dark:text-zinc-950 rounded-full font-bold text-sm text-center shadow-lg hover:shadow-indigo-500/10 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+            >
+              View My Work
+            </a>
+            <a
+              href="#cta"
+              aria-label="Get in touch"
+              className="px-8 py-3.5 rounded-full font-bold text-sm text-center border border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 bg-black/[0.02] dark:bg-white/[0.02] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 text-foreground"
+            >
+              Get in Touch
+            </a>
+          </motion.div>
+        </div>
+
+        {/* Right Col: Sleek Interactive CPU Architecture SVG */}
+        <div className="lg:col-span-5 flex justify-center items-center relative">
+          <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/5 to-cyan-500/5 blur-3xl rounded-full -z-10" />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
+            className="w-full max-w-md cursor-grab active:cursor-grabbing"
+            aria-hidden="true"
+            style={{ perspective: 1000 }}
+          >
+            <div ref={cpuWrapperRef} style={{ willChange: 'transform' }} className="transition-transform duration-300 hover:scale-105">
+              <CpuArchitecture
+                width="100%"
+                height="100%"
+                text="DEV"
+                className="cpu-svg-lines w-full h-auto"
+              />
+            </div>
+          </motion.div>
+        </div>
 
       </div>
     </section>

@@ -1,160 +1,130 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { Code2, Smartphone, Zap, Database, Globe, Layout } from 'lucide-react'
-import { IsometricBox } from '@/components/ui/isometric-box'
-import { PcbBackground } from '@/components/ui/pcb-background'
+import { motion } from 'framer-motion'
+import {
+  LayoutDesignerVisual,
+  CodeEditorVisual,
+  SpeedometerGaugeVisual,
+  NodeGraphVisual,
+  TechCarouselVisual,
+} from './bento-cards'
 
-gsap.registerPlugin(ScrollTrigger)
+// ─── Types ────────────────────────────────────────────────────────────────────
 
-const services = [
-  {
-    number: '01',
-    title: 'Web Design',
-    description: 'Beautiful, responsive interfaces that engage users and drive conversions.',
-    icon: Layout,
-  },
-  {
-    number: '02',
-    title: 'Web Development',
-    description: 'Full-stack solutions with modern frameworks, ensuring scalability and performance.',
-    icon: Code2,
-  },
-  {
-    number: '03',
-    title: 'Mobile-First',
-    description: 'Optimized experiences across all screen sizes and devices.',
-    icon: Smartphone,
-  },
-  {
-    number: '04',
-    title: 'Performance',
-    description: 'Fast, SEO-optimized experiences that rank well and load instantly.',
-    icon: Zap,
-  },
-  {
-    number: '05',
-    title: 'Backend & API',
-    description: 'Robust server-side logic, REST APIs, and database architecture.',
-    icon: Database,
-  },
-  {
-    number: '06',
-    title: 'Deployment',
-    description: 'CI/CD pipelines, cloud hosting, and production-ready infrastructure.',
-    icon: Globe,
-  },
-]
+interface BentoCardProps {
+  label: string
+  title: string
+  description: string
+  visual: React.ReactNode
+  delay?: number
+  className?: string
+}
+
+// ─── Card ─────────────────────────────────────────────────────────────────────
+
+function BentoCard({ label, title, description, visual, delay = 0, className = '' }: BentoCardProps) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.6, delay, ease: [0.215, 0.61, 0.355, 1] as const }}
+      className={`flex flex-col gap-5 rounded-2xl border border-black/5 dark:border-white/5 bg-white dark:bg-zinc-950 p-5 md:p-6 hover:border-black/10 dark:hover:border-white/10 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-black/30 transition-all duration-500 ${className}`}
+    >
+      {/* Visual widget */}
+      <div className="shrink-0">{visual}</div>
+
+      {/* Text */}
+      <div className="space-y-1.5 flex-1">
+        <span className="text-[10px] font-mono text-indigo-500 font-semibold uppercase tracking-widest block">
+          {label}
+        </span>
+        <h3 className="text-base font-bold text-foreground leading-snug">{title}</h3>
+        <p className="text-xs text-muted-foreground/75 leading-relaxed">{description}</p>
+      </div>
+    </motion.div>
+  )
+}
+
+// ─── Section ──────────────────────────────────────────────────────────────────
 
 export function Services() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const topBoxRef = useRef<HTMLDivElement>(null)
-  const titleRef = useRef<HTMLHeadingElement>(null)
-  const cardsRef = useRef<(HTMLDivElement | null)[]>([])
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(topBoxRef.current, {
-        scrollTrigger: {
-          trigger: topBoxRef.current,
-          start: 'top 80%',
-        },
-        opacity: 0,
-        y: 40,
-        duration: 1,
-        ease: 'power3.out',
-      })
-
-      gsap.from(titleRef.current, {
-        scrollTrigger: {
-          trigger: titleRef.current,
-          start: 'top 80%',
-        },
-        opacity: 0,
-        x: -30,
-        duration: 0.8,
-        ease: 'power3.out',
-      })
-
-      cardsRef.current.forEach((card, index) => {
-        gsap.from(card, {
-          scrollTrigger: {
-            trigger: card,
-            start: 'top 85%',
-          },
-          opacity: 0,
-          y: 30,
-          duration: 0.7,
-          delay: index * 0.08,
-          ease: 'power3.out',
-        })
-      })
-    }, containerRef)
-
-    return () => ctx.revert()
-  }, [])
-
   return (
-    <section
-      id="services"
-      ref={containerRef}
-      className="py-20 px-6 border-b border-zinc-400"
-    >
-      <div className="max-w-[110em] mx-auto">
+    <section id="services" className="py-24 px-6 sm:px-12 md:px-16 lg:px-24 bg-transparent">
+      <div className="max-w-6xl mx-auto">
 
-        {/* Top block */}
-        <div
-          ref={topBoxRef}
-          className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-20 border border-zinc-400 p-10 md:p-16"
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.65, ease: [0.215, 0.61, 0.355, 1] as const }}
+          className="max-w-2xl mb-14 space-y-3"
         >
-            <div className="absolute -inset-y-5 md:-left-14 -top-52 md:top-0 pointer-events-none scale-100">
-              <PcbBackground className="text-foreground opacity-40" />
-            </div>
-          {/* Left col: text with PCB behind */}
-          <div className="relative overflow-hidden">
-            <div className="relative z-10">
-              <h2
-                ref={titleRef}
-                className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
-              >
-                Services
-              </h2>
-              <p className="text-lg text-foreground/70 max-w-md">
-                Comprehensive solutions tailored to your needs, from design to deployment.
-              </p>
-            </div>
-          </div>
+          <span className="text-xs font-mono tracking-widest text-indigo-500 uppercase block">
+            // My Services
+          </span>
+          <h2 className="text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight">
+            Comprehensive<br className="sm:hidden" /> Solutions
+          </h2>
+          <p className="text-sm md:text-base text-muted-foreground/80 leading-relaxed font-medium max-w-lg">
+            From wireframe concepts to fully animated frontends and scalable servers. I build performant products that stand out.
+          </p>
+        </motion.div>
 
-          {/* Right col: isometric box */}
-          <div>
-            <IsometricBox />
-          </div>
-        </div>
+        {/*
+          Grid layout (3-column base):
+          ┌─────────────────────┬──────────────┐  Row 1
+          │  Design (col-span-2)│  Frontend    │
+          ├──────────┬──────────┴──────────────┤  Row 2
+          │ Perf (1) │  Backend  │ Deploy (2)  │
+          └──────────┴───────────┴─────────────┘
+        */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
 
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map((service, index) => {
-            const Icon = service.icon
-            return (
-              <div
-                key={service.number}
-                ref={(el) => { cardsRef.current[index] = el }}
-                className="group border border-zinc-400 p-8 hover:border-primary/40 transition-all duration-300"
-              >
-                <div className="text-6xl font-bold text-primary/10 mb-4 group-hover:text-primary/20 transition-colors">
-                  <Icon size={42} strokeWidth={1.5} />
-                </div>
-                <h3 className="text-2xl font-bold mb-3 group-hover:text-primary transition-colors">
-                  {service.title}
-                </h3>
-                <p className="text-foreground/70 leading-relaxed">
-                  {service.description}
-                </p>
-              </div>
-            )
-          })}
+          {/* Row 1 – Design (wide) + Frontend */}
+          <BentoCard
+            label="01 / Design"
+            title="Web Design & Mobile-First"
+            description="Translating ideas into pixel-perfect responsive interfaces. Wireframes to production-ready layouts that feel intuitive on every device."
+            visual={<LayoutDesignerVisual />}
+            delay={0.05}
+            className="sm:col-span-2 lg:col-span-2"
+          />
+
+          <BentoCard
+            label="02 / Engineering"
+            title="Frontend Development"
+            description="High-quality UIs with React & Next.js. Clean components, reusable logic, and fluid state management."
+            visual={<CodeEditorVisual />}
+            delay={0.12}
+          />
+
+          {/* Row 2 – Performance + Backend + Deploy (wide) */}
+          <BentoCard
+            label="03 / Performance"
+            title="Web Performance"
+            description="Core Web Vitals optimization for instant load. SEO-ready architecture that ranks and converts."
+            visual={<SpeedometerGaugeVisual />}
+            delay={0.18}
+          />
+
+          <BentoCard
+            label="04 / Backend"
+            title="APIs & Databases"
+            description="Robust REST APIs, relational databases, and secure auth systems built to scale with your product."
+            visual={<NodeGraphVisual />}
+            delay={0.24}
+          />
+
+          <BentoCard
+            label="05 / DevOps"
+            title="CI/CD & Deployment"
+            description="Automated pipelines, container-ready apps, serverless hosting, and zero-downtime production deploys."
+            visual={<TechCarouselVisual />}
+            delay={0.3}
+          />
+
         </div>
       </div>
     </section>

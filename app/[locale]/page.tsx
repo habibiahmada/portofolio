@@ -3,13 +3,15 @@ import { HeroSection } from '@/components/sections/hero'
 import { Projects } from '@/components/sections/projects'
 import { Services } from '@/components/sections/services'
 import { Companies } from '@/components/sections/companies'
+import { getLocale } from 'next-intl/server'
 
-export default function Home() {
+export default async function Home() {
+  const locale = await getLocale()
   return (
-    <div className="max-w-[110em] mx-auto border-x border-zinc-400">
+    <div className="w-full noise-bg">
       <HeroSection />
       <Companies />
-      <Projects />
+      <Projects locale={locale} />
       <Services />
       <CTA/>
     </div>

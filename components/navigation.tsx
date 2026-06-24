@@ -34,16 +34,15 @@ function ThemeToggle() {
       )
     )
 
-    // ke GELAP → curtain masuk (expand dari tombol ke full screen)
-    // ke TERANG → curtain keluar (shrink dari full screen menuju tombol)
-    const toLight = isDark // sedang dark, mau ke light
+    // transition: target state
+    const toLight = isDark 
 
     setIconState('exit')
 
     if (toLight) {
       // ── KELUAR: curtain warna gelap, mulai full, shrink ke tombol ──
-      curtain.style.background = '#0a0a0a'
-      setTheme('light') // ganti tema dulu, curtain menyembunyikan transisi
+      curtain.style.background = '#030303'
+      setTheme('light') 
       gsap.set(curtain, { clipPath: `circle(${maxR}px at ${cx}px ${cy}px)` })
       gsap.to(curtain, {
         clipPath: `circle(0px at ${cx}px ${cy}px)`,
@@ -57,17 +56,14 @@ function ThemeToggle() {
       })
     } else {
       // ── MASUK: curtain warna gelap, mulai 0px, expand ke full screen ──
-      curtain.style.background = '#0a0a0a'
+      curtain.style.background = '#030303'
       gsap.set(curtain, { clipPath: `circle(0px at ${cx}px ${cy}px)` })
       gsap.to(curtain, {
         clipPath: `circle(${maxR}px at ${cx}px ${cy}px)`,
         duration: 0.6,
         ease: 'power3.inOut',
         onComplete: () => {
-          setTheme('dark') // ganti tema saat layar tertutup penuh
-          // Tunggu dua frame: frame pertama agar React flush state,
-          // frame kedua agar browser paint .dark class ke DOM,
-          // baru curtain dibuka — menghilangkan glitch warna.
+          setTheme('dark') 
           requestAnimationFrame(() => {
             requestAnimationFrame(() => {
               gsap.set(curtain, { clipPath: 'circle(0px at 50% 50%)' })
@@ -82,7 +78,7 @@ function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <div className="w-9 h-9 rounded-lg border border-zinc-400 dark:border-zinc-800" />
+      <div className="w-8 h-8 rounded-full border border-black/5 dark:border-white/10" />
     )
   }
 
@@ -93,7 +89,7 @@ function ThemeToggle() {
       ref={buttonRef}
       onClick={handleToggle}
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-      className="relative w-9 h-9 flex items-center justify-center rounded-lg border border-zinc-400 dark:border-zinc-800 hover:border-violet-500 transition-colors overflow-hidden cursor-pointer"
+      className="relative w-8 h-8 flex items-center justify-center rounded-full border border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 transition-colors overflow-hidden cursor-pointer"
     >
       <AnimatePresence mode="wait" initial={false}>
         {isDark ? (
@@ -109,7 +105,7 @@ function ThemeToggle() {
             }
             className="absolute text-violet-400"
           >
-            <Moon size={16} strokeWidth={1.75} />
+            <Moon size={14} strokeWidth={1.75} />
           </motion.span>
         ) : (
           <motion.span
@@ -124,7 +120,7 @@ function ThemeToggle() {
             }
             className="absolute text-amber-500"
           >
-            <Sun size={16} strokeWidth={1.75} />
+            <Sun size={14} strokeWidth={1.75} />
           </motion.span>
         )}
       </AnimatePresence>
@@ -136,7 +132,6 @@ function ThemeToggle() {
 
 const NAV_LINKS = [
   { label: 'Home', href: '#hero' },
-  { label: 'About', href: '#stats' },
   { label: 'Work', href: '#projects' },
   { label: 'Services', href: '#services' },
   { label: 'Contact', href: '#cta' },
@@ -147,6 +142,7 @@ const NAV_LINKS = [
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -164,12 +160,14 @@ export function Navbar() {
   return (
     <header
       role="banner"
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-zinc-400 bg-transparent`}
+      className={`fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-5xl z-50 rounded-full border border-black/5 dark:border-white/5 bg-white/70 dark:bg-black/75 backdrop-blur-md transition-all duration-300 ${
+        scrolled ? 'py-1.5 shadow-md shadow-black/5 dark:shadow-white/5' : 'py-3.5 shadow-sm'
+      }`}
     >
       <nav
         role="navigation"
         aria-label="Main navigation"
-        className="max-w-[110em] mx-auto px-6 h-16 flex items-center justify-between border-x border-zinc-400"
+        className="w-full px-6 h-10 flex items-center justify-between"
       >
         {/* Logo */}
         <motion.a
@@ -178,31 +176,36 @@ export function Navbar() {
           initial={{ opacity: 0, x: -16 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.4, ease: 'easeOut' }}
-          className="text-xl font-bold tracking-tight text-foreground"
+          className="text-base font-bold tracking-tight text-foreground"
         >
-          habibiahmad<span className="text-violet-500">.</span>
+          habibiahmad<span className="text-indigo-500">.</span>
         </motion.a>
 
-        {/* Desktop links */}
-        <ul className="hidden md:flex items-center gap-8" role="list">
+        {/* Desktop links with sliding pill */}
+        <ul className="hidden md:flex items-center gap-1.5 relative" role="list">
           {NAV_LINKS.map((link, i) => (
             <motion.li
               key={link.href}
+              className="relative px-3.5 py-1.5"
+              onMouseEnter={() => setHoveredIndex(i)}
+              onMouseLeave={() => setHoveredIndex(null)}
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35, delay: 0.1 + i * 0.06, ease: 'easeOut' }}
             >
               <a
                 href={link.href}
-                className={[
-                  'relative text-sm font-medium text-foreground/70 hover:text-foreground transition-colors',
-                  'after:absolute after:left-0 after:-bottom-0.5 after:h-px after:w-full',
-                  'after:bg-violet-500 after:scale-x-0 after:origin-left',
-                  'hover:after:scale-x-100 after:transition-transform after:duration-300',
-                ].join(' ')}
+                className="relative text-xs font-semibold text-foreground/70 hover:text-foreground transition-colors z-10"
               >
                 {link.label}
               </a>
+              {hoveredIndex === i && (
+                <motion.div
+                  layoutId="nav-hover-pill"
+                  className="absolute inset-0 bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5 rounded-full"
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                />
+              )}
             </motion.li>
           ))}
         </ul>
@@ -217,7 +220,7 @@ export function Navbar() {
             aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileOpen}
             aria-controls="mobile-menu"
-            className="md:hidden w-9 h-9 flex items-center justify-center rounded-lg border border-zinc-400 dark:border-zinc-800 hover:border-violet-500 transition-colors overflow-hidden"
+            className="md:hidden w-8 h-8 flex items-center justify-center rounded-full border border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 transition-colors overflow-hidden"
           >
             <AnimatePresence mode="wait" initial={false}>
               {mobileOpen ? (
@@ -229,7 +232,7 @@ export function Navbar() {
                   transition={{ duration: 0.2 }}
                   className="absolute"
                 >
-                  <X size={16} strokeWidth={1.75} />
+                  <X size={14} strokeWidth={1.75} />
                 </motion.span>
               ) : (
                 <motion.span
@@ -240,7 +243,7 @@ export function Navbar() {
                   transition={{ duration: 0.2 }}
                   className="absolute"
                 >
-                  <Menu size={16} strokeWidth={1.75} />
+                  <Menu size={14} strokeWidth={1.75} />
                 </motion.span>
               )}
             </AnimatePresence>
@@ -259,9 +262,9 @@ export function Navbar() {
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="md:hidden overflow-hidden border-t border-zinc-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md"
+            className="md:hidden overflow-hidden mt-2 border-t border-black/5 dark:border-white/5 bg-transparent"
           >
-            <ul className="flex flex-col px-6 py-4 gap-1" role="list">
+            <ul className="flex flex-col px-6 py-4 gap-1.5" role="list">
               {NAV_LINKS.map((link, i) => (
                 <motion.li
                   key={link.href}
@@ -272,7 +275,7 @@ export function Navbar() {
                   <a
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className="block py-2.5 text-sm font-medium text-foreground/70 hover:text-foreground transition-colors"
+                    className="block py-2 text-sm font-semibold text-foreground/70 hover:text-foreground transition-colors"
                   >
                     {link.label}
                   </a>
