@@ -1,132 +1,16 @@
 'use client'
 
-import { useEffect, useRef, useState, useCallback } from 'react'
-import { useTheme } from 'next-themes'
+import { useEffect, useRef, useState } from 'react'
+import { GlitchText } from '@/components/ui/glitch-text'
+import { AnimatedThemeToggle } from '@/components/ui/animated-theme-toggle'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import gsap from 'gsap'
-import { Sun, Moon, Menu, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 
-// ─── Theme Toggle with GSAP curtain ──────────────────────────────────────────
+// ─── Theme Toggle (View Transitions API, no overlay) ──────────────────────
 
 function ThemeToggle() {
-  const { setTheme, resolvedTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-  const buttonRef = useRef<HTMLButtonElement>(null)
-  const [iconState, setIconState] = useState<'idle' | 'exit' | 'enter'>('idle')
-
-  useEffect(() => { setMounted(true) }, [])
-
-  const handleToggle = useCallback(() => {
-    const isDark = resolvedTheme === 'dark'
-    const curtain = document.getElementById('theme-curtain')
-    if (!curtain || !buttonRef.current) return
-
-    // Get button center for circle origin
-    const rect = buttonRef.current.getBoundingClientRect()
-    const cx = Math.round(rect.left + rect.width / 2)
-    const cy = Math.round(rect.top + rect.height / 2)
-
-    // Max radius to cover full screen
-    const maxR = Math.ceil(
-      Math.hypot(
-        Math.max(cx, window.innerWidth - cx),
-        Math.max(cy, window.innerHeight - cy)
-      )
-    )
-
-    // transition: target state
-    const toLight = isDark 
-
-    setIconState('exit')
-
-    if (toLight) {
-      // ── KELUAR: curtain warna gelap, mulai full, shrink ke tombol ──
-      curtain.style.background = '#030303'
-      setTheme('light') 
-      gsap.set(curtain, { clipPath: `circle(${maxR}px at ${cx}px ${cy}px)` })
-      gsap.to(curtain, {
-        clipPath: `circle(0px at ${cx}px ${cy}px)`,
-        duration: 0.6,
-        ease: 'power3.inOut',
-        onComplete: () => {
-          gsap.set(curtain, { clipPath: 'circle(0px at 50% 50%)' })
-          setIconState('enter')
-          setTimeout(() => setIconState('idle'), 400)
-        },
-      })
-    } else {
-      // ── MASUK: curtain warna gelap, mulai 0px, expand ke full screen ──
-      curtain.style.background = '#030303'
-      gsap.set(curtain, { clipPath: `circle(0px at ${cx}px ${cy}px)` })
-      gsap.to(curtain, {
-        clipPath: `circle(${maxR}px at ${cx}px ${cy}px)`,
-        duration: 0.6,
-        ease: 'power3.inOut',
-        onComplete: () => {
-          setTheme('dark') 
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              gsap.set(curtain, { clipPath: 'circle(0px at 50% 50%)' })
-              setIconState('enter')
-              setTimeout(() => setIconState('idle'), 400)
-            })
-          })
-        },
-      })
-    }
-  }, [resolvedTheme, setTheme])
-
-  if (!mounted) {
-    return (
-      <div className="w-8 h-8 rounded-full border border-black/5 dark:border-white/10" />
-    )
-  }
-
-  const isDark = resolvedTheme === 'dark'
-
-  return (
-    <button
-      ref={buttonRef}
-      onClick={handleToggle}
-      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-      className="relative w-8 h-8 flex items-center justify-center rounded-full border border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 transition-colors overflow-hidden cursor-pointer"
-    >
-      <AnimatePresence mode="wait" initial={false}>
-        {isDark ? (
-          <motion.span
-            key="moon"
-            initial={iconState === 'enter' ? { rotate: -180, scale: 0 } : { opacity: 0 }}
-            animate={{ rotate: 0, scale: 1, opacity: 1 }}
-            exit={{ rotate: 180, scale: 0, opacity: 0 }}
-            transition={
-              iconState === 'enter'
-                ? { duration: 0.35, ease: [0.175, 0.885, 0.32, 1.275] }
-                : { duration: 0.2 }
-            }
-            className="absolute text-blue-400"
-          >
-            <Moon size={14} strokeWidth={1.75} />
-          </motion.span>
-        ) : (
-          <motion.span
-            key="sun"
-            initial={iconState === 'enter' ? { rotate: -180, scale: 0 } : { opacity: 0 }}
-            animate={{ rotate: 0, scale: 1, opacity: 1 }}
-            exit={{ rotate: 180, scale: 0, opacity: 0 }}
-            transition={
-              iconState === 'enter'
-                ? { duration: 0.35, ease: [0.175, 0.885, 0.32, 1.275] }
-                : { duration: 0.2 }
-            }
-            className="absolute text-amber-500"
-          >
-            <Sun size={14} strokeWidth={1.75} />
-          </motion.span>
-        )}
-      </AnimatePresence>
-    </button>
-  )
+  return <AnimatedThemeToggle />
 }
 
 // ─── Nav links ────────────────────────────────────────────────────────────────
@@ -184,7 +68,9 @@ export function Navbar() {
           transition={{ duration: 0.4, ease: 'easeOut' }}
           className="text-base font-bold tracking-tight text-foreground"
         >
-          habibiahmada<span className="text-rose-500">.</span>
+          <GlitchText as="span" interval={5000} duration={320}>
+            habibiahmada<span className="text-rose-500">.</span>
+          </GlitchText>
         </motion.a>
 
         {/* Desktop links with sliding pill */}

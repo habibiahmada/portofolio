@@ -1,5 +1,7 @@
 'use client'
 
+import { GlitchText } from '@/components/ui/glitch-text'
+
 const NAV_LINKS = [
   { label: 'Home', href: '#hero' },
   { label: 'Work', href: '#projects' },
@@ -46,9 +48,14 @@ export function Footer() {
 
         {/* Brand Column */}
         <div className="md:col-span-5 space-y-4">
-          <p className="text-lg font-bold tracking-tight text-foreground">
+          <GlitchText
+            as="p"
+            className="text-lg font-bold tracking-tight text-foreground"
+            interval={5000}
+            duration={320}
+          >
             habibiahmad<span className="text-rose-500">.</span>
-          </p>
+          </GlitchText>
           <p className="text-xs sm:text-sm text-muted-foreground/80 leading-relaxed max-w-sm font-medium">
             Full-stack developer building high-performance, accessible, and interactive web experiences that actually matter.
           </p>

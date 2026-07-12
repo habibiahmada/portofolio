@@ -1,12 +1,13 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { GlitchText } from '@/components/ui/glitch-text'
 import {
   LayoutDesignerVisual,
   CodeEditorVisual,
   SpeedometerGaugeVisual,
   NodeGraphVisual,
-  TechCarouselVisual,
+  CICDPipelineVisual,
 } from './bento-cards'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -64,22 +65,19 @@ export function Services() {
           <span className="text-xs font-mono tracking-widest text-rose-500 dark:text-blue-400 uppercase block">
             // My Services
           </span>
-          <h2 className="text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight">
+          <GlitchText
+            as="h2"
+            className="text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight"
+            interval={5000}
+            duration={320}
+          >
             Comprehensive<br className="sm:hidden" /> Solutions
-          </h2>
+          </GlitchText>
           <p className="text-sm md:text-base text-muted-foreground/80 leading-relaxed font-medium max-w-lg">
             From wireframe concepts to fully animated frontends and scalable servers. I build performant products that stand out.
           </p>
         </motion.div>
 
-        {/*
-          Grid layout (3-column base):
-          ┌─────────────────────┬──────────────┐  Row 1
-          │  Design (col-span-2)│  Frontend    │
-          ├──────────┬──────────┴──────────────┤  Row 2
-          │ Perf (1) │  Backend  │ Deploy (2)  │
-          └──────────┴───────────┴─────────────┘
-        */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
 
           {/* Row 1 – Design (wide) + Frontend */}
@@ -121,7 +119,7 @@ export function Services() {
             label="05 / DevOps"
             title="CI/CD & Deployment"
             description="Automated pipelines, container-ready apps, serverless hosting, and zero-downtime production deploys."
-            visual={<TechCarouselVisual />}
+            visual={<CICDPipelineVisual />}
             delay={0.3}
           />
 
