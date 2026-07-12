@@ -184,7 +184,7 @@ export function Navbar() {
           transition={{ duration: 0.4, ease: 'easeOut' }}
           className="text-base font-bold tracking-tight text-foreground"
         >
-          habibiahmad<span className="text-rose-500">.</span>
+          habibiahmada<span className="text-rose-500">.</span>
         </motion.a>
 
         {/* Desktop links with sliding pill */}

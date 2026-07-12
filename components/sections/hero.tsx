@@ -8,6 +8,7 @@ import { CpuArchitecture } from '@/components/ui/cpu-architecture'
 import { GlitchText } from '@/components/ui/glitch-text'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import Image from 'next/image'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -137,8 +138,8 @@ export function HeroSection() {
             
             // Glitch color for mouse connection (gradient or red/blue mix)
             const color = k % 2 === 0 ? 'rgba(244, 63, 94,' : 'rgba(59, 130, 246,'
-            ctx.strokeStyle = `${color}${0.25 * (1 - dist / 220)})`
-            ctx.lineWidth = k === 0 ? 1 : 0.6
+            ctx.strokeStyle = `${color}${0.25 * (1 - dist / 120)})`
+            ctx.lineWidth = k === 0 ? 5 : 4
             ctx.stroke()
 
             // Subtle pulsing glow at connection points
@@ -213,6 +214,24 @@ export function HeroSection() {
         <canvas ref={canvasRef} className="h-full w-full opacity-100 dark:opacity-75" />
       </div>
 
+      {/* Background Image positioned on the right */}
+      <div 
+        className="absolute inset-y-0 right-0 h-full w-full lg:w-[55%] pointer-events-none z-10 opacity-40 dark:opacity-20"
+        style={{
+          maskImage: 'linear-gradient(to right, transparent, black 30%)',
+          WebkitMaskImage: 'linear-gradient(to right, transparent, black 30%)'
+        }}
+      >
+        <Image 
+          src="/images/glitch-hero.png" 
+          alt="Hero Background" 
+          fill
+          priority
+          draggable={false}
+          className="object-cover lg:object-[60%_15%]" 
+        />
+      </div>
+
       {/* Full-width background gradient */}
       <div className="absolute inset-0 bg-linear-to-b from-rose-500/3 via-blue-500/1 to-transparent pointer-events-none" />
 
@@ -227,8 +246,8 @@ export function HeroSection() {
 
       <div className="relative z-10 w-full mx-auto px-6 md:px-12 lg:px-16 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center flex-1">
 
-        {/* Left Col: Cinematic Copywriting */}
-        <div className="lg:col-span-7 flex flex-col items-start gap-8 lg:self-end">
+        {/* Main Content: Cinematic Copywriting */}
+        <div className="lg:col-span-9 max-w-4xl flex flex-col items-start gap-8 lg:self-end z-10 relative">
         
 
           {/* Tagline */}
@@ -303,28 +322,6 @@ export function HeroSection() {
             >
               Get in Touch
             </a>
-          </motion.div>
-        </div>
-
-        {/* Right Col: Sleek Interactive CPU Architecture SVG */}
-        <div className="lg:col-span-5 flex justify-center items-center relative">
-          <div className="absolute inset-0 bg-linear-to-tr from-indigo-500/5 to-cyan-500/5 blur-3xl rounded-full -z-10" />
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
-            className="w-full max-w-md cursor-grab active:cursor-grabbing"
-            aria-hidden="true"
-            style={{ perspective: 1000 }}
-          >
-            <div ref={cpuWrapperRef} style={{ willChange: 'transform' }} className="transition-transform duration-300 hover:scale-105">
-              <CpuArchitecture
-                width="100%"
-                height="100%"
-                text="DEV"
-                className="cpu-svg-lines w-full h-auto"
-              />
-            </div>
           </motion.div>
         </div>
 
