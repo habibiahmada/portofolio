@@ -32,7 +32,13 @@ const PATHS: string[] = [
   ...RIGHT_PINS.map((pin, i) => `M 236 ${RIGHT_ENDS[i]} H ${144 + STUB} V ${pin}  H 144`),
 ];
 
-const ACCENT_COLOR = "var(--navy-accent-text)";
+// ─── Rainbow palette for colorful comet wires ───────────────────
+const COMET_COLORS = [
+  '#ef4444', '#3b82f6', '#22c55e', '#eab308',
+  '#a855f7', '#ec4899', '#06b6d4', '#f97316',
+  '#ef4444', '#3b82f6', '#22c55e', '#eab308',
+  '#a855f7', '#ec4899', '#06b6d4', '#f97316',
+];
 
 const TIMING = [
   { name: "a0", dur: "3.8s", delay: "0s"    },
@@ -74,17 +80,23 @@ function buildCometKeyframes(): string {
 }
 
 function buildTextKeyframes(): string {
-  return `@keyframes cpu-text-shimmer {
-    0%   { background-position: -100% 0; }
-    100% { background-position: 200% 0; }
+  return `@keyframes cpu-text-color-cycle {
+    0%, 100% { fill: #f43f5e; }
+    25%      { fill: #fef08a; }
+    50%      { fill: #fff; }
+    75%      { fill: #60a5fa; }
   }
-  .cpu-text-anim {
-    background: linear-gradient(90deg, var(--navy-accent-text) 0%, #fff 40%, var(--navy-accent-text) 80%);
-    background-size: 200% 100%;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: cpu-text-shimmer 4s ease-in-out infinite;
+  @keyframes cpu-text-color-cycle-dark {
+    0%, 100% { fill: #fbbf24; }
+    25%      { fill: #f472b6; }
+    50%      { fill: #fff; }
+    75%      { fill: #67e8f9; }
+  }
+  .cpu-text-color {
+    animation: cpu-text-color-cycle 4s ease-in-out infinite;
+  }
+  .dark .cpu-text-color {
+    animation: cpu-text-color-cycle-dark 4s ease-in-out infinite;
   }`;
 }
 
@@ -134,9 +146,10 @@ export function CpuArchitecture({
         {RIGHT_ENDS.map((y, i) => <circle key={`r${i}`} cx={236} cy={y}   r="1.2" />)}
       </g>
 
-      {/* ── Comets — CSS animated (3 layers instead of 8) ── */}
+      {/* ── Comets — CSS animated, color-coded per wire ── */}
       {PATHS.map((d, i) => {
         const cn = `cpu-comet-${TIMING[i].name}`;
+        const color = COMET_COLORS[i];
 
         return (
           <g key={i}>
@@ -144,8 +157,8 @@ export function CpuArchitecture({
             <path
               d={d}
               fill="none"
-              stroke={ACCENT_COLOR}
-              strokeWidth="1.6"
+              stroke={color}
+              strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
               pathLength={NORM}
@@ -157,8 +170,8 @@ export function CpuArchitecture({
             <path
               d={d}
               fill="none"
-              stroke={ACCENT_COLOR}
-              strokeWidth="0.6"
+              stroke={color}
+              strokeWidth="0.8"
               strokeLinecap="round"
               strokeLinejoin="round"
               pathLength={NORM}
@@ -171,7 +184,7 @@ export function CpuArchitecture({
               d={d}
               fill="none"
               stroke="white"
-              strokeWidth="0.3"
+              strokeWidth="0.4"
               strokeLinecap="round"
               strokeLinejoin="round"
               pathLength={NORM}
@@ -199,7 +212,7 @@ export function CpuArchitecture({
           fontSize="8" fontWeight="700"
           textAnchor="middle" dominantBaseline="middle"
           letterSpacing="0.1em"
-          className={`text-zinc-600 dark:text-zinc-50 font-mono ${animateText ? "cpu-text-anim" : ""}`}
+          className={`font-mono ${animateText ? "cpu-text-color" : "fill-zinc-600 dark:fill-zinc-100"}`}
         >
           {text}
         </text>

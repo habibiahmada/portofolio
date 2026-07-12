@@ -632,7 +632,7 @@ export function CICDPipelineVisual() {
       ref={ref}
       className="w-full h-44 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-black/5 dark:border-white/5 flex items-center justify-center overflow-hidden px-6 py-4 select-none"
     >
-      <div className="flex items-center w-full max-w-[280px]">
+      <div className="flex items-center w-full max-w-70">
         {stages.map((stage, i) => {
           const isActive = activeStage === i;
           const isPast = i < activeStage;
@@ -719,7 +719,7 @@ export function CICDPipelineVisual() {
               {/* Connector line between stages */}
               {i < stages.length - 1 && (
                 <div className="flex-1 flex items-center justify-center px-1 -mt-6">
-                  <div className="relative w-full h-[2px]">
+                  <div className="relative w-full h-0.5">
                     {/* Background track */}
                     <div className="absolute inset-0 rounded-full bg-zinc-200 dark:bg-zinc-800" />
                     {/* Active fill */}

@@ -1,8 +1,11 @@
 'use client'
 
+import { useRef } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { GlitchText } from '@/components/ui/glitch-text'
+import { NodeNetwork } from '@/components/ui/node-network'
+import { CpuArchitecture } from '@/components/ui/cpu-architecture'
 import { ProjectTag } from '@/components/ui/project-tag'
 import { ProjectLinks } from '@/components/ui/project-links'
 import { projects, EASING, getProjectTitle, getProjectDescription, type Project } from '@/lib/projects'
@@ -57,7 +60,7 @@ function ProjectCard({
       className="group relative flex flex-col overflow-hidden rounded-2xl border border-black/5 dark:border-white/5 bg-white/60 dark:bg-zinc-950/40 backdrop-blur-sm transition-all duration-500 hover:border-black/15 dark:hover:border-white/15 hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-black/40 hover:-translate-y-1"
     >
       {/* ── Image Container ── */}
-      <div className="relative overflow-hidden aspect-[16/10]">
+      <div className="relative overflow-hidden aspect-16/10">
         <Image
           src={project.image}
           alt={title}
@@ -169,8 +172,40 @@ function ProjectCard({
 // ─── Page Section ─────────────────────────────────────────────────────────────
 
 export function ProjectsPage({ locale = 'en' }: ProjectsPageProps) {
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const nodeMouseRef = useRef<{ x: number; y: number; active: boolean } | null>({
+    x: 0,
+    y: 0,
+    active: false,
+  })
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = sectionRef.current
+    if (!el) return
+    const rect = el.getBoundingClientRect()
+    if (nodeMouseRef.current) {
+      nodeMouseRef.current.x = e.clientX - rect.left
+      nodeMouseRef.current.y = e.clientY - rect.top
+      nodeMouseRef.current.active = true
+    }
+  }
+
+  const handleMouseLeave = () => {
+    if (nodeMouseRef.current) {
+      nodeMouseRef.current.active = false
+    }
+  }
+
   return (
-    <section className="relative py-16 md:py-24 w-full bg-transparent min-h-screen">
+    <section
+      ref={sectionRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="relative py-16 md:py-24 w-full bg-transparent min-h-screen"
+    >
+      {/* Node Network — full-section background, interaktif via externalMouseRef */}
+      <NodeNetwork externalMouseRef={nodeMouseRef} densityBias="topRight" />
+
       {/* Ambient background orbs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-rose-500/3 dark:bg-blue-500/3 blur-3xl" />
@@ -186,7 +221,7 @@ export function ProjectsPage({ locale = 'en' }: ProjectsPageProps) {
           transition={{ duration: 0.6, ease: EASING }}
           className="mb-14 md:mb-18"
         >
-          <div className="space-y-3">
+          <div className="relative z-10 space-y-3">
             <span className="text-xs font-mono tracking-widest text-rose-500 dark:text-blue-400 uppercase block">
               // Archive
             </span>
@@ -210,7 +245,7 @@ export function ProjectsPage({ locale = 'en' }: ProjectsPageProps) {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="grid grid-cols-1 sm:grid-cols-3 gap-5 md:gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6"
         >
           {projects.map((project, i) => (
             <ProjectCard
@@ -222,12 +257,27 @@ export function ProjectsPage({ locale = 'en' }: ProjectsPageProps) {
           ))}
         </motion.div>
 
-        {/* ── Footer spacer ── */}
-        <div className="mt-16 md:mt-20 pb-8 text-center">
-          <p className="text-[10px] font-mono text-muted-foreground/25 tracking-widest uppercase">
-            End of archive
-          </p>
-        </div>
+        {/* ── Spacer before footer ── */}
+        <div className="h-24 md:h-32" />
+      </div>
+
+      {/* ── CPU Architecture — full-width background element ── */}
+      <div className="absolute bottom-0 left-0 right-0 h-72 md:h-96 lg:h-128 pointer-events-none overflow-hidden">
+        {/* Gradual fade from content to CPU */}
+        <div className="absolute inset-0 bg-linear-to-t from-black/10 dark:from-black/30 via-transparent to-transparent z-10" />
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, ease: EASING, delay: 0.4 }}
+          className="absolute bottom-[-50%] left-1/2 -translate-x-1/2 w-full max-w-4xl md:max-w-5xl lg:max-w-6xl h-full opacity-40 dark:opacity-35"
+        >
+          <CpuArchitecture
+            text="DEV"
+            animateText
+            showCpuConnections
+            className="w-full h-full text-zinc-600 dark:text-zinc-300"
+          />
+        </motion.div>
       </div>
     </section>
   )

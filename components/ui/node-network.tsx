@@ -9,8 +9,8 @@ import { useEffect, useRef } from 'react'
 export interface NodeNetworkProps {
   /** Optional external mouse ref for parents that track mouse elsewhere (e.g. hero) */
   externalMouseRef?: React.MutableRefObject<{ x: number; y: number; active: boolean } | null>
-  /** Particle density bias. 'uniform' spreads evenly; 'topLeft' clusters in top-left/center. Default: 'uniform' */
-  densityBias?: 'uniform' | 'topLeft'
+  /** Particle density bias. 'uniform' spreads evenly; 'topLeft' clusters in top-left/center; 'topRight' clusters in top-right/center. Default: 'uniform' */
+  densityBias?: 'uniform' | 'topLeft' | 'topRight'
 }
 
 export function NodeNetwork({ externalMouseRef, densityBias = 'uniform' }: NodeNetworkProps = {}) {
@@ -70,6 +70,11 @@ export function NodeNetwork({ externalMouseRef, densityBias = 'uniform' }: NodeN
           // Bias toward top-left → top-center → left-center
           // Weighted random: most particles in the first ~55% of width & height
           x = (1 - Math.sqrt(Math.random())) * canvas.width * 0.55
+          y = (1 - Math.sqrt(Math.random())) * canvas.height * 0.55
+        } else if (densityBias === 'topRight') {
+          // Bias toward top-right → top-center → right-center
+          // Mirrors topLeft on the x-axis
+          x = canvas.width - (1 - Math.sqrt(Math.random())) * canvas.width * 0.55
           y = (1 - Math.sqrt(Math.random())) * canvas.height * 0.55
         } else {
           x = Math.random() * canvas.width

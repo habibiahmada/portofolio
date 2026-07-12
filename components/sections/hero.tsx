@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { CpuArchitecture } from "@/components/ui/cpu-architecture";
 import { GlitchText } from "@/components/ui/glitch-text";
 import { NodeNetwork } from "@/components/ui/node-network";
+import { CvModal } from "@/components/ui/cv-modal";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
@@ -20,6 +21,7 @@ export function HeroSection() {
     y: 0,
     active: false,
   });
+  const [cvOpen, setCvOpen] = useState(false);
 
   // Track mouse coordinates for spotlight + node network
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -99,7 +101,7 @@ export function HeroSection() {
 
       {/* Background Image positioned on the right */}
       <div
-        className="absolute inset-y-0 right-0 h-full w-full lg:w-[55%] pointer-events-none z-0 opacity-40 dark:opacity-80"
+        className="absolute hidden md:block inset-y-0 right-0 h-full w-full lg:w-[55%] pointer-events-none z-0 opacity-40 dark:opacity-80"
         style={{
           maskImage: "linear-gradient(to right, transparent, black 10%)",
           WebkitMaskImage: "linear-gradient(to right, transparent, black 30%)",
@@ -136,7 +138,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="flex items-center gap-2 px-3 py-1 rounded-full border border-black/5 dark:border-white/5 bg-black/[0.02] dark:bg-white/2"
+            className="flex items-center gap-2 px-3 py-1 rounded-full border border-black/5 dark:border-white/5 bg-black/2 dark:bg-white/2"
           >
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75" />
@@ -204,19 +206,23 @@ export function HeroSection() {
             >
               View My Work
             </a>
-            <a
-              href="#cta"
-              aria-label="Get in touch"
-              className="px-8 py-3.5 rounded-full font-bold text-sm text-center border border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 bg-black/2 dark:bg-white/2 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 text-foreground"
+            <button
+              type="button"
+              onClick={() => setCvOpen(true)}
+              aria-label="View CV"
+              className="px-8 py-3.5 rounded-full font-bold text-sm text-center border border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 bg-black/2 dark:bg-white/2 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 text-foreground cursor-pointer"
             >
-              Get in Touch
-            </a>
+              View CV
+            </button>
           </motion.div>
         </div>
       </div>
 
       {/* Full-width bottom gradient fade */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-linear-to-t from-background to-transparent pointer-events-none" />
+
+      {/* ── CV Modal ── */}
+      <CvModal open={cvOpen} onClose={() => setCvOpen(false)} />
     </section>
   );
 }
