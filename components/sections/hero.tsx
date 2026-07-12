@@ -216,7 +216,7 @@ export function HeroSection() {
 
       {/* Background Image positioned on the right */}
       <div 
-        className="absolute inset-y-0 right-0 h-full w-full lg:w-[55%] pointer-events-none z-10 opacity-40 dark:opacity-20"
+        className="absolute inset-y-0 right-0 h-full w-full lg:w-[55%] pointer-events-none z-0 opacity-40 dark:opacity-20"
         style={{
           maskImage: 'linear-gradient(to right, transparent, black 30%)',
           WebkitMaskImage: 'linear-gradient(to right, transparent, black 30%)'
