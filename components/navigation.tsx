@@ -104,7 +104,7 @@ function ThemeToggle() {
                 ? { duration: 0.35, ease: [0.175, 0.885, 0.32, 1.275] }
                 : { duration: 0.2 }
             }
-            className="absolute text-violet-400"
+            className="absolute text-blue-400"
           >
             <Moon size={14} strokeWidth={1.75} />
           </motion.span>
@@ -166,14 +166,14 @@ export function Navbar() {
   return (
     <header
       role="banner"
-      className={`fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-5xl z-50 rounded-full border border-black/5 dark:border-white/5 bg-white/70 dark:bg-black/75 backdrop-blur-md transition-all duration-300 ${
-        scrolled ? 'py-1.5 shadow-md shadow-black/5 dark:shadow-white/5' : 'py-3.5 shadow-sm'
+      className={`fixed top-0 left-0 right-0 w-full z-50 border-b border-black/5 dark:border-white/5 bg-white/70 dark:bg-black/75 backdrop-blur-md transition-all duration-300 ${
+        scrolled ? 'shadow-md shadow-black/5 dark:shadow-white/5' : ''
       }`}
     >
       <nav
         role="navigation"
         aria-label="Main navigation"
-        className="w-full px-6 h-10 flex items-center justify-between"
+        className="w-full mx-auto px-6 md:px-12 lg:px-16 h-18 flex items-center justify-between"
       >
         {/* Logo */}
         <motion.a
@@ -184,7 +184,7 @@ export function Navbar() {
           transition={{ duration: 0.4, ease: 'easeOut' }}
           className="text-base font-bold tracking-tight text-foreground"
         >
-          habibiahmad<span className="text-indigo-500">.</span>
+          habibiahmad<span className="text-rose-500">.</span>
         </motion.a>
 
         {/* Desktop links with sliding pill */}
@@ -307,7 +307,7 @@ export function Navbar() {
                     >
                       {link.label}
                       {isActive && (
-                        <span className="ml-2 inline-block w-1.5 h-1.5 rounded-full bg-indigo-500 align-middle" />
+                        <span className="ml-2 inline-block w-1.5 h-1.5 rounded-full bg-rose-500 align-middle" />
                       )}
                     </a>
                   </motion.li>

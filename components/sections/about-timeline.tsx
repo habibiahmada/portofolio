@@ -132,11 +132,10 @@ function TimelineCard({
         <motion.div
           whileHover={{ scale: 1.15 }}
           transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-          className={`w-9 h-9 rounded-full flex items-center justify-center ring-4 z-10 transition-all duration-300 ${
-            isExp
-              ? 'bg-indigo-500/10 ring-indigo-500/20 text-indigo-400 group-hover:bg-indigo-500/20 group-hover:ring-indigo-500/40'
+          className={`w-9 h-9 rounded-full flex items-center justify-center ring-4 z-10 transition-all duration-300 ${isExp
+              ? 'bg-rose-500/10 ring-rose-500/20 text-rose-400 group-hover:bg-rose-500/20 group-hover:ring-rose-500/40'
               : 'bg-emerald-500/10 ring-emerald-500/20 text-emerald-400 group-hover:bg-emerald-500/20 group-hover:ring-emerald-500/40'
-          }`}
+            }`}
         >
           {isExp ? <Briefcase size={16} /> : <GraduationCap size={16} />}
         </motion.div>
@@ -162,11 +161,10 @@ function TimelineCard({
             <div className="flex flex-wrap items-center gap-1.5 shrink-0">
               {item.highlight && (
                 <span
-                  className={`text-[9px] font-mono font-bold uppercase tracking-widest px-2.5 py-1 rounded-full border ${
-                    isExp
-                      ? 'bg-indigo-500/8 text-indigo-500 border-indigo-500/15 dark:bg-indigo-500/10 dark:text-indigo-400 dark:border-indigo-500/20'
+                  className={`text-[9px] font-mono font-bold uppercase tracking-widest px-2.5 py-1 rounded-full border ${isExp
+                      ? 'bg-rose-500/8 text-rose-500 border-rose-500/15 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/20'
                       : 'bg-emerald-500/8 text-emerald-600 border-emerald-500/15 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20'
-                  }`}
+                    }`}
                 >
                   {item.highlight}
                 </span>
@@ -244,14 +242,14 @@ export function AboutTimeline() {
   }, [])
 
   const experiences = timelineData.filter((d) => d.type === 'experience')
-  const education   = timelineData.filter((d) => d.type === 'education')
+  const education = timelineData.filter((d) => d.type === 'education')
 
   return (
     <section
       id="about-timeline"
-      className="py-24 px-6 sm:px-12 md:px-16 lg:px-24 bg-transparent"
+      className="py-24 w-full bg-transparent"
     >
-      <div className="max-w-6xl mx-auto space-y-20">
+      <div className="w-full  mx-auto px-6 md:px-12 lg:px-16 space-y-20">
 
         {/* ── Experience ── */}
         <div className="space-y-12">
@@ -262,7 +260,7 @@ export function AboutTimeline() {
             transition={{ duration: 0.65, ease: [0.215, 0.61, 0.355, 1] }}
             className="space-y-3"
           >
-            <span className="text-xs font-mono tracking-widest text-indigo-500 uppercase block">
+            <span className="text-xs font-mono tracking-widest text-rose-500 dark:text-blue-400 uppercase block">
               // Experience
             </span>
             <h2 className="text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight">

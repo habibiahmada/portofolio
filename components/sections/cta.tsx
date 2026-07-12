@@ -36,11 +36,11 @@ export function CTA() {
     const btn = ref.current
     if (!btn) return
     const rect = btn.getBoundingClientRect()
-    
+
     // Position of cursor relative to center of the button
     const x = e.clientX - rect.left - rect.width / 2
     const y = e.clientY - rect.top - rect.height / 2
-    
+
     gsap.to(btn, {
       x: x * 0.35,
       y: y * 0.35,
@@ -64,17 +64,17 @@ export function CTA() {
   }
 
   return (
-    <section id="cta" ref={containerRef} className="py-24 px-6 sm:px-12 md:px-16 lg:px-24 bg-transparent overflow-hidden">
-      <div className="max-w-4xl mx-auto text-center">
-        
+    <section id="cta" ref={containerRef} className="py-24 w-full bg-transparent overflow-hidden">
+      <div className="w-full max-w-200 mx-auto px-6 md:px-12 text-center">
+
         {/* Glassmorphic box container with background gradient reflection */}
-        <div className="relative overflow-hidden rounded-3xl border border-black/5 dark:border-white/5 bg-black/[0.015] dark:bg-white/[0.015] p-12 md:p-20 shadow-xl backdrop-blur-md">
-          
+        <div className="relative overflow-hidden rounded-3xl border border-black/5 dark:border-white/5 bg-black/1.5 dark:bg-white/1.5 p-12 md:p-20 shadow-xl backdrop-blur-md">
+
           {/* Accent radial glow behind */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[350px] h-[350px] bg-indigo-500/5 blur-[130px] rounded-full -z-10 pointer-events-none" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-87.5 h-87.5 bg-rose-500/5 blur-[130px] rounded-full -z-10 pointer-events-none" />
 
           {/* Label */}
-          <span className="text-[10px] font-mono tracking-widest text-indigo-500 font-semibold uppercase block mb-4">
+          <span className="text-[10px] font-mono tracking-widest text-rose-500 dark:text-blue-400 font-semibold uppercase block mb-4">
             // Start a Project
           </span>
 
@@ -89,7 +89,7 @@ export function CTA() {
           {/* Subtitle */}
           <p
             ref={subtitleRef}
-            className="text-sm md:text-base text-muted-foreground/80 mb-12 max-w-xl mx-auto leading-relaxed font-medium"
+            className="text-sm md:text-base text-muted-foreground/80 mb-12 l mx-auto leading-relaxed font-medium"
           >
             Let&apos;s work together to bring your digital product concepts to life with high-performance frameworks and pristine animated interactions.
           </p>
@@ -104,17 +104,17 @@ export function CTA() {
             >
               Get Free Consultation
             </button>
-            
+
             <button
               ref={btnRef2}
               onMouseMove={(e) => handleMagneticMove(e, btnRef2)}
               onMouseLeave={() => handleMagneticLeave(btnRef2)}
-              className="w-full sm:w-auto px-8 py-3.5 rounded-full font-bold text-sm border border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 bg-black/[0.02] dark:bg-white/[0.02] hover:scale-[1.02] active:scale-[0.98] transition-transform duration-300 text-foreground cursor-pointer select-none"
+              className="w-full sm:w-auto px-8 py-3.5 rounded-full font-bold text-sm border border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 bg-black/2 dark:bg-white/2 hover:scale-[1.02] active:scale-[0.98] transition-transform duration-300 text-foreground cursor-pointer select-none"
             >
               Schedule a Call
             </button>
           </div>
-          
+
         </div>
       </div>
     </section>

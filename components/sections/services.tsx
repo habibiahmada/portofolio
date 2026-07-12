@@ -36,7 +36,7 @@ function BentoCard({ label, title, description, visual, delay = 0, className = '
 
       {/* Text */}
       <div className="space-y-1.5 flex-1">
-        <span className="text-[10px] font-mono text-indigo-500 font-semibold uppercase tracking-widest block">
+        <span className="text-[10px] font-mono text-rose-500 dark:text-blue-400 font-semibold uppercase tracking-widest block">
           {label}
         </span>
         <h3 className="text-base font-bold text-foreground leading-snug">{title}</h3>
@@ -50,8 +50,8 @@ function BentoCard({ label, title, description, visual, delay = 0, className = '
 
 export function Services() {
   return (
-    <section id="services" className="py-24 px-6 sm:px-12 md:px-16 lg:px-24 bg-transparent">
-      <div className="max-w-6xl mx-auto">
+    <section id="services" className="py-24 w-full bg-transparent">
+      <div className="w-full  mx-auto px-6 md:px-12 lg:px-16">
 
         {/* Header */}
         <motion.div
@@ -61,7 +61,7 @@ export function Services() {
           transition={{ duration: 0.65, ease: [0.215, 0.61, 0.355, 1] as const }}
           className="max-w-2xl mb-14 space-y-3"
         >
-          <span className="text-xs font-mono tracking-widest text-indigo-500 uppercase block">
+          <span className="text-xs font-mono tracking-widest text-rose-500 dark:text-blue-400 uppercase block">
             // My Services
           </span>
           <h2 className="text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight">

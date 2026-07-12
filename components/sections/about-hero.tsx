@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
+import { GlitchText } from '@/components/ui/glitch-text'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { PcbBackground } from '@/components/ui/pcb-background'
@@ -10,9 +11,9 @@ import { PcbBackground } from '@/components/ui/pcb-background'
 gsap.registerPlugin(ScrollTrigger)
 
 export function AboutHero() {
-  const containerRef  = useRef<HTMLDivElement>(null)
-  const photoRef      = useRef<HTMLDivElement>(null)
-  const spotlightRef  = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const photoRef = useRef<HTMLDivElement>(null)
+  const spotlightRef = useRef<HTMLDivElement>(null)
 
   // Parallax: photo floats up as user scrolls
   useEffect(() => {
@@ -26,7 +27,7 @@ export function AboutHero() {
         trigger: containerRef.current,
         start: 'top top',
         end: 'bottom top',
-        scrub: 1.4,
+        scrub: 0.7,
       },
     })
 
@@ -53,24 +54,27 @@ export function AboutHero() {
       ref={containerRef}
       onMouseMove={handleMouseMove}
       aria-label="About hero"
-      className="relative min-h-screen w-full flex items-center justify-center pt-28 pb-16 px-6 sm:px-12 md:px-16 lg:px-24 overflow-hidden group/hero"
+      className="relative min-h-screen w-full flex items-center justify-center pt-28 pb-16 overflow-hidden group/hero"
     >
+      {/* Full-width background gradient */}
+      <div className="absolute inset-0 bg-linear-to-b from-rose-500/3 via-blue-500/1 to-transparent pointer-events-none" />
+
       {/* Spotlight overlay */}
       <div
         ref={spotlightRef}
         className="absolute inset-0 pointer-events-none opacity-0 group-hover/hero:opacity-100 transition-opacity duration-700 -z-10"
         style={{
           background:
-            'radial-gradient(600px circle at var(--mx, 0px) var(--my, 0px), rgba(99,102,241,0.06), transparent 80%)',
+            'radial-gradient(600px circle at var(--mx, 0px) var(--my, 0px), rgba(244, 63, 94, 0.05), rgba(59, 130, 246, 0.05) 50%, transparent 80%)',
         }}
       />
 
       {/* Subtle radial bg glow */}
       <div className="absolute inset-0 -z-10 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-indigo-500/4 blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-175 h-175 rounded-full bg-rose-500/4 blur-3xl" />
       </div>
 
-      <div className="relative z-10 w-full max-w-4xl mx-auto flex flex-col items-center gap-10">
+      <div className="relative z-10 w-full mx-auto px-6 md:px-12 lg:px-16 flex flex-col items-center gap-10">
 
         {/* ── Center: Photo + PCB decoration ── */}
         <div className="flex justify-center items-center relative w-full">
@@ -79,8 +83,8 @@ export function AboutHero() {
             <PcbBackground />
           </div>
 
-          {/* Indigo glow behind photo */}
-          <div className="absolute inset-0 bg-linear-to-tr from-indigo-500/5 to-cyan-500/5 blur-3xl rounded-full -z-10" />
+          {/* Rose glow behind photo */}
+          <div className="absolute inset-0 bg-linear-to-tr from-rose-500/5 to-blue-500/5 blur-3xl rounded-full -z-10" />
 
           <motion.div
             ref={photoRef}
@@ -90,8 +94,8 @@ export function AboutHero() {
             className="relative w-56 h-72 sm:w-64 sm:h-80 md:w-72 md:h-96"
           >
             {/* Decorative ring */}
-            <div className="absolute -inset-4 rounded-3xl border border-indigo-500/10 rotate-2" />
-            <div className="absolute -inset-4 rounded-3xl border border-indigo-500/5 -rotate-1" />
+            <div className="absolute -inset-4 rounded-3xl border border-rose-500/10 rotate-2" />
+            <div className="absolute -inset-4 rounded-3xl border border-rose-500/5 -rotate-1" />
 
             {/* Photo card */}
             <div className="relative w-full h-full rounded-2xl overflow-hidden border border-black/5 dark:border-white/5 shadow-2xl shadow-black/20">
@@ -111,9 +115,9 @@ export function AboutHero() {
               initial={{ opacity: 0, scale: 0.6, rotate: 12 }}
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
               transition={{ duration: 0.6, delay: 0.9, ease: [0.175, 0.885, 0.32, 1.275] }}
-              className="absolute -top-4 -right-4 px-3 py-1.5 rounded-xl border border-indigo-500/20 bg-background/80 backdrop-blur-sm shadow-lg"
+              className="absolute -top-4 -right-4 px-3 py-1.5 rounded-xl border border-rose-500/20 bg-background/80 backdrop-blur-sm shadow-lg"
             >
-              <span className="text-[10px] font-mono font-bold text-indigo-400 tracking-widest">
+              <span className="text-[10px] font-mono font-bold text-rose-400 tracking-widest">
                 DEV ✦
               </span>
             </motion.div>
@@ -143,16 +147,16 @@ export function AboutHero() {
             className="flex items-center gap-2 px-3 py-1 rounded-full border border-black/5 dark:border-white/5 bg-black/2 dark:bg-white/2"
           >
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500" />
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-500" />
             </span>
             <span className="text-[10px] font-mono tracking-widest text-muted-foreground uppercase">
               Full-Stack Web Developer
             </span>
           </motion.div>
 
-          {/* Heading */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.08] select-none text-foreground">
+          {/* Heading with GlitchText */}
+          <GlitchText as="h1" className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.08] select-none text-foreground" interval={5000} duration={400}>
             {words.map((word, i) => (
               <motion.span
                 key={word}
@@ -172,14 +176,14 @@ export function AboutHero() {
                 )}
               </motion.span>
             ))}
-          </h1>
+          </GlitchText>
 
           {/* Description */}
           <motion.p
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4, ease: 'easeOut' }}
-            className="text-base md:text-lg text-muted-foreground/80 max-w-xl leading-relaxed font-medium"
+            className="text-base md:text-lg text-muted-foreground/80 l leading-relaxed font-medium"
           >
             Full-Stack Web Developer passionate about building modern, performant
             and accessible digital products from concept to deployment.
@@ -220,7 +224,7 @@ export function AboutHero() {
           >
             <a
               href="#cta"
-              className="px-8 py-3.5 bg-zinc-950 dark:bg-zinc-50 text-white dark:text-zinc-950 rounded-full font-bold text-sm text-center shadow-lg hover:shadow-indigo-500/10 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+              className="px-8 py-3.5 bg-zinc-950 dark:bg-zinc-50 text-white dark:text-zinc-950 rounded-full font-bold text-sm text-center shadow-lg hover:shadow-rose-500/10 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
             >
               Let&apos;s Collaborate
             </a>
@@ -235,6 +239,9 @@ export function AboutHero() {
 
       </div>
 
+      {/* Full-width bottom gradient fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-linear-to-t from-background to-transparent pointer-events-none" />
+
       {/* Scroll hint */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -248,7 +255,7 @@ export function AboutHero() {
         <motion.div
           animate={{ y: [0, 6, 0] }}
           transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-          className="w-px h-8 bg-linear-to-b from-indigo-500/40 to-transparent"
+          className="w-px h-8 bg-linear-to-b from-rose-500/40 to-transparent"
         />
       </motion.div>
     </section>

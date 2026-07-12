@@ -42,12 +42,12 @@ export function Footer() {
 
   return (
     <footer aria-label="Site footer" className="w-full bg-transparent border-t border-black/5 dark:border-white/5 mt-12">
-      <div className="max-w-6xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
+      <div className="w-full  mx-auto px-6 md:px-12 lg:px-16 py-16 grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
 
         {/* Brand Column */}
         <div className="md:col-span-5 space-y-4">
           <p className="text-lg font-bold tracking-tight text-foreground">
-            habibiahmad<span className="text-indigo-500">.</span>
+            habibiahmad<span className="text-rose-500">.</span>
           </p>
           <p className="text-xs sm:text-sm text-muted-foreground/80 leading-relaxed max-w-sm font-medium">
             Full-stack developer building high-performance, accessible, and interactive web experiences that actually matter.
@@ -86,7 +86,7 @@ export function Footer() {
                 aria-label={label}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-8 h-8 flex items-center justify-center rounded-full border border-black/10 dark:border-white/10 hover:border-indigo-400 dark:hover:border-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-400 text-muted-foreground/80 transition-all duration-300 hover:scale-105"
+                className="w-8 h-8 flex items-center justify-center rounded-full border border-black/10 dark:border-white/10 hover:border-rose-400 dark:hover:border-blue-400 hover:text-rose-500 dark:hover:text-blue-400 text-muted-foreground/80 transition-all duration-300 hover:scale-105"
               >
                 <Icon size={14} />
               </a>

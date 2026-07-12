@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import { createNoise3D } from "simplex-noise";
 
 export const WavyBackground = ({
@@ -27,18 +27,15 @@ export const WavyBackground = ({
   waveOpacity?: number;
   [key: string]: unknown;
 }) => {
-  const noise = createNoise3D();
-  let w: number,
-    h: number,
-    nt: number,
-    i: number,
-    x: number,
-    ctx: CanvasRenderingContext2D,
-    canvas: HTMLCanvasElement;
-
+  const noise = useRef(createNoise3D());
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
+  const animationIdRef = useRef<number>(0);
+  const isVisibleRef = useRef(true);
+  const ntRef = useRef(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const getSpeed = () => {
+  const getSpeed = useCallback(() => {
     switch (speed) {
       case "slow":
         return 0.001;
@@ -47,7 +44,7 @@ export const WavyBackground = ({
       default:
         return 0.001;
     }
-  };
+  }, [speed]);
 
   const waveColors = colors ?? [
     "#38bdf8",
@@ -57,53 +54,92 @@ export const WavyBackground = ({
     "#22d3ee",
   ];
 
-  const drawWave = (n: number) => {
-    nt += getSpeed();
-    for (i = 0; i < n; i++) {
+  const drawWave = useCallback((n: number, ctx: CanvasRenderingContext2D, w: number, h: number) => {
+    ntRef.current += getSpeed();
+    const noiseFn = noise.current;
+    for (let i = 0; i < n; i++) {
       ctx.beginPath();
       ctx.lineWidth = waveWidth || 50;
       ctx.strokeStyle = waveColors[i % waveColors.length];
-      for (x = 0; x < w; x += 5) {
-        const y = noise(x / 800, 0.3 * i, nt) * 100;
+      for (let x = 0; x < w; x += 5) {
+        const y = noiseFn(x / 800, 0.3 * i, ntRef.current) * 100;
         ctx.lineTo(x, y + h * 0.5);
       }
       ctx.stroke();
       ctx.closePath();
     }
-  };
+  }, [getSpeed, waveWidth, waveColors]);
 
-  let animationId: number;
+  const render = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = ctxRef.current;
+    if (!ctx) return;
 
-  const render = () => {
-    ctx.fillStyle = backgroundFill || "black";
+    if (!isVisibleRef.current) {
+      animationIdRef.current = requestAnimationFrame(render);
+      return;
+    }
+
     ctx.globalAlpha = waveOpacity || 0.5;
-    ctx.fillRect(0, 0, w, h);
-    drawWave(5);
-    animationId = requestAnimationFrame(render);
-  };
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    drawWave(5, ctx, canvas.width, canvas.height);
+    animationIdRef.current = requestAnimationFrame(render);
+  }, [waveOpacity, drawWave]);
 
-  const init = () => {
-    canvas = canvasRef.current!;
-    ctx = canvas.getContext("2d")!;
-    w = ctx.canvas.width = window.innerWidth;
-    h = ctx.canvas.height = window.innerHeight;
+  const initCanvas = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    ctxRef.current = ctx;
+
+    const w = (ctx.canvas.width = window.innerWidth);
+    const h = (ctx.canvas.height = window.innerHeight);
     ctx.filter = `blur(${blur}px)`;
-    nt = 0;
-    window.onresize = function () {
-      w = ctx.canvas.width = window.innerWidth;
-      h = ctx.canvas.height = window.innerHeight;
+    ctx.fillStyle = backgroundFill || "black";
+    ntRef.current = 0;
+
+    render();
+  }, [blur, backgroundFill, render]);
+
+  // Visibility observer — pause RAF when off-screen
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisibleRef.current = entry.isIntersecting;
+      },
+      { threshold: 0.01 }
+    );
+    observer.observe(el);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  // Init and resize
+  useEffect(() => {
+    initCanvas();
+
+    const onResize = () => {
+      const canvas = canvasRef.current;
+      const ctx = ctxRef.current;
+      if (!canvas || !ctx) return;
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
       ctx.filter = `blur(${blur}px)`;
     };
-    render();
-  };
 
-  useEffect(() => {
-    init();
+    window.addEventListener("resize", onResize, { passive: true });
     return () => {
-      cancelAnimationFrame(animationId);
+      cancelAnimationFrame(animationIdRef.current);
+      window.removeEventListener("resize", onResize);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [initCanvas, blur]);
 
   const [isSafari, setIsSafari] = useState(false);
   useEffect(() => {
@@ -116,6 +152,7 @@ export const WavyBackground = ({
 
   return (
     <div
+      ref={containerRef}
       className={cn(
         "h-screen flex flex-col items-center justify-center",
         containerClassName

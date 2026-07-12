@@ -35,7 +35,7 @@ const cardVariants = {
     transition: {
       duration: 0.6,
       delay: i * 0.1,
-      ease: [0.215, 0.61, 0.355, 1],
+      ease: [0.215, 0.61, 0.355, 1] as any,
     },
   }),
 }
@@ -63,12 +63,11 @@ function ProjectCard({
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: '-60px' }}
-      className={`group relative flex flex-col overflow-hidden rounded-2xl border border-black/5 dark:border-white/5 bg-white dark:bg-zinc-950 hover:border-black/10 dark:hover:border-white/10 hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-black/30 transition-all duration-500 ${
-        featured ? 'sm:col-span-2' : ''
-      }`}
+      className={`group relative flex flex-col overflow-hidden rounded-2xl border border-black/5 dark:border-white/5 bg-white dark:bg-zinc-950 hover:border-black/10 dark:hover:border-white/10 hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-black/30 transition-all duration-500 ${featured ? 'sm:col-span-2' : ''
+        }`}
     >
       {/* ── Image ── */}
-      <div className={`relative overflow-hidden ${featured ? 'aspect-[16/7]' : 'aspect-[4/3]'}`}>
+      <div className={`relative overflow-hidden ${featured ? 'aspect-16/7' : 'aspect-4/3'}`}>
         <Image
           src={project.image}
           alt={title}
@@ -78,7 +77,7 @@ function ProjectCard({
           priority={index < 2}
         />
         {/* Subtle bottom vignette for readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/10 to-transparent" />
 
         {/* Index badge */}
         <div className="absolute top-4 left-4 z-10">
@@ -123,7 +122,7 @@ function ProjectCard({
           {project.tags.slice(0, 3).map((tag) => (
             <span
               key={tag}
-              className="text-[9px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-full border border-black/5 dark:border-white/5 bg-black/[0.02] dark:bg-white/[0.02] text-muted-foreground"
+              className="text-[9px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-full border border-black/5 dark:border-white/5 bg-black/2 dark:bg-white/2 text-muted-foreground"
             >
               {tag}
             </span>
@@ -131,9 +130,8 @@ function ProjectCard({
         </div>
 
         {/* Title */}
-        <h3 className={`font-bold tracking-tight text-foreground leading-snug ${
-          featured ? 'text-xl md:text-2xl' : 'text-base md:text-lg'
-        }`}>
+        <h3 className={`font-bold tracking-tight text-foreground leading-snug ${featured ? 'text-xl md:text-2xl' : 'text-base md:text-lg'
+          }`}>
           {title}
         </h3>
 
@@ -166,7 +164,7 @@ function ProjectCard({
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="View Live"
-                className="flex items-center gap-1 text-[10px] font-mono text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-semibold"
+                className="flex items-center gap-1 text-[10px] font-mono text-rose-500 hover:text-rose-600 dark:text-blue-400 dark:hover:text-blue-300 transition-colors font-semibold"
               >
                 Live
                 <ArrowUpRight size={11} strokeWidth={1.75} />
@@ -187,9 +185,9 @@ export function Projects({ locale = 'en' }: ProjectsProps) {
   return (
     <section
       id="projects"
-      className="relative py-24 px-6 sm:px-12 md:px-16 lg:px-24 bg-transparent"
+      className="relative py-24 w-full bg-transparent"
     >
-      <div className="max-w-6xl mx-auto">
+      <div className="w-full  mx-auto px-6 md:px-12 lg:px-16">
 
         {/* Header */}
         <motion.div
@@ -200,14 +198,14 @@ export function Projects({ locale = 'en' }: ProjectsProps) {
           className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-6"
         >
           <div className="space-y-3">
-            <span className="text-xs font-mono tracking-widest text-indigo-500 uppercase block">
+            <span className="text-xs font-mono tracking-widest text-rose-500 dark:text-blue-400 uppercase block">
               // Selected Works
             </span>
             <h2 className="text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight">
               Featured Projects
             </h2>
           </div>
-          <span className="text-xs font-mono text-muted-foreground/70 bg-black/[0.03] dark:bg-white/[0.03] px-3.5 py-1.5 rounded-full border border-black/5 dark:border-white/5 self-start sm:self-auto shrink-0">
+          <span className="text-xs font-mono text-muted-foreground/70 bg-black/3 dark:bg-white/3 px-3.5 py-1.5 rounded-full border border-black/5 dark:border-white/5 self-start sm:self-auto shrink-0">
             {projects.length} Case Studies
           </span>
         </motion.div>

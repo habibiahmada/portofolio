@@ -17,9 +17,9 @@ export function AboutIntro() {
     <section
       id="about-intro"
       ref={sectionRef}
-      className="py-24 px-6 sm:px-12 md:px-16 lg:px-24 bg-transparent"
+      className="py-24 w-full bg-transparent"
     >
-      <div className="max-w-6xl mx-auto">
+      <div className="w-full mx-auto px-6 md:px-12 lg:px-16">
 
         {/* ── Header ── */}
         <motion.div
@@ -29,7 +29,7 @@ export function AboutIntro() {
           transition={{ duration: 0.65, ease: [0.215, 0.61, 0.355, 1] }}
           className="max-w-2xl mb-14 space-y-3"
         >
-          <span className="text-xs font-mono tracking-widest text-indigo-500 uppercase block">
+          <span className="text-xs font-mono tracking-widest text-rose-500 dark:text-blue-400 uppercase block">
             // About
           </span>
           <h2 className="text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight">
@@ -37,7 +37,7 @@ export function AboutIntro() {
             <span style={{ color: 'var(--navy-accent-text)' }}>Take a quick glance</span>
           </h2>
           <div className="flex gap-2 pt-1">
-            <span className="h-0.5 w-10 rounded-full bg-indigo-500" />
+            <span className="h-0.5 w-10 rounded-full bg-rose-500 dark:bg-blue-400" />
             <span className="h-0.5 w-6 rounded-full" style={{ background: 'var(--navy-accent-text)', opacity: 0.3 }} />
           </div>
         </motion.div>
@@ -60,7 +60,7 @@ export function AboutIntro() {
             </p>
 
             {/* Quote */}
-            <div className="relative pl-5 border-l-2 border-indigo-500/60 rounded-r-xl py-4 pr-5 bg-indigo-500/4 dark:bg-indigo-500/5">
+            <div className="relative pl-5 border-l-2 border-rose-500/60 rounded-r-xl py-4 pr-5 bg-rose-500/4 dark:bg-rose-500/5">
               <p className="text-base md:text-lg italic text-foreground/70 leading-relaxed">
                 &ldquo;Skilled in various programming languages and popular frameworks,
                 with experience in both frontend and backend projects.&rdquo;
@@ -74,7 +74,7 @@ export function AboutIntro() {
 
             <a
               href="#cta"
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-zinc-950 dark:bg-zinc-50 text-white dark:text-zinc-950 rounded-full font-bold text-sm shadow-lg hover:shadow-indigo-500/10 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+              className="inline-flex items-center gap-2 px-8 py-3.5 bg-zinc-950 dark:bg-zinc-50 text-white dark:text-zinc-950 rounded-full font-bold text-sm shadow-lg hover:shadow-rose-500/10 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
             >
               Let&apos;s Collaborate
             </a>

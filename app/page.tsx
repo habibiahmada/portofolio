@@ -7,14 +7,12 @@ import { Companies } from '@/components/sections/companies'
 export default function Home() {
   return (
     <>
-      <main className="noise-bg">
-        <div className="w-full">
-          <HeroSection />
-          <Companies />
-          <Projects />
-          <Services />
-          <CTA />
-        </div>
+      <main className="w-full overflow-x-hidden">
+        <HeroSection />
+        <Companies />
+        <Projects />
+        <Services />
+        <CTA />
       </main>
     </>
   )

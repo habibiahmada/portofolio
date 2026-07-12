@@ -32,26 +32,25 @@ const PATHS: string[] = [
   ...RIGHT_PINS.map((pin, i) => `M 236 ${RIGHT_ENDS[i]} H ${144 + STUB} V ${pin}  H 144`),
 ];
 
-// Single cohesive color for all comets to keep the visual clean and premium
 const ACCENT_COLOR = "var(--navy-accent-text)";
 
 const TIMING = [
-  { dur: "3.8s", delay: "0s"    },
-  { dur: "5.2s", delay: "1.4s"  },
-  { dur: "3.2s", delay: "2.8s"  },
-  { dur: "6.1s", delay: "0.6s"  },
-  { dur: "4.7s", delay: "1.9s"  },
-  { dur: "2.9s", delay: "4.3s"  },
-  { dur: "4.3s", delay: "0.9s"  },
-  { dur: "5.8s", delay: "3.3s"  },
-  { dur: "3.4s", delay: "0.4s"  },
-  { dur: "4.9s", delay: "2.3s"  },
-  { dur: "3.7s", delay: "4.8s"  },
-  { dur: "2.8s", delay: "1.1s"  },
-  { dur: "5.3s", delay: "0.2s"  },
-  { dur: "3.9s", delay: "3.6s"  },
-  { dur: "3.3s", delay: "1.8s"  },
-  { dur: "5.7s", delay: "4.0s"  },
+  { name: "a0", dur: "3.8s", delay: "0s"    },
+  { name: "a1", dur: "5.2s", delay: "1.4s"  },
+  { name: "a2", dur: "3.2s", delay: "2.8s"  },
+  { name: "a3", dur: "6.1s", delay: "0.6s"  },
+  { name: "a4", dur: "4.7s", delay: "1.9s"  },
+  { name: "a5", dur: "2.9s", delay: "4.3s"  },
+  { name: "a6", dur: "4.3s", delay: "0.9s"  },
+  { name: "a7", dur: "5.8s", delay: "3.3s"  },
+  { name: "a8", dur: "3.4s", delay: "0.4s"  },
+  { name: "a9", dur: "4.9s", delay: "2.3s"  },
+  { name: "a10", dur: "3.7s", delay: "4.8s"  },
+  { name: "a11", dur: "2.8s", delay: "1.1s"  },
+  { name: "a12", dur: "5.3s", delay: "0.2s"  },
+  { name: "a13", dur: "3.9s", delay: "3.6s"  },
+  { name: "a14", dur: "3.3s", delay: "1.8s"  },
+  { name: "a15", dur: "5.7s", delay: "4.0s"  },
 ];
 
 const PIN_RECTS = [
@@ -61,7 +60,35 @@ const PIN_RECTS = [
   ...RIGHT_PINS.map(y => ({ x: 143,     y: y - 1.5, w: 8, h: 3 })),
 ];
 
-const NORM      = 100;  // pathLength normalisation
+const NORM = 100;
+
+// ─── Build CSS keyframes string for inline <style> ─────────────────────────
+function buildCometKeyframes(): string {
+  let css = "";
+  TIMING.forEach((t) => {
+    const dn = `cpu-comet-${t.name}`;
+    css += `@keyframes ${dn} { from { stroke-dashoffset: 115; } to { stroke-dashoffset: 0; } }\n`;
+    css += `.${dn} { animation: ${dn} ${t.dur} ${t.delay} linear infinite; will-change: stroke-dashoffset; }\n`;
+  });
+  return css;
+}
+
+function buildTextKeyframes(): string {
+  return `@keyframes cpu-text-shimmer {
+    0%   { background-position: -100% 0; }
+    100% { background-position: 200% 0; }
+  }
+  .cpu-text-anim {
+    background: linear-gradient(90deg, var(--navy-accent-text) 0%, #fff 40%, var(--navy-accent-text) 80%);
+    background-size: 200% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: cpu-text-shimmer 4s ease-in-out infinite;
+  }`;
+}
+
+// ─── Component ─────────────────────────────────────────────────────────────
 
 export function CpuArchitecture({
   className,
@@ -72,6 +99,9 @@ export function CpuArchitecture({
   showCpuConnections = true,
   animateText = true,
 }: CpuArchitectureSvgProps) {
+  // 3 visual layers per path (instead of 8) = 62% fewer paint operations
+  // Glow effect via stacked opacity, no SVG filters needed
+
   return (
     <svg
       className={cn(className)}
@@ -80,6 +110,10 @@ export function CpuArchitecture({
       height={height}
       viewBox="0 0 240 160"
     >
+      <defs>
+        <style dangerouslySetInnerHTML={{ __html: buildCometKeyframes() + (animateText ? buildTextKeyframes() : "") }} />
+      </defs>
+
       {/* ── Static wires ── */}
       <g 
         stroke="currentColor" 
@@ -100,50 +134,13 @@ export function CpuArchitecture({
         {RIGHT_ENDS.map((y, i) => <circle key={`r${i}`} cx={236} cy={y}   r="1.2" />)}
       </g>
 
-      {/* ── Comets ── */}
+      {/* ── Comets — CSS animated (3 layers instead of 8) ── */}
       {PATHS.map((d, i) => {
-        const { dur, delay } = TIMING[i];
-        
-        // Exact synchronization parameters (total period = 115)
-        const FROM = "115";
-        const TO = "0";
-        
-        const outerGlowDashArray = "0 90 25 0";  // covers [90, 115] (widest soft glow, length 25)
-        const midGlow1DashArray = "0 94 21 0";   // covers [94, 115] (medium outer glow, length 21)
-        const midGlow2DashArray = "0 98 17 0";   // covers [98, 115] (medium inner glow, length 17)
-        const tail1DashArray = "0 102 13 0";     // covers [102, 115] (outer tail, length 13)
-        const tail2DashArray = "0 106 9 0";      // covers [106, 115] (main tail, length 9)
-        const core1DashArray = "0 109 6 0";      // covers [109, 115] (outer core, length 6)
-        const core2DashArray = "0 112 3 0";      // covers [112, 115] (intense core, length 3)
-        const headDashArray = "0 114 1 0";       // covers [114, 115] (white hot head, length 1)
+        const cn = `cpu-comet-${TIMING[i].name}`;
 
         return (
           <g key={i}>
-            {/* Layer 1: Very Wide Outer Glow */}
-            <path
-              d={d}
-              fill="none"
-              stroke={ACCENT_COLOR}
-              strokeWidth="2.0"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              pathLength={NORM}
-              strokeDasharray={outerGlowDashArray}
-              opacity="0.08"
-              filter="url(#cpu-glow-heavy)"
-            >
-              <animate
-                attributeName="stroke-dashoffset"
-                from={FROM}
-                to={TO}
-                dur={dur}
-                begin={delay}
-                repeatCount="indefinite"
-                calcMode="linear"
-              />
-            </path>
-
-            {/* Layer 2: Wide Glow */}
+            {/* Layer 1: Outer glow — wide, soft */}
             <path
               d={d}
               fill="none"
@@ -152,94 +149,11 @@ export function CpuArchitecture({
               strokeLinecap="round"
               strokeLinejoin="round"
               pathLength={NORM}
-              strokeDasharray={midGlow1DashArray}
-              opacity="0.12"
-              filter="url(#cpu-glow-heavy)"
-            >
-              <animate
-                attributeName="stroke-dashoffset"
-                from={FROM}
-                to={TO}
-                dur={dur}
-                begin={delay}
-                repeatCount="indefinite"
-                calcMode="linear"
-              />
-            </path>
-
-            {/* Layer 3: Medium Glow */}
-            <path
-              d={d}
-              fill="none"
-              stroke={ACCENT_COLOR}
-              strokeWidth="1.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              pathLength={NORM}
-              strokeDasharray={midGlow2DashArray}
-              opacity="0.18"
-              filter="url(#cpu-glow-heavy)"
-            >
-              <animate
-                attributeName="stroke-dashoffset"
-                from={FROM}
-                to={TO}
-                dur={dur}
-                begin={delay}
-                repeatCount="indefinite"
-                calcMode="linear"
-              />
-            </path>
-
-            {/* Layer 4: Soft Outer Tail */}
-            <path
-              d={d}
-              fill="none"
-              stroke={ACCENT_COLOR}
-              strokeWidth="1.0"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              pathLength={NORM}
-              strokeDasharray={tail1DashArray}
+              strokeDasharray="0 90 25 0"
               opacity="0.25"
-              filter="url(#cpu-glow-soft)"
-            >
-              <animate
-                attributeName="stroke-dashoffset"
-                from={FROM}
-                to={TO}
-                dur={dur}
-                begin={delay}
-                repeatCount="indefinite"
-                calcMode="linear"
-              />
-            </path>
-
-            {/* Layer 5: Main Tail */}
-            <path
-              d={d}
-              fill="none"
-              stroke={ACCENT_COLOR}
-              strokeWidth="0.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              pathLength={NORM}
-              strokeDasharray={tail2DashArray}
-              opacity="0.35"
-              filter="url(#cpu-glow-soft)"
-            >
-              <animate
-                attributeName="stroke-dashoffset"
-                from={FROM}
-                to={TO}
-                dur={dur}
-                begin={delay}
-                repeatCount="indefinite"
-                calcMode="linear"
-              />
-            </path>
-
-            {/* Layer 6: Outer Core */}
+              className={cn}
+            />
+            {/* Layer 2: Core — bright, narrow */}
             <path
               d={d}
               fill="none"
@@ -248,46 +162,11 @@ export function CpuArchitecture({
               strokeLinecap="round"
               strokeLinejoin="round"
               pathLength={NORM}
-              strokeDasharray={core1DashArray}
-              opacity="0.5"
-              filter="url(#cpu-glow-soft)"
-            >
-              <animate
-                attributeName="stroke-dashoffset"
-                from={FROM}
-                to={TO}
-                dur={dur}
-                begin={delay}
-                repeatCount="indefinite"
-                calcMode="linear"
-              />
-            </path>
-
-            {/* Layer 7: Intense Core */}
-            <path
-              d={d}
-              fill="none"
-              stroke={ACCENT_COLOR}
-              strokeWidth="0.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              pathLength={NORM}
-              strokeDasharray={core2DashArray}
-              opacity="0.7"
-              filter="url(#cpu-glow-soft)"
-            >
-              <animate
-                attributeName="stroke-dashoffset"
-                from={FROM}
-                to={TO}
-                dur={dur}
-                begin={delay}
-                repeatCount="indefinite"
-                calcMode="linear"
-              />
-            </path>
-
-            {/* Layer 8: White Hot Head */}
+              strokeDasharray="0 109 6 0"
+              opacity="0.65"
+              className={cn}
+            />
+            {/* Layer 3: Head — white hot tip */}
             <path
               d={d}
               fill="none"
@@ -296,19 +175,10 @@ export function CpuArchitecture({
               strokeLinecap="round"
               strokeLinejoin="round"
               pathLength={NORM}
-              strokeDasharray={headDashArray}
-              opacity="1.0"
-            >
-              <animate
-                attributeName="stroke-dashoffset"
-                from={FROM}
-                to={TO}
-                dur={dur}
-                begin={delay}
-                repeatCount="indefinite"
-                calcMode="linear"
-              />
-            </path>
+              strokeDasharray="0 114 1 0"
+              opacity="0.9"
+              className={cn}
+            />
           </g>
         );
       })}
@@ -329,45 +199,11 @@ export function CpuArchitecture({
           fontSize="8" fontWeight="700"
           textAnchor="middle" dominantBaseline="middle"
           letterSpacing="0.1em"
-          fill={animateText ? "url(#cpu-text-gradient)" : "currentColor"}
-          className="text-zinc-600 dark:text-zinc-400 font-mono"
+          className={`text-zinc-600 dark:text-zinc-50 font-mono ${animateText ? "cpu-text-anim" : ""}`}
         >
           {text}
         </text>
       </g>
-
-      <defs>
-        <filter id="cpu-glow-heavy" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="0.6" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-
-        <filter id="cpu-glow-soft" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="0.2" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-
-        <linearGradient id="cpu-text-gradient" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="var(--navy-accent-text)">
-            <animate attributeName="offset" values="-2;-1;0" dur="5s" repeatCount="indefinite"
-              calcMode="spline" keyTimes="0;0.5;1" keySplines="0.4 0 0.2 1;0.4 0 0.2 1" />
-          </stop>
-          <stop offset="40%" stopColor="#ffffff">
-            <animate attributeName="offset" values="-1;0;1" dur="5s" repeatCount="indefinite"
-              calcMode="spline" keyTimes="0;0.5;1" keySplines="0.4 0 0.2 1;0.4 0 0.2 1" />
-          </stop>
-          <stop offset="80%" stopColor="var(--navy-accent-text)">
-            <animate attributeName="offset" values="0;1;2" dur="5s" repeatCount="indefinite"
-              calcMode="spline" keyTimes="0;0.5;1" keySplines="0.4 0 0.2 1;0.4 0 0.2 1" />
-          </stop>
-        </linearGradient>
-      </defs>
     </svg>
   );
 }
