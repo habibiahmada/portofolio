@@ -1,19 +1,19 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import { ArrowUpRight } from 'lucide-react'
-import { motion } from 'framer-motion'
-import { GlitchText } from '@/components/ui/glitch-text'
-import { ProjectCard } from '@/components/ui/project-card'
-import { projects, EASING } from '@/lib/projects'
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+import { motion } from "framer-motion";
+import { GlitchText } from "@/components/ui/glitch-text";
+import { ProjectCard } from "@/components/ui/project-card";
+import { projects, EASING } from "@/lib/projects";
 
 interface ProjectsProps {
-  locale?: string
+  locale?: string;
 }
 
 // ─── Main Section ─────────────────────────────────────────────────────────────
 
-export function Projects({ locale = 'en' }: ProjectsProps) {
+export function Projects({ locale = "en" }: ProjectsProps) {
   return (
     <section id="projects" className="relative py-24 w-full bg-transparent">
       <div className="w-full mx-auto px-6 md:px-12 lg:px-16">
@@ -26,7 +26,7 @@ export function Projects({ locale = 'en' }: ProjectsProps) {
           className="flex flex-col sm:flex-row sm:items-end justify-between mb-14 gap-6"
         >
           <div className="space-y-3">
-            <span className="text-xs font-mono tracking-widest text-rose-500 dark:text-blue-400 uppercase block">
+            <span className="text-xs font-mono tracking-widest text-[#ef4444] dark:text-blue-400 uppercase block">
               // Selected Works
             </span>
             <GlitchText
@@ -61,5 +61,5 @@ export function Projects({ locale = 'en' }: ProjectsProps) {
         </div>
       </div>
     </section>
-  )
+  );
 }

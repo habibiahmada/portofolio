@@ -57,7 +57,7 @@ export function GlitchText({
         <span
           className="absolute inset-0 pointer-events-none select-none"
           style={{
-            color: '#f43f5e',
+            color: '#ef4444',
             clipPath: 'inset(20% 0 60% 0)',
             transform: 'translate(-3px, 1px)',
             animation: 'glitch-split 0.3s ease-in-out',
@@ -72,7 +72,7 @@ export function GlitchText({
         <span
           className="absolute inset-0 pointer-events-none select-none"
           style={{
-            color: '#22d3ee',
+            color: '#3b82f6',
             clipPath: 'inset(60% 0 10% 0)',
             transform: 'translate(3px, -1px)',
             animation: 'glitch-split 0.3s ease-in-out reverse',

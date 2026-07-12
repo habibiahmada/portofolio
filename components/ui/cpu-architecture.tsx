@@ -81,7 +81,7 @@ function buildCometKeyframes(): string {
 
 function buildTextKeyframes(): string {
   return `@keyframes cpu-text-color-cycle {
-    0%, 100% { fill: #f43f5e; }
+    0%, 100% { fill: #ef4444; }
     25%      { fill: #fef08a; }
     50%      { fill: #fff; }
     75%      { fill: #60a5fa; }

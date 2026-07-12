@@ -51,7 +51,7 @@ export const WavyBackground = ({
     "#818cf8",
     "#c084fc",
     "#e879f9",
-    "#22d3ee",
+    "#3b82f6",
   ];
 
   const drawWave = useCallback((n: number, ctx: CanvasRenderingContext2D, w: number, h: number) => {

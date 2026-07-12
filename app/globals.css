@@ -212,13 +212,13 @@ html[data-theme-vt="active"]::view-transition-new(root) {
 }
 
 .glitch-text::before {
-  color: #f43f5e;
+  color: #ef4444;
   z-index: -1;
   animation: glitch-split 2.5s infinite;
 }
 
 .glitch-text::after {
-  color: #22d3ee;
+  color: #3b82f6;
   z-index: -2;
   animation: glitch-split 2.5s infinite reverse;
   animation-delay: 0.25s;
@@ -237,6 +237,61 @@ html[data-theme-vt="active"]::view-transition-new(root) {
 
 .hover-glitch-card:hover {
   animation: glitch-card 0.5s ease-in-out;
+}
+
+/* ─── Nav Link Glitch Effect ─────────────────────────────────────── */
+
+.nav-link {
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+/* Hover glitch layers — hidden by default */
+.nav-link::before,
+.nav-link::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.1s ease;
+}
+
+.nav-link::before {
+  color: #ef4444;
+  z-index: -1;
+  transform: translate(-1px, 0.5px);
+}
+
+.nav-link::after {
+  color: #3b82f6;
+  z-index: -2;
+  transform: translate(1px, -0.5px);
+}
+
+.dark .nav-link::before {
+  color: #3b82f6;
+}
+
+.dark .nav-link::after {
+  color: #ef4444;
+}
+
+/* Hover: momentary glitch burst */
+.nav-link-wrapper:hover .nav-link::before,
+.nav-link-wrapper:hover .nav-link::after {
+  opacity: 0.85;
+}
+
+.nav-link-wrapper:hover .nav-link::before {
+  animation: glitch-split 0.3s ease-in-out;
+}
+
+.nav-link-wrapper:hover .nav-link::after {
+  animation: glitch-split 0.3s ease-in-out reverse;
 }
 
 /* Reduced motion */

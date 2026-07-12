@@ -1,52 +1,55 @@
-'use client'
+"use client";
 
-import { useEffect, useRef } from 'react'
-import Image from 'next/image'
-import { motion } from 'framer-motion'
-import { GlitchText } from '@/components/ui/glitch-text'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { PcbBackground } from '@/components/ui/pcb-background'
+import { useEffect, useRef } from "react";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { GlitchText } from "@/components/ui/glitch-text";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { PcbBackground } from "@/components/ui/pcb-background";
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger);
 
 export function AboutHero() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const photoRef = useRef<HTMLDivElement>(null)
-  const spotlightRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null);
+  const photoRef = useRef<HTMLDivElement>(null);
+  const spotlightRef = useRef<HTMLDivElement>(null);
 
   // Parallax: photo floats up as user scrolls
   useEffect(() => {
-    const el = photoRef.current
-    if (!el) return
+    const el = photoRef.current;
+    if (!el) return;
 
     const tween = gsap.to(el, {
       y: -60,
-      ease: 'none',
+      ease: "none",
       scrollTrigger: {
         trigger: containerRef.current,
-        start: 'top top',
-        end: 'bottom top',
+        start: "top top",
+        end: "bottom top",
         scrub: 0.7,
       },
-    })
+    });
 
     return () => {
-      tween.scrollTrigger?.kill()
-      tween.kill()
-    }
-  }, [])
+      tween.scrollTrigger?.kill();
+      tween.kill();
+    };
+  }, []);
 
   // Spotlight follow cursor
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const el = containerRef.current
-    if (!el || !spotlightRef.current) return
-    const rect = el.getBoundingClientRect()
-    spotlightRef.current.style.setProperty('--mx', `${e.clientX - rect.left}px`)
-    spotlightRef.current.style.setProperty('--my', `${e.clientY - rect.top}px`)
-  }
+    const el = containerRef.current;
+    if (!el || !spotlightRef.current) return;
+    const rect = el.getBoundingClientRect();
+    spotlightRef.current.style.setProperty(
+      "--mx",
+      `${e.clientX - rect.left}px`,
+    );
+    spotlightRef.current.style.setProperty("--my", `${e.clientY - rect.top}px`);
+  };
 
-  const words = ['Habibi', 'Ahmad', 'Aziz']
+  const words = ["Habibi", "Ahmad", "Aziz"];
 
   return (
     <section
@@ -57,7 +60,7 @@ export function AboutHero() {
       className="relative min-h-screen w-full flex items-center justify-center pt-28 pb-16 overflow-hidden group/hero"
     >
       {/* Full-width background gradient */}
-      <div className="absolute inset-0 bg-linear-to-b from-rose-500/3 via-blue-500/1 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-linear-to-b from-red-500/3 via-blue-500/1 to-transparent pointer-events-none" />
 
       {/* Spotlight overlay */}
       <div
@@ -65,17 +68,16 @@ export function AboutHero() {
         className="absolute inset-0 pointer-events-none opacity-0 group-hover/hero:opacity-100 transition-opacity duration-700 -z-10"
         style={{
           background:
-            'radial-gradient(600px circle at var(--mx, 0px) var(--my, 0px), rgba(244, 63, 94, 0.05), rgba(59, 130, 246, 0.05) 50%, transparent 80%)',
+            "radial-gradient(600px circle at var(--mx, 0px) var(--my, 0px), rgba(239, 68, 68, 0.05), rgba(59, 130, 246, 0.05) 50%, transparent 80%)",
         }}
       />
 
       {/* Subtle radial bg glow */}
       <div className="absolute inset-0 -z-10 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-175 h-175 rounded-full bg-rose-500/4 blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-175 h-175 rounded-full bg-red-500/4 blur-3xl" />
       </div>
 
       <div className="relative z-10 w-full mx-auto px-6 md:px-12 lg:px-16 flex flex-col items-center gap-10">
-
         {/* ── Center: Photo + PCB decoration ── */}
         <div className="flex justify-center items-center relative w-full">
           {/* PCB traces behind photo */}
@@ -84,18 +86,18 @@ export function AboutHero() {
           </div>
 
           {/* Rose glow behind photo */}
-          <div className="absolute inset-0 bg-linear-to-tr from-rose-500/5 to-blue-500/5 blur-3xl rounded-full -z-10" />
+          <div className="absolute inset-0 bg-linear-to-tr from-red-500/5 to-blue-500/5 blur-3xl rounded-full -z-10" />
 
           <motion.div
             ref={photoRef}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
+            transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
             className="relative w-56 h-72 sm:w-64 sm:h-80 md:w-72 md:h-96"
           >
             {/* Decorative ring */}
-            <div className="absolute -inset-4 rounded-3xl border border-rose-500/10 rotate-2" />
-            <div className="absolute -inset-4 rounded-3xl border border-rose-500/5 -rotate-1" />
+            <div className="absolute -inset-4 rounded-3xl border border-red-500/10 rotate-2" />
+            <div className="absolute -inset-4 rounded-3xl border border-red-500/5 -rotate-1" />
 
             {/* Photo card */}
             <div className="relative w-full h-full rounded-2xl overflow-hidden border border-black/5 dark:border-white/5 shadow-2xl shadow-black/20">
@@ -114,10 +116,14 @@ export function AboutHero() {
             <motion.div
               initial={{ opacity: 0, scale: 0.6, rotate: 12 }}
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              transition={{ duration: 0.6, delay: 0.9, ease: [0.175, 0.885, 0.32, 1.275] }}
-              className="absolute -top-4 -right-4 px-3 py-1.5 rounded-xl border border-rose-500/20 bg-background/80 backdrop-blur-sm shadow-lg"
+              transition={{
+                duration: 0.6,
+                delay: 0.9,
+                ease: [0.175, 0.885, 0.32, 1.275],
+              }}
+              className="absolute -top-4 -right-4 px-3 py-1.5 rounded-xl border border-red-500/20 bg-background/80 backdrop-blur-sm shadow-lg"
             >
-              <span className="text-[10px] font-mono font-bold text-rose-400 tracking-widest">
+              <span className="text-[10px] font-mono font-bold text-[#ef4444] tracking-widest">
                 DEV ✦
               </span>
             </motion.div>
@@ -126,7 +132,11 @@ export function AboutHero() {
             <motion.div
               initial={{ opacity: 0, scale: 0.6, rotate: -12 }}
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              transition={{ duration: 0.6, delay: 1.05, ease: [0.175, 0.885, 0.32, 1.275] }}
+              transition={{
+                duration: 0.6,
+                delay: 1.05,
+                ease: [0.175, 0.885, 0.32, 1.275],
+              }}
               className="absolute -bottom-4 -left-4 px-3 py-1.5 rounded-xl border border-emerald-500/20 bg-background/80 backdrop-blur-sm shadow-lg"
             >
               <span className="text-[10px] font-mono font-bold text-emerald-400 tracking-widest">
@@ -138,17 +148,16 @@ export function AboutHero() {
 
         {/* ── Text below photo ── */}
         <div className="flex flex-col items-center text-center gap-6 max-w-2xl">
-
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: 'easeOut' }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
             className="flex items-center gap-2 px-3 py-1 rounded-full border border-black/5 dark:border-white/5 bg-black/2 dark:bg-white/2"
           >
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-500" />
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
             </span>
             <span className="text-[10px] font-mono tracking-widest text-muted-foreground uppercase">
               Full-Stack Web Developer
@@ -156,7 +165,12 @@ export function AboutHero() {
           </motion.div>
 
           {/* Heading with GlitchText */}
-          <GlitchText as="h1" className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.08] select-none text-foreground" interval={5000} duration={400}>
+          <GlitchText
+            as="h1"
+            className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.08] select-none text-foreground"
+            interval={5000}
+            duration={400}
+          >
             {words.map((word, i) => (
               <motion.span
                 key={word}
@@ -170,7 +184,9 @@ export function AboutHero() {
                 }}
               >
                 {i === 0 ? (
-                  <span style={{ color: 'var(--navy-accent-text)' }}>{word}</span>
+                  <span style={{ color: "var(--navy-accent-text)" }}>
+                    {word}
+                  </span>
                 ) : (
                   word
                 )}
@@ -182,24 +198,25 @@ export function AboutHero() {
           <motion.p
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4, ease: 'easeOut' }}
+            transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
             className="text-base md:text-lg text-muted-foreground/80 l leading-relaxed font-medium"
           >
-            Full-Stack Web Developer passionate about building modern, performant
-            and accessible digital products from concept to deployment.
+            Full-Stack Web Developer passionate about building modern,
+            performant and accessible digital products from concept to
+            deployment.
           </motion.p>
 
           {/* Quick facts row */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.55, ease: 'easeOut' }}
+            transition={{ duration: 0.6, delay: 0.55, ease: "easeOut" }}
             className="flex flex-wrap justify-center gap-3"
           >
             {[
-              { label: 'Location', value: 'Karawang, ID' },
-              { label: 'Status', value: 'Open to work' },
-              { label: 'Focus', value: 'Frontend + Backend' },
+              { label: "Location", value: "Karawang, ID" },
+              { label: "Status", value: "Open to work" },
+              { label: "Focus", value: "Frontend + Backend" },
             ].map((fact) => (
               <div
                 key={fact.label}
@@ -219,12 +236,12 @@ export function AboutHero() {
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.7, ease: 'easeOut' }}
+            transition={{ duration: 0.6, delay: 0.7, ease: "easeOut" }}
             className="flex flex-col sm:flex-row gap-4"
           >
             <a
               href="#cta"
-              className="px-8 py-3.5 bg-zinc-950 dark:bg-zinc-50 text-white dark:text-zinc-950 rounded-full font-bold text-sm text-center shadow-lg hover:shadow-rose-500/10 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+              className="px-8 py-3.5 bg-zinc-950 dark:bg-zinc-50 text-white dark:text-zinc-950 rounded-full font-bold text-sm text-center shadow-lg hover:shadow-red-500/10 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
             >
               Let&apos;s Collaborate
             </a>
@@ -236,7 +253,6 @@ export function AboutHero() {
             </a>
           </motion.div>
         </div>
-
       </div>
 
       {/* Full-width bottom gradient fade */}
@@ -254,10 +270,10 @@ export function AboutHero() {
         </span>
         <motion.div
           animate={{ y: [0, 6, 0] }}
-          transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-          className="w-px h-8 bg-linear-to-b from-rose-500/40 to-transparent"
+          transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+          className="w-px h-8 bg-linear-to-b from-red-500/40 to-transparent"
         />
       </motion.div>
     </section>
-  )
+  );
 }

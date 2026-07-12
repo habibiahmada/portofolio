@@ -116,7 +116,7 @@ export function ProjectCard({
 
         {/* Ring accent (archive only) */}
         {!isFeatured && (
-          <div className="absolute inset-0 ring-1 ring-inset ring-black/5 dark:ring-white/5 group-hover:ring-rose-500/20 dark:group-hover:ring-blue-400/20 transition-all duration-500 rounded-2xl" />
+          <div className="absolute inset-0 ring-1 ring-inset ring-black/5 dark:ring-white/5 group-hover:ring-red-500/20 dark:group-hover:ring-blue-400/20 transition-all duration-500 rounded-2xl" />
         )}
 
         {/* Index badge */}

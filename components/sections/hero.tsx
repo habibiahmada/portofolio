@@ -2,19 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { CpuArchitecture } from "@/components/ui/cpu-architecture";
 import { GlitchText } from "@/components/ui/glitch-text";
 import { NodeNetwork } from "@/components/ui/node-network";
 import { CvModal } from "@/components/ui/cv-modal";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
-
-gsap.registerPlugin(ScrollTrigger);
 
 export function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const cpuWrapperRef = useRef<HTMLDivElement>(null);
   const spotlightRef = useRef<HTMLDivElement>(null);
   const nodeMouseRef = useRef<{ x: number; y: number; active: boolean } | null>({
     x: 0,
@@ -51,40 +45,7 @@ export function HeroSection() {
     }
   };
 
-  useEffect(() => {
-    const el = cpuWrapperRef.current;
-    if (!el) return;
-
-    // Initial isometric state
-    gsap.set(el, {
-      rotationX: 38,
-      rotationY: 58,
-      rotationZ: -38,
-      transformPerspective: 900,
-      transformOrigin: "50% 50%",
-    });
-
-    // Animate back to flat as user scrolls down
-    const tween = gsap.to(el, {
-      rotationX: 0,
-      rotationY: 0,
-      rotationZ: 0,
-      ease: "none",
-      scrollTrigger: {
-        trigger: el,
-        start: "top 80%",
-        end: "top 20%",
-        scrub: 0.6,
-      },
-    });
-
-    return () => {
-      tween.scrollTrigger?.kill();
-      tween.kill();
-    };
-  }, []);
-
-  const headingText = "Building digital experiences that actually matter";
+const headingText = "Building digital experiences that actually matter";
   const words = headingText.split(" ");
 
   return (
@@ -94,14 +55,14 @@ export function HeroSection() {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       aria-label="Hero section"
-      className="relative min-h-screen w-full flex flex-col pt-28 pb-16 overflow-hidden group/hero"
+      className="relative w-full flex flex-col pt-56 h-[90vh] pb-16 overflow-hidden group/hero"
     >
       {/* Node Network Background Canvas — clustered top-left, mouse coords from hero */}
       <NodeNetwork externalMouseRef={nodeMouseRef} densityBias="topLeft" />
 
       {/* Background Image positioned on the right */}
       <div
-        className="absolute hidden md:block inset-y-0 right-0 h-full w-full lg:w-[55%] pointer-events-none z-0 opacity-40 dark:opacity-80"
+        className="absolute hidden lg:block inset-y-0 right-5 h-full w-full lg:w-[40%] pointer-events-none z-0 opacity-60 dark:opacity-80"
         style={{
           maskImage: "linear-gradient(to right, transparent, black 10%)",
           WebkitMaskImage: "linear-gradient(to right, transparent, black 30%)",
@@ -113,12 +74,12 @@ export function HeroSection() {
           fill
           priority
           draggable={false}
-          className="object-cover lg:object-[60%_15%]"
+          className="object-cover lg:object-[80%_15%]"
         />
       </div>
 
       {/* Full-width background gradient */}
-      <div className="absolute inset-0 bg-linear-to-b from-rose-500/3 via-blue-500/1 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-linear-to-b from-red-500/3 via-blue-500/1 to-transparent pointer-events-none" />
 
       {/* Dynamic spotlight overlay */}
       <div
@@ -126,7 +87,7 @@ export function HeroSection() {
         className="absolute inset-0 pointer-events-none opacity-0 group-hover/hero:opacity-100 transition-opacity duration-700"
         style={{
           background:
-            "radial-gradient(600px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(244, 63, 94, 0.05), rgba(59, 130, 246, 0.05) 50%, transparent 80%)",
+            "radial-gradient(600px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(239, 68, 68, 0.05), rgba(59, 130, 246, 0.05) 50%, transparent 80%)",
         }}
       />
 
@@ -141,8 +102,8 @@ export function HeroSection() {
             className="flex items-center gap-2 px-3 py-1 rounded-full border border-black/5 dark:border-white/5 bg-black/2 dark:bg-white/2"
           >
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-500" />
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
             </span>
             <span className="text-[10px] font-mono tracking-widest text-muted-foreground uppercase">
               Available for Freelance & Contracts

@@ -45,10 +45,10 @@ export function CTA() {
         {/* Glassmorphic box container */}
         <div className="relative overflow-hidden rounded-3xl border border-black/5 dark:border-white/5 bg-black/1.5 dark:bg-white/1.5 p-12 md:p-20 shadow-xl backdrop-blur-md">
           {/* Accent radial glow behind text */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-87.5 h-87.5 bg-rose-500/5 blur-[130px] rounded-full -z-10 pointer-events-none" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-87.5 h-87.5 bg-red-500/5 blur-[130px] rounded-full -z-10 pointer-events-none" />
 
           {/* Label */}
-          <span className="relative z-10 text-[10px] font-mono tracking-widest text-rose-500 dark:text-blue-400 font-semibold uppercase block mb-4">
+          <span className="relative z-10 text-[10px] font-mono tracking-widest text-[#ef4444] dark:text-blue-400 font-semibold uppercase block mb-4">
             // Start a Project
           </span>
 

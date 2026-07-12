@@ -87,7 +87,7 @@ export function NodeNetwork({ externalMouseRef, densityBias = 'uniform' }: NodeN
           vx: (Math.random() - 0.5) * 0.6,
           vy: (Math.random() - 0.5) * 0.6,
           radius: Math.random() * 2.5 + 2,
-          color: isRed ? 'rgba(244, 63, 94, 0.75)' : 'rgba(59, 130, 246, 0.75)',
+          color: isRed ? 'rgba(239, 68, 68, 0.75)' : 'rgba(59, 130, 246, 0.75)',
         })
       }
     }
@@ -125,7 +125,7 @@ export function NodeNetwork({ externalMouseRef, densityBias = 'uniform' }: NodeN
             ctx.lineTo(pj.x, pj.y)
             // Use the color of the first node in the pair
             const alpha = 0.45 * (1 - dist / 120)
-            const baseRgb = pi.color.includes('244, 63, 94') ? '244, 63, 94' : '59, 130, 246'
+            const baseRgb = pi.color.includes('239, 68, 68') ? '239, 68, 68' : '59, 130, 246'
             ctx.strokeStyle = `rgba(${baseRgb}, ${alpha})`
             ctx.lineWidth = 1.5
             ctx.stroke()
@@ -153,7 +153,7 @@ export function NodeNetwork({ externalMouseRef, densityBias = 'uniform' }: NodeN
             ctx.moveTo(p.x, p.y)
             ctx.lineTo(mouse.x, mouse.y)
 
-            const color = k % 2 === 0 ? 'rgba(244, 63, 94,' : 'rgba(59, 130, 246,'
+            const color = k % 2 === 0 ? 'rgba(239, 68, 68,' : 'rgba(59, 130, 246,'
             ctx.strokeStyle = `${color}${0.45 * (1 - dist / 120)})`
             ctx.lineWidth = k === 0 ? 5 : 4
             ctx.stroke()
@@ -161,7 +161,7 @@ export function NodeNetwork({ externalMouseRef, densityBias = 'uniform' }: NodeN
             // Pulse glow at connection
             ctx.beginPath()
             ctx.arc(p.x, p.y, p.radius * 1.6, 0, Math.PI * 2)
-            ctx.fillStyle = k % 2 === 0 ? 'rgba(244, 63, 94, 0.4)' : 'rgba(59, 130, 246, 0.4)'
+            ctx.fillStyle = k % 2 === 0 ? 'rgba(239, 68, 68, 0.4)' : 'rgba(59, 130, 246, 0.4)'
             ctx.fill()
           }
         }

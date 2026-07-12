@@ -27,8 +27,8 @@ function PdfFallback({ pdfUrl }: { pdfUrl: string }) {
   return (
     <div className="flex items-center justify-center h-full min-h-[65vh] sm:min-h-[70vh] md:min-h-[75vh] px-6">
       <div className="flex flex-col items-center text-center max-w-sm gap-5">
-        <div className="w-14 h-14 rounded-2xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center">
-          <ShieldAlert className="w-7 h-7 text-rose-400" />
+        <div className="w-14 h-14 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center">
+          <ShieldAlert className="w-7 h-7 text-[#ef4444]" />
         </div>
         <div>
           <h3 className="text-base font-semibold text-zinc-200 mb-1">
@@ -92,9 +92,8 @@ export function CvModal({
       }
 
       if (e.key === "Tab" && panelRef.current) {
-        const focusable = panelRef.current.querySelectorAll<HTMLElement>(
-          FOCUSABLE_SELECTOR,
-        );
+        const focusable =
+          panelRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR);
         if (focusable.length === 0) return;
 
         const first = focusable[0];
@@ -176,7 +175,7 @@ export function CvModal({
                 <div
                   className="absolute inset-0 rounded-2xl pointer-events-none select-none z-10"
                   style={{
-                    backgroundColor: "rgba(244, 63, 94, 0.06)",
+                    backgroundColor: "rgba(239, 68, 68, 0.06)",
                     clipPath: "inset(25% 0 55% 0)",
                     transform: "translate(-4px, 2px)",
                     animation: "glitch-split 0.4s ease-in-out",
@@ -198,7 +197,7 @@ export function CvModal({
                   initial={{ x: "-100%" }}
                   animate={{ x: "200%" }}
                   transition={{ duration: 0.5, ease: "linear" }}
-                  className="absolute inset-0 z-10 bg-linear-to-r from-transparent via-rose-500/10 via-40% to-transparent pointer-events-none"
+                  className="absolute inset-0 z-10 bg-linear-to-r from-transparent via-red-500/10 via-40% to-transparent pointer-events-none"
                   aria-hidden="true"
                 />
               </>
@@ -207,7 +206,7 @@ export function CvModal({
             {/* ── Header ── */}
             <div className="relative flex items-center justify-between px-5 py-3 border-b border-white/5">
               <div className="flex items-center gap-2.5 text-sm text-zinc-300">
-                <FileText className="w-4 h-4 text-rose-400" />
+                <FileText className="w-4 h-4 text-[#ef4444]" />
                 <span className="font-medium tracking-wide">
                   CV — Habibi Ahmad
                 </span>
@@ -226,7 +225,7 @@ export function CvModal({
                   ref={closeBtnRef}
                   onClick={onClose}
                   aria-label="Close CV"
-                  className="flex items-center justify-center w-8 h-8 rounded-lg text-zinc-400 hover:text-white hover:bg-white/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
+                  className="flex items-center justify-center w-8 h-8 rounded-lg text-zinc-400 hover:text-white hover:bg-white/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -239,7 +238,7 @@ export function CvModal({
               {!showContent && (
                 <div className="absolute inset-0 flex items-center justify-center z-20">
                   <div className="flex flex-col items-center gap-3 text-zinc-500">
-                    <Loader2 className="w-8 h-8 animate-spin text-rose-400/60" />
+                    <Loader2 className="w-8 h-8 animate-spin text-[#ef4444]/60" />
                     <span className="text-xs font-mono tracking-wider">
                       Loading PDF...
                     </span>

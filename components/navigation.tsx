@@ -1,208 +1,271 @@
-'use client'
+"use client";
 
-import { useEffect, useRef, useState } from 'react'
-import { GlitchText } from '@/components/ui/glitch-text'
-import { AnimatedThemeToggle } from '@/components/ui/animated-theme-toggle'
-import { usePathname } from 'next/navigation'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
+import { useEffect, useState } from "react";
+import { GlitchText } from "@/components/ui/glitch-text";
+import { AnimatedThemeToggle } from "@/components/ui/animated-theme-toggle";
+import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X } from "lucide-react";
 
-// ─── Theme Toggle (View Transitions API, no overlay) ──────────────────────
+// ─── Theme Toggle ─────────────────────────────────────────────────────────
 
 function ThemeToggle() {
-  return <AnimatedThemeToggle />
+  return <AnimatedThemeToggle />;
 }
 
-// ─── Nav links ────────────────────────────────────────────────────────────────
+// ─── Nav links ────────────────────────────────────────────────────────────
 
 const NAV_LINKS = [
-  { label: 'Home',     href: '#hero' },
-  { label: 'Work',     href: '#projects' },
-  { label: 'Services', href: '#services' },
-  { label: 'Contact',  href: '#cta' },
-  { label: 'About',    href: '/about' },
-]
+  { label: "Home", href: "#hero" },
+  { label: "Work", href: "#projects" },
+  { label: "Services", href: "#services" },
+  { label: "Contact", href: "#cta" },
+  { label: "About", href: "/about" },
+];
 
-// ─── Navbar ───────────────────────────────────────────────────────────────────
+// ─── Navbar ───────────────────────────────────────────────────────────────
 
 export function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
-  const pathname = usePathname()
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [glitchActive, setGlitchActive] = useState(false);
+  const pathname = usePathname();
 
+  // ── Periodic subtle glitch on navbar ──
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+    const interval = setInterval(() => {
+      setGlitchActive(true);
+      setTimeout(() => setGlitchActive(false), 200);
+    }, 8000);
+    return () => clearInterval(interval);
+  }, []);
 
-  // Close mobile menu on resize to desktop
+  // ── Scroll-driven background opacity ──
   useEffect(() => {
-    const onResize = () => { if (window.innerWidth >= 768) setMobileOpen(false) }
-    window.addEventListener('resize', onResize)
-    return () => window.removeEventListener('resize', onResize)
-  }, [])
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-  // Close mobile menu on route change
-  useEffect(() => { setMobileOpen(false) }, [pathname])
+  // ── Close mobile menu on resize to desktop ──
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth >= 768) setMobileOpen(false);
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  // ── Close mobile menu on route change ──
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
+
+  const getHref = (href: string) => {
+    return href.startsWith("#") && pathname !== "/" ? `/${href}` : href;
+  };
 
   return (
-    <header
-      role="banner"
-      className={`fixed top-0 left-0 right-0 w-full z-50 border-b border-black/5 dark:border-white/5 bg-white/70 dark:bg-black/75 backdrop-blur-md transition-all duration-300 ${
-        scrolled ? 'shadow-md shadow-black/5 dark:shadow-white/5' : ''
-      }`}
-    >
-      <nav
-        role="navigation"
-        aria-label="Main navigation"
-        className="w-full mx-auto px-6 md:px-12 lg:px-16 h-18 flex items-center justify-between"
+    <>
+      <header
+        role="banner"
+        className={`
+          fixed top-0 left-0 right-0 w-full z-50
+          transition-all duration-500 ease-out
+          ${
+            scrolled
+              ? "bg-white/60 dark:bg-zinc-950/70 backdrop-blur-2xl backdrop-saturate-150 shadow-lg shadow-black/5 dark:shadow-black/40"
+              : "bg-white/30 dark:bg-zinc-950/30 backdrop-blur-lg"
+          }
+          ${glitchActive ? "animate-glitch-skew" : ""}
+        `}
       >
-        {/* Logo */}
-        <motion.a
-          href={pathname === '/' ? '#hero' : '/'}
-          aria-label="Habibi Ahmad — home"
-          initial={{ opacity: 0, x: -16 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.4, ease: 'easeOut' }}
-          className="text-base font-bold tracking-tight text-foreground"
-        >
-          <GlitchText as="span" interval={5000} duration={320}>
-            habibiahmada<span className="text-rose-500">.</span>
-          </GlitchText>
-        </motion.a>
+        {/* ── Subtle bottom border (no gradient) ── */}
+        <div
+          className={`absolute bottom-0 left-0 right-0 h-px transition-opacity duration-500 ${
+            scrolled ? "bg-black/10 dark:bg-white/10" : "bg-transparent"
+          }`}
+          aria-hidden="true"
+        />
 
-        {/* Desktop links with sliding pill */}
-        <ul className="hidden md:flex items-center gap-1.5 relative" role="list">
-          {NAV_LINKS.map((link, i) => {
-            const href = link.href.startsWith('#') && pathname !== '/'
-              ? `/${link.href}`
-              : link.href
-            const isActive = link.href === '/about'
-              ? pathname === '/about'
-              : pathname === '/'
-
-            return (
-              <motion.li
-                key={link.href}
-                className="relative px-3.5 py-1.5"
-                onMouseEnter={() => setHoveredIndex(i)}
-                onMouseLeave={() => setHoveredIndex(null)}
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, delay: 0.1 + i * 0.06, ease: 'easeOut' }}
-              >
-                <a
-                  href={href}
-                  aria-current={isActive && link.href !== '/about' ? undefined : isActive ? 'page' : undefined}
-                  className={`relative text-xs font-semibold transition-colors z-10 ${
-                    isActive && link.href === '/about'
-                      ? 'text-foreground'
-                      : 'text-foreground/70 hover:text-foreground'
-                  }`}
-                >
-                  {link.label}
-                </a>
-                {hoveredIndex === i && (
-                  <motion.div
-                    layoutId="nav-hover-pill"
-                    className="absolute inset-0 bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5 rounded-full"
-                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                  />
-                )}
-              </motion.li>
-            )
-          })}
-        </ul>
-
-        {/* Right controls */}
-        <div className="flex items-center gap-3">
-          <ThemeToggle />
-
-          {/* Mobile hamburger */}
-          <button
-            onClick={() => setMobileOpen((v) => !v)}
-            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={mobileOpen}
-            aria-controls="mobile-menu"
-            className="md:hidden w-8 h-8 flex items-center justify-center rounded-full border border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 transition-colors overflow-hidden"
-          >
-            <AnimatePresence mode="wait" initial={false}>
-              {mobileOpen ? (
-                <motion.span
-                  key="x"
-                  initial={{ rotate: -90, scale: 0.5, opacity: 0 }}
-                  animate={{ rotate: 0, scale: 1, opacity: 1 }}
-                  exit={{ rotate: 90, scale: 0.5, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="absolute"
-                >
-                  <X size={14} strokeWidth={1.75} />
-                </motion.span>
-              ) : (
-                <motion.span
-                  key="menu"
-                  initial={{ rotate: 90, scale: 0.5, opacity: 0 }}
-                  animate={{ rotate: 0, scale: 1, opacity: 1 }}
-                  exit={{ rotate: -90, scale: 0.5, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="absolute"
-                >
-                  <Menu size={14} strokeWidth={1.75} />
-                </motion.span>
-              )}
-            </AnimatePresence>
-          </button>
-        </div>
-      </nav>
-
-      {/* Mobile menu */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            id="mobile-menu"
-            role="navigation"
-            aria-label="Mobile navigation"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="md:hidden overflow-hidden mt-2 border-t border-black/5 dark:border-white/5 bg-transparent"
-          >
-            <ul className="flex flex-col px-6 py-4 gap-1.5" role="list">
-              {NAV_LINKS.map((link, i) => {
-                const href = link.href.startsWith('#') && pathname !== '/'
-                  ? `/${link.href}`
-                  : link.href
-                const isActive = link.href === '/about' ? pathname === '/about' : false
-
-                return (
-                  <motion.li
-                    key={link.href}
-                    initial={{ opacity: 0, x: -16 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.06, duration: 0.25 }}
-                  >
-                    <a
-                      href={href}
-                      onClick={() => setMobileOpen(false)}
-                      className={`block py-2 text-sm font-semibold transition-colors ${
-                        isActive ? 'text-foreground' : 'text-foreground/70 hover:text-foreground'
-                      }`}
-                    >
-                      {link.label}
-                      {isActive && (
-                        <span className="ml-2 inline-block w-1.5 h-1.5 rounded-full bg-rose-500 align-middle" />
-                      )}
-                    </a>
-                  </motion.li>
-                )
-              })}
-            </ul>
-          </motion.div>
+        {/* ── Periodic glitch chromatic overlay ── */}
+        {glitchActive && (
+          <>
+            <div
+              className="absolute inset-0 pointer-events-none select-none z-10"
+              style={{
+                backgroundColor: "rgba(239, 68, 68, 0.04)",
+                clipPath: "inset(20% 0 60% 0)",
+                transform: "translate(-3px, 1px)",
+              }}
+              aria-hidden="true"
+            />
+            <div
+              className="absolute inset-0 pointer-events-none select-none z-10"
+              style={{
+                backgroundColor: "rgba(59, 130, 246, 0.04)",
+                clipPath: "inset(60% 0 10% 0)",
+                transform: "translate(3px, -1px)",
+              }}
+              aria-hidden="true"
+            />
+          </>
         )}
-      </AnimatePresence>
-    </header>
-  )
+
+        <nav
+          role="navigation"
+          aria-label="Main navigation"
+          className="relative z-20 w-full mx-auto px-6 md:px-12 lg:px-16 h-18 flex items-center justify-between"
+        >
+          {/* ── Logo ── */}
+          <motion.a
+            href={pathname === "/" ? "#hero" : "/"}
+            aria-label="Habibi Ahmad — home"
+            initial={{ opacity: 0, x: -16 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="relative text-base font-black tracking-tight text-foreground select-none"
+          >
+            <GlitchText as="span" interval={5000} duration={320}>
+              habibiahmada
+              <span className="text-[#ef4444] dark:text-blue-400">.</span>
+            </GlitchText>
+          </motion.a>
+
+          {/* ── Desktop links — glitch on hover, no active decoration ── */}
+          <ul className="hidden md:flex items-center gap-1" role="list">
+            {NAV_LINKS.map((link, i) => {
+              const href = getHref(link.href);
+
+              return (
+                <motion.li
+                  key={link.href}
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.35,
+                    delay: 0.1 + i * 0.06,
+                    ease: "easeOut",
+                  }}
+                  className="nav-link-wrapper"
+                >
+                  <a
+                    href={href}
+                    data-text={link.label}
+                    className="block px-3 py-1.5 text-[11px] font-mono font-bold uppercase tracking-[0.18em] text-foreground/50 nav-link"
+                  >
+                    {link.label}
+                  </a>
+                </motion.li>
+              );
+            })}
+          </ul>
+
+          {/* ── Right controls ── */}
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+
+            {/* Mobile hamburger */}
+            <button
+              onClick={() => setMobileOpen((v) => !v)}
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-menu"
+              className={`
+                md:hidden relative w-9 h-9 flex items-center justify-center
+                rounded-xl border transition-all duration-300
+                ${
+                  mobileOpen
+                    ? "border-red-500/30 dark:border-blue-400/30 bg-red-500/10 dark:bg-blue-400/10"
+                    : "border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30"
+                }
+              `}
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                {mobileOpen ? (
+                  <motion.span
+                    key="x"
+                    initial={{ rotate: -90, scale: 0.5, opacity: 0 }}
+                    animate={{ rotate: 0, scale: 1, opacity: 1 }}
+                    exit={{ rotate: 90, scale: 0.5, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute"
+                  >
+                    <X
+                      size={15}
+                      strokeWidth={1.75}
+                      className="text-[#ef4444] dark:text-blue-400"
+                    />
+                  </motion.span>
+                ) : (
+                  <motion.span
+                    key="menu"
+                    initial={{ rotate: 90, scale: 0.5, opacity: 0 }}
+                    animate={{ rotate: 0, scale: 1, opacity: 1 }}
+                    exit={{ rotate: -90, scale: 0.5, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute text-foreground/70"
+                  >
+                    <Menu size={15} strokeWidth={1.75} />
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </button>
+          </div>
+        </nav>
+
+        {/* ── Mobile menu — clean, no decorations ── */}
+        <AnimatePresence>
+          {mobileOpen && (
+            <motion.div
+              id="mobile-menu"
+              role="navigation"
+              aria-label="Mobile navigation"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.35, ease: [0.215, 0.61, 0.355, 1] }}
+              className="md:hidden overflow-hidden relative z-20"
+            >
+              <div className="px-6 py-8 space-y-1">
+                {NAV_LINKS.map((link, i) => {
+                  const href = getHref(link.href);
+
+                  return (
+                    <motion.div
+                      key={link.href}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{
+                        delay: i * 0.07,
+                        duration: 0.4,
+                        ease: [0.215, 0.61, 0.355, 1],
+                      }}
+                    >
+                      <a
+                        href={href}
+                        onClick={() => setMobileOpen(false)}
+                        data-text={link.label}
+                        className="block px-4 py-3 text-sm font-mono font-bold uppercase tracking-[0.2em] text-foreground/50 nav-link"
+                      >
+                        <span className="flex items-center gap-4">
+                          <span className="text-[10px] font-mono w-6 shrink-0 text-foreground/20">
+                            {String(i + 1).padStart(2, "0")}
+                          </span>
+                          <span>{link.label}</span>
+                        </span>
+                      </a>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
+
+      {/* ── Spacer for fixed navbar ── */}
+      <div className="h-18" aria-hidden="true" />
+    </>
+  );
 }

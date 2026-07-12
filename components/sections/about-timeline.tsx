@@ -1,110 +1,122 @@
-'use client'
+"use client";
 
-import { useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { Briefcase, GraduationCap, MapPin, Calendar } from 'lucide-react'
+import { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Briefcase, GraduationCap, MapPin, Calendar } from "lucide-react";
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger);
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const timelineData = [
   {
-    id: 'a1b2c3d4',
-    type: 'experience' as const,
-    company: 'PT Webekspres Technology Indonesia',
-    location: 'Karawang, Jawa Barat',
-    start_date: '2026-05-01',
-    end_date: '2099-12-31',
-    title: 'Web Developer',
-    highlight: 'Current Position',
+    id: "a1b2c3d4",
+    type: "experience" as const,
+    company: "PT Webekspres Technology Indonesia",
+    location: "Karawang, Jawa Barat",
+    start_date: "2026-05-01",
+    end_date: "2099-12-31",
+    title: "Web Developer",
+    highlight: "Current Position",
     description:
-      'Building and maintaining web solutions for clients using WordPress, CMS platforms, and modern web technologies. Responsible for end-to-end development of company and client projects.',
-    location_type: 'On Site',
-    skills: ['WordPress', 'CMS', 'Full-Stack Development', 'Web Development'],
+      "Building and maintaining web solutions for clients using WordPress, CMS platforms, and modern web technologies. Responsible for end-to-end development of company and client projects.",
+    location_type: "On Site",
+    skills: ["WordPress", "CMS", "Full-Stack Development", "Web Development"],
   },
   {
-    id: '9cb78319',
-    type: 'experience' as const,
-    company: 'Yayasan Sagasitas Indonesia',
-    location: 'DKI Jakarta',
-    start_date: '2025-06-01',
-    end_date: '2025-08-31',
-    title: 'Cloud Computing Trainer Intern',
+    id: "9cb78319",
+    type: "experience" as const,
+    company: "Yayasan Sagasitas Indonesia",
+    location: "DKI Jakarta",
+    start_date: "2025-06-01",
+    end_date: "2025-08-31",
+    title: "Cloud Computing Trainer Intern",
     highlight: null,
     description:
-      'Teaching Cloud Computing and Generative AI in schools. Guiding practicals using AWS PartyRock, developing hands-on materials and labs, and liaising between teaching teams and schools.',
-    location_type: 'On Site',
-    skills: ['Software Engineering', 'Network Technology', 'Programming'],
+      "Teaching Cloud Computing and Generative AI in schools. Guiding practicals using AWS PartyRock, developing hands-on materials and labs, and liaising between teaching teams and schools.",
+    location_type: "On Site",
+    skills: ["Software Engineering", "Network Technology", "Programming"],
   },
   {
-    id: '4bc9dcb4',
-    type: 'experience' as const,
-    company: 'Coding Camp powered by DBS Foundation',
-    location: 'Bandung, Jawa Barat',
-    start_date: '2025-01-01',
-    end_date: '2025-04-30',
-    title: 'Student Member',
-    highlight: 'Top 15 Achievement',
+    id: "4bc9dcb4",
+    type: "experience" as const,
+    company: "Coding Camp powered by DBS Foundation",
+    location: "Bandung, Jawa Barat",
+    start_date: "2025-01-01",
+    end_date: "2025-04-30",
+    title: "Student Member",
+    highlight: "Top 15 Achievement",
     description:
       "Deepening our understanding of Full-Stack Development & Web Development. The CultureConnect team's project made it to the Top 15 Best Capstone Projects.",
-    location_type: 'Remote',
-    skills: ['Cloud Computing', 'Generative AI', 'AWS PartyRock', 'Technical Teaching'],
+    location_type: "Remote",
+    skills: [
+      "Cloud Computing",
+      "Generative AI",
+      "AWS PartyRock",
+      "Technical Teaching",
+    ],
   },
   {
-    id: '6a827630',
-    type: 'experience' as const,
-    company: 'CV. SmartPlus Indonesia',
-    location: 'Karawang, Jawa Barat',
-    start_date: '2025-01-01',
-    end_date: '2025-05-31',
-    title: 'Web Developer Intern',
+    id: "6a827630",
+    type: "experience" as const,
+    company: "CV. SmartPlus Indonesia",
+    location: "Karawang, Jawa Barat",
+    start_date: "2025-01-01",
+    end_date: "2025-05-31",
+    title: "Web Developer Intern",
     highlight: null,
     description:
-      'Full-stack web developer specializing in website development for internal company projects. Focused on end-to-end development using modern technologies.',
-    location_type: 'Remote',
-    skills: ['Full-Stack Development', 'Team Collaboration', 'Project Management'],
+      "Full-stack web developer specializing in website development for internal company projects. Focused on end-to-end development using modern technologies.",
+    location_type: "Remote",
+    skills: [
+      "Full-Stack Development",
+      "Team Collaboration",
+      "Project Management",
+    ],
   },
   {
-    id: 'c49b36f4',
-    type: 'education' as const,
-    company: 'SMK Negeri 1 Karawang',
-    location: 'Karawang, Jawa Barat',
-    start_date: '2023-06-01',
-    end_date: '2026-06-01',
-    title: 'Software Engineering',
+    id: "c49b36f4",
+    type: "education" as const,
+    company: "SMK Negeri 1 Karawang",
+    location: "Karawang, Jawa Barat",
+    start_date: "2023-06-01",
+    end_date: "2026-06-01",
+    title: "Software Engineering",
     highlight: null,
     description:
-      'Focuses on software development, programming, computer systems, and networking technologies. Active in various technology projects and competitions.',
-    location_type: 'On Site',
-    skills: ['Academic Support', 'Teaching Assistance', 'Organization'],
+      "Focuses on software development, programming, computer systems, and networking technologies. Active in various technology projects and competitions.",
+    location_type: "On Site",
+    skills: ["Academic Support", "Teaching Assistance", "Organization"],
   },
   {
-    id: '767a322c',
-    type: 'education' as const,
-    company: 'MTSS Darunnadwah 01',
-    location: 'Karawang, Jawa Barat',
-    start_date: '2020-07-01',
-    end_date: '2023-06-30',
-    title: 'Arabic Language and Literature',
+    id: "767a322c",
+    type: "education" as const,
+    company: "MTSS Darunnadwah 01",
+    location: "Karawang, Jawa Barat",
+    start_date: "2020-07-01",
+    end_date: "2023-06-30",
+    title: "Arabic Language and Literature",
     highlight: null,
     description:
-      'Learn Arabic language and literature with a focus on linguistic abilities and cultural understanding. Develop communication and text analysis skills.',
-    location_type: 'On Site',
-    skills: ['Arabic Language', 'Literature Analysis', 'Cultural Studies'],
+      "Learn Arabic language and literature with a focus on linguistic abilities and cultural understanding. Develop communication and text analysis skills.",
+    location_type: "On Site",
+    skills: ["Arabic Language", "Literature Analysis", "Cultural Studies"],
   },
-]
+];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function formatDate(d: string) {
-  return new Date(d).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+  return new Date(d).toLocaleDateString("en-US", {
+    month: "short",
+    year: "numeric",
+  });
 }
 
 function isOngoing(end: string) {
-  return new Date(end) > new Date()
+  return new Date(end) > new Date();
 }
 
 // ─── Card ─────────────────────────────────────────────────────────────────────
@@ -113,29 +125,34 @@ function TimelineCard({
   item,
   index,
 }: {
-  item: (typeof timelineData)[number]
-  index: number
+  item: (typeof timelineData)[number];
+  index: number;
 }) {
-  const isExp = item.type === 'experience'
-  const ongoing = isOngoing(item.end_date)
+  const isExp = item.type === "experience";
+  const ongoing = isOngoing(item.end_date);
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.6, delay: index * 0.08, ease: [0.215, 0.61, 0.355, 1] }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{
+        duration: 0.6,
+        delay: index * 0.08,
+        ease: [0.215, 0.61, 0.355, 1],
+      }}
       className="relative flex gap-5 group"
     >
       {/* Icon column */}
       <div className="flex flex-col items-center shrink-0 pt-1">
         <motion.div
           whileHover={{ scale: 1.15 }}
-          transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-          className={`w-9 h-9 rounded-full flex items-center justify-center ring-4 z-10 transition-all duration-300 ${isExp
-              ? 'bg-rose-500/10 ring-rose-500/20 text-rose-400 group-hover:bg-rose-500/20 group-hover:ring-rose-500/40'
-              : 'bg-emerald-500/10 ring-emerald-500/20 text-emerald-400 group-hover:bg-emerald-500/20 group-hover:ring-emerald-500/40'
-            }`}
+          transition={{ type: "spring", stiffness: 400, damping: 20 }}
+          className={`w-9 h-9 rounded-full flex items-center justify-center ring-4 z-10 transition-all duration-300 ${
+            isExp
+              ? "bg-[#ef4444]/10 ring-[#ef4444]/20 text-[#ef4444] group-hover:bg-[#ef4444]/20 group-hover:ring-[#ef4444]/40"
+              : "bg-emerald-500/10 ring-emerald-500/20 text-emerald-400 group-hover:bg-emerald-500/20 group-hover:ring-emerald-500/40"
+          }`}
         >
           {isExp ? <Briefcase size={16} /> : <GraduationCap size={16} />}
         </motion.div>
@@ -146,14 +163,16 @@ function TimelineCard({
       {/* Card — same style as bento cards */}
       <div className="flex-1 pb-10">
         <div className="flex flex-col gap-4 rounded-2xl border border-black/5 dark:border-white/5 bg-white dark:bg-zinc-950 p-5 md:p-6 hover:border-black/10 dark:hover:border-white/10 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-black/30 transition-all duration-500">
-
           {/* Top row */}
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div className="space-y-0.5">
               <h3 className="text-base md:text-lg font-bold text-foreground leading-snug">
                 {item.title}
               </h3>
-              <p className="text-sm font-semibold" style={{ color: 'var(--navy-accent-text)' }}>
+              <p
+                className="text-sm font-semibold"
+                style={{ color: "var(--navy-accent-text)" }}
+              >
                 {item.company}
               </p>
             </div>
@@ -161,10 +180,11 @@ function TimelineCard({
             <div className="flex flex-wrap items-center gap-1.5 shrink-0">
               {item.highlight && (
                 <span
-                  className={`text-[9px] font-mono font-bold uppercase tracking-widest px-2.5 py-1 rounded-full border ${isExp
-                      ? 'bg-rose-500/8 text-rose-500 border-rose-500/15 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/20'
-                      : 'bg-emerald-500/8 text-emerald-600 border-emerald-500/15 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20'
-                    }`}
+                  className={`text-[9px] font-mono font-bold uppercase tracking-widest px-2.5 py-1 rounded-full border ${
+                    isExp
+                      ? "bg-[#ef4444]/8 text-[#ef4444] border-[#ef4444]/15 dark:bg-[#ef4444]/10 dark:text-[#ef4444] dark:border-[#ef4444]/20"
+                      : "bg-emerald-500/8 text-emerald-600 border-emerald-500/15 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20"
+                  }`}
                 >
                   {item.highlight}
                 </span>
@@ -185,7 +205,8 @@ function TimelineCard({
           <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground/60">
             <span className="flex items-center gap-1">
               <Calendar size={11} />
-              {formatDate(item.start_date)} — {ongoing ? 'Present' : formatDate(item.end_date)}
+              {formatDate(item.start_date)} —{" "}
+              {ongoing ? "Present" : formatDate(item.end_date)}
             </span>
             <span className="flex items-center gap-1">
               <MapPin size={11} />
@@ -212,45 +233,41 @@ function TimelineCard({
         </div>
       </div>
     </motion.div>
-  )
+  );
 }
 
 // ─── Section ──────────────────────────────────────────────────────────────────
 
 export function AboutTimeline() {
-  const lineRef = useRef<HTMLDivElement>(null)
+  const lineRef = useRef<HTMLDivElement>(null);
 
   // GSAP: animate the vertical progress line on scroll
   useEffect(() => {
-    const el = lineRef.current
-    if (!el) return
+    const el = lineRef.current;
+    if (!el) return;
     gsap.fromTo(
       el,
       { scaleY: 0 },
       {
         scaleY: 1,
-        ease: 'none',
+        ease: "none",
         scrollTrigger: {
           trigger: el,
-          start: 'top 80%',
-          end: 'bottom 20%',
+          start: "top 80%",
+          end: "bottom 20%",
           scrub: 1,
         },
-      }
-    )
-    return () => ScrollTrigger.getAll().forEach((t) => t.kill())
-  }, [])
+      },
+    );
+    return () => ScrollTrigger.getAll().forEach((t) => t.kill());
+  }, []);
 
-  const experiences = timelineData.filter((d) => d.type === 'experience')
-  const education = timelineData.filter((d) => d.type === 'education')
+  const experiences = timelineData.filter((d) => d.type === "experience");
+  const education = timelineData.filter((d) => d.type === "education");
 
   return (
-    <section
-      id="about-timeline"
-      className="py-24 w-full bg-transparent"
-    >
+    <section id="about-timeline" className="py-24 w-full bg-transparent">
       <div className="w-full  mx-auto px-6 md:px-12 lg:px-16 space-y-20">
-
         {/* ── Experience ── */}
         <div className="space-y-12">
           <motion.div
@@ -260,14 +277,15 @@ export function AboutTimeline() {
             transition={{ duration: 0.65, ease: [0.215, 0.61, 0.355, 1] }}
             className="space-y-3"
           >
-            <span className="text-xs font-mono tracking-widest text-rose-500 dark:text-blue-400 uppercase block">
+            <span className="text-xs font-mono tracking-widest text-[#ef4444] dark:text-blue-400 uppercase block">
               // Experience
             </span>
             <h2 className="text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight">
               Where I&apos;ve Worked
             </h2>
             <p className="text-sm md:text-base text-muted-foreground/80 leading-relaxed font-medium max-w-lg">
-              A timeline of internships and programs that shaped my professional journey.
+              A timeline of internships and programs that shaped my professional
+              journey.
             </p>
           </motion.div>
 
@@ -297,7 +315,8 @@ export function AboutTimeline() {
               Where I&apos;ve Studied
             </h2>
             <p className="text-sm md:text-base text-muted-foreground/80 leading-relaxed font-medium max-w-lg">
-              Academic foundations and programs that built my technical foundation.
+              Academic foundations and programs that built my technical
+              foundation.
             </p>
           </motion.div>
 
@@ -307,8 +326,7 @@ export function AboutTimeline() {
             ))}
           </div>
         </div>
-
       </div>
     </section>
-  )
+  );
 }
