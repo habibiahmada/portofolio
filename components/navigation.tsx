@@ -92,11 +92,11 @@ export function Navbar() {
         {glitchActive && (
           <>
             <div
-              className="absolute inset-0 pointer-events-none select-none z-10"
+              className="absolute inset-0 pointer-events-none select-none -z-10"
               style={{
                 backgroundColor: "rgba(239, 68, 68, 0.04)",
                 clipPath: "inset(20% 0 60% 0)",
-                transform: "translate(-3px, 1px)",
+                transform: "translate(-1px, 1px)",
               }}
               aria-hidden="true"
             />
@@ -152,7 +152,7 @@ export function Navbar() {
                   <a
                     href={href}
                     data-text={link.label}
-                    className="block px-3 py-1.5 text-[11px] font-mono font-bold uppercase tracking-[0.18em] text-foreground/50 nav-link"
+                    className="block px-3 py-1.5 text-[11px] font-mono font-bold uppercase tracking-[0.18em] nav-link"
                   >
                     {link.label}
                   </a>
@@ -248,10 +248,7 @@ export function Navbar() {
                         data-text={link.label}
                         className="block px-4 py-3 text-sm font-mono font-bold uppercase tracking-[0.2em] text-foreground/50 nav-link"
                       >
-                        <span className="flex items-center gap-4">
-                          <span className="text-[10px] font-mono w-6 shrink-0 text-foreground/20">
-                            {String(i + 1).padStart(2, "0")}
-                          </span>
+                        <span className="flex items-center">
                           <span>{link.label}</span>
                         </span>
                       </a>

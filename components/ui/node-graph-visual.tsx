@@ -1,14 +1,30 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type PulsePacket = {
-  from: number;
-  to: number;
-  id: number;
+type RequestStep =
+  | "idle"
+  | "client_to_api"
+  | "api_to_cache"
+  | "cache_hit"
+  | "cache_miss"
+  | "api_to_db"
+  | "db_response"
+  | "api_to_cache_write"
+  | "api_to_client"
+  | "done";
+
+type VisualPacket = {
+  id: string;
+  fromX: number;
+  fromY: number;
+  toX: number;
+  toY: number;
+  color: string;
+  duration: number;
 };
 
 // ─── Node Data with SVG Icons ─────────────────────────────────────────────────
@@ -47,26 +63,43 @@ const NODE_ICONS = {
 } as const;
 
 const NODES_DATA = [
-  { id: 1, cx: 36, cy: 75, label: "Client", color: "#ef4444", icon: NODE_ICONS.client, scale: 1 },
-  { id: 2, cx: 112, cy: 34, label: "API", color: "#38bdf8", icon: NODE_ICONS.api, scale: 1 },
-  { id: 3, cx: 112, cy: 116, label: "DB", color: "#34d399", icon: NODE_ICONS.database, scale: 1.1 },
-  { id: 4, cx: 188, cy: 75, label: "Cache", color: "#f472b6", icon: NODE_ICONS.cache, scale: 1 },
+  { id: 1, cx: 30, cy: 75, label: "Client", color: "#ef4444", icon: NODE_ICONS.client, scale: 1 },
+  { id: 2, cx: 100, cy: 75, label: "API Gateway", color: "#38bdf8", icon: NODE_ICONS.api, scale: 1 },
+  { id: 3, cx: 180, cy: 110, label: "PostgreSQL", color: "#34d399", icon: NODE_ICONS.database, scale: 1.1 },
+  { id: 4, cx: 180, cy: 40, label: "Redis Cache", color: "#f472b6", icon: NODE_ICONS.cache, scale: 1 },
 ];
 
 const LINKS_DATA = [
-  { from: 1, to: 2 },
-  { from: 1, to: 3 },
-  { from: 2, to: 4 },
-  { from: 3, to: 4 },
-  { from: 2, to: 3 },
+  { from: 1, to: 2 }, // Client <-> API
+  { from: 2, to: 4 }, // API <-> Cache
+  { from: 2, to: 3 }, // API <-> DB
 ];
 
-const DB_QUERIES = [
-  "SELECT * FROM users",
-  "INSERT INTO sessions",
-  "UPDATE cache SET",
-  "DELETE expired",
-  "JOIN orders ON",
+const REQUEST_TEMPLATES = [
+  {
+    endpoint: "GET /api/v1/products",
+    cacheKey: "products:all",
+    sql: "SELECT * FROM products WHERE active = true",
+    dbWrite: "products:all",
+  },
+  {
+    endpoint: "GET /api/v1/users/12",
+    cacheKey: "user:12",
+    sql: "SELECT * FROM users WHERE id = 12 LIMIT 1",
+    dbWrite: "user:12",
+  },
+  {
+    endpoint: "GET /api/v1/settings",
+    cacheKey: "system:settings",
+    sql: "SELECT * FROM settings WHERE env = 'production'",
+    dbWrite: "system:settings",
+  },
+  {
+    endpoint: "GET /api/v1/posts/hello-world",
+    cacheKey: "post:hello-world",
+    sql: "SELECT * FROM posts WHERE slug = 'hello-world'",
+    dbWrite: "post:hello-world",
+  },
 ];
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -74,69 +107,243 @@ const DB_QUERIES = [
 export function NodeGraphVisual() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: false, margin: "-40px" });
+  
   const [activeNode, setActiveNode] = useState<number | null>(null);
-  const [packets, setPackets] = useState<PulsePacket[]>([]);
-  const [queryText, setQueryText] = useState("");
+  const [packets, setPackets] = useState<VisualPacket[]>([]);
+  const [activeStep, setActiveStep] = useState<RequestStep>("idle");
+  const [queryText, setQueryText] = useState("awaiting request...");
   const [throughput, setThroughput] = useState(0);
-  const packetIdRef = useRef(0);
+  const [lastRequestWasHit, setLastRequestWasHit] = useState(true);
 
-  // --- Continuous data packet flow ---
+  // --- Real-time request-response loop ---
   useEffect(() => {
     if (!isInView) {
+      setActiveStep("idle");
       setPackets([]);
+      setQueryText("awaiting request...");
       return;
     }
 
-    const spawnPacket = () => {
-      const link = LINKS_DATA[Math.floor(Math.random() * LINKS_DATA.length)];
-      const id = packetIdRef.current++;
-      setPackets((prev) => [...prev.slice(-4), { ...link, id }]);
+    let isCancelled = false;
+    const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-      setTimeout(() => {
-        setPackets((prev) => prev.filter((p) => p.id !== id));
-      }, 900);
+    const runLoop = async () => {
+      while (!isCancelled) {
+        // --- Step 1: Idle state ---
+        setActiveStep("idle");
+        setQueryText("awaiting request...");
+        await sleep(1500);
+        if (isCancelled) break;
+
+        // Choose Hit or Miss & select a random template
+        const isHit = Math.random() < 0.4;
+        setLastRequestWasHit(isHit);
+        const template = REQUEST_TEMPLATES[Math.floor(Math.random() * REQUEST_TEMPLATES.length)];
+        
+        const clientNode = NODES_DATA[0];
+        const apiNode = NODES_DATA[1];
+        const cacheNode = NODES_DATA[4 - 1]; // Cache node is index 3
+        const dbNode = NODES_DATA[3 - 1];    // DB node is index 2
+
+        // --- Step 2: Client -> API Request ---
+        setActiveStep("client_to_api");
+        setQueryText(`${template.endpoint}`);
+        setPackets([
+          {
+            id: `p-req-${Date.now()}`,
+            fromX: clientNode.cx,
+            fromY: clientNode.cy,
+            toX: apiNode.cx,
+            toY: apiNode.cy,
+            color: apiNode.color,
+            duration: 0.5,
+          },
+        ]);
+        await sleep(550);
+        if (isCancelled) break;
+
+        // --- Step 3: API -> Cache Check ---
+        setActiveStep("api_to_cache");
+        setQueryText(`${template.endpoint} | CACHE check: ${template.cacheKey}`);
+        setPackets([
+          {
+            id: `p-cache-check-${Date.now()}`,
+            fromX: apiNode.cx,
+            fromY: apiNode.cy,
+            toX: cacheNode.cx,
+            toY: cacheNode.cy,
+            color: cacheNode.color,
+            duration: 0.4,
+          },
+        ]);
+        await sleep(450);
+        if (isCancelled) break;
+
+        if (isHit) {
+          // --- Cache Hit Path ---
+          setActiveStep("cache_hit");
+          setQueryText(`CACHE HIT: found ${template.cacheKey}`);
+          await sleep(350);
+          if (isCancelled) break;
+
+          // Return packet: Cache -> API
+          setPackets([
+            {
+              id: `p-cache-resp-${Date.now()}`,
+              fromX: cacheNode.cx,
+              fromY: cacheNode.cy,
+              toX: apiNode.cx,
+              toY: apiNode.cy,
+              color: apiNode.color,
+              duration: 0.4,
+            },
+          ]);
+          await sleep(450);
+          if (isCancelled) break;
+        } else {
+          // --- Cache Miss Path ---
+          setActiveStep("cache_miss");
+          setQueryText(`CACHE MISS: key ${template.cacheKey} not found`);
+          await sleep(350);
+          if (isCancelled) break;
+
+          // Return packet: Cache -> API (miss report)
+          setPackets([
+            {
+              id: `p-cache-miss-resp-${Date.now()}`,
+              fromX: cacheNode.cx,
+              fromY: cacheNode.cy,
+              toX: apiNode.cx,
+              toY: apiNode.cy,
+              color: "#f59e0b", // amber packet for cache miss return
+              duration: 0.4,
+            },
+          ]);
+          await sleep(450);
+          if (isCancelled) break;
+
+          // --- Step 4: API -> DB Query ---
+          setActiveStep("api_to_db");
+          setQueryText(`DB Query: ${template.sql}`);
+          setPackets([
+            {
+              id: `p-db-req-${Date.now()}`,
+              fromX: apiNode.cx,
+              fromY: apiNode.cy,
+              toX: dbNode.cx,
+              toY: dbNode.cy,
+              color: dbNode.color,
+              duration: 0.5,
+            },
+          ]);
+          await sleep(550);
+          if (isCancelled) break;
+
+          // --- Step 5: DB Processing & Response ---
+          setActiveStep("db_response");
+          await sleep(350);
+          if (isCancelled) break;
+
+          setPackets([
+            {
+              id: `p-db-resp-${Date.now()}`,
+              fromX: dbNode.cx,
+              fromY: dbNode.cy,
+              toX: apiNode.cx,
+              toY: apiNode.cy,
+              color: apiNode.color,
+              duration: 0.5,
+            },
+          ]);
+          await sleep(550);
+          if (isCancelled) break;
+
+          // --- Step 6: API -> Cache Write ---
+          setActiveStep("api_to_cache_write");
+          setQueryText(`CACHE write: updating key ${template.cacheKey}`);
+          setPackets([
+            {
+              id: `p-cache-write-${Date.now()}`,
+              fromX: apiNode.cx,
+              fromY: apiNode.cy,
+              toX: cacheNode.cx,
+              toY: cacheNode.cy,
+              color: cacheNode.color,
+              duration: 0.4,
+            },
+          ]);
+          await sleep(450);
+          if (isCancelled) break;
+        }
+
+        // --- Step 7: API -> Client Response ---
+        setActiveStep("api_to_client");
+        const latency = isHit ? "3ms" : "42ms";
+        setQueryText(`200 OK | Latency: ${latency}`);
+        setPackets([
+          {
+            id: `p-client-resp-${Date.now()}`,
+            fromX: apiNode.cx,
+            fromY: apiNode.cy,
+            toX: clientNode.cx,
+            toY: clientNode.cy,
+            color: "#10b981", // green for success response
+            duration: 0.5,
+          },
+        ]);
+        await sleep(550);
+        if (isCancelled) break;
+
+        // Visual completion glow on client
+        setActiveStep("done");
+        await sleep(1200);
+      }
     };
 
-    const intervals = [400, 550, 700, 850].map((delay) =>
-      setInterval(spawnPacket, delay + Math.random() * 200)
-    );
+    runLoop();
 
-    return () => intervals.forEach(clearInterval);
+    return () => {
+      isCancelled = true;
+    };
   }, [isInView]);
 
-  // --- Database queries & throughput cycling ---
+  // --- Throughput cycling ---
   useEffect(() => {
     if (!isInView) {
-      setQueryText("");
       setThroughput(0);
       return;
     }
 
-    let idx = 0;
     let rafId: number;
     let startTime = performance.now();
 
     const animateThroughput = (now: number) => {
-      if (now - startTime > 200) {
+      if (now - startTime > 300) {
         startTime = now;
-        setThroughput(Math.floor(40 + Math.random() * 60));
+        // Cache hits enable higher throughput (150-220 req/s), DB queries limit it (40-70 req/s)
+        const base = lastRequestWasHit ? 160 : 45;
+        const randomFactor = lastRequestWasHit ? 50 : 20;
+        setThroughput(Math.floor(base + Math.random() * randomFactor));
       }
       rafId = requestAnimationFrame(animateThroughput);
     };
     rafId = requestAnimationFrame(animateThroughput);
 
-    const queryInterval = setInterval(() => {
-      idx = (idx + 1) % DB_QUERIES.length;
-      setQueryText(DB_QUERIES[idx]);
-    }, 1800);
-
     return () => {
       cancelAnimationFrame(rafId);
-      clearInterval(queryInterval);
     };
-  }, [isInView]);
+  }, [isInView, lastRequestWasHit]);
 
   const getNode = (id: number) => NODES_DATA.find((n) => n.id === id)!;
+
+  // Interactivity console log
+  const getConsoleContent = () => {
+    if (activeNode === 1) return "CLIENT: IP 192.168.1.48 | Status: Connected";
+    if (activeNode === 2) return "API GATEWAY: Express.js | CPU: 1.2% | Ports: 80, 443";
+    if (activeNode === 3) return "POSTGRESQL: Active Connections: 8 | Pool Size: 20";
+    if (activeNode === 4) return "REDIS: Status: Active | Hits: 79.4% | Memory: 154 MB";
+    return queryText;
+  };
 
   return (
     <div
@@ -177,13 +384,13 @@ export function NodeGraphVisual() {
         className="absolute bottom-2 left-2 max-w-[90%] overflow-hidden"
       >
         <motion.span
-          key={queryText}
+          key={getConsoleContent()}
           initial={{ opacity: 0, x: -6 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.25 }}
           className="text-[7px] font-mono text-emerald-500/70 dark:text-emerald-400/60 whitespace-nowrap"
         >
-          $ {queryText}
+          $ {getConsoleContent()}
         </motion.span>
       </motion.div>
 
@@ -205,7 +412,15 @@ export function NodeGraphVisual() {
           const from = getNode(link.from);
           const to = getNode(link.to);
           const isHoverActive = activeNode === link.from || activeNode === link.to;
-          const hasPacket = packets.some((p) => p.from === link.from && p.to === link.to);
+          
+          const activePacket = packets.find(
+            (p) =>
+              (p.fromX === from.cx && p.toX === to.cx) ||
+              (p.fromX === to.cx && p.toX === from.cx)
+          );
+          const hasPacket = !!activePacket;
+          const strokeColor = activePacket ? activePacket.color : to.color;
+
           return (
             <g key={`link-${i}`}>
               <line
@@ -215,7 +430,7 @@ export function NodeGraphVisual() {
                 y2={to.cy}
                 stroke="currentColor"
                 strokeWidth={isHoverActive ? 1.5 : 1}
-                strokeOpacity={isHoverActive ? 0.2 : 0.08}
+                strokeOpacity={isHoverActive ? 0.25 : 0.08}
                 strokeDasharray={isHoverActive ? undefined : "3 3"}
                 className="transition-all duration-300"
               />
@@ -225,9 +440,9 @@ export function NodeGraphVisual() {
                   y1={from.cy}
                   x2={to.cx}
                   y2={to.cy}
-                  stroke={to.color}
+                  stroke={strokeColor}
                   strokeWidth={2}
-                  strokeOpacity={0.5}
+                  strokeOpacity={0.6}
                   strokeLinecap="round"
                   filter="url(#glow)"
                 />
@@ -238,30 +453,97 @@ export function NodeGraphVisual() {
 
         {/* Data packets */}
         {packets.map((packet) => {
-          const from = getNode(packet.from);
-          const to = getNode(packet.to);
           return (
             <motion.circle
               key={packet.id}
-              r={3.5}
-              fill={to.color}
-              initial={{ cx: from.cx, cy: from.cy, opacity: 0 }}
+              r={3}
+              fill={packet.color}
+              initial={{ cx: packet.fromX, cy: packet.fromY, opacity: 0 }}
               animate={{
-                cx: [from.cx, (from.cx + to.cx) / 2, to.cx],
-                cy: [from.cy, (from.cy + to.cy) / 2 - 6, to.cy],
+                cx: packet.toX,
+                cy: packet.toY,
                 opacity: [0, 1, 1, 0],
-                scale: [0.5, 1.2, 1, 0.5],
+                scale: [0.6, 1.1, 1.1, 0.6],
               }}
-              transition={{ duration: 0.85, ease: "easeInOut" }}
+              transition={{ duration: packet.duration, ease: "easeInOut" }}
               filter="url(#glow)"
             />
           );
         })}
 
+        {/* Status badges for Cache and DB */}
+        <AnimatePresence>
+          {activeStep === "cache_hit" && (
+            <motion.text
+              x={180}
+              y={20}
+              textAnchor="middle"
+              fontSize="7"
+              fontWeight="bold"
+              fill="#10b981"
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 20 }}
+              exit={{ opacity: 0 }}
+              className="font-mono"
+            >
+              HIT
+            </motion.text>
+          )}
+          {activeStep === "cache_miss" && (
+            <motion.text
+              x={180}
+              y={20}
+              textAnchor="middle"
+              fontSize="7"
+              fontWeight="bold"
+              fill="#f59e0b"
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 20 }}
+              exit={{ opacity: 0 }}
+              className="font-mono"
+            >
+              MISS
+            </motion.text>
+          )}
+          {(activeStep === "api_to_db" || activeStep === "db_response") && (
+            <motion.text
+              x={180}
+              y={90}
+              textAnchor="middle"
+              fontSize="7"
+              fontWeight="bold"
+              fill="#34d399"
+              initial={{ opacity: 0, y: 94 }}
+              animate={{ opacity: 1, y: 90 }}
+              exit={{ opacity: 0 }}
+              className="font-mono"
+            >
+              QUERY
+            </motion.text>
+          )}
+        </AnimatePresence>
+
         {/* Nodes */}
         {NODES_DATA.map((node, i) => {
           const isHovered = activeNode === node.id;
-          const hasPacket = packets.some((p) => p.from === node.id || p.to === node.id);
+          
+          let isActive = false;
+          let activeColor = node.color;
+          
+          if (node.id === 1) { // Client
+            isActive = activeStep === "client_to_api" || activeStep === "api_to_client" || activeStep === "done";
+            if (activeStep === "done") activeColor = "#10b981"; // success response glow
+          } else if (node.id === 2) { // API
+            isActive = activeStep !== "idle" && activeStep !== "done";
+          } else if (node.id === 4) { // Cache
+            isActive = activeStep === "api_to_cache" || activeStep === "cache_hit" || activeStep === "cache_miss" || activeStep === "api_to_cache_write";
+            if (activeStep === "cache_hit") activeColor = "#10b981";
+            if (activeStep === "cache_miss") activeColor = "#f59e0b";
+          } else if (node.id === 3) { // DB
+            isActive = activeStep === "api_to_db" || activeStep === "db_response";
+          }
+
+          const showPulse = isHovered || isActive;
 
           return (
             <motion.g
@@ -279,13 +561,13 @@ export function NodeGraphVisual() {
               className="cursor-pointer"
             >
               {/* Pulse ring when active */}
-              {(isHovered || hasPacket) && (
+              {showPulse && (
                 <motion.circle
                   cx={node.cx}
                   cy={node.cy}
                   r={14}
                   fill="none"
-                  stroke={node.color}
+                  stroke={activeColor}
                   strokeWidth={1.5}
                   initial={{ r: 12, opacity: 0.6 }}
                   animate={{ r: 24, opacity: 0 }}
@@ -295,7 +577,7 @@ export function NodeGraphVisual() {
 
               {/* Hover glow background */}
               {isHovered && (
-                <circle cx={node.cx} cy={node.cy} r={20} fill={node.color} fillOpacity={0.1} />
+                <circle cx={node.cx} cy={node.cy} r={20} fill={activeColor} fillOpacity={0.1} />
               )}
 
               {/* Node outer ring */}
@@ -303,18 +585,18 @@ export function NodeGraphVisual() {
                 cx={node.cx}
                 cy={node.cy}
                 r={isHovered ? 13 : 11}
-                fill={isHovered ? node.color : "white"}
+                fill={isHovered ? activeColor : "white"}
                 fillOpacity={isHovered ? 1 : 0}
-                stroke={node.color}
+                stroke={activeColor}
                 strokeWidth={isHovered ? 2.5 : 1.5}
-                strokeOpacity={isHovered || hasPacket ? 1 : 0.5}
+                strokeOpacity={showPulse ? 1 : 0.5}
                 className="transition-all duration-300 dark:fill-zinc-950"
               />
 
               {/* Node SVG icon (scaled wrapper) */}
               <g
                 transform={`translate(${node.cx}, ${node.cy}) scale(${node.scale * 0.85})`}
-                opacity={isHovered || hasPacket ? 1 : 0.5}
+                opacity={showPulse ? 1 : 0.5}
                 className="transition-all duration-300"
               >
                 {node.icon}
@@ -328,8 +610,8 @@ export function NodeGraphVisual() {
                 fontSize="8"
                 fontFamily="ui-monospace, monospace"
                 fontWeight={isHovered ? 700 : 500}
-                fill={isHovered ? node.color : "currentColor"}
-                fillOpacity={isHovered || hasPacket ? 1 : 0.35}
+                fill={isHovered ? activeColor : "currentColor"}
+                fillOpacity={showPulse ? 1 : 0.35}
                 className="transition-all duration-300"
               >
                 {node.label}

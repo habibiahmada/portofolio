@@ -74,7 +74,7 @@ export function GlitchText({
           style={{
             color: '#3b82f6',
             clipPath: 'inset(60% 0 10% 0)',
-            transform: 'translate(3px, -1px)',
+            transform: 'translate(1px, -1px)',
             animation: 'glitch-split 0.3s ease-in-out reverse',
           }}
           aria-hidden="true"
