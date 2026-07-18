@@ -11,23 +11,35 @@ gsap.registerPlugin(ScrollTrigger);
 export function CTA() {
   const containerRef = useRef<HTMLDivElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
-  const btnRef1 = useRef<HTMLButtonElement>(null);
-  const btnRef2 = useRef<HTMLButtonElement>(null);
+  const btnRef1 = useRef<HTMLAnchorElement>(null);
+  const btnRef2 = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
+    if (!subtitleRef.current || !btnRef1.current || !btnRef2.current) return;
+
     const ctx = gsap.context(() => {
-      gsap.from([subtitleRef.current, btnRef1.current, btnRef2.current], {
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 85%",
-        },
-        opacity: 0,
-        y: 24,
-        duration: 0.6,
-        stagger: 0.12,
-        ease: "power3.out",
-      });
+      gsap.fromTo(
+        [subtitleRef.current, btnRef1.current, btnRef2.current],
+        { opacity: 0, y: 24 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          stagger: 0.12,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 90%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
     }, containerRef);
+
+    // Refresh scroll triggers to ensure correct measurement after mounting
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
 
     return () => ctx.revert();
   }, []);
@@ -47,46 +59,45 @@ export function CTA() {
           {/* Accent radial glow behind text */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-87.5 h-87.5 bg-red-500/5 blur-[130px] rounded-full -z-10 pointer-events-none" />
 
-          {/* Label */}
-          <span className="relative z-10 text-[10px] font-mono tracking-widest text-[#ef4444] dark:text-blue-400 font-semibold uppercase block mb-4">
-            // Start a Project
-          </span>
-
           {/* Title with glitch effect */}
-          <GlitchText
-            as="h2"
-            className="relative z-10 text-4xl md:text-5xl font-black mb-6 tracking-tight text-foreground leading-[1.1]"
-            interval={5000}
-            duration={320}
-          >
-            Ready to Build?
-          </GlitchText>
+          <h2 className="relative z-10 text-4xl md:text-6xl font-extrabold mb-6 tracking-tight text-foreground">
+            Have a{" "}
+            <GlitchText
+              words={["project", "vision", "dream"]}
+              className="text-red-500 dark:text-blue-500 font-black inline-block px-1"
+              interval={4000}
+              duration={300}
+            />
+            <br />
+            in mind?
+          </h2>
 
           {/* Subtitle */}
           <p
             ref={subtitleRef}
-            className="relative z-10 text-sm md:text-base text-muted-foreground/80 mb-12 mx-auto leading-relaxed font-medium"
+            className="relative z-10 text-base md:text-lg text-muted-foreground/90 mb-10 mx-auto max-w-xl leading-relaxed font-normal"
           >
-            Let&apos;s work together to bring your digital product concepts to
-            life with high-performance frameworks and pristine animated
-            interactions.
+            Let&apos;s collaborate to turn your concepts into clean, high-performing digital realities. Reach out today and let&apos;s make it happen!
           </p>
 
           {/* CTA Buttons — static, no magnetic hover */}
           <div className="relative z-10 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
-            <button
+            <a
               ref={btnRef1}
-              className="w-full sm:w-auto px-8 py-3.5 bg-zinc-950 dark:bg-zinc-50 text-white dark:text-zinc-950 rounded-full font-bold text-sm shadow-md cursor-pointer select-none"
+              href="mailto:contact@habibiahmada.dev"
+              className="w-full sm:w-auto px-8 py-3.5 bg-zinc-950 dark:bg-zinc-50 text-white dark:text-zinc-950 rounded-full font-bold text-sm shadow-lg hover:opacity-90 transition-opacity cursor-pointer select-none text-center"
             >
-              Get Free Consultation
-            </button>
+              Send a Message
+            </a>
 
-            <button
+            <a
               ref={btnRef2}
-              className="w-full sm:w-auto px-8 py-3.5 rounded-full font-bold text-sm border border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 bg-black/2 dark:bg-white/2 text-foreground cursor-pointer select-none transition-colors duration-300"
+              href="/projects"
+              className="w-full sm:w-auto px-8 py-3.5 rounded-full font-bold text-sm border border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 bg-black/2 dark:bg-white/2 text-foreground cursor-pointer select-none transition-colors duration-300 text-center"
+              target="_blank"
             >
-              Schedule a Call
-            </button>
+              View My Work
+            </a>
           </div>
         </div>
       </div>

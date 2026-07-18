@@ -4,7 +4,8 @@ import { useEffect, useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
 
 interface GlitchTextProps {
-  children: React.ReactNode
+  children?: React.ReactNode
+  words?: string[]
   className?: string
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'span' | 'p' | 'div'
   /** Interval in ms between glitch triggers (default 4000) */
@@ -17,6 +18,7 @@ interface GlitchTextProps {
 
 export function GlitchText({
   children,
+  words,
   className,
   as: Tag = 'span',
   interval = 4000,
@@ -24,11 +26,19 @@ export function GlitchText({
   noAuto = false,
 }: GlitchTextProps) {
   const [active, setActive] = useState(false)
+  const [wordIndex, setWordIndex] = useState(0)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const trigger = () => {
     setActive(true)
+    
+    if (words && words.length > 0) {
+      setTimeout(() => {
+        setWordIndex((prev) => (prev + 1) % words.length)
+      }, duration / 2)
+    }
+
     if (timeoutRef.current) clearTimeout(timeoutRef.current)
     timeoutRef.current = setTimeout(() => setActive(false), duration)
   }
@@ -40,7 +50,9 @@ export function GlitchText({
       if (timerRef.current) clearInterval(timerRef.current)
       if (timeoutRef.current) clearTimeout(timeoutRef.current)
     }
-  }, [interval, duration, noAuto])
+  }, [interval, duration, noAuto, words])
+
+  const displayedContent = words && words.length > 0 ? words[wordIndex] : children
 
   return (
     <Tag
@@ -50,7 +62,7 @@ export function GlitchText({
         className,
       )}
       onMouseEnter={trigger}
-      data-glitch={typeof children === 'string' ? children : undefined}
+      data-glitch={typeof displayedContent === 'string' ? displayedContent : undefined}
     >
       {/* Red offset layer */}
       {active && (
@@ -64,7 +76,7 @@ export function GlitchText({
           }}
           aria-hidden="true"
         >
-          {children}
+          {displayedContent}
         </span>
       )}
       {/* Cyan offset layer */}
@@ -79,14 +91,14 @@ export function GlitchText({
           }}
           aria-hidden="true"
         >
-          {children}
+          {displayedContent}
         </span>
       )}
       {/* Main text with flicker */}
       <span
         className={cn('relative', active && 'animate-glitch-flicker')}
       >
-        {children}
+        {displayedContent}
       </span>
     </Tag>
   )

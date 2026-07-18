@@ -45,7 +45,7 @@ export function HeroSection() {
     }
   };
 
-const headingText = "Building digital experiences that actually matter";
+  const headingText = "Building digital experiences that actually matter";
   const words = headingText.split(" ");
 
   return (
@@ -69,7 +69,7 @@ const headingText = "Building digital experiences that actually matter";
         }}
       >
         <Image
-          src="/images/glitch-hero.png"
+          src="/images/glitch-hero.webp"
           alt="Hero Background"
           fill
           priority

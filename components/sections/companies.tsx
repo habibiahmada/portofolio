@@ -4,15 +4,15 @@ import Image from "next/image";
 import { GlitchText } from "@/components/ui/glitch-text";
 
 const companies = [
-  { name: "Neskar", logo: "/images/companies/neskar.png" },
-  { name: "PPLG", logo: "/images/companies/pplg.png" },
-  { name: "Sagasitas", logo: "/images/companies/sagasitas.png" },
-  { name: "Smartplus", logo: "/images/companies/smartplus.png" },
-  { name: "Webekspres", logo: "/images/companies/webekspres.png" },
+  { name: "Neskar", logo: "/images/companies/neskar.webp" },
+  { name: "PPLG", logo: "/images/companies/pplg.webp" },
+  { name: "Sagasitas", logo: "/images/companies/sagasitas.webp" },
+  { name: "Smartplus", logo: "/images/companies/smartplus.webp" },
+  { name: "Webekspres", logo: "/images/companies/webekspres.webp" },
 ];
 
 // Duplicate marquee items for a seamless scrolling loop
-const marqueeItems = [...companies, ...companies, ...companies];
+const marqueeItems = [...companies, ...companies];
 
 export function Companies() {
   return (

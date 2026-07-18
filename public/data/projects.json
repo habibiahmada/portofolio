@@ -5,8 +5,14 @@
     "title_id": "BagiBerkah | Platform THR Digital Interaktif dengan Gamifikasi dan AI",
     "description_en": "AI-powered interactive digital THR platform that brings back the excitement of opening holiday envelopes through mini games and smart allocation recommendations.",
     "description_id": "Platform THR digital interaktif bertenaga AI yang menghadirkan kembali kegembiraan membuka amplop liburan melalui mini game dan rekomendasi alokasi cerdas.",
-    "image": "/images/project-1.png",
-    "tags": ["Next.js", "Express", "Prisma", "Mayar", "Xendit"],
+    "image": "/images/project-1.webp",
+    "tags": [
+      "Next.js",
+      "Express",
+      "Prisma",
+      "Mayar",
+      "Xendit"
+    ],
     "live_url": "https://bagiberkah.vercel.app",
     "github_url": "https://github.com/habibiahmada/BagiBerkahTHR-client",
     "year": 2026
@@ -17,8 +23,13 @@
     "title_id": "E-Demokrasi: Dari Suara ke Tindakan",
     "description_en": "E-Vote is a platform that empowers students to voice their opinions confidently and shape the future of the school through digital student council president elections.",
     "description_id": "E-Vote adalah platform yang memberdayakan siswa untuk menyuarakan pendapat mereka dengan percaya diri dan membentuk masa depan sekolah melalui pemilihan ketua OSIS secara digital.",
-    "image": "/images/project-2.png",
-    "tags": ["PHP", "Laravel", "Bootstrap", "MySQL"],
+    "image": "/images/project-2.webp",
+    "tags": [
+      "PHP",
+      "Laravel",
+      "Bootstrap",
+      "MySQL"
+    ],
     "live_url": "https://vote.smkn1karawang.sch.id/",
     "github_url": "#",
     "year": 2025
@@ -29,8 +40,13 @@
     "title_id": "Smartfarm AI: Solusi Cerdas untuk Pertanian Modern",
     "description_en": "We offer comprehensive solutions for modernizing Indonesian agriculture. By combining cutting-edge technology with a deep understanding of local conditions, we help farmers achieve optimal productivity.",
     "description_id": "Kami menawarkan solusi komprehensif untuk memodernisasi pertanian Indonesia. Dengan memadukan teknologi mutakhir dan pemahaman mendalam terhadap kondisi lokal, kami membantu petani mencapai produktivitas optimal.",
-    "image": "/images/project-3.png",
-    "tags": ["React", "Python", "Machine Learning", "JavaScript"],
+    "image": "/images/project-3.webp",
+    "tags": [
+      "React",
+      "Python",
+      "Machine Learning",
+      "JavaScript"
+    ],
     "live_url": "#",
     "github_url": "https://github.com/intel-farm-AI/smart-farmer-client",
     "year": 2025
@@ -41,8 +57,12 @@
     "title_id": "CultureConnect.: Ayo jelajahi bersama kami.",
     "description_en": "An AI-based platform that revolutionizes the way travelers discover cultural and tourism experiences that are more personalized, unique, and impactful for local communities.",
     "description_id": "Platform berbasis AI yang merevolusi cara wisatawan menemukan pengalaman budaya dan pariwisata yang lebih personal, unik, dan berdampak bagi komunitas lokal.",
-    "image": "/images/project-1.png",
-    "tags": ["Python", "React", "Machine Learning"],
+    "image": "/images/project-1.webp",
+    "tags": [
+      "Python",
+      "React",
+      "Machine Learning"
+    ],
     "live_url": "https://culture-connect-iota.vercel.app/",
     "github_url": "https://github.com/CultureConnect-team",
     "year": 2025
@@ -53,8 +73,12 @@
     "title_id": "Spacelab: Manajemen Sekolah Terpadu",
     "description_en": "An integrated platform to manage class schedules, rooms, teachers, and students without schedule conflicts, without manual hassle, without administrative errors.",
     "description_id": "Platform terpadu untuk mengelola jadwal kelas, ruangan, guru, dan siswa tanpa konflik jadwal, tanpa kerumitan manual, tanpa kesalahan administratif.",
-    "image": "/images/project-2.png",
-    "tags": ["Laravel", "PHP", "JavaScript"],
+    "image": "/images/project-2.webp",
+    "tags": [
+      "Laravel",
+      "PHP",
+      "JavaScript"
+    ],
     "live_url": "#",
     "github_url": "https://github.com/habibiahmada/spacelab",
     "year": 2025
@@ -65,8 +89,11 @@
     "title_id": "Renshuu web",
     "description_en": "Web application for job search, a collaboration between SMKN 1 Karawang and CV Smartplus.",
     "description_id": "Aplikasi web untuk mencari kerja hasil kerjasama SMKN 1 Karawang dengan CV Smartplus.",
-    "image": "/images/project-3.png",
-    "tags": ["React", "Laravel"],
+    "image": "/images/project-3.webp",
+    "tags": [
+      "React",
+      "Laravel"
+    ],
     "live_url": "#",
     "github_url": "https://github.com/cvsmartplus/Renshuu-app",
     "year": 2025

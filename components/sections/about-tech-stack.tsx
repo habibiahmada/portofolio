@@ -82,11 +82,11 @@ export function AboutTechStack() {
             // Tech Stack
           </span>
           <h2 className="text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight">
-            Tools I Work With
+            Tools & Technologies
           </h2>
           <p className="text-sm md:text-base text-muted-foreground/80 leading-relaxed font-medium max-w-lg">
-            My go-to technologies for building modern, performant, and scalable
-            web applications.
+            The technologies I use daily to turn ideas into functional,
+            high-performing digital reality.
           </p>
         </motion.div>
 

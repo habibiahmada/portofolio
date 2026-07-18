@@ -32,9 +32,9 @@ export function AboutIntro() {
             // About
           </span>
           <h2 className="text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight">
-            A Bit Curious?{" "}
+            A Closer Look{" "}
             <span style={{ color: "var(--navy-accent-text)" }}>
-              Take a quick glance
+              at Who I Am
             </span>
           </h2>
           <div className="flex gap-2 pt-1">
@@ -57,24 +57,20 @@ export function AboutIntro() {
             className="space-y-6"
           >
             <p className="text-base md:text-lg text-foreground/80 leading-relaxed font-medium">
-              I am a Web Developer and a student at{" "}
-              <span className="font-bold text-foreground">SMKN 1 Karawang</span>{" "}
-              with a strong passion for building modern digital solutions.
+              Currently a student at{" "}
+              <span className="font-bold text-foreground">SMKN 1 Karawang</span>,
+              majoring in Software Engineering. I build things for the web with a
+              focus on clean architecture, sharp interfaces, and real-world
+              impact.
             </p>
 
             {/* Quote */}
-            <div className="relative pl-5 border-l-2 border-red-500/60 rounded-r-xl py-4 pr-5 bg-red-500/4 dark:bg-red-500/5">
+            <div className="relative pl-5 border-l-2 border-red-500/60 dark:border-blue-400/60 rounded-r-xl py-4 pr-5 bg-red-500/4 dark:bg-blue-500/5">
               <p className="text-base md:text-lg italic text-foreground/70 leading-relaxed">
-                &ldquo;Skilled in various programming languages and popular
-                frameworks, with experience in both frontend and backend
-                projects.&rdquo;
+                &ldquo;Good code solves problems. Great code creates
+                experiences.&rdquo;
               </p>
             </div>
-
-            <p className="text-base md:text-lg text-foreground/80 leading-relaxed font-medium">
-              I am always motivated to learn new technologies and deliver
-              impactful solutions that make a real difference.
-            </p>
 
             <a
               href="#cta"

@@ -281,11 +281,11 @@ export function AboutTimeline() {
               // Experience
             </span>
             <h2 className="text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight">
-              Where I&apos;ve Worked
+              My Journey
             </h2>
             <p className="text-sm md:text-base text-muted-foreground/80 leading-relaxed font-medium max-w-lg">
-              A timeline of internships and programs that shaped my professional
-              journey.
+              Professional experience and programs that shaped how I build
+              digital products.
             </p>
           </motion.div>
 
@@ -312,11 +312,11 @@ export function AboutTimeline() {
               // Education
             </span>
             <h2 className="text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight">
-              Where I&apos;ve Studied
+              Academic Foundation
             </h2>
             <p className="text-sm md:text-base text-muted-foreground/80 leading-relaxed font-medium max-w-lg">
-              Academic foundations and programs that built my technical
-              foundation.
+              The educational background that built my technical skills and
+              shaped my approach to problem-solving.
             </p>
           </motion.div>
 
