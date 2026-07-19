@@ -4,6 +4,7 @@ import { ThemeProvider } from 'next-themes'
 import './globals.css'
 import { Navbar } from '@/components/navigation'
 import { Footer } from '@/components/sections/footer'
+import { JsonLd, rootMetadata } from '@/components/json-ld'
 
 const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] })
 const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] })
@@ -13,69 +14,7 @@ const spaceGrotesk = Space_Grotesk({
   display: 'swap',
 })
 
-export const metadata: Metadata = {
-  metadataBase: new URL('https://habibiahmad.dev'),
-  title: {
-    default: 'Habibi Ahmad | Full-Stack Web Developer',
-    template: '%s | Habibi Ahmad',
-  },
-  description:
-    'Full-stack web developer crafting beautiful, performant digital experiences — from concept to deployment.',
-  keywords: [
-    'full-stack developer',
-    'web developer',
-    'Next.js',
-    'React',
-    'TypeScript',
-    'frontend',
-    'backend',
-    'Habibi Ahmad',
-  ],
-  authors: [{ name: 'Habibi Ahmad', url: 'https://habibiahmad.dev' }],
-  creator: 'Habibi Ahmad',
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: 'https://habibiahmad.dev',
-    siteName: 'Habibi Ahmad',
-    title: 'Habibi Ahmad | Full-Stack Web Developer',
-    description:
-      'Full-stack web developer crafting beautiful, performant digital experiences — from concept to deployment.',
-    images: [
-      {
-        url: '/open-graph/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'Habibi Ahmad — Full-Stack Web Developer',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Habibi Ahmad | Full-Stack Web Developer',
-    description:
-      'Full-stack web developer crafting beautiful, performant digital experiences — from concept to deployment.',
-    images: ['/open-graph/og-image.png'],
-    creator: '@habibiahmad',
-  },
-  icons: {
-    icon: [
-      { url: '/icons/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
-    ],
-    apple: '/icons/apple-touch-icon.png',
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-}
+export const metadata: Metadata = rootMetadata
 
 export const viewport: Viewport = {
   colorScheme: 'light dark',
@@ -124,6 +63,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange={false}
         >
+          <JsonLd />
           <div className="relative flex flex-col flex-1" style={{ zIndex: 2 }}>
             <Navbar />
             {children}
