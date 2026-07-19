@@ -81,8 +81,8 @@ export function ProjectsPage({ locale = "en" }: ProjectsPageProps) {
           </div>
         </div>
 
-        {/* ── Projects Grid ── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+        {/* ── Projects Grid — 4 columns ── */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
           {projects.map((project, i) => (
             <ProjectCard
               key={project.id}

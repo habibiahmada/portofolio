@@ -42,8 +42,8 @@ export function Projects({ locale = "en" }: ProjectsProps) {
           </Link>
         </div>
 
-        {/* Grid — 3 columns */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {/* Grid — 4 columns */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {projects.map((project, i) => (
             <ProjectCard
               key={project.id}
