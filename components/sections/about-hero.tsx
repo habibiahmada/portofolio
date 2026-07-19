@@ -96,13 +96,13 @@ export function AboutHero() {
               style={{ color: "var(--navy-accent-text)" }}
             >
               Habibi
-            </span>{" "}
+            </span>
+            <br />
             <span
               className="inline-block"
             >
               Ahmad
-            </span>
-            <br />
+            </span>{" "}
             <span
               className="inline-block"
             >

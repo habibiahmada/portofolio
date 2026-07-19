@@ -2,14 +2,7 @@
 
 import { useEffect, useRef, useCallback, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  X,
-  FileText,
-  Download,
-  ExternalLink,
-  ShieldAlert,
-  Loader2,
-} from "lucide-react";
+import { X, FileText, Download, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface CvModalProps {
@@ -18,42 +11,10 @@ interface CvModalProps {
   pdfUrl?: string;
 }
 
-// ── Focusable element selector ────────────────────────────────
+const CV_PAGES = ["/data/cv/page-1.webp", "/data/cv/page-2.webp"];
+
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
-
-// ── Shared fallback UI (used inside <object> for native fallback) ──
-function PdfFallback({ pdfUrl }: { pdfUrl: string }) {
-  return (
-    <div className="flex items-center justify-center h-full min-h-[65vh] sm:min-h-[70vh] md:min-h-[75vh] px-6">
-      <div className="flex flex-col items-center text-center max-w-sm gap-5">
-        <div className="w-14 h-14 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center">
-          <ShieldAlert className="w-7 h-7 text-[#ef4444]" />
-        </div>
-        <div>
-          <h3 className="text-base font-semibold text-zinc-200 mb-1">
-            PDF viewer blocked
-          </h3>
-          <p className="text-sm text-zinc-500 leading-relaxed">
-            Your browser&apos;s privacy settings prevented the PDF from loading
-            inline. You can still download or open it in a new tab.
-          </p>
-        </div>
-        <div className="flex flex-col sm:flex-row gap-3 w-full">
-          <a
-            href={pdfUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1 flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-zinc-300 font-medium text-sm transition-all duration-200"
-          >
-            <ExternalLink className="w-4 h-4" />
-            Open in Tab
-          </a>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export function CvModal({
   open,
@@ -63,31 +24,33 @@ export function CvModal({
   const overlayRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
-  const [showContent, setShowContent] = useState(false);
   const [glitchActive, setGlitchActive] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
 
-  // ── Animate entrance + reveal PDF ───────────────────────────
+  // ── Glitch trigger on open ────────────────────────────────────
   useEffect(() => {
     if (!open) return;
+    setCurrentPage(0);
     setGlitchActive(true);
-    setShowContent(false);
-
-    const glitchTimer = setTimeout(() => setGlitchActive(false), 700);
-    const contentTimer = setTimeout(() => setShowContent(true), 400);
-
-    return () => {
-      clearTimeout(glitchTimer);
-      clearTimeout(contentTimer);
-      setGlitchActive(false);
-      setShowContent(false);
-    };
+    const t = setTimeout(() => setGlitchActive(false), 700);
+    return () => clearTimeout(t);
   }, [open]);
 
-  // ── Escape key + Focus trap ─────────────────────────────────
+  // ── Keyboard ──────────────────────────────────────────────────
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         onClose();
+        return;
+      }
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        setCurrentPage((p) => Math.max(0, p - 1));
+        return;
+      }
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        setCurrentPage((p) => Math.min(CV_PAGES.length - 1, p + 1));
         return;
       }
 
@@ -95,7 +58,6 @@ export function CvModal({
         const focusable =
           panelRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR);
         if (focusable.length === 0) return;
-
         const first = focusable[0];
         const last = focusable[focusable.length - 1];
 
@@ -127,9 +89,7 @@ export function CvModal({
     };
   }, [open, handleKeyDown]);
 
-  // ── Backdrop click ──────────────────────────────────────────
   const handleBackdropClick = (e: React.MouseEvent) => {
-    // Cek apakah klik terjadi di luar panel (overlay / backdrop)
     if (panelRef.current && !panelRef.current.contains(e.target as Node)) {
       onClose();
     }
@@ -151,10 +111,8 @@ export function CvModal({
           aria-label="CV Viewer"
           className="fixed inset-0 z-100 flex items-center justify-center p-4 sm:p-6 md:p-10"
         >
-          {/* ── Backdrop ── */}
           <div className="absolute inset-0 bg-black/60 backdrop-blur-md" />
 
-          {/* ── Modal panel ── */}
           <motion.div
             ref={panelRef}
             key="cv-modal-panel"
@@ -163,13 +121,13 @@ export function CvModal({
             exit={{ opacity: 0, scale: 0.92, y: 20 }}
             transition={{ duration: 0.35, ease: [0.215, 0.61, 0.355, 1] }}
             className={cn(
-              "relative w-full max-w-5xl max-h-[90vh] flex flex-col",
+              "relative w-full max-w-4xl h-[85vh] flex flex-col",
               "rounded-2xl border border-white/10 bg-zinc-950/90 dark:bg-black/90",
               "shadow-2xl shadow-black/50 overflow-hidden",
               glitchActive && "animate-glitch-skew",
             )}
           >
-            {/* ── Glitch chromatic aberration layers ── */}
+            {/* Glitch layers */}
             {glitchActive && (
               <>
                 <div
@@ -204,7 +162,7 @@ export function CvModal({
             )}
 
             {/* ── Header ── */}
-            <div className="relative flex items-center justify-between px-5 py-3 border-b border-white/5">
+            <div className="relative flex items-center justify-between px-5 py-3 border-b border-white/5 shrink-0">
               <div className="flex items-center gap-2.5 text-sm text-zinc-300">
                 <FileText className="w-4 h-4 text-[#ef4444]" />
                 <span className="font-medium tracking-wide">
@@ -219,7 +177,7 @@ export function CvModal({
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-zinc-300 hover:text-white bg-white/5 hover:bg-white/10 transition-colors"
                 >
                   <Download className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">Download</span>
+                  <span className="hidden sm:inline">Download PDF</span>
                 </a>
                 <button
                   ref={closeBtnRef}
@@ -232,55 +190,66 @@ export function CvModal({
               </div>
             </div>
 
-            {/* ── PDF Viewer ── */}
-            <div className="flex-1 min-h-0 bg-zinc-900/50 relative">
-              {/* Loading state (before entrance animation settles) */}
-              {!showContent && (
-                <div className="absolute inset-0 flex items-center justify-center z-20">
-                  <div className="flex flex-col items-center gap-3 text-zinc-500">
-                    <Loader2 className="w-8 h-8 animate-spin text-[#ef4444]/60" />
-                    <span className="text-xs font-mono tracking-wider">
-                      Loading PDF...
-                    </span>
-                  </div>
-                </div>
-              )}
+            {/* ── WebP Preview ── */}
+            <div className="flex-1 min-h-0 relative bg-zinc-900/50 flex items-center justify-center p-4">
+              <img
+                src={CV_PAGES[currentPage]}
+                alt={`CV Preview — Page ${currentPage + 1}`}
+                className="max-w-full max-h-full object-contain rounded-sm"
+                style={{ maxHeight: "calc(85vh - 100px)" }}
+              />
 
-              {/* Native PDF viewer — uses <object> with automatic child fallback */}
-              {showContent && (
-                <object
-                  data={pdfUrl}
-                  type="application/pdf"
-                  className="w-full h-full min-h-[65vh] sm:min-h-[70vh] md:min-h-[75vh]"
-                  aria-label="CV Document"
+              {/* Nav arrows */}
+              {currentPage > 0 && (
+                <button
+                  onClick={() => setCurrentPage((p) => p - 1)}
+                  aria-label="Previous page"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-9 h-9 rounded-full bg-black/50 hover:bg-black/70 text-white/80 hover:text-white transition-all cursor-pointer backdrop-blur-sm border border-white/10"
                 >
-                  {/*
-                    Native HTML fallback: browsers automatically display
-                    this content when the PDF cannot render inline
-                    (e.g. Brave Shields, Firefox without PDF.js, etc.)
-                  */}
-                  <PdfFallback pdfUrl={pdfUrl} />
-                </object>
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+              )}
+              {currentPage < CV_PAGES.length - 1 && (
+                <button
+                  onClick={() => setCurrentPage((p) => p + 1)}
+                  aria-label="Next page"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-9 h-9 rounded-full bg-black/50 hover:bg-black/70 text-white/80 hover:text-white transition-all cursor-pointer backdrop-blur-sm border border-white/10"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
               )}
             </div>
 
             {/* ── Footer ── */}
-            <div className="flex items-center justify-between px-5 py-2.5 border-t border-white/5 bg-black/30">
+            <div className="flex items-center justify-between px-5 py-2.5 border-t border-white/5 bg-black/30 shrink-0">
               <span className="text-[11px] text-zinc-500 tracking-wide">
                 Use{" "}
                 <kbd className="px-1.5 py-0.5 rounded bg-white/5 text-zinc-400 text-[10px] font-mono">
                   Esc
                 </kbd>{" "}
                 to close
+                {" · "}
+                <kbd className="px-1.5 py-0.5 rounded bg-white/5 text-zinc-400 text-[10px] font-mono">
+                  ←
+                </kbd>{" "}
+                <kbd className="px-1.5 py-0.5 rounded bg-white/5 text-zinc-400 text-[10px] font-mono">
+                  →
+                </kbd>{" "}
+                pages
               </span>
-              <a
-                href={pdfUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1 text-[11px] text-zinc-500 hover:text-zinc-300 transition-colors"
-              >
-                Open in new tab <ExternalLink className="w-3 h-3" />
-              </a>
+              <div className="flex items-center gap-3">
+                <span className="text-[11px] text-zinc-500 tabular-nums">
+                  {currentPage + 1} / {CV_PAGES.length}
+                </span>
+                <a
+                  href={pdfUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 text-[11px] text-zinc-500 hover:text-zinc-300 transition-colors"
+                >
+                  Open PDF <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
             </div>
           </motion.div>
         </motion.div>

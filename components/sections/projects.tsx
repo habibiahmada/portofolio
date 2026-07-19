@@ -4,15 +4,26 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { GlitchText } from "@/components/ui/glitch-text";
 import { ProjectCard } from "@/components/ui/project-card";
-import { projects, EASING } from "@/lib/projects";
+import { projects } from "@/lib/projects";
 
 interface ProjectsProps {
   locale?: string;
 }
 
+// ─── Featured project IDs (pinned) ───────────────────────────────────────────
+const FEATURED_IDS = [
+  "1dd8ca69-4921-4ca7-80e3-56177efaf499", // E-Vote
+  "bde24764-8fcf-4d67-8bb2-697cb57fb66d", // Smartfarm AI
+  "ff98b3c6-e267-4ee0-9059-9444858eacf4", // CultureConnect
+  "13e602b8-c324-44e6-9c61-e9e40f388394", // Spacelab
+  "f5c13a15-1bc6-4e82-8d62-d1196894d189", // Renshuu
+];
+
 // ─── Main Section ─────────────────────────────────────────────────────────────
 
 export function Projects({ locale = "en" }: ProjectsProps) {
+  const featuredProjects = projects.filter((p) => FEATURED_IDS.includes(p.id));
+
   return (
     <section id="projects" className="relative py-24 w-full bg-transparent">
       <div className="w-full px-24">
@@ -44,7 +55,7 @@ export function Projects({ locale = "en" }: ProjectsProps) {
 
         {/* Grid — 4 columns */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {projects.map((project, i) => (
+          {featuredProjects.map((project, i) => (
             <ProjectCard
               key={project.id}
               project={project}

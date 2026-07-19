@@ -2,14 +2,9 @@
 
 import Image from "next/image";
 import { GlitchText } from "@/components/ui/glitch-text";
+import companiesData from '@/public/data/companies.json'
 
-const companies = [
-  { name: "Neskar", logo: "/images/companies/neskar.webp" },
-  { name: "PPLG", logo: "/images/companies/pplg.webp" },
-  { name: "Sagasitas", logo: "/images/companies/sagasitas.webp" },
-  { name: "Smartplus", logo: "/images/companies/smartplus.webp" },
-  { name: "Webekspres", logo: "/images/companies/webekspres.webp" },
-];
+const companies = companiesData as { name: string; logo: string }[]
 
 // Duplicate marquee items for a seamless scrolling loop
 const marqueeItems = [...companies, ...companies];
