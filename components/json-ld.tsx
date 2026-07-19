@@ -13,8 +13,8 @@ const personSchema = {
   familyName: "Aziz",
   additionalName: "Ahmad",
   alternateName: "Habibi Ahmad",
-  url: "https://habibiahmad.dev",
-  image: "https://habibiahmad.dev/images/habibiahmada.webp",
+  url: "https://www.habibiahmada.dev",
+  image: "https://www.habibiahmada.dev/images/habibiahmada.webp",
   jobTitle: "Full-Stack Web Developer",
   description:
     "Full-stack web developer from Karawang, Indonesia. Specializing in Next.js, React, Laravel, WordPress, and modern web technologies. Building performant, accessible, and beautifully animated digital experiences.",
@@ -61,7 +61,7 @@ const personSchema = {
   sameAs: [
     "https://github.com/habibiahmada",
     "https://linkedin.com/in/habibiahmada",
-    "https://habibiahmad.dev",
+    "https://www.habibiahmada.dev",
   ],
 };
 
@@ -69,7 +69,7 @@ const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: "Habibi Ahmad — Full-Stack Web Developer",
-  url: "https://habibiahmad.dev",
+  url: "https://www.habibiahmada.dev",
   description:
     "Portfolio of Habibi Ahmad Aziz, a full-stack web developer from Karawang offering web design, frontend & backend development, CMS solutions, and web performance optimization.",
   inLanguage: ["en", "id"],
@@ -86,10 +86,10 @@ const localBusinessSchema = {
   name: "Habibi Ahmad — Web Developer Karawang",
   description:
     "Jasa pembuatan website profesional di Karawang. Layanan web development meliputi frontend, backend, CMS (WordPress, Laravel), optimasi SEO, dan performa website.",
-  url: "https://habibiahmad.dev",
-  image: "https://habibiahmad.dev/images/habibiahmada.webp",
+  url: "https://www.habibiahmada.dev",
+  image: "https://www.habibiahmada.dev/images/habibiahmada.webp",
   telephone: "",
-  email: "contact@habibiahmad.dev",
+  email: "contact@habibiahmada.dev",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Karawang",
@@ -188,9 +188,9 @@ const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Home", item: "https://habibiahmad.dev" },
-    { "@type": "ListItem", position: 2, name: "About", item: "https://habibiahmad.dev/about" },
-    { "@type": "ListItem", position: 3, name: "Projects", item: "https://habibiahmad.dev/projects" },
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://www.habibiahmada.dev" },
+    { "@type": "ListItem", position: 2, name: "About", item: "https://www.habibiahmada.dev/about" },
+    { "@type": "ListItem", position: 3, name: "Projects", item: "https://www.habibiahmada.dev/projects" },
   ],
 };
 
@@ -217,7 +217,7 @@ export function JsonLd() {
  * Supercharged metadata for the root layout.
  */
 export const rootMetadata: Metadata = {
-  metadataBase: new URL("https://habibiahmad.dev"),
+  metadataBase: new URL("https://www.habibiahmada.dev"),
   title: {
     default:
       "Habibi Ahmad Aziz | Web Developer Karawang — Full-Stack Developer Indonesia",
@@ -304,24 +304,24 @@ export const rootMetadata: Metadata = {
     "hire nextjs developer",
   ],
   authors: [
-    { name: "Habibi Ahmad Aziz", url: "https://habibiahmad.dev" },
+    { name: "Habibi Ahmad Aziz", url: "https://www.habibiahmada.dev" },
   ],
   creator: "Habibi Ahmad Aziz",
   publisher: "Habibi Ahmad Aziz",
   category: "Technology",
   classification: "Web Development Portfolio",
   alternates: {
-    canonical: "https://habibiahmad.dev",
+    canonical: "https://www.habibiahmada.dev",
     languages: {
-      en: "https://habibiahmad.dev",
-      id: "https://habibiahmad.dev",
+      en: "https://www.habibiahmada.dev",
+      id: "https://www.habibiahmada.dev",
     },
   },
   openGraph: {
     type: "website",
     locale: "id_ID",
     alternateLocale: ["en_US"],
-    url: "https://habibiahmad.dev",
+    url: "https://www.habibiahmada.dev",
     siteName: "Habibi Ahmad — Web Developer Karawang",
     title:
       "Habibi Ahmad Aziz | Web Developer Karawang — Full-Stack Developer Indonesia",
@@ -329,14 +329,14 @@ export const rootMetadata: Metadata = {
       "Full-stack web developer dari Karawang, spesialis Next.js, React, Laravel, WordPress. Jasa pembuatan website profesional untuk bisnis, UMKM, sekolah, dan organisasi. 🚀",
     images: [
       {
-        url: "/open-graph/og-image.webp",
+        url: "/open-graph/og-image.png",
         width: 1200,
         height: 630,
         alt: "Habibi Ahmad Aziz — Full-Stack Web Developer Karawang",
       },
     ],
     countryName: "Indonesia",
-    emails: ["contact@habibiahmad.dev"],
+    emails: ["contact@habibiahmada.dev"],
   },
   twitter: {
     card: "summary_large_image",
@@ -344,7 +344,7 @@ export const rootMetadata: Metadata = {
       "Habibi Ahmad Aziz | Web Developer Karawang — Full-Stack Developer Indonesia",
     description:
       "Full-stack web developer dari Karawang. Jasa pembuatan website profesional dengan Next.js, React, Laravel, WordPress.",
-    images: ["/open-graph/og-image.webp"],
+    images: ["/open-graph/og-image.png"],
     creator: "@habibiahmad",
   },
   icons: {

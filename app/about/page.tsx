@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: 'https://habibiahmad.dev/about',
+    canonical: 'https://www.habibiahmada.dev/about',
   },
 }
 

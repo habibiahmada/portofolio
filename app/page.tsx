@@ -12,10 +12,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Habibi Ahmad Aziz | Web Developer Karawang — Full-Stack Developer Indonesia',
     description:
-      'Full-stack web developer dari Karawang. Jasa pembuatan website profesional dengan Next.js, React, Laravel, WordPress. 🚀',
+      'Full-stack web developer dari Karawang. Jasa pembuatan website profesional dengan Next.js, React, Laravel, WordPress.',
   },
   alternates: {
-    canonical: 'https://habibiahmad.dev',
+    canonical: 'https://www.habibiahmada.dev',
   },
 }
 

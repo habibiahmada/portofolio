@@ -11,7 +11,7 @@ export const metadata: Metadata = {
       'Koleksi proyek web development oleh Habibi Ahmad Aziz: Laravel, Next.js, React, AI, dan banyak lagi.',
   },
   alternates: {
-    canonical: 'https://habibiahmad.dev/projects',
+    canonical: 'https://www.habibiahmada.dev/projects',
   },
 }
 
