@@ -8,11 +8,19 @@ import { Companies } from '@/components/sections/companies'
 export const metadata: Metadata = {
   title: 'Home',
   description:
-    'Habibi Ahmad Aziz — Full-stack web developer dari Karawang, Indonesia. Spesialis Next.js, React, Laravel, WordPress. Jasa pembuatan website profesional, web design, frontend & backend development, CMS, dan optimasi performa web.',
+    'Habibi Ahmad Aziz crafts elegant, high-performance web solutions that empower businesses to succeed. Combining deep expertise in Next.js, React, Laravel, and WordPress, I deliver seamless user experiences and robust back-end systems, helping brands stand out online.',
   openGraph: {
-    title: 'Habibi Ahmad Aziz | Web Developer Karawang — Full-Stack Developer Indonesia',
+    title: 'Habibi Ahmad Aziz | Web Developer Karawang — Full-Stack Developer',
     description:
-      'Full-stack web developer dari Karawang. Jasa pembuatan website profesional dengan Next.js, React, Laravel, WordPress.',
+      'Elegant, high-performance web solutions that empower businesses to grow, built with Next.js, React, Laravel, and WordPress and another modern technologies.',
+    images: [
+      {
+        url: '/open-graph/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Habibi Ahmad Aziz — Full-Stack Web Developer Karawang',
+      },
+    ],
   },
   alternates: {
     canonical: 'https://www.habibiahmada.dev',

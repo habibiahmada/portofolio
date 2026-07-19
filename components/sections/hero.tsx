@@ -47,6 +47,23 @@ export function HeroSection() {
   const headingText = "Building digital experiences that actually matter";
   const words = headingText.split(" ");
 
+  // ── Auth error from ?error= query param ──
+  const [authError, setAuthError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const err = params.get("error");
+    if (err) {
+      setAuthError(decodeURIComponent(err));
+      // Clean URL after reading
+      window.history.replaceState(null, "", window.location.pathname);
+      // Auto-dismiss
+      const t = setTimeout(() => setAuthError(null), 8000);
+      return () => clearTimeout(t);
+    }
+  }, []);
+
   return (
     <section
       id="hero"
@@ -83,6 +100,13 @@ export function HeroSection() {
       <div className="relative z-10 w-full px-4 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center flex-1">
         {/* Main Content: Cinematic Copywriting */}
         <div className="lg:col-span-9 max-w-3xl flex flex-col items-start gap-8 lg:self-center z-10 relative">
+          {/* Auth error banner */}
+          {authError && (
+            <div className="w-full px-4 py-2.5 rounded-xl bg-red-500/10 dark:bg-red-500/15 border border-red-500/20 dark:border-red-500/25 text-xs text-red-600 dark:text-red-400 font-mono">
+              {authError}
+            </div>
+          )}
+
           {/* Tagline */}
           <div
             className="flex items-center gap-2 px-3 py-1 rounded-full border border-black/5 dark:border-white/5 bg-black/2 dark:bg-white/2"

@@ -4,11 +4,8 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { GlitchText } from "@/components/ui/glitch-text";
 import { ProjectCard } from "@/components/ui/project-card";
-import { projects } from "@/lib/projects";
-
-interface ProjectsProps {
-  locale?: string;
-}
+import { ProjectGridSkeleton } from "@/components/ui/skeletons";
+import { useProjects } from "@/lib/hooks/use-api";
 
 // ─── Featured project IDs (pinned) ───────────────────────────────────────────
 const FEATURED_IDS = [
@@ -19,18 +16,20 @@ const FEATURED_IDS = [
   "f5c13a15-1bc6-4e82-8d62-d1196894d189", // Renshuu
 ];
 
-// ─── Main Section ─────────────────────────────────────────────────────────────
+interface ProjectsProps {
+  locale?: string;
+}
 
 export function Projects({ locale = "en" }: ProjectsProps) {
-  const featuredProjects = projects.filter((p) => FEATURED_IDS.includes(p.id));
+  const { data: projects, loading, error } = useProjects({
+    featured: FEATURED_IDS,
+  });
 
   return (
     <section id="projects" className="relative py-24 w-full bg-transparent">
       <div className="w-full px-24">
         {/* Header */}
-        <div
-          className="flex flex-col sm:flex-row sm:items-end justify-between mb-14 gap-6"
-        >
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-14 gap-6">
           <div className="space-y-3">
             <span className="text-xs font-mono tracking-widest text-[#ef4444] dark:text-blue-400 uppercase block">
               // Selected Works
@@ -53,18 +52,30 @@ export function Projects({ locale = "en" }: ProjectsProps) {
           </Link>
         </div>
 
+        {/* Loading state */}
+        {loading && <ProjectGridSkeleton count={4} />}
+
+        {/* Error state */}
+        {error && (
+          <p className="text-sm text-red-500 dark:text-red-400 font-mono">
+            Failed to load projects: {error}
+          </p>
+        )}
+
         {/* Grid — 4 columns */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {featuredProjects.map((project, i) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              locale={locale}
-              index={i}
-              variant="featured"
-            />
-          ))}
-        </div>
+        {!loading && !error && projects && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {projects.map((project, i) => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                locale={locale}
+                index={i}
+                variant="featured"
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

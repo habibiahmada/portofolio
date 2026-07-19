@@ -2,21 +2,21 @@
 
 import Image from "next/image";
 import { GlitchText } from "@/components/ui/glitch-text";
-import companiesData from '@/public/data/companies.json'
-
-const companies = companiesData as { name: string; logo: string }[]
-
-// Duplicate marquee items for a seamless scrolling loop
-const marqueeItems = [...companies, ...companies];
+import { CompanyLogoSkeleton } from "@/components/ui/skeletons";
+import { useCompanies } from "@/lib/hooks/use-api";
 
 export function Companies() {
+  const { data: companies, loading, error } = useCompanies();
+
+  const items = companies || [];
+  const marqueeItems = [...items, ...items];
+
   return (
     <section
       id="companies"
       className="py-16 overflow-hidden w-full bg-transparent"
     >
       <div className="w-full px-24">
-        {/* Modern minimal label */}
         <GlitchText
           as="h2"
           className="block w-full text-center font-mono tracking-widest text-muted-foreground/60 uppercase mb-10 select-none"
@@ -26,28 +26,44 @@ export function Companies() {
           // Collaborations & Trusted By
         </GlitchText>
 
-        {/* Fade-masked marquee container */}
-        <div className="relative w-full overflow-hidden flex items-center mask-[linear-gradient(to_right,transparent_0,black_20%,black_20%,transparent_100%)]">
-          <div className="flex gap-16 py-4 animate-marquee whitespace-nowrap">
-            {marqueeItems.map((company, index) => (
-              <div
-                key={`${company.name}-${index}`}
-                className="relative h-20 w-32 shrink-0 opacity-40 hover:opacity-200 transition-all duration-500 cursor-pointer select-none"
-              >
-                <Image
-                  src={company.logo}
-                  alt={company.name}
-                  fill
-                  loading="lazy"
-                  quality={60}
-                  draggable={false}
-                  className="object-contain select-none"
-                  sizes="120px"
-                />
-              </div>
-            ))}
+        {/* Loading state */}
+        {loading && (
+          <div className="flex justify-center">
+            <CompanyLogoSkeleton />
           </div>
-        </div>
+        )}
+
+        {/* Error state — fallback to empty */}
+        {error && (
+          <p className="text-center text-xs font-mono text-muted-foreground/40">
+            Unable to load partners.
+          </p>
+        )}
+
+        {/* Companies marquee */}
+        {!loading && !error && items.length > 0 && (
+          <div className="relative w-full overflow-hidden flex items-center mask-[linear-gradient(to_right,transparent_0,black_20%,black_20%,transparent_100%)]">
+            <div className="flex gap-16 py-4 animate-marquee whitespace-nowrap">
+              {marqueeItems.map((company, index) => (
+                <div
+                  key={`${company.id || company.name}-${index}`}
+                  className="relative h-20 w-32 shrink-0 opacity-40 hover:opacity-200 transition-all duration-500 cursor-pointer select-none"
+                >
+                  <Image
+                    src={company.logo}
+                    alt={company.name}
+                    fill
+                    loading="lazy"
+                    quality={60}
+                    draggable={false}
+                    className="object-contain select-none"
+                    sizes="120px"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

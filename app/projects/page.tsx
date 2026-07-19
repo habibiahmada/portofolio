@@ -9,6 +9,14 @@ export const metadata: Metadata = {
     title: 'Projects Portfolio | Habibi Ahmad — Web Developer',
     description:
       'Koleksi proyek web development oleh Habibi Ahmad Aziz: Laravel, Next.js, React, AI, dan banyak lagi.',
+    images: [
+      {
+        url: '/open-graph/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Habibi Ahmad Aziz — Full-Stack Web Developer Karawang',
+      },
+    ],
   },
   alternates: {
     canonical: 'https://www.habibiahmada.dev/projects',

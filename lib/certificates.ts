@@ -1,13 +1,2 @@
-import certsData from '@/public/data/certificates.json'
-
-export interface Certificate {
-  id: string
-  org: string
-  title: string
-  description: string
-  pages: string[]
-  thumb: string
-  isPinned: boolean
-}
-
-export const certificates: Certificate[] = certsData as Certificate[]
+// Re-export from Supabase types for backward compatibility
+export type { CertificateRow as Certificate } from "@/lib/supabase/types";
