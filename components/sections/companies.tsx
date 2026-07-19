@@ -20,7 +20,7 @@ export function Companies() {
       id="companies"
       className="py-16 overflow-hidden w-full bg-transparent"
     >
-      <div className="w-full  mx-auto px-6 md:px-12 lg:px-16">
+      <div className="w-full px-24">
         {/* Modern minimal label */}
         <GlitchText
           as="h2"

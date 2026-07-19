@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { GlitchText } from "@/components/ui/glitch-text";
 import { LayoutDesignerVisual } from "@/components/ui/layout-designer-visual";
 import { CodeEditorVisual } from "@/components/ui/code-editor-visual";
@@ -59,16 +58,9 @@ const CARDS = [
 export function Services() {
   return (
     <section id="services" className="py-24 w-full bg-transparent">
-      <div className="w-full mx-auto px-6 md:px-12 lg:px-16">
+      <div className="w-full px-24">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{
-            duration: 0.65,
-            ease: [0.215, 0.61, 0.355, 1] as const,
-          }}
+        <div
           className="max-w-2xl mb-14 space-y-3"
         >
           <span className="text-xs font-mono tracking-widest text-[#ef4444] dark:text-blue-400 uppercase block">
@@ -87,20 +79,12 @@ export function Services() {
             From wireframe concepts to fully animated frontends and scalable
             servers. I build performant products that stand out.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {CARDS.map((card) => (
-            <motion.div
+            <div
               key={card.label}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{
-                duration: 0.6,
-                delay: card.delay,
-                ease: [0.215, 0.61, 0.355, 1] as const,
-              }}
               className={`flex flex-col gap-5 rounded-2xl border border-black/5 dark:border-white/5 bg-white dark:bg-zinc-950 p-5 md:p-6 hover:border-black/10 dark:hover:border-white/10 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-black/30 transition-all duration-500 ${card.className || ""}`}
             >
               <div className="shrink-0">{card.visual}</div>
@@ -115,7 +99,7 @@ export function Services() {
                   {card.description}
                 </p>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

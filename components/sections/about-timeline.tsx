@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Briefcase, GraduationCap, MapPin, Calendar } from "lucide-react";
+import { Companies } from "./companies";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -132,22 +132,12 @@ function TimelineCard({
   const ongoing = isOngoing(item.end_date);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{
-        duration: 0.6,
-        delay: index * 0.08,
-        ease: [0.215, 0.61, 0.355, 1],
-      }}
-      className="relative flex gap-5 group"
+    <div
+      className="relative flex gap-5 group mt-4"
     >
       {/* Icon column */}
       <div className="flex flex-col items-center shrink-0 pt-1">
-        <motion.div
-          whileHover={{ scale: 1.15 }}
-          transition={{ type: "spring", stiffness: 400, damping: 20 }}
+        <div
           className={`w-9 h-9 rounded-full flex items-center justify-center ring-4 z-10 transition-all duration-300 ${
             isExp
               ? "bg-[#ef4444]/10 ring-[#ef4444]/20 text-[#ef4444] group-hover:bg-[#ef4444]/20 group-hover:ring-[#ef4444]/40"
@@ -155,7 +145,7 @@ function TimelineCard({
           }`}
         >
           {isExp ? <Briefcase size={16} /> : <GraduationCap size={16} />}
-        </motion.div>
+        </div>
         {/* Connector */}
         <div className="w-px flex-1 min-h-8 bg-black/5 dark:bg-white/5 mt-2" />
       </div>
@@ -232,7 +222,7 @@ function TimelineCard({
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -266,15 +256,11 @@ export function AboutTimeline() {
   const education = timelineData.filter((d) => d.type === "education");
 
   return (
-    <section id="about-timeline" className="py-24 w-full bg-transparent">
-      <div className="w-full  mx-auto px-6 md:px-12 lg:px-16 space-y-20">
+    <section id="about-timeline" className="p-24 w-full bg-transparent">
+      <div className="w-full space-y-20">
         {/* ── Experience ── */}
         <div className="space-y-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.65, ease: [0.215, 0.61, 0.355, 1] }}
+          <div
             className="space-y-3"
           >
             <span className="text-xs font-mono tracking-widest text-[#ef4444] dark:text-blue-400 uppercase block">
@@ -287,7 +273,7 @@ export function AboutTimeline() {
               Professional experience and programs that shaped how I build
               digital products.
             </p>
-          </motion.div>
+          </div>
 
           <div>
             {experiences.map((item, i) => (
@@ -298,14 +284,12 @@ export function AboutTimeline() {
 
         {/* ── Divider ── */}
         <div className="h-px w-full bg-black/5 dark:bg-white/5" />
+        <Companies />
+        <div className="h-px w-full bg-black/5 dark:bg-white/5" />
 
         {/* ── Education ── */}
         <div className="space-y-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.65, ease: [0.215, 0.61, 0.355, 1] }}
+          <div
             className="space-y-3"
           >
             <span className="text-xs font-mono tracking-widest text-emerald-500 uppercase block">
@@ -318,7 +302,7 @@ export function AboutTimeline() {
               The educational background that built my technical skills and
               shaped my approach to problem-solving.
             </p>
-          </motion.div>
+          </div>
 
           <div>
             {education.map((item, i) => (

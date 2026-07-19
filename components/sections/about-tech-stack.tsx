@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Image from "next/image";
 
 const techs = [
@@ -11,8 +10,8 @@ const techs = [
   },
   {
     name: "Next.js",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
-    invert: true,
+    icon: "https://cdn.simpleicons.org/nextdotjs",
+    invert: false,
   },
   {
     name: "Node.js",
@@ -40,24 +39,44 @@ const techs = [
     invert: false,
   },
   {
+    name: "Laravel",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg",
+    invert: false,
+  },
+  {
+    name: "WordPress",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/wordpress/wordpress-original.svg",
+    invert: false,
+  },
+  {
+    name: "Elementor",
+    icon: "https://cdn.simpleicons.org/elementor",
+    invert: false,
+  },
+  {
+    name: "Astra",
+    icon: "https://cdn.simpleicons.org/astra",
+    invert: false,
+  },
+  {
     name: "Git",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
     invert: false,
   },
   {
     name: "GitHub",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg",
-    invert: true,
+    icon: "https://cdn.simpleicons.org/github",
+    invert: false,
   },
   {
     name: "Bootstrap",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg",
+    icon: "https://cdn.simpleicons.org/bootstrap",
     invert: false,
   },
   {
     name: "Vercel",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg",
-    invert: true,
+    icon: "https://cdn.simpleicons.org/vercel",
+    invert: false,
   },
   {
     name: "JavaScript",
@@ -66,16 +85,20 @@ const techs = [
   },
 ];
 
+// Split techs into two separate groups — no overlap between rows
+const row1 = techs.slice(0, 8);
+const row2 = techs.slice(8);
+
+// Duplicate each row for seamless infinite scrolling
+const marqueeRow1 = [...row1, ...row1];
+const marqueeRow2 = [...row2, ...row2];
+
 export function AboutTechStack() {
   return (
-    <section id="about-techstack" className="py-24 w-full bg-transparent">
-      <div className="w-full mx-auto px-6 md:px-12 lg:px-16">
-        {/* Header — same pattern as Services / Projects */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.65, ease: [0.215, 0.61, 0.355, 1] }}
+    <section id="about-techstack" className="py-24 w-full bg-transparent overflow-hidden">
+      <div className="w-full px-24">
+        {/* Header */}
+        <div
           className="max-w-2xl mb-14 space-y-3"
         >
           <span className="text-xs font-mono tracking-widest text-[#ef4444] dark:text-blue-400 uppercase block">
@@ -88,39 +111,54 @@ export function AboutTechStack() {
             The technologies I use daily to turn ideas into functional,
             high-performing digital reality.
           </p>
-        </motion.div>
+        </div>
 
-        {/* Grid — card style matches bento cards */}
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4">
-          {techs.map((tech, i) => (
-            <motion.div
-              key={tech.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{
-                duration: 0.5,
-                delay: i * 0.05,
-                ease: [0.215, 0.61, 0.355, 1],
-              }}
-              className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-black/5 dark:border-white/5 bg-white dark:bg-zinc-950 p-4 hover:border-black/10 dark:hover:border-white/10 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-black/30 transition-all duration-500 cursor-default group"
-            >
-              <div className="relative w-8 h-8 shrink-0">
+        {/* ── Marquee Row 1 — left to right ── */}
+        <div className="relative w-full overflow-hidden mb-10 mask-[linear-gradient(to_right,transparent_0,black_15%,black_85%,transparent_100%)]">
+          <div className="flex gap-16 py-5 animate-marquee-reverse items-center">
+            {marqueeRow1.map((tech, i) => (
+              <div
+                key={`r1-${tech.name}-${i}`}
+                className="relative w-16 h-16 shrink-0 opacity-30 hover:opacity-100 transition-all duration-500"
+              >
                 <Image
                   src={tech.icon}
-                  alt={tech.name}
+                  alt=""
                   fill
-                  className={`object-contain transition-transform duration-300 group-hover:scale-110 ${
-                    tech.invert ? "invert dark:invert-0" : ""
-                  }`}
-                  unoptimized
+                  loading="lazy"
+                  quality={60}
+                  draggable={false}
+                  className={`object-contain select-none`}
+                  sizes="64px"
+                  aria-hidden="true"
                 />
               </div>
-              <span className="text-[11px] font-mono text-muted-foreground/70 group-hover:text-foreground transition-colors duration-300 text-center leading-tight">
-                {tech.name}
-              </span>
-            </motion.div>
-          ))}
+            ))}
+          </div>
+        </div>
+
+        {/* ── Marquee Row 2 — right to left ── */}
+        <div className="relative w-full overflow-hidden mask-[linear-gradient(to_right,transparent_0,black_15%,black_85%,transparent_100%)]">
+          <div className="flex gap-16 py-5 animate-marquee-slow items-center">
+            {marqueeRow2.map((tech, i) => (
+              <div
+                key={`r2-${tech.name}-${i}`}
+                className="relative w-16 h-16 shrink-0 opacity-30 hover:opacity-100 transition-all duration-500"
+              >
+                <Image
+                  src={tech.icon}
+                  alt=""
+                  fill
+                  loading="lazy"
+                  quality={60}
+                  draggable={false}
+                  className={`object-contain select-none`}
+                  sizes="64px"
+                  aria-hidden="true"
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

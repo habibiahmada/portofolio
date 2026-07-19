@@ -115,7 +115,7 @@ export function Navbar() {
         <nav
           role="navigation"
           aria-label="Main navigation"
-          className="relative z-20 w-full mx-auto px-6 md:px-12 lg:px-16 h-18 flex items-center justify-between"
+          className="relative z-20 w-full px-24 h-18 flex items-center justify-between"
         >
           {/* ── Logo ── */}
           <motion.a
@@ -124,7 +124,7 @@ export function Navbar() {
             initial={{ opacity: 0, x: -16 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="relative text-base font-black tracking-tight text-foreground select-none"
+            className="relative text-lg md:text-xl font-black tracking-tight text-foreground select-none"
           >
             <GlitchText as="span" interval={5000} duration={320}>
               habibiahmada
@@ -152,7 +152,7 @@ export function Navbar() {
                   <a
                     href={href}
                     data-text={link.label}
-                    className="block px-3 py-1.5 text-[11px] font-mono font-bold uppercase tracking-[0.18em] nav-link"
+                    className="block px-3 py-1.5 text-xs font-mono font-bold uppercase tracking-[0.18em] nav-link"
                   >
                     {link.label}
                   </a>
@@ -164,6 +164,15 @@ export function Navbar() {
           {/* ── Right controls ── */}
           <div className="flex items-center gap-2">
             <ThemeToggle />
+            <motion.a
+              href="mailto:contact@habibiahmada.dev"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4, delay: 0.4, ease: "easeOut" }}
+              className="hidden md:inline-flex items-center justify-center px-5 py-2 text-xs font-mono font-bold uppercase tracking-[0.15em] rounded-full bg-zinc-950 dark:bg-zinc-50 text-white dark:text-zinc-950 shadow-md hover:bg-[#ef4444] dark:hover:bg-blue-400 hover:text-white dark:hover:text-zinc-950 hover:shadow-lg hover:shadow-red-500/10 dark:hover:shadow-blue-500/10 transition-all duration-300 hover:scale-[1.04] active:scale-[0.96]"
+            >
+              Let&apos;s Talk
+            </motion.a>
 
             {/* Mobile hamburger */}
             <button
@@ -246,7 +255,7 @@ export function Navbar() {
                         href={href}
                         onClick={() => setMobileOpen(false)}
                         data-text={link.label}
-                        className="block px-4 py-3 text-sm font-mono font-bold uppercase tracking-[0.2em] text-foreground/50 nav-link"
+                        className="block px-4 py-3 text-base font-mono font-bold uppercase tracking-[0.2em] text-foreground/50 nav-link"
                       >
                         <span className="flex items-center">
                           <span>{link.label}</span>
@@ -255,6 +264,24 @@ export function Navbar() {
                     </motion.div>
                   );
                 })}
+
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    delay: NAV_LINKS.length * 0.07,
+                    duration: 0.4,
+                    ease: [0.215, 0.61, 0.355, 1],
+                  }}
+                  className="pt-4"
+                >
+                  <a
+                    href="mailto:contact@habibiahmada.dev"
+                    className="flex w-full items-center justify-center py-3 text-sm font-mono font-bold uppercase tracking-[0.2em] rounded-full bg-zinc-950 dark:bg-zinc-50 text-white dark:text-zinc-950 text-center shadow-lg active:scale-[0.98] transition-all duration-300"
+                  >
+                    Let&apos;s Talk
+                  </a>
+                </motion.div>
               </div>
             </motion.div>
           )}

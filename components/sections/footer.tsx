@@ -92,7 +92,7 @@ export function Footer() {
       aria-label="Site footer"
       className="w-full bg-transparent border-t border-black/5 dark:border-white/5 mt-12"
     >
-      <div className="w-full  mx-auto px-6 md:px-12 lg:px-16 py-16 grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
+      <div className="w-full px-24 py-16 grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
         {/* Brand Column */}
         <div className="md:col-span-5 space-y-4">
           <GlitchText

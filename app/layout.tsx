@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Geist, Geist_Mono, Anek_Tamil } from 'next/font/google'
+import { Geist, Geist_Mono, Space_Grotesk } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
 import './globals.css'
 import { Navbar } from '@/components/navigation'
@@ -7,7 +7,11 @@ import { Footer } from '@/components/sections/footer'
 
 const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] })
 const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] })
-const anekTamil = Anek_Tamil({ variable: '--font-anek-tamil', subsets: ['latin'] })
+const spaceGrotesk = Space_Grotesk({
+  variable: '--font-space-grotesk',
+  subsets: ['latin'],
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://habibiahmad.dev'),
@@ -89,7 +93,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${anekTamil.variable}`}
+      className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable}`}
     >
       <body className="min-h-full flex flex-col font-sans antialiased">
         {/* Curtain overlay — z-index:1, content wrapper z-index:2 */}

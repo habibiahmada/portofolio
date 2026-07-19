@@ -1,118 +1,76 @@
 "use client";
 
-import { useRef } from "react";
-import { motion } from "framer-motion";
-
-const stats = [
-  { value: "3+", label: "Years Learning" },
-  { value: "10+", label: "Projects Built" },
-  { value: "3", label: "Internships" },
-  { value: "1", label: "Top-15 Award" },
-];
+import { CpuArchitecture } from "@/components/ui/cpu-architecture";
 
 export function AboutIntro() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-
   return (
-    <section
-      id="about-intro"
-      ref={sectionRef}
-      className="py-24 w-full bg-transparent"
-    >
-      <div className="w-full mx-auto px-6 md:px-12 lg:px-16">
-        {/* ── Header ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.65, ease: [0.215, 0.61, 0.355, 1] }}
-          className="max-w-2xl mb-14 space-y-3"
-        >
-          <span className="text-xs font-mono tracking-widest text-[#ef4444] dark:text-blue-400 uppercase block">
-            // About
-          </span>
-          <h2 className="text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight">
-            A Closer Look{" "}
-            <span style={{ color: "var(--navy-accent-text)" }}>
-              at Who I Am
-            </span>
-          </h2>
-          <div className="flex gap-2 pt-1">
-            <span className="h-0.5 w-10 rounded-full bg-red-500 dark:bg-blue-400" />
-            <span
-              className="h-0.5 w-6 rounded-full"
-              style={{ background: "var(--navy-accent-text)", opacity: 0.3 }}
-            />
+    <section id="about-intro" className="py-14 w-full bg-transparent overflow-hidden">
+      <div className="w-full px-24">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          
+          {/* LEFT — CPU Architecture Visual */}
+          <div className="lg:col-span-5 flex justify-center lg:self-center">
+            <div
+              className="w-full pt-2 flex justify-center"
+            >
+              <CpuArchitecture
+                text="DEV"
+                animateText
+                showCpuConnections
+                className="w-full h-full max-w-100 text-zinc-600 dark:text-zinc-300"
+              />
+            </div>
           </div>
-        </motion.div>
+          {/* RIGHT — Narrative */}
+          <div className="lg:col-span-7 space-y-8">
+            {/* Section label */}
+            <div
+              className="flex items-center gap-3"
+            >
+              <span className="text-xs font-mono uppercase tracking-[0.2em] text-red-500 dark:text-blue-400 font-semibold">
+                // About
+              </span>
+            </div>
 
-        {/* ── Two-column layout ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          {/* Left: body text */}
-          <motion.div
-            initial={{ opacity: 0, x: -24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: [0.215, 0.61, 0.355, 1] }}
-            className="space-y-6"
-          >
-            <p className="text-base md:text-lg text-foreground/80 leading-relaxed font-medium">
-              Currently a student at{" "}
-              <span className="font-bold text-foreground">SMKN 1 Karawang</span>,
-              majoring in Software Engineering. I build things for the web with a
-              focus on clean architecture, sharp interfaces, and real-world
-              impact.
-            </p>
+            {/* Heading */}
+            <div>
+              <h2 className="text-4xl sm:text-5xl font-heading font-black tracking-tighter text-foreground leading-[1.02]">
+                A Glimpse Into
+                <br />
+                <span className="text-red-500 dark:text-blue-400">Who I Am</span>
+              </h2>
+            </div>
 
-            {/* Quote */}
-            <div className="relative pl-5 border-l-2 border-red-500/60 dark:border-blue-400/60 rounded-r-xl py-4 pr-5 bg-red-500/4 dark:bg-blue-500/5">
-              <p className="text-base md:text-lg italic text-foreground/70 leading-relaxed">
-                &ldquo;Good code solves problems. Great code creates
-                experiences.&rdquo;
+            {/* Bio */}
+            <div
+              className="space-y-5 mt-5"
+            >
+              <p className="text-base md:text-lg text-foreground/85 leading-relaxed">
+                As a <span className="text-foreground font-semibold">Software Engineering</span> graduate
+                from <span className="text-foreground font-semibold">SMKN 1 Karawang</span>, I currently work
+                as a <span className="text-foreground font-semibold">Web Developer</span> at{" "}
+                <span className="text-foreground font-semibold">PT Webekspres Teknologi Indonesia</span>.
+                My expertise lies in developing tailored client websites, architecting CMS platforms, and
+                deploying scalable full-stack features for production environments.
+              </p>
+              <p className="text-sm md:text-base text-muted-foreground/80 leading-relaxed">
+                Driven by a deep passion for software architecture and modern web technologies, I thrive on solving
+                complex technical challenges. My development philosophy centers on writing clean, scalable code and
+                crafting intuitive digital experiences that deliver tangible impact.
               </p>
             </div>
 
-            <a
-              href="#cta"
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-zinc-950 dark:bg-zinc-50 text-white dark:text-zinc-950 rounded-full font-bold text-sm shadow-lg hover:shadow-red-500/10 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
-            >
-              Let&apos;s Collaborate
-            </a>
-          </motion.div>
 
-          {/* Right: stats grid */}
-          <motion.div
-            initial={{ opacity: 0, x: 24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{
-              duration: 0.7,
-              delay: 0.1,
-              ease: [0.215, 0.61, 0.355, 1],
-            }}
-            className="grid grid-cols-2 gap-4"
-          >
-            {stats.map((stat, i) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.08, ease: "easeOut" }}
-                className="flex flex-col gap-2 rounded-2xl border border-black/5 dark:border-white/5 bg-white dark:bg-zinc-950 p-6 hover:border-black/10 dark:hover:border-white/10 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-black/30 transition-all duration-500"
+            {/* CTA */}
+            <div className="mt-8">
+              <a
+                href="#about-timeline"
+                className="group inline-flex items-center gap-2.5 px-6 py-3 rounded-full border border-black/10 dark:border-white/10 hover:border-red-500/30 dark:hover:border-blue-400/30 bg-black/3 dark:bg-white/3 hover:bg-red-500/5 dark:hover:bg-blue-400/5 transition-all duration-300 text-sm font-semibold text-foreground"
               >
-                <span
-                  className="text-4xl font-black tracking-tight"
-                  style={{ color: "var(--navy-accent-text)" }}
-                >
-                  {stat.value}
-                </span>
-                <span className="text-xs font-mono uppercase tracking-widest text-muted-foreground/70">
-                  {stat.label}
-                </span>
-              </motion.div>
-            ))}
-          </motion.div>
+                View my journey
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>

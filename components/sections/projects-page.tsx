@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import { motion } from "framer-motion";
 import { GlitchText } from "@/components/ui/glitch-text";
 import { NodeNetwork } from "@/components/ui/node-network";
 import { CpuArchitecture } from "@/components/ui/cpu-architecture";
@@ -58,12 +57,9 @@ export function ProjectsPage({ locale = "en" }: ProjectsPageProps) {
         <div className="absolute top-1/3 left-1/4 w-64 h-64 rounded-full bg-purple-500/2 dark:bg-purple-500/2 blur-3xl" />
       </div>
 
-      <div className="relative w-full mx-auto px-6 md:px-12 lg:px-16">
+      <div className="relative w-full px-24">
         {/* ── Header ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: EASING }}
+        <div
           className="mb-14 md:mb-18"
         >
           <div className="relative z-10 space-y-3">
@@ -83,7 +79,7 @@ export function ProjectsPage({ locale = "en" }: ProjectsPageProps) {
               production applications to experimental side projects.
             </p>
           </div>
-        </motion.div>
+        </div>
 
         {/* ── Projects Grid ── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
@@ -107,10 +103,7 @@ export function ProjectsPage({ locale = "en" }: ProjectsPageProps) {
         {/* Gradual fade from content to CPU */}
         <div className="absolute inset-0 bg-linear-to-t from-black/10 dark:from-black/30 via-transparent to-transparent z-10" />
         <div className="absolute bottom-[-50%] left-1/2 -translate-x-1/2 w-full max-w-4xl md:max-w-5xl lg:max-w-6xl h-full opacity-40 dark:opacity-35">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, ease: EASING, delay: 0.4 }}
+          <div
             className="w-full h-full"
           >
             <CpuArchitecture
@@ -119,7 +112,7 @@ export function ProjectsPage({ locale = "en" }: ProjectsPageProps) {
               showCpuConnections
               className="w-full h-full text-zinc-600 dark:text-zinc-300"
             />
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

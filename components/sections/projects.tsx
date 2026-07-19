@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { motion } from "framer-motion";
 import { GlitchText } from "@/components/ui/glitch-text";
 import { ProjectCard } from "@/components/ui/project-card";
 import { projects, EASING } from "@/lib/projects";
@@ -16,13 +15,9 @@ interface ProjectsProps {
 export function Projects({ locale = "en" }: ProjectsProps) {
   return (
     <section id="projects" className="relative py-24 w-full bg-transparent">
-      <div className="w-full mx-auto px-6 md:px-12 lg:px-16">
+      <div className="w-full px-24">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, ease: EASING }}
+        <div
           className="flex flex-col sm:flex-row sm:items-end justify-between mb-14 gap-6"
         >
           <div className="space-y-3">
@@ -45,7 +40,7 @@ export function Projects({ locale = "en" }: ProjectsProps) {
             All Projects
             <ArrowUpRight size={12} strokeWidth={1.6} />
           </Link>
-        </motion.div>
+        </div>
 
         {/* Grid — 3 columns */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">

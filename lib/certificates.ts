@@ -1,0 +1,755 @@
+export interface Certificate {
+  id: string
+  org: string
+  title: string
+  description: string
+  pages: string[]
+  thumb: string
+  isPinned: boolean
+}
+
+export const certificates: Certificate[] = [
+  // ─── PINNED ────────────────────────────────────────────────────────
+  {
+    id: "cert-pinned-coding-camp-best",
+    org: "coding-camp-best-capstone",
+    title: "Best Capstone Project — Coding Camp 2025",
+    description:
+      "Awarded for the CultureConnect team's capstone project, recognized in the Top 15 Best Capstone Projects at Coding Camp powered by DBS Foundation 2025. The project showcased full-stack development skills and collaborative teamwork.",
+    pages: [
+      "/data/certificates/coding-camp-best-capstone/coding-camp-2025-smk-best-capstone-project-fs002d5y0001.webp",
+    ],
+    thumb:
+      "/data/certificates/coding-camp-best-capstone/coding-camp-2025-smk-best-capstone-project-fs002d5y0001.webp",
+    isPinned: true,
+  },
+  {
+    id: "cert-pinned-coding-camp",
+    org: "coding-camp-certificate",
+    title: "Coding Camp 2025 — Certificate of Completion",
+    description:
+      "Certificate of completion for the Full-Stack Development program at Coding Camp powered by DBS Foundation 2025. The program covered modern web development technologies, cloud computing, and team-based project delivery.",
+    pages: [
+      "/data/certificates/coding-camp-certificate/coding-camp-2025-certificate-fs002d5y0001-page-1.webp",
+      "/data/certificates/coding-camp-certificate/coding-camp-2025-certificate-fs002d5y0001-page-2.webp",
+    ],
+    thumb:
+      "/data/certificates/coding-camp-certificate/coding-camp-2025-certificate-fs002d5y0001-page-1.webp",
+    isPinned: true,
+  },
+  {
+    id: "cert-pinned-intel",
+    org: "intel",
+    title: "Country Award Winner — Intel AI for Youth",
+    description:
+      "Country Award Winner in the Intel AI for Youth program (13-17 Years category) for the Agrify project. Recognized for developing an innovative AI-powered agricultural solution addressing real-world food security challenges.",
+    pages: [
+      "/data/certificates/intel/country-award-winner-agrify-indonesia-13-17-years-habibi-ahmad-aziz/country-award-winner-agrify-indonesia-13-17-years-habibi-ahmad-aziz.webp",
+    ],
+    thumb:
+      "/data/certificates/intel/country-award-winner-agrify-indonesia-13-17-years-habibi-ahmad-aziz/country-award-winner-agrify-indonesia-13-17-years-habibi-ahmad-aziz.webp",
+    isPinned: true,
+  },
+
+  // ─── ALIBABA CLOUD ────────────────────────────────────────────────
+  {
+    id: "cert-alibaba-cloud",
+    org: "alibaba-cloud",
+    title: "Alibaba Cloud Certification",
+    description:
+      "Certification from Alibaba Cloud demonstrating foundational knowledge of cloud computing concepts, Alibaba Cloud services, and core cloud infrastructure principles.",
+    pages: [
+      "/data/certificates/alibaba-cloud/img-31045aba2c15fb1dcf35b18de6a75095.webp",
+    ],
+    thumb:
+      "/data/certificates/alibaba-cloud/img-31045aba2c15fb1dcf35b18de6a75095.webp",
+    isPinned: false,
+  },
+
+  // ─── AWS ──────────────────────────────────────────────────────────
+  {
+    id: "cert-aws-fargate",
+    org: "aws",
+    title: "AWS Fargate — Overview",
+    description:
+      "Completion of AWS Fargate overview course covering serverless container management, deployment strategies, and AWS ECS integration for scalable microservices.",
+    pages: [
+      "/data/certificates/aws/aws-fargate-overview/aws-fargate-overview.webp",
+    ],
+    thumb:
+      "/data/certificates/aws/aws-fargate-overview/aws-fargate-overview.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-aws-cloud-practitioner",
+    org: "aws",
+    title: "AWS Cloud Practitioner Essentials",
+    description:
+      "Foundational certification covering AWS cloud concepts, core services, security, architecture best practices, pricing, and cloud support fundamentals.",
+    pages: [
+      "/data/certificates/aws/aws-cloud-practitioner-essentials/aws-cloud-practitioner-essentials.webp",
+    ],
+    thumb:
+      "/data/certificates/aws/aws-cloud-practitioner-essentials/aws-cloud-practitioner-essentials.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-aws-cloud-essential",
+    org: "aws",
+    title: "Cloud Essential Knowledge Badge",
+    description:
+      "AWS Cloud Essential knowledge badge validating understanding of cloud computing concepts, AWS global infrastructure, and core cloud service categories.",
+    pages: [
+      "/data/certificates/aws/cloud-essential-knowledge-badge/cloud-essential-knowledge-badge.webp",
+    ],
+    thumb:
+      "/data/certificates/aws/cloud-essential-knowledge-badge/cloud-essential-knowledge-badge.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-aws-containers",
+    org: "aws",
+    title: "Introduction to Containers",
+    description:
+      "Certification covering container fundamentals, Docker concepts, container orchestration, and deploying containerized applications on AWS infrastructure.",
+    pages: [
+      "/data/certificates/aws/introduction-to-containers/introduction-to-containers.webp",
+    ],
+    thumb:
+      "/data/certificates/aws/introduction-to-containers/introduction-to-containers.webp",
+    isPinned: false,
+  },
+
+  // ─── CODEPOLITAN ──────────────────────────────────────────────────
+  {
+    id: "cert-codepolitan-bootstrap",
+    org: "codepolitan",
+    title: "Belajar Dasar Bootstrap",
+    description:
+      "Course completion in Bootstrap fundamentals — learning responsive grid systems, components, utilities, and rapid front-end prototyping with the Bootstrap framework.",
+    pages: [
+      "/data/certificates/codepolitan/certificate-belajar-dasar-bootstrap/certificate-belajar-dasar-bootstrap.webp",
+    ],
+    thumb:
+      "/data/certificates/codepolitan/certificate-belajar-dasar-bootstrap/certificate-belajar-dasar-bootstrap.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-codepolitan-css",
+    org: "codepolitan",
+    title: "Belajar Dasar CSS",
+    description:
+      "Foundational CSS course covering selectors, box model, layouts, flexbox, grid, responsive design, and modern CSS techniques for building styled web pages.",
+    pages: [
+      "/data/certificates/codepolitan/certificate-belajar-dasar-csspdf/certificate-belajar-dasar-csspdf.webp",
+    ],
+    thumb:
+      "/data/certificates/codepolitan/certificate-belajar-dasar-csspdf/certificate-belajar-dasar-csspdf.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-codepolitan-html",
+    org: "codepolitan",
+    title: "Belajar Dasar HTML",
+    description:
+      "Course on HTML fundamentals — learning document structure, semantic elements, forms, tables, multimedia integration, and web accessibility best practices.",
+    pages: [
+      "/data/certificates/codepolitan/certificate-belajar-dasar-html/certificate-belajar-dasar-html.webp",
+    ],
+    thumb:
+      "/data/certificates/codepolitan/certificate-belajar-dasar-html/certificate-belajar-dasar-html.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-codepolitan-git",
+    org: "codepolitan",
+    title: "Git Dasar",
+    description:
+      "Introduction to Git version control — covering repository management, branching strategies, commit workflows, remote collaboration, and basic Git commands.",
+    pages: [
+      "/data/certificates/codepolitan/certificate-git-dasar/certificate-git-dasar.webp",
+    ],
+    thumb:
+      "/data/certificates/codepolitan/certificate-git-dasar/certificate-git-dasar.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-codepolitan-javascript",
+    org: "codepolitan",
+    title: "JavaScript Dasar",
+    description:
+      "Foundational JavaScript course covering variables, functions, control flow, DOM manipulation, events, and core programming concepts for web interactivity.",
+    pages: [
+      "/data/certificates/codepolitan/certificate-javascript-dasar/certificate-javascript-dasar.webp",
+    ],
+    thumb:
+      "/data/certificates/codepolitan/certificate-javascript-dasar/certificate-javascript-dasar.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-codepolitan-programming",
+    org: "codepolitan",
+    title: "Mengenal Dasar Pemrograman Komputer",
+    description:
+      "Introductory course to computer programming covering algorithmic thinking, data types, control structures, and problem-solving fundamentals for beginners.",
+    pages: [
+      "/data/certificates/codepolitan/certificate-mengenal-dasar-pemrograman-komputer/certificate-mengenal-dasar-pemrograman-komputer.webp",
+    ],
+    thumb:
+      "/data/certificates/codepolitan/certificate-mengenal-dasar-pemrograman-komputer/certificate-mengenal-dasar-pemrograman-komputer.webp",
+    isPinned: false,
+  },
+
+  // ─── DIBIMBING ────────────────────────────────────────────────────
+  {
+    id: "cert-dibimbing-sic",
+    org: "dibimbing",
+    title: "SIC 7 — Student Internship Certification",
+    description:
+      "Student Internship Certification (SIC 7) from Dibimbing.id, completing a structured internship program focused on practical industry skills and project-based learning in technology.",
+    pages: [
+      "/data/certificates/dibimbing/bulk-1-template-sertifikat-sic-7-pages-26/bulk-1-template-sertifikat-sic-7-pages-26-page-1.webp",
+      "/data/certificates/dibimbing/bulk-1-template-sertifikat-sic-7-pages-26/bulk-1-template-sertifikat-sic-7-pages-26-page-2.webp",
+    ],
+    thumb:
+      "/data/certificates/dibimbing/bulk-1-template-sertifikat-sic-7-pages-26/bulk-1-template-sertifikat-sic-7-pages-26-page-1.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-dibimbing-dsf",
+    org: "dibimbing",
+    title: "Digital Skill Fair — Frontend Development",
+    description:
+      "Participation certificate for Digital Skill Fair focusing on frontend development skills, covering modern web technologies and hands-on project experience.",
+    pages: [
+      "/data/certificates/dibimbing/digitalskillfair-frontend/digitalskillfair-frontend.webp",
+    ],
+    thumb:
+      "/data/certificates/dibimbing/digitalskillfair-frontend/digitalskillfair-frontend.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-dibimbing-aziz",
+    org: "dibimbing",
+    title: "Dibimbing.id — Internship Program",
+    description:
+      "Completion of Dibimbing.id internship program, demonstrating practical experience in technology projects, teamwork, and professional development in a structured learning environment.",
+    pages: [
+      "/data/certificates/dibimbing/habibi-ahmad-aziz-1/habibi-ahmad-aziz-1-page-1.webp",
+      "/data/certificates/dibimbing/habibi-ahmad-aziz-1/habibi-ahmad-aziz-1-page-2.webp",
+    ],
+    thumb:
+      "/data/certificates/dibimbing/habibi-ahmad-aziz-1/habibi-ahmad-aziz-1-page-1.webp",
+    isPinned: false,
+  },
+
+  // ─── DICODING ─────────────────────────────────────────────────────
+  {
+    id: "cert-dicoding-backend-1",
+    org: "dicoding",
+    title: "Belajar Back-End Pemula dengan JavaScript",
+    description:
+      "Beginner back-end development course using JavaScript — covering Node.js, Express.js, RESTful API design, database integration, and server-side application architecture.",
+    pages: [
+      "/data/certificates/dicoding/belajar-back-end-pemula-dengan-javascript/belajar-back-end-pemula-dengan-javascript-page-1.webp",
+      "/data/certificates/dicoding/belajar-back-end-pemula-dengan-javascript/belajar-back-end-pemula-dengan-javascript-page-2.webp",
+    ],
+    thumb:
+      "/data/certificates/dicoding/belajar-back-end-pemula-dengan-javascript/belajar-back-end-pemula-dengan-javascript-page-1.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-dicoding-backend-2",
+    org: "dicoding",
+    title: "Belajar Back-End Pemula dengan JavaScript (2)",
+    description:
+      "Advanced beginner back-end course with JavaScript, reinforcing API development, authentication, database management, and deployment strategies for web applications.",
+    pages: [
+      "/data/certificates/dicoding/belajar-back-end-pemula-dengan-javascript-1/belajar-back-end-pemula-dengan-javascript-1-page-1.webp",
+      "/data/certificates/dicoding/belajar-back-end-pemula-dengan-javascript-1/belajar-back-end-pemula-dengan-javascript-1-page-2.webp",
+    ],
+    thumb:
+      "/data/certificates/dicoding/belajar-back-end-pemula-dengan-javascript-1/belajar-back-end-pemula-dengan-javascript-1-page-1.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-dicoding-ai",
+    org: "dicoding",
+    title: "Belajar Dasar AI",
+    description:
+      "Foundational AI course covering machine learning concepts, neural networks, data preprocessing, and practical AI application development techniques.",
+    pages: [
+      "/data/certificates/dicoding/belajar-dasar-ai/belajar-dasar-ai-page-1.webp",
+      "/data/certificates/dicoding/belajar-dasar-ai/belajar-dasar-ai-page-2.webp",
+    ],
+    thumb:
+      "/data/certificates/dicoding/belajar-dasar-ai/belajar-dasar-ai-page-1.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-dicoding-git",
+    org: "dicoding",
+    title: "Belajar Dasar Git dengan GitHub",
+    description:
+      "Comprehensive Git and GitHub course covering version control workflows, branching strategies, pull requests, collaboration features, and open-source contribution practices.",
+    pages: [
+      "/data/certificates/dicoding/belajar-dasar-git-dengan-github/belajar-dasar-git-dengan-github-page-1.webp",
+      "/data/certificates/dicoding/belajar-dasar-git-dengan-github/belajar-dasar-git-dengan-github-page-2.webp",
+      "/data/certificates/dicoding/belajar-dasar-git-dengan-github/belajar-dasar-git-dengan-github-page-3.webp",
+    ],
+    thumb:
+      "/data/certificates/dicoding/belajar-dasar-git-dengan-github/belajar-dasar-git-dengan-github-page-1.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-dicoding-js-basic",
+    org: "dicoding",
+    title: "Belajar Dasar JavaScript",
+    description:
+      "Comprehensive JavaScript fundamentals course covering variables, data types, functions, objects, arrays, closures, asynchronous programming, and ES6+ features.",
+    pages: [
+      "/data/certificates/dicoding/belajar-dasar-javascript/belajar-dasar-javascript-page-1.webp",
+      "/data/certificates/dicoding/belajar-dasar-javascript/belajar-dasar-javascript-page-2.webp",
+      "/data/certificates/dicoding/belajar-dasar-javascript/belajar-dasar-javascript-page-3.webp",
+    ],
+    thumb:
+      "/data/certificates/dicoding/belajar-dasar-javascript/belajar-dasar-javascript-page-1.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-dicoding-project-mgt",
+    org: "dicoding",
+    title: "Belajar Dasar Manajemen Proyek",
+    description:
+      "Project management fundamentals covering Agile methodologies, Scrum framework, project planning, risk management, and effective team collaboration strategies.",
+    pages: [
+      "/data/certificates/dicoding/belajar-dasar-manajemen-proyek/belajar-dasar-manajemen-proyek-page-1.webp",
+      "/data/certificates/dicoding/belajar-dasar-manajemen-proyek/belajar-dasar-manajemen-proyek-page-2.webp",
+      "/data/certificates/dicoding/belajar-dasar-manajemen-proyek/belajar-dasar-manajemen-proyek-page-3.webp",
+    ],
+    thumb:
+      "/data/certificates/dicoding/belajar-dasar-manajemen-proyek/belajar-dasar-manajemen-proyek-page-1.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-dicoding-frontend-fund",
+    org: "dicoding",
+    title: "Belajar Fundamental Front-End Web Development",
+    description:
+      "Fundamental front-end web development course covering advanced HTML/CSS, responsive design, web components, build tools, and modern front-end architecture patterns.",
+    pages: [
+      "/data/certificates/dicoding/belajar-fundamental-front-end-web-development/belajar-fundamental-front-end-web-development-page-1.webp",
+      "/data/certificates/dicoding/belajar-fundamental-front-end-web-development/belajar-fundamental-front-end-web-development-page-2.webp",
+      "/data/certificates/dicoding/belajar-fundamental-front-end-web-development/belajar-fundamental-front-end-web-development-page-3.webp",
+    ],
+    thumb:
+      "/data/certificates/dicoding/belajar-fundamental-front-end-web-development/belajar-fundamental-front-end-web-development-page-1.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-dicoding-kiro",
+    org: "dicoding",
+    title: "Belajar KIRo — Dicoding",
+    description:
+      "KIRo learning path certification from Dicoding, covering practical software development skills, coding best practices, and real-world project implementation techniques.",
+    pages: [
+      "/data/certificates/dicoding/belajar-kiro/belajar-kiro-page-1.webp",
+      "/data/certificates/dicoding/belajar-kiro/belajar-kiro-page-2.webp",
+      "/data/certificates/dicoding/belajar-kiro/belajar-kiro-page-3.webp",
+    ],
+    thumb:
+      "/data/certificates/dicoding/belajar-kiro/belajar-kiro-page-1.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-dicoding-vis-data",
+    org: "dicoding",
+    title: "Belajar Visualisasi Data",
+    description:
+      "Data visualization course covering chart types, data storytelling, visualization tools, and techniques for presenting data-driven insights effectively.",
+    pages: [
+      "/data/certificates/dicoding/belajar-visualisasi-data/belajar-visualisasi-data-page-1.webp",
+      "/data/certificates/dicoding/belajar-visualisasi-data/belajar-visualisasi-data-page-2.webp",
+    ],
+    thumb:
+      "/data/certificates/dicoding/belajar-visualisasi-data/belajar-visualisasi-data-page-1.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-dicoding-cloud-practitioner",
+    org: "dicoding",
+    title: "Cloud Practitioner Essential",
+    description:
+      "Cloud practitioner essentials course covering cloud computing models, AWS core services, cloud security best practices, and architectural design principles.",
+    pages: [
+      "/data/certificates/dicoding/cloud-practitioner-essential/cloud-practitioner-essential-page-1.webp",
+      "/data/certificates/dicoding/cloud-practitioner-essential/cloud-practitioner-essential-page-2.webp",
+      "/data/certificates/dicoding/cloud-practitioner-essential/cloud-practitioner-essential-page-3.webp",
+    ],
+    thumb:
+      "/data/certificates/dicoding/cloud-practitioner-essential/cloud-practitioner-essential-page-1.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-dicoding-js-1",
+    org: "dicoding",
+    title: "Dasar Pemrograman JavaScript",
+    description:
+      "Core JavaScript programming fundamentals covering syntax, operators, control flow, functions, arrays, objects, and basic DOM manipulation techniques.",
+    pages: [
+      "/data/certificates/dicoding/dasar-pemrograman-javascript/dasar-pemrograman-javascript-page-1.webp",
+      "/data/certificates/dicoding/dasar-pemrograman-javascript/dasar-pemrograman-javascript-page-2.webp",
+      "/data/certificates/dicoding/dasar-pemrograman-javascript/dasar-pemrograman-javascript-page-3.webp",
+    ],
+    thumb:
+      "/data/certificates/dicoding/dasar-pemrograman-javascript/dasar-pemrograman-javascript-page-1.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-dicoding-js-2",
+    org: "dicoding",
+    title: "Dasar Pemrograman JavaScript (2)",
+    description:
+      "Advanced JavaScript fundamentals covering deeper concepts in asynchronous programming, error handling, modules, and modern JavaScript development patterns.",
+    pages: [
+      "/data/certificates/dicoding/dasar-pemrograman-javascript-2/dasar-pemrograman-javascript-2-page-1.webp",
+      "/data/certificates/dicoding/dasar-pemrograman-javascript-2/dasar-pemrograman-javascript-2-page-2.webp",
+      "/data/certificates/dicoding/dasar-pemrograman-javascript-2/dasar-pemrograman-javascript-2-page-3.webp",
+    ],
+    thumb:
+      "/data/certificates/dicoding/dasar-pemrograman-javascript-2/dasar-pemrograman-javascript-2-page-1.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-dicoding-web-1",
+    org: "dicoding",
+    title: "Dasar Pemrograman Web",
+    description:
+      "Web programming fundamentals covering HTML, CSS, JavaScript integration, responsive design principles, and building complete web pages from scratch.",
+    pages: [
+      "/data/certificates/dicoding/dasar-pemrograman-web/dasar-pemrograman-web-page-1.webp",
+      "/data/certificates/dicoding/dasar-pemrograman-web/dasar-pemrograman-web-page-2.webp",
+      "/data/certificates/dicoding/dasar-pemrograman-web/dasar-pemrograman-web-page-3.webp",
+    ],
+    thumb:
+      "/data/certificates/dicoding/dasar-pemrograman-web/dasar-pemrograman-web-page-1.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-dicoding-web-2",
+    org: "dicoding",
+    title: "Dasar Pemrograman Web (2)",
+    description:
+      "Advanced web programming course covering complex layouts, CSS animations, form validation, API integration, and web optimization techniques.",
+    pages: [
+      "/data/certificates/dicoding/dasar-pemrograman-web-2/dasar-pemrograman-web-2-page-1.webp",
+      "/data/certificates/dicoding/dasar-pemrograman-web-2/dasar-pemrograman-web-2-page-2.webp",
+      "/data/certificates/dicoding/dasar-pemrograman-web-2/dasar-pemrograman-web-2-page-3.webp",
+    ],
+    thumb:
+      "/data/certificates/dicoding/dasar-pemrograman-web-2/dasar-pemrograman-web-2-page-1.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-dicoding-devcoach-131",
+    org: "dicoding",
+    title: "DevCoach — Web Component",
+    description:
+      "DevCoach session on creating custom HTML elements with Web Components — covering Shadow DOM, custom elements, templates, and reusable component architecture.",
+    pages: [
+      "/data/certificates/dicoding/devcoach-131-front-end-bikin-elemen-html-sendiri-dengan-web-component-certificate-6/devcoach-131-front-end-bikin-elemen-html-sendiri-dengan-web-component-certificate-6.webp",
+    ],
+    thumb:
+      "/data/certificates/dicoding/devcoach-131-front-end-bikin-elemen-html-sendiri-dengan-web-component-certificate-6/devcoach-131-front-end-bikin-elemen-html-sendiri-dengan-web-component-certificate-6.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-dicoding-devcoach-134",
+    org: "dicoding",
+    title: "DevCoach — REST API Caching",
+    description:
+      "DevCoach session on improving REST API performance with caching strategies — covering cache headers, CDN integration, Redis, and API optimization patterns.",
+    pages: [
+      "/data/certificates/dicoding/devcoach-134-back-end-meningkatkan-performa-rest-api-dengan-cache-certificate-7/devcoach-134-back-end-meningkatkan-performa-rest-api-dengan-cache-certificate-7.webp",
+    ],
+    thumb:
+      "/data/certificates/dicoding/devcoach-134-back-end-meningkatkan-performa-rest-api-dengan-cache-certificate-7/devcoach-134-back-end-meningkatkan-performa-rest-api-dengan-cache-certificate-7.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-dicoding-financial",
+    org: "dicoding",
+    title: "Financial Literacy 101",
+    description:
+      "Financial literacy course covering personal finance management, budgeting, investing basics, and financial planning for technology professionals.",
+    pages: [
+      "/data/certificates/dicoding/financial-literacy-101pdf/financial-literacy-101pdf-page-1.webp",
+      "/data/certificates/dicoding/financial-literacy-101pdf/financial-literacy-101pdf-page-2.webp",
+    ],
+    thumb:
+      "/data/certificates/dicoding/financial-literacy-101pdf/financial-literacy-101pdf-page-1.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-dicoding-gen-to-spec",
+    org: "dicoding",
+    title: "From Generalist to Back-End Specialist",
+    description:
+      "Career development course guiding the transition from generalist developer to back-end specialist — covering specialized skills, architecture patterns, and career growth strategies.",
+    pages: [
+      "/data/certificates/dicoding/from-generalist-to-back-end-specialist-certificate-5/from-generalist-to-back-end-specialist-certificate-5.webp",
+    ],
+    thumb:
+      "/data/certificates/dicoding/from-generalist-to-back-end-specialist-certificate-5/from-generalist-to-back-end-specialist-certificate-5.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-dicoding-fe-pemula-1",
+    org: "dicoding",
+    title: "Membuat Front-End Web Pemula",
+    description:
+      "Beginner front-end web development course focusing on building interactive web interfaces, styling with CSS, and adding functionality with JavaScript.",
+    pages: [
+      "/data/certificates/dicoding/membuat-front-end-web-pemula/membuat-front-end-web-pemula-page-1.webp",
+      "/data/certificates/dicoding/membuat-front-end-web-pemula/membuat-front-end-web-pemula-page-2.webp",
+    ],
+    thumb:
+      "/data/certificates/dicoding/membuat-front-end-web-pemula/membuat-front-end-web-pemula-page-1.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-dicoding-fe-pemula-2",
+    org: "dicoding",
+    title: "Membuat Front-End Web Pemula (2)",
+    description:
+      "Advanced beginner front-end course covering more complex UI patterns, state management, API consumption, and modern front-end development workflows.",
+    pages: [
+      "/data/certificates/dicoding/membuat-front-end-web-pemula-2/membuat-front-end-web-pemula-2-page-1.webp",
+      "/data/certificates/dicoding/membuat-front-end-web-pemula-2/membuat-front-end-web-pemula-2-page-2.webp",
+    ],
+    thumb:
+      "/data/certificates/dicoding/membuat-front-end-web-pemula-2/membuat-front-end-web-pemula-2-page-1.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-dicoding-software",
+    org: "dicoding",
+    title: "Memulai Dasar Pemrograman untuk Jadi Pengembang Software",
+    description:
+      "Comprehensive introductory course covering software development fundamentals, algorithmic thinking, programming paradigms, and the path to becoming a professional software developer.",
+    pages: [
+      "/data/certificates/dicoding/memulai-dasar-pemrograman-untuk-jadi-pengembang-software/memulai-dasar-pemrograman-untuk-jadi-pengembang-software-page-1.webp",
+      "/data/certificates/dicoding/memulai-dasar-pemrograman-untuk-jadi-pengembang-software/memulai-dasar-pemrograman-untuk-jadi-pengembang-software-page-2.webp",
+      "/data/certificates/dicoding/memulai-dasar-pemrograman-untuk-jadi-pengembang-software/memulai-dasar-pemrograman-untuk-jadi-pengembang-software-page-3.webp",
+      "/data/certificates/dicoding/memulai-dasar-pemrograman-untuk-jadi-pengembang-software/memulai-dasar-pemrograman-untuk-jadi-pengembang-software-page-4.webp",
+    ],
+    thumb:
+      "/data/certificates/dicoding/memulai-dasar-pemrograman-untuk-jadi-pengembang-software/memulai-dasar-pemrograman-untuk-jadi-pengembang-software-page-1.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-dicoding-dart",
+    org: "dicoding",
+    title: "Memulai Pemrograman dengan Dart",
+    description:
+      "Introduction to Dart programming language covering syntax, data types, object-oriented programming, asynchronous programming, and building simple Dart applications.",
+    pages: [
+      "/data/certificates/dicoding/memulai-pemrograman-dengan-dart/memulai-pemrograman-dengan-dart-page-1.webp",
+      "/data/certificates/dicoding/memulai-pemrograman-dengan-dart/memulai-pemrograman-dengan-dart-page-2.webp",
+      "/data/certificates/dicoding/memulai-pemrograman-dengan-dart/memulai-pemrograman-dengan-dart-page-3.webp",
+    ],
+    thumb:
+      "/data/certificates/dicoding/memulai-pemrograman-dengan-dart/memulai-pemrograman-dengan-dart-page-1.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-dicoding-baparekraf",
+    org: "dicoding",
+    title: "Baparekraf Developer Day 2024",
+    description:
+      "Participation in Baparekraf Developer Day 2024 — an offline event organized by the Ministry of Tourism and Creative Economy, focusing on tech innovation and developer ecosystem growth.",
+    pages: [
+      "/data/certificates/dicoding/offline-event-baparekraf-developer-day-2024-certificate/offline-event-baparekraf-developer-day-2024-certificate.webp",
+    ],
+    thumb:
+      "/data/certificates/dicoding/offline-event-baparekraf-developer-day-2024-certificate/offline-event-baparekraf-developer-day-2024-certificate.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-dicoding-logic",
+    org: "dicoding",
+    title: "Pengenalan ke Logika Pemrograman (Programming Logic 101)",
+    description:
+      "Introduction to programming logic covering computational thinking, algorithmic problem-solving, flowcharts, pseudocode, and foundational logical reasoning for coding.",
+    pages: [
+      "/data/certificates/dicoding/pengenalan-ke-logika-pemrograman-programming-logic-101/pengenalan-ke-logika-pemrograman-programming-logic-101-page-1.webp",
+      "/data/certificates/dicoding/pengenalan-ke-logika-pemrograman-programming-logic-101/pengenalan-ke-logika-pemrograman-programming-logic-101-page-2.webp",
+    ],
+    thumb:
+      "/data/certificates/dicoding/pengenalan-ke-logika-pemrograman-programming-logic-101/pengenalan-ke-logika-pemrograman-programming-logic-101-page-1.webp",
+    isPinned: false,
+  },
+
+  // ─── DIGITALENT ───────────────────────────────────────────────────
+  {
+    id: "cert-digitalent-fundamental",
+    org: "digitalent",
+    title: "Fundamental Junior Web Developer",
+    description:
+      "Digitalent scholarship program certification for Junior Web Developer fundamentals — covering HTML, CSS, JavaScript, responsive design, and basic web development tooling.",
+    pages: [
+      "/data/certificates/digitalent/fundamental-junior-web-developer/fundamental-junior-web-developer-page-1.webp",
+      "/data/certificates/digitalent/fundamental-junior-web-developer/fundamental-junior-web-developer-page-2.webp",
+    ],
+    thumb:
+      "/data/certificates/digitalent/fundamental-junior-web-developer/fundamental-junior-web-developer-page-1.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-digitalent-konsep",
+    org: "digitalent",
+    title: "Konsep Pemrograman",
+    description:
+      "Digitalent course on programming concepts covering data structures, algorithms, object-oriented programming, and software development methodologies.",
+    pages: [
+      "/data/certificates/digitalent/konsep-pemrograman/konsep-pemrograman-page-1.webp",
+      "/data/certificates/digitalent/konsep-pemrograman/konsep-pemrograman-page-2.webp",
+    ],
+    thumb:
+      "/data/certificates/digitalent/konsep-pemrograman/konsep-pemrograman-page-1.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-digitalent-intermediate",
+    org: "digitalent",
+    title: "Intermediate Junior Web Developer",
+    description:
+      "Advanced Digitalent certification for Junior Web Developers covering intermediate topics in front-end and back-end development, databases, and web application deployment.",
+    pages: [
+      "/data/certificates/digitalent/sertifikat-habibi-ahmad-aziz-intermediate-junior-web-developer/sertifikat-habibi-ahmad-aziz-intermediate-junior-web-developer-page-1.webp",
+      "/data/certificates/digitalent/sertifikat-habibi-ahmad-aziz-intermediate-junior-web-developer/sertifikat-habibi-ahmad-aziz-intermediate-junior-web-developer-page-2.webp",
+    ],
+    thumb:
+      "/data/certificates/digitalent/sertifikat-habibi-ahmad-aziz-intermediate-junior-web-developer/sertifikat-habibi-ahmad-aziz-intermediate-junior-web-developer-page-1.webp",
+    isPinned: false,
+  },
+
+  // ─── GOOGLE ───────────────────────────────────────────────────────
+  {
+    id: "cert-google-analytics",
+    org: "google",
+    title: "Google Analytics",
+    description:
+      "Google Analytics certification covering web analytics fundamentals, traffic analysis, conversion tracking, reporting, and data-driven decision-making for digital platforms.",
+    pages: [
+      "/data/certificates/google/google-analityc/google-analityc.webp",
+    ],
+    thumb:
+      "/data/certificates/google/google-analityc/google-analityc.webp",
+    isPinned: false,
+  },
+
+  // ─── HACKTIV8 ─────────────────────────────────────────────────────
+  {
+    id: "cert-hacktiv8",
+    org: "hacktiv8",
+    title: "Maju Bareng AI — Hacktiv8",
+    description:
+      "Participation in Hacktiv8's 'Maju Bareng AI' program — exploring artificial intelligence applications, hands-on AI projects, and learning from industry practitioners.",
+    pages: [
+      "/data/certificates/hacktiv8/maju-bareng-ai-habibi-ahmad-aziz/maju-bareng-ai-habibi-ahmad-aziz.webp",
+    ],
+    thumb:
+      "/data/certificates/hacktiv8/maju-bareng-ai-habibi-ahmad-aziz/maju-bareng-ai-habibi-ahmad-aziz.webp",
+    isPinned: false,
+  },
+
+  // ─── IBM ──────────────────────────────────────────────────────────
+  {
+    id: "cert-ibm-skillsbuild",
+    org: "ibm",
+    title: "IBM SkillsBuild — Completion Certificate",
+    description:
+      "IBM SkillsBuild program certification demonstrating proficiency in technology skills through IBM's digital learning platform, covering modern tech and professional development.",
+    pages: [
+      "/data/certificates/ibm/completion-certificate-skillsbuild/completion-certificate-skillsbuild.webp",
+    ],
+    thumb:
+      "/data/certificates/ibm/completion-certificate-skillsbuild/completion-certificate-skillsbuild.webp",
+    isPinned: false,
+  },
+  {
+    id: "cert-ibm-web",
+    org: "ibm",
+    title: "Developing Sites for the Web — IBM",
+    description:
+      "IBM certification in web development covering responsive design, accessibility standards, cross-browser compatibility, and building professional websites for the modern web.",
+    pages: [
+      "/data/certificates/ibm/developing-sites-for-the-web/developing-sites-for-the-web.webp",
+    ],
+    thumb:
+      "/data/certificates/ibm/developing-sites-for-the-web/developing-sites-for-the-web.webp",
+    isPinned: false,
+  },
+
+  // ─── KEMNAKER ─────────────────────────────────────────────────────
+  {
+    id: "cert-kemnaker",
+    org: "kemnaker",
+    title: "Fullstack Web Development — Kemnaker",
+    description:
+      "Kemnaker (Ministry of Manpower) certification in Fullstack Web Development — covering front-end frameworks, back-end APIs, database management, and full-stack project implementation.",
+    pages: [
+      "/data/certificates/kemnaker/fullstack-web-development/fullstack-web-development-page-1.webp",
+      "/data/certificates/kemnaker/fullstack-web-development/fullstack-web-development-page-2.webp",
+    ],
+    thumb:
+      "/data/certificates/kemnaker/fullstack-web-development/fullstack-web-development-page-1.webp",
+    isPinned: true,
+  },
+
+  // ─── MY SKILLS ────────────────────────────────────────────────────
+  {
+    id: "cert-my-skills",
+    org: "my-skills",
+    title: "Internet Introduction — MySkills",
+    description:
+      "MySkills certification on Internet fundamentals covering network basics, web technologies, internet protocols, and how the World Wide Web operates at a foundational level.",
+    pages: [
+      "/data/certificates/my-skills/internet-introduction/internet-introduction.webp",
+    ],
+    thumb:
+      "/data/certificates/my-skills/internet-introduction/internet-introduction.webp",
+    isPinned: false,
+  },
+
+  // ─── PERTAMINA ────────────────────────────────────────────────────
+  {
+    id: "cert-pertamina",
+    org: "pertamina",
+    title: "Pertamina — Technology Program",
+    description:
+      "Participation in Pertamina's technology program, demonstrating engagement with industry-level projects and exposure to real-world energy sector technology challenges.",
+    pages: [
+      "/data/certificates/pertamina/habibi-ahmad-aziz/habibi-ahmad-aziz.webp",
+    ],
+    thumb:
+      "/data/certificates/pertamina/habibi-ahmad-aziz/habibi-ahmad-aziz.webp",
+    isPinned: false,
+  },
+
+  // ─── WEB3 HACKQUEST ───────────────────────────────────────────────
+  {
+    id: "cert-web3-hackquest",
+    org: "web3-hackquest",
+    title: "Web3 HackQuest — Participation",
+    description:
+      "Participation in Web3 HackQuest hackathon, exploring blockchain technology, decentralized applications, smart contracts, and Web3 development fundamentals.",
+    pages: [
+      "/data/certificates/web3-hackquest/habibi-ahmad-aziz-5701981.webp",
+    ],
+    thumb:
+      "/data/certificates/web3-hackquest/habibi-ahmad-aziz-5701981.webp",
+    isPinned: false,
+  },
+]
