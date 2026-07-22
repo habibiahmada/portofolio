@@ -11,7 +11,7 @@ async function handleGet(_request: NextRequest, _session: AdminSession) {
     .order("is_pinned", { ascending: false })
     .order("title", { ascending: true });
 
-  if (error) return NextResponse.json({ success: false, data: null, error: { message: error.message } }, { status: 500 });
+  if (error) return NextResponse.json(serverError("Failed to fetch certificates"), { status: 500 });
   return NextResponse.json(okPaginated(data || [], count || 0, 1, 999));
 }
 

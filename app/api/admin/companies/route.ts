@@ -10,7 +10,7 @@ async function handleGet(_request: NextRequest, _session: AdminSession) {
     .select("*")
     .order("name", { ascending: true });
 
-  if (error) return NextResponse.json({ success: false, data: null, error: { message: error.message } }, { status: 500 });
+  if (error) return NextResponse.json(serverError("Failed to fetch companies"), { status: 500 });
   return NextResponse.json(ok(data || []));
 }
 

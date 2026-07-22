@@ -23,7 +23,8 @@ export type AdminSession = {
  */
 export async function requireAdmin(): Promise<AdminSession> {
   // Allow test bypass in testing environment
-  if (process.env.NODE_ENV === "test" || process.env.BUN_ENV === "test") {
+  // Use TEST_BYPASS_KEY presence because Next.js overrides NODE_ENV to "development" in dev mode.
+  if (process.env.TEST_BYPASS_KEY || process.env.SUPABASE_MOCK_ENABLED === "true") {
     const headersList = await headers();
     const bypassKey = headersList.get("x-test-bypass");
     if (bypassKey && bypassKey === process.env.TEST_BYPASS_KEY) {
