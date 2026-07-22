@@ -16,7 +16,7 @@ export function Companies() {
       id="companies"
       className="py-16 overflow-hidden w-full bg-transparent"
     >
-      <div className="w-full px-24">
+      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12">
         <GlitchText
           as="h2"
           className="block w-full text-center font-mono tracking-widest text-muted-foreground/60 uppercase mb-10 select-none"

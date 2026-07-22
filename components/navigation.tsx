@@ -115,7 +115,7 @@ export function Navbar() {
         <nav
           role="navigation"
           aria-label="Main navigation"
-          className="relative z-20 w-full px-24 h-18 flex items-center justify-between"
+          className="relative z-20 w-full px-4 sm:px-6 md:px-8 lg:px-12 h-18 flex items-center justify-between"
         >
           {/* ── Logo ── */}
           <motion.a

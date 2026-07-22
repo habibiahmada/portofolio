@@ -95,12 +95,13 @@ const marqueeRow2 = [...row2, ...row2];
 
 export function AboutTechStack() {
   return (
-    <section id="about-techstack" className="py-24 w-full bg-transparent overflow-hidden">
-      <div className="w-full px-24">
+    <section
+      id="about-techstack"
+      className="py-24 w-full bg-transparent overflow-hidden"
+    >
+      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12">
         {/* Header */}
-        <div
-          className="max-w-2xl mb-14 space-y-3"
-        >
+        <div className="max-w-2xl mb-14 space-y-3">
           <span className="text-xs font-mono tracking-widest text-[#ef4444] dark:text-blue-400 uppercase block">
             // Tech Stack
           </span>

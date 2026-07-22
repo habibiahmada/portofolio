@@ -21,13 +21,17 @@ interface ProjectsProps {
 }
 
 export function Projects({ locale = "en" }: ProjectsProps) {
-  const { data: projects, loading, error } = useProjects({
+  const {
+    data: projects,
+    loading,
+    error,
+  } = useProjects({
     featured: FEATURED_IDS,
   });
 
   return (
     <section id="projects" className="relative py-24 w-full bg-transparent">
-      <div className="w-full px-24">
+      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-14 gap-6">
           <div className="space-y-3">

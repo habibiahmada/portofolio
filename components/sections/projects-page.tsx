@@ -50,7 +50,7 @@ export function ProjectsPage({ locale = "en" }: ProjectsPageProps) {
         <div className="absolute top-1/3 left-1/4 w-64 h-64 rounded-full bg-purple-500/2 dark:bg-purple-500/2 blur-3xl" />
       </div>
 
-      <div className="relative w-full px-24">
+      <div className="relative w-full px-4 sm:px-6 md:px-8 lg:px-12">
         {/* Header */}
         <div className="mb-14 md:mb-18">
           <div className="relative z-10 space-y-3">

@@ -238,7 +238,7 @@ export const rootMetadata: Metadata = {
     template: "%s — Habibi Ahmad",
   },
   description:
-    "Full-stack web developer from Karawang, Indonesia. Building modern, performant websites with Next.js, React, Laravel, and WordPress for businesses and organizations.",
+    "Full-stack web developer from Karawang, Indonesia. Building performant websites with Next.js, React, Laravel, and WordPress.",
   keywords: [
     // ── Name / personal ──
     "Habibi Ahmad",

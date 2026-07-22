@@ -9,11 +9,13 @@ import Image from "next/image";
 export function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const spotlightRef = useRef<HTMLDivElement>(null);
-  const nodeMouseRef = useRef<{ x: number; y: number; active: boolean } | null>({
-    x: 0,
-    y: 0,
-    active: false,
-  });
+  const nodeMouseRef = useRef<{ x: number; y: number; active: boolean } | null>(
+    {
+      x: 0,
+      y: 0,
+      active: false,
+    },
+  );
   const [cvOpen, setCvOpen] = useState(false);
 
   // Track mouse coordinates for spotlight + node network
@@ -71,7 +73,7 @@ export function HeroSection() {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       aria-label="Hero section"
-      className="relative w-full px-24 flex flex-col pt-24 h-[90vh] pb-24 overflow-hidden group/hero"
+      className="relative w-full px-4 sm:px-6 md:px-8 lg:px-12 flex flex-col pt-24 h-[90vh] pb-24 overflow-hidden group/hero"
     >
       {/* Node Network Background Canvas — clustered top-left, mouse coords from hero */}
       <NodeNetwork externalMouseRef={nodeMouseRef} densityBias="topLeft" />
@@ -108,9 +110,7 @@ export function HeroSection() {
           )}
 
           {/* Tagline */}
-          <div
-            className="flex items-center gap-2 px-3 py-1 rounded-full border border-black/5 dark:border-white/5 bg-black/2 dark:bg-white/2"
-          >
+          <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-black/5 dark:border-white/5 bg-black/2 dark:bg-white/2">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
@@ -146,17 +146,13 @@ export function HeroSection() {
           </GlitchText>
 
           {/* Sub description */}
-          <p
-            className="text-base md:text-lg text-muted-foreground/80 l leading-relaxed font-medium"
-          >
+          <p className="text-base md:text-lg text-muted-foreground/80 l leading-relaxed font-medium">
             Full-stack developer crafting high-performance, accessible, and
             beautifully animated web products from concept to deployment.
           </p>
 
           {/* CTA buttons */}
-          <div
-            className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mt-2"
-          >
+          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mt-2">
             <a
               href="#projects"
               aria-label="View my projects"

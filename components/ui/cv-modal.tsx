@@ -2,7 +2,14 @@
 
 import { useEffect, useRef, useCallback, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, FileText, Download, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  X,
+  FileText,
+  Download,
+  ExternalLink,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface CvModalProps {
@@ -192,9 +199,11 @@ export function CvModal({
 
             {/* ── WebP Preview ── */}
             <div className="flex-1 min-h-0 relative bg-zinc-900/50 flex items-center justify-center p-4">
-              <img
+              <Image
                 src={CV_PAGES[currentPage]}
                 alt={`CV Preview — Page ${currentPage + 1}`}
+                width={800}
+                height={1100}
                 className="max-w-full max-h-full object-contain rounded-sm"
                 style={{ maxHeight: "calc(85vh - 100px)" }}
               />
