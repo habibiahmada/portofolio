@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { getSupabaseServerClient, getSupabaseAdmin } from "@/lib/supabase/server";
 import { withAdmin, type AdminSession } from "@/lib/supabase/admin-auth";
 import { ok, fail } from "@/lib/supabase/api-response";
 import type { CompanyRow } from "@/lib/supabase/types";
@@ -18,7 +18,7 @@ async function handlePost(request: NextRequest, _session: AdminSession) {
   const body = await request.json();
   if (!body.name) return NextResponse.json(fail("name is required"), { status: 400 });
 
-  const supabase = await getSupabaseServerClient();
+  const supabase = getSupabaseAdmin();
   const { data, error } = await (supabase.from("companies") as any)
     .insert({ name: body.name, logo: body.logo || "" })
     .select()
@@ -32,7 +32,7 @@ async function handlePatch(request: NextRequest, _session: AdminSession) {
   const body = await request.json();
   if (!body.id) return NextResponse.json(fail("id is required"), { status: 400 });
 
-  const supabase = await getSupabaseServerClient();
+  const supabase = getSupabaseAdmin();
   const updateData: Partial<CompanyRow> = {};
   if (body.name !== undefined) (updateData as any).name = body.name;
   if (body.logo !== undefined) (updateData as any).logo = body.logo;
@@ -56,7 +56,7 @@ async function handleDelete(request: NextRequest, _session: AdminSession) {
   const id = searchParams.get("id");
   if (!id) return NextResponse.json(fail("id query param is required"), { status: 400 });
 
-  const supabase = await getSupabaseServerClient();
+  const supabase = getSupabaseAdmin();
   const { error } = await (supabase.from("companies") as any).delete().eq("id", id);
   if (error) return NextResponse.json(fail(error.message, "DB_ERROR"), { status: 400 });
   return NextResponse.json(ok({ deleted: id }));

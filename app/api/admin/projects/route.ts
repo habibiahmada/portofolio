@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { getSupabaseServerClient, getSupabaseAdmin } from "@/lib/supabase/server";
 import { withAdmin, type AdminSession } from "@/lib/supabase/admin-auth";
 import { ok, okPaginated, fail, serverError } from "@/lib/supabase/api-response";
 import type { ProjectRow } from "@/lib/supabase/types";
@@ -21,7 +21,7 @@ async function handlePost(request: NextRequest, _session: AdminSession) {
     return NextResponse.json(fail("id, title_en, and title_id are required"), { status: 400 });
   }
 
-  const supabase = await getSupabaseServerClient();
+  const supabase = getSupabaseAdmin();
   const { error } = await (supabase.from("projects") as any).insert({
     id: body.id,
     title_en: body.title_en,
@@ -43,7 +43,7 @@ async function handlePatch(request: NextRequest, _session: AdminSession) {
   const body = await request.json();
   if (!body.id) return NextResponse.json(fail("id is required"), { status: 400 });
 
-  const supabase = await getSupabaseServerClient();
+  const supabase = getSupabaseAdmin();
   const updateData: Partial<ProjectRow> = {};
   const fields = ["title_en", "title_id", "description_en", "description_id", "image", "tags", "live_url", "github_url", "year"] as const;
   for (const field of fields) {
@@ -69,7 +69,7 @@ async function handleDelete(request: NextRequest, _session: AdminSession) {
   const id = searchParams.get("id");
   if (!id) return NextResponse.json(fail("id query param is required"), { status: 400 });
 
-  const supabase = await getSupabaseServerClient();
+  const supabase = getSupabaseAdmin();
   const { error } = await (supabase.from("projects") as any).delete().eq("id", id);
   if (error) return NextResponse.json(fail(error.message, "DB_ERROR"), { status: 400 });
   return NextResponse.json(ok({ deleted: id }));

@@ -7,13 +7,14 @@ import { Certificates } from '@/components/sections/certificates'
 import { CTA } from '@/components/sections/cta'
 
 export const metadata: Metadata = {
-  title: 'About',
+  title: 'About — Web Developer from Karawang',
   description:
-    'Kenali Habibi Ahmad Aziz — Full-stack web developer dari Karawang, lulusan SMKN 1 Karawang jurusan Rekayasa Perangkat Lunak. Saat ini bekerja sebagai Web Developer di PT Webekspres Teknologi Indonesia. Spesialis Next.js, React, Laravel, WordPress, dan pengembangan CMS.',
+    'Kenali Habibi Ahmad Aziz — full-stack web developer dari Karawang, lulusan SMKN 1 Karawang jurusan RPL. Spesialis Next.js, React, Laravel, WordPress, dan CMS development.',
   openGraph: {
-    title: 'About Habibi Ahmad Aziz | Web Developer Karawang',
+    siteName: 'Habibi Ahmad — Web Developer Karawang',
+    title: 'Habibi Ahmad Aziz — Web Developer from Karawang',
     description:
-      'Full-stack web developer dari Karawang dengan pengalaman di Next.js, React, Laravel, WordPress. Lulusan SMKN 1 Karawang — RPL.',
+      'Full-stack web developer dari Karawang dengan pengalaman di Next.js, React, Laravel, dan WordPress.',
     images: [
       {
         url: '/images/habibiahmada.webp',
@@ -22,6 +23,13 @@ export const metadata: Metadata = {
         alt: 'Habibi Ahmad Aziz — Web Developer Karawang',
       },
     ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Habibi Ahmad Aziz — Web Developer from Karawang',
+    description:
+      'Full-stack web developer dari Karawang dengan pengalaman di Next.js, React, Laravel, dan WordPress.',
+    images: ['/images/habibiahmada.webp'],
   },
   alternates: {
     canonical: 'https://www.habibiahmada.dev/about',

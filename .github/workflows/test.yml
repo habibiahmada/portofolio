@@ -1,0 +1,48 @@
+name: Run API Integration Tests
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install Dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Start Next.js Development Server
+        run: |
+          bun run dev &
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: "https://dummy-supabase-url.supabase.co"
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummy"
+          ADMIN_ALLOWED_EMAILS: "admin@test.com"
+
+      - name: Wait for Next.js Server
+        run: |
+          until curl -s http://localhost:3000 > /dev/null; do
+            echo "Waiting for Next.js server to start..."
+            sleep 2
+          done
+          echo "Next.js server is up and running!"
+
+      - name: Run API Integration Tests
+        run: bun test tests/api.test.ts
+        env:
+          NODE_ENV: test
+          TEST_SERVER_URL: http://localhost:3000
+          TEST_BYPASS_KEY: test-bypass-secret-123
+          NEXT_PUBLIC_SUPABASE_URL: "https://dummy-supabase-url.supabase.co"
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummy"

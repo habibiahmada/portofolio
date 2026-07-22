@@ -6,13 +6,13 @@ import { Services } from '@/components/sections/services'
 import { Companies } from '@/components/sections/companies'
 
 export const metadata: Metadata = {
-  title: 'Home',
   description:
-    'Habibi Ahmad Aziz crafts elegant, high-performance web solutions that empower businesses to succeed. Combining deep expertise in Next.js, React, Laravel, and WordPress, I deliver seamless user experiences and robust back-end systems, helping brands stand out online.',
+    'Full-stack web developer from Karawang, Indonesia. High-performance web solutions with Next.js, React, Laravel, and WordPress — built to grow your business online.',
   openGraph: {
-    title: 'Habibi Ahmad Aziz | Web Developer Karawang — Full-Stack Developer',
+    siteName: 'Habibi Ahmad — Web Developer Karawang',
+    title: 'Web Developer Karawang — Habibi Ahmad Aziz',
     description:
-      'Elegant, high-performance web solutions that empower businesses to grow, built with Next.js, React, Laravel, and WordPress and another modern technologies.',
+      'High-performance web solutions built with Next.js, React, Laravel & WordPress. Fast, responsive, built to grow your business.',
     images: [
       {
         url: '/open-graph/og-image.png',
@@ -21,6 +21,13 @@ export const metadata: Metadata = {
         alt: 'Habibi Ahmad Aziz — Full-Stack Web Developer Karawang',
       },
     ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Web Developer Karawang — Habibi Ahmad Aziz',
+    description:
+      'High-performance web solutions built with Next.js, React, Laravel & WordPress. Fast, responsive, built to grow your business.',
+    images: ['/open-graph/og-image.png'],
   },
   alternates: {
     canonical: 'https://www.habibiahmada.dev',

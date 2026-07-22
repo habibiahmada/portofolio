@@ -90,7 +90,7 @@ export default function AdminLayout({
           </div>
           <div>
             <p className="text-sm font-semibold tracking-tight">Admin</p>
-            <p className="text-[10px] text-zinc-500 font-mono truncate max-w-[180px]">
+            <p className="text-[10px] text-zinc-500 font-mono truncate max-w-45">
               {session.email}
             </p>
           </div>

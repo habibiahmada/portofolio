@@ -7,6 +7,8 @@
 import { NextResponse } from "next/server";
 import { getSupabaseServerClient } from "./server";
 
+import { headers } from "next/headers";
+
 export type AdminSession = {
   userId: string;
   email: string;
@@ -20,6 +22,19 @@ export type AdminSession = {
  * Returns the session on success, or throws a redirect response.
  */
 export async function requireAdmin(): Promise<AdminSession> {
+  // Allow test bypass in testing environment
+  if (process.env.NODE_ENV === "test" || process.env.BUN_ENV === "test") {
+    const headersList = await headers();
+    const bypassKey = headersList.get("x-test-bypass");
+    if (bypassKey && bypassKey === process.env.TEST_BYPASS_KEY) {
+      return {
+        userId: "test-admin-id",
+        email: "admin@test.com",
+        name: "Test Admin",
+      };
+    }
+  }
+
   const supabase = await getSupabaseServerClient();
 
   const {
@@ -49,6 +64,7 @@ export async function requireAdmin(): Promise<AdminSession> {
     name: (user.user_metadata?.full_name as string) || user.email.split("@")[0],
   };
 }
+
 
 /**
  * Wraps an admin API handler with try/catch + auth check.
