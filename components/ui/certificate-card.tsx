@@ -11,7 +11,7 @@ interface CertificateCardProps {
   thumb: string;
   isPinned: boolean;
   index: number;
-  onOpen: (id: string) => void;
+  onOpen: () => void;
 }
 
 export function CertificateCard({
@@ -24,7 +24,8 @@ export function CertificateCard({
 }: CertificateCardProps) {
   return (
     <button
-      onClick={() => onOpen(id)}
+      type="button"
+      onClick={onOpen}
       style={{ animationDelay: `${index * 50}ms` }}
       className={cn(
         "group relative flex flex-col overflow-hidden text-left cursor-pointer",
@@ -34,7 +35,7 @@ export function CertificateCard({
         "hover:border-black/15 dark:hover:border-white/15",
         "hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-black/40",
         "transition-all duration-500",
-        "opacity-0 translate-y-6 animate-fade-in-up",
+        "animate-fade-in-up",
         isPinned && "ring-1 ring-red-500/20 dark:ring-blue-400/20",
       )}
     >

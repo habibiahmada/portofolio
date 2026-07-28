@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SITE, SITE_COPY } from "@/lib/site-metadata";
 
 /**
  * JSON-LD structured data for rich search results.
@@ -8,21 +9,20 @@ import type { Metadata } from "next";
 const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
-  name: "Habibi Ahmad Aziz",
+  name: SITE.name,
   givenName: "Habibi",
   familyName: "Aziz",
   additionalName: "Ahmad",
-  alternateName: "Habibi Ahmad",
-  url: "https://www.habibiahmada.dev",
-  image: "https://www.habibiahmada.dev/images/habibiahmada.webp",
-  jobTitle: "Full-Stack Web Developer",
-  description:
-    "Full-stack web developer from Karawang, Indonesia. Specializing in Next.js, React, Laravel, WordPress, and modern web technologies. Building performant, accessible, and beautifully animated digital experiences.",
+  alternateName: SITE.shortName,
+  url: SITE.url,
+  image: `${SITE.url}${SITE.profileImage}`,
+  jobTitle: SITE.role,
+  description: SITE_COPY.defaultDescription,
   knowsAbout: [
     "Web Development",
     "Frontend Development",
     "Backend Development",
-    "Full-Stack Development",
+    "Fullstack Development",
     "React",
     "Next.js",
     "Laravel",
@@ -42,7 +42,7 @@ const personSchema = {
     name: "SMKN 1 Karawang",
     address: {
       "@type": "PostalAddress",
-      addressLocality: "Karawang",
+      addressLocality: SITE.city,
       addressRegion: "Jawa Barat",
       addressCountry: "ID",
     },
@@ -54,61 +54,51 @@ const personSchema = {
   },
   address: {
     "@type": "PostalAddress",
-    addressLocality: "Karawang",
+    addressLocality: SITE.city,
     addressRegion: "Jawa Barat",
     addressCountry: "ID",
   },
   sameAs: [
     "https://github.com/habibiahmada",
     "https://linkedin.com/in/habibiahmada",
-    "https://www.habibiahmada.dev",
+    SITE.url,
   ],
 };
 
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "Habibi Ahmad — Full-Stack Web Developer",
-  url: "https://www.habibiahmada.dev",
-  description:
-    "Portfolio of Habibi Ahmad Aziz, a full-stack web developer from Karawang offering web design, frontend & backend development, CMS solutions, and web performance optimization.",
+  name: SITE.siteName,
+  url: SITE.url,
+  description: SITE_COPY.defaultDescription,
   inLanguage: ["en", "id"],
   copyrightYear: new Date().getFullYear(),
   author: {
     "@type": "Person",
-    name: "Habibi Ahmad Aziz",
+    name: SITE.name,
   },
 };
 
 const localBusinessSchema = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
-  name: "Habibi Ahmad — Web Developer Karawang",
+  name: `${SITE.shortName} | ${SITE.role} ${SITE.city}`,
   description:
     "Jasa pembuatan website profesional di Karawang. Layanan web development meliputi frontend, backend, CMS (WordPress, Laravel), optimasi SEO, dan performa website.",
-  url: "https://www.habibiahmada.dev",
-  image: "https://www.habibiahmada.dev/images/habibiahmada.webp",
+  url: SITE.url,
+  image: `${SITE.url}${SITE.profileImage}`,
   telephone: "",
-  email: "contact@habibiahmada.dev",
+  email: SITE.email,
   address: {
     "@type": "PostalAddress",
-    addressLocality: "Karawang",
+    addressLocality: SITE.city,
     addressRegion: "Jawa Barat",
     addressCountry: "ID",
   },
   areaServed: [
-    {
-      "@type": "City",
-      name: "Karawang",
-    },
-    {
-      "@type": "State",
-      name: "Jawa Barat",
-    },
-    {
-      "@type": "Country",
-      name: "Indonesia",
-    },
+    { "@type": "City", name: SITE.city },
+    { "@type": "State", name: "Jawa Barat" },
+    { "@type": "Country", name: "Indonesia" },
   ],
   priceRange: "$$",
   availableLanguage: ["English", "Indonesia"],
@@ -134,8 +124,8 @@ const serviceSchemas = [
     name: "Web Design & Mobile-First Development",
     description:
       "Pixel-perfect responsive interfaces from wireframes to production-ready layouts optimized for every device.",
-    provider: { "@type": "Person", name: "Habibi Ahmad Aziz" },
-    areaServed: { "@type": "City", name: "Karawang" },
+    provider: { "@type": "Person", name: SITE.name },
+    areaServed: { "@type": "City", name: SITE.city },
   },
   {
     "@context": "https://schema.org",
@@ -143,8 +133,8 @@ const serviceSchemas = [
     name: "Frontend Web Development (React & Next.js)",
     description:
       "High-quality user interfaces built with React, Next.js, and TypeScript. Clean components, reusable logic, and fluid state management.",
-    provider: { "@type": "Person", name: "Habibi Ahmad Aziz" },
-    areaServed: { "@type": "City", name: "Karawang" },
+    provider: { "@type": "Person", name: SITE.name },
+    areaServed: { "@type": "City", name: SITE.city },
   },
   {
     "@context": "https://schema.org",
@@ -152,8 +142,8 @@ const serviceSchemas = [
     name: "Backend API & Database Development",
     description:
       "Robust REST APIs, relational databases (MySQL, PostgreSQL), authentication systems, and scalable server architecture using Laravel and Node.js.",
-    provider: { "@type": "Person", name: "Habibi Ahmad Aziz" },
-    areaServed: { "@type": "City", name: "Karawang" },
+    provider: { "@type": "Person", name: SITE.name },
+    areaServed: { "@type": "City", name: SITE.city },
   },
   {
     "@context": "https://schema.org",
@@ -161,8 +151,8 @@ const serviceSchemas = [
     name: "CMS & WordPress Development",
     description:
       "Custom WordPress themes, plugins, and CMS platforms built with Laravel or Elementor. Managed content systems for businesses and organizations.",
-    provider: { "@type": "Person", name: "Habibi Ahmad Aziz" },
-    areaServed: { "@type": "City", name: "Karawang" },
+    provider: { "@type": "Person", name: SITE.name },
+    areaServed: { "@type": "City", name: SITE.city },
   },
   {
     "@context": "https://schema.org",
@@ -170,8 +160,8 @@ const serviceSchemas = [
     name: "Web Performance & SEO Optimization",
     description:
       "Core Web Vitals optimization, Lighthouse score improvement, SEO-ready architecture, and performance auditing for faster load times and better rankings.",
-    provider: { "@type": "Person", name: "Habibi Ahmad Aziz" },
-    areaServed: { "@type": "City", name: "Karawang" },
+    provider: { "@type": "Person", name: SITE.name },
+    areaServed: { "@type": "City", name: SITE.city },
   },
   {
     "@context": "https://schema.org",
@@ -179,8 +169,8 @@ const serviceSchemas = [
     name: "CI/CD & Deployment",
     description:
       "Automated deployment pipelines, container-ready applications, serverless hosting, Vercel/Netlify deployment, and zero-downtime production releases.",
-    provider: { "@type": "Person", name: "Habibi Ahmad Aziz" },
-    areaServed: { "@type": "City", name: "Karawang" },
+    provider: { "@type": "Person", name: SITE.name },
+    areaServed: { "@type": "City", name: SITE.city },
   },
 ];
 
@@ -192,19 +182,19 @@ const breadcrumbSchema = {
       "@type": "ListItem",
       position: 1,
       name: "Home",
-      item: "https://www.habibiahmada.dev",
+      item: SITE.url,
     },
     {
       "@type": "ListItem",
       position: 2,
       name: "About",
-      item: "https://www.habibiahmada.dev/about",
+      item: `${SITE.url}/about`,
     },
     {
       "@type": "ListItem",
       position: 3,
       name: "Projects",
-      item: "https://www.habibiahmada.dev/projects",
+      item: `${SITE.url}/projects`,
     },
   ],
 };
@@ -218,36 +208,30 @@ const allSchemas = [
 ];
 
 export function JsonLd() {
+  const json = JSON.stringify(allSchemas).replace(/</g, "\\u003c");
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(allSchemas, null, 2),
-      }}
+      dangerouslySetInnerHTML={{ __html: json }}
     />
   );
 }
 
-/**
- * Supercharged metadata for the root layout.
- */
+/** Root layout metadata for Habibi Ahmad Aziz portfolio */
 export const rootMetadata: Metadata = {
-  metadataBase: new URL("https://www.habibiahmada.dev"),
+  metadataBase: new URL(SITE.url),
   title: {
-    default: "Habibi Ahmad Aziz — Web Developer Karawang",
-    template: "%s — Habibi Ahmad",
+    default: SITE_COPY.defaultTitle,
+    template: SITE_COPY.titleTemplate,
   },
-  description:
-    "Full-stack web developer from Karawang, Indonesia. Building performant websites with Next.js, React, Laravel, and WordPress.",
+  description: SITE_COPY.defaultDescription,
   keywords: [
-    // ── Name / personal ──
     "Habibi Ahmad",
     "Habibi Ahmad Aziz",
     "Habibi Ahmad Karawang",
-    "web developer Karawang",
-    // ── Location ──
+    "fullstack developer Karawang",
+    "full stack developer Karawang",
     "web developer karawang",
-    "web developer Karawang",
     "website karawang",
     "pembuatan website karawang",
     "jasa website karawang",
@@ -256,20 +240,13 @@ export const rootMetadata: Metadata = {
     "web developer jawa barat",
     "web developer indonesia",
     "full stack developer indonesia",
-    // ── Services ──
     "jasa pembuatan website",
     "jasa web development",
     "pembuatan website profesional",
-    "jasa website murah",
     "web developer freelance",
     "freelance web developer indonesia",
-    "web designer karawang",
     "jasa landing page",
     "jasa company profile website",
-    "jasa web UMKM",
-    "pembuatan website sekolah",
-    "pembuatan website organisasi",
-    // ── Tech stack ──
     "website next.js",
     "website react",
     "website laravel",
@@ -278,84 +255,60 @@ export const rootMetadata: Metadata = {
     "jasa react",
     "wordpress developer karawang",
     "jasa wordpress",
-    "pembuatan website wordpress",
     "cms development",
     "php developer",
     "node.js developer",
     "typescript developer",
-    // ── Skills ──
+    "fullstack developer",
     "full stack developer",
     "frontend developer",
     "backend developer",
     "web programmer",
-    "website developer",
-    "web engineer",
     "software engineer indonesia",
-    "IT karawang",
-    "digital karawang",
-    // ── English keywords ──
-    "web developer Indonesia",
-    "full-stack developer",
-    "full stack web developer",
     "React developer",
     "Next.js developer",
     "Laravel developer",
     "WordPress developer",
-    "CMS developer",
-    "frontend engineer",
-    "backend engineer",
-    "web development services",
-    "custom website development",
-    "web application developer",
-    // ── Services English ──
-    "web design services",
-    "web development company",
-    "website builder",
-    "professional web developer",
-    "freelance web developer",
-    "hire web developer",
-    "hire react developer",
+    "hire fullstack developer",
     "hire nextjs developer",
   ],
-  authors: [{ name: "Habibi Ahmad Aziz", url: "https://www.habibiahmada.dev" }],
-  creator: "Habibi Ahmad Aziz",
-  publisher: "Habibi Ahmad Aziz",
+  authors: [{ name: SITE.name, url: SITE.url }],
+  creator: SITE.name,
+  publisher: SITE.name,
   category: "Technology",
-  classification: "Web Development Portfolio",
+  classification: "Fullstack Developer Portfolio",
   alternates: {
-    canonical: "https://www.habibiahmada.dev",
+    canonical: SITE.url,
     languages: {
-      en: "https://www.habibiahmada.dev",
-      id: "https://www.habibiahmada.dev",
+      en: SITE.url,
+      id: SITE.url,
     },
   },
   openGraph: {
     type: "website",
     locale: "id_ID",
     alternateLocale: ["en_US"],
-    url: "https://www.habibiahmada.dev",
-    siteName: "Habibi Ahmad — Web Developer Karawang",
-    title: "Habibi Ahmad Aziz — Web Developer Karawang",
-    description:
-      "Full-stack web developer from Karawang. Building modern websites with Next.js, React, Laravel & WordPress.",
+    url: SITE.url,
+    siteName: SITE.siteName,
+    title: SITE_COPY.defaultTitle,
+    description: SITE_COPY.defaultDescription,
     images: [
       {
-        url: "/open-graph/og-image.png",
+        url: SITE.ogImage,
         width: 1200,
         height: 630,
-        alt: "Habibi Ahmad Aziz — Full-Stack Web Developer Karawang",
+        alt: SITE_COPY.ogAlt,
       },
     ],
     countryName: "Indonesia",
-    emails: ["contact@habibiahmada.dev"],
+    emails: [SITE.email],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Habibi Ahmad Aziz — Web Developer Karawang",
-    description:
-      "Building modern websites with Next.js, React, Laravel & WordPress from Karawang, Indonesia.",
-    images: ["/open-graph/og-image.png"],
-    creator: "@habibiahmad",
+    title: SITE_COPY.defaultTitle,
+    description: SITE_COPY.defaultDescription,
+    images: [SITE.ogImage],
+    creator: SITE.twitter,
   },
   icons: {
     icon: [
@@ -374,12 +327,9 @@ export const rootMetadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  verification: {
-    google: "",
-  },
   appleWebApp: {
     capable: true,
-    title: "Habibi Ahmad",
+    title: SITE.shortName,
     statusBarStyle: "black-translucent",
   },
   formatDetection: {
@@ -389,7 +339,7 @@ export const rootMetadata: Metadata = {
   },
   other: {
     "geo.region": "ID-JB",
-    "geo.placename": "Karawang",
+    "geo.placename": SITE.city,
     "geo.position": "-6.3227;107.3376",
     ICBM: "-6.3227, 107.3376",
   },

@@ -33,13 +33,14 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable}`}
     >
       <body className="min-h-full flex flex-col font-sans antialiased">
+        {/* Outside ThemeProvider so JSON-LD <script> stays server-rendered */}
+        <JsonLd />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange={false}
         >
-          <JsonLd />
           {children}
         </ThemeProvider>
       </body>

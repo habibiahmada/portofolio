@@ -1,23 +1,22 @@
 import type { MetadataRoute } from "next";
+import { SITE } from "@/lib/site-metadata";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://www.habibiahmada.dev";
-
   return [
     {
-      url: baseUrl,
+      url: SITE.url,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 1.0,
     },
     {
-      url: `${baseUrl}/about`,
+      url: `${SITE.url}/about`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/projects`,
+      url: `${SITE.url}/projects`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.9,

@@ -50,21 +50,21 @@ export default function AdminDashboard() {
   const statCards = [
     {
       label: "Projects",
-      value: stats?.projects ?? "—",
+      value: stats?.projects ?? "-",
       icon: FolderKanban,
       href: "/admin/projects",
       color: "text-red-400 bg-red-500/10",
     },
     {
       label: "Certificates",
-      value: stats?.certificates ?? "—",
+      value: stats?.certificates ?? "-",
       icon: ScrollText,
       href: "/admin/certificates",
       color: "text-blue-400 bg-blue-500/10",
     },
     {
       label: "Companies",
-      value: stats?.companies ?? "—",
+      value: stats?.companies ?? "-",
       icon: Building2,
       href: "/admin/companies",
       color: "text-emerald-400 bg-emerald-500/10",

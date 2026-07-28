@@ -253,8 +253,12 @@ html[data-theme-vt="active"]::view-transition-new(root) {
   100% { box-shadow: 0 0 0 0 transparent, 0 0 0 0 transparent; }
 }
 
+/* Keep fade-in-up fill (opacity/transform) — replacing only `animation`
+   would snap back to Tailwind `opacity-0` on the card. */
 .hover-glitch-card:hover {
-  animation: glitch-card 0.5s ease-in-out;
+  animation:
+    fade-in-up 0s forwards,
+    glitch-card 0.5s ease-in-out;
 }
 
 /* ─── Nav Link Glitch Effect ─────────────────────────────────────── */
@@ -325,7 +329,7 @@ html[data-theme-vt="active"]::view-transition-new(root) {
 }
 
 .animate-fade-in-up {
-  animation: fade-in-up 0.5s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+  animation: fade-in-up 0.5s cubic-bezier(0.215, 0.61, 0.355, 1) both;
 }
 
 /* Reduced motion */

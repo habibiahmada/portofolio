@@ -38,7 +38,7 @@ async function handlePost(request: NextRequest, _session: AdminSession) {
   });
 
   if (error) return NextResponse.json(fail(error.message, "DB_ERROR"), { status: 400 });
-  revalidateTag(DATA_TAGS.projects);
+  revalidateTag(DATA_TAGS.projects, "max");
   return NextResponse.json(ok({ id: body.id }), { status: 201 });
 }
 
@@ -64,7 +64,7 @@ async function handlePatch(request: NextRequest, _session: AdminSession) {
     .single();
 
   if (error) return NextResponse.json(fail(error.message, "DB_ERROR"), { status: 400 });
-  revalidateTag(DATA_TAGS.projects);
+  revalidateTag(DATA_TAGS.projects, "max");
   return NextResponse.json(ok(data));
 }
 
@@ -76,7 +76,7 @@ async function handleDelete(request: NextRequest, _session: AdminSession) {
   const supabase = getSupabaseAdmin();
   const { error } = await (supabase.from("projects") as any).delete().eq("id", id);
   if (error) return NextResponse.json(fail(error.message, "DB_ERROR"), { status: 400 });
-  revalidateTag(DATA_TAGS.projects);
+  revalidateTag(DATA_TAGS.projects, "max");
   return NextResponse.json(ok({ deleted: id }));
 }
 

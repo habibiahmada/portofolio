@@ -7,6 +7,8 @@ Checklist lengkap untuk optimasi performa. Urutan = prioritas. Centang di PR / c
 
 **Pages:** `/` · `/projects` · `/about` (+ layout publik bersama)
 
+> **Audit 2026-07-28:** beberapa item sempat dicentang padahal belum di kode. Status di bawah sudah diselaraskan lagi; **1.1–1.3** + **3.7** baru diterapkan ulang di sesi ini. Item verify Lighthouse produksi (**10.3 / 10.6 / 10.10 / 10.14**) tetap terbuka.
+
 ---
 
 ## 0. Baseline (sebelum ubah kode)
@@ -20,9 +22,9 @@ Checklist lengkap untuk optimasi performa. Urutan = prioritas. Centang di PR / c
 
 ## 1. Image pipeline (global — kerjakan dulu)
 
-- [x] **1.1** Matikan `images.unoptimized: true` di `next.config.mjs` (production)
-- [x] **1.2** Tambah `images.remotePatterns` untuk host Supabase Storage (+ domain lain yang dipakai URL gambar)
-- [x] **1.3** Set `formats: ['image/avif', 'image/webp']` (atau default Next) + quality 60/75
+- [x] **1.1** Matikan `images.unoptimized: true` di `next.config.mjs` (production) — optimizer on; `formats` avif/webp
+- [x] **1.2** Tambah `images.remotePatterns` untuk host Supabase Storage (`*.supabase.co` + `/storage/v1/object/public/**`)
+- [x] **1.3** Set `formats: ['image/avif', 'image/webp']` + quality 60/75
 - [x] **1.4** Audit `next/image` — **Hero** (`components/sections/hero.tsx`): `priority`, dimensi/`sizes` benar
 - [x] **1.5** Audit — **About hero** (`about-hero.tsx`): `priority` + `sizes`
 - [x] **1.6** Audit — **ProjectCard** (`project-card.tsx`): `priority` hanya index kecil di above-fold; `sizes` per layout featured vs archive
@@ -30,7 +32,7 @@ Checklist lengkap untuk optimasi performa. Urutan = prioritas. Centang di PR / c
 - [x] **1.8** Audit — **CertificateCard** + **CertificateModal** pages: lazy di grid; modal boleh priority halaman aktif saja
 - [x] **1.9** Audit — **About tech stack** icons (`about-tech-stack.tsx`): lazy + ukuran kecil
 - [x] **1.10** Audit — **CV modal** images (`cv-modal.tsx`)
-- [x] **1.11** Verifikasi di Network: request lewat `/_next/image` (bukan file mentah besar)
+- [ ] **1.11** Verifikasi di Network: request lewat `/_next/image` (bukan file mentah besar) — cek ulang setelah restart `bun dev` / deploy
 - [ ] **1.12** (Opsional) Compress asset di `public/` dan upload Storage yang oversized
 
 ---
@@ -40,7 +42,7 @@ Checklist lengkap untuk optimasi performa. Urutan = prioritas. Centang di PR / c
 - [x] **2.1** Buat helper server fetch di `lib/` (mis. `lib/data/projects.ts`, `companies.ts`, `certificates.ts`) memakai `getSupabaseServerClient` — **satu sumber kebenaran**, bukan duplicate query di tiap page — `lib/data/*` + `getSupabaseAnonClient` (cookie-free, cache-safe)
 - [x] **2.2** Samakan shape data dengan yang dipakai UI hari ini (featured pin order, pinned certs, pagination semantics)
 - [x] **2.3** Tambah `revalidate` / `unstable_cache` + tag (mis. `projects`, `companies`, `certificates`) — default ISR 60–300s — `DATA_REVALIDATE_SECONDS = 60` + tags di `lib/data/constants.ts`
-- [ ] **2.4** (Nanti) Admin mutation → `revalidateTag(...)` agar publish cepat tanpa tunggu TTL
+- [x] **2.4** Admin mutation → `revalidateTag(...)` — sudah di `app/api/admin/{projects,companies,certificates}` (lihat juga §8)
 - [x] **2.5** Biarkan `/api/public/*` untuk klien yang masih butuh (load-more, dll.) tetapi **bukan** jalur first paint — API memakai `lib/data/*`; komentar di route: bukan SSR first-paint
 
 ---
@@ -57,8 +59,8 @@ Checklist lengkap untuk optimasi performa. Urutan = prioritas. Centang di PR / c
 
 - [x] **3.4** **Hero:** dynamic-import `NodeNetwork` (`ssr: false`); gate `prefers-reduced-motion`
 - [x] **3.5** **Companies:** tetap client untuk marquee jika perlu; data dari props
-- [x] **3.6** **Projects (featured):** data dari props; kurangi Framer di card list bila memungkinkan (CSS) — data dari props; Framer card ditunda ke fase 7 bila TBT masih jelek
-- [x] **3.7** **Services:** dynamic-import 5 visual (`LayoutDesigner`, `CodeEditor`, `Speedometer`, `NodeGraph`, `CICD`) — load saat in-view
+- [x] **3.6** **Projects (featured):** data dari props; kurangi Framer di card list bila memungkinkan (CSS) — data dari props; Framer card diganti CSS (`animate-fade-in-up`)
+- [x] **3.7** **Services:** dynamic-import 5 visual + load saat in-view (`InViewVisual`)
 - [x] **3.8** **CTA:** dynamic `NodeNetwork` + dynamic-import GSAP/ScrollTrigger (bukan static top-level import)
 - [x] **3.9** Pastikan home **tidak** memanggil `/api/public/*` pada load pertama (kecuali interaksi eksplisit)
 

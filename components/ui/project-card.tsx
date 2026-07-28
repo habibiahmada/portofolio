@@ -68,14 +68,14 @@ export function ProjectCard({
       style={{ animationDelay: `${index * 80}ms` }}
       className={cn(
         'group relative flex flex-col overflow-hidden rounded-2xl transition-all duration-500',
-        'opacity-0 translate-y-8 animate-fade-in-up',
+        'animate-fade-in-up',
         isFeatured
-          ? 'border border-black/5 bg-white/80 backdrop-blur-sm hover-glitch-card hover:shadow-[0_20px_50px_rgba(15,23,42,0.08)] dark:border-white/[0.08] dark:bg-zinc-900/60 dark:hover:border-white/[0.12] dark:hover:shadow-[0_20px_50px_rgba(0,0,0,0.4)]'
+          ? 'border border-black/5 bg-white/80 backdrop-blur-sm hover-glitch-card hover:shadow-[0_20px_50px_rgba(15,23,42,0.08)] dark:border-white/8 dark:bg-zinc-900/60 dark:hover:border-white/12 dark:hover:shadow-[0_20px_50px_rgba(0,0,0,0.4)]'
           : 'border border-black/5 dark:border-white/5 bg-white/60 dark:bg-zinc-950/40 backdrop-blur-sm hover-glitch-card hover:border-black/15 dark:hover:border-white/15 hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-black/40',
       )}
     >
       {/* ── Image Container ── */}
-      <div className="relative overflow-hidden aspect-[16/10]">
+      <div className="relative overflow-hidden aspect-16/10">
         <Image
           src={project.image}
           alt={title}
@@ -194,7 +194,7 @@ export function ProjectCard({
 
         {/* Footer */}
         {isFeatured ? (
-          <div className="flex items-center justify-end pt-2.5 border-t border-black/[0.04] dark:border-white/[0.06] mt-auto">
+          <div className="flex items-center justify-end pt-2.5 border-t border-black/4 dark:border-white/6 mt-auto">
             <ProjectLinks githubUrl={project.github_url} liveUrl={project.live_url} />
           </div>
         ) : (

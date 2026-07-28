@@ -1,0 +1,41 @@
+# Habibi Ahmad Aziz
+
+> Habibi Ahmad Aziz is a Fullstack Developer from Karawang, Indonesia. He builds modern web apps with Next.js, React, Laravel, and WordPress.
+
+Habibi Ahmad Aziz (also known as Habibi Ahmad) is a Fullstack Developer based in Karawang, Jawa Barat, Indonesia. He graduated from SMKN 1 Karawang in Software Engineering (RPL) and works across frontend, backend, CMS, and web performance.
+
+## Pages
+
+- [Home](https://www.habibiahmada.dev/): Portfolio home with featured projects, services, and collaborators
+- [About](https://www.habibiahmada.dev/about): Background, career timeline, tools and technologies, and certificates
+- [Projects](https://www.habibiahmada.dev/projects): Full archive of web development projects and experiments
+
+## Services
+
+- [Web Design and Mobile-First UI](https://www.habibiahmada.dev/#services): Responsive interfaces from wireframes to production layouts
+- [Frontend Development](https://www.habibiahmada.dev/#services): React, Next.js, and TypeScript UIs with clean reusable components
+- [APIs and Databases](https://www.habibiahmada.dev/#services): REST APIs, relational databases, and auth systems
+- [CMS and WordPress](https://www.habibiahmada.dev/#services): Custom themes, Elementor, and CMS platforms
+- [Web Performance and SEO](https://www.habibiahmada.dev/#services): Core Web Vitals, Lighthouse, and SEO-ready architecture
+- [CI/CD and Deployment](https://www.habibiahmada.dev/#services): Automated pipelines and zero-downtime deploys
+
+## Tech Stack
+
+- Next.js, React, TypeScript, JavaScript
+- Node.js, PHP, Laravel
+- PostgreSQL, WordPress, Elementor, Astra
+- Tailwind CSS, Bootstrap
+- Git, GitHub, Vercel
+
+## Contact
+
+- Email: contact@habibiahmada.dev
+- Location: Karawang, Jawa Barat, Indonesia
+- [GitHub](https://github.com/habibiahmada): Repositories and open work
+- [LinkedIn](https://linkedin.com/in/habibiahmada): Professional profile
+
+## Optional
+
+- [Sitemap](https://www.habibiahmada.dev/sitemap.xml): Public URL index for crawlers
+- [robots.txt](https://www.habibiahmada.dev/robots.txt): Crawler allow and disallow rules
+- [Open Graph image](https://www.habibiahmada.dev/open-graph/og-image.png): Default social preview image

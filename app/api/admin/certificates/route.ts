@@ -49,7 +49,7 @@ async function handlePost(request: NextRequest, _session: AdminSession) {
 
   if (error)
     return NextResponse.json(fail(error.message, "DB_ERROR"), { status: 400 });
-  revalidateTag(DATA_TAGS.certificates);
+  revalidateTag(DATA_TAGS.certificates, "max");
   return NextResponse.json(ok({ id: body.id }), { status: 201 });
 }
 
@@ -84,7 +84,7 @@ async function handlePatch(request: NextRequest, _session: AdminSession) {
 
   if (error)
     return NextResponse.json(fail(error.message, "DB_ERROR"), { status: 400 });
-  revalidateTag(DATA_TAGS.certificates);
+  revalidateTag(DATA_TAGS.certificates, "max");
   return NextResponse.json(ok(data));
 }
 
@@ -102,7 +102,7 @@ async function handleDelete(request: NextRequest, _session: AdminSession) {
     .eq("id", id);
   if (error)
     return NextResponse.json(fail(error.message, "DB_ERROR"), { status: 400 });
-  revalidateTag(DATA_TAGS.certificates);
+  revalidateTag(DATA_TAGS.certificates, "max");
   return NextResponse.json(ok({ deleted: id }));
 }
 

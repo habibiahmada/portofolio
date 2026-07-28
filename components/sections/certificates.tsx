@@ -1,65 +1,33 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { CertificateCard } from "@/components/ui/certificate-card";
 import { CertificateModal } from "@/components/ui/certificate-modal";
-import { CertificateGridSkeleton } from "@/components/ui/skeletons";
-import { usePinnedCertificates, useNonPinnedCertificates } from "@/lib/hooks/use-api";
 import { cn } from "@/lib/utils";
-import { ChevronDown, ChevronUp, Award, Loader2 } from "lucide-react";
+import { ChevronDown, ChevronUp, Award } from "lucide-react";
 import type { CertificateRow as CertType } from "@/lib/supabase/types";
 
 const ITEMS_PER_ROW = 4;
 
 export function Certificates({
-  initialPinned,
-  initialNonPinned,
+  initialPinned = [],
+  initialNonPinned = [],
 }: {
-  /** SSR first paint — skips usePinnedCertificates() when set. */
   initialPinned?: CertType[];
-  /** SSR first paint — seeded into the loaded stack. */
   initialNonPinned?: CertType[];
 }) {
   const [selectedCert, setSelectedCert] = useState<CertType | null>(null);
   const [openModal, setOpenModal] = useState(false);
-  const [page, setPage] = useState(1);
-  const [allLoaded, setAllLoaded] = useState<CertType[]>(initialNonPinned ?? []);
-  const initialSeeded = useRef(!!initialNonPinned);
+  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_ROW);
 
-  const {
-    data: pinned,
-    loading: pinnedLoading,
-  } = usePinnedCertificates(initialPinned ? false : undefined);
+  const visible = initialNonPinned.slice(0, visibleCount);
+  const hasMore = visibleCount < initialNonPinned.length;
+  const isExpanded = visibleCount > ITEMS_PER_ROW;
 
-  const certPinned = initialPinned ?? pinned;
-  const showPinnedSkeleton = !initialPinned && pinnedLoading;
-
-  const {
-    data: nonPinnedPage,
-    loading: nonPinnedLoading,
-  } = useNonPinnedCertificates(page, ITEMS_PER_ROW, initialSeeded.current ? page > 1 : undefined);
-
-  // Accumulate loaded pages — via useEffect to avoid state-update-during-render
-  useEffect(() => {
-    if (!nonPinnedPage || nonPinnedLoading) return;
-    setAllLoaded((prev) => {
-      const existingIds = new Set(prev.map((c) => c.id));
-      const newOnes = nonPinnedPage.filter((c) => !existingIds.has(c.id));
-      if (newOnes.length === 0) return prev;
-      return [...prev, ...newOnes];
-    });
-  }, [nonPinnedPage, nonPinnedLoading]);
-
-  const visible = allLoaded;
-  const hasMore = nonPinnedPage && nonPinnedPage.length === ITEMS_PER_ROW;
-
-  const handleOpen = (id: string) => {
-    const found = pinned?.find((c) => c.id === id) || allLoaded.find((c) => c.id === id);
-    if (found) {
-      setSelectedCert(found);
-      setOpenModal(true);
-    }
+  const handleOpen = (cert: CertType) => {
+    setSelectedCert(cert);
+    setOpenModal(true);
   };
 
   const handleClose = () => {
@@ -67,22 +35,10 @@ export function Certificates({
     setTimeout(() => setSelectedCert(null), 300);
   };
 
-  const loadMore = () => {
-    setPage((prev) => prev + 1);
-  };
-
-  const collapseAll = () => {
-    setPage(1);
-    setAllLoaded([]);
-  };
-
-  const isExpanded = page > 1;
-
   return (
     <>
       <section id="certificates" className="p-24 w-full bg-transparent">
         <div className="w-full mx-auto space-y-12">
-          {/* ── Header ── */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -105,8 +61,7 @@ export function Certificates({
             </p>
           </motion.div>
 
-          {/* ── Pinned section — always visible ── */}
-          {certPinned && certPinned.length > 0 && (
+          {initialPinned.length > 0 && (
             <div className="space-y-4">
               <div className="flex items-center gap-2.5">
                 <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-500/8 dark:bg-blue-400/8 border border-red-500/15 dark:border-blue-400/15">
@@ -119,7 +74,7 @@ export function Certificates({
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
-                {certPinned.map((cert, i) => (
+                {initialPinned.map((cert, i) => (
                   <CertificateCard
                     key={cert.id}
                     id={cert.id}
@@ -128,38 +83,23 @@ export function Certificates({
                     thumb={cert.thumb}
                     isPinned={cert.is_pinned}
                     index={i}
-                    onOpen={handleOpen}
+                    onOpen={() => handleOpen(cert)}
                   />
                 ))}
               </div>
             </div>
           )}
 
-          {/* ── Loading skeleton for pinned (only when no initialPinned) ── */}
-          {showPinnedSkeleton && <CertificateGridSkeleton count={4} />}
+          {initialNonPinned.length > 0 && (
+            <div className="space-y-4">
+              <div className="flex items-center gap-2.5">
+                <div className="h-px flex-1 bg-black/5 dark:bg-white/5" />
+                <span className="text-[9px] font-mono uppercase tracking-widest text-muted-foreground/40">
+                  All Certificates
+                </span>
+                <div className="h-px flex-1 bg-black/5 dark:bg-white/5" />
+              </div>
 
-          {/* ── All Certificates grid — paginated ── */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-2.5">
-              <div className="h-px flex-1 bg-black/5 dark:bg-white/5" />
-              <span className="text-[9px] font-mono uppercase tracking-widest text-muted-foreground/40">
-                All Certificates
-              </span>
-              <div className="h-px flex-1 bg-black/5 dark:bg-white/5" />
-            </div>
-
-            {/* Loading for non-pinned */}
-            {nonPinnedLoading && page === 1 && <CertificateGridSkeleton count={4} />}
-
-            {/* Error state */}
-            {!nonPinnedLoading && nonPinnedPage === undefined && (
-              <p className="text-sm text-red-500 dark:text-red-400 font-mono text-center">
-                Failed to load certificates.
-              </p>
-            )}
-
-            {/* Certificates grid */}
-            {!nonPinnedLoading && visible.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
                 {visible.map((cert, i) => (
                   <CertificateCard
@@ -170,14 +110,13 @@ export function Certificates({
                     thumb={cert.thumb}
                     isPinned={cert.is_pinned}
                     index={i}
-                    onOpen={handleOpen}
+                    onOpen={() => handleOpen(cert)}
                   />
                 ))}
               </div>
-            )}
-          </div>
+            </div>
+          )}
 
-          {/* ── Load More / Collapse ── */}
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -187,7 +126,8 @@ export function Certificates({
             <div className="flex items-center gap-3">
               {isExpanded && (
                 <button
-                  onClick={collapseAll}
+                  type="button"
+                  onClick={() => setVisibleCount(ITEMS_PER_ROW)}
                   className={cn(
                     "inline-flex items-center gap-2 px-6 py-3.5 rounded-full",
                     "border border-black/10 dark:border-white/10",
@@ -204,9 +144,14 @@ export function Certificates({
                 </button>
               )}
 
-              {hasMore && !nonPinnedLoading && (
+              {hasMore && (
                 <button
-                  onClick={loadMore}
+                  type="button"
+                  onClick={() =>
+                    setVisibleCount((n) =>
+                      Math.min(n + ITEMS_PER_ROW, initialNonPinned.length),
+                    )
+                  }
                   className={cn(
                     "group inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full",
                     "border border-black/10 dark:border-white/10",
@@ -215,7 +160,7 @@ export function Certificates({
                     "hover:bg-red-500/5 dark:hover:bg-blue-400/5",
                     "transition-all duration-300",
                     "text-sm font-semibold text-foreground",
-                    "hover:scale-[1.02] active:scale-[0.98]",
+                    "hover:scale-[1.02] active:scale-[0.98] cursor-pointer",
                   )}
                 >
                   <span>Load More</span>
@@ -223,16 +168,10 @@ export function Certificates({
                 </button>
               )}
 
-              {nonPinnedLoading && page > 1 && (
-                <div className="flex items-center gap-2 text-muted-foreground/60">
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span className="text-xs font-mono">Loading...</span>
-                </div>
-              )}
-
-              {!hasMore && visible.length > 0 && (
+              {!hasMore && initialNonPinned.length > 0 && (
                 <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground/30">
-                  Showing all {visible.length + (certPinned?.length || 0)} certificates
+                  Showing all {initialPinned.length + initialNonPinned.length}{" "}
+                  certificates
                 </span>
               )}
             </div>
@@ -240,7 +179,6 @@ export function Certificates({
         </div>
       </section>
 
-      {/* ── Modal ── */}
       <CertificateModal
         certificate={selectedCert}
         open={openModal}

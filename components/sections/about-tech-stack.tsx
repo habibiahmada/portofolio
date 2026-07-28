@@ -2,96 +2,137 @@
 
 import Image from "next/image";
 
+/** Prefer colored brand marks; monochrome logos use an explicit light color for dark UI. */
 const techs = [
   {
     name: "React",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
-    invert: false,
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg",
   },
   {
     name: "Next.js",
-    icon: "https://cdn.simpleicons.org/nextdotjs",
-    invert: false,
+    icon: "https://cdn.simpleicons.org/nextdotjs/ffffff",
   },
   {
     name: "Node.js",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
-    invert: false,
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg",
   },
   {
     name: "TypeScript",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
-    invert: false,
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg",
   },
   {
     name: "PostgreSQL",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg",
-    invert: false,
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg",
   },
   {
     name: "Tailwind CSS",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg",
-    invert: false,
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg",
   },
   {
     name: "PHP",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg",
-    invert: false,
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/php/php-original.svg",
   },
   {
     name: "Laravel",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg",
-    invert: false,
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/laravel/laravel-original.svg",
   },
   {
     name: "WordPress",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/wordpress/wordpress-original.svg",
-    invert: false,
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/wordpress/wordpress-original.svg",
   },
   {
     name: "Elementor",
-    icon: "https://cdn.simpleicons.org/elementor",
-    invert: false,
+    icon: "https://cdn.simpleicons.org/elementor/92003B",
   },
   {
     name: "Astra",
-    icon: "https://cdn.simpleicons.org/astra",
-    invert: false,
+    icon: "/icons/tech/astra.svg",
   },
   {
     name: "Git",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
-    invert: false,
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg",
   },
   {
     name: "GitHub",
-    icon: "https://cdn.simpleicons.org/github",
-    invert: false,
+    icon: "https://cdn.simpleicons.org/github/ffffff",
   },
   {
     name: "Bootstrap",
-    icon: "https://cdn.simpleicons.org/bootstrap",
-    invert: false,
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bootstrap/bootstrap-original.svg",
   },
   {
     name: "Vercel",
-    icon: "https://cdn.simpleicons.org/vercel",
-    invert: false,
+    icon: "https://cdn.simpleicons.org/vercel/ffffff",
   },
   {
     name: "JavaScript",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
-    invert: false,
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg",
   },
-];
+] as const;
 
-// Split techs into two separate groups — no overlap between rows
+type Tech = (typeof techs)[number];
+
 const row1 = techs.slice(0, 8);
 const row2 = techs.slice(8);
 
-// Duplicate each row for seamless infinite scrolling
-const marqueeRow1 = [...row1, ...row1];
-const marqueeRow2 = [...row2, ...row2];
+function TechIcon({ name, icon }: Tech) {
+  return (
+    <div className="relative w-16 h-16 shrink-0 opacity-30 hover:opacity-100 transition-all duration-500">
+      <Image
+        src={icon}
+        alt={name}
+        fill
+        loading="lazy"
+        unoptimized
+        draggable={false}
+        className="object-contain select-none"
+        sizes="64px"
+        title={name}
+      />
+    </div>
+  );
+}
+
+/** One sequence + trailing gap so duplicated halves line up for -50% translate.
+ *  Items are repeated so each half stays wider than typical viewports. */
+function MarqueeTrack({
+  items,
+  prefix,
+  "aria-hidden": ariaHidden,
+}: {
+  items: readonly Tech[];
+  prefix: string;
+  "aria-hidden"?: boolean;
+}) {
+  const sequence = [...items, ...items, ...items];
+  return (
+    <div
+      className="flex shrink-0 items-center gap-16 pr-16"
+      aria-hidden={ariaHidden || undefined}
+    >
+      {sequence.map((tech, i) => (
+        <TechIcon key={`${prefix}-${tech.name}-${i}`} {...tech} />
+      ))}
+    </div>
+  );
+}
+
+function InfiniteMarquee({
+  items,
+  animationClass,
+}: {
+  items: readonly Tech[];
+  animationClass: string;
+}) {
+  return (
+    <div className="relative w-full overflow-hidden mask-[linear-gradient(to_right,transparent_0,black_15%,black_85%,transparent_100%)]">
+      <div className={`flex w-max ${animationClass}`}>
+        <MarqueeTrack items={items} prefix="a" />
+        <MarqueeTrack items={items} prefix="b" aria-hidden />
+      </div>
+    </div>
+  );
+}
 
 export function AboutTechStack() {
   return (
@@ -100,7 +141,6 @@ export function AboutTechStack() {
       className="py-24 w-full bg-transparent overflow-hidden"
     >
       <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12">
-        {/* Header */}
         <div className="max-w-2xl mb-14 space-y-3">
           <span className="text-xs font-mono tracking-widest text-[#ef4444] dark:text-blue-400 uppercase block">
             // Tech Stack
@@ -114,53 +154,16 @@ export function AboutTechStack() {
           </p>
         </div>
 
-        {/* ── Marquee Row 1 — left to right ── */}
-        <div className="relative w-full overflow-hidden mb-10 mask-[linear-gradient(to_right,transparent_0,black_15%,black_85%,transparent_100%)]">
-          <div className="flex gap-16 py-5 animate-marquee-reverse items-center">
-            {marqueeRow1.map((tech, i) => (
-              <div
-                key={`r1-${tech.name}-${i}`}
-                className="relative w-16 h-16 shrink-0 opacity-30 hover:opacity-100 transition-all duration-500"
-              >
-                <Image
-                  src={tech.icon}
-                  alt=""
-                  fill
-                  loading="lazy"
-                  quality={60}
-                  draggable={false}
-                  className={`object-contain select-none`}
-                  sizes="64px"
-                  aria-hidden="true"
-                />
-              </div>
-            ))}
-          </div>
+        <div className="mb-10">
+          <InfiniteMarquee
+            items={row1}
+            animationClass="animate-marquee-reverse py-5"
+          />
         </div>
-
-        {/* ── Marquee Row 2 — right to left ── */}
-        <div className="relative w-full overflow-hidden mask-[linear-gradient(to_right,transparent_0,black_15%,black_85%,transparent_100%)]">
-          <div className="flex gap-16 py-5 animate-marquee-slow items-center">
-            {marqueeRow2.map((tech, i) => (
-              <div
-                key={`r2-${tech.name}-${i}`}
-                className="relative w-16 h-16 shrink-0 opacity-30 hover:opacity-100 transition-all duration-500"
-              >
-                <Image
-                  src={tech.icon}
-                  alt=""
-                  fill
-                  loading="lazy"
-                  quality={60}
-                  draggable={false}
-                  className={`object-contain select-none`}
-                  sizes="64px"
-                  aria-hidden="true"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
+        <InfiniteMarquee
+          items={row2}
+          animationClass="animate-marquee-slow py-5"
+        />
       </div>
     </section>
   );

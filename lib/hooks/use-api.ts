@@ -72,12 +72,12 @@ function useApi<T>(url: string | null): UseApiResult<T> {
 // ── Specialized hooks ────────────────────────────────────────────────────────
 
 /** All projects with featured pinning */
-export function useProjects(opts?: { featured?: string[] }) {
+export function useProjects(opts?: { featured?: string[]; enabled?: boolean }) {
   const params = new URLSearchParams({ page_size: "50" });
   if (opts?.featured?.length) {
     params.set("featured", opts.featured.join(","));
   }
-  const url = `/api/public/projects?${params}`;
+  const url = opts?.enabled === false ? null : `/api/public/projects?${params}`;
   return useApi<Project[]>(url);
 }
 
@@ -101,8 +101,8 @@ export function useNonPinnedCertificates(page = 1, pageSize = 8, enabled?: boole
 }
 
 /** All companies */
-export function useCompanies() {
-  return useApi<Company[]>("/api/public/companies");
+export function useCompanies(enabled = true) {
+  return useApi<Company[]>(enabled ? "/api/public/companies" : null);
 }
 
 /** Current auth user */

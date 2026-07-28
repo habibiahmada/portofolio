@@ -1,35 +1,14 @@
 import type { Metadata } from 'next'
 import { ProjectsPage } from '@/components/sections/projects-page'
 import { getProjects } from '@/lib/data/projects'
+import { pageMetadata, SITE_COPY } from '@/lib/site-metadata'
 
 export const metadata: Metadata = {
-  title: 'Projects — Web Developer Portfolio',
-  description:
-    'Portfolio proyek web development oleh Habibi Ahmad Aziz — aplikasi produksi hingga eksperimental: library, e-vote, AI, manajemen sekolah, dan lainnya.',
-  openGraph: {
-    siteName: 'Habibi Ahmad — Web Developer Karawang',
-    title: 'Portofolio Proyek — Habibi Ahmad Web Developer',
-    description:
-      'Koleksi proyek web development: Laravel, Next.js, React, AI, dan banyak lagi.',
-    images: [
-      {
-        url: '/open-graph/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'Habibi Ahmad Aziz — Full-Stack Web Developer Karawang',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Portofolio Proyek — Habibi Ahmad Web Developer',
-    description:
-      'Koleksi proyek web development: Laravel, Next.js, React, AI, dan banyak lagi.',
-    images: ['/open-graph/og-image.png'],
-  },
-  alternates: {
-    canonical: 'https://www.habibiahmada.dev/projects',
-  },
+  ...pageMetadata({
+    title: 'Projects',
+    description: SITE_COPY.projectsDescriptionId,
+    path: '/projects',
+  }),
 }
 
 export default async function ProjectsPageRoute() {

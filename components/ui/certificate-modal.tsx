@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useCallback, useState } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight, Award } from "lucide-react";
@@ -25,8 +26,10 @@ export function CertificateModal({
   const closeBtnRef = useRef<HTMLButtonElement>(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [glitchActive, setGlitchActive] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  // Reset page + trigger glitch when certificate changes
+  useEffect(() => setMounted(true), []);
+
   useEffect(() => {
     if (!open) return;
     setCurrentPage(0);
@@ -35,17 +38,19 @@ export function CertificateModal({
     return () => clearTimeout(timer);
   }, [certificate?.id, open]);
 
-  const totalPages = certificate?.pages.length ?? 0;
+  const pages = certificate?.pages ?? [];
+  const totalPages = pages.length;
 
   const goToPrev = useCallback(() => {
+    if (totalPages < 2) return;
     setCurrentPage((p) => (p > 0 ? p - 1 : totalPages - 1));
   }, [totalPages]);
 
   const goToNext = useCallback(() => {
+    if (totalPages < 2) return;
     setCurrentPage((p) => (p < totalPages - 1 ? p + 1 : 0));
   }, [totalPages]);
 
-  // ── Keyboard: Esc + arrows ────────────────────────────────────
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -63,7 +68,6 @@ export function CertificateModal({
         return;
       }
 
-      // Focus trap
       if (e.key === "Tab" && panelRef.current) {
         const focusable =
           panelRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR);
@@ -76,11 +80,9 @@ export function CertificateModal({
             e.preventDefault();
             last.focus();
           }
-        } else {
-          if (document.activeElement === last) {
-            e.preventDefault();
-            first.focus();
-          }
+        } else if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
         }
       }
     },
@@ -99,21 +101,22 @@ export function CertificateModal({
     };
   }, [open, handleKeyDown]);
 
-  // ── Backdrop click ────────────────────────────────────────────
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (panelRef.current && !panelRef.current.contains(e.target as Node)) {
       onClose();
     }
   };
 
-  if (!certificate) return null;
+  if (!mounted || !certificate) return null;
 
-  const orgDisplay = certificate.org
+  const orgDisplay = (certificate.org || "")
     .split("-")
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
     .join(" ");
 
-  return (
+  const pageSrc = pages[currentPage];
+
+  return createPortal(
     <AnimatePresence>
       {open && (
         <motion.div
@@ -126,12 +129,11 @@ export function CertificateModal({
           role="dialog"
           aria-modal="true"
           aria-label={certificate.title}
-          className="fixed inset-0 z-100 flex items-center justify-center p-4 sm:p-6"
+          className="fixed inset-0 flex items-center justify-center p-4 sm:p-6"
+          style={{ zIndex: 200 }}
         >
-          {/* Backdrop */}
           <div className="absolute inset-0 bg-black/60 backdrop-blur-md" />
 
-          {/* Panel */}
           <motion.div
             ref={panelRef}
             key="cert-modal-panel"
@@ -146,7 +148,6 @@ export function CertificateModal({
               glitchActive && "animate-glitch-skew",
             )}
           >
-            {/* Glitch chromatic aberration layers */}
             {glitchActive && (
               <>
                 <div
@@ -169,18 +170,9 @@ export function CertificateModal({
                   }}
                   aria-hidden="true"
                 />
-                <motion.div
-                  key="glitch-sweep"
-                  initial={{ x: "-100%" }}
-                  animate={{ x: "200%" }}
-                  transition={{ duration: 0.5, ease: "linear" }}
-                  className="absolute inset-0 z-10 bg-linear-to-r from-transparent via-red-500/10 via-40% to-transparent pointer-events-none"
-                  aria-hidden="true"
-                />
               </>
             )}
 
-            {/* ── Header ── */}
             <div className="relative flex items-center justify-between px-5 py-3 border-b border-white/5 shrink-0">
               <div className="flex items-center gap-2.5 text-sm text-zinc-300 min-w-0">
                 <Award className="w-4 h-4 text-red-500 dark:text-blue-400 shrink-0" />
@@ -191,6 +183,7 @@ export function CertificateModal({
 
               <button
                 ref={closeBtnRef}
+                type="button"
                 onClick={onClose}
                 aria-label="Close"
                 className="flex items-center justify-center w-8 h-8 rounded-lg text-zinc-400 hover:text-white hover:bg-white/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 shrink-0"
@@ -199,9 +192,7 @@ export function CertificateModal({
               </button>
             </div>
 
-            {/* ── Body: Description left, Image right ── */}
             <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-5 overflow-hidden">
-              {/* Description column */}
               <div className="lg:col-span-2 p-5 md:p-6 overflow-y-auto border-r border-white/5 flex flex-col gap-4">
                 <div>
                   <span className="text-[9px] font-mono uppercase tracking-widest text-red-500 dark:text-blue-400 font-semibold">
@@ -217,35 +208,39 @@ export function CertificateModal({
                 </p>
               </div>
 
-              {/* Image column - larger */}
               <div className="lg:col-span-3 relative flex items-center justify-center bg-zinc-900/50 min-h-100 lg:min-h-[65vh]">
-                {/* Image carousel */}
                 <div className="relative w-full h-full flex items-center justify-center p-4">
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={currentPage}
-                      initial={{ opacity: 0, x: 40 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -40 }}
-                      transition={{ duration: 0.25, ease: "easeOut" }}
-                      className="relative w-full h-full max-h-[75vh]"
-                    >
-                      <Image
-                        src={certificate.pages[currentPage]}
-                        alt={`${certificate.title} — page ${currentPage + 1}`}
-                        fill
-                        className="object-contain cursor-pointer"
-                        sizes="(max-width: 1024px) 100vw, 75vw"
-                        priority
-                      />
-                    </motion.div>
-                  </AnimatePresence>
+                  {pageSrc ? (
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={currentPage}
+                        initial={{ opacity: 0, x: 40 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -40 }}
+                        transition={{ duration: 0.25, ease: "easeOut" }}
+                        className="relative w-full h-full max-h-[75vh]"
+                      >
+                        <Image
+                          src={pageSrc}
+                          alt={`${certificate.title} — page ${currentPage + 1}`}
+                          fill
+                          className="object-contain"
+                          sizes="(max-width: 1024px) 100vw, 75vw"
+                          priority
+                        />
+                      </motion.div>
+                    </AnimatePresence>
+                  ) : (
+                    <p className="text-sm text-zinc-500 font-mono">
+                      No certificate image
+                    </p>
+                  )}
                 </div>
 
-                {/* Navigation arrows (only if > 1 page) */}
                 {totalPages > 1 && (
                   <>
                     <button
+                      type="button"
                       onClick={(e) => {
                         e.stopPropagation();
                         goToPrev();
@@ -256,6 +251,7 @@ export function CertificateModal({
                       <ChevronLeft className="w-4 h-4" />
                     </button>
                     <button
+                      type="button"
                       onClick={(e) => {
                         e.stopPropagation();
                         goToNext();
@@ -266,11 +262,11 @@ export function CertificateModal({
                       <ChevronRight className="w-4 h-4" />
                     </button>
 
-                    {/* Dots indicator */}
                     <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5">
                       {Array.from({ length: totalPages }).map((_, i) => (
                         <button
                           key={i}
+                          type="button"
                           onClick={(e) => {
                             e.stopPropagation();
                             setCurrentPage(i);
@@ -290,7 +286,6 @@ export function CertificateModal({
               </div>
             </div>
 
-            {/* ── Footer ── */}
             <div className="flex items-center justify-between px-5 py-2.5 border-t border-white/5 bg-black/30 shrink-0">
               <span className="text-[11px] text-zinc-500 tracking-wide">
                 Use{" "}
@@ -312,12 +307,13 @@ export function CertificateModal({
                 )}
               </span>
               <span className="text-[11px] text-zinc-500 tabular-nums">
-                {currentPage + 1} / {totalPages}
+                {totalPages > 0 ? `${currentPage + 1} / ${totalPages}` : "—"}
               </span>
             </div>
           </motion.div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 }

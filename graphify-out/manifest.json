@@ -5,8 +5,8 @@
     "semantic_hash": ""
   },
   "app/(public)/about/page.tsx": {
-    "mtime": 1785247521.2089777,
-    "ast_hash": "11d652f5766aec19ab861a2932fc3f71",
+    "mtime": 1785249940.0746586,
+    "ast_hash": "18d5617d9033402018eb7d8132bacd63",
     "semantic_hash": ""
   },
   "app/(public)/layout.tsx": {
@@ -15,8 +15,8 @@
     "semantic_hash": ""
   },
   "app/(public)/page.tsx": {
-    "mtime": 1785244928.5026572,
-    "ast_hash": "f3eeaa88144c7e76b48ebd7ddfd08dce",
+    "mtime": 1785247807.356981,
+    "ast_hash": "392801b7b532544de03dbec9b7c7c498",
     "semantic_hash": ""
   },
   "app/(public)/projects/page.tsx": {
@@ -175,13 +175,13 @@
     "semantic_hash": ""
   },
   "components/sections/certificates.tsx": {
-    "mtime": 1785247521.2359228,
-    "ast_hash": "560e57a4e6c022c860c24be6b6c7c63c",
+    "mtime": 1785249903.700662,
+    "ast_hash": "06a5f430cec96c839f312f9728a2bc52",
     "semantic_hash": ""
   },
   "components/sections/companies.tsx": {
-    "mtime": 1785244928.697467,
-    "ast_hash": "675c63f33b86cb25854a8d568528ca6a",
+    "mtime": 1785247816.2582784,
+    "ast_hash": "00392058023fe33421e98874f67c7c9b",
     "semantic_hash": ""
   },
   "components/sections/cta.tsx": {
@@ -205,13 +205,13 @@
     "semantic_hash": ""
   },
   "components/sections/projects.tsx": {
-    "mtime": 1785244929.2420523,
-    "ast_hash": "60116fdfe598f5f751a496c45d7e8f81",
+    "mtime": 1785247829.3081863,
+    "ast_hash": "65eecff41e546dc9220f9a6712598ba8",
     "semantic_hash": ""
   },
   "components/sections/services.tsx": {
-    "mtime": 1785244929.2425761,
-    "ast_hash": "a20d98c147eb5fc18e237dae140a69ee",
+    "mtime": 1785248562.7310064,
+    "ast_hash": "198f35868c216714c2c95eabf479bc18",
     "semantic_hash": ""
   },
   "components/sections/stats.tsx": {
@@ -230,13 +230,13 @@
     "semantic_hash": ""
   },
   "components/ui/certificate-card.tsx": {
-    "mtime": 1785247521.2379365,
-    "ast_hash": "3a0af7645d1230d344e83ceafcb4ee8c",
+    "mtime": 1785249904.3070135,
+    "ast_hash": "cbafd8ca81e915496ba85e13abc253e5",
     "semantic_hash": ""
   },
   "components/ui/certificate-modal.tsx": {
-    "mtime": 1785244929.4443078,
-    "ast_hash": "4fff293ee1a24cc4bbd9c793b413d581",
+    "mtime": 1785249982.5410266,
+    "ast_hash": "016d4dda1f54c308e349026f79dc023f",
     "semantic_hash": ""
   },
   "components/ui/cicd-pipeline-visual.tsx": {
@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "components/ui/project-card.tsx": {
-    "mtime": 1785247522.537643,
-    "ast_hash": "b0e4da2fad176c50414cb3b2d99a0f13",
+    "mtime": 1785248545.4951456,
+    "ast_hash": "247635b2a7c181c1b5c842e205d72342",
     "semantic_hash": ""
   },
   "components/ui/project-links.tsx": {
@@ -370,13 +370,13 @@
     "semantic_hash": ""
   },
   "next-env.d.ts": {
-    "mtime": 1785246346.308856,
-    "ast_hash": "b698cdd97fe8e3bd16dcd74899ad7cef",
+    "mtime": 1785248324.3552117,
+    "ast_hash": "29f60a376e12bf72b67d4994fcc84214",
     "semantic_hash": ""
   },
   "next.config.mjs": {
-    "mtime": 1785247522.5962083,
-    "ast_hash": "54d345eb6289d504cec45c9dec100359",
+    "mtime": 1785248562.7301903,
+    "ast_hash": "423630b3b49f761d213ef424024b28d5",
     "semantic_hash": ""
   },
   "package.json": {
@@ -1125,13 +1125,13 @@
     "semantic_hash": ""
   },
   "docs/performance-tasks.md": {
-    "mtime": 1785247701.708354,
-    "ast_hash": "cae01fd27362ca1caacb878127c7d8c2",
+    "mtime": 1785248661.1380937,
+    "ast_hash": "fa8301fbb3156266f78b85758480eb94",
     "semantic_hash": ""
   },
   "docs/performance.md": {
-    "mtime": 1785242810.9744773,
-    "ast_hash": "99ef1b7fc9ffa5ff679fa913dfdd914c",
+    "mtime": 1785248098.5990632,
+    "ast_hash": "16810eb56153a084e676e722826875c0",
     "semantic_hash": ""
   },
   "docs/steering.md": {

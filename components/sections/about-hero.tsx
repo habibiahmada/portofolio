@@ -90,6 +90,7 @@ export function AboutHero() {
           fill
           priority
           draggable={false}
+          sizes="(max-width: 1024px) 0px, 40vw"
           className="object-cover lg:object-[90%_35%]"
         />
       </div>

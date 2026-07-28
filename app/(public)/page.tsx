@@ -9,34 +9,19 @@ import {
   FEATURED_PROJECT_IDS,
   getFeaturedProjects,
 } from '@/lib/data/projects'
+import { pageMetadata, SITE_COPY } from '@/lib/site-metadata'
+
+const base = pageMetadata({
+  title: SITE_COPY.defaultTitle,
+  description: SITE_COPY.homeDescription,
+  path: '',
+})
 
 export const metadata: Metadata = {
-  description:
-    'Full-stack web developer from Karawang, Indonesia. High-performance web solutions with Next.js, React, Laravel, and WordPress — built to grow your business online.',
-  openGraph: {
-    siteName: 'Habibi Ahmad — Web Developer Karawang',
-    title: 'Web Developer Karawang — Habibi Ahmad Aziz',
-    description:
-      'High-performance web solutions built with Next.js, React, Laravel & WordPress. Fast, responsive, built to grow your business.',
-    images: [
-      {
-        url: '/open-graph/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'Habibi Ahmad Aziz — Full-Stack Web Developer Karawang',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Web Developer Karawang — Habibi Ahmad Aziz',
-    description:
-      'High-performance web solutions built with Next.js, React, Laravel & WordPress. Fast, responsive, built to grow your business.',
-    images: ['/open-graph/og-image.png'],
-  },
-  alternates: {
-    canonical: 'https://www.habibiahmada.dev',
-  },
+  ...base,
+  title: { absolute: SITE_COPY.defaultTitle },
+  openGraph: { ...base.openGraph, title: SITE_COPY.defaultTitle },
+  twitter: { ...base.twitter, title: SITE_COPY.defaultTitle },
 }
 
 export default async function Home() {

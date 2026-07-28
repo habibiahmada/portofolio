@@ -6,41 +6,24 @@ import { AboutTimeline } from '@/components/sections/about-timeline'
 import { Certificates } from '@/components/sections/certificates'
 import { CTA } from '@/components/sections/cta'
 import { getPinnedCertificates, getNonPinnedCertificates } from '@/lib/data/certificates'
+import { pageMetadata, SITE_COPY } from '@/lib/site-metadata'
 
 export const metadata: Metadata = {
-  title: 'About — Web Developer from Karawang',
-  description:
-    'Kenali Habibi Ahmad Aziz — full-stack web developer dari Karawang, lulusan SMKN 1 Karawang jurusan RPL. Spesialis Next.js, React, Laravel, WordPress, dan CMS development.',
-  openGraph: {
-    siteName: 'Habibi Ahmad — Web Developer Karawang',
-    title: 'Habibi Ahmad Aziz — Web Developer from Karawang',
-    description:
-      'Full-stack web developer dari Karawang dengan pengalaman di Next.js, React, Laravel, dan WordPress.',
-    images: [
-      {
-        url: '/images/habibiahmada.webp',
-        width: 600,
-        height: 600,
-        alt: 'Habibi Ahmad Aziz — Web Developer Karawang',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Habibi Ahmad Aziz — Web Developer from Karawang',
-    description:
-      'Full-stack web developer dari Karawang dengan pengalaman di Next.js, React, Laravel, dan WordPress.',
-    images: ['/images/habibiahmada.webp'],
-  },
-  alternates: {
-    canonical: 'https://www.habibiahmada.dev/about',
-  },
+  ...pageMetadata({
+    title: 'About',
+    description: SITE_COPY.aboutDescriptionId,
+    path: '/about',
+    image: '/images/habibiahmada.webp',
+    imageWidth: 600,
+    imageHeight: 600,
+  }),
 }
 
 export default async function Page() {
-  const [pinnedCerts, nonPinnedPage1] = await Promise.all([
+  const [pinnedCerts, nonPinnedPage] = await Promise.all([
     getPinnedCertificates(),
-    getNonPinnedCertificates(1, 4),
+    // All non-pinned (~50 items); client slices for Load More
+    getNonPinnedCertificates(1, 100),
   ])
 
   return (
@@ -49,7 +32,10 @@ export default async function Page() {
       <AboutIntro />
       <AboutTechStack />
       <AboutTimeline />
-      <Certificates initialPinned={pinnedCerts} initialNonPinned={nonPinnedPage1.items} />
+      <Certificates
+        initialPinned={pinnedCerts}
+        initialNonPinned={nonPinnedPage.items}
+      />
       <CTA />
     </main>
   )

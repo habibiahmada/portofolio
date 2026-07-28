@@ -4,8 +4,24 @@ let nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    unoptimized: true,
+    // Production uses the optimizer; keep formats + qualities for LCP budget.
+    formats: ["image/avif", "image/webp"],
     qualities: [60, 75],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "*.supabase.co",
+        pathname: "/storage/v1/object/public/**",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.simpleicons.org",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.jsdelivr.net",
+      },
+    ],
   },
   allowedDevOrigins: ["127.0.0.1", "192.168.43.152"],
 };
