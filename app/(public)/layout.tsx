@@ -13,7 +13,7 @@ export default function PublicLayout({
 
       {/* CRT Scanline overlay */}
       <div
-        className="fixed inset-0 pointer-events-none z-50 opacity-[0.015]"
+        className="fixed inset-0 pointer-events-none z-50 opacity-[0.015] crt-overlay"
         style={{
           backgroundImage:
             'repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(0,0,0,0.3) 1px, rgba(0,0,0,0.3) 2px)',
@@ -25,7 +25,7 @@ export default function PublicLayout({
 
       {/* CRT subtle flicker */}
       <div
-        className="fixed inset-0 pointer-events-none z-50 bg-black"
+        className="fixed inset-0 pointer-events-none z-50 bg-black crt-overlay"
         style={{ animation: 'crt-flicker 0.15s infinite', opacity: 0.02 }}
         aria-hidden="true"
       />

@@ -1,21 +1,22 @@
 # Graph Report - portofolio-v2  (2026-07-28)
 
 ## Corpus Check
-- 118 files · ~1,095,966 words
+- 118 files · ~1,096,094 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 608 nodes · 998 edges · 42 communities (34 shown, 8 thin omitted)
-- Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 25 edges (avg confidence: 0.8)
+- 608 nodes · 1005 edges · 43 communities (35 shown, 8 thin omitted)
+- Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 25 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `81f937bb`
+- Built from commit: `d9df2c84`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - [[_COMMUNITY_Community 0|Community 0]]
+- [[_COMMUNITY_Community 1|Community 1]]
 - [[_COMMUNITY_Community 2|Community 2]]
 - [[_COMMUNITY_Community 3|Community 3]]
 - [[_COMMUNITY_Community 4|Community 4]]
@@ -79,11 +80,15 @@
 ## Import Cycles
 - None detected.
 
-## Communities (42 total, 8 thin omitted)
+## Communities (43 total, 8 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.09
 Nodes (58): GET(), GET(), GET(), GET(), GET(), GET(), GET(), DELETE() (+50 more)
+
+### Community 1 - "Community 1"
+Cohesion: 0.15
+Nodes (6): NAV_LINKS, Navbar(), Footer(), NAV_LINKS, SOCIAL_LINKS, AnimatedThemeToggle()
 
 ### Community 2 - "Community 2"
 Cohesion: 0.06
@@ -118,12 +123,12 @@ Cohesion: 0.11
 Nodes (17): aliases, components, hooks, lib, ui, utils, iconLibrary, rsc (+9 more)
 
 ### Community 10 - "Community 10"
-Cohesion: 0.05
-Nodes (40): metadata, NAV_LINKS, Navbar(), AboutHero(), AboutIntro(), AboutTechStack(), marqueeRow1, marqueeRow2 (+32 more)
+Cohesion: 0.07
+Nodes (32): metadata, Page(), getAllCertificates, getCertificates(), getNonPinnedCertificates(), getPinnedCertificates(), PaginatedCertificates, AboutHero() (+24 more)
 
 ### Community 11 - "Community 11"
 Cohesion: 0.11
-Nodes (26): getAllCertificates, getCertificates(), getNonPinnedCertificates(), getPinnedCertificates(), PaginatedCertificates, queryAllCertificates(), getCompanies, queryAllCompanies() (+18 more)
+Nodes (29): queryAllCertificates(), getCompanies, queryAllCompanies(), DATA_TAGS, FEATURED_PROJECT_IDS, getAllProjects, getFeaturedProjects(), getProjects() (+21 more)
 
 ### Community 12 - "Community 12"
 Cohesion: 0.15
@@ -201,9 +206,9 @@ Nodes (4): Always, Anti-patterns, Skills that compound savings, Token economy
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `cn()` connect `Community 2` to `Community 10`?**
+- **Why does `cn()` connect `Community 2` to `Community 10`, `Community 11`?**
   _High betweenness centrality (0.035) - this node is a cross-community bridge._
-- **Why does `GlitchText()` connect `Community 10` to `Community 8`, `Community 2`, `Community 11`, `Community 4`?**
+- **Why does `GlitchText()` connect `Community 11` to `Community 8`, `Community 1`, `Community 2`, `Community 4`?**
   _High betweenness centrality (0.024) - this node is a cross-community bridge._
 - **Are the 3 inferred relationships involving `getSupabaseServerClient()` (e.g. with `GET()` and `GET()`) actually correct?**
   _`getSupabaseServerClient()` has 3 INFERRED edges - model-reasoned connections that need verification._

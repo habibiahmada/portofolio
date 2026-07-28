@@ -335,4 +335,9 @@ html[data-theme-vt="active"]::view-transition-new(root) {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+
+  /* Hide decorative CRT overlays entirely */
+  .crt-overlay {
+    display: none !important;
+  }
 }

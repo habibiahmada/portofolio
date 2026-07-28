@@ -5,8 +5,8 @@
     "semantic_hash": ""
   },
   "app/(public)/about/page.tsx": {
-    "mtime": 1784722634.6142936,
-    "ast_hash": "852ac3c5028c920d054f9e6c21bb0900",
+    "mtime": 1785246362.0306401,
+    "ast_hash": "1cc0a9080b2b72180eb987a9bf6f669b",
     "semantic_hash": ""
   },
   "app/(public)/layout.tsx": {
@@ -155,8 +155,8 @@
     "semantic_hash": ""
   },
   "components/sections/about-hero.tsx": {
-    "mtime": 1785244928.6063466,
-    "ast_hash": "b5fb99e23d52f00c8bdecb64198c0ca1",
+    "mtime": 1785246202.5164165,
+    "ast_hash": "b91d76ba0a461a173b13e821eb836c6b",
     "semantic_hash": ""
   },
   "components/sections/about-intro.tsx": {
@@ -170,13 +170,13 @@
     "semantic_hash": ""
   },
   "components/sections/about-timeline.tsx": {
-    "mtime": 1784466669.8605092,
-    "ast_hash": "8459b47ef93aca9e832e22494943a14a",
+    "mtime": 1785246218.9626944,
+    "ast_hash": "f5a5f7777de2a39db85b6461f3f7e09b",
     "semantic_hash": ""
   },
   "components/sections/certificates.tsx": {
-    "mtime": 1784476910.7321775,
-    "ast_hash": "d59ab2f612a352e085298133ce043071",
+    "mtime": 1785246187.174306,
+    "ast_hash": "c0565d668eb57727bd2f66581bf8a595",
     "semantic_hash": ""
   },
   "components/sections/companies.tsx": {
@@ -230,8 +230,8 @@
     "semantic_hash": ""
   },
   "components/ui/certificate-card.tsx": {
-    "mtime": 1785244929.4423053,
-    "ast_hash": "030b3ea8ddbc32accadd22418ce92f0c",
+    "mtime": 1785246233.3751674,
+    "ast_hash": "3a0af7645d1230d344e83ceafcb4ee8c",
     "semantic_hash": ""
   },
   "components/ui/certificate-modal.tsx": {
@@ -320,8 +320,8 @@
     "semantic_hash": ""
   },
   "lib/hooks/use-api.ts": {
-    "mtime": 1785244930.59708,
-    "ast_hash": "6457b19ffd844747357e8a2aac2a9ccc",
+    "mtime": 1785246173.746752,
+    "ast_hash": "5c677d10066328684de03619bacec5d6",
     "semantic_hash": ""
   },
   "lib/projects.ts": {
@@ -370,7 +370,7 @@
     "semantic_hash": ""
   },
   "next-env.d.ts": {
-    "mtime": 1785245283.2986887,
+    "mtime": 1785246346.308856,
     "ast_hash": "b698cdd97fe8e3bd16dcd74899ad7cef",
     "semantic_hash": ""
   },
@@ -1125,8 +1125,8 @@
     "semantic_hash": ""
   },
   "docs/performance-tasks.md": {
-    "mtime": 1785245815.1899602,
-    "ast_hash": "8883502cb1d4e3655c44b606d785d16a",
+    "mtime": 1785246462.3776634,
+    "ast_hash": "8fa1831c2e57da45b9db1477e0d5b7cb",
     "semantic_hash": ""
   },
   "docs/performance.md": {

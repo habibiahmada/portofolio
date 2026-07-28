@@ -96,10 +96,10 @@ Checklist lengkap untuk optimasi performa. Urutan = prioritas. Centang di PR / c
 
 ## 6. Layout publik bersama
 
-- [ ] **6.1** `app/(public)/layout.tsx` — gate CRT scanline/flicker dengan `prefers-reduced-motion` (atau kurangi opacity/animation)
-- [ ] **6.2** `Navbar` / `Footer` — pastikan tidak memicu fetch data publik
-- [ ] **6.3** Theme toggle: biarkan client; jangan block LCP
-- [ ] **6.4** Fonts di `app/layout.tsx` — pastikan semua `display: 'swap'`; subset latin saja (sudah); cek tidak double-load
+- [x] **6.1** `app/(public)/layout.tsx` — gate CRT scanline/flicker dengan `prefers-reduced-motion` — CSS `.crt-overlay { display: none }` di media query
+- [x] **6.2** `Navbar` / `Footer` — pastikan tidak memicu fetch data publik (audit: clean)
+- [x] **6.3** Theme toggle: biarkan client; jangan block LCP (audit: SSR placeholder + VT API)
+- [x] **6.4** Fonts di `app/layout.tsx` — pastikan semua `display: 'swap'`; subset latin saja (sudah); cek tidak double-load (audit: clean)
 
 ---
 
