@@ -1,138 +1,182 @@
-'use client'
+"use client";
 
-import { useEffect, useRef } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { ArrowRight, CheckCircle2 } from 'lucide-react'
+import { useEffect, useRef, useState } from "react";
+import { GlitchText } from "@/components/ui/glitch-text";
+import { NodeNetworkLazy } from "@/components/ui/node-network-lazy";
+import { CvModal } from "@/components/ui/cv-modal";
+import Image from "next/image";
 
-gsap.registerPlugin(ScrollTrigger)
+export function HeroSection() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const spotlightRef = useRef<HTMLDivElement>(null);
+  const nodeMouseRef = useRef<{ x: number; y: number; active: boolean } | null>(
+    {
+      x: 0,
+      y: 0,
+      active: false,
+    },
+  );
+  const [cvOpen, setCvOpen] = useState(false);
 
-export function Hero() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const titleRef = useRef<HTMLHeadingElement>(null)
-  const subtitleRef = useRef<HTMLParagraphElement>(null)
-  const ctasRef = useRef<HTMLDivElement>(null)
-  const statsRef = useRef<HTMLDivElement>(null)
+  // Track mouse coordinates for spotlight + node network
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = containerRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    // Update spotlight
+    if (spotlightRef.current) {
+      spotlightRef.current.style.setProperty("--mouse-x", `${x}px`);
+      spotlightRef.current.style.setProperty("--mouse-y", `${y}px`);
+    }
+
+    // Update node network cursor position
+    if (nodeMouseRef.current) {
+      nodeMouseRef.current.x = x;
+      nodeMouseRef.current.y = y;
+      nodeMouseRef.current.active = true;
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (nodeMouseRef.current) {
+      nodeMouseRef.current.active = false;
+    }
+  };
+
+  const headingText = "Building digital experiences that actually matter";
+  const words = headingText.split(" ");
+
+  // ── Auth error from ?error= query param ──
+  const [authError, setAuthError] = useState<string | null>(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(titleRef.current, {
-        opacity: 0,
-        y: 40,
-        duration: 0.9,
-        ease: 'power3.out',
-      })
-
-      gsap.from(subtitleRef.current, {
-        opacity: 0,
-        y: 40,
-        duration: 0.9,
-        delay: 0.15,
-        ease: 'power3.out',
-      })
-
-      gsap.from(ctasRef.current, {
-        opacity: 0,
-        y: 40,
-        duration: 0.9,
-        delay: 0.3,
-        ease: 'power3.out',
-      })
-
-      gsap.from(statsRef.current, {
-        opacity: 0,
-        y: 40,
-        duration: 0.9,
-        delay: 0.45,
-        ease: 'power3.out',
-      })
-    }, containerRef)
-
-    return () => ctx.revert()
-  }, [])
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const err = params.get("error");
+    if (err) {
+      setAuthError(decodeURIComponent(err));
+      // Clean URL after reading
+      window.history.replaceState(null, "", window.location.pathname);
+      // Auto-dismiss
+      const t = setTimeout(() => setAuthError(null), 8000);
+      return () => clearTimeout(t);
+    }
+  }, []);
 
   return (
     <section
       id="hero"
       ref={containerRef}
-      className="min-h-screen flex items-center justify-center pt-24 pb-12 px-6"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      aria-label="Hero section"
+      className="relative w-full px-4 sm:px-6 md:px-8 lg:px-12 flex flex-col pt-24 h-[90vh] pb-24 overflow-hidden group/hero"
     >
-      <div className="max-w-5xl mx-auto w-full space-y-12">
-        {/* Main Content */}
-        <div className="space-y-8 text-center">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 backdrop-blur-md bg-black/5 dark:bg-white/5 px-4 py-2 border border-border/40">
-            <div className="w-2 h-2 bg-primary"></div>
-            <span className="text-sm font-semibold text-foreground">
-              Welcome to Habibi Ahmad
+      {/* Node Network Background Canvas — clustered top-left, mouse coords from hero */}
+      <NodeNetworkLazy externalMouseRef={nodeMouseRef} densityBias="topLeft" />
+
+      {/* Background Image positioned on the right */}
+      <div
+        className="absolute hidden lg:block inset-y-0 right-40 h-full w-full lg:w-[40%] pointer-events-none z-0 opacity-60"
+        style={{
+          maskImage: "linear-gradient(to right, transparent, black 10%)",
+          WebkitMaskImage: "linear-gradient(to right, transparent, black 30%)",
+        }}
+      >
+        <Image
+          src="/images/glitch-hero.webp"
+          alt="Hero Background"
+          fill
+          priority
+          draggable={false}
+          className="object-cover lg:object-[80%_35%]"
+        />
+      </div>
+
+      {/* Full-width background gradient */}
+      <div className="absolute inset-0 bg-linear-to-b from-red-500/3 via-blue-500/1 to-transparent pointer-events-none" />
+
+      <div className="relative z-10 w-full px-4 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center flex-1">
+        {/* Main Content: Cinematic Copywriting */}
+        <div className="lg:col-span-9 max-w-3xl flex flex-col items-start gap-8 lg:self-center z-10 relative">
+          {/* Auth error banner */}
+          {authError && (
+            <div className="w-full px-4 py-2.5 rounded-xl bg-red-500/10 dark:bg-red-500/15 border border-red-500/20 dark:border-red-500/25 text-xs text-red-600 dark:text-red-400 font-mono">
+              {authError}
+            </div>
+          )}
+
+          {/* Tagline */}
+          <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-black/5 dark:border-white/5 bg-black/2 dark:bg-white/2">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
+            </span>
+            <span className="text-[10px] font-mono tracking-widest text-muted-foreground uppercase">
+              available for create big impacts
             </span>
           </div>
 
-          {/* Title */}
-          <h1
-            ref={titleRef}
-            className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight"
+          {/* Heading with Glitch Effect */}
+          <GlitchText
+            as="h1"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-black tracking-tight leading-[1.08] select-none text-foreground"
+            interval={5000}
+            duration={400}
           >
-            <span className="bg-gradient-to-r from-primary via-blue-500 to-primary bg-clip-text text-transparent">
-              Full-Stack Web Developer
-            </span>
-          </h1>
+            {words.map((word, i) => {
+              const cleanWord = word.toLowerCase().replace(/[^a-z]/g, "");
+              const isAccent =
+                cleanWord === "experiences" || cleanWord === "matter";
+              return (
+                <span
+                  key={i}
+                  className="inline-block mr-[0.2em]"
+                  style={
+                    isAccent ? { color: "var(--navy-accent-text)" } : undefined
+                  }
+                >
+                  {word}
+                </span>
+              );
+            })}
+          </GlitchText>
 
-          {/* Description */}
-          <p
-            ref={subtitleRef}
-            className="text-lg md:text-xl text-foreground/70 max-w-3xl mx-auto leading-relaxed"
-          >
-            Crafting beautiful, performant digital experiences with modern
-            technologies. From concept to deployment, I deliver solutions that
-            matter.
+          {/* Sub description */}
+          <p className="text-base md:text-lg text-muted-foreground/80 l leading-relaxed font-medium">
+            Full-stack developer crafting high-performance, accessible, and
+            beautifully animated web products from concept to deployment.
           </p>
 
-          {/* CTAs */}
-          <div ref={ctasRef} className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
-            <button className="group backdrop-blur-md bg-primary/80 hover:bg-primary text-primary-foreground px-8 py-3.5 font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-primary/40 hover:scale-105 flex items-center gap-2 w-full sm:w-auto justify-center border border-border">
-              Get Free Consultation
-              <ArrowRight
-                size={18}
-                className="group-hover:translate-x-1 transition-transform"
-              />
-            </button>
-            <button className="backdrop-blur-md bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-foreground px-8 py-3.5 font-semibold border border-border/40 hover:border-border/60 transition-all duration-300 w-full sm:w-auto">
+          {/* CTA buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mt-2">
+            <a
+              href="#projects"
+              aria-label="View my projects"
+              className="px-8 py-3.5 bg-zinc-950 dark:bg-zinc-50 text-white dark:text-zinc-950 rounded-full font-bold text-sm text-center shadow-lg hover:shadow-indigo-500/10 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+            >
               View My Work
+            </a>
+            <button
+              type="button"
+              onClick={() => setCvOpen(true)}
+              aria-label="View CV"
+              className="px-8 py-3.5 rounded-full font-bold text-sm text-center border border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 bg-black/2 dark:bg-white/2 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 text-foreground cursor-pointer"
+            >
+              View CV
             </button>
-          </div>
-        </div>
-
-        {/* Stats Box */}
-        <div
-          ref={statsRef}
-          className="backdrop-blur-lg bg-black/5 dark:bg-white/5 border border-border/40 p-8 max-w-2xl mx-auto w-full"
-        >
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <div className="flex items-center gap-4">
-              <CheckCircle2 size={24} className="text-primary flex-shrink-0" />
-              <div>
-                <div className="text-2xl font-bold text-primary">50+</div>
-                <div className="text-sm text-foreground/60">Projects Completed</div>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <CheckCircle2 size={24} className="text-primary flex-shrink-0" />
-              <div>
-                <div className="text-2xl font-bold text-primary">5+</div>
-                <div className="text-sm text-foreground/60">Years Experience</div>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <CheckCircle2 size={24} className="text-primary flex-shrink-0" />
-              <div>
-                <div className="text-2xl font-bold text-primary">30+</div>
-                <div className="text-sm text-foreground/60">Happy Clients</div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
+
+      {/* Full-width bottom gradient fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-linear-to-t from-background to-transparent pointer-events-none" />
+
+      {/* ── CV Modal ── */}
+      <CvModal open={cvOpen} onClose={() => setCvOpen(false)} />
     </section>
-  )
+  );
 }

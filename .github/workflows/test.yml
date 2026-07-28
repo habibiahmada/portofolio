@@ -1,0 +1,30 @@
+name: Run smoke tests
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install Dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Skip live database integration tests
+        run: |
+          echo "Live Supabase integration tests are disabled for this repository because the project uses a free-tier instance and should not mutate the database."
+
+      - name: Run smoke test
+        run: bun test tests/api.test.ts

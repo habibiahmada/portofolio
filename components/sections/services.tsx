@@ -1,140 +1,106 @@
-'use client'
+"use client";
 
-import { useEffect, useRef } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { Code2, Smartphone, Zap } from 'lucide-react'
+import { GlitchText } from "@/components/ui/glitch-text";
+import { LayoutDesignerVisual } from "@/components/ui/layout-designer-visual";
+import { CodeEditorVisual } from "@/components/ui/code-editor-visual";
+import { SpeedometerGaugeVisual } from "@/components/ui/speedometer-gauge-visual";
+import { NodeGraphVisual } from "@/components/ui/node-graph-visual";
+import { CICDPipelineVisual } from "@/components/ui/cicd-pipeline-visual";
 
-gsap.registerPlugin(ScrollTrigger)
+// ─── Card data ────────────────────────────────────────────────────────────────
+
+const CARDS = [
+  {
+    label: "01 / Design",
+    title: "Web Design & Mobile-First",
+    description:
+      "Translating ideas into pixel-perfect responsive interfaces. Wireframes to production-ready layouts that feel intuitive on every device.",
+    visual: <LayoutDesignerVisual />,
+    delay: 0.05,
+    className: "sm:col-span-2 lg:col-span-2",
+  },
+  {
+    label: "02 / Engineering",
+    title: "Frontend Development",
+    description:
+      "High-quality UIs with React & Next.js. Clean components, reusable logic, and fluid state management.",
+    visual: <CodeEditorVisual />,
+    delay: 0.12,
+  },
+  {
+    label: "03 / Performance",
+    title: "Web Performance",
+    description:
+      "Core Web Vitals optimization for instant load. SEO-ready architecture that ranks and converts.",
+    visual: <SpeedometerGaugeVisual />,
+    delay: 0.18,
+  },
+  {
+    label: "04 / Backend",
+    title: "APIs & Databases",
+    description:
+      "Robust REST APIs, relational databases, and secure auth systems built to scale with your product.",
+    visual: <NodeGraphVisual />,
+    delay: 0.24,
+  },
+  {
+    label: "05 / DevOps",
+    title: "CI/CD & Deployment",
+    description:
+      "Automated pipelines, container-ready apps, serverless hosting, and zero-downtime production deploys.",
+    visual: <CICDPipelineVisual />,
+    delay: 0.3,
+  },
+];
+
+// ─── Section ──────────────────────────────────────────────────────────────────
 
 export function Services() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const titleRef = useRef<HTMLHeadingElement>(null)
-  const cardsRef = useRef<(HTMLDivElement | null)[]>([])
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(titleRef.current, {
-        scrollTrigger: {
-          trigger: titleRef.current,
-          start: 'top 80%',
-        },
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        ease: 'power3.out',
-      })
-
-      cardsRef.current.forEach((card, index) => {
-        gsap.from(card, {
-          scrollTrigger: {
-            trigger: card,
-            start: 'top 80%',
-          },
-          opacity: 0,
-          y: 30,
-          duration: 0.8,
-          delay: index * 0.1,
-          ease: 'power3.out',
-        })
-      })
-    }, containerRef)
-
-    return () => ctx.revert()
-  }, [])
-
-  const services = [
-    {
-      number: '01',
-      title: 'Web Design',
-      description:
-        'Beautiful, responsive interfaces that engage users and drive conversions.',
-      icon: Code2,
-    },
-    {
-      number: '02',
-      title: 'Web Development',
-      description:
-        'Full-stack solutions with modern frameworks, ensuring scalability and performance.',
-      icon: Smartphone,
-    },
-    {
-      number: '03',
-      title: 'Optimization',
-      description:
-        'Fast, SEO-optimized experiences that rank well and load instantly.',
-      icon: Zap,
-    },
-  ]
-
   return (
-    <section
-      id="services"
-      ref={containerRef}
-      className="py-20 px-6 border-t border-b border-border"
-    >
-      <div className="max-w-7xl mx-auto">
+    <section id="services" className="py-24 w-full bg-transparent">
+      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12">
         {/* Header */}
-        <div className="max-w-2xl mb-16">
-          <h2
-            ref={titleRef}
-            className="text-4xl md:text-5xl font-bold mb-6"
+        <div className="max-w-2xl mb-14 space-y-3">
+          <span className="text-xs font-mono tracking-widest text-[#ef4444] dark:text-blue-400 uppercase block">
+            // My Services
+          </span>
+          <GlitchText
+            as="h2"
+            className="text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight"
+            interval={5000}
+            duration={320}
           >
-            <span className="bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
-              Services
-            </span>
-          </h2>
-          <p className="text-lg text-foreground/70">
-            Comprehensive solutions tailored to your needs, from design to
-            deployment.
+            Comprehensive
+            <br className="sm:hidden" /> Solutions
+          </GlitchText>
+          <p className="text-sm md:text-base text-muted-foreground/80 leading-relaxed font-medium max-w-lg">
+            From wireframe concepts to fully animated frontends and scalable
+            servers. I build performant products that stand out.
           </p>
         </div>
 
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {services.map((service, index) => {
-            const Icon = service.icon
-            return (
-              <div
-                key={service.number}
-                ref={(el) => {
-                  cardsRef.current[index] = el
-                }}
-                className="group backdrop-blur-lg bg-black/5 dark:bg-white/5 border border-border/40 p-8 hover:border-primary/40 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10"
-              >
-                {/* Number */}
-                <div className="text-6xl font-bold text-primary/10 mb-4 group-hover:text-primary/20 transition-colors">
-                  {service.number}
-                </div>
-
-                {/* Icon */}
-                <Icon size={32} className="text-primary mb-4" strokeWidth={1.5} />
-
-                {/* Title */}
-                <h3 className="text-2xl font-bold mb-3 group-hover:text-primary transition-colors">
-                  {service.title}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {CARDS.map((card) => (
+            <div
+              key={card.label}
+              className={`flex flex-col gap-5 rounded-2xl border border-black/5 dark:border-white/5 bg-white dark:bg-zinc-950 p-5 md:p-6 hover:border-black/10 dark:hover:border-white/10 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-black/30 transition-all duration-500 ${card.className || ""}`}
+            >
+              <div className="shrink-0">{card.visual}</div>
+              <div className="space-y-1.5 flex-1">
+                <span className="text-[10px] font-mono text-[#ef4444] dark:text-blue-400 font-semibold uppercase tracking-widest block">
+                  {card.label}
+                </span>
+                <h3 className="text-base font-bold text-foreground leading-snug">
+                  {card.title}
                 </h3>
-
-                {/* Description */}
-                <p className="text-foreground/70 leading-relaxed mb-6">
-                  {service.description}
+                <p className="text-xs text-muted-foreground/75 leading-relaxed">
+                  {card.description}
                 </p>
-
-                {/* Link */}
-                <a
-                  href="#"
-                  className="inline-flex items-center gap-2 text-primary font-semibold group-hover:gap-3 transition-all"
-                >
-                  Learn More
-                  <span className="group-hover:translate-x-1 transition-transform">
-                    →
-                  </span>
-                </a>
               </div>
-            )
-          })}
+            </div>
+          ))}
         </div>
       </div>
     </section>
-  )
+  );
 }

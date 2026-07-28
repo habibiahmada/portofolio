@@ -1,76 +1,110 @@
-'use client'
+"use client";
 
-import { useEffect, useRef } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { ArrowRight } from 'lucide-react'
-
-gsap.registerPlugin(ScrollTrigger)
+import { useEffect, useRef } from "react";
+import { GlitchText } from "@/components/ui/glitch-text";
+import { NodeNetworkLazy } from "@/components/ui/node-network-lazy";
 
 export function CTA() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const titleRef = useRef<HTMLHeadingElement>(null)
-  const subtitleRef = useRef<HTMLParagraphElement>(null)
-  const buttonRef = useRef<HTMLButtonElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null);
+  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const btnRef1 = useRef<HTMLAnchorElement>(null);
+  const btnRef2 = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from([titleRef.current, subtitleRef.current, buttonRef.current], {
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top center',
-        },
-        opacity: 0,
-        y: 30,
-        duration: 0.6,
-        stagger: 0.15,
-        ease: 'power3.out',
-      })
-    }, containerRef)
+    if (!subtitleRef.current || !btnRef1.current || !btnRef2.current) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    return () => ctx.revert()
-  }, [])
+    let ctx: { revert: () => void } | undefined;
+    let cancelled = false;
+
+    (async () => {
+      const gsap = (await import("gsap")).default;
+      const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+      if (cancelled) return;
+      gsap.registerPlugin(ScrollTrigger);
+
+      ctx = gsap.context(() => {
+        gsap.fromTo(
+          [subtitleRef.current, btnRef1.current, btnRef2.current],
+          { opacity: 0, y: 24 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            stagger: 0.12,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: "top 90%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }, containerRef);
+
+      setTimeout(() => ScrollTrigger.refresh(), 100);
+    })();
+
+    return () => ctx?.revert();
+  }, []);
 
   return (
-    <section id="cta" ref={containerRef} className="py-24 px-6 border-t border-b border-border">
-      <div className="max-w-4xl mx-auto text-center">
-        <div className="backdrop-blur-lg bg-black/5 dark:bg-white/5 border border-border/40 p-16">
-          {/* Title */}
-          <h2
-            ref={titleRef}
-            className="text-4xl md:text-6xl font-bold mb-6 leading-tight"
-          >
-            <span className="bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
-              Ready to Build?
-            </span>
+    <section
+      id="cta"
+      ref={containerRef}
+      className="relative py-24 w-full bg-transparent overflow-hidden"
+    >
+      {/* Node network background (section-level) */}
+      <NodeNetworkLazy />
+
+      <div className="relative z-10 w-full max-w-200 mx-auto px-6 md:px-12 text-center">
+        {/* Glassmorphic box container */}
+        <div className="relative overflow-hidden rounded-3xl border border-black/5 dark:border-white/5 bg-black/1.5 dark:bg-white/1.5 p-12 md:p-20 shadow-xl backdrop-blur-md">
+          {/* Accent radial glow behind text */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-87.5 h-87.5 bg-red-500/5 blur-[130px] rounded-full -z-10 pointer-events-none" />
+
+          {/* Title with glitch effect */}
+          <h2 className="relative z-10 text-4xl md:text-6xl font-extrabold mb-6 tracking-tight text-foreground">
+            Have a{" "}
+            <GlitchText
+              words={["project", "vision", "dream"]}
+              className="text-red-500 dark:text-blue-500 font-black inline-block px-1"
+              interval={4000}
+              duration={300}
+            />
+            <br />
+            in mind?
           </h2>
 
           {/* Subtitle */}
           <p
             ref={subtitleRef}
-            className="text-lg md:text-xl text-foreground/70 mb-12 max-w-2xl mx-auto leading-relaxed"
+            className="relative z-10 text-base md:text-lg text-muted-foreground/90 mb-10 mx-auto max-w-xl leading-relaxed font-normal"
           >
-            Let&apos;s work together to bring your ideas to life with cutting-edge technology and design.
+            Let&apos;s collaborate to turn your concepts into clean, high-performing digital realities. Reach out today and let&apos;s make it happen!
           </p>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button
-              ref={buttonRef}
-              className="group backdrop-blur-md bg-primary/80 hover:bg-primary text-primary-foreground px-8 py-3.5 font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-primary/40 hover:scale-105 inline-flex items-center gap-2 w-full sm:w-auto justify-center border border-border"
+          {/* CTA Buttons — static, no magnetic hover */}
+          <div className="relative z-10 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+            <a
+              ref={btnRef1}
+              href="mailto:contact@habibiahmada.dev"
+              className="w-full sm:w-auto px-8 py-3.5 bg-zinc-950 dark:bg-zinc-50 text-white dark:text-zinc-950 rounded-full font-bold text-sm shadow-lg hover:opacity-90 transition-opacity cursor-pointer select-none text-center"
             >
-              Get Free Consultation
-              <ArrowRight
-                size={20}
-                className="group-hover:translate-x-1 transition-transform"
-              />
-            </button>
-            <button className="backdrop-blur-md bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-foreground px-8 py-3.5 font-semibold border border-border/40 hover:border-border/60 transition-all duration-300 w-full sm:w-auto">
-              Schedule a Call
-            </button>
+              Send a Message
+            </a>
+
+            <a
+              ref={btnRef2}
+              href="/projects"
+              className="w-full sm:w-auto px-8 py-3.5 rounded-full font-bold text-sm border border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 bg-black/2 dark:bg-white/2 text-foreground cursor-pointer select-none transition-colors duration-300 text-center"
+              target="_blank"
+            >
+              View My Work
+            </a>
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }

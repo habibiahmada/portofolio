@@ -1,149 +1,85 @@
-'use client'
+"use client";
 
-import React, { useEffect, useRef } from 'react'
-import Image from 'next/image'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { ArrowUpRight } from 'lucide-react'
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+import { GlitchText } from "@/components/ui/glitch-text";
+import { ProjectCard } from "@/components/ui/project-card";
+import { ProjectGridSkeleton } from "@/components/ui/skeletons";
+import { useProjects } from "@/lib/hooks/use-api";
+import { FEATURED_PROJECT_IDS } from "@/lib/data/featured-ids";
+import type { Project } from "@/lib/supabase/types";
 
-gsap.registerPlugin(ScrollTrigger)
-
-interface Project {
-  id: number
-  title_en: string
-  title_id: string
-  description_en: string
-  description_id: string
-  image: string
-  tags: string[]
-  link: string
+interface ProjectsProps {
+  locale?: string;
+  /** SSR first paint — skips `/api/public/projects` when set. */
+  initialData?: Project[];
 }
 
-export function Projects() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const projectsRef = useRef<(HTMLDivElement | null)[]>([])
-  const [projects, setProjects] = React.useState<Project[]>([])
+export function Projects({ locale = "en", initialData }: ProjectsProps) {
+  const {
+    data: fetched,
+    loading,
+    error,
+  } = useProjects({
+    featured: [...FEATURED_PROJECT_IDS],
+    enabled: !initialData,
+  });
 
-  useEffect(() => {
-    // Load projects from JSON
-    fetch('/data/projects.json')
-      .then((res) => res.json())
-      .then((data) => setProjects(data))
-      .catch((err) => console.error('Failed to load projects:', err))
-  }, [])
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Stagger in projects
-      gsap.from(projectsRef.current, {
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top center',
-        },
-        opacity: 0,
-        y: 40,
-        duration: 0.6,
-        stagger: 0.2,
-        ease: 'power3.out',
-      })
-
-      // Parallax effect on images
-      projectsRef.current.forEach((el) => {
-        if (!el) return
-        gsap.to(el.querySelector('img'), {
-          scrollTrigger: {
-            trigger: el,
-            start: 'top center',
-            end: 'bottom center',
-            scrub: 1,
-          },
-          y: 50,
-          ease: 'power1.out',
-        })
-      })
-    }, containerRef)
-
-    return () => ctx.revert()
-  }, [projects])
+  const projects = initialData ?? fetched;
+  const showSkeleton = !initialData && loading;
+  const showError = !initialData && error;
 
   return (
-    <section id="projects" ref={containerRef} className="py-20 px-6 border-t border-b border-border">
-      <div className="max-w-7xl mx-auto">
-        {/* Section Header */}
-        <div className="mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
-              Featured Work
+    <section id="projects" className="relative py-24 w-full bg-transparent">
+      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-14 gap-6">
+          <div className="space-y-3">
+            <span className="text-xs font-mono tracking-widest text-[#ef4444] dark:text-blue-400 uppercase block">
+              // Selected Works
             </span>
-          </h2>
-          <p className="text-lg text-foreground/60 max-w-2xl">
-            A selection of my recent projects and case studies
-          </p>
-        </div>
-
-        {/* Projects Grid */}
-        <div className="space-y-16">
-          {projects.map((project, index) => (
-            <div
-              key={project.id}
-              ref={(el) => {
-                projectsRef.current[index] = el
-              }}
-              className={`grid grid-cols-1 md:grid-cols-2 gap-8 items-center ${
-                index % 2 === 1 ? 'md:flex-row-reverse' : ''
-              }`}
+            <GlitchText
+              as="h2"
+              className="text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight"
+              interval={5000}
+              duration={320}
             >
-              {/* Image */}
-              <div
-                className={`group relative h-80 md:h-96 overflow-hidden backdrop-blur-lg bg-black/5 dark:bg-white/5 border border-border/40 ${
-                  index % 2 === 1 ? 'md:order-last' : ''
-                }`}
-              >
-                <Image
-                  src={project.image}
-                  alt={project.title_en}
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-              </div>
-
-              {/* Content */}
-              <div className={index % 2 === 1 ? 'md:order-first' : ''}>
-                <h3 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
-                  {project.title_en}
-                </h3>
-                <p className="text-foreground/70 text-lg mb-6 leading-relaxed">
-                  {project.description_en}
-                </p>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-3 mb-8">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-3 py-1.5 text-sm font-medium backdrop-blur-md bg-primary/10 text-primary border border-primary/30 hover:border-primary/60 transition-all duration-200"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Link */}
-                <a
-                  href={project.link}
-                  className="inline-flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all group"
-                >
-                  View Case Study
-                  <ArrowUpRight
-                    size={20}
-                    className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
-                  />
-                </a>
-              </div>
-            </div>
-          ))}
+              Featured Projects
+            </GlitchText>
+          </div>
+          <Link
+            href="/projects"
+            className="inline-flex items-center gap-2 self-start rounded-full border border-black/10 bg-black/5 px-3.5 py-1.5 text-[11px] font-mono uppercase tracking-[0.24em] text-muted-foreground/80 transition-all duration-300 hover:border-black/20 hover:text-foreground dark:border-white/10 dark:bg-white/5 dark:hover:border-white/20 sm:self-auto"
+          >
+            All Projects
+            <ArrowUpRight size={12} strokeWidth={1.6} />
+          </Link>
         </div>
+
+        {/* Loading state */}
+        {showSkeleton && <ProjectGridSkeleton count={4} />}
+
+        {/* Error state */}
+        {showError && (
+          <p className="text-sm text-red-500 dark:text-red-400 font-mono">
+            Failed to load projects: {error}
+          </p>
+        )}
+
+        {!showSkeleton && !showError && projects && projects.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {projects.map((project, i) => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                locale={locale}
+                index={i}
+                variant="featured"
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
-  )
+  );
 }
