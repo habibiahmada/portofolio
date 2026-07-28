@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { CertificateCard } from "@/components/ui/certificate-card";
 import { CertificateModal } from "@/components/ui/certificate-modal";
@@ -12,23 +12,33 @@ import type { CertificateRow as CertType } from "@/lib/supabase/types";
 
 const ITEMS_PER_ROW = 4;
 
-export function Certificates() {
+export function Certificates({
+  initialPinned,
+  initialNonPinned,
+}: {
+  /** SSR first paint — skips usePinnedCertificates() when set. */
+  initialPinned?: CertType[];
+  /** SSR first paint — seeded into the loaded stack. */
+  initialNonPinned?: CertType[];
+}) {
   const [selectedCert, setSelectedCert] = useState<CertType | null>(null);
   const [openModal, setOpenModal] = useState(false);
   const [page, setPage] = useState(1);
-  const [allLoaded, setAllLoaded] = useState<CertType[]>([]);
+  const [allLoaded, setAllLoaded] = useState<CertType[]>(initialNonPinned ?? []);
+  const initialSeeded = useRef(!!initialNonPinned);
 
   const {
     data: pinned,
     loading: pinnedLoading,
-  } = usePinnedCertificates();
+  } = usePinnedCertificates(initialPinned ? false : undefined);
+
+  const certPinned = initialPinned ?? pinned;
+  const showPinnedSkeleton = !initialPinned && pinnedLoading;
 
   const {
     data: nonPinnedPage,
     loading: nonPinnedLoading,
-  } = useNonPinnedCertificates(page, ITEMS_PER_ROW);
-
-
+  } = useNonPinnedCertificates(page, ITEMS_PER_ROW, initialSeeded.current ? page > 1 : undefined);
 
   // Accumulate loaded pages — via useEffect to avoid state-update-during-render
   useEffect(() => {
@@ -37,9 +47,9 @@ export function Certificates() {
       const existingIds = new Set(prev.map((c) => c.id));
       const newOnes = nonPinnedPage.filter((c) => !existingIds.has(c.id));
       if (newOnes.length === 0) return prev;
-      return page === 1 ? newOnes : [...prev, ...newOnes];
+      return [...prev, ...newOnes];
     });
-  }, [nonPinnedPage, nonPinnedLoading, page]);
+  }, [nonPinnedPage, nonPinnedLoading]);
 
   const visible = allLoaded;
   const hasMore = nonPinnedPage && nonPinnedPage.length === ITEMS_PER_ROW;
@@ -96,7 +106,7 @@ export function Certificates() {
           </motion.div>
 
           {/* ── Pinned section — always visible ── */}
-          {pinned && pinned.length > 0 && (
+          {certPinned && certPinned.length > 0 && (
             <div className="space-y-4">
               <div className="flex items-center gap-2.5">
                 <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-500/8 dark:bg-blue-400/8 border border-red-500/15 dark:border-blue-400/15">
@@ -109,7 +119,7 @@ export function Certificates() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
-                {pinned.map((cert, i) => (
+                {certPinned.map((cert, i) => (
                   <CertificateCard
                     key={cert.id}
                     id={cert.id}
@@ -125,8 +135,8 @@ export function Certificates() {
             </div>
           )}
 
-          {/* ── Loading skeleton for pinned ── */}
-          {pinnedLoading && <CertificateGridSkeleton count={4} />}
+          {/* ── Loading skeleton for pinned (only when no initialPinned) ── */}
+          {showPinnedSkeleton && <CertificateGridSkeleton count={4} />}
 
           {/* ── All Certificates grid — paginated ── */}
           <div className="space-y-4">
@@ -222,7 +232,7 @@ export function Certificates() {
 
               {!hasMore && visible.length > 0 && (
                 <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground/30">
-                  Showing all {visible.length + (pinned?.length || 0)} certificates
+                  Showing all {visible.length + (certPinned?.length || 0)} certificates
                 </span>
               )}
             </div>

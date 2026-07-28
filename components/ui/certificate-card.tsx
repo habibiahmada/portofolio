@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Pin } from "lucide-react";
 
@@ -24,16 +23,9 @@ export function CertificateCard({
   onOpen,
 }: CertificateCardProps) {
   return (
-    <motion.button
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-30px" }}
-      transition={{
-        duration: 0.5,
-        delay: index * 0.05,
-        ease: [0.215, 0.61, 0.355, 1],
-      }}
+    <button
       onClick={() => onOpen(id)}
+      style={{ animationDelay: `${index * 50}ms` }}
       className={cn(
         "group relative flex flex-col overflow-hidden text-left cursor-pointer",
         "border border-black/5 dark:border-white/5",
@@ -42,6 +34,7 @@ export function CertificateCard({
         "hover:border-black/15 dark:hover:border-white/15",
         "hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-black/40",
         "transition-all duration-500",
+        "opacity-0 translate-y-6 animate-fade-in-up",
         isPinned && "ring-1 ring-red-500/20 dark:ring-blue-400/20",
       )}
     >
@@ -67,6 +60,6 @@ export function CertificateCard({
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-linear-to-t from-black/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       </div>
-    </motion.button>
+    </button>
   );
 }

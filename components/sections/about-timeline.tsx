@@ -1,12 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Briefcase, GraduationCap, MapPin, Calendar } from "lucide-react";
 import { Companies } from "./companies";
-
-gsap.registerPlugin(ScrollTrigger);
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -235,21 +231,33 @@ export function AboutTimeline() {
   useEffect(() => {
     const el = lineRef.current;
     if (!el) return;
-    gsap.fromTo(
-      el,
-      { scaleY: 0 },
-      {
-        scaleY: 1,
-        ease: "none",
-        scrollTrigger: {
-          trigger: el,
-          start: "top 80%",
-          end: "bottom 20%",
-          scrub: 1,
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let cancelled = false;
+
+    (async () => {
+      const gsap = (await import("gsap")).default;
+      const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+      if (cancelled) return;
+      gsap.registerPlugin(ScrollTrigger);
+
+      gsap.fromTo(
+        el,
+        { scaleY: 0 },
+        {
+          scaleY: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 80%",
+            end: "bottom 20%",
+            scrub: 1,
+          },
         },
-      },
-    );
-    return () => ScrollTrigger.getAll().forEach((t) => t.kill());
+      );
+    })();
+
+    return () => { cancelled = true; };
   }, []);
 
   const experiences = timelineData.filter((d) => d.type === "experience");

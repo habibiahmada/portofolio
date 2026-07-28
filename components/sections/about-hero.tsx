@@ -3,11 +3,7 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { GlitchText } from "@/components/ui/glitch-text";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { NodeNetwork } from "../ui/node-network";
-
-gsap.registerPlugin(ScrollTrigger);
+import { NodeNetworkLazy } from "@/components/ui/node-network-lazy";
 
 export function AboutHero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -35,23 +31,38 @@ export function AboutHero() {
 
   // Parallax: photo floats up as user scrolls
   useEffect(() => {
-    const el = photoRef.current;
-    if (!el) return;
+    if (!photoRef.current) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const tween = gsap.to(el, {
-      y: -40,
-      ease: "none",
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top top",
-        end: "bottom top",
-        scrub: 0.7,
-      },
-    });
+    let ctx: { revert: () => void } | undefined;
+    let cancelled = false;
+
+    (async () => {
+      const gsap = (await import("gsap")).default;
+      const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+      if (cancelled) return;
+      gsap.registerPlugin(ScrollTrigger);
+
+      const el = photoRef.current;
+      if (!el) return;
+
+      const tween = gsap.to(el, {
+        y: -40,
+        ease: "none",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 0.7,
+        },
+      });
+
+      ctx = { revert: () => { tween.scrollTrigger?.kill(); tween.kill(); } };
+    })();
 
     return () => {
-      tween.scrollTrigger?.kill();
-      tween.kill();
+      cancelled = true;
+      ctx?.revert();
     };
   }, []);
 
@@ -63,7 +74,7 @@ export function AboutHero() {
       className="relative min-h-[90vh] w-full flex flex-col justify-center py-1 4 overflow-hidden"
     >
       {/* Node Network Background Canvas — clustered top-left, mouse coords from hero */}
-      <NodeNetwork externalMouseRef={nodeMouseRef} densityBias="topLeft" />
+      <NodeNetworkLazy externalMouseRef={nodeMouseRef} densityBias="topLeft" />
 
       {/* Background Image positioned on the right */}
       <div

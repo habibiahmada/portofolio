@@ -87,13 +87,16 @@ export function useCertificates() {
 }
 
 /** Pinned certificates */
-export function usePinnedCertificates() {
-  return useApi<Certificate[]>("/api/public/certificates?pinned=true");
+export function usePinnedCertificates(enabled = true) {
+  return useApi<Certificate[]>(enabled ? "/api/public/certificates?pinned=true" : null);
 }
 
 /** Non-pinned certificates with pagination */
-export function useNonPinnedCertificates(page = 1, pageSize = 8) {
-  const url = `/api/public/certificates?pinned=false&page=${page}&page_size=${pageSize}`;
+export function useNonPinnedCertificates(page = 1, pageSize = 8, enabled?: boolean) {
+  const shouldFetch = enabled !== false;
+  const url = shouldFetch
+    ? `/api/public/certificates?pinned=false&page=${page}&page_size=${pageSize}`
+    : null;
   return useApi<Certificate[]>(url);
 }
 

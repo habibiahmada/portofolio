@@ -5,6 +5,7 @@ import { AboutTechStack } from '@/components/sections/about-tech-stack'
 import { AboutTimeline } from '@/components/sections/about-timeline'
 import { Certificates } from '@/components/sections/certificates'
 import { CTA } from '@/components/sections/cta'
+import { getPinnedCertificates, getNonPinnedCertificates } from '@/lib/data/certificates'
 
 export const metadata: Metadata = {
   title: 'About — Web Developer from Karawang',
@@ -36,14 +37,19 @@ export const metadata: Metadata = {
   },
 }
 
-export default function Page() {
+export default async function Page() {
+  const [pinnedCerts, nonPinnedPage1] = await Promise.all([
+    getPinnedCertificates(),
+    getNonPinnedCertificates(1, 4),
+  ])
+
   return (
     <main className="w-full overflow-x-hidden">
       <AboutHero />
       <AboutIntro />
       <AboutTechStack />
       <AboutTimeline />
-      <Certificates />
+      <Certificates initialPinned={pinnedCerts} initialNonPinned={nonPinnedPage1.items} />
       <CTA />
     </main>
   )

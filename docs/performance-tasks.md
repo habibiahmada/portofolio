@@ -78,19 +78,19 @@ Checklist lengkap untuk optimasi performa. Urutan = prioritas. Centang di PR / c
 
 ### 5.A Data SSR — certificates
 
-- [ ] **5.1** Server-fetch **pinned certificates** + **page 1 non-pinned** di `about/page.tsx`
-- [ ] **5.2** Pass ke `<Certificates initialPinned initialNonPinned />`
-- [ ] **5.3** **Load more** boleh tetap client → `/api/public/certificates?pinned=false&page=` (hanya setelah klik)
-- [ ] **5.4** Hilangkan waterfall `usePinnedCertificates` + `useNonPinnedCertificates` pada mount
+- [x] **5.1** Server-fetch **pinned certificates** + **page 1 non-pinned** di `about/page.tsx`
+- [x] **5.2** Pass ke `<Certificates initialPinned initialNonPinned />`
+- [x] **5.3** **Load more** boleh tetap client → `/api/public/certificates?pinned=false&page=` (hanya setelah klik)
+- [x] **5.4** Hilangkan waterfall `usePinnedCertificates` + `useNonPinnedCertificates` pada mount
 
 ### 5.B Section / JS (tanpa data DB)
 
-- [ ] **5.5** **AboutHero:** dynamic NodeNetwork + dynamic GSAP
-- [ ] **5.6** **AboutIntro / CpuArchitecture:** lazy / in-view jika berat
-- [ ] **5.7** **AboutTechStack:** pastikan icon lazy (sudah ada `loading="lazy"`) + image optimizer
-- [ ] **5.8** **AboutTimeline:** dynamic-import GSAP/ScrollTrigger
-- [ ] **5.9** **Certificates grid:** kurangi Framer berlebih; modal tetap client
-- [ ] **5.10** **CTA** (shared): sama seperti home — dynamic heavy deps
+- [x] **5.5** **AboutHero:** dynamic NodeNetwork + dynamic GSAP
+- [x] **5.6** **AboutIntro / CpuArchitecture:** lazy / in-view jika berat (SVG — lightweight, skip)
+- [x] **5.7** **AboutTechStack:** pastikan icon lazy (sudah ada `loading="lazy"`) + image optimizer
+- [x] **5.8** **AboutTimeline:** dynamic-import GSAP/ScrollTrigger
+- [x] **5.9** **Certificates grid:** kurangi Framer berlebih (CSS ganti framer-motion); modal tetap client
+- [x] **5.10** **CTA** (shared): sama seperti home — dynamic heavy deps
 
 ---
 
