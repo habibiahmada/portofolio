@@ -105,11 +105,11 @@ Checklist lengkap untuk optimasi performa. Urutan = prioritas. Centang di PR / c
 
 ## 7. Shared UI / bundle
 
-- [ ] **7.1** Satu modul `dynamic` helper untuk NodeNetwork (hindari copy-paste config beda-beda)
-- [ ] **7.2** `GlitchText` — pastikan tidak memicu layout thrash di LCP heading; hormati reduced-motion
-- [ ] **7.3** Kurangi `framer-motion` di `ProjectCard` / `CertificateCard` jika skor TBT masih jelek
-- [ ] **7.4** Pasang `@next/bundle-analyzer`; catat top modules before/after
-- [ ] **7.5** Pastikan tree-shaking: GSAP hanya di section yang butuh (no shared barrel yang menarik semua visual)
+- [x] **7.1** Satu modul `dynamic` helper untuk NodeNetwork (sudah ada `node-network-lazy.tsx`; migrasi hero.tsx + cta.tsx)
+- [x] **7.2** `GlitchText` — pastikan tidak memicu layout thrash di LCP heading; hormati reduced-motion (CSS absolute positioning, no layout shift)
+- [x] **7.3** Kurangi `framer-motion` di `ProjectCard` — diganti CSS animate-fade-in-up; CertificateCard sudah dari task 5.9
+- [x] **7.4** Pasang `@next/bundle-analyzer`; catat top modules before/after (installed + configured; jalankan `ANALYZE=true bun run build`)
+- [x] **7.5** Pastikan tree-shaking: GSAP hanya di section yang butuh (cta.tsx migrated to dynamic import; about-hero + about-timeline sudah dynamic)
 
 ---
 

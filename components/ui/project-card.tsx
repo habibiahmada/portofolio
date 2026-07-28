@@ -1,11 +1,10 @@
 'use client'
 
 import Image from 'next/image'
-import { motion } from 'framer-motion'
 import { GitFork, ExternalLink } from 'lucide-react'
 import { ProjectTag } from '@/components/ui/project-tag'
 import { ProjectLinks } from '@/components/ui/project-links'
-import { EASING, getProjectTitle, getProjectDescription, type Project } from '@/lib/projects'
+import { getProjectTitle, getProjectDescription, type Project } from '@/lib/projects'
 import { cn } from '@/lib/utils'
 
 // ─── Types ──────────────────────────────────────────────────────────────────
@@ -18,21 +17,6 @@ export interface ProjectCardProps {
   index: number
   /** Visual style variant. Default: 'featured' */
   variant?: CardVariant
-}
-
-// ─── Variants ───────────────────────────────────────────────────────────────
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 32 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      delay: i * 0.08,
-      ease: EASING,
-    },
-  }),
 }
 
 // ─── Quick-link button (used in image overlay) ──────────────────────────────
@@ -80,14 +64,11 @@ export function ProjectCard({
   const isFeatured = variant === 'featured'
 
   return (
-    <motion.article
-      custom={index}
-      variants={cardVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: '-40px' }}
+    <article
+      style={{ animationDelay: `${index * 80}ms` }}
       className={cn(
         'group relative flex flex-col overflow-hidden rounded-2xl transition-all duration-500',
+        'opacity-0 translate-y-8 animate-fade-in-up',
         isFeatured
           ? 'border border-black/5 bg-white/80 backdrop-blur-sm hover-glitch-card hover:shadow-[0_20px_50px_rgba(15,23,42,0.08)] dark:border-white/[0.08] dark:bg-zinc-900/60 dark:hover:border-white/[0.12] dark:hover:shadow-[0_20px_50px_rgba(0,0,0,0.4)]'
           : 'border border-black/5 dark:border-white/5 bg-white/60 dark:bg-zinc-950/40 backdrop-blur-sm hover-glitch-card hover:border-black/15 dark:hover:border-white/15 hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-black/40',
@@ -240,6 +221,6 @@ export function ProjectCard({
           </div>
         )}
       </div>
-    </motion.article>
+    </article>
   )
 }

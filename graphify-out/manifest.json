@@ -10,8 +10,8 @@
     "semantic_hash": ""
   },
   "app/(public)/layout.tsx": {
-    "mtime": 1784501652.1975465,
-    "ast_hash": "fad7668649a57070e03c4bf748ab5d02",
+    "mtime": 1785246562.8389375,
+    "ast_hash": "589904851f83a8e076184819394e65fa",
     "semantic_hash": ""
   },
   "app/(public)/page.tsx": {
@@ -1125,8 +1125,8 @@
     "semantic_hash": ""
   },
   "docs/performance-tasks.md": {
-    "mtime": 1785246462.3776634,
-    "ast_hash": "8fa1831c2e57da45b9db1477e0d5b7cb",
+    "mtime": 1785246675.5796356,
+    "ast_hash": "8313cf68765b67fa3c78fa0b16b293c4",
     "semantic_hash": ""
   },
   "docs/performance.md": {

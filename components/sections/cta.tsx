@@ -1,12 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { GlitchText } from "@/components/ui/glitch-text";
-import { NodeNetwork } from "@/components/ui/node-network";
-
-gsap.registerPlugin(ScrollTrigger);
+import { NodeNetworkLazy } from "@/components/ui/node-network-lazy";
 
 export function CTA() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -16,32 +12,40 @@ export function CTA() {
 
   useEffect(() => {
     if (!subtitleRef.current || !btnRef1.current || !btnRef2.current) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        [subtitleRef.current, btnRef1.current, btnRef2.current],
-        { opacity: 0, y: 24 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          stagger: 0.12,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 90%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-    }, containerRef);
+    let ctx: { revert: () => void } | undefined;
+    let cancelled = false;
 
-    // Refresh scroll triggers to ensure correct measurement after mounting
-    setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 100);
+    (async () => {
+      const gsap = (await import("gsap")).default;
+      const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+      if (cancelled) return;
+      gsap.registerPlugin(ScrollTrigger);
 
-    return () => ctx.revert();
+      ctx = gsap.context(() => {
+        gsap.fromTo(
+          [subtitleRef.current, btnRef1.current, btnRef2.current],
+          { opacity: 0, y: 24 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            stagger: 0.12,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: "top 90%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }, containerRef);
+
+      setTimeout(() => ScrollTrigger.refresh(), 100);
+    })();
+
+    return () => ctx?.revert();
   }, []);
 
   return (
@@ -51,7 +55,7 @@ export function CTA() {
       className="relative py-24 w-full bg-transparent overflow-hidden"
     >
       {/* Node network background (section-level) */}
-      <NodeNetwork />
+      <NodeNetworkLazy />
 
       <div className="relative z-10 w-full max-w-200 mx-auto px-6 md:px-12 text-center">
         {/* Glassmorphic box container */}

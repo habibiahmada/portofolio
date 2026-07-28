@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { GlitchText } from "@/components/ui/glitch-text";
-import { NodeNetwork } from "@/components/ui/node-network";
+import { NodeNetworkLazy } from "@/components/ui/node-network-lazy";
 import { CvModal } from "@/components/ui/cv-modal";
 import Image from "next/image";
 
@@ -76,7 +76,7 @@ export function HeroSection() {
       className="relative w-full px-4 sm:px-6 md:px-8 lg:px-12 flex flex-col pt-24 h-[90vh] pb-24 overflow-hidden group/hero"
     >
       {/* Node Network Background Canvas — clustered top-left, mouse coords from hero */}
-      <NodeNetwork externalMouseRef={nodeMouseRef} densityBias="topLeft" />
+      <NodeNetworkLazy externalMouseRef={nodeMouseRef} densityBias="topLeft" />
 
       {/* Background Image positioned on the right */}
       <div
