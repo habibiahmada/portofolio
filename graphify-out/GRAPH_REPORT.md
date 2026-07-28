@@ -1,7 +1,7 @@
 # Graph Report - portofolio-v2  (2026-07-28)
 
 ## Corpus Check
-- 118 files · ~1,096,094 words
+- 118 files · ~1,096,135 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `d9df2c84`
+- Built from commit: `5000b770`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -87,20 +87,20 @@ Cohesion: 0.09
 Nodes (58): GET(), GET(), GET(), GET(), GET(), GET(), GET(), DELETE() (+50 more)
 
 ### Community 1 - "Community 1"
-Cohesion: 0.15
-Nodes (6): NAV_LINKS, Navbar(), Footer(), NAV_LINKS, SOCIAL_LINKS, AnimatedThemeToggle()
+Cohesion: 0.12
+Nodes (14): NAV_LINKS, Navbar(), Footer(), NAV_LINKS, SOCIAL_LINKS, ProjectsPageProps, ProjectsProps, Project (+6 more)
 
 ### Community 2 - "Community 2"
-Cohesion: 0.06
-Nodes (41): AdminLayout(), NAV_ITEMS, useNonPinnedCertificates(), usePinnedCertificates(), EASING, getProjectDescription(), getProjectTitle(), Project (+33 more)
+Cohesion: 0.07
+Nodes (37): AdminLayout(), NAV_ITEMS, EASING, getProjectDescription(), getProjectTitle(), Project, projects, cn() (+29 more)
 
 ### Community 3 - "Community 3"
 Cohesion: 0.05
-Nodes (40): dependencies, @base-ui/react, class-variance-authority, clsx, framer-motion, gsap, lucide-react, next (+32 more)
+Nodes (41): dependencies, @base-ui/react, class-variance-authority, clsx, framer-motion, gsap, lucide-react, next (+33 more)
 
 ### Community 4 - "Community 4"
-Cohesion: 0.08
-Nodes (21): useApi(), UseApiResult, useAuthUser(), useCertificates(), useCompanies(), AboutTimeline(), formatDate(), isOngoing() (+13 more)
+Cohesion: 0.09
+Nodes (19): useApi(), UseApiResult, useAuthUser(), useCertificates(), useCompanies(), useNonPinnedCertificates(), usePinnedCertificates(), Certificates() (+11 more)
 
 ### Community 5 - "Community 5"
 Cohesion: 0.08
@@ -123,12 +123,12 @@ Cohesion: 0.11
 Nodes (17): aliases, components, hooks, lib, ui, utils, iconLibrary, rsc (+9 more)
 
 ### Community 10 - "Community 10"
-Cohesion: 0.07
-Nodes (32): metadata, Page(), getAllCertificates, getCertificates(), getNonPinnedCertificates(), getPinnedCertificates(), PaginatedCertificates, AboutHero() (+24 more)
+Cohesion: 0.06
+Nodes (35): metadata, Page(), getAllCertificates, getNonPinnedCertificates(), getPinnedCertificates(), AboutHero(), AboutIntro(), AboutTechStack() (+27 more)
 
 ### Community 11 - "Community 11"
-Cohesion: 0.11
-Nodes (29): queryAllCertificates(), getCompanies, queryAllCompanies(), DATA_TAGS, FEATURED_PROJECT_IDS, getAllProjects, getFeaturedProjects(), getProjects() (+21 more)
+Cohesion: 0.12
+Nodes (23): PaginatedCertificates, queryAllCertificates(), getCompanies, queryAllCompanies(), DATA_TAGS, FEATURED_PROJECT_IDS, getAllProjects, getFeaturedProjects() (+15 more)
 
 ### Community 12 - "Community 12"
 Cohesion: 0.15
@@ -206,10 +206,10 @@ Nodes (4): Always, Anti-patterns, Skills that compound savings, Token economy
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `cn()` connect `Community 2` to `Community 10`, `Community 11`?**
+- **Why does `cn()` connect `Community 2` to `Community 1`, `Community 10`, `Community 4`?**
   _High betweenness centrality (0.035) - this node is a cross-community bridge._
-- **Why does `GlitchText()` connect `Community 11` to `Community 8`, `Community 1`, `Community 2`, `Community 4`?**
-  _High betweenness centrality (0.024) - this node is a cross-community bridge._
+- **Why does `GlitchText()` connect `Community 1` to `Community 8`, `Community 2`, `Community 11`, `Community 4`?**
+  _High betweenness centrality (0.023) - this node is a cross-community bridge._
 - **Are the 3 inferred relationships involving `getSupabaseServerClient()` (e.g. with `GET()` and `GET()`) actually correct?**
   _`getSupabaseServerClient()` has 3 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 3 inferred relationships involving `serverError()` (e.g. with `GET()` and `GET()`) actually correct?**
@@ -218,5 +218,5 @@ _Questions this graph is uniquely positioned to answer:_
   _273 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.08920027341079972 - nodes in this community are weakly interconnected._
-- **Should `Community 2` be split into smaller, more focused modules?**
-  _Cohesion score 0.061952074810052604 - nodes in this community are weakly interconnected._
+- **Should `Community 1` be split into smaller, more focused modules?**
+  _Cohesion score 0.12258064516129032 - nodes in this community are weakly interconnected._

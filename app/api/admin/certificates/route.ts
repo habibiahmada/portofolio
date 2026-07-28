@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import {
   getSupabaseServerClient,
   getSupabaseAdmin,
@@ -10,6 +11,7 @@ import {
   fail,
   serverError,
 } from "@/lib/supabase/api-response";
+import { DATA_TAGS } from "@/lib/data/constants";
 import type { CertificateRow } from "@/lib/supabase/types";
 
 async function handleGet(_request: NextRequest, _session: AdminSession) {
@@ -47,6 +49,7 @@ async function handlePost(request: NextRequest, _session: AdminSession) {
 
   if (error)
     return NextResponse.json(fail(error.message, "DB_ERROR"), { status: 400 });
+  revalidateTag(DATA_TAGS.certificates);
   return NextResponse.json(ok({ id: body.id }), { status: 201 });
 }
 
@@ -81,6 +84,7 @@ async function handlePatch(request: NextRequest, _session: AdminSession) {
 
   if (error)
     return NextResponse.json(fail(error.message, "DB_ERROR"), { status: 400 });
+  revalidateTag(DATA_TAGS.certificates);
   return NextResponse.json(ok(data));
 }
 
@@ -98,6 +102,7 @@ async function handleDelete(request: NextRequest, _session: AdminSession) {
     .eq("id", id);
   if (error)
     return NextResponse.json(fail(error.message, "DB_ERROR"), { status: 400 });
+  revalidateTag(DATA_TAGS.certificates);
   return NextResponse.json(ok({ deleted: id }));
 }
 

@@ -185,8 +185,8 @@
     "semantic_hash": ""
   },
   "components/sections/cta.tsx": {
-    "mtime": 1785244928.8742075,
-    "ast_hash": "8366e06c78f5c8b2567bc2b62a7aa98a",
+    "mtime": 1785246803.8528993,
+    "ast_hash": "5e5e691cebaa8365c545b2de3c94b66e",
     "semantic_hash": ""
   },
   "components/sections/footer.tsx": {
@@ -195,8 +195,8 @@
     "semantic_hash": ""
   },
   "components/sections/hero.tsx": {
-    "mtime": 1785244929.033872,
-    "ast_hash": "5b0dd2189bb379432600b8fc258257eb",
+    "mtime": 1785246790.9305263,
+    "ast_hash": "8e6b8a8cbbfbbb138e6a47eac7b37a3e",
     "semantic_hash": ""
   },
   "components/sections/projects-page.tsx": {
@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "components/ui/project-card.tsx": {
-    "mtime": 1785244930.59708,
-    "ast_hash": "2024f6fc68d0e010130c926d5b58bfe4",
+    "mtime": 1785246946.0059478,
+    "ast_hash": "b0e4da2fad176c50414cb3b2d99a0f13",
     "semantic_hash": ""
   },
   "components/ui/project-links.tsx": {
@@ -375,13 +375,13 @@
     "semantic_hash": ""
   },
   "next.config.mjs": {
-    "mtime": 1785244930.6206899,
-    "ast_hash": "7d034bd0b0d81350a47a393773497ba4",
+    "mtime": 1785246965.8425825,
+    "ast_hash": "54d345eb6289d504cec45c9dec100359",
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1784501764.7097635,
-    "ast_hash": "45b639968d34ad3e294d8cb66b9046c9",
+    "mtime": 1785246858.9225516,
+    "ast_hash": "78855700ceb67820ccd501f9d1764c60",
     "semantic_hash": ""
   },
   "postcss.config.mjs": {
@@ -1125,8 +1125,8 @@
     "semantic_hash": ""
   },
   "docs/performance-tasks.md": {
-    "mtime": 1785246675.5796356,
-    "ast_hash": "8313cf68765b67fa3c78fa0b16b293c4",
+    "mtime": 1785247049.5953205,
+    "ast_hash": "fa8dd0ec70129d8e1eb784fdc998a9da",
     "semantic_hash": ""
   },
   "docs/performance.md": {

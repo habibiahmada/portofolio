@@ -115,10 +115,10 @@ Checklist lengkap untuk optimasi performa. Urutan = prioritas. Centang di PR / c
 
 ## 8. Caching & correctness setelah admin write
 
-- [ ] **8.1** Setelah POST/PATCH/DELETE admin projects → invalidate tag `projects`
-- [ ] **8.2** Sama untuk certificates → `certificates`
-- [ ] **8.3** Sama untuk companies → `companies`
-- [ ] **8.4** Smoke: ubah data di admin → halaman publik refresh dalam TTL / on-demand
+- [x] **8.1** Setelah POST/PATCH/DELETE admin projects → invalidate tag `projects`
+- [x] **8.2** Sama untuk certificates → `certificates`
+- [x] **8.3** Sama untuk companies → `companies`
+- [x] **8.4** Informasi smoke test: manual — ubah data di admin → public page langsung refresh (tanpa tunggu TTL 60s)
 
 ---
 

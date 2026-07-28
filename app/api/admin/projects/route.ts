@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { getSupabaseServerClient, getSupabaseAdmin } from "@/lib/supabase/server";
 import { withAdmin, type AdminSession } from "@/lib/supabase/admin-auth";
 import { ok, okPaginated, fail, serverError } from "@/lib/supabase/api-response";
+import { DATA_TAGS } from "@/lib/data/constants";
 import type { ProjectRow } from "@/lib/supabase/types";
 
 async function handleGet(_request: NextRequest, _session: AdminSession) {
@@ -36,6 +38,7 @@ async function handlePost(request: NextRequest, _session: AdminSession) {
   });
 
   if (error) return NextResponse.json(fail(error.message, "DB_ERROR"), { status: 400 });
+  revalidateTag(DATA_TAGS.projects);
   return NextResponse.json(ok({ id: body.id }), { status: 201 });
 }
 
@@ -61,6 +64,7 @@ async function handlePatch(request: NextRequest, _session: AdminSession) {
     .single();
 
   if (error) return NextResponse.json(fail(error.message, "DB_ERROR"), { status: 400 });
+  revalidateTag(DATA_TAGS.projects);
   return NextResponse.json(ok(data));
 }
 
@@ -72,6 +76,7 @@ async function handleDelete(request: NextRequest, _session: AdminSession) {
   const supabase = getSupabaseAdmin();
   const { error } = await (supabase.from("projects") as any).delete().eq("id", id);
   if (error) return NextResponse.json(fail(error.message, "DB_ERROR"), { status: 400 });
+  revalidateTag(DATA_TAGS.projects);
   return NextResponse.json(ok({ deleted: id }));
 }
 
