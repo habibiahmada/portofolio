@@ -4,6 +4,11 @@ import { HeroSection } from '@/components/sections/hero'
 import { Projects } from '@/components/sections/projects'
 import { Services } from '@/components/sections/services'
 import { Companies } from '@/components/sections/companies'
+import { getCompanies } from '@/lib/data/companies'
+import {
+  FEATURED_PROJECT_IDS,
+  getFeaturedProjects,
+} from '@/lib/data/projects'
 
 export const metadata: Metadata = {
   description:
@@ -34,16 +39,19 @@ export const metadata: Metadata = {
   },
 }
 
-export default function Home() {
+export default async function Home() {
+  const [companies, featuredProjects] = await Promise.all([
+    getCompanies(),
+    getFeaturedProjects([...FEATURED_PROJECT_IDS]),
+  ])
+
   return (
-    <>
-      <main className="w-full overflow-x-hidden">
-        <HeroSection />
-        <Companies />
-        <Projects />
-        <Services />
-        <CTA />
-      </main>
-    </>
+    <main className="w-full overflow-x-hidden">
+      <HeroSection />
+      <Companies initialData={companies} />
+      <Projects initialData={featuredProjects} />
+      <Services />
+      <CTA />
+    </main>
   )
 }

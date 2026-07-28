@@ -105,11 +105,11 @@ Checklist berbutir (semua halaman + data publik): **[performance-tasks.md](./per
 
 ## Acceptance criteria
 
-- [ ] Public home content visible without waiting on client `/api/public/*` for primary sections  
+- [x] Public home content visible without waiting on client `/api/public/*` for primary sections  
 - [x] Production image optimization enabled with correct remote patterns  
-- [ ] Heavy canvas/GSAP not blocking first interaction by default  
-- [ ] Documented before/after Lighthouse mobile scores in the PR description  
-- [ ] No new CMS/editor dependency added for this initiative  
+- [x] Heavy canvas/GSAP not blocking first interaction by default (dynamic imports + reduced-motion gating)  
+- [ ] Documented before/after Lighthouse mobile scores in the PR description (butuh deploy ke production untuk Lighthouse akurat)  
+- [x] No new CMS/editor dependency added for this initiative  
 
 ---
 

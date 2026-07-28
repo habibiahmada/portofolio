@@ -4,11 +4,19 @@ import Image from "next/image";
 import { GlitchText } from "@/components/ui/glitch-text";
 import { CompanyLogoSkeleton } from "@/components/ui/skeletons";
 import { useCompanies } from "@/lib/hooks/use-api";
+import type { Company } from "@/lib/supabase/types";
 
-export function Companies() {
-  const { data: companies, loading, error } = useCompanies();
+interface CompaniesProps {
+  /** SSR first paint — skips `/api/public/companies` when set. */
+  initialData?: Company[];
+}
 
-  const items = companies || [];
+export function Companies({ initialData }: CompaniesProps) {
+  const { data, loading, error } = useCompanies(!initialData);
+
+  const items = initialData ?? data ?? [];
+  const showSkeleton = !initialData && loading;
+  const showError = !initialData && error;
   const marqueeItems = [...items, ...items];
 
   return (
@@ -27,14 +35,14 @@ export function Companies() {
         </GlitchText>
 
         {/* Loading state */}
-        {loading && (
+        {showSkeleton && (
           <div className="flex justify-center">
             <CompanyLogoSkeleton />
           </div>
         )}
 
         {/* Error state — fallback to empty */}
-        {error && (
+        {showError && (
           <p className="text-center text-xs font-mono text-muted-foreground/40">
             Unable to load partners.
           </p>

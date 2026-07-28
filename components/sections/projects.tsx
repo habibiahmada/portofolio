@@ -6,28 +6,28 @@ import { GlitchText } from "@/components/ui/glitch-text";
 import { ProjectCard } from "@/components/ui/project-card";
 import { ProjectGridSkeleton } from "@/components/ui/skeletons";
 import { useProjects } from "@/lib/hooks/use-api";
-
-// ─── Featured project IDs (pinned) ───────────────────────────────────────────
-const FEATURED_IDS = [
-  "1dd8ca69-4921-4ca7-80e3-56177efaf499", // E-Vote
-  "bde24764-8fcf-4d67-8bb2-697cb57fb66d", // Smartfarm AI
-  "ff98b3c6-e267-4ee0-9059-9444858eacf4", // CultureConnect
-  "13e602b8-c324-44e6-9c61-e9e40f388394", // Spacelab
-  "f5c13a15-1bc6-4e82-8d62-d1196894d189", // Renshuu
-];
+import { FEATURED_PROJECT_IDS } from "@/lib/data/featured-ids";
+import type { Project } from "@/lib/supabase/types";
 
 interface ProjectsProps {
   locale?: string;
+  /** SSR first paint — skips `/api/public/projects` when set. */
+  initialData?: Project[];
 }
 
-export function Projects({ locale = "en" }: ProjectsProps) {
+export function Projects({ locale = "en", initialData }: ProjectsProps) {
   const {
-    data: projects,
+    data: fetched,
     loading,
     error,
   } = useProjects({
-    featured: FEATURED_IDS,
+    featured: [...FEATURED_PROJECT_IDS],
+    enabled: !initialData,
   });
+
+  const projects = initialData ?? fetched;
+  const showSkeleton = !initialData && loading;
+  const showError = !initialData && error;
 
   return (
     <section id="projects" className="relative py-24 w-full bg-transparent">
@@ -57,17 +57,16 @@ export function Projects({ locale = "en" }: ProjectsProps) {
         </div>
 
         {/* Loading state */}
-        {loading && <ProjectGridSkeleton count={4} />}
+        {showSkeleton && <ProjectGridSkeleton count={4} />}
 
         {/* Error state */}
-        {error && (
+        {showError && (
           <p className="text-sm text-red-500 dark:text-red-400 font-mono">
             Failed to load projects: {error}
           </p>
         )}
 
-        {/* Grid — 4 columns */}
-        {!loading && !error && projects && (
+        {!showSkeleton && !showError && projects && projects.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {projects.map((project, i) => (
               <ProjectCard

@@ -134,28 +134,28 @@ Checklist lengkap untuk optimasi performa. Urutan = prioritas. Centang di PR / c
 
 ### Home `/`
 
-- [ ] **10.1** First HTML berisi companies + featured project titles (tanpa JS)
-- [ ] **10.2** Tidak ada request `/api/public/companies` atau `/projects` pada cold load
-- [ ] **10.3** LCP image lewat optimizer; Lighthouse mobile ↑ vs baseline
+- [x] **10.1** First HTML berisi companies + featured project titles (tanpa JS) ✅ terverifikasi via browser View Source
+- [x] **10.2** Tidak ada request `/api/public/companies` atau `/projects` pada cold load ✅ terverifikasi via DevTools Network
+- [ ] **10.3** LCP image lewat optimizer; Lighthouse mobile ↑ vs baseline (butuh deploy ke production untuk Lighthouse akurat)
 
 ### `/projects`
 
-- [ ] **10.4** First HTML berisi daftar project
-- [ ] **10.5** Tidak ada `useProjects` waterfall pada mount
-- [ ] **10.6** Lighthouse mobile ↑ vs baseline
+- [x] **10.4** First HTML berisi daftar project ✅ terverifikasi via browser View Source
+- [x] **10.5** Tidak ada `useProjects` waterfall pada mount ✅
+- [ ] **10.6** Lighthouse mobile ↑ vs baseline (butuh deploy ke production)
 
 ### `/about`
 
-- [ ] **10.7** First HTML berisi pinned certificates (judul/org minimal)
-- [ ] **10.8** Load-more masih bekerja via API
-- [ ] **10.9** Tidak ada double-fetch pinned+page1 pada mount
-- [ ] **10.10** Lighthouse mobile ↑ vs baseline
+- [x] **10.7** First HTML berisi pinned certificates (judul/org minimal) ✅ terverifikasi via browser View Source
+- [x] **10.8** Load-more masih bekerja via API ✅ (kode: `useNonPinnedCertificates` tetap aktif setelah SSR)
+- [x] **10.9** Tidak ada double-fetch pinned+page1 pada mount ✅ (initialPinned/initialNonPinned skip client hooks)
+- [ ] **10.10** Lighthouse mobile ↑ vs baseline (butuh deploy ke production)
 
 ### Global
 
-- [ ] **10.11** `prefers-reduced-motion`: canvas/GSAP tidak jalan agresif
-- [ ] **10.12** Tidak regress CLS signifikan (skeleton → content di SSR harus stabil tinggi)
-- [ ] **10.13** `graphify update .` setelah perubahan struktural
+- [x] **10.11** `prefers-reduced-motion`: canvas/GSAP tidak jalan agresif ✅ (CRT hidden, NodeNetwork/GSAP reduced-motion gate)
+- [x] **10.12** Tidak regress CLS signifikan (skeleton → content di SSR harus stabil tinggi) ✅ (data sudah di HTML, tidak ada layout shift dari skeleton→content)
+- [x] **10.13** `graphify update .` setelah perubahan struktural ✅
 - [ ] **10.14** Update skor akhir di PR + singkat di `docs/performance.md`
 
 ---
