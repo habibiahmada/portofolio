@@ -1,21 +1,23 @@
 import { NextResponse } from "next/server";
-import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { getCompanies } from "@/lib/data/companies";
 import { ok, serverError } from "@/lib/supabase/api-response";
 
+/**
+ * GET /api/public/companies
+ *
+ * Progressive enhancement / client fetch — not the SSR first-paint path.
+ * Prefer `lib/data/companies` from Server Components.
+ */
 export async function GET() {
   try {
-    const supabase = await getSupabaseServerClient();
+    const data = await getCompanies();
 
-    const { data, error } = await supabase
-      .from("companies")
-      .select("*")
-      .order("name", { ascending: true });
-
-    if (error) {
-      return NextResponse.json(serverError(error.message), { status: 500 });
-    }
-
-    return NextResponse.json(ok(data || []));
+    const response = NextResponse.json(ok(data));
+    response.headers.set(
+      "Cache-Control",
+      "public, s-maxage=60, stale-while-revalidate=300",
+    );
+    return response;
   } catch (err: any) {
     return NextResponse.json(serverError(err.message), { status: 500 });
   }

@@ -124,9 +124,9 @@ Checklist lengkap untuk optimasi performa. Urutan = prioritas. Centang di PR / c
 
 ## 9. API publik (tetap ada, peran mengecil)
 
-- [ ] **9.1** Document di code: API untuk progressive enhancement / load-more, bukan SSR path
-- [ ] **9.2** Pastikan response API tetap cocok dengan load-more certificates
-- [ ] **9.3** Cache-Control headers pada `/api/public/*` (mis. `s-maxage` pendek) — opsional, selaras ISR
+- [x] **9.1** Document di code: API untuk progressive enhancement / load-more, bukan SSR path
+- [x] **9.2** Pastikan response API tetap cocok dengan load-more certificates — ganti ke `lib/data/*` helpers (konsisten dengan SSR)
+- [x] **9.3** Cache-Control headers pada `/api/public/*` — `public, s-maxage=60, stale-while-revalidate=300`
 
 ---
 
