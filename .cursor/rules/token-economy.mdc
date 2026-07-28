@@ -1,0 +1,27 @@
+---
+description: Token-saving workflow — graph-first, minimal reads, progressive docs
+alwaysApply: true
+---
+
+# Token economy
+
+Goal: answer accurately with the smallest context.
+
+## Order of operations
+
+1. **Graph first** — `graphify query|path|explain` (see `graphify.mdc`)
+2. **Steering / docs** — `docs/` index, then one linked page — not the whole tree
+3. **Targeted Read** — only files the graph or docs named
+4. **Grep/Glob** — last resort for exact strings / filenames
+
+## Do not
+
+- Bulk-read `node_modules`, `.next`, lockfiles, or whole `app/` trees
+- Paste large diffs into chat when a path + summary works
+- Re-explore architecture already covered in `docs/architecture.md` or `graphify-out/`
+
+## Prefer
+
+- Short plans, then implement
+- One skill at a time (`performance-optimization`, `ponytail`, etc.)
+- Update `graphify update .` after structural code changes (AST-only, no LLM)

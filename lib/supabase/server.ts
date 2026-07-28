@@ -42,6 +42,16 @@ export async function getSupabaseServerClient() {
   );
 }
 
+/** Anon client without cookies — safe for unstable_cache / ISR (no request-specific session). */
+export function getSupabaseAnonClient() {
+  const { createClient } = require("@supabase/supabase-js") as typeof import("@supabase/supabase-js");
+  return createClient<Database>(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    { auth: { autoRefreshToken: false, persistSession: false } },
+  );
+}
+
 /** Admin client with service_role — used only for seed/migration scripts */
 export function getSupabaseAdmin() {
   // In test/CI mode, return the mock so requests don't hang on dummy URLs.

@@ -1,235 +1,90 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 
-// ─── Component ────────────────────────────────────────────────────────────────
+const STAGES = [
+  { label: "Commit", desc: "push", color: "text-[#ef4444] dark:text-blue-400", ring: "ring-[#ef4444]/40 dark:ring-blue-400/40", bg: "bg-[#ef4444]/10 dark:bg-blue-400/10" },
+  { label: "Build", desc: "bundle", color: "text-amber-500", ring: "ring-amber-500/40", bg: "bg-amber-500/10" },
+  { label: "Test", desc: "verify", color: "text-sky-500", ring: "ring-sky-500/40", bg: "bg-sky-500/10" },
+  { label: "Deploy", desc: "live", color: "text-emerald-500", ring: "ring-emerald-500/40", bg: "bg-emerald-500/10" },
+] as const;
+
+const LOGS = [
+  "$ git push origin main",
+  "✓ build · 12.4s",
+  "✓ 48 tests passed",
+  "▲ deployed · prod",
+];
 
 export function CICDPipelineVisual() {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: false, margin: "-40px" });
-  const [activeStage, setActiveStage] = useState<number>(0);
+  const isInView = useInView(ref, { once: true, margin: "-40px" });
+  const reduceMotion = useReducedMotion();
+  const [active, setActive] = useState(reduceMotion ? 3 : 0);
 
-  const stages = [
-    {
-      id: 0,
-      label: "Commit",
-      icon: (
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <circle cx="7" cy="7" r="3" stroke="currentColor" strokeWidth="1.5" />
-          <line
-            x1="7"
-            y1="4"
-            x2="7"
-            y2="0"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-          />
-          <line
-            x1="7"
-            y1="10"
-            x2="7"
-            y2="14"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-          />
-        </svg>
-      ),
-      color: "text-[#ef4444]",
-      bgActive: "bg-red-500/10 ring-red-500/50",
-      desc: "push",
-    },
-    {
-      id: 1,
-      label: "Build",
-      icon: (
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <rect
-            x="2"
-            y="2"
-            width="10"
-            height="10"
-            rx="1.5"
-            stroke="currentColor"
-            strokeWidth="1.3"
-          />
-          <line
-            x1="4"
-            y1="7"
-            x2="10"
-            y2="7"
-            stroke="currentColor"
-            strokeWidth="1.3"
-            strokeLinecap="round"
-          />
-          <line
-            x1="7"
-            y1="4"
-            x2="7"
-            y2="10"
-            stroke="currentColor"
-            strokeWidth="1.3"
-            strokeLinecap="round"
-          />
-        </svg>
-      ),
-      color: "text-amber-500",
-      bgActive: "bg-amber-500/10 ring-amber-500/50",
-      desc: "bundle",
-    },
-    {
-      id: 2,
-      label: "Test",
-      icon: (
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path
-            d="M3 7.5L6 10.5L11 4"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      ),
-      color: "text-sky-500",
-      bgActive: "bg-sky-500/10 ring-sky-500/50",
-      desc: "verify",
-    },
-    {
-      id: 3,
-      label: "Deploy",
-      icon: (
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path
-            d="M7 1L7 11"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-          />
-          <path
-            d="M11 6L7 1L3 6"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <line
-            x1="1"
-            y1="12"
-            x2="13"
-            y2="12"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-          />
-        </svg>
-      ),
-      color: "text-emerald-500",
-      bgActive: "bg-emerald-500/10 ring-emerald-500/50",
-      desc: "release",
-    },
-  ];
-
-  // Pipeline runner — loops through stages
   useEffect(() => {
-    if (!isInView) return;
+    if (!isInView || reduceMotion) return;
     let idx = 0;
-    const stageInterval = setInterval(() => {
-      idx++;
-      setActiveStage(idx % stages.length);
-    }, 2200);
-    return () => {
-      clearInterval(stageInterval);
-      setActiveStage(0);
-    };
-  }, [isInView]);
+    const id = setInterval(() => {
+      idx = (idx + 1) % STAGES.length;
+      setActive(idx);
+    }, 2000);
+    return () => clearInterval(id);
+  }, [isInView, reduceMotion]);
 
   return (
     <div
       ref={ref}
-      className="w-full h-44 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-black/5 dark:border-white/5 flex items-center justify-center overflow-hidden px-6 py-4 select-none"
+      className="w-full h-44 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-black/5 dark:border-white/5 overflow-hidden select-none flex flex-col"
     >
-      <div className="flex items-center w-full max-w-70">
-        {stages.map((stage, i) => {
-          const isActive = activeStage === i;
-          const isPast = i < activeStage;
+      {/* Pipeline */}
+      <div className="flex-1 flex items-center px-4 pt-3 pb-1">
+        <div className="flex items-center w-full">
+          {STAGES.map((stage, i) => {
+            const isActive = active === i;
+            const isPast = i < active;
 
-          return (
-            <div
-              key={stage.id}
-              className="flex items-center flex-1 last:flex-none"
-            >
-              {/* Stage node + label */}
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={
-                  isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }
-                }
-                transition={{ delay: i * 0.1, duration: 0.4, ease: "easeOut" }}
-                className="flex flex-col items-center gap-1.5 shrink-0"
-              >
-                {/* Node circle */}
+            return (
+              <div key={stage.label} className="flex items-center flex-1 last:flex-none">
                 <motion.div
-                  animate={{
-                    scale: isActive ? [1, 1.15, 1] : 1,
-                  }}
-                  transition={{
-                    scale: isActive
-                      ? { duration: 0.8, repeat: Infinity, ease: "easeInOut" }
-                      : { duration: 0.3 },
-                  }}
-                  className={`relative w-9 h-9 rounded-full flex items-center justify-center transition-all duration-500 ${
-                    isActive
-                      ? `${stage.color} ${stage.bgActive} ring-2`
-                      : isPast
-                        ? "bg-emerald-500/10 text-emerald-500 ring-1 ring-emerald-500/30"
-                        : "bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-600 ring-1 ring-black/5 dark:ring-white/5"
-                  }`}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ delay: i * 0.08, duration: 0.35 }}
+                  className="flex flex-col items-center gap-1 shrink-0"
                 >
-                  <span className={isActive || isPast ? "" : "opacity-50"}>
+                  <div
+                    className={`relative w-8 h-8 rounded-full flex items-center justify-center transition-all duration-400 ${
+                      isActive
+                        ? `${stage.color} ${stage.bg} ring-2 ${stage.ring}`
+                        : isPast
+                          ? "bg-emerald-500/10 text-emerald-500 ring-1 ring-emerald-500/25"
+                          : "bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-600 ring-1 ring-black/5 dark:ring-white/5"
+                    }`}
+                  >
                     {isPast ? (
-                      <svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 14 14"
-                        fill="none"
-                      >
+                      <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden>
                         <path
                           d="M3 7.5L6 10.5L11 3.5"
                           stroke="currentColor"
-                          strokeWidth="1.5"
+                          strokeWidth="1.6"
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         />
                       </svg>
                     ) : (
-                      stage.icon
+                      <span className="text-[9px] font-mono font-bold">{i + 1}</span>
                     )}
-                  </span>
-
-                  {/* Pulse ring */}
-                  {isActive && (
-                    <motion.span
-                      className="absolute inset-0 rounded-full border-2 border-current"
-                      animate={{
-                        scale: [1, 1.6],
-                        opacity: [0.4, 0],
-                      }}
-                      transition={{
-                        duration: 1.2,
-                        repeat: Infinity,
-                        ease: "easeOut",
-                      }}
-                    />
-                  )}
-                </motion.div>
-
-                {/* Label */}
-                <div className="flex flex-col items-center">
+                    {isActive && !reduceMotion && (
+                      <motion.span
+                        className="absolute inset-0 rounded-full border border-current"
+                        animate={{ scale: [1, 1.55], opacity: [0.45, 0] }}
+                        transition={{ duration: 1.1, repeat: Infinity, ease: "easeOut" }}
+                      />
+                    )}
+                  </div>
                   <span
-                    className={`text-[9px] font-mono font-bold tracking-wide transition-colors duration-300 ${
+                    className={`text-[8px] font-mono font-semibold transition-colors ${
                       isActive
                         ? stage.color
                         : isPast
@@ -239,37 +94,54 @@ export function CICDPipelineVisual() {
                   >
                     {stage.label}
                   </span>
-                  <span
-                    className={`text-[7px] font-mono tracking-widest uppercase transition-colors duration-300 ${
-                      isActive
-                        ? "text-muted-foreground/60"
-                        : "text-muted-foreground/20"
-                    }`}
-                  >
-                    {isPast ? "done" : isActive ? stage.desc : "wait"}
-                  </span>
-                </div>
-              </motion.div>
+                </motion.div>
 
-              {/* Connector line between stages */}
-              {i < stages.length - 1 && (
-                <div className="flex-1 flex items-center justify-center px-1 -mt-6">
-                  <div className="relative w-full h-0.5">
-                    <div className="absolute inset-0 rounded-full bg-zinc-200 dark:bg-zinc-800" />
-                    <motion.div
-                      className="absolute inset-y-0 left-0 rounded-full bg-emerald-500"
-                      initial={{ width: "0%" }}
-                      animate={{
-                        width: isPast ? "100%" : "0%",
-                      }}
-                      transition={{ duration: 0.5, ease: "easeOut" }}
-                    />
+                {i < STAGES.length - 1 && (
+                  <div className="flex-1 px-1 -mt-3.5">
+                    <div className="relative h-0.5 w-full rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden">
+                      <motion.div
+                        className="absolute inset-y-0 left-0 bg-emerald-500 rounded-full"
+                        animate={{ width: isPast ? "100%" : "0%" }}
+                        transition={{ duration: 0.4 }}
+                      />
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
-          );
-        })}
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Terminal log */}
+      <div className="mx-3 mb-3 rounded-lg border border-black/5 dark:border-white/5 bg-zinc-950 px-2.5 py-2 font-mono">
+        <div className="flex items-center gap-1 mb-1.5">
+          <span className="w-1 h-1 rounded-full bg-zinc-600" />
+          <span className="w-1 h-1 rounded-full bg-zinc-600" />
+          <span className="w-1 h-1 rounded-full bg-zinc-600" />
+          <span className="ml-1 text-[7px] text-zinc-500">pipeline · main</span>
+        </div>
+        <div className="space-y-0.5 min-h-[2.8rem]">
+          {LOGS.map((line, i) => {
+            const visible = reduceMotion ? true : i <= active;
+            return (
+              <motion.div
+                key={line}
+                initial={false}
+                animate={{ opacity: visible ? 1 : 0.15 }}
+                className={`text-[8px] truncate ${
+                  i === active
+                    ? "text-emerald-400"
+                    : i < active
+                      ? "text-zinc-400"
+                      : "text-zinc-600"
+                }`}
+              >
+                {line}
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

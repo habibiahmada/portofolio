@@ -2,23 +2,34 @@
 
 import { useRef } from "react";
 import { GlitchText } from "@/components/ui/glitch-text";
-import { NodeNetwork } from "@/components/ui/node-network";
+import { NodeNetworkLazy } from "@/components/ui/node-network-lazy";
 import { CpuArchitecture } from "@/components/ui/cpu-architecture";
 import { ProjectCard } from "@/components/ui/project-card";
 import { ProjectGridSkeleton } from "@/components/ui/skeletons";
 import { useProjects } from "@/lib/hooks/use-api";
+import type { Project } from "@/lib/supabase/types";
 
 interface ProjectsPageProps {
   locale?: string;
+  /** SSR first paint — skips `/api/public/projects` when set. */
+  initialData?: Project[];
 }
 
-export function ProjectsPage({ locale = "en" }: ProjectsPageProps) {
+export function ProjectsPage({ locale = "en", initialData }: ProjectsPageProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const nodeMouseRef = useRef<{ x: number; y: number; active: boolean } | null>(
     { x: 0, y: 0, active: false },
   );
 
-  const { data: projects, loading, error } = useProjects();
+  const {
+    data: fetched,
+    loading,
+    error,
+  } = useProjects({ enabled: !initialData });
+
+  const projects = initialData ?? fetched;
+  const showSkeleton = !initialData && loading;
+  const showError = !initialData && error;
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = sectionRef.current;
@@ -42,7 +53,7 @@ export function ProjectsPage({ locale = "en" }: ProjectsPageProps) {
       onMouseLeave={handleMouseLeave}
       className="relative py-16 md:py-24 w-full bg-transparent min-h-screen"
     >
-      <NodeNetwork externalMouseRef={nodeMouseRef} densityBias="topRight" />
+      <NodeNetworkLazy externalMouseRef={nodeMouseRef} densityBias="topRight" />
 
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-red-500/3 dark:bg-blue-500/3 blur-3xl" />
@@ -72,18 +83,18 @@ export function ProjectsPage({ locale = "en" }: ProjectsPageProps) {
           </div>
         </div>
 
-        {/* Loading state */}
-        {loading && <ProjectGridSkeleton count={8} />}
+        {/* Loading state (only when no initialData) */}
+        {showSkeleton && <ProjectGridSkeleton count={8} />}
 
-        {/* Error state */}
-        {error && (
+        {/* Error state (only when no initialData) */}
+        {showError && (
           <p className="text-sm text-red-500 dark:text-red-400 font-mono">
             Failed to load projects: {error}
           </p>
         )}
 
         {/* Projects Grid — 4 columns */}
-        {!loading && !error && projects && (
+        {!showSkeleton && !showError && projects && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
             {projects.map((project, i) => (
               <ProjectCard

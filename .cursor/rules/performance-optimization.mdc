@@ -1,0 +1,27 @@
+---
+description: Performance steering — SSR/SSG, images, JS budget toward Lighthouse ~100
+alwaysApply: true
+---
+
+# Performance steering
+
+Target: public pages fast on **mobile Lighthouse** (SSR/SSG first, then images, then JS).
+
+Puck / page-builders are **out of scope** for this goal.
+
+## Priority order (do in this order)
+
+1. **Images** — `next.config.mjs` must NOT keep `images.unoptimized: true` in production. Use `next/image`, `remotePatterns` for Supabase, `priority` only above-the-fold, accurate `sizes`.
+2. **SSR / ISR** — public sections must not client-fetch via `lib/hooks/use-api.ts`. Fetch in Server Components / server `lib/*` with `revalidate`. Pass data as props; keep `"use client"` only for interaction/animation.
+3. **JS budget** — lazy-load `NodeNetwork`, GSAP, heavy Framer visuals with `next/dynamic`. Prefer CSS transitions on lists. Honor `prefers-reduced-motion`.
+4. **Measure** — PageSpeed / Lighthouse mobile; `@next/bundle-analyzer` when chasing bundle size.
+
+## Anti-patterns in this repo
+
+- `"use client"` + `useProjects` / `useCompanies` / `useCertificates` on public marketing pages
+- Skeleton-first public content that could have been HTML from the server
+- Continuous canvas animation on every viewport without reduced-motion / idle gate
+
+## Detail
+
+Full plan: `docs/performance.md`. Skill: `.cursor/skills/performance-optimization/SKILL.md`.

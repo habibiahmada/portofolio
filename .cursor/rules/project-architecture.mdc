@@ -1,0 +1,28 @@
+---
+description: Portfolio v2 stack map — Next.js, Supabase, admin, public routes
+alwaysApply: true
+---
+
+# Architecture (short)
+
+| Layer | Choice |
+|-------|--------|
+| App | Next.js 16 App Router + React 19 + Tailwind 4 |
+| Data | Supabase (Postgres): `projects`, `certificates`, `companies`, `allowed_users` |
+| Auth | Supabase OAuth + email; whitelist `ADMIN_ALLOWED_EMAILS` |
+| Edge | `proxy.ts` (session refresh + `/admin` guard) |
+| Host | Vercel / v0 deploy from `main` |
+
+## Routes
+
+- Public: `app/(public)/` — home, about, projects
+- Admin CRUD: `app/admin/*` + `app/api/admin/*`
+- Public API: `app/api/public/*` (prefer server fetch for pages; keep API for clients that need it)
+- Auth: `app/api/auth/*`, `app/login`
+
+## Agent entry points
+
+- Docs index: `docs/README.md`
+- Perf plan: `docs/performance.md`
+- Security: `SECURITY.md`
+- Graph: `graphify-out/` + `graphify query "..."`

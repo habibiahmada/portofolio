@@ -1,162 +1,140 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 
-// ─── Component ────────────────────────────────────────────────────────────────
+const METRICS = [
+  { label: "LCP", val: "1.1s", pct: 92 },
+  { label: "INP", val: "48ms", pct: 96 },
+  { label: "CLS", val: "0.01", pct: 100 },
+] as const;
 
 export function SpeedometerGaugeVisual() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(containerRef, { once: false, margin: "-40px" });
-  const [score, setScore] = useState(0);
-  const [metricsVisible, setMetricsVisible] = useState(false);
+  const isInView = useInView(containerRef, { once: true, margin: "-40px" });
+  const reduceMotion = useReducedMotion();
+  const [score, setScore] = useState(reduceMotion ? 98 : 0);
+  const [ready, setReady] = useState(!!reduceMotion);
 
   useEffect(() => {
-    if (!isInView) {
-      setScore(0);
-      setMetricsVisible(false);
+    if (!isInView) return;
+    if (reduceMotion) {
+      setScore(98);
+      setReady(true);
       return;
     }
 
-    let rafId: number;
-    let timeoutId: ReturnType<typeof setTimeout>;
+    let raf = 0;
     let current = 0;
-    let animating = true;
+    let alive = true;
 
-    const animate = () => {
-      if (!animating) return;
-      current += 1;
+    const tick = () => {
+      if (!alive) return;
+      current += 2;
       if (current >= 98) {
-        current = 98;
-        setScore(current);
-        setMetricsVisible(true);
-        animating = false;
-        timeoutId = setTimeout(startCycle, 3000);
+        setScore(98);
+        setReady(true);
         return;
       }
       setScore(current);
-      rafId = requestAnimationFrame(animate);
+      raf = requestAnimationFrame(tick);
     };
 
-    const startCycle = () => {
-      current = 0;
-      setScore(0);
-      setMetricsVisible(false);
-      animating = true;
-      rafId = requestAnimationFrame(animate);
-    };
-
-    rafId = requestAnimationFrame(animate);
-
+    raf = requestAnimationFrame(tick);
     return () => {
-      animating = false;
-      cancelAnimationFrame(rafId);
-      clearTimeout(timeoutId);
+      alive = false;
+      cancelAnimationFrame(raf);
     };
-  }, [isInView]);
+  }, [isInView, reduceMotion]);
 
-  const radius = 38;
+  const radius = 36;
   const circumference = 2 * Math.PI * radius;
   const arcLen = circumference * 0.75;
-  const filled = arcLen * (score / 100);
-  const offset = arcLen - filled;
-
-  const metrics = [
-    { label: "FCP", val: "0.8s", color: "text-emerald-500" },
-    { label: "LCP", val: "1.2s", color: "text-emerald-500" },
-    { label: "CLS", val: "0.02", color: "text-emerald-500" },
-  ];
+  const offset = arcLen - arcLen * (score / 100);
 
   return (
     <div
       ref={containerRef}
-      className="w-full h-44 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-black/5 dark:border-white/5 flex items-center justify-center px-5 overflow-hidden"
+      className="w-full h-44 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-black/5 dark:border-white/5 flex items-center justify-center px-4 overflow-hidden select-none"
     >
-      <div className="flex items-center gap-5">
-        {/* Gauge */}
+      <div className="flex items-center gap-4 w-full max-w-70">
         <div className="relative shrink-0">
-          <svg width="88" height="88" viewBox="0 0 88 88">
+          <svg width="84" height="84" viewBox="0 0 84 84" aria-hidden>
             <circle
-              cx="44"
-              cy="44"
+              cx="42"
+              cy="42"
               r={radius}
               fill="none"
-              stroke="currentColor"
-              strokeWidth="6"
+              strokeWidth="5"
               strokeLinecap="round"
               className="text-zinc-200 dark:text-zinc-800"
+              stroke="currentColor"
               strokeDasharray={`${arcLen} ${circumference}`}
-              strokeDashoffset={0}
-              transform="rotate(135 44 44)"
+              transform="rotate(135 42 42)"
             />
-            <motion.circle
-              cx="44"
-              cy="44"
+            <circle
+              cx="42"
+              cy="42"
               r={radius}
               fill="none"
-              strokeWidth="6"
+              strokeWidth="5"
               strokeLinecap="round"
               stroke="#10b981"
               strokeDasharray={`${arcLen} ${circumference}`}
               strokeDashoffset={offset}
-              transform="rotate(135 44 44)"
-              style={{ transition: "stroke-dashoffset 0.04s linear" }}
+              transform="rotate(135 42 42)"
+              style={{
+                transition: reduceMotion
+                  ? undefined
+                  : "stroke-dashoffset 0.05s linear",
+              }}
             />
           </svg>
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-2xl font-black text-emerald-500 font-mono leading-none">
+          <div className="absolute inset-0 flex flex-col items-center justify-center pt-1">
+            <span className="text-2xl font-black text-emerald-500 font-mono leading-none tabular-nums">
               {score}
             </span>
-            <span className="text-[8px] text-muted-foreground/60 font-mono uppercase tracking-widest mt-0.5">
-              Score
+            <span className="text-[7px] text-muted-foreground/55 font-mono uppercase tracking-widest mt-0.5">
+              Perf
             </span>
           </div>
         </div>
 
-        {/* Metrics */}
-        <motion.div
-          initial={{ width: 0, opacity: 0 }}
-          animate={
-            metricsVisible
-              ? { width: "auto", opacity: 1 }
-              : { width: 0, opacity: 0 }
-          }
-          transition={{ duration: 0.5, ease: [0.215, 0.61, 0.355, 1] }}
-          className="overflow-hidden shrink-0"
-        >
-          <div className="flex flex-col gap-2.5 min-w-max">
-            {metrics.map((m, i) => (
-              <motion.div
-                key={m.label}
-                initial={{ opacity: 0, x: 8 }}
-                animate={
-                  metricsVisible ? { opacity: 1, x: 0 } : { opacity: 0, x: 8 }
-                }
-                transition={{ delay: i * 0.12 + 0.1, duration: 0.45 }}
-                className="flex items-center gap-2"
-              >
-                <span className="text-[9px] font-mono text-muted-foreground/60 w-6 shrink-0">
-                  {m.label}
-                </span>
-                <div className="h-1 rounded-full bg-zinc-200 dark:bg-zinc-800 w-14 overflow-hidden shrink-0">
-                  <motion.div
-                    className="h-full rounded-full bg-emerald-500"
-                    initial={{ width: 0 }}
-                    animate={metricsVisible ? { width: "100%" } : { width: 0 }}
-                    transition={{
-                      delay: i * 0.12 + 0.2,
-                      duration: 0.8,
-                      ease: "easeOut",
-                    }}
-                  />
-                </div>
-                <span className={`text-[10px] font-mono font-bold ${m.color} shrink-0`}>
-                  {m.val}
-                </span>
-              </motion.div>
-            ))}
+        <div className="flex-1 min-w-0 space-y-2.5">
+          <div className="text-[8px] font-mono text-muted-foreground/50 uppercase tracking-widest">
+            Core Web Vitals
           </div>
-        </motion.div>
+          {METRICS.map((m, i) => (
+            <motion.div
+              key={m.label}
+              initial={reduceMotion ? false : { opacity: 0, x: 8 }}
+              animate={
+                ready ? { opacity: 1, x: 0 } : { opacity: 0, x: 8 }
+              }
+              transition={{ delay: i * 0.1, duration: 0.35 }}
+              className="flex items-center gap-2"
+            >
+              <span className="text-[9px] font-mono text-muted-foreground/65 w-7 shrink-0">
+                {m.label}
+              </span>
+              <div className="h-1 flex-1 rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden">
+                <motion.div
+                  className="h-full rounded-full bg-emerald-500"
+                  initial={{ width: 0 }}
+                  animate={ready ? { width: `${m.pct}%` } : { width: 0 }}
+                  transition={{
+                    delay: reduceMotion ? 0 : i * 0.1 + 0.15,
+                    duration: 0.6,
+                    ease: "easeOut",
+                  }}
+                />
+              </div>
+              <span className="text-[9px] font-mono font-semibold text-emerald-600 dark:text-emerald-400 tabular-nums shrink-0 w-8 text-right">
+                {m.val}
+              </span>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </div>
   );

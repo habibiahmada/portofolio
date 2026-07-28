@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { ProjectsPage } from '@/components/sections/projects-page'
+import { getProjects } from '@/lib/data/projects'
 
 export const metadata: Metadata = {
   title: 'Projects — Web Developer Portfolio',
@@ -31,10 +32,12 @@ export const metadata: Metadata = {
   },
 }
 
-export default function ProjectsPageRoute() {
+export default async function ProjectsPageRoute() {
+  const { items: projects } = await getProjects({ page: 1, pageSize: 100 })
+
   return (
     <main className="min-h-screen bg-background">
-      <ProjectsPage locale="en" />
+      <ProjectsPage locale="en" initialData={projects} />
     </main>
   )
 }
