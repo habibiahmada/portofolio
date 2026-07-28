@@ -31,8 +31,11 @@ export function Navbar() {
   const [glitchActive, setGlitchActive] = useState(false);
   const pathname = usePathname();
 
-  // ── Periodic subtle glitch on navbar ──
+  // Periodic subtle glitch on navbar (desktop only — avoids mobile timer churn)
   useEffect(() => {
+    if (window.matchMedia("(max-width: 768px), (pointer: coarse)").matches) {
+      return;
+    }
     const interval = setInterval(() => {
       setGlitchActive(true);
       setTimeout(() => setGlitchActive(false), 200);

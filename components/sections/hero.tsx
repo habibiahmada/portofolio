@@ -1,10 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import { GlitchText } from "@/components/ui/glitch-text";
 import { NodeNetworkLazy } from "@/components/ui/node-network-lazy";
-import { CvModal } from "@/components/ui/cv-modal";
 import Image from "next/image";
+
+const CvModal = dynamic(
+  () => import("@/components/ui/cv-modal").then((m) => m.CvModal),
+  { ssr: false },
+);
 
 export function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -175,8 +180,10 @@ export function HeroSection() {
       {/* Full-width bottom gradient fade */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-linear-to-t from-background to-transparent pointer-events-none" />
 
-      {/* ── CV Modal ── */}
-      <CvModal open={cvOpen} onClose={() => setCvOpen(false)} />
+      {/* CV Modal — code-split; only mount after first open */}
+      {cvOpen ? (
+        <CvModal open={cvOpen} onClose={() => setCvOpen(false)} />
+      ) : null}
     </section>
   );
 }

@@ -1,16 +1,16 @@
 # Graph Report - portofolio-v2  (2026-07-28)
 
 ## Corpus Check
-- 118 files · ~1,096,114 words
+- 123 files · ~1,092,242 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 615 nodes · 1019 edges · 43 communities (35 shown, 8 thin omitted)
+- 639 nodes · 1066 edges · 41 communities (33 shown, 8 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 25 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `1c965cb3`
+- Built from commit: `9a1bae9d`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -27,7 +27,6 @@
 - [[_COMMUNITY_Community 9|Community 9]]
 - [[_COMMUNITY_Community 10|Community 10]]
 - [[_COMMUNITY_Community 11|Community 11]]
-- [[_COMMUNITY_Community 12|Community 12]]
 - [[_COMMUNITY_Community 14|Community 14]]
 - [[_COMMUNITY_Community 15|Community 15]]
 - [[_COMMUNITY_Community 16|Community 16]]
@@ -55,7 +54,7 @@
 
 ## God Nodes (most connected - your core abstractions)
 1. `getSupabaseServerClient()` - 32 edges
-2. `cn()` - 30 edges
+2. `cn()` - 32 edges
 3. `serverError()` - 26 edges
 4. `ok()` - 24 edges
 5. `fail()` - 22 edges
@@ -80,27 +79,27 @@
 ## Import Cycles
 - None detected.
 
-## Communities (43 total, 8 thin omitted)
+## Communities (41 total, 8 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.09
 Nodes (59): GET(), GET(), GET(), GET(), GET(), GET(), GET(), DELETE() (+51 more)
 
 ### Community 1 - "Community 1"
-Cohesion: 0.15
-Nodes (6): NAV_LINKS, Navbar(), Footer(), NAV_LINKS, SOCIAL_LINKS, AnimatedThemeToggle()
+Cohesion: 0.10
+Nodes (14): NAV_LINKS, Navbar(), AboutHero(), CTA(), Footer(), NAV_LINKS, SOCIAL_LINKS, AnimatedThemeToggle() (+6 more)
 
 ### Community 2 - "Community 2"
-Cohesion: 0.06
-Nodes (39): AdminLayout(), NAV_ITEMS, useNonPinnedCertificates(), usePinnedCertificates(), EASING, getProjectDescription(), getProjectTitle(), Project (+31 more)
+Cohesion: 0.08
+Nodes (34): AdminShell(), NAV_ITEMS, AdminLayout(), metadata, EASING, getProjectDescription(), getProjectTitle(), Project (+26 more)
 
 ### Community 3 - "Community 3"
 Cohesion: 0.05
 Nodes (41): dependencies, @base-ui/react, class-variance-authority, clsx, framer-motion, gsap, lucide-react, next (+33 more)
 
 ### Community 4 - "Community 4"
-Cohesion: 0.08
-Nodes (23): useApi(), UseApiResult, useAuthUser(), useCertificates(), useCompanies(), AboutTimeline(), formatDate(), isOngoing() (+15 more)
+Cohesion: 0.06
+Nodes (38): FEATURED_PROJECT_IDS, useApi(), UseApiResult, useAuthUser(), useCertificates(), useCompanies(), useNonPinnedCertificates(), usePinnedCertificates() (+30 more)
 
 ### Community 5 - "Community 5"
 Cohesion: 0.08
@@ -116,7 +115,7 @@ Nodes (20): compilerOptions, allowJs, esModuleInterop, incremental, isolatedModu
 
 ### Community 8 - "Community 8"
 Cohesion: 0.07
-Nodes (27): CARDS, CICDPipelineVisual, CodeEditorVisual, LayoutDesignerVisual, NodeGraphVisual, Services(), SpeedometerGaugeVisual, visualLoader (+19 more)
+Nodes (26): CARDS, CICDPipelineVisual, CodeEditorVisual, LayoutDesignerVisual, NodeGraphVisual, Services(), SpeedometerGaugeVisual, CICDPipelineVisual() (+18 more)
 
 ### Community 9 - "Community 9"
 Cohesion: 0.11
@@ -124,15 +123,11 @@ Nodes (17): aliases, components, hooks, lib, ui, utils, iconLibrary, rsc (+9 mor
 
 ### Community 10 - "Community 10"
 Cohesion: 0.07
-Nodes (32): metadata, Page(), getAllCertificates, getCertificates(), getNonPinnedCertificates(), getPinnedCertificates(), PaginatedCertificates, AboutHero() (+24 more)
+Nodes (29): metadata, Page(), getAllCertificates, getCertificates(), getNonPinnedCertificates(), getPinnedCertificates(), PaginatedCertificates, AboutIntro() (+21 more)
 
 ### Community 11 - "Community 11"
-Cohesion: 0.11
-Nodes (27): queryAllCertificates(), getCompanies, queryAllCompanies(), FEATURED_PROJECT_IDS, getAllProjects, getFeaturedProjects(), getProjects(), PaginatedProjects (+19 more)
-
-### Community 12 - "Community 12"
-Cohesion: 0.15
-Nodes (12): geistMono, geistSans, spaceGrotesk, viewport, allSchemas, breadcrumbSchema, JsonLd(), localBusinessSchema (+4 more)
+Cohesion: 0.06
+Nodes (36): geistMono, geistSans, spaceGrotesk, viewport, allSchemas, breadcrumbSchema, JsonLd(), localBusinessSchema (+28 more)
 
 ### Community 14 - "Community 14"
 Cohesion: 0.22
@@ -199,24 +194,24 @@ Cohesion: 0.40
 Nodes (4): Always, Anti-patterns, Skills that compound savings, Token economy
 
 ## Knowledge Gaps
-- **278 isolated node(s):** `metadata`, `metadata`, `metadata`, `NAV_ITEMS`, `Stats` (+273 more)
+- **284 isolated node(s):** `metadata`, `base`, `metadata`, `metadata`, `NAV_ITEMS` (+279 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **8 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `cn()` connect `Community 2` to `Community 10`, `Community 11`?**
-  _High betweenness centrality (0.036) - this node is a cross-community bridge._
-- **Why does `GlitchText()` connect `Community 11` to `Community 8`, `Community 1`, `Community 2`, `Community 4`?**
+- **Why does `cn()` connect `Community 2` to `Community 1`, `Community 10`, `Community 4`?**
+  _High betweenness centrality (0.039) - this node is a cross-community bridge._
+- **Why does `GlitchText()` connect `Community 1` to `Community 8`, `Community 2`, `Community 4`?**
   _High betweenness centrality (0.025) - this node is a cross-community bridge._
 - **Are the 3 inferred relationships involving `getSupabaseServerClient()` (e.g. with `GET()` and `GET()`) actually correct?**
   _`getSupabaseServerClient()` has 3 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 3 inferred relationships involving `serverError()` (e.g. with `GET()` and `GET()`) actually correct?**
   _`serverError()` has 3 INFERRED edges - model-reasoned connections that need verification._
-- **What connects `metadata`, `metadata`, `metadata` to the rest of the system?**
-  _278 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **What connects `metadata`, `base`, `metadata` to the rest of the system?**
+  _284 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.08698474521259332 - nodes in this community are weakly interconnected._
-- **Should `Community 2` be split into smaller, more focused modules?**
-  _Cohesion score 0.06493506493506493 - nodes in this community are weakly interconnected._
+- **Should `Community 1` be split into smaller, more focused modules?**
+  _Cohesion score 0.10344827586206896 - nodes in this community are weakly interconnected._

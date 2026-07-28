@@ -345,3 +345,16 @@ html[data-theme-vt="active"]::view-transition-new(root) {
     display: none !important;
   }
 }
+
+/* Mobile / touch: CRT flicker burns main-thread for little visual gain (TBT) */
+@media (max-width: 768px), (pointer: coarse) {
+  .crt-overlay {
+    display: none !important;
+  }
+
+  #projects,
+  #companies {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 420px;
+  }
+}

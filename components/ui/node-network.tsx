@@ -60,7 +60,12 @@ export function NodeNetwork({ externalMouseRef, densityBias = 'uniform' }: NodeN
     }
 
     const initParticles = () => {
-      const count = Math.min(60, Math.floor((canvas.width * canvas.height) / 15000))
+      // Fewer nodes on mid-size screens keeps O(n²) edges cheap
+      const area = canvas.width * canvas.height
+      const count = Math.min(
+        area < 900_000 ? 28 : 48,
+        Math.floor(area / 18_000),
+      )
       particles = []
       for (let i = 0; i < count; i++) {
         const isRed = Math.random() > 0.5

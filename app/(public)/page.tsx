@@ -1,9 +1,8 @@
 import type { Metadata } from 'next'
-import { CTA } from '@/components/sections/cta'
 import { HeroSection } from '@/components/sections/hero'
 import { Projects } from '@/components/sections/projects'
-import { Services } from '@/components/sections/services'
 import { Companies } from '@/components/sections/companies'
+import { HomeBelowFold } from '@/components/sections/home-below-fold'
 import { getCompanies } from '@/lib/data/companies'
 import {
   FEATURED_PROJECT_IDS,
@@ -35,8 +34,7 @@ export default async function Home() {
       <HeroSection />
       <Companies initialData={companies} />
       <Projects initialData={featuredProjects} />
-      <Services />
-      <CTA />
+      <HomeBelowFold />
     </main>
   )
 }
