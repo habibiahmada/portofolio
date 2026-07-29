@@ -37,7 +37,10 @@ export function Certificates({
 
   return (
     <>
-      <section id="certificates" className="p-24 w-full bg-transparent">
+      <section
+        id="certificates"
+        className="py-16 md:py-24 w-full px-4 sm:px-6 md:px-8 lg:px-12 bg-transparent"
+      >
         <div className="w-full mx-auto space-y-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -49,7 +52,7 @@ export function Certificates({
             <span className="text-xs font-mono tracking-widest text-[#ef4444] dark:text-blue-400 uppercase block">
               // Certificates
             </span>
-            <h2 className="text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight">
               Licenses &{" "}
               <span className="text-red-500 dark:text-blue-400">
                 Certifications
@@ -123,7 +126,7 @@ export function Certificates({
             viewport={{ once: true }}
             className="flex justify-center pt-4"
           >
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center justify-center gap-3">
               {isExpanded && (
                 <button
                   type="button"

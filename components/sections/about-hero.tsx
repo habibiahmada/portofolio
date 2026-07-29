@@ -71,7 +71,7 @@ export function AboutHero() {
       id="about-hero"
       ref={containerRef}
       aria-label="About hero"
-      className="relative min-h-[90vh] w-full flex flex-col justify-center py-1 4 overflow-hidden"
+      className="relative min-h-[90vh] w-full flex flex-col justify-center pt-24 pb-16 md:py-24 overflow-hidden"
     >
       {/* Node Network Background Canvas — clustered top-left, mouse coords from hero */}
       <NodeNetworkLazy externalMouseRef={nodeMouseRef} densityBias="topLeft" />
@@ -95,13 +95,13 @@ export function AboutHero() {
         />
       </div>
 
-      <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center flex-1">
+      <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center flex-1">
         {/* Main Content: Bold Typography */}
-        <div className="lg:col-span-9 max-w-4xl flex flex-col items-start gap-8 lg:self-center z-10 relative">
+        <div className="lg:col-span-9 max-w-4xl flex flex-col items-start gap-6 sm:gap-8 lg:self-center z-10 relative">
           {/* Heading — name as identity */}
           <GlitchText
             as="h1"
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-heading font-black tracking-tighter leading-[0.95] select-none text-foreground w-full lg:w-full"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] font-heading font-black tracking-tighter leading-[0.95] select-none text-foreground w-full lg:w-full"
             interval={6000}
             duration={400}
           >
@@ -117,7 +117,7 @@ export function AboutHero() {
           </GlitchText>
 
           {/* One-liner description */}
-          <p className="text-lg md:text-xl text-muted-foreground/90 leading-relaxed font-medium max-w-2xl mt-4">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground/90 leading-relaxed font-medium max-w-2xl mt-2 sm:mt-4">
             <span className="text-foreground font-semibold">
               Full-Stack Web Developer
             </span>{" "}
@@ -134,7 +134,7 @@ export function AboutHero() {
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4 pt-4">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2 sm:pt-4 w-full sm:w-auto">
             <a
               href="#cta"
               className="px-8 py-3.5 bg-zinc-950 dark:bg-zinc-50 text-white dark:text-zinc-950 rounded-full font-bold text-sm text-center shadow-lg hover:shadow-red-500/10 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
@@ -150,30 +150,30 @@ export function AboutHero() {
           </div>
 
           {/* Stats */}
-          <div className="flex items-center gap-10 mt-8">
+          <div className="grid grid-cols-3 gap-4 sm:flex sm:items-center sm:gap-8 md:gap-10 mt-6 sm:mt-8 w-full sm:w-auto">
             <div>
-              <div className="text-3xl sm:text-4xl font-heading font-black text-foreground tracking-tighter">
+              <div className="text-2xl sm:text-3xl md:text-4xl font-heading font-black text-foreground tracking-tighter">
                 3<span className="text-red-500 dark:text-blue-400">+</span>
               </div>
-              <div className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground/50 mt-1">
+              <div className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider sm:tracking-widest text-muted-foreground/50 mt-1">
                 Years Building
               </div>
             </div>
-            <div className="w-px h-12 bg-black/8 dark:bg-white/8" />
+            <div className="hidden sm:block w-px h-12 bg-black/8 dark:bg-white/8" />
             <div>
-              <div className="text-3xl sm:text-4xl font-heading font-black text-foreground tracking-tighter">
+              <div className="text-2xl sm:text-3xl md:text-4xl font-heading font-black text-foreground tracking-tighter">
                 10<span className="text-red-500 dark:text-blue-400">+</span>
               </div>
-              <div className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground/50 mt-1">
+              <div className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider sm:tracking-widest text-muted-foreground/50 mt-1">
                 Projects Shipped
               </div>
             </div>
-            <div className="w-px h-12 bg-black/8 dark:bg-white/8" />
+            <div className="hidden sm:block w-px h-12 bg-black/8 dark:bg-white/8" />
             <div>
-              <div className="text-3xl sm:text-4xl font-heading font-black text-foreground tracking-tighter">
+              <div className="text-2xl sm:text-3xl md:text-4xl font-heading font-black text-foreground tracking-tighter">
                 2
               </div>
-              <div className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground/50 mt-1">
+              <div className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider sm:tracking-widest text-muted-foreground/50 mt-1">
                 Awards Won
               </div>
             </div>

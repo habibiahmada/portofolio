@@ -27,7 +27,7 @@ export function Companies({ initialData }: CompaniesProps) {
       <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12">
         <GlitchText
           as="h2"
-          className="block w-full text-center font-mono tracking-widest text-muted-foreground/60 uppercase mb-10 select-none"
+          className="block w-full text-center font-mono text-xs sm:text-sm tracking-wider sm:tracking-widest text-muted-foreground/60 uppercase mb-10 select-none px-2"
           interval={4500}
           duration={300}
         >

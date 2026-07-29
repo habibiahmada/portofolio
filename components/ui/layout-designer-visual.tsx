@@ -147,7 +147,7 @@ export function LayoutDesignerVisual() {
                     } ${i === 0 ? "relative overflow-hidden" : ""}`}
                   >
                     {i === 0 && (
-                      <div className="absolute inset-0 bg-gradient-to-br from-[#ef4444]/10 to-transparent dark:from-blue-400/10" />
+                      <div className="absolute inset-0 bg-linear-to-br from-[#ef4444]/10 to-transparent dark:from-blue-400/10" />
                     )}
                   </div>
                 ),

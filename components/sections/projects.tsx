@@ -30,7 +30,7 @@ export function Projects({ locale = "en", initialData }: ProjectsProps) {
   const showError = !initialData && error;
 
   return (
-    <section id="projects" className="relative py-24 w-full bg-transparent">
+    <section id="projects" className="relative py-16 md:py-24 w-full bg-transparent">
       <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-14 gap-6">
@@ -40,7 +40,7 @@ export function Projects({ locale = "en", initialData }: ProjectsProps) {
             </span>
             <GlitchText
               as="h2"
-              className="text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight"
+              className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight"
               interval={5000}
               duration={320}
             >

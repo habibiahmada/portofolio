@@ -32,7 +32,7 @@ export function AboutIntro() {
 
             {/* Heading */}
             <div>
-              <h2 className="text-4xl sm:text-5xl font-heading font-black tracking-tighter text-foreground leading-[1.02]">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-black tracking-tighter text-foreground leading-[1.02]">
                 A Glimpse Into
                 <br />
                 <span className="text-red-500 dark:text-blue-400">

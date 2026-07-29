@@ -110,7 +110,7 @@ const CARDS = [
 
 export function Services() {
   return (
-    <section id="services" className="py-24 w-full bg-transparent">
+    <section id="services" className="py-16 md:py-24 w-full bg-transparent">
       <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12">
         <div className="max-w-2xl mb-14 space-y-3">
           <span className="text-xs font-mono tracking-widest text-[#ef4444] dark:text-blue-400 uppercase block">
@@ -118,7 +118,7 @@ export function Services() {
           </span>
           <GlitchText
             as="h2"
-            className="text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight"
+            className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight"
             interval={5000}
             duration={320}
           >

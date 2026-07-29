@@ -52,19 +52,19 @@ export function CTA() {
     <section
       id="cta"
       ref={containerRef}
-      className="relative py-24 w-full bg-transparent overflow-hidden"
+      className="relative py-16 md:py-24 w-full bg-transparent overflow-hidden"
     >
       {/* Node network background (section-level) */}
       <NodeNetworkLazy />
 
-      <div className="relative z-10 w-full max-w-200 mx-auto px-6 md:px-12 text-center">
+      <div className="relative z-10 w-full max-w-200 mx-auto px-4 sm:px-6 md:px-12 text-center">
         {/* Glassmorphic box container */}
-        <div className="relative overflow-hidden rounded-3xl border border-black/5 dark:border-white/5 bg-black/1.5 dark:bg-white/1.5 p-12 md:p-20 shadow-xl backdrop-blur-md">
+        <div className="relative overflow-hidden rounded-3xl border border-black/5 dark:border-white/5 bg-black/1.5 dark:bg-white/1.5 p-6 sm:p-10 md:p-20 shadow-xl backdrop-blur-md">
           {/* Accent radial glow behind text */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-87.5 h-87.5 bg-red-500/5 blur-[130px] rounded-full -z-10 pointer-events-none" />
 
           {/* Title with glitch effect */}
-          <h2 className="relative z-10 text-4xl md:text-6xl font-extrabold mb-6 tracking-tight text-foreground">
+          <h2 className="relative z-10 text-3xl sm:text-4xl md:text-6xl font-extrabold mb-4 sm:mb-6 tracking-tight text-foreground">
             Have a{" "}
             <GlitchText
               words={["project", "vision", "dream"]}
@@ -79,7 +79,7 @@ export function CTA() {
           {/* Subtitle */}
           <p
             ref={subtitleRef}
-            className="relative z-10 text-base md:text-lg text-muted-foreground/90 mb-10 mx-auto max-w-xl leading-relaxed font-normal"
+            className="relative z-10 text-sm sm:text-base md:text-lg text-muted-foreground/90 mb-8 sm:mb-10 mx-auto max-w-xl leading-relaxed font-normal"
           >
             Let&apos;s collaborate to turn your concepts into clean, high-performing digital realities. Reach out today and let&apos;s make it happen!
           </p>

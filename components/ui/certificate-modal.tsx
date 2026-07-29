@@ -192,8 +192,8 @@ export function CertificateModal({
               </button>
             </div>
 
-            <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-5 overflow-hidden">
-              <div className="lg:col-span-2 p-5 md:p-6 overflow-y-auto border-r border-white/5 flex flex-col gap-4">
+            <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-5 overflow-y-auto lg:overflow-hidden">
+              <div className="lg:col-span-2 p-5 md:p-6 overflow-y-auto border-b lg:border-b-0 lg:border-r border-white/5 flex flex-col gap-4">
                 <div>
                   <span className="text-[9px] font-mono uppercase tracking-widest text-red-500 dark:text-blue-400 font-semibold">
                     {orgDisplay}
@@ -208,7 +208,7 @@ export function CertificateModal({
                 </p>
               </div>
 
-              <div className="lg:col-span-3 relative flex items-center justify-center bg-zinc-900/50 min-h-100 lg:min-h-[65vh]">
+              <div className="lg:col-span-3 relative flex items-center justify-center bg-zinc-900/50 min-h-48 sm:min-h-64 lg:min-h-[65vh]">
                 <div className="relative w-full h-full flex items-center justify-center p-4">
                   {pageSrc ? (
                     <AnimatePresence mode="wait">
@@ -218,7 +218,7 @@ export function CertificateModal({
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -40 }}
                         transition={{ duration: 0.25, ease: "easeOut" }}
-                        className="relative w-full h-full max-h-[75vh]"
+                        className="relative w-full h-full min-h-48 sm:min-h-64 max-h-[50vh] lg:max-h-[75vh]"
                       >
                         <Image
                           src={pageSrc}
@@ -286,8 +286,8 @@ export function CertificateModal({
               </div>
             </div>
 
-            <div className="flex items-center justify-between px-5 py-2.5 border-t border-white/5 bg-black/30 shrink-0">
-              <span className="text-[11px] text-zinc-500 tracking-wide">
+            <div className="flex items-center justify-between gap-3 px-5 py-2.5 border-t border-white/5 bg-black/30 shrink-0">
+              <span className="hidden sm:inline text-[11px] text-zinc-500 tracking-wide">
                 Use{" "}
                 <kbd className="px-1.5 py-0.5 rounded bg-white/5 text-zinc-400 text-[10px] font-mono">
                   Esc
@@ -306,7 +306,10 @@ export function CertificateModal({
                   </>
                 )}
               </span>
-              <span className="text-[11px] text-zinc-500 tabular-nums">
+              <span className="sm:hidden text-[11px] text-zinc-500 tracking-wide">
+                Tap outside to close
+              </span>
+              <span className="text-[11px] text-zinc-500 tabular-nums shrink-0">
                 {totalPages > 0 ? `${currentPage + 1} / ${totalPages}` : "—"}
               </span>
             </div>

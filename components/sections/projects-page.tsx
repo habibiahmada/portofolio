@@ -70,13 +70,13 @@ export function ProjectsPage({ locale = "en", initialData }: ProjectsPageProps) 
             </span>
             <GlitchText
               as="h1"
-              className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-foreground leading-tight"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-foreground leading-tight"
               interval={6000}
               duration={350}
             >
               All Projects
             </GlitchText>
-            <p className="text-base text-muted-foreground/60 max-w-xl leading-relaxed">
+            <p className="text-sm sm:text-base text-muted-foreground/60 max-w-xl leading-relaxed">
               A curated collection of everything I&apos;ve built — from
               production applications to experimental side projects.
             </p>

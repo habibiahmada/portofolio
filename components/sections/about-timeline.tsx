@@ -264,8 +264,11 @@ export function AboutTimeline() {
   const education = timelineData.filter((d) => d.type === "education");
 
   return (
-    <section id="about-timeline" className="p-24 w-full bg-transparent">
-      <div className="w-full space-y-20">
+    <section
+      id="about-timeline"
+      className="py-16 md:py-24 w-full px-4 sm:px-6 md:px-8 lg:px-12 bg-transparent"
+    >
+      <div className="w-full space-y-16 md:space-y-20">
         {/* ── Experience ── */}
         <div className="space-y-12">
           <div
@@ -274,7 +277,7 @@ export function AboutTimeline() {
             <span className="text-xs font-mono tracking-widest text-[#ef4444] dark:text-blue-400 uppercase block">
               // Experience
             </span>
-            <h2 className="text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight">
               My Journey
             </h2>
             <p className="text-sm md:text-base text-muted-foreground/80 leading-relaxed font-medium max-w-lg">
@@ -292,7 +295,9 @@ export function AboutTimeline() {
 
         {/* ── Divider ── */}
         <div className="h-px w-full bg-black/5 dark:bg-white/5" />
-        <Companies />
+        <div className="-mx-4 sm:-mx-6 md:-mx-8 lg:-mx-12">
+          <Companies />
+        </div>
         <div className="h-px w-full bg-black/5 dark:bg-white/5" />
 
         {/* ── Education ── */}
@@ -303,7 +308,7 @@ export function AboutTimeline() {
             <span className="text-xs font-mono tracking-widest text-emerald-500 uppercase block">
               // Education
             </span>
-            <h2 className="text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight">
               Academic Foundation
             </h2>
             <p className="text-sm md:text-base text-muted-foreground/80 leading-relaxed font-medium max-w-lg">

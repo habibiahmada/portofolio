@@ -129,7 +129,7 @@ export function CvModal({
             exit={{ opacity: 0, scale: 0.92, y: 20 }}
             transition={{ duration: 0.35, ease: [0.215, 0.61, 0.355, 1] }}
             className={cn(
-              "relative w-full max-w-4xl h-[85vh] flex flex-col",
+              "relative w-full max-w-4xl h-[min(85vh,100dvh)] max-h-[85dvh] flex flex-col",
               "rounded-2xl border border-white/10 bg-zinc-950/90 dark:bg-black/90",
               "shadow-2xl shadow-black/50 overflow-hidden",
               glitchActive && "animate-glitch-skew",
