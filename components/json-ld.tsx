@@ -368,6 +368,7 @@ export const rootMetadata: Metadata = {
     languages: {
       en: SITE.url,
       id: SITE.url,
+      "x-default": SITE.url,
     },
   },
   openGraph: {

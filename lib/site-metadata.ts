@@ -114,6 +114,7 @@ export function pageMetadata({
       languages: {
         en: url,
         id: url,
+        "x-default": url,
       },
     },
     openGraph: {
