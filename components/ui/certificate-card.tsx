@@ -36,14 +36,14 @@ export function CertificateCard({
         "hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-black/40",
         "transition-all duration-500",
         "animate-fade-in-up",
-        isPinned && "ring-1 ring-red-500/20 dark:ring-blue-400/20",
+        isPinned && "ring-1 ring-brand/20",
       )}
     >
       {/* Pinned badge */}
       {isPinned && (
-        <div className="absolute top-3 left-3 z-20 flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-red-500/10 dark:bg-blue-400/10 backdrop-blur-md border border-red-500/20 dark:border-blue-400/20">
-          <Pin className="w-2.5 h-2.5 text-red-500 dark:text-blue-400" />
-          <span className="text-[8px] font-mono font-bold uppercase tracking-widest text-red-500 dark:text-blue-400">
+        <div className="absolute top-3 left-3 z-20 flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-brand/10 backdrop-blur-md border border-brand/20">
+          <Pin className="w-2.5 h-2.5 text-brand" />
+          <span className="text-[8px] font-mono font-bold uppercase tracking-widest text-brand">
             Pinned
           </span>
         </div>

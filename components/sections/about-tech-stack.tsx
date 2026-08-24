@@ -77,7 +77,7 @@ const row2 = techs.slice(8);
 
 function TechIcon({ name, icon }: Tech) {
   return (
-    <div className="relative w-16 h-16 shrink-0 opacity-30 hover:opacity-100 transition-all duration-500">
+    <div className="relative w-16 h-16 shrink-0 cursor-pointer select-none transition-transform duration-500 hover:scale-110">
       <Image
         src={icon}
         alt={name}
@@ -141,9 +141,9 @@ export function AboutTechStack() {
       className="py-16 md:py-24 w-full bg-transparent overflow-hidden"
     >
       <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12">
-        <div className="max-w-2xl mb-14 space-y-3">
-          <span className="text-xs font-mono tracking-widest text-[#ef4444] dark:text-blue-400 uppercase block">
-            // Tech Stack
+        <div className="mx-auto w-full max-w-7xl mb-14 space-y-3">
+          <span className="text-xs font-mono tracking-widest text-brand uppercase block">
+            Tech Stack
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight">
             Tools & Technologies
@@ -154,6 +154,7 @@ export function AboutTechStack() {
           </p>
         </div>
 
+        {/* Full-bleed marquees */}
         <div className="mb-10">
           <InfiniteMarquee
             items={row1}

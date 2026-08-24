@@ -138,7 +138,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
             <a
               href="/"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors font-mono"
             >
               View Site →

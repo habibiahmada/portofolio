@@ -41,13 +41,14 @@ function WhenNear({ children }: { children: ReactNode }) {
   return <div ref={ref}>{show ? children : <div className="py-24 min-h-100" aria-hidden />}</div>;
 }
 
-/** Below-fold home sections: defer JS until near viewport (mobile TBT). */
-export function HomeBelowFold() {
+/** Below-fold home sections: defer heavy JS; slot SSR content between Services and CTA. */
+export function HomeBelowFold({ afterServices }: { afterServices?: ReactNode }) {
   return (
     <>
       <WhenNear>
         <Services />
       </WhenNear>
+      {afterServices}
       <WhenNear>
         <CTA />
       </WhenNear>

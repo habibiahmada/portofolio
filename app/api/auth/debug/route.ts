@@ -1,45 +1,46 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 
 /**
  * GET /api/auth/debug
  *
- * Debug endpoint to check:
- * - Current authenticated user email
- * - Allowed emails from env
- * - Whether current user is authorized
+ * Dev-only. Never expose allowlist or auth metadata in production.
  */
-export async function GET(request: NextRequest) {
+export async function GET() {
+  if (process.env.NODE_ENV === "production") {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
   try {
     const supabase = await getSupabaseServerClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
 
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const allowedEmails = (process.env.ADMIN_ALLOWED_EMAILS || "")
       .split(",")
       .map((e) => e.trim().toLowerCase())
       .filter(Boolean);
 
-    const userEmail = (user?.email ?? "").toLowerCase();
+    const userEmail = (user.email ?? "").toLowerCase();
     const isAuthorized = allowedEmails.includes(userEmail);
 
+    if (!isAuthorized) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    // Dev only — still omit raw env string; return count + match only.
     return NextResponse.json({
-      authenticated: !!user,
+      authenticated: true,
       userEmail,
-      userEmailRaw: user?.email,
-      userMetadata: user?.user_metadata,
-      appMetadata: user?.app_metadata,
-      allowedEmails,
-      allowedEmailsRaw: process.env.ADMIN_ALLOWED_EMAILS,
-      isAuthorized,
+      isAuthorized: true,
+      allowedEmailCount: allowedEmails.length,
     });
-  } catch (err: any) {
-    return NextResponse.json(
-      {
-        error: err.message,
-      },
-      { status: 500 },
-    );
+  } catch {
+    return NextResponse.json({ error: "Internal error" }, { status: 500 });
   }
 }

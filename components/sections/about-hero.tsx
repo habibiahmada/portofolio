@@ -95,7 +95,7 @@ export function AboutHero() {
         />
       </div>
 
-      <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center flex-1">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center flex-1">
         {/* Main Content: Bold Typography */}
         <div className="lg:col-span-9 max-w-4xl flex flex-col items-start gap-6 sm:gap-8 lg:self-center z-10 relative">
           {/* Heading — name as identity */}
@@ -153,7 +153,7 @@ export function AboutHero() {
           <div className="grid grid-cols-3 gap-4 sm:flex sm:items-center sm:gap-8 md:gap-10 mt-6 sm:mt-8 w-full sm:w-auto">
             <div>
               <div className="text-2xl sm:text-3xl md:text-4xl font-heading font-black text-foreground tracking-tighter">
-                3<span className="text-red-500 dark:text-blue-400">+</span>
+                3<span className="text-brand">+</span>
               </div>
               <div className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider sm:tracking-widest text-muted-foreground/50 mt-1">
                 Years Building
@@ -162,7 +162,7 @@ export function AboutHero() {
             <div className="hidden sm:block w-px h-12 bg-black/8 dark:bg-white/8" />
             <div>
               <div className="text-2xl sm:text-3xl md:text-4xl font-heading font-black text-foreground tracking-tighter">
-                10<span className="text-red-500 dark:text-blue-400">+</span>
+                10<span className="text-brand">+</span>
               </div>
               <div className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider sm:tracking-widest text-muted-foreground/50 mt-1">
                 Projects Shipped

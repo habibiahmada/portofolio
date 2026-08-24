@@ -196,6 +196,12 @@ const breadcrumbSchema = {
       name: "Projects",
       item: `${SITE.url}/projects`,
     },
+    {
+      "@type": "ListItem",
+      position: 4,
+      name: "Services",
+      item: `${SITE.url}/services`,
+    },
   ],
 };
 

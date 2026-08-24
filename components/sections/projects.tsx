@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { GlitchText } from "@/components/ui/glitch-text";
 import { ProjectCard } from "@/components/ui/project-card";
 import { ProjectGridSkeleton } from "@/components/ui/skeletons";
+import { PageShell } from "@/components/ui/page-shell";
 import { useProjects } from "@/lib/hooks/use-api";
 import { FEATURED_PROJECT_IDS } from "@/lib/data/featured-ids";
 import type { Project } from "@/lib/supabase/types";
@@ -31,21 +31,16 @@ export function Projects({ locale = "en", initialData }: ProjectsProps) {
 
   return (
     <section id="projects" className="relative py-16 md:py-24 w-full bg-transparent">
-      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12">
+      <PageShell wide>
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-14 gap-6">
           <div className="space-y-3">
-            <span className="text-xs font-mono tracking-widest text-[#ef4444] dark:text-blue-400 uppercase block">
-              // Selected Works
+            <span className="text-xs font-mono tracking-widest text-brand uppercase block">
+              Selected Works
             </span>
-            <GlitchText
-              as="h2"
-              className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight"
-              interval={5000}
-              duration={320}
-            >
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight">
               Featured Projects
-            </GlitchText>
+            </h2>
           </div>
           <Link
             href="/projects"
@@ -56,10 +51,8 @@ export function Projects({ locale = "en", initialData }: ProjectsProps) {
           </Link>
         </div>
 
-        {/* Loading state */}
         {showSkeleton && <ProjectGridSkeleton count={4} />}
 
-        {/* Error state */}
         {showError && (
           <p className="text-sm text-red-500 dark:text-red-400 font-mono">
             Failed to load projects: {error}
@@ -67,7 +60,7 @@ export function Projects({ locale = "en", initialData }: ProjectsProps) {
         )}
 
         {!showSkeleton && !showError && projects && projects.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {projects.map((project, i) => (
               <ProjectCard
                 key={project.id}
@@ -79,7 +72,7 @@ export function Projects({ locale = "en", initialData }: ProjectsProps) {
             ))}
           </div>
         )}
-      </div>
+      </PageShell>
     </section>
   );
 }

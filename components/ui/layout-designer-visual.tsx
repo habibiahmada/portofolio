@@ -63,7 +63,7 @@ export function LayoutDesignerVisual() {
       {/* Toolbar */}
       <div className="absolute top-2 left-2 right-2 z-10 flex items-center justify-between">
         <div className="flex items-center gap-1.5 rounded-md bg-white/80 dark:bg-zinc-950/80 border border-black/5 dark:border-white/5 px-2 py-1 backdrop-blur-sm">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#ef4444] dark:bg-blue-400" />
+          <span className="w-1.5 h-1.5 rounded-full bg-brand" />
           <span className="text-[8px] font-mono text-muted-foreground/70 tracking-wide">
             artboard · home
           </span>
@@ -78,7 +78,7 @@ export function LayoutDesignerVisual() {
                 onClick={() => setDevice(d.key)}
                 className={`px-1.5 py-0.5 rounded text-[8px] font-mono transition-colors ${
                   active
-                    ? "bg-[#ef4444]/10 text-[#ef4444] dark:bg-blue-400/15 dark:text-blue-400"
+                    ? "bg-brand/10 text-brand"
                     : "text-muted-foreground/50 hover:text-muted-foreground"
                 }`}
               >
@@ -102,10 +102,10 @@ export function LayoutDesignerVisual() {
           style={{ width: frame.w, maxWidth: frame.max }}
         >
           {/* Selection handles */}
-          <span className="absolute -top-1 -left-1 w-1.5 h-1.5 bg-[#ef4444] dark:bg-blue-400 rounded-[1px] z-10" />
-          <span className="absolute -top-1 -right-1 w-1.5 h-1.5 bg-[#ef4444] dark:bg-blue-400 rounded-[1px] z-10" />
-          <span className="absolute -bottom-1 -left-1 w-1.5 h-1.5 bg-[#ef4444] dark:bg-blue-400 rounded-[1px] z-10" />
-          <span className="absolute -bottom-1 -right-1 w-1.5 h-1.5 bg-[#ef4444] dark:bg-blue-400 rounded-[1px] z-10" />
+          <span className="absolute -top-1 -left-1 w-1.5 h-1.5 bg-brand rounded-[1px] z-10" />
+          <span className="absolute -top-1 -right-1 w-1.5 h-1.5 bg-brand rounded-[1px] z-10" />
+          <span className="absolute -bottom-1 -left-1 w-1.5 h-1.5 bg-brand rounded-[1px] z-10" />
+          <span className="absolute -bottom-1 -right-1 w-1.5 h-1.5 bg-brand rounded-[1px] z-10" />
 
           <div className="flex items-center gap-1 px-2 py-1.5 border-b border-black/5 dark:border-white/5 bg-zinc-50/80 dark:bg-zinc-900/80">
             <span className="w-1 h-1 rounded-full bg-zinc-300 dark:bg-zinc-600" />
@@ -116,11 +116,11 @@ export function LayoutDesignerVisual() {
 
           <div className="p-2 space-y-1.5">
             <div
-              className={`rounded-md bg-[#ef4444]/8 dark:bg-blue-500/15 border border-[#ef4444]/15 dark:border-blue-400/20 ${
+              className={`rounded-md bg-brand/10 border border-brand/15 ${
                 device === "mobile" ? "h-5" : "h-6"
               } flex items-center px-2`}
             >
-              <div className="h-1 rounded-full bg-[#ef4444]/50 dark:bg-blue-400/50 w-2/5" />
+              <div className="h-1 rounded-full bg-brand/50 w-2/5" />
               {device !== "mobile" && (
                 <div className="ml-auto flex gap-1">
                   <div className="w-4 h-1 rounded-full bg-zinc-300/80 dark:bg-zinc-600/80" />
@@ -147,7 +147,7 @@ export function LayoutDesignerVisual() {
                     } ${i === 0 ? "relative overflow-hidden" : ""}`}
                   >
                     {i === 0 && (
-                      <div className="absolute inset-0 bg-linear-to-br from-[#ef4444]/10 to-transparent dark:from-blue-400/10" />
+                      <div className="absolute inset-0 bg-linear-to-br from-brand/10 to-transparent" />
                     )}
                   </div>
                 ),

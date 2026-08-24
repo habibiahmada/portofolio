@@ -28,7 +28,7 @@ export function ProjectLinks({
           rel="noopener noreferrer"
           aria-label="View Source"
           className={cn(
-            "inline-flex items-center gap-1 text-[10px] font-mono transition-colors",
+            "inline-flex items-center gap-1 text-[11px] font-mono transition-colors",
             "text-muted-foreground hover:text-foreground",
             hover &&
               "px-2 py-1 rounded-md hover:bg-black/5 dark:hover:bg-white/5",
@@ -45,10 +45,10 @@ export function ProjectLinks({
           rel="noopener noreferrer"
           aria-label="View Live"
           className={cn(
-            "inline-flex items-center gap-1 text-[10px] font-mono font-semibold transition-colors",
-            "text-[#ef4444] hover:text-[#ff3333] dark:text-blue-400 dark:hover:text-blue-300",
+            "inline-flex items-center gap-1 text-[11px] font-mono font-semibold transition-colors",
+            "text-brand hover:opacity-90",
             hover &&
-              "px-2 py-1 rounded-md hover:bg-red-500/5 dark:hover:bg-blue-400/5",
+              "px-2 py-1 rounded-md hover:bg-brand/5",
           )}
         >
           Live

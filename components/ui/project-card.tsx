@@ -1,10 +1,13 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { GitFork, ExternalLink } from 'lucide-react'
 import { ProjectTag } from '@/components/ui/project-tag'
 import { ProjectLinks } from '@/components/ui/project-links'
 import { getProjectTitle, getProjectDescription, type Project } from '@/lib/projects'
+import { getProjectMeta } from '@/lib/data/project-meta'
+import { getCaseStudySlugByProjectId } from '@/lib/data/case-studies'
 import { cn } from '@/lib/utils'
 
 // ─── Types ──────────────────────────────────────────────────────────────────
@@ -60,8 +63,15 @@ export function ProjectCard({
   variant = 'featured',
 }: ProjectCardProps) {
   const title = getProjectTitle(project, locale)
-  const description = getProjectDescription(project, locale)
+  const shortTitle = title.includes(':') ? title.split(':')[0].trim() : title
+  const meta = getProjectMeta(project.id)
+  const caseStudySlug = getCaseStudySlugByProjectId(project.id)
+  const description =
+    (locale === 'id' ? meta?.description_id : meta?.description_en) ??
+    getProjectDescription(project, locale)
   const isFeatured = variant === 'featured'
+  const detailHref = caseStudySlug ? `/projects/${caseStudySlug}` : null
+  const tags = project.tags.slice(0, isFeatured ? 2 : 3)
 
   return (
     <article
@@ -78,14 +88,13 @@ export function ProjectCard({
       <div className="relative overflow-hidden aspect-16/10">
         <Image
           src={project.image}
-          alt={title}
+          alt={shortTitle}
           fill
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           priority={index < 2}
         />
 
-        {/* Gradient overlay */}
         <div
           className={cn(
             'absolute inset-0 transition-opacity duration-500',
@@ -95,34 +104,30 @@ export function ProjectCard({
           )}
         />
 
-        {/* Ring accent (archive only) */}
         {!isFeatured && (
-          <div className="absolute inset-0 ring-1 ring-inset ring-black/5 dark:ring-white/5 group-hover:ring-red-500/20 dark:group-hover:ring-blue-400/20 transition-all duration-500 rounded-2xl" />
+          <div className="absolute inset-0 ring-1 ring-inset ring-black/5 dark:ring-white/5 group-hover:ring-brand/20 transition-all duration-500 rounded-2xl" />
         )}
 
-        {/* Index badge */}
         <div className="absolute top-3 left-3 z-10">
-          <span className="text-[9px] sm:text-[10px] font-mono font-bold tracking-widest text-white/90 bg-black/30 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/10">
+          <span className="text-[10px] font-mono font-bold tracking-widest text-white/90 bg-black/30 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
             {String(index + 1).padStart(2, '0')}
           </span>
         </div>
 
-        {/* Year — featured: always on image; archive: on hover at top-right */}
         {isFeatured ? (
           <div className="absolute bottom-3 left-3 z-10">
-            <span className="text-[9px] font-mono tracking-wider text-white/70 bg-black/20 backdrop-blur-sm px-2 py-0.5 rounded-full border border-white/5">
+            <span className="text-[10px] font-mono tracking-wider text-white/80 bg-black/25 backdrop-blur-sm px-2.5 py-1 rounded-full border border-white/10">
               {project.year}
             </span>
           </div>
         ) : (
           <div className="absolute top-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-all duration-400 translate-y-1 group-hover:translate-y-0">
-            <span className="text-[10px] font-mono text-white/80 bg-black/40 backdrop-blur-sm px-2 py-0.5 rounded-full border border-white/10">
+            <span className="text-[10px] font-mono text-white/80 bg-black/40 backdrop-blur-sm px-2.5 py-1 rounded-full border border-white/10">
               {project.year}
             </span>
           </div>
         )}
 
-        {/* Quick links */}
         <div
           className={cn(
             'absolute z-10 flex gap-1.5 transition-all duration-400',
@@ -148,78 +153,58 @@ export function ProjectCard({
         </div>
       </div>
 
-      {/* ── Content ── */}
-      <div
-        className={cn(
-          'flex flex-col flex-1',
-          isFeatured ? 'p-4 md:p-5 gap-2.5' : 'p-5 md:p-6 gap-3',
+      {/* Content: title + one line blurb + footer. Role/outcome live on /projects/[slug]. */}
+      <div className={cn('flex flex-col flex-1', isFeatured ? 'p-5 gap-3' : 'p-5 md:p-6 gap-3')}>
+        {tags.length > 0 && (
+          <div className="flex flex-wrap gap-1.5">
+            {tags.map((tag) => (
+              <ProjectTag key={tag}>{tag}</ProjectTag>
+            ))}
+            {project.tags.length > tags.length && (
+              <span className="text-[10px] font-mono self-center text-muted-foreground/50">
+                +{project.tags.length - tags.length}
+              </span>
+            )}
+          </div>
         )}
-      >
-        {/* Tags */}
-        <div className="flex flex-wrap gap-1.5">
-          {project.tags.slice(0, 3).map((tag) => (
-            <ProjectTag key={tag}>{tag}</ProjectTag>
-          ))}
-          {project.tags.length > 3 && (
-            <span
-              className={cn(
-                'text-[9px] font-mono self-center',
-                isFeatured ? 'text-muted-foreground/50' : 'text-muted-foreground/40',
-              )}
-            >
-              +{project.tags.length - 3}
-            </span>
-          )}
-        </div>
 
-        {/* Title */}
         <h3
           className={cn(
-            'font-semibold tracking-tight text-foreground leading-snug line-clamp-2',
-            isFeatured ? 'text-sm md:text-[15px]' : 'text-[15px] md:text-lg',
+            'font-bold tracking-tight text-foreground leading-snug line-clamp-2',
+            isFeatured ? 'text-base md:text-lg' : 'text-base md:text-lg',
           )}
         >
-          {title}
+          {detailHref ? (
+            <Link href={detailHref} className="hover:text-brand transition-colors">
+              {shortTitle}
+            </Link>
+          ) : (
+            shortTitle
+          )}
         </h3>
 
-        {/* Description */}
-        <p
-          className={cn(
-            'leading-relaxed line-clamp-2 flex-1 text-muted-foreground/70',
-            isFeatured ? 'text-[11px] sm:text-xs' : 'text-xs md:text-sm',
-          )}
-        >
+        <p className="text-sm leading-relaxed text-muted-foreground line-clamp-2 flex-1">
           {description}
         </p>
 
-        {/* Footer */}
-        {isFeatured ? (
-          <div className="flex items-center justify-end pt-2.5 border-t border-black/4 dark:border-white/6 mt-auto">
-            <ProjectLinks githubUrl={project.github_url} liveUrl={project.live_url} />
-          </div>
-        ) : (
-          <div className="flex items-center justify-between pt-3 border-t border-black/5 dark:border-white/5 mt-auto">
-            <span className="text-[10px] font-mono text-muted-foreground/40 flex items-center gap-1.5">
-              <svg
-                width="10"
-                height="10"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                <line x1="16" y1="2" x2="16" y2="6" />
-                <line x1="8" y1="2" x2="8" y2="6" />
-                <line x1="3" y1="10" x2="21" y2="10" />
-              </svg>
-              {project.year}
-            </span>
-            <ProjectLinks githubUrl={project.github_url} liveUrl={project.live_url} hover />
-          </div>
-        )}
+        <div
+          className={cn(
+            'flex items-center justify-between gap-3 mt-auto pt-3',
+            'border-t border-black/5 dark:border-white/5',
+          )}
+        >
+          {detailHref ? (
+            <Link
+              href={detailHref}
+              className="text-xs font-mono font-semibold uppercase tracking-wider text-brand hover:underline underline-offset-2"
+            >
+              Details
+            </Link>
+          ) : (
+            <span className="text-xs font-mono text-muted-foreground/50">{project.year}</span>
+          )}
+          <ProjectLinks githubUrl={project.github_url} liveUrl={project.live_url} hover={!isFeatured} />
+        </div>
       </div>
     </article>
   )

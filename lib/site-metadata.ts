@@ -24,6 +24,7 @@ export const SITE_COPY = {
   aboutDescriptionId: `Kenali ${SITE.name}, ${SITE.role} dari ${SITE.city}, lulusan SMKN 1 Karawang jurusan RPL. Spesialis Next.js, React, Laravel, WordPress, dan CMS development.`,
   projectsDescription: `Selected web projects by ${SITE.name}, ${SITE.role}. Production apps and experiments across Next.js, React, Laravel, AI, and school management systems.`,
   projectsDescriptionId: `Portofolio proyek web oleh ${SITE.name}, ${SITE.role}. Aplikasi produksi hingga eksperimental: library, e-vote, AI, manajemen sekolah, dan lainnya.`,
+  servicesDescription: `Web design, frontend, performance, APIs, and deployment by ${SITE.name}. End-to-end product work from UI to production.`,
   loginDescription: `Sign in to the admin panel for ${SITE.name}'s portfolio.`,
   ogAlt: `${SITE.name}, ${SITE.role} from ${SITE.city}`,
 } as const;

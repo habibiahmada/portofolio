@@ -6,7 +6,7 @@ Portfolio site for **Habibi Ahmad Aziz** — Next.js 16 + Supabase.
 
 1. Query the knowledge graph: `graphify query "<question>"` (see `.cursor/rules/graphify.mdc`)
 2. Skim `docs/README.md` for the right deep-dive page
-3. Prefer `.cursor/skills/*` for repeatable workflows (performance, ponytail, token-economy)
+3. Prefer `.cursor/skills/*` for repeatable workflows (performance, ponytail, token-economy, **write-like-you**)
 
 ## Always-on rules (`.cursor/rules/`)
 
@@ -17,6 +17,8 @@ Portfolio site for **Habibi Ahmad Aziz** — Next.js 16 + Supabase.
 | `token-economy.mdc` | Cheap context usage |
 | `project-architecture.mdc` | Stack & route map |
 | `performance-optimization.mdc` | SSR/images/JS steering |
+
+Project skills also include `write-like-you` (portfolio Voice DNA; **no em dashes**).
 
 ## Do not
 

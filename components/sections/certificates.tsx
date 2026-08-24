@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { CertificateCard } from "@/components/ui/certificate-card";
 import { CertificateModal } from "@/components/ui/certificate-modal";
+import { PageShell } from "@/components/ui/page-shell";
 import { cn } from "@/lib/utils";
 import { ChevronDown, ChevronUp, Award } from "lucide-react";
 import type { CertificateRow as CertType } from "@/lib/supabase/types";
@@ -39,9 +40,9 @@ export function Certificates({
     <>
       <section
         id="certificates"
-        className="py-16 md:py-24 w-full px-4 sm:px-6 md:px-8 lg:px-12 bg-transparent"
+        className="py-16 md:py-24 w-full bg-transparent"
       >
-        <div className="w-full mx-auto space-y-12">
+        <PageShell wide className="space-y-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -49,12 +50,12 @@ export function Certificates({
             transition={{ duration: 0.65, ease: [0.215, 0.61, 0.355, 1] }}
             className="max-w-2xl space-y-3"
           >
-            <span className="text-xs font-mono tracking-widest text-[#ef4444] dark:text-blue-400 uppercase block">
-              // Certificates
+            <span className="text-xs font-mono tracking-widest text-brand uppercase block">
+              Certificates
             </span>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight">
               Licenses &{" "}
-              <span className="text-red-500 dark:text-blue-400">
+              <span className="text-brand">
                 Certifications
               </span>
             </h2>
@@ -67,9 +68,9 @@ export function Certificates({
           {initialPinned.length > 0 && (
             <div className="space-y-4">
               <div className="flex items-center gap-2.5">
-                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-500/8 dark:bg-blue-400/8 border border-red-500/15 dark:border-blue-400/15">
-                  <Award className="w-3 h-3 text-red-500 dark:text-blue-400" />
-                  <span className="text-[9px] font-mono font-bold uppercase tracking-widest text-red-500 dark:text-blue-400">
+                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-brand/8 border border-brand/15">
+                  <Award className="w-3 h-3 text-brand" />
+                  <span className="text-[9px] font-mono font-bold uppercase tracking-widest text-brand">
                     Featured
                   </span>
                 </div>
@@ -134,9 +135,9 @@ export function Certificates({
                   className={cn(
                     "inline-flex items-center gap-2 px-6 py-3.5 rounded-full",
                     "border border-black/10 dark:border-white/10",
-                    "hover:border-red-500/30 dark:hover:border-blue-400/30",
+                    "hover:border-brand/30",
                     "bg-black/3 dark:bg-white/3",
-                    "hover:bg-red-500/5 dark:hover:bg-blue-400/5",
+                    "hover:bg-brand/5",
                     "transition-all duration-300",
                     "text-sm font-semibold text-foreground",
                     "hover:scale-[1.02] active:scale-[0.98]",
@@ -158,9 +159,9 @@ export function Certificates({
                   className={cn(
                     "group inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full",
                     "border border-black/10 dark:border-white/10",
-                    "hover:border-red-500/30 dark:hover:border-blue-400/30",
+                    "hover:border-brand/30",
                     "bg-black/3 dark:bg-white/3",
-                    "hover:bg-red-500/5 dark:hover:bg-blue-400/5",
+                    "hover:bg-brand/5",
                     "transition-all duration-300",
                     "text-sm font-semibold text-foreground",
                     "hover:scale-[1.02] active:scale-[0.98] cursor-pointer",
@@ -179,7 +180,7 @@ export function Certificates({
               )}
             </div>
           </motion.div>
-        </div>
+        </PageShell>
       </section>
 
       <CertificateModal

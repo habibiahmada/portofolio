@@ -30,9 +30,14 @@ export function GlitchText({
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
+  const prefersReducedMotion = () =>
+    typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
   const trigger = () => {
+    if (prefersReducedMotion()) return
     setActive(true)
-    
+
     if (words && words.length > 0) {
       setTimeout(() => {
         setWordIndex((prev) => (prev + 1) % words.length)
@@ -44,7 +49,7 @@ export function GlitchText({
   }
 
   useEffect(() => {
-    if (noAuto) return
+    if (noAuto || prefersReducedMotion()) return
     timerRef.current = setInterval(trigger, interval)
     return () => {
       if (timerRef.current) clearInterval(timerRef.current)

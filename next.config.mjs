@@ -23,6 +23,15 @@ let nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/work/:slug",
+        destination: "/projects/:slug",
+        permanent: true,
+      },
+    ]
+  },
   allowedDevOrigins: ["127.0.0.1", "192.168.43.152"],
 };
 

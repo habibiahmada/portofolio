@@ -1,11 +1,11 @@
 "use client";
 
 import { useRef } from "react";
-import { GlitchText } from "@/components/ui/glitch-text";
 import { NodeNetworkLazy } from "@/components/ui/node-network-lazy";
 import { CpuArchitecture } from "@/components/ui/cpu-architecture";
 import { ProjectCard } from "@/components/ui/project-card";
 import { ProjectGridSkeleton } from "@/components/ui/skeletons";
+import { PageShell } from "@/components/ui/page-shell";
 import { useProjects } from "@/lib/hooks/use-api";
 import type { Project } from "@/lib/supabase/types";
 
@@ -56,44 +56,35 @@ export function ProjectsPage({ locale = "en", initialData }: ProjectsPageProps) 
       <NodeNetworkLazy externalMouseRef={nodeMouseRef} densityBias="topRight" />
 
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-red-500/3 dark:bg-blue-500/3 blur-3xl" />
+        <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-brand/3 blur-3xl" />
         <div className="absolute -bottom-40 -left-40 w-96 h-96 rounded-full bg-blue-500/3 dark:bg-red-500/3 blur-3xl" />
         <div className="absolute top-1/3 left-1/4 w-64 h-64 rounded-full bg-purple-500/2 dark:bg-purple-500/2 blur-3xl" />
       </div>
 
-      <div className="relative w-full px-4 sm:px-6 md:px-8 lg:px-12">
-        {/* Header */}
+      <PageShell wide className="relative">
         <div className="mb-14 md:mb-18">
           <div className="relative z-10 space-y-3">
-            <span className="text-xs font-mono tracking-widest text-[#ef4444] dark:text-blue-400 uppercase block">
-              // Archive
+            <span className="text-xs font-mono tracking-widest text-brand uppercase block">
+              Archive
             </span>
-            <GlitchText
-              as="h1"
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-foreground leading-tight"
-              interval={6000}
-              duration={350}
-            >
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-foreground leading-tight">
               All Projects
-            </GlitchText>
+            </h1>
             <p className="text-sm sm:text-base text-muted-foreground/60 max-w-xl leading-relaxed">
-              A curated collection of everything I&apos;ve built — from
+              A curated collection of everything I&apos;ve built, from
               production applications to experimental side projects.
             </p>
           </div>
         </div>
 
-        {/* Loading state (only when no initialData) */}
         {showSkeleton && <ProjectGridSkeleton count={8} />}
 
-        {/* Error state (only when no initialData) */}
         {showError && (
           <p className="text-sm text-red-500 dark:text-red-400 font-mono">
             Failed to load projects: {error}
           </p>
         )}
 
-        {/* Projects Grid — 4 columns */}
         {!showSkeleton && !showError && projects && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
             {projects.map((project, i) => (
@@ -109,7 +100,7 @@ export function ProjectsPage({ locale = "en", initialData }: ProjectsPageProps) 
         )}
 
         <div className="h-24 md:h-32" />
-      </div>
+      </PageShell>
 
       <div className="absolute bottom-0 left-0 right-0 h-72 md:h-96 lg:h-128 pointer-events-none overflow-hidden">
         <div className="absolute inset-0 bg-linear-to-t from-black/10 dark:from-black/30 via-transparent to-transparent z-10" />

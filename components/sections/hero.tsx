@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { GlitchText } from "@/components/ui/glitch-text";
 import { NodeNetworkLazy } from "@/components/ui/node-network-lazy";
@@ -54,23 +54,6 @@ export function HeroSection() {
   const headingText = "Building digital experiences that actually matter";
   const words = headingText.split(" ");
 
-  // ── Auth error from ?error= query param ──
-  const [authError, setAuthError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const params = new URLSearchParams(window.location.search);
-    const err = params.get("error");
-    if (err) {
-      setAuthError(decodeURIComponent(err));
-      // Clean URL after reading
-      window.history.replaceState(null, "", window.location.pathname);
-      // Auto-dismiss
-      const t = setTimeout(() => setAuthError(null), 8000);
-      return () => clearTimeout(t);
-    }
-  }, []);
-
   return (
     <section
       id="hero"
@@ -80,7 +63,7 @@ export function HeroSection() {
       aria-label="Hero section"
       className="relative w-full px-4 sm:px-6 md:px-8 lg:px-12 flex flex-col pt-20 pb-12 md:pt-24 md:pb-24 min-h-[90vh] overflow-hidden group/hero"
     >
-      {/* Node Network Background Canvas — clustered top-left, mouse coords from hero */}
+      {/* Node Network Background Canvas , clustered top-left, mouse coords from hero */}
       <NodeNetworkLazy externalMouseRef={nodeMouseRef} densityBias="topLeft" />
 
       {/* Background Image positioned on the right */}
@@ -97,6 +80,7 @@ export function HeroSection() {
           fill
           priority
           draggable={false}
+          sizes="(max-width: 1024px) 0px, 40vw"
           className="object-cover lg:object-[80%_35%]"
         />
       </div>
@@ -104,16 +88,9 @@ export function HeroSection() {
       {/* Full-width background gradient */}
       <div className="absolute inset-0 bg-linear-to-b from-red-500/3 via-blue-500/1 to-transparent pointer-events-none" />
 
-      <div className="relative z-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center flex-1">
+      <div className="relative z-10 w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center flex-1">
         {/* Main Content: Cinematic Copywriting */}
         <div className="lg:col-span-9 max-w-3xl flex flex-col items-start gap-6 sm:gap-8 lg:self-center z-10 relative">
-          {/* Auth error banner */}
-          {authError && (
-            <div className="w-full px-4 py-2.5 rounded-xl bg-red-500/10 dark:bg-red-500/15 border border-red-500/20 dark:border-red-500/25 text-xs text-red-600 dark:text-red-400 font-mono">
-              {authError}
-            </div>
-          )}
-
           {/* Tagline */}
           <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-black/5 dark:border-white/5 bg-black/2 dark:bg-white/2 max-w-full">
             <span className="relative flex h-2 w-2 shrink-0">
@@ -121,7 +98,7 @@ export function HeroSection() {
               <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
             </span>
             <span className="text-[9px] sm:text-[10px] font-mono tracking-wider sm:tracking-widest text-muted-foreground uppercase">
-              available for create big impacts
+              Open to freelance & full-time · Remote (WIB)
             </span>
           </div>
 
@@ -152,16 +129,24 @@ export function HeroSection() {
 
           {/* Sub description */}
           <p className="text-sm sm:text-base md:text-lg text-muted-foreground/80 leading-relaxed font-medium">
-            Full-stack developer crafting high-performance, accessible, and
-            beautifully animated web products from concept to deployment.
+            Frontend-leaning full-stack developer. I craft clear interfaces and the
+            APIs behind them, with a bias for performance you can measure, not just
+            claim.
           </p>
 
-          {/* CTA buttons */}
+          {/* CTA buttons: primary contact, secondary work */}
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mt-2">
             <a
-              href="#projects"
+              href="mailto:contact@habibiahmada.dev"
+              aria-label="Email Habibi to collaborate"
+              className="px-8 py-3.5 bg-zinc-950 dark:bg-zinc-50 text-white dark:text-zinc-950 rounded-full font-bold text-sm text-center shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+            >
+              Let&apos;s Talk
+            </a>
+            <a
+              href="/projects"
               aria-label="View my projects"
-              className="px-8 py-3.5 bg-zinc-950 dark:bg-zinc-50 text-white dark:text-zinc-950 rounded-full font-bold text-sm text-center shadow-lg hover:shadow-indigo-500/10 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+              className="px-8 py-3.5 rounded-full font-bold text-sm text-center border border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 bg-black/2 dark:bg-white/2 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 text-foreground"
             >
               View My Work
             </a>
@@ -169,7 +154,7 @@ export function HeroSection() {
               type="button"
               onClick={() => setCvOpen(true)}
               aria-label="View CV"
-              className="px-8 py-3.5 rounded-full font-bold text-sm text-center border border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 bg-black/2 dark:bg-white/2 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 text-foreground cursor-pointer"
+              className="px-8 py-3.5 rounded-full font-bold text-sm text-center border border-transparent hover:border-black/10 dark:hover:border-white/10 text-muted-foreground hover:text-foreground hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 cursor-pointer"
             >
               View CV
             </button>
@@ -180,7 +165,7 @@ export function HeroSection() {
       {/* Full-width bottom gradient fade */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-linear-to-t from-background to-transparent pointer-events-none" />
 
-      {/* CV Modal — code-split; only mount after first open */}
+      {/* CV Modal , code-split; only mount after first open */}
       {cvOpen ? (
         <CvModal open={cvOpen} onClose={() => setCvOpen(false)} />
       ) : null}

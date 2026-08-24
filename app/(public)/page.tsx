@@ -3,6 +3,8 @@ import { HeroSection } from '@/components/sections/hero'
 import { Projects } from '@/components/sections/projects'
 import { Companies } from '@/components/sections/companies'
 import { HomeBelowFold } from '@/components/sections/home-below-fold'
+import { Press } from '@/components/sections/press'
+import { Process } from '@/components/sections/process'
 import { getCompanies } from '@/lib/data/companies'
 import {
   FEATURED_PROJECT_IDS,
@@ -34,7 +36,14 @@ export default async function Home() {
       <HeroSection />
       <Companies initialData={companies} />
       <Projects initialData={featuredProjects} />
-      <HomeBelowFold />
+      <HomeBelowFold
+        afterServices={
+          <>
+            <Press />
+            <Process />
+          </>
+        }
+      />
     </main>
   )
 }

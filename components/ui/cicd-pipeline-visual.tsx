@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 
 const STAGES = [
-  { label: "Commit", desc: "push", color: "text-[#ef4444] dark:text-blue-400", ring: "ring-[#ef4444]/40 dark:ring-blue-400/40", bg: "bg-[#ef4444]/10 dark:bg-blue-400/10" },
+  { label: "Commit", desc: "push", color: "text-brand", ring: "ring-brand/40", bg: "bg-brand/10" },
   { label: "Build", desc: "bundle", color: "text-amber-500", ring: "ring-amber-500/40", bg: "bg-amber-500/10" },
   { label: "Test", desc: "verify", color: "text-sky-500", ring: "ring-sky-500/40", bg: "bg-sky-500/10" },
   { label: "Deploy", desc: "live", color: "text-emerald-500", ring: "ring-emerald-500/40", bg: "bg-emerald-500/10" },

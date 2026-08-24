@@ -2,8 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState, type ComponentType } from "react";
-import { GlitchText } from "@/components/ui/glitch-text";
-
+import { PageShell } from "@/components/ui/page-shell";
 const VisualFallback = () => (
   <div className="w-full h-44 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-black/5 dark:border-white/5" />
 );
@@ -111,20 +110,15 @@ const CARDS = [
 export function Services() {
   return (
     <section id="services" className="py-16 md:py-24 w-full bg-transparent">
-      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12">
+      <PageShell wide>
         <div className="max-w-2xl mb-14 space-y-3">
-          <span className="text-xs font-mono tracking-widest text-[#ef4444] dark:text-blue-400 uppercase block">
-            // My Services
+          <span className="text-xs font-mono tracking-widest text-brand uppercase block">
+            My Services
           </span>
-          <GlitchText
-            as="h2"
-            className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight"
-            interval={5000}
-            duration={320}
-          >
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight">
             Comprehensive
             <br className="sm:hidden" /> Solutions
-          </GlitchText>
+          </h2>
           <p className="text-sm md:text-base text-muted-foreground/80 leading-relaxed font-medium max-w-lg">
             From wireframe concepts to fully animated frontends and scalable
             servers. I build performant products that stand out.
@@ -141,7 +135,7 @@ export function Services() {
                 <InViewVisual Visual={card.Visual} />
               </div>
               <div className="space-y-1.5 flex-1">
-                <span className="text-[10px] font-mono text-[#ef4444] dark:text-blue-400 font-semibold uppercase tracking-widest block">
+                <span className="text-[10px] font-mono text-brand font-semibold uppercase tracking-widest block">
                   {card.label}
                 </span>
                 <h3 className="text-base font-bold text-foreground leading-snug">
@@ -154,7 +148,7 @@ export function Services() {
             </div>
           ))}
         </div>
-      </div>
+      </PageShell>
     </section>
   );
 }

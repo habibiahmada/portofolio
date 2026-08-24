@@ -135,7 +135,7 @@ Untuk multiple emails, gunakan comma tanpa spaces.
 - `POST /api/auth/logout` - Sign out
 - `GET /api/auth/me` - Get current user
 - `GET /api/auth/callback` - OAuth callback handler
-- `GET /api/auth/debug` - Debug auth status
+- `GET /api/auth/debug` - **Dev-only.** Returns 404 in production. In development requires an authenticated allowlisted admin; never returns the raw allowlist string.
 
 ### Rate Limiting Response
 ```json

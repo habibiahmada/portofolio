@@ -50,7 +50,7 @@ const LINES = [
 ];
 
 const COLOR = {
-  kw: "text-[#ef4444] dark:text-sky-400",
+  kw: "text-brand dark:text-sky-400",
   fn: "text-amber-600 dark:text-amber-300",
   tag: "text-emerald-600 dark:text-emerald-400",
   attr: "text-sky-600 dark:text-violet-300",
@@ -76,7 +76,7 @@ export function CodeEditorVisual() {
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400/80" />
         </div>
         <div className="flex items-center gap-1.5 ml-1">
-          <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#ef4444]/10 text-[#ef4444] dark:bg-blue-400/10 dark:text-blue-400 border border-[#ef4444]/15 dark:border-blue-400/20">
+          <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-brand/10 text-brand border border-brand/15">
             app/page.tsx
           </span>
           <span className="text-[8px] font-mono text-muted-foreground/40 hidden sm:inline">
@@ -135,7 +135,7 @@ export function CodeEditorVisual() {
                 : { opacity: [1, 0, 1] }
             }
             transition={{ duration: 1, repeat: Infinity }}
-            className="inline-block w-1.5 h-3 bg-[#ef4444] dark:bg-blue-400 ml-0.5 align-middle"
+            className="inline-block w-1.5 h-3 bg-brand ml-0.5 align-middle"
           />
         </div>
       </div>

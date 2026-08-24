@@ -175,7 +175,7 @@ export function CertificateModal({
 
             <div className="relative flex items-center justify-between px-5 py-3 border-b border-white/5 shrink-0">
               <div className="flex items-center gap-2.5 text-sm text-zinc-300 min-w-0">
-                <Award className="w-4 h-4 text-red-500 dark:text-blue-400 shrink-0" />
+                <Award className="w-4 h-4 text-brand shrink-0" />
                 <span className="font-medium tracking-wide truncate">
                   {certificate.title}
                 </span>
@@ -195,7 +195,7 @@ export function CertificateModal({
             <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-5 overflow-y-auto lg:overflow-hidden">
               <div className="lg:col-span-2 p-5 md:p-6 overflow-y-auto border-b lg:border-b-0 lg:border-r border-white/5 flex flex-col gap-4">
                 <div>
-                  <span className="text-[9px] font-mono uppercase tracking-widest text-red-500 dark:text-blue-400 font-semibold">
+                  <span className="text-[9px] font-mono uppercase tracking-widest text-brand font-semibold">
                     {orgDisplay}
                   </span>
                   <h3 className="text-sm md:text-base font-semibold text-zinc-100 mt-2 leading-snug">
