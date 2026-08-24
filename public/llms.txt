@@ -1,29 +1,49 @@
 # Habibi Ahmad Aziz
 
-> Habibi Ahmad Aziz is a Fullstack Developer from Karawang, Indonesia. He builds modern web apps with Next.js, React, Laravel, and WordPress.
+> Habibi Ahmad Aziz is a Fullstack Developer from Karawang, Indonesia. He ships production web apps with Next.js, React, Laravel, and WordPress.
 
-Habibi Ahmad Aziz (also known as Habibi Ahmad) is a Fullstack Developer based in Karawang, Jawa Barat, Indonesia. He graduated from SMKN 1 Karawang in Software Engineering (RPL) and works across frontend, backend, CMS, and web performance.
+Habibi Ahmad Aziz (also known as Habibi Ahmad / habibiahmada) is a Fullstack Developer based in Karawang, Jawa Barat, Indonesia. He graduated from SMKN 1 Karawang in Software Engineering (RPL), works as a Web Developer at PT Webekspres Teknologi Indonesia, and is open to freelance and full-time remote roles (WIB).
+
+Notable proof points:
+- E-Vote / E-Democracy in production at SMKN 1 Karawang
+- Indonesia country award at Intel AI Global Impact Festival 2025 (Agrify / Smartfarm AI, team)
+- Coding Camp (DBS Foundation) Top 15 capstone with CultureConnect
+- Dicoding public story on Coding Camp and shipping under pressure
 
 ## Pages
 
-- [Home](https://www.habibiahmada.dev/): Portfolio home with featured projects, services, and collaborators
-- [About](https://www.habibiahmada.dev/about): Background, career timeline, tools and technologies, and certificates
-- [Projects](https://www.habibiahmada.dev/projects): Full archive of web development projects and experiments
+- [Home](https://www.habibiahmada.dev/): Portfolio home with featured work, press, process, and contact
+- [About](https://www.habibiahmada.dev/about): Background, timeline, tech stack, and certificates
+- [Projects](https://www.habibiahmada.dev/projects): Full archive; every project links to a case study
+- [Services](https://www.habibiahmada.dev/services): Web design, frontend, APIs, CMS, performance, deployment
+
+## Case studies
+
+- [Aksara Pustaka](https://www.habibiahmada.dev/projects/aksara-pustaka)
+- [SiPadu](https://www.habibiahmada.dev/projects/sipadu)
+- [ParkingApp](https://www.habibiahmada.dev/projects/parking-app)
+- [Inventoryflow](https://www.habibiahmada.dev/projects/inventoryflow)
+- [BagiBerkah](https://www.habibiahmada.dev/projects/bagiberkah)
+- [E-Vote](https://www.habibiahmada.dev/projects/e-vote)
+- [Agrify / Smartfarm AI](https://www.habibiahmada.dev/projects/agrify)
+- [CultureConnect](https://www.habibiahmada.dev/projects/culture-connect)
+- [Spacelab](https://www.habibiahmada.dev/projects/spacelab)
+- [Renshuu](https://www.habibiahmada.dev/projects/renshuu)
 
 ## Services
 
-- [Web Design and Mobile-First UI](https://www.habibiahmada.dev/#services): Responsive interfaces from wireframes to production layouts
-- [Frontend Development](https://www.habibiahmada.dev/#services): React, Next.js, and TypeScript UIs with clean reusable components
-- [APIs and Databases](https://www.habibiahmada.dev/#services): REST APIs, relational databases, and auth systems
-- [CMS and WordPress](https://www.habibiahmada.dev/#services): Custom themes, Elementor, and CMS platforms
-- [Web Performance and SEO](https://www.habibiahmada.dev/#services): Core Web Vitals, Lighthouse, and SEO-ready architecture
-- [CI/CD and Deployment](https://www.habibiahmada.dev/#services): Automated pipelines and zero-downtime deploys
+- Web Design and Mobile-First UI
+- Frontend Development (React, Next.js)
+- APIs and Databases
+- CMS and WordPress
+- Web Performance and SEO
+- CI/CD and Deployment
 
 ## Tech Stack
 
 - Next.js, React, TypeScript, JavaScript
 - Node.js, PHP, Laravel
-- PostgreSQL, WordPress, Elementor, Astra
+- PostgreSQL, MySQL, WordPress
 - Tailwind CSS, Bootstrap
 - Git, GitHub, Vercel
 
@@ -31,11 +51,12 @@ Habibi Ahmad Aziz (also known as Habibi Ahmad) is a Fullstack Developer based in
 
 - Email: contact@habibiahmada.dev
 - Location: Karawang, Jawa Barat, Indonesia
-- [GitHub](https://github.com/habibiahmada): Repositories and open work
-- [LinkedIn](https://linkedin.com/in/habibiahmada): Professional profile
+- Site: https://www.habibiahmada.dev
+- [GitHub](https://github.com/habibiahmada)
+- [LinkedIn](https://linkedin.com/in/habibiahmada)
 
 ## Optional
 
-- [Sitemap](https://www.habibiahmada.dev/sitemap.xml): Public URL index for crawlers
-- [robots.txt](https://www.habibiahmada.dev/robots.txt): Crawler allow and disallow rules
-- [Open Graph image](https://www.habibiahmada.dev/open-graph/og-image.png): Default social preview image
+- [Sitemap](https://www.habibiahmada.dev/sitemap.xml)
+- [robots.txt](https://www.habibiahmada.dev/robots.txt)
+- [Open Graph image](https://www.habibiahmada.dev/open-graph/og-image.png)

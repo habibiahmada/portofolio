@@ -16,7 +16,8 @@ import {
   getProjectTitle,
   type Project,
 } from "@/lib/projects";
-import { pageMetadata } from "@/lib/site-metadata";
+import { ProjectJsonLd } from "@/components/json-ld";
+import { projectPageMetadata } from "@/lib/site-metadata";
 import { PAGE_PAD, PAGE_SHELL } from "@/components/ui/page-shell";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -111,12 +112,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const study = getCaseStudy(slug);
   if (!study) return {};
   const catalog = await resolveCatalog(study.projectId);
-  return pageMetadata({
+  return projectPageMetadata({
     title: catalog?.title ?? slug,
-    description: study.problem.slice(0, 155),
-    path: `/projects/${study.slug}`,
+    description: study.problem,
+    slug: study.slug,
     image: catalog?.image,
-    imageAlt: catalog?.title,
+    tags: catalog?.tags,
+    year: catalog?.year,
   });
 }
 
@@ -175,6 +177,16 @@ export default async function ProjectDetailPage({ params }: Props) {
 
   return (
     <main className="w-full overflow-x-hidden">
+      <ProjectJsonLd
+        slug={study.slug}
+        title={catalog.title}
+        description={study.problem}
+        image={catalog.image}
+        tags={catalog.tags}
+        year={catalog.year}
+        githubUrl={catalog.githubUrl}
+        liveUrl={catalog.liveUrl}
+      />
       <div className={`${PAGE_PAD} pt-24 pb-10`}>
         <div className={PAGE_SHELL}>
           <Link

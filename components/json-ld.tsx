@@ -1,23 +1,52 @@
 import type { Metadata } from "next";
-import { SITE, SITE_COPY } from "@/lib/site-metadata";
+import {
+  SITE,
+  SITE_COPY,
+  IDENTITY_KEYWORDS,
+  absoluteAssetUrl,
+} from "@/lib/site-metadata";
+import { getLinkedCaseStudies } from "@/lib/data/case-studies";
+import { projects as staticProjects, getProjectTitle } from "@/lib/projects";
 
-/**
- * JSON-LD structured data for rich search results.
- * Drop <JsonLd /> into any layout or page to inject script tags.
- */
+const PERSON_ID = `${SITE.url}/#person`;
+
+function projectDisplayTitle(projectId: string, fallback: string) {
+  const p = staticProjects.find((x) => x.id === projectId);
+  if (!p) return fallback;
+  const full = getProjectTitle(p, "en");
+  return full.includes(":") ? full.split(":")[0]!.trim() : full;
+}
+
+const workExamples = getLinkedCaseStudies().map((study) => {
+  const name = projectDisplayTitle(study.projectId, study.slug);
+  return {
+    "@type": "CreativeWork" as const,
+    name,
+    url: `${SITE.url}/projects/${study.slug}`,
+    author: { "@id": PERSON_ID },
+    creator: { "@id": PERSON_ID },
+  };
+});
 
 const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
+  "@id": PERSON_ID,
   name: SITE.name,
   givenName: "Habibi",
   familyName: "Aziz",
   additionalName: "Ahmad",
-  alternateName: SITE.shortName,
+  alternateName: [SITE.shortName, "habibiahmada"],
   url: SITE.url,
   image: `${SITE.url}${SITE.profileImage}`,
+  email: SITE.email,
   jobTitle: SITE.role,
   description: SITE_COPY.defaultDescription,
+  nationality: {
+    "@type": "Country",
+    name: SITE.country,
+  },
+  knowsLanguage: ["id", "en"],
   knowsAbout: [
     "Web Development",
     "Frontend Development",
@@ -33,88 +62,102 @@ const personSchema = {
     "CMS Development",
     "REST API",
     "Database Design",
-    "UI/UX Design",
-    "SEO",
     "Web Performance Optimization",
+    "SEO",
   ],
   alumniOf: {
     "@type": "EducationalOrganization",
-    name: "SMKN 1 Karawang",
+    name: SITE.school,
     address: {
       "@type": "PostalAddress",
       addressLocality: SITE.city,
-      addressRegion: "Jawa Barat",
+      addressRegion: SITE.region,
       addressCountry: "ID",
     },
   },
   worksFor: {
     "@type": "Organization",
-    name: "PT Webekspres Teknologi Indonesia",
-    url: "https://webekspres.com",
+    name: SITE.employer.name,
+    url: SITE.employer.url,
   },
   address: {
     "@type": "PostalAddress",
     addressLocality: SITE.city,
-    addressRegion: "Jawa Barat",
+    addressRegion: SITE.region,
     addressCountry: "ID",
   },
-  sameAs: [
-    "https://github.com/habibiahmada",
-    "https://linkedin.com/in/habibiahmada",
-    SITE.url,
+  homeLocation: {
+    "@type": "Place",
+    name: `${SITE.city}, ${SITE.region}, ${SITE.country}`,
+  },
+  award: [
+    "Indonesia Country Award, Intel AI Global Impact Festival 2025 (Agrify / AI Changemakers)",
   ],
+  sameAs: [SITE.github, SITE.linkedin, SITE.url],
+  workExample: workExamples,
 };
 
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
+  "@id": `${SITE.url}/#website`,
   name: SITE.siteName,
   url: SITE.url,
   description: SITE_COPY.defaultDescription,
   inLanguage: ["en", "id"],
   copyrightYear: new Date().getFullYear(),
-  author: {
-    "@type": "Person",
-    name: SITE.name,
-  },
+  publisher: { "@id": PERSON_ID },
+  author: { "@id": PERSON_ID },
 };
 
-const localBusinessSchema = {
+const professionalServiceSchema = {
   "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  name: `${SITE.shortName} | ${SITE.role} ${SITE.city}`,
-  description:
-    "Jasa pembuatan website profesional di Karawang. Layanan web development meliputi frontend, backend, CMS (WordPress, Laravel), optimasi SEO, dan performa website.",
-  url: SITE.url,
+  "@type": "ProfessionalService",
+  "@id": `${SITE.url}/#services`,
+  name: `${SITE.name} Web Development`,
+  description: SITE_COPY.servicesDescription,
+  url: `${SITE.url}/services`,
   image: `${SITE.url}${SITE.profileImage}`,
-  telephone: "",
   email: SITE.email,
+  founder: { "@id": PERSON_ID },
+  employee: { "@id": PERSON_ID },
   address: {
     "@type": "PostalAddress",
     addressLocality: SITE.city,
-    addressRegion: "Jawa Barat",
+    addressRegion: SITE.region,
     addressCountry: "ID",
   },
   areaServed: [
     { "@type": "City", name: SITE.city },
-    { "@type": "State", name: "Jawa Barat" },
-    { "@type": "Country", name: "Indonesia" },
+    { "@type": "State", name: SITE.region },
+    { "@type": "Country", name: SITE.country },
   ],
+  availableLanguage: ["English", "Indonesian"],
   priceRange: "$$",
-  availableLanguage: ["English", "Indonesia"],
-  serviceType: [
+  knowsAbout: [
     "Web Development",
-    "Frontend Development",
-    "Backend Development",
-    "CMS Development",
-    "WordPress Development",
-    "Laravel Development",
-    "Website Design",
-    "Web Performance Optimization",
-    "SEO Optimization",
-    "API Development",
-    "Database Design",
+    "Next.js",
+    "React",
+    "Laravel",
+    "WordPress",
+    "SEO",
+    "Web Performance",
   ],
+};
+
+const projectListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "@id": `${SITE.url}/projects#list`,
+  name: `Projects by ${SITE.name}`,
+  description: SITE_COPY.projectsDescription,
+  numberOfItems: workExamples.length,
+  itemListElement: workExamples.map((work, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    url: work.url,
+    name: work.name,
+  })),
 };
 
 const serviceSchemas = [
@@ -123,54 +166,60 @@ const serviceSchemas = [
     "@type": "Service",
     name: "Web Design & Mobile-First Development",
     description:
-      "Pixel-perfect responsive interfaces from wireframes to production-ready layouts optimized for every device.",
-    provider: { "@type": "Person", name: SITE.name },
+      "Responsive interfaces from wireframes to production-ready layouts optimized for every device.",
+    provider: { "@id": PERSON_ID },
     areaServed: { "@type": "City", name: SITE.city },
+    url: `${SITE.url}/services`,
   },
   {
     "@context": "https://schema.org",
     "@type": "Service",
     name: "Frontend Web Development (React & Next.js)",
     description:
-      "High-quality user interfaces built with React, Next.js, and TypeScript. Clean components, reusable logic, and fluid state management.",
-    provider: { "@type": "Person", name: SITE.name },
+      "High-quality interfaces with React, Next.js, and TypeScript. Clean components and measurable performance.",
+    provider: { "@id": PERSON_ID },
     areaServed: { "@type": "City", name: SITE.city },
+    url: `${SITE.url}/services`,
   },
   {
     "@context": "https://schema.org",
     "@type": "Service",
     name: "Backend API & Database Development",
     description:
-      "Robust REST APIs, relational databases (MySQL, PostgreSQL), authentication systems, and scalable server architecture using Laravel and Node.js.",
-    provider: { "@type": "Person", name: SITE.name },
+      "REST APIs, relational databases, authentication, and scalable server architecture with Laravel and Node.js.",
+    provider: { "@id": PERSON_ID },
     areaServed: { "@type": "City", name: SITE.city },
+    url: `${SITE.url}/services`,
   },
   {
     "@context": "https://schema.org",
     "@type": "Service",
     name: "CMS & WordPress Development",
     description:
-      "Custom WordPress themes, plugins, and CMS platforms built with Laravel or Elementor. Managed content systems for businesses and organizations.",
-    provider: { "@type": "Person", name: SITE.name },
+      "Custom WordPress themes, plugins, and CMS platforms for businesses and organizations.",
+    provider: { "@id": PERSON_ID },
     areaServed: { "@type": "City", name: SITE.city },
+    url: `${SITE.url}/services`,
   },
   {
     "@context": "https://schema.org",
     "@type": "Service",
     name: "Web Performance & SEO Optimization",
     description:
-      "Core Web Vitals optimization, Lighthouse score improvement, SEO-ready architecture, and performance auditing for faster load times and better rankings.",
-    provider: { "@type": "Person", name: SITE.name },
+      "Core Web Vitals, Lighthouse improvements, and SEO-ready architecture for faster load times and clearer rankings.",
+    provider: { "@id": PERSON_ID },
     areaServed: { "@type": "City", name: SITE.city },
+    url: `${SITE.url}/services`,
   },
   {
     "@context": "https://schema.org",
     "@type": "Service",
     name: "CI/CD & Deployment",
     description:
-      "Automated deployment pipelines, container-ready applications, serverless hosting, Vercel/Netlify deployment, and zero-downtime production releases.",
-    provider: { "@type": "Person", name: SITE.name },
+      "Automated deployment pipelines, serverless hosting, and production releases with minimal downtime.",
+    provider: { "@id": PERSON_ID },
     areaServed: { "@type": "City", name: SITE.city },
+    url: `${SITE.url}/services`,
   },
 ];
 
@@ -208,13 +257,90 @@ const breadcrumbSchema = {
 const allSchemas = [
   personSchema,
   websiteSchema,
-  localBusinessSchema,
+  professionalServiceSchema,
+  projectListSchema,
   breadcrumbSchema,
   ...serviceSchemas,
 ];
 
 export function JsonLd() {
   const json = JSON.stringify(allSchemas).replace(/</g, "\\u003c");
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: json }}
+    />
+  );
+}
+
+/** Per-project CreativeWork + Breadcrumb JSON-LD for case study pages. */
+export function ProjectJsonLd({
+  slug,
+  title,
+  description,
+  image,
+  tags,
+  year,
+  githubUrl,
+  liveUrl,
+}: {
+  slug: string;
+  title: string;
+  description: string;
+  image?: string;
+  tags?: string[];
+  year?: number;
+  githubUrl?: string;
+  liveUrl?: string;
+}) {
+  const pageUrl = `${SITE.url}/projects/${slug}`;
+  const schemas = [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: SITE.url,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Projects",
+          item: `${SITE.url}/projects`,
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: title,
+          item: pageUrl,
+        },
+      ],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": ["CreativeWork", "SoftwareSourceCode"],
+      "@id": `${pageUrl}#work`,
+      name: title,
+      headline: `${title} by ${SITE.name}`,
+      description,
+      url: pageUrl,
+      image: image ? absoluteAssetUrl(image) : undefined,
+      dateCreated: year != null ? String(year) : undefined,
+      keywords: tags?.join(", "),
+      inLanguage: ["en", "id"],
+      author: { "@id": PERSON_ID },
+      creator: { "@id": PERSON_ID },
+      copyrightHolder: { "@id": PERSON_ID },
+      codeRepository: githubUrl,
+      programmingLanguage: tags,
+      sameAs: [liveUrl, githubUrl].filter(Boolean),
+    },
+  ];
+
+  const json = JSON.stringify(schemas).replace(/</g, "\\u003c");
   return (
     <script
       type="application/ld+json"
@@ -231,53 +357,7 @@ export const rootMetadata: Metadata = {
     template: SITE_COPY.titleTemplate,
   },
   description: SITE_COPY.defaultDescription,
-  keywords: [
-    "Habibi Ahmad",
-    "Habibi Ahmad Aziz",
-    "Habibi Ahmad Karawang",
-    "fullstack developer Karawang",
-    "full stack developer Karawang",
-    "web developer karawang",
-    "website karawang",
-    "pembuatan website karawang",
-    "jasa website karawang",
-    "programmer karawang",
-    "developer karawang",
-    "web developer jawa barat",
-    "web developer indonesia",
-    "full stack developer indonesia",
-    "jasa pembuatan website",
-    "jasa web development",
-    "pembuatan website profesional",
-    "web developer freelance",
-    "freelance web developer indonesia",
-    "jasa landing page",
-    "jasa company profile website",
-    "website next.js",
-    "website react",
-    "website laravel",
-    "jasa laravel",
-    "jasa next.js",
-    "jasa react",
-    "wordpress developer karawang",
-    "jasa wordpress",
-    "cms development",
-    "php developer",
-    "node.js developer",
-    "typescript developer",
-    "fullstack developer",
-    "full stack developer",
-    "frontend developer",
-    "backend developer",
-    "web programmer",
-    "software engineer indonesia",
-    "React developer",
-    "Next.js developer",
-    "Laravel developer",
-    "WordPress developer",
-    "hire fullstack developer",
-    "hire nextjs developer",
-  ],
+  keywords: [...IDENTITY_KEYWORDS],
   authors: [{ name: SITE.name, url: SITE.url }],
   creator: SITE.name,
   publisher: SITE.name,
@@ -306,7 +386,7 @@ export const rootMetadata: Metadata = {
         alt: SITE_COPY.ogAlt,
       },
     ],
-    countryName: "Indonesia",
+    countryName: SITE.country,
     emails: [SITE.email],
   },
   twitter: {
@@ -322,6 +402,7 @@ export const rootMetadata: Metadata = {
     ],
     apple: "/icons/apple-touch-icon.png",
   },
+  manifest: "/site.webmanifest",
   robots: {
     index: true,
     follow: true,
@@ -335,7 +416,7 @@ export const rootMetadata: Metadata = {
   },
   appleWebApp: {
     capable: true,
-    title: SITE.shortName,
+    title: SITE.name,
     statusBarStyle: "black-translucent",
   },
   formatDetection: {

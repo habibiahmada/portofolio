@@ -16,11 +16,16 @@ const base = pageMetadata({
   title: SITE_COPY.defaultTitle,
   description: SITE_COPY.homeDescription,
   path: '',
+  absoluteTitle: true,
+  keywords: [
+    'Habibi Ahmad Aziz portfolio',
+    'open to freelance',
+    'full-time web developer',
+  ],
 })
 
 export const metadata: Metadata = {
   ...base,
-  title: { absolute: SITE_COPY.defaultTitle },
   openGraph: { ...base.openGraph, title: SITE_COPY.defaultTitle },
   twitter: { ...base.twitter, title: SITE_COPY.defaultTitle },
 }
