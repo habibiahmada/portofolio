@@ -4,6 +4,31 @@ Short reference for common blog operations. Full architecture: [blog.md](./blog.
 
 ---
 
+## Telegram blog topic (queue + review)
+
+1. Create a forum topic (e.g. "Blog").
+2. Inside the topic: `/register_topic portfolio_blog_ops`
+3. Send free-text outlines (optional `#web` / `#career` …). Use `/queue`, `/skip <id>`, `/remove <id>`, `/blog_help`.
+4. When the scheduler runs `portfolio_blog`, it claims the oldest outline, creates a **draft**, and posts a preview link with **Approve / Reject**.
+5. If you do nothing until `review_deadline_at` (default 24h), the next scheduler run **auto-publishes** and notifies with the public URL.
+6. Preview URLs (`/blog/preview/...`) die after publish or reject.
+
+Gateway and scheduler both need `PORTFOLIO_URL` + `AGENT_BLOG_TOKEN`.
+
+Optional: `BLOG_REVIEW_HOURS=24` on Vercel.
+
+---
+
+## Apply preview/review migration
+
+```bash
+# From portofolio-v2, with Supabase linked
+supabase db push
+# or run supabase/migrations/20260825160000_blog_preview_review.sql in SQL Editor
+```
+
+---
+
 ## Rotate AGENT_BLOG_TOKEN
 
 If the token is compromised or needs rotation:

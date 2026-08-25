@@ -8,7 +8,10 @@ import {
   AGENT_BLOG_MAX_BODY_BYTES,
   assertAgentBlogToken,
   computeReadingTimeMinutes,
+  createPreviewToken,
   jakartaDayWindow,
+  reviewDeadlineFromNow,
+  siteBaseUrl,
   validateAgentBlogPayload,
 } from "@/lib/agent-blog";
 
@@ -16,11 +19,10 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /**
- * POST /api/agent/blog — create one published post (agent-hub only).
- * Contract: docs/blog.md §7. Errors: 401 token, 409 slug, 429 quota, 400 validation.
+ * POST /api/agent/blog — create one draft for review (agent-hub).
+ * Returns preview_url + review_deadline_at. Public URL only after approve/auto-publish.
  */
 export async function POST(request: NextRequest) {
-  // Extra per-IP rate limit on top of the daily quota (docs/blog.md §11: ~5/hour).
   const ip = getClientIp(request);
   if (!checkRateLimit(`agent-blog:${ip}`, 5, 60 * 60 * 1000)) {
     return NextResponse.json(
@@ -29,7 +31,6 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // 1. Timing-safe bearer token check. Admin client is only used after this passes.
   const tokenError = assertAgentBlogToken(request);
   if (tokenError) {
     return NextResponse.json(fail(tokenError.message, tokenError.code), {
@@ -37,7 +38,6 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  // 2. Payload size limit before parsing.
   let raw: string;
   try {
     raw = await request.text();
@@ -53,7 +53,6 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // 3. Schema validation (manual, matching repo style).
   let parsed: unknown;
   try {
     parsed = JSON.parse(raw);
@@ -72,8 +71,6 @@ export async function POST(request: NextRequest) {
 
   const supabase = getSupabaseAdmin();
 
-  // 4. Slug uniqueness → 409 so the agent can detect its own duplicates
-  //    (idempotent retry) even when the daily quota is already spent.
   const { data: existing } = await supabase
     .from("blog_posts")
     .select("id")
@@ -86,7 +83,6 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // 5. Daily quota: max 1 agent create per Asia/Jakarta calendar day.
   const window = jakartaDayWindow();
   const { count, error: quotaError } = await supabase
     .from("blog_posts")
@@ -97,7 +93,9 @@ export async function POST(request: NextRequest) {
 
   if (quotaError) {
     console.error("[BLOG_AGENT] quota check failed:", quotaError.message);
-    return NextResponse.json(serverFail(), { status: 500 });
+    return NextResponse.json(fail("Internal server error.", "INTERNAL_ERROR"), {
+      status: 500,
+    });
   }
   if ((count ?? 0) >= 1) {
     return NextResponse.json(
@@ -109,8 +107,10 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // 6. Insert as published via service role.
+  const previewToken = createPreviewToken();
+  const reviewDeadline = reviewDeadlineFromNow();
   const nowIso = new Date().toISOString();
+
   const { data, error } = await supabase
     .from("blog_posts")
     .insert({
@@ -121,20 +121,21 @@ export async function POST(request: NextRequest) {
       category: post.category,
       tags: post.tags,
       locale: "en",
-      status: "published",
+      status: "draft",
       cover_url: null,
       seo_title: post.seo_title,
       seo_description: post.seo_description,
       canonical_url: null,
       reading_time_minutes: computeReadingTimeMinutes(post.body_md),
       source: "agent",
-      published_at: nowIso,
+      preview_token: previewToken,
+      review_deadline_at: reviewDeadline,
+      published_at: null,
     })
-    .select()
+    .select("id, slug, title, status, preview_token, review_deadline_at")
     .single();
 
   if (error) {
-    // Postgres unique violation → race on the pre-check above.
     if (error.code === "23505") {
       return NextResponse.json(
         fail(`Slug "${post.slug}" already exists. Pick another slug.`, "SLUG_CONFLICT"),
@@ -142,25 +143,33 @@ export async function POST(request: NextRequest) {
       );
     }
     console.error("[BLOG_AGENT] insert failed:", error.message);
-    return NextResponse.json(serverFail(), { status: 500 });
+    return NextResponse.json(fail("Internal server error.", "INTERNAL_ERROR"), {
+      status: 500,
+    });
   }
 
-  // 7. Revalidate blog pages; a revalidation hiccup must not fail the create.
   try {
     revalidateTag(DATA_TAGS.blog, "max");
   } catch (err) {
     console.error("[BLOG_AGENT] revalidateTag failed:", err);
   }
 
-  // 8. Audit log without any secrets.
-  console.log(`[BLOG_AGENT] created slug=${post.slug}`);
+  const base = siteBaseUrl();
+  const previewUrl = `${base}/blog/preview/${data.preview_token}`;
+  console.log(`[BLOG_AGENT] draft slug=${data.slug} deadline=${reviewDeadline}`);
 
-  const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "").replace(/\/+$/, "");
-  return NextResponse.json(ok({ id: data.id, slug: data.slug, url: `${siteUrl}/blog/${data.slug}` }), {
-    status: 201,
-  });
-}
-
-function serverFail() {
-  return fail("Internal server error.", "INTERNAL_ERROR");
+  return NextResponse.json(
+    ok({
+      id: data.id,
+      slug: data.slug,
+      title: data.title,
+      status: data.status,
+      preview_url: previewUrl,
+      review_deadline_at: data.review_deadline_at,
+      // Public URL only after approve — kept null for clarity
+      url: null,
+      created_at: nowIso,
+    }),
+    { status: 201 },
+  );
 }

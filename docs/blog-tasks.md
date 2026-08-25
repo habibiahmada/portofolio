@@ -12,8 +12,10 @@ Implementation checklist. **Open items first; completed work below.**
 
 ### Ops (manual)
 
-- [x] **8.3** Set `AGENT_BLOG_TOKEN` in Vercel Production (+ Preview if needed)
-- [x] **8.4** Set token + site URL in agent-hub secrets/env
+- [ ] **Apply migration** `20260825160000_blog_preview_review.sql` on Supabase (preview_token + review_deadline_at)
+- [ ] **Register Telegram topic:** in the Blog forum topic run `/register_topic portfolio_blog_ops`
+- [ ] Ensure gateway + scheduler env have `PORTFOLIO_URL` + `AGENT_BLOG_TOKEN` (needed for Approve/Reject callbacks)
+- [ ] Merge agent-hub `develop` → deploy branch (`main` if EC2 deploys from main) and redeploy
 
 ### Acceptance (manual)
 
@@ -23,12 +25,24 @@ Implementation checklist. **Open items first; completed work below.**
 
 ### Optional / deferred
 
-- [ ] **10.5** (Optional) agent default → `draft` + Telegram approve notify
 - [ ] **11.1** Create Supabase Storage bucket `blog-covers` (public) — steps in [blog-runbook.md](./blog-runbook.md)
 
 ---
 
 ## Done — completed work
+
+### Review / Telegram queue (draft → preview → approve)
+
+- [x] **10.5** Agent default → `draft` + `preview_token` + `review_deadline_at`
+- [x] Preview page `/blog/preview/[token]` (noindex) + robots disallow
+- [x] `POST /api/agent/blog/review` + `POST /api/agent/blog/auto-publish`
+- [x] agent-hub queue (`blog_queue.json`) + gateway skill `portfolio_blog_ops`
+- [x] Scheduler notifies draft with Approve/Reject; auto-publish reports public URL
+
+### Ops (manual)
+
+- [x] **8.3** Set `AGENT_BLOG_TOKEN` in Vercel Production (+ Preview if needed)
+- [x] **8.4** Set token + site URL in agent-hub secrets/env
 
 ### 0. Documentation & alignment
 

@@ -81,11 +81,11 @@ Primary audience remains hiring managers / tech leads. The blog proves thinking 
 
 | Option | Pros | Cons | Decision |
 |--------|------|------|----------|
-| A. Immediate `published` | Simple | Bad AI copy hurts SEO | OK for phase 1 with strict prompts |
-| B. Always `draft` + admin approve | Safer | Needs UI/notifications | Phase 2 option |
-| C. Auto-publish + admin can unpublish | Balance | Needs admin API | **Choose for phase 1→2** |
+| A. Immediate `published` | Simple | Bad AI copy hurts SEO | Superseded |
+| B. Always `draft` + review | Safer | Needs notify + timeout | **Current** |
+| C. Auto-publish + admin can unpublish | Balance | Needs admin API | Fallback after deadline |
 
-**Phase 1:** agent sets `status: published`. Admin can unpublish/archive via `/api/admin/blog` (`withAdmin`). Phase 2 may switch default to `draft` + optional Telegram notify.
+**Current:** agent creates `status: draft` with `preview_token` + `review_deadline_at` (default **24h**, env `BLOG_REVIEW_HOURS`). Preview at `/blog/preview/[token]` (noindex). Telegram Approve / Reject, or auto-publish when deadline passes. Preview token cleared on publish/reject.
 
 ### 4.4 Images / covers
 
@@ -275,9 +275,14 @@ One visitor = **one reaction total** per post (simplest).
 3. Validate category allowlist, slug uniqueness, max lengths.
 4. Reject payload containing em dash `—` with **400** (force agent fix).
 5. Compute `reading_time_minutes` (~200 wpm).
-6. Insert `status=published`, `published_at=now()`, `source=agent`, `locale=en`.
+6. Insert `status=draft`, `preview_token`, `review_deadline_at`, `source=agent`, `locale=en` (`published_at` null).
 7. `revalidateTag('blog')`.
-8. Return `{ id, slug, url }`.
+8. Return `{ id, slug, status, preview_url, review_deadline_at, url: null }`.
+
+**Review APIs (same Bearer token):**
+
+- `POST /api/agent/blog/review` `{ id, action: "approve"|"reject" }` → publish or archive; clears preview.
+- `POST /api/agent/blog/auto-publish` → publish drafts with `review_deadline_at <= now`.
 
 **Errors:** 401 token, 409 slug, 429 quota, 400 validation.
 
@@ -294,7 +299,7 @@ Per article:
 - `generateMetadata` + Open Graph + Twitter (`og:image` → `/api/og/blog?...`).
 - JSON-LD `BlogPosting` (author = existing Person, `datePublished`, `headline`, `description`).
 - Sitemap: `/blog` + each published slug (`lastModified` = `updated_at`).
-- `robots`: allow `/blog`; keep disallow `/api/`, `/admin`.
+- `robots`: allow `/blog`; disallow `/blog/preview/`, `/api/`, `/admin`.
 - Heading hierarchy: page H1 from title; body starts at H2.
 - Optional internal links to `/projects/...` when relevant.
 - Clear English; no keyword stuffing.
@@ -401,16 +406,17 @@ Do not jump to phases 3–4 before MVP runs cleanly for 2–4 weeks (or explicit
 
 ## 15. Acceptance criteria (MVP = phase 1 done)
 
-1. Agent can create **exactly one** published post per Asia/Jakarta day with the token.
-2. Second post same day → 429.
-3. `/blog` and `/blog/[slug]` first paint include content without `/api/public/*` fetch.
-4. Sitemap & JSON-LD `BlogPosting` valid for new posts.
+1. Agent can create **exactly one** draft post per Asia/Jakarta day with the token (preview URL returned).
+2. Second create same day → 429.
+3. `/blog` and `/blog/[slug]` first paint include **published** content without `/api/public/*` fetch.
+4. Sitemap & JSON-LD `BlogPosting` valid for published posts (previews excluded).
 5. OG image works without Storage files.
 6. Share works without backend.
 7. Em dashes cannot pass validation.
 8. No image upload on the agent path.
 9. `AGENT_BLOG_TOKEN` documented in `.env.example` (no real value).
 10. Docs index points here; posts are **English**.
+11. Unreviewed drafts auto-publish after `review_deadline_at`; preview links die after publish/reject.
 
 ---
 
@@ -438,5 +444,5 @@ Do not jump to phases 3–4 before MVP runs cleanly for 2–4 weeks (or explicit
 | Categories | `programming`, `education`, `web`, `career`, `opinion`, `news-commentary` |
 | Slug collision | **409** (agent must pick another slug) |
 | Admin UI in MVP | **No** (API + dashboard only) |
-| Agent `draft` in phase 1 | **No** (publish immediately; status field still supports archive/unpublish) |
+| Agent `draft` default | **Yes** (preview + Telegram review; auto-publish on timeout) |
 | Body language | English news/analysis style; no em dashes |

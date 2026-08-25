@@ -43,11 +43,18 @@ export interface Database {
           | "locale"
           | "status"
           | "source"
+          | "preview_token"
+          | "review_deadline_at"
         > &
           Partial<
             Pick<
               BlogPostRow,
-              "reaction_counts" | "locale" | "status" | "source"
+              | "reaction_counts"
+              | "locale"
+              | "status"
+              | "source"
+              | "preview_token"
+              | "review_deadline_at"
             >
           >;
         Update: Partial<Omit<BlogPostRow, "id">>;
@@ -121,6 +128,10 @@ export interface BlogPostRow {
   reading_time_minutes: number | null;
   reaction_counts: Record<string, number>;
   source: "agent" | "admin";
+  /** Random token for /blog/preview/[token]; null after publish/reject. */
+  preview_token: string | null;
+  /** When set on drafts, agent auto-publish may go live after this instant. */
+  review_deadline_at: string | null;
   published_at: string | null;
   created_at?: string;
   updated_at?: string;

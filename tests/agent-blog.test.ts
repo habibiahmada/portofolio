@@ -138,7 +138,7 @@ describe("POST /api/agent/blog", () => {
     expect(json.error?.code ?? json.code).toBeTruthy();
   });
 
-  it("returns 201 with id, slug, and url on success", async () => {
+  it("returns 201 draft with preview_url (not public url) on success", async () => {
     const { POST } = await import("@/app/api/agent/blog/route");
     const payload = validPayload({ slug: "first-agent-post" });
     const res = await POST(agentRequest(payload));
@@ -146,8 +146,50 @@ describe("POST /api/agent/blog", () => {
     const json = await res.json();
     const data = json.data ?? json;
     expect(data.slug).toBe("first-agent-post");
-    expect(data.url).toBe("http://localhost:3000/blog/first-agent-post");
+    expect(data.status).toBe("draft");
+    expect(data.url).toBeNull();
+    expect(data.preview_url).toMatch(
+      /^http:\/\/localhost:3000\/blog\/preview\/[A-Za-z0-9_-]+$/,
+    );
+    expect(data.review_deadline_at).toBeTruthy();
     expect(data.id).toBeTruthy();
+  });
+
+  it("approve then reject/review endpoints work for drafts", async () => {
+    const { POST: create } = await import("@/app/api/agent/blog/route");
+    const { POST: review } = await import("@/app/api/agent/blog/review/route");
+    const createRes = await create(
+      agentRequest(validPayload({ slug: "review-approve-post" }), {
+        ip: "198.51.100.50",
+      }),
+    );
+    expect(createRes.status).toBe(201);
+    const created = ((await createRes.json()).data ?? {}) as {
+      id: string;
+    };
+
+    const approveReq = new NextRequest(
+      "http://localhost:3000/api/agent/blog/review",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          authorization: `Bearer ${TOKEN}`,
+          "x-forwarded-for": "198.51.100.51",
+        },
+        body: JSON.stringify({ id: created.id, action: "approve" }),
+      },
+    );
+    const approveRes = await review(approveReq);
+    expect(approveRes.status).toBe(200);
+    const approved = ((await approveRes.json()).data ?? {}) as {
+      url: string;
+      slug: string;
+    };
+    expect(approved.slug).toBe("review-approve-post");
+    expect(approved.url).toBe(
+      "http://localhost:3000/blog/review-approve-post",
+    );
   });
 
   it("returns 409 when the slug already exists", async () => {

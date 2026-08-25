@@ -6,7 +6,14 @@ import { SITE } from "@/lib/site-metadata";
  * Public pages are allowed; admin, login, and APIs stay out of the index.
  */
 export default function robots(): MetadataRoute.Robots {
-  const disallow = ["/admin/", "/admin", "/login/", "/login", "/api/"];
+  const disallow = [
+    "/admin/",
+    "/admin",
+    "/login/",
+    "/login",
+    "/api/",
+    "/blog/preview/",
+  ];
 
   return {
     rules: [

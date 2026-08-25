@@ -5,12 +5,15 @@
  * Pure logic lives here so it is unit-testable without the HTTP layer.
  */
 
-import { createHash, timingSafeEqual } from "node:crypto";
+import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
 import { BLOG_CATEGORIES } from "./data/constants";
 import type { BlogCategory } from "./supabase/types";
 
 /** Hard cap for the raw JSON body (docs/blog.md §11: body_md max ~100 KB). */
 export const AGENT_BLOG_MAX_BODY_BYTES = 128 * 1024;
+
+/** Default hours until a draft auto-publishes if not reviewed (Asia/Jakarta-friendly). */
+export const DEFAULT_BLOG_REVIEW_HOURS = 24;
 
 export const TITLE_MIN = 10;
 export const TITLE_MAX = 120;
@@ -211,4 +214,23 @@ export function jakartaDayWindow(now: Date = new Date()): QuotaWindow {
     startIso: new Date(startMs).toISOString(),
     endIso: new Date(startMs + 86_400_000).toISOString(),
   };
+}
+
+/** Opaque URL-safe preview token (not the agent API secret). */
+export function createPreviewToken(): string {
+  return randomBytes(24).toString("base64url");
+}
+
+export function reviewDeadlineFromNow(hours?: number): string {
+  const raw =
+    hours ?? Number(process.env.BLOG_REVIEW_HOURS || DEFAULT_BLOG_REVIEW_HOURS);
+  const h =
+    typeof raw === "number" && Number.isFinite(raw) && raw > 0
+      ? raw
+      : DEFAULT_BLOG_REVIEW_HOURS;
+  return new Date(Date.now() + h * 60 * 60 * 1000).toISOString();
+}
+
+export function siteBaseUrl(): string {
+  return (process.env.NEXT_PUBLIC_SITE_URL || "").replace(/\/+$/, "");
 }
