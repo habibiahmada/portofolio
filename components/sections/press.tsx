@@ -60,7 +60,7 @@ export function Press() {
                 className="group grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 items-center"
               >
                 <div
-                  className={`md:col-span-7 relative overflow-hidden rounded-2xl bg-zinc-100 dark:bg-zinc-900 aspect-16/10 ${
+                  className={`md:col-span-7 relative overflow-hidden bg-zinc-100 dark:bg-zinc-900 aspect-16/10 ${
                     reverse ? "md:order-2" : ""
                   }`}
                 >
