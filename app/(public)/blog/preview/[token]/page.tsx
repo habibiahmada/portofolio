@@ -76,6 +76,19 @@ export default async function BlogPreviewPage({
           </p>
         </div>
 
+        {post.cover_url && (
+          <div className="max-w-3xl mb-8 md:mb-12">
+            <div className="relative aspect-video rounded-2xl overflow-hidden bg-black/5 dark:bg-white/5">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={post.cover_url}
+                alt={post.title}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            </div>
+          </div>
+        )}
+
         <header className="max-w-3xl mb-10 md:mb-14">
           <div className="flex flex-wrap items-center gap-2 mb-4">
             <span className="inline-flex px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-zinc-950 dark:bg-zinc-50 text-white dark:text-zinc-950">

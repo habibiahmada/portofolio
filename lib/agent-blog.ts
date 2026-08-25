@@ -44,6 +44,8 @@ export type ValidatedAgentPost = {
   tags: string[];
   seo_title: string | null;
   seo_description: string | null;
+  /** Optional https cover (Unsplash / Picsum / Supabase). */
+  cover_url: string | null;
 };
 
 // ── Token auth ───────────────────────────────────────────────────────────────
@@ -193,9 +195,36 @@ export function validateAgentBlogPayload(
   }
   if (!slug) return invalid('Could not derive a valid kebab-case "slug".');
 
+  let coverUrl: string | null = null;
+  if (body.cover_url !== undefined && body.cover_url !== null && body.cover_url !== "") {
+    if (typeof body.cover_url !== "string") {
+      return invalid('"cover_url" must be a string URL or null.');
+    }
+    const trimmedCover = body.cover_url.trim();
+    if (!isAllowedCoverUrl(trimmedCover)) {
+      return invalid(
+        '"cover_url" must be https from images.unsplash.com, picsum.photos, images.pexels.com, or Supabase Storage.',
+      );
+    }
+    if (trimmedCover.length > 500) {
+      return invalid('"cover_url" is too long.');
+    }
+    coverUrl = trimmedCover;
+  }
+
   return {
     ok: true,
-    value: { slug, title, description, body_md: bodyMd, category, tags, seo_title: seoTitle, seo_description: seoDescription },
+    value: {
+      slug,
+      title,
+      description,
+      body_md: bodyMd,
+      category,
+      tags,
+      seo_title: seoTitle,
+      seo_description: seoDescription,
+      cover_url: coverUrl,
+    },
   };
 }
 
@@ -216,7 +245,30 @@ export function jakartaDayWindow(now: Date = new Date()): QuotaWindow {
   };
 }
 
-/** Opaque URL-safe preview token (not the agent API secret). */
+/** Hosts allowed for agent-supplied cover_url (and recommended for body images). */
+const COVER_HOST_ALLOWLIST = new Set([
+  "images.unsplash.com",
+  "plus.unsplash.com",
+  "images.pexels.com",
+  "picsum.photos",
+  "fastly.picsum.photos",
+]);
+
+export function isAllowedCoverUrl(url: string): boolean {
+  try {
+    const u = new URL(url);
+    if (u.protocol !== "https:") return false;
+    if (COVER_HOST_ALLOWLIST.has(u.hostname)) return true;
+    // Supabase public storage
+    if (u.hostname.endsWith(".supabase.co") && u.pathname.includes("/storage/v1/object/public/")) {
+      return true;
+    }
+    return false;
+  } catch {
+    return false;
+  }
+}
+
 export function createPreviewToken(): string {
   return randomBytes(24).toString("base64url");
 }

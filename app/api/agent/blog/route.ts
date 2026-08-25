@@ -122,7 +122,7 @@ export async function POST(request: NextRequest) {
       tags: post.tags,
       locale: "en",
       status: "draft",
-      cover_url: null,
+      cover_url: post.cover_url,
       seo_title: post.seo_title,
       seo_description: post.seo_description,
       canonical_url: null,
