@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PageShell } from "@/components/ui/page-shell";
 import { MarkdownRenderer } from "@/components/ui/markdown-renderer";
+import { extractBlogHeadings } from "@/lib/extract-blog-headings";
 import { getDraftByPreviewToken } from "@/lib/blog-publish";
 import { pageMetadata } from "@/lib/site-metadata";
 
@@ -62,6 +63,8 @@ export default async function BlogPreviewPage({
         timeStyle: "short",
       })
     : null;
+
+  const headings = extractBlogHeadings(post.body_md);
 
   return (
     <main className="min-h-screen">
@@ -132,7 +135,7 @@ export default async function BlogPreviewPage({
         <hr className="border-t border-black/5 dark:border-white/10 mb-10 md:mb-14" />
 
         <article className="max-w-3xl">
-          <MarkdownRenderer content={post.body_md} />
+          <MarkdownRenderer content={post.body_md} headings={headings} />
         </article>
       </PageShell>
     </main>

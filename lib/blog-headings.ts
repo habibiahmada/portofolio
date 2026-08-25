@@ -1,5 +1,6 @@
 /**
- * Extract H2/H3 headings from markdown for table-of-contents navigation.
+ * Shared heading helpers for blog TOC + markdown rendering.
+ * Keep this file free of remark/unified so client components can import it safely.
  */
 
 export type BlogHeading = {
@@ -7,6 +8,10 @@ export type BlogHeading = {
   text: string;
   level: 2 | 3;
 };
+
+export function normalizeHeadingText(text: string): string {
+  return text.replace(/\s+/g, " ").trim();
+}
 
 export function slugifyHeading(text: string): string {
   return text
@@ -20,35 +25,30 @@ export function slugifyHeading(text: string): string {
     .slice(0, 80);
 }
 
-/** Parse ## / ### headings (ignores code fences). */
-export function extractBlogHeadings(markdown: string): BlogHeading[] {
-  const lines = String(markdown || "").split(/\r?\n/);
-  const headings: BlogHeading[] = [];
-  const used = new Map<string, number>();
-  let inFence = false;
+/** Match rendered heading text to precomputed ids (handles duplicate titles). */
+export function createHeadingIdResolver(headings: BlogHeading[]) {
+  const pool = headings.map((heading) => ({ ...heading, used: false }));
 
-  for (const line of lines) {
-    if (/^```/.test(line.trim())) {
-      inFence = !inFence;
-      continue;
+  return (level: 2 | 3, rawText: string) => {
+    const text = normalizeHeadingText(rawText);
+
+    let match = pool.find(
+      (heading) =>
+        !heading.used &&
+        heading.level === level &&
+        normalizeHeadingText(heading.text) === text,
+    );
+
+    if (!match) {
+      match = pool.find((heading) => !heading.used && heading.level === level);
     }
-    if (inFence) continue;
 
-    const match = /^(#{2,3})\s+(.+?)\s*$/.exec(line);
-    if (!match) continue;
+    if (match) {
+      match.used = true;
+      return match.id;
+    }
 
-    const level = match[1].length as 2 | 3;
-    const text = match[2].replace(/#+\s*$/, "").trim();
-    if (!text) continue;
-
-    let id = slugifyHeading(text);
-    if (!id) continue;
-    const count = used.get(id) ?? 0;
-    used.set(id, count + 1);
-    if (count > 0) id = `${id}-${count + 1}`;
-
-    headings.push({ id, text, level });
-  }
-
-  return headings;
+    const fallback = slugifyHeading(text);
+    return fallback || `section-${level}`;
+  };
 }

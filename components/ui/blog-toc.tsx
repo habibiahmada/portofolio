@@ -1,43 +1,70 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { BlogHeading } from "@/lib/blog-headings";
 
 interface BlogTocProps {
   headings: BlogHeading[];
+  onNavigate?: () => void;
 }
 
-export function BlogToc({ headings }: BlogTocProps) {
+/** Matches sticky sidebar / heading scroll-mt offset (top-28). */
+const HEADER_OFFSET = 112;
+
+function getActiveHeadingId(ids: string[]): string {
+  if (!ids.length) return "";
+
+  let active = ids[0];
+  for (const id of ids) {
+    const el = document.getElementById(id);
+    if (!el) continue;
+
+    if (el.getBoundingClientRect().top <= HEADER_OFFSET + 12) {
+      active = id;
+    } else {
+      break;
+    }
+  }
+
+  return active;
+}
+
+export function BlogToc({ headings, onNavigate }: BlogTocProps) {
   const [activeId, setActiveId] = useState<string>(headings[0]?.id ?? "");
+  const scrollLockRef = useRef(false);
+  const scrollTimerRef = useRef<number | undefined>(undefined);
 
   const ids = useMemo(() => headings.map((h) => h.id), [headings]);
 
   useEffect(() => {
     if (!ids.length) return;
 
-    const elements = ids
-      .map((id) => document.getElementById(id))
-      .filter((el): el is HTMLElement => Boolean(el));
+    let ticking = false;
 
-    if (!elements.length) return;
+    const updateActive = () => {
+      if (scrollLockRef.current) {
+        ticking = false;
+        return;
+      }
+      setActiveId(getActiveHeadingId(ids));
+      ticking = false;
+    };
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        if (visible[0]?.target?.id) {
-          setActiveId(visible[0].target.id);
-        }
-      },
-      {
-        rootMargin: "-20% 0px -65% 0px",
-        threshold: [0, 1],
-      },
-    );
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(updateActive);
+      }
+    };
 
-    for (const el of elements) observer.observe(el);
-    return () => observer.disconnect();
+    updateActive();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", updateActive, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", updateActive);
+    };
   }, [ids]);
 
   if (!headings.length) return null;
@@ -45,9 +72,20 @@ export function BlogToc({ headings }: BlogTocProps) {
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (!el) return;
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
-    history.replaceState(null, "", `#${id}`);
+
+    scrollLockRef.current = true;
     setActiveId(id);
+
+    const top = el.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
+    window.scrollTo({ top, behavior: "smooth" });
+    history.replaceState(null, "", `#${id}`);
+    onNavigate?.();
+
+    window.clearTimeout(scrollTimerRef.current);
+    scrollTimerRef.current = window.setTimeout(() => {
+      scrollLockRef.current = false;
+      setActiveId(getActiveHeadingId(ids));
+    }, 700);
   };
 
   return (
@@ -63,7 +101,7 @@ export function BlogToc({ headings }: BlogTocProps) {
               <button
                 type="button"
                 onClick={() => scrollTo(heading.id)}
-                className={`block w-full text-left text-xs leading-snug transition-colors border-l-2 -ml-px pl-3 py-1.5 ${
+                className={`block w-full cursor-pointer text-left text-xs leading-snug transition-colors border-l-2 -ml-px pl-3 py-1.5 ${
                   heading.level === 3 ? "pl-5" : ""
                 } ${
                   active

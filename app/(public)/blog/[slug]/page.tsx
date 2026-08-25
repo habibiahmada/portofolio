@@ -4,12 +4,11 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { PageShell } from "@/components/ui/page-shell";
 import { MarkdownRenderer } from "@/components/ui/markdown-renderer";
-import { ShareButtons } from "@/components/ui/share-buttons";
-import { BlogToc } from "@/components/ui/blog-toc";
+import { BlogArticleSidebar } from "@/components/ui/blog-article-sidebar";
 import { ViewCounter } from "@/components/ui/view-counter";
 import { BlogJsonLd } from "@/components/json-ld";
 import { getPostBySlug, getPublishedPosts } from "@/lib/data/blog";
-import { extractBlogHeadings } from "@/lib/blog-headings";
+import { extractBlogHeadings } from "@/lib/extract-blog-headings";
 import { pageMetadata, SITE } from "@/lib/site-metadata";
 
 export async function generateStaticParams() {
@@ -179,11 +178,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_240px] gap-10 xl:gap-14 items-start">
           <article className="min-w-0 max-w-3xl">
-            <MarkdownRenderer content={post.body_md} />
-
-            <div className="mt-12 pt-8 border-t border-black/5 dark:border-white/10 lg:hidden">
-              <ShareButtons url={articleUrl} title={displayTitle} />
-            </div>
+            <MarkdownRenderer content={post.body_md} headings={headings} />
 
             <div className="mt-10">
               <Link
@@ -208,17 +203,13 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
             </div>
           </article>
 
-          <aside className="hidden lg:block">
-            <div className="sticky top-28 space-y-8 max-h-[calc(100vh-8rem)] overflow-y-auto pr-1">
-              <ShareButtons
-                url={articleUrl}
-                title={displayTitle}
-                layout="stack"
-              />
-              <ViewCounter postId={post.id} initialCount={viewCount} />
-              <BlogToc headings={headings} />
-            </div>
-          </aside>
+          <BlogArticleSidebar
+            articleUrl={articleUrl}
+            title={displayTitle}
+            headings={headings}
+            postId={post.id}
+            viewCount={viewCount}
+          />
         </div>
       </PageShell>
 

@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono, Space_Grotesk } from 'next/font/google'
-import { ThemeProvider } from 'next-themes'
+import { ThemeProvider } from '@/components/theme-provider'
 import './globals.css'
 import { JsonLd, rootMetadata } from '@/components/json-ld'
 
@@ -33,9 +33,10 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
       className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable}`}
     >
-      <body className="min-h-full flex flex-col font-sans antialiased">
-        {/* Outside ThemeProvider so JSON-LD <script> stays server-rendered */}
+      <head>
         <JsonLd />
+      </head>
+      <body className="min-h-full flex flex-col font-sans antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
