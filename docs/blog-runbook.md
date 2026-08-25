@@ -8,12 +8,15 @@ Short reference for common blog operations. Full architecture: [blog.md](./blog.
 
 1. Create a forum topic (e.g. "Blog").
 2. Inside the topic: `/register_topic portfolio_blog_ops`
-3. Send free-text outlines (optional `#web` / `#career` …). Use `/queue`, `/skip <id>`, `/remove <id>`, `/blog_help`.
-4. When the scheduler runs `portfolio_blog`, it claims the oldest outline, creates a **draft**, and posts a preview link with **Approve / Reject**.
-5. If you do nothing until `review_deadline_at` (default 24h), the next scheduler run **auto-publishes** and notifies with the public URL.
-6. Preview URLs (`/blog/preview/...`) die after publish or reject.
+3. **Source of truth = Obsidian vault** (not JSON on disk):
+   - `08-Blog/Queue.md` — ideas (Queued / In review / Skipped)
+   - `08-Blog/Published.md` — live posts with public URLs
+4. Add outlines in Obsidian **or** send free-text in Telegram (optional `#web` / `#career` …). Commands: `/queue`, `/skip <id>`, `/remove <id>`, `/blog_help`.
+5. Scheduler `portfolio_blog` claims the **top Queued** item only (skips if empty). Creates a **draft** on porto + preview link; vault row moves to **In review** with preview URL.
+6. Approve / Reject in Telegram, or wait until `review_deadline_at` → auto-publish. Public URL is appended to `Published.md`.
+7. Portfolio DB never stores the idea list — only drafts/posts that were generated.
 
-Gateway and scheduler both need `PORTFOLIO_URL` + `AGENT_BLOG_TOKEN`.
+Gateway and scheduler need `BRAIN_REPO_PATH`, `PORTFOLIO_URL`, `AGENT_BLOG_TOKEN`.
 
 Optional: `BLOG_REVIEW_HOURS=24` on Vercel.
 

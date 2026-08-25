@@ -36,8 +36,8 @@ Implementation checklist. **Open items first; completed work below.**
 - [x] **10.5** Agent default → `draft` + `preview_token` + `review_deadline_at`
 - [x] Preview page `/blog/preview/[token]` (noindex) + robots disallow
 - [x] `POST /api/agent/blog/review` + `POST /api/agent/blog/auto-publish`
-- [x] agent-hub queue (`blog_queue.json`) + gateway skill `portfolio_blog_ops`
-- [x] Scheduler notifies draft with Approve/Reject; auto-publish reports public URL
+- [x] Queue in Obsidian vault (`08-Blog/Queue.md` + `Published.md`) + gateway skill `portfolio_blog_ops`
+- [x] Scheduler notifies draft with Approve/Reject; auto-publish reports public URL → vault
 
 ### Ops (manual)
 
