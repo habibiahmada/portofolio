@@ -11,6 +11,7 @@ import {
   getFeaturedProjects,
 } from '@/lib/data/projects'
 import { pageMetadata, SITE_COPY } from '@/lib/site-metadata'
+import { Analytics } from '@vercel/analytics/react'
 
 const base = pageMetadata({
   title: SITE_COPY.defaultTitle,
@@ -38,6 +39,7 @@ export default async function Home() {
 
   return (
     <main className="w-full overflow-x-hidden">
+      <Analytics />
       <HeroSection />
       <Companies initialData={companies} />
       <Projects initialData={featuredProjects} />
