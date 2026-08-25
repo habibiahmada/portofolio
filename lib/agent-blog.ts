@@ -12,7 +12,10 @@ import type { BlogCategory } from "./supabase/types";
 /** Hard cap for the raw JSON body (docs/blog.md §11: body_md max ~100 KB). */
 export const AGENT_BLOG_MAX_BODY_BYTES = 128 * 1024;
 
-/** Default hours until a draft auto-publishes if not reviewed (Asia/Jakarta-friendly). */
+/** Default minutes until a draft auto-publishes if not reviewed. */
+export const DEFAULT_BLOG_REVIEW_MINUTES = 20;
+
+/** Legacy hours fallback when BLOG_REVIEW_MINUTES is unset. */
 export const DEFAULT_BLOG_REVIEW_HOURS = 24;
 
 export const TITLE_MIN = 10;
@@ -273,7 +276,18 @@ export function createPreviewToken(): string {
   return randomBytes(24).toString("base64url");
 }
 
-export function reviewDeadlineFromNow(hours?: number): string {
+export function reviewDeadlineFromNow(hours?: number, minutes?: number): string {
+  const envMinutes = process.env.BLOG_REVIEW_MINUTES;
+  if (minutes !== undefined && Number.isFinite(minutes) && minutes > 0) {
+    return new Date(Date.now() + minutes * 60 * 1000).toISOString();
+  }
+  if (envMinutes !== undefined && envMinutes !== "") {
+    const m = Number(envMinutes);
+    if (Number.isFinite(m) && m > 0) {
+      return new Date(Date.now() + m * 60 * 1000).toISOString();
+    }
+  }
+
   const raw =
     hours ?? Number(process.env.BLOG_REVIEW_HOURS || DEFAULT_BLOG_REVIEW_HOURS);
   const h =

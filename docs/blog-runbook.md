@@ -6,19 +6,30 @@ Short reference for common blog operations. Full architecture: [blog.md](./blog.
 
 ## Telegram blog topic (queue + review)
 
+**Cadence otomatis (Asia/Jakarta):**
+
+| Waktu | Apa yang terjadi |
+|-------|------------------|
+| **Minggu malam ~20:00** | Agent buat **7 ide** topik relevan minggu depan → masuk antrian Obsidian otomatis |
+| **Setiap hari ~20:00** | Agent ambil **1 ide** teratas → tulis artikel → **draft** + preview ke Telegram |
+| **+20 menit** (≈20:20) | Jika belum Approve/Reject → **auto-publish** + notif Telegram |
+
+EC2 harus hidup **minimal 20:00–20:35 WIB** setiap hari (gateway cron). Set env di agent-hub **dan** Vercel: `BLOG_REVIEW_MINUTES=20`.
+
 1. Create a forum topic (e.g. "Blog").
 2. Inside the topic: `/register_topic portfolio_blog_ops`
 3. **Source of truth = Obsidian vault** (not JSON on disk):
    - `08-Blog/Queue.md` — ideas (Queued / In review / Skipped)
    - `08-Blog/Published.md` — live posts with public URLs
-4. Add outlines in Obsidian **or** Telegram (`ide: …`, chat + approve). Agent can also **suggest** ideas (`kasih ide` / `/blog_ideas`) — they only enter the queue after you approve. Weekly auto-suggest runs when the queue is thin (still needs approve). Commands: `/queue`, `/blog_ideas`, `/skip <id>`, `/remove <id>`, `/blog_help`.
-5. Scheduler `portfolio_blog` claims the **top Queued** item only (skips if empty). Creates a **draft** on porto + preview link; vault row moves to **In review** with preview URL.
-6. Approve / Reject in Telegram, or wait until `review_deadline_at` → auto-publish. Public URL is appended to `Published.md`.
-7. Portfolio DB never stores the idea list — only drafts/posts that were generated.
+4. Ide manual opsional: Telegram (`ide: …`) atau approve saran lama. Rencana mingguan Minggu malam mengisi antrian otomatis.
+5. Review: Approve / Reject di Telegram dalam **20 menit**, atau biarkan auto-publish.
+6. Portfolio DB never stores the idea list — only drafts/posts that were generated.
 
 Gateway and scheduler need `BRAIN_REPO_PATH`, `PORTFOLIO_URL`, `AGENT_BLOG_TOKEN`.
 
-Optional: `BLOG_REVIEW_HOURS=24` on Vercel.
+Env (agent-hub): `BLOG_GATEWAY_CRON=1`, `BLOG_DAILY_HOUR=20`, `BLOG_WEEKLY_WEEKDAY=0` (Sun / minggu malam), `BLOG_WEEKLY_IDEA_COUNT=7`.
+
+Optional Vercel: `BLOG_REVIEW_MINUTES=20` (default 20 when set on both sides).
 
 ---
 
