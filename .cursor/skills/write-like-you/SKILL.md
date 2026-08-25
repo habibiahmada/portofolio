@@ -4,8 +4,10 @@ description: >
   Writes portfolio and case-study copy in Habibi Ahmad Aziz's voice using
   Audience Profile, Voice DNA, and Business Context. Use when drafting or
   polishing case studies, project descriptions, press blurbs, hero/CTA copy,
-  ROAST responses, or any public English/Indonesian marketing text on this
-  site. Also when the user says "write like me", "voice DNA", or "case study copy".
+  ROAST responses, or any public marketing text on this site. For full blog
+  articles and agent publish payloads, prefer skill write-blog-post (which
+  reuses this voice). Also when the user says "write like me", "voice DNA",
+  or "case study copy".
 ---
 
 # Write like you (portfolio voice)

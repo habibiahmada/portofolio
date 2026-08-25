@@ -82,3 +82,7 @@ Refresh: `graphify query "admin auth"` or read `graphify-out/GRAPH_REPORT.md`.
 
 - Not a multi-tenant CMS
 - Not a Puck/page-builder product (performance work uses native Next.js)
+
+## Planned: blog + agent publisher
+
+Phase 0 (docs) is complete. Implementation starts at phase 1. Daily English Markdown posts via Bearer token API, SSR/ISR public `/blog`, no private server, images deferred (dynamic OG first). Full ADR + phases: [blog.md](./blog.md) · tasks: [blog-tasks.md](./blog-tasks.md).

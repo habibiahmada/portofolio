@@ -349,6 +349,90 @@ export function ProjectJsonLd({
   );
 }
 
+/** BlogPosting JSON-LD for article detail pages (Task 4.4). */
+export function BlogJsonLd({
+  slug,
+  title,
+  description,
+  category,
+  tags,
+  publishedAt,
+  readingTime,
+}: {
+  slug: string;
+  title: string;
+  description: string;
+  category: string;
+  tags: string[];
+  publishedAt: string | null;
+  readingTime: number | null;
+}) {
+  const url = `${SITE.url}/blog/${slug}`;
+  const schemas = [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: SITE.url,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Blog",
+          item: `${SITE.url}/blog`,
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: title,
+          item: url,
+        },
+      ],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "@id": `${url}#article`,
+      headline: title,
+      description,
+      url,
+      datePublished: publishedAt ?? undefined,
+      dateModified: publishedAt ?? undefined,
+      inLanguage: "en",
+      keywords: tags.join(", "),
+      articleSection: category,
+      author: { "@id": PERSON_ID },
+      creator: { "@id": PERSON_ID },
+      publisher: {
+        "@id": PERSON_ID,
+        name: SITE.name,
+        logo: {
+          "@type": "ImageObject",
+          url: `${SITE.url}${SITE.profileImage}`,
+        },
+      },
+      mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": url,
+      },
+      wordCount: readingTime ? readingTime * 200 : undefined,
+      timeRequired: readingTime ? `PT${readingTime}M` : undefined,
+    },
+  ];
+
+  const json = JSON.stringify(schemas).replace(/</g, "\\u003c");
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: json }}
+    />
+  );
+}
+
 /** Root layout metadata for Habibi Ahmad Aziz portfolio */
 export const rootMetadata: Metadata = {
   metadataBase: new URL(SITE.url),

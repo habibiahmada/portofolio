@@ -19,14 +19,25 @@ export type AdminSession = {
  * Verifies the request is from an authenticated admin user.
  * Call this at the top of every admin API route.
  *
- * Returns the session on success, or throws a redirect response.
+ * Pass the incoming Request so test bypass headers work outside
+ * the Next.js AsyncLocalStorage request scope (unit tests).
  */
-export async function requireAdmin(): Promise<AdminSession> {
+export async function requireAdmin(request?: Request): Promise<AdminSession> {
   // Allow test bypass in testing environment
   // Use TEST_BYPASS_KEY presence because Next.js overrides NODE_ENV to "development" in dev mode.
   if (process.env.TEST_BYPASS_KEY || process.env.SUPABASE_MOCK_ENABLED === "true") {
-    const headersList = await headers();
-    const bypassKey = headersList.get("x-test-bypass");
+    // Prefer the Request headers (unit tests + explicit callers). Fall back to
+    // next/headers only when no Request was passed (live App Router path).
+    let bypassKey: string | null = null;
+    if (request) {
+      bypassKey = request.headers.get("x-test-bypass");
+    } else {
+      try {
+        bypassKey = (await headers()).get("x-test-bypass");
+      } catch {
+        bypassKey = null;
+      }
+    }
     if (bypassKey && bypassKey === process.env.TEST_BYPASS_KEY) {
       return {
         userId: "test-admin-id",
@@ -72,10 +83,11 @@ export async function requireAdmin(): Promise<AdminSession> {
  * Returns consistent JSON error responses.
  */
 export async function withAdmin(
+  request: Request,
   handler: (session: AdminSession) => Promise<NextResponse>,
 ): Promise<NextResponse> {
   try {
-    const session = await requireAdmin();
+    const session = await requireAdmin(request);
     return await handler(session);
   } catch (err) {
     if (err instanceof AdminAuthError) {

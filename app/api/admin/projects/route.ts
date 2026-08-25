@@ -80,7 +80,7 @@ async function handleDelete(request: NextRequest, _session: AdminSession) {
   return NextResponse.json(ok({ deleted: id }));
 }
 
-export const GET = (req: NextRequest) => withAdmin((s) => handleGet(req, s));
-export const POST = (req: NextRequest) => withAdmin((s) => handlePost(req, s));
-export const PATCH = (req: NextRequest) => withAdmin((s) => handlePatch(req, s));
-export const DELETE = (req: NextRequest) => withAdmin((s) => handleDelete(req, s));
+export const GET = (req: NextRequest) => withAdmin(req, (s) => handleGet(req, s));
+export const POST = (req: NextRequest) => withAdmin(req, (s) => handlePost(req, s));
+export const PATCH = (req: NextRequest) => withAdmin(req, (s) => handlePatch(req, s));
+export const DELETE = (req: NextRequest) => withAdmin(req, (s) => handleDelete(req, s));

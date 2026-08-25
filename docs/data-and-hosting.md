@@ -12,12 +12,17 @@ Tables (see `lib/supabase/types.ts`):
 | `certificates` | Certs with `pages[]`, thumb, `is_pinned` |
 | `companies` | Collaborator logos |
 | `allowed_users` | Extra allowlist rows (alongside env emails) |
+| `blog_posts` | Blog articles (Markdown body, category, tags, SEO fields, status, source) |
+| `blog_reactions` | One reaction per visitor per post (`like` / `insightful` / `useful`) |
+| `blog_comments` | Authenticated comments (`pending` → admin approve/reject) |
 
 **Cleanup (2026-07-28):** dropped unused legacy CMS tables (`articles`, `certifications`, `experiences`, `faqs`, `hero_sections`, `services`, `statistics`, `testimonials`, `tools_logo`, translation tables, `contacts`, `email_templates`). Migration: `supabase/migrations/20260728130000_drop_legacy_cms_tables.sql`.
 
+**Blog migrations:** `20260825120000_create_blog_posts.sql`, `20260825140000_create_blog_reactions.sql`, `20260825150000_create_blog_comments.sql`.
+
 Active row counts after cleanup: projects 10 · companies 5 · certificates 52 · allowed_users 1.
 
-RLS: public `SELECT` on `projects` / `companies` / `certificates`. Writes use `SUPABASE_SERVICE_ROLE_KEY` (bypasses RLS).
+RLS: public `SELECT` on `projects` / `companies` / `certificates`; published-only on `blog_posts`; approved-only on `blog_comments`. Writes use `SUPABASE_SERVICE_ROLE_KEY` (bypasses RLS) except authenticated comment inserts.
 
 Access patterns:
 
@@ -57,6 +62,7 @@ Copy `.env.example` → `.env.local`:
 | `NEXT_PUBLIC_SITE_URL` | Canonical site / OAuth redirects |
 | `POSTGRES_URL` | Optional direct DB for scripts |
 | `ADMIN_ALLOWED_EMAILS` | Comma-separated admin emails |
+| `AGENT_BLOG_TOKEN` | Bearer token for agent-hub blog publisher (`POST /api/agent/blog`) |
 | `TEST_BYPASS_KEY` | **Dev/test only** — remove in production |
 
 ## Hosting
@@ -65,8 +71,10 @@ Copy `.env.example` → `.env.local`:
 |-------|--------|
 | Next.js app | **Vercel** (repo linked from v0; `main` auto-deploys) |
 | Database / Auth / Storage | **Supabase** cloud project |
+| Blog covers (optional) | Supabase Storage bucket `blog-covers` (WebP ≤ 200 KB) |
 | Images | Prefer Supabase Storage URLs through `next/image` once optimization is on |
 | Domain | Production site: `https://www.habibiahmada.dev` (see metadata) |
+| Blog ops | [blog-runbook.md](./blog-runbook.md) |
 
 ### Deploy notes
 

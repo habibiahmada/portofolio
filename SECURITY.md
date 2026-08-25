@@ -74,6 +74,18 @@ Log format: `[AUTH] Event - Details (IP: xxx.xxx.xxx.xxx)`
 - Anonymous key untuk public APIs
 - Row-level security (RLS) di Supabase
 
+### 11. Agent Blog API (`POST /api/agent/blog`)
+Dedicated machine-to-machine endpoint so the agent-hub can publish one blog post per day.
+
+- **Auth**: `Authorization: Bearer $AGENT_BLOG_TOKEN` — compared with `crypto.timingSafeEqual` after SHA-256 hashing (no length leak). The token is NOT the Supabase service role key; its blast radius is limited to creating one published post per day.
+- **Token management**: generate with `openssl rand -base64 32`; store in Vercel env + agent-hub secrets only; never commit; rotate by replacing the env value. Never log the `Authorization` header.
+- **Daily quota**: max 1 successful agent create per calendar day in `Asia/Jakarta` → second create gets `429 QUOTA_EXCEEDED`.
+- **IP rate limit**: max 5 requests/hour per IP on top of the quota (reuses the shared rate limiter).
+- **Payload limits**: raw body ≤ 128 KB; `body_md` ≤ 100,000 chars; title/description/category/tags validated against docs/blog.md §7.
+- **Content rules**: em dashes (`—`) rejected with `400`; slug conflicts return `409`; only locale `en` accepted.
+- **Writes** go through the service role client only AFTER token validation; RLS still blocks all public writes on `blog_posts`.
+- **Audit**: creates are logged as `[BLOG_AGENT] created slug=...` without any secret material.
+
 ---
 
 ## 🛠️ Admin Management

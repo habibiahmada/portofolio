@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 const NAV_ITEMS = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { label: "Projects", href: "/admin/projects", icon: FolderKanban },
+  { label: "Blog", href: "/admin/blog", icon: ScrollText },
   { label: "Certificates", href: "/admin/certificates", icon: ScrollText },
   { label: "Companies", href: "/admin/companies", icon: Building2 },
 ];

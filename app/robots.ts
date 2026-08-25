@@ -12,12 +12,12 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: ["/", "/about", "/projects", "/services", "/sitemap.xml"],
+        allow: ["/", "/about", "/projects", "/blog", "/services", "/sitemap.xml"],
         disallow,
       },
       {
         userAgent: "Googlebot",
-        allow: ["/", "/about", "/projects", "/services", "/sitemap.xml"],
+        allow: ["/", "/about", "/projects", "/blog", "/services", "/sitemap.xml"],
         disallow,
       },
       {

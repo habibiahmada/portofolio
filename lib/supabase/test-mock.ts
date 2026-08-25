@@ -14,12 +14,21 @@ const stores: Record<string, Map<string, Record<string, any>>> = {
   projects: new Map(),
   certificates: new Map(),
   companies: new Map(),
+  blog_posts: new Map(),
+  blog_reactions: new Map(),
+  blog_comments: new Map(),
 };
 
 function resetStores() {
   for (const key of Object.keys(stores)) {
     stores[key] = new Map();
   }
+  idCounter = 0;
+}
+
+/** Clear in-memory tables between tests (keeps the cached mock client usable). */
+export function resetMockStores() {
+  resetStores();
 }
 
 // ── Helpers ─────────────────────────────────────────────────────────────────────
@@ -69,6 +78,21 @@ class QueryChain implements PromiseLike<ResolvedShape> {
     return this;
   }
 
+  neq(field: string, value: any) {
+    this.filters.push({ field, op: "neq", value });
+    return this;
+  }
+
+  gte(field: string, value: any) {
+    this.filters.push({ field, op: "gte", value });
+    return this;
+  }
+
+  lt(field: string, value: any) {
+    this.filters.push({ field, op: "lt", value });
+    return this;
+  }
+
   in(field: string, values: any[]) {
     this.filters.push({ field, op: "in", value: values });
     return this;
@@ -86,6 +110,11 @@ class QueryChain implements PromiseLike<ResolvedShape> {
   }
 
   single() {
+    this.wantSingle = true;
+    return this;
+  }
+
+  maybeSingle() {
     this.wantSingle = true;
     return this;
   }
@@ -142,6 +171,15 @@ class QueryChain implements PromiseLike<ResolvedShape> {
         case "eq":
           if (val !== f.value) return false;
           break;
+        case "neq":
+          if (val === f.value) return false;
+          break;
+        case "gte":
+          if (!(val != null && val >= f.value)) return false;
+          break;
+        case "lt":
+          if (!(val != null && val < f.value)) return false;
+          break;
         case "in":
           if (!Array.isArray(f.value) || !f.value.includes(val)) return false;
           break;
@@ -177,7 +215,7 @@ class QueryChain implements PromiseLike<ResolvedShape> {
       items = items.slice(this.rangeStart, this.rangeEnd + 1);
     }
 
-    const count = this.withCount ? store.size : undefined;
+    const count = this.withCount ? items.length : undefined;
 
     if (this.wantSingle) {
       const result: ResolvedShape = {

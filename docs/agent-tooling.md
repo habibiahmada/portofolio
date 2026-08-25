@@ -48,6 +48,8 @@ Upstream: [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail).
 | `performance-optimization` | Execute SSR/image/JS plan |
 | `token-economy` | Graph-first + progressive docs |
 | `ponytail` (+ review/audit/debt/gain/help) | Minimal code / complexity reviews |
+| `write-like-you` | Portfolio Voice DNA (no em dashes) |
+| `write-blog-post` | English blog article + SEO payload shape |
 
 ## Always-on rules
 

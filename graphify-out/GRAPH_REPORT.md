@@ -1,217 +1,317 @@
-# Graph Report - portofolio-v2  (2026-07-28)
+# Graph Report - portofolio-v2  (2026-08-25)
 
 ## Corpus Check
-- 123 files · ~1,092,242 words
+- 159 files · ~1,155,019 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 639 nodes · 1066 edges · 41 communities (33 shown, 8 thin omitted)
-- Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 25 edges (avg confidence: 0.8)
+- 1010 nodes · 1733 edges · 63 communities (55 shown, 8 thin omitted)
+- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 13 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `9a1bae9d`
+- Built from commit: `b3913215`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
-- [[_COMMUNITY_Community 0|Community 0]]
-- [[_COMMUNITY_Community 1|Community 1]]
-- [[_COMMUNITY_Community 2|Community 2]]
-- [[_COMMUNITY_Community 3|Community 3]]
-- [[_COMMUNITY_Community 4|Community 4]]
-- [[_COMMUNITY_Community 5|Community 5]]
-- [[_COMMUNITY_Community 6|Community 6]]
-- [[_COMMUNITY_Community 7|Community 7]]
-- [[_COMMUNITY_Community 8|Community 8]]
-- [[_COMMUNITY_Community 9|Community 9]]
-- [[_COMMUNITY_Community 10|Community 10]]
-- [[_COMMUNITY_Community 11|Community 11]]
-- [[_COMMUNITY_Community 14|Community 14]]
-- [[_COMMUNITY_Community 15|Community 15]]
-- [[_COMMUNITY_Community 16|Community 16]]
-- [[_COMMUNITY_Community 17|Community 17]]
-- [[_COMMUNITY_Community 18|Community 18]]
-- [[_COMMUNITY_Community 19|Community 19]]
-- [[_COMMUNITY_Community 20|Community 20]]
-- [[_COMMUNITY_Community 21|Community 21]]
-- [[_COMMUNITY_Community 23|Community 23]]
-- [[_COMMUNITY_Community 24|Community 24]]
-- [[_COMMUNITY_Community 27|Community 27]]
-- [[_COMMUNITY_Community 28|Community 28]]
-- [[_COMMUNITY_Community 29|Community 29]]
-- [[_COMMUNITY_Community 33|Community 33]]
-- [[_COMMUNITY_Community 34|Community 34]]
-- [[_COMMUNITY_Community 35|Community 35]]
-- [[_COMMUNITY_Community 36|Community 36]]
-- [[_COMMUNITY_Community 37|Community 37]]
-- [[_COMMUNITY_Community 38|Community 38]]
-- [[_COMMUNITY_Community 39|Community 39]]
-- [[_COMMUNITY_Community 40|Community 40]]
-- [[_COMMUNITY_Community 41|Community 41]]
-- [[_COMMUNITY_Community 42|Community 42]]
-- [[_COMMUNITY_Community 43|Community 43]]
+- fail
+- navigation.tsx
+- ADR: Blog Comments
+- devDependencies
+- certificates.tsx
+- 🔒 Security Features Implemented
+- blog/[slug]/page.tsx
+- compilerOptions
+- about/page.tsx
+- components.json
+- dependencies
+- [id]/page.tsx
+- 🔍 Analisis Komprehensif & "Roasting" UI/UX: habibiahmada.dev
+- services.tsx
+- QueryChain
+- agent-blog.ts
+- Blog system — architecture & decisions
+- page-shell.tsx
+- admin/layout.tsx
+- portofolio-v2
+- types.ts
+- projects/[slug]/page.tsx
+- node-network-lazy.tsx
+- proxy.ts
+- create-admin.ts
+- cn
+- next.config.mjs
+- postcss.config.mjs
+- Blog — task list
+- next-env.d.ts
+- projects-page.tsx
+- Performance task list — public pages & data
+- Performance optimization steering
+- Architecture
+- Agent tooling (token savings)
+- Data and hosting
+- Development
+- Agent / contributor map
+- (public)/page.tsx
+- Documentation
+- docs/README.md
+- use-api.ts
+- Ponytail
+- pcb-background.tsx
+- Ponytail Help
+- Write blog post (portfolio)
+- Write like you (portfolio voice)
+- Performance optimization
+- ponytail-audit/SKILL.md
+- Ponytail Gain
+- ponytail-review/SKILL.md
+- Token economy
+- ponytail-debt/SKILL.md
+- admin/page.tsx
+- about-timeline.tsx
+- Blog Runbook — Quick Reference
 
 ## God Nodes (most connected - your core abstractions)
-1. `getSupabaseServerClient()` - 32 edges
-2. `cn()` - 32 edges
-3. `serverError()` - 26 edges
-4. `ok()` - 24 edges
-5. `fail()` - 22 edges
-6. `withAdmin()` - 17 edges
-7. `QueryChain` - 17 edges
-8. `compilerOptions` - 17 edges
-9. `getSupabaseAdmin()` - 14 edges
-10. `Performance task list — public pages & data` - 14 edges
+1. `ok()` - 39 edges
+2. `fail()` - 39 edges
+3. `🔍 Analisis Komprehensif & "Roasting" UI/UX: habibiahmada.dev` - 38 edges
+4. `cn()` - 34 edges
+5. `getSupabaseAdmin()` - 31 edges
+6. `serverError()` - 28 edges
+7. `withAdmin()` - 27 edges
+8. `getSupabaseServerClient()` - 26 edges
+9. `QueryChain` - 21 edges
+10. `Blog system — architecture & decisions` - 18 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `ProjectsPageRoute()` --calls--> `getProjects()`  [INFERRED]
-  app/(public)/projects/page.tsx → lib/data/projects.ts
-- `GET()` --calls--> `withAdmin()`  [INFERRED]
-  app/api/admin/certificates/route.ts → lib/supabase/admin-auth.ts
-- `POST()` --calls--> `withAdmin()`  [INFERRED]
-  app/api/admin/certificates/route.ts → lib/supabase/admin-auth.ts
-- `PATCH()` --calls--> `withAdmin()`  [INFERRED]
-  app/api/admin/certificates/route.ts → lib/supabase/admin-auth.ts
-- `DELETE()` --calls--> `withAdmin()`  [INFERRED]
-  app/api/admin/certificates/route.ts → lib/supabase/admin-auth.ts
+- `CvModal()` --calls--> `cn()`  [EXTRACTED]
+  components/ui/cv-modal.tsx → lib/utils.ts
+- `PcbBackground()` --calls--> `cn()`  [EXTRACTED]
+  components/ui/pcb-background.tsx → lib/utils.ts
+- `QuickLink()` --calls--> `cn()`  [EXTRACTED]
+  components/ui/project-card.tsx → lib/utils.ts
+- `Skeleton()` --calls--> `cn()`  [EXTRACTED]
+  components/ui/skeletons.tsx → lib/utils.ts
+- `generateStaticParams()` --calls--> `getPublishedPosts`  [EXTRACTED]
+  app/(public)/blog/[slug]/page.tsx → lib/data/blog.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (41 total, 8 thin omitted)
+## Communities (63 total, 8 thin omitted)
 
-### Community 0 - "Community 0"
-Cohesion: 0.09
-Nodes (59): GET(), GET(), GET(), GET(), GET(), GET(), GET(), DELETE() (+51 more)
-
-### Community 1 - "Community 1"
-Cohesion: 0.10
-Nodes (14): NAV_LINKS, Navbar(), AboutHero(), CTA(), Footer(), NAV_LINKS, SOCIAL_LINKS, AnimatedThemeToggle() (+6 more)
-
-### Community 2 - "Community 2"
-Cohesion: 0.08
-Nodes (34): AdminShell(), NAV_ITEMS, AdminLayout(), metadata, EASING, getProjectDescription(), getProjectTitle(), Project (+26 more)
-
-### Community 3 - "Community 3"
-Cohesion: 0.05
-Nodes (41): dependencies, @base-ui/react, class-variance-authority, clsx, framer-motion, gsap, lucide-react, next (+33 more)
-
-### Community 4 - "Community 4"
+### Community 0 - "fail"
 Cohesion: 0.06
-Nodes (38): FEATURED_PROJECT_IDS, useApi(), UseApiResult, useAuthUser(), useCertificates(), useCompanies(), useNonPinnedCertificates(), usePinnedCertificates() (+30 more)
+Nodes (95): DELETE(), dynamic, GET(), handleDelete(), handleGet(), handlePatch(), PATCH(), runtime (+87 more)
 
-### Community 5 - "Community 5"
+### Community 1 - "navigation.tsx"
+Cohesion: 0.27
+Nodes (5): linkActive(), NAV_LINKS, Navbar(), Footer(), AnimatedThemeToggle()
+
+### Community 2 - "ADR: Blog Comments"
+Cohesion: 0.15
+Nodes (12): Admin (`/admin/blog/[id]`), ADR: Blog Comments, Alternatives Considered, Context, Decision: Auth + Moderation Required, Phasing, Public (article page), Risks (+4 more)
+
+### Community 3 - "devDependencies"
+Cohesion: 0.06
+Nodes (31): bun-types, @next/bundle-analyzer, devDependencies, bun-types, @next/bundle-analyzer, postcss, tailwindcss, @tailwindcss/postcss (+23 more)
+
+### Community 4 - "certificates.tsx"
+Cohesion: 0.31
+Nodes (6): Certificates(), CertificateCard(), CertificateCardProps, CertificateModal(), CertificateModalProps, CertificateRow
+
+### Community 5 - "🔒 Security Features Implemented"
 Cohesion: 0.08
-Nodes (25): 10. Database Security, 1. Authentication Methods, 2. Rate Limiting, 3. Password Security, 4. Input Validation, 5. Session Management, 6. Security Headers (Global), 7. Error Handling (+17 more)
+Nodes (26): 10. Database Security, 11. Agent Blog API (`POST /api/agent/blog`), 1. Authentication Methods, 2. Rate Limiting, 3. Password Security, 4. Input Validation, 5. Session Management, 6. Security Headers (Global) (+18 more)
 
-### Community 6 - "Community 6"
-Cohesion: 0.13
-Nodes (8): cloneDeep(), createMockSupabaseClient(), generateId(), MockSupabaseClient, QueryChain, resetStores(), ResolvedShape, stores
+### Community 6 - "blog/[slug]/page.tsx"
+Cohesion: 0.05
+Nodes (46): CATEGORY_COLORS, metadata, BlogPage(), BlogPageProps, CATEGORY_LABELS, categoryBadgeColor(), formatDate(), metadata (+38 more)
 
-### Community 7 - "Community 7"
-Cohesion: 0.10
-Nodes (20): compilerOptions, allowJs, esModuleInterop, incremental, isolatedModules, jsx, lib, module (+12 more)
+### Community 7 - "compilerOptions"
+Cohesion: 0.06
+Nodes (30): bun-types, dom, dom.iterable, esnext, .next/dev/dev/types/**/*.ts, .next/dev/types/**/*.ts, next-env.d.ts, .next/types/**/*.ts (+22 more)
 
-### Community 8 - "Community 8"
+### Community 8 - "about/page.tsx"
 Cohesion: 0.07
-Nodes (26): CARDS, CICDPipelineVisual, CodeEditorVisual, LayoutDesignerVisual, NodeGraphVisual, Services(), SpeedometerGaugeVisual, CICDPipelineVisual() (+18 more)
+Nodes (30): metadata, Page(), AboutIntro(), AboutTechStack(), row1, row2, Tech, techs (+22 more)
 
-### Community 9 - "Community 9"
+### Community 9 - "components.json"
 Cohesion: 0.11
 Nodes (17): aliases, components, hooks, lib, ui, utils, iconLibrary, rsc (+9 more)
 
-### Community 10 - "Community 10"
+### Community 10 - "dependencies"
+Cohesion: 0.05
+Nodes (43): @base-ui/react, class-variance-authority, clsx, framer-motion, lucide-react, next-intl, next-themes, dependencies (+35 more)
+
+### Community 11 - "[id]/page.tsx"
+Cohesion: 0.50
+Nodes (4): AdminBlogPostComments(), Comment, formatDate(), STATUS_COLORS
+
+### Community 12 - "🔍 Analisis Komprehensif & "Roasting" UI/UX: habibiahmada.dev"
+Cohesion: 0.05
+Nodes (39): 10. Featured Projects: Grid Sempit, Depth Nihil, 11. Tidak Ada Halaman Case Study, 12. Services Section: Brochure Agensi Generik, 13. Spotlights / Press: Link-Out Tanpa Owned Narrative, 14. Social Proof Tanpa Testimonial, 15. CTA Penutup: Generik & Tanpa Friction Remover, 16. Hybrid Nav: Hash Anchors vs Multi-page, 17. Brand Naming Tidak Stabil (+31 more)
+
+### Community 13 - "services.tsx"
+Cohesion: 0.05
+Nodes (28): metadata, CTA(), CTA, HomeBelowFold(), Services, Process(), STEPS, CARDS (+20 more)
+
+### Community 14 - "QueryChain"
+Cohesion: 0.09
+Nodes (10): cloneDeep(), generateId(), MockSupabaseClient, QueryChain, resetMockStores(), resetStores(), ResolvedShape, stores (+2 more)
+
+### Community 15 - "agent-blog.ts"
+Cohesion: 0.12
+Nodes (24): dynamic, POST(), runtime, serverFail(), AGENT_BLOG_MAX_BODY_BYTES, AgentBlogError, assertAgentBlogToken(), BODY_MD_MAX (+16 more)
+
+### Community 16 - "Blog system — architecture & decisions"
 Cohesion: 0.07
-Nodes (29): metadata, Page(), getAllCertificates, getCertificates(), getNonPinnedCertificates(), getPinnedCertificates(), PaginatedCertificates, AboutIntro() (+21 more)
+Nodes (27): 10. Cost & resource model, 11. Security, 12. Public UX (minimal), 13. Phasing summary, 14. Risks & mitigations, 15. Acceptance criteria (MVP = phase 1 done), 16. Related docs, 17. Locked decisions (phase 0) (+19 more)
 
-### Community 11 - "Community 11"
-Cohesion: 0.06
-Nodes (36): geistMono, geistSans, spaceGrotesk, viewport, allSchemas, breadcrumbSchema, JsonLd(), localBusinessSchema (+28 more)
+### Community 17 - "page-shell.tsx"
+Cohesion: 0.17
+Nodes (7): NAV_LINKS, SOCIAL_LINKS, PAGE_PAD, PAGE_SHELL, PAGE_SHELL_WIDE, PageShell(), PageShellProps
 
-### Community 14 - "Community 14"
-Cohesion: 0.22
-Nodes (8): Boundaries, Intensity, Output, Persistence, Ponytail, Rules, The ladder, When NOT to be lazy
-
-### Community 15 - "Community 15"
-Cohesion: 0.25
-Nodes (7): Configure Default Mode, Deactivate, Levels, More, Ponytail Help, Skills, Update
-
-### Community 16 - "Community 16"
+### Community 18 - "admin/layout.tsx"
 Cohesion: 0.40
-Nodes (4): Boundaries, Hunt, Output, Tags
+Nodes (3): AdminShell(), NAV_ITEMS, metadata
 
-### Community 17 - "Community 17"
-Cohesion: 0.40
-Nodes (4): Boundaries, Honesty boundary, Ponytail Gain, Scoreboard
-
-### Community 18 - "Community 18"
-Cohesion: 0.40
-Nodes (4): Boundaries, Examples, Format, Scoring
-
-### Community 19 - "Community 19"
+### Community 19 - "portofolio-v2"
 Cohesion: 0.40
 Nodes (4): Built with v0, Getting Started, Learn More, portofolio-v2
 
-### Community 20 - "Community 20"
-Cohesion: 0.50
-Nodes (3): Boundaries, Output, Scan
+### Community 20 - "types.ts"
+Cohesion: 0.11
+Nodes (14): AdminBlog(), CATEGORY_LABELS, formatDate(), STATUS_COLORS, getSupabaseClient(), makeClient(), AllowedUserRow, BlogPost (+6 more)
 
-### Community 33 - "Community 33"
+### Community 21 - "projects/[slug]/page.tsx"
+Cohesion: 0.06
+Nodes (54): geistMono, geistSans, metadata, spaceGrotesk, viewport, ASIDE_BY_SLUG, catalogFromStatic(), CatalogProject (+46 more)
+
+### Community 22 - "node-network-lazy.tsx"
+Cohesion: 0.15
+Nodes (12): AboutHero(), CvModal, HeroSection(), CV_PAGES, CvModal(), CvModalProps, GlitchText(), GlitchTextProps (+4 more)
+
+### Community 25 - "cn"
+Cohesion: 0.27
+Nodes (8): Button(), buttonVariants, ProjectLinks(), ProjectLinksProps, ProjectTag(), ProjectTagProps, WavyBackground(), cn()
+
+### Community 29 - "Blog — task list"
+Cohesion: 0.12
+Nodes (16): 0. Documentation & alignment, 10. Phase 2 — reactions + admin UI (after MVP), 11. Phase 3 — cover images (optional), 12. Phase 4 — comments (explicit gate), 1. Database & types (portfolio), 2. Security & agent API, 3. Admin moderation API (no UI yet), 4. Public pages & SEO (+8 more)
+
+### Community 31 - "projects-page.tsx"
+Cohesion: 0.17
+Nodes (10): metadata, ProjectsPage(), ProjectsPageProps, Projects(), ProjectsProps, CompanyLogoSkeleton(), ProjectGridSkeleton(), Skeleton() (+2 more)
+
+### Community 33 - "Performance task list — public pages & data"
 Cohesion: 0.09
 Nodes (22): 0. Baseline (sebelum ubah kode), 10. Verifikasi per halaman (definition of done), 1. Image pipeline (global — kerjakan dulu), 2. Data layer server (shared), 3.A Data SSR, 3.B Section / JS, 3. Halaman Home `/`, 4. Halaman Projects `/projects` (+14 more)
 
-### Community 34 - "Community 34"
-Cohesion: 0.10
+### Community 34 - "Performance optimization steering"
+Cohesion: 0.11
 Nodes (19): 0.1 Lighthouse mobile (primary), 0.2 Desktop lab (same capture day — referensi PSI/produksi), 0.3 Network waterfall — `/api/public/*` (client after hydrate), 0.4 LCP-related image sizes (transfer), Acceptance criteria, Appendix — Baseline (2026-07-28, production), Baseline problems (as of steering date), Caching (+11 more)
 
-### Community 35 - "Community 35"
+### Community 35 - "Architecture"
 Cohesion: 0.18
-Nodes (10): Admin mutation, Architecture, Auth, Directory map, Key symbols (from graphify), Public page (current), Purpose, Request flows (+2 more)
+Nodes (11): Admin mutation, Architecture, Auth, Directory map, Key symbols (from graphify), Planned: blog + agent publisher, Public page (current), Purpose (+3 more)
 
-### Community 36 - "Community 36"
-Cohesion: 0.25
+### Community 36 - "Agent tooling (token savings)"
+Cohesion: 0.29
 Nodes (7): Agent tooling (token savings), AGENTS.md, Always-on rules, Graphify, Install / refresh (maintainers), Ponytail, Project skills
 
-### Community 37 - "Community 37"
-Cohesion: 0.22
+### Community 37 - "Data and hosting"
+Cohesion: 0.25
 Nodes (8): Auth & admin, Backup / migration, CLI notes, Data and hosting, Database (Supabase / PostgreSQL), Deploy notes, Environment, Hosting
 
-### Community 38 - "Community 38"
+### Community 38 - "Development"
 Cohesion: 0.25
 Nodes (7): Code conventions, Design notes, Development, Prerequisites, Scripts, Setup, Tests
 
-### Community 39 - "Community 39"
-Cohesion: 0.33
+### Community 39 - "Agent / contributor map"
+Cohesion: 0.40
 Nodes (5): Agent / contributor map, Always-on rules (`.cursor/rules/`), Before exploring code, Commands, Do not
 
-### Community 40 - "Community 40"
+### Community 41 - "(public)/page.tsx"
+Cohesion: 0.16
+Nodes (15): GET(), base, Home(), metadata, ProjectsPageRoute(), FEATURES, Press(), FEATURED_PROJECT_IDS (+7 more)
+
+### Community 44 - "use-api.ts"
+Cohesion: 0.21
+Nodes (12): Companies(), CompaniesProps, fetchApi(), useApi(), UseApiResult, useAuthUser(), useCertificates(), useCompanies() (+4 more)
+
+### Community 46 - "Ponytail"
+Cohesion: 0.22
+Nodes (8): Boundaries, Intensity, Output, Persistence, Ponytail, Rules, The ladder, When NOT to be lazy
+
+### Community 47 - "pcb-background.tsx"
+Cohesion: 0.25
+Nodes (7): ACCENT, LAYERS, PcbBackground(), PcbBackgroundProps, TIMING, TRACES, VIAS
+
+### Community 48 - "Ponytail Help"
+Cohesion: 0.25
+Nodes (7): Configure Default Mode, Deactivate, Levels, More, Ponytail Help, Skills, Update
+
+### Community 49 - "Write blog post (portfolio)"
+Cohesion: 0.25
+Nodes (7): Article structure, Category allowlist, Hard rules, Self-check before handoff, SEO fields (required when producing a publish payload), Voice, Write blog post (portfolio)
+
+### Community 50 - "Write like you (portfolio voice)"
+Cohesion: 0.25
+Nodes (7): Audience Profile, Business Context, Case study template (required sections), Hard rules (always), Voice DNA, Workflow, Write like you (portfolio voice)
+
+### Community 51 - "Performance optimization"
 Cohesion: 0.33
 Nodes (5): Checklist (copy and track), Done when, Out of scope, Patterns, Performance optimization
 
-### Community 41 - "Community 41"
+### Community 52 - "ponytail-audit/SKILL.md"
+Cohesion: 0.40
+Nodes (4): Boundaries, Hunt, Output, Tags
+
+### Community 53 - "Ponytail Gain"
+Cohesion: 0.40
+Nodes (4): Boundaries, Honesty boundary, Ponytail Gain, Scoreboard
+
+### Community 54 - "ponytail-review/SKILL.md"
+Cohesion: 0.40
+Nodes (4): Boundaries, Examples, Format, Scoring
+
+### Community 55 - "Token economy"
 Cohesion: 0.40
 Nodes (4): Always, Anti-patterns, Skills that compound savings, Token economy
 
+### Community 56 - "ponytail-debt/SKILL.md"
+Cohesion: 0.50
+Nodes (3): Boundaries, Output, Scan
+
+### Community 63 - "about-timeline.tsx"
+Cohesion: 0.31
+Nodes (7): AboutTimeline(), Entry, ExperienceItem(), groupByYear(), monthLabel(), periodLabel(), timelineData
+
+### Community 64 - "Blog Runbook — Quick Reference"
+Cohesion: 0.25
+Nodes (7): Blog Runbook — Quick Reference, Check Agent-Hub Logs, Check Daily Quota, Emergency: Stop Agent Publishing, Rotate AGENT_BLOG_TOKEN, Unpublish a Bad Post, Verify Blog is Live
+
 ## Knowledge Gaps
-- **284 isolated node(s):** `metadata`, `base`, `metadata`, `metadata`, `NAV_ITEMS` (+279 more)
+- **444 isolated node(s):** `metadata`, `CATEGORY_LABELS`, `BlogDetailPageProps`, `metadata`, `CATEGORY_LABELS` (+439 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **8 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `cn()` connect `Community 2` to `Community 1`, `Community 10`, `Community 4`?**
-  _High betweenness centrality (0.039) - this node is a cross-community bridge._
-- **Why does `GlitchText()` connect `Community 1` to `Community 8`, `Community 2`, `Community 4`?**
-  _High betweenness centrality (0.025) - this node is a cross-community bridge._
-- **Are the 3 inferred relationships involving `getSupabaseServerClient()` (e.g. with `GET()` and `GET()`) actually correct?**
-  _`getSupabaseServerClient()` has 3 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 3 inferred relationships involving `serverError()` (e.g. with `GET()` and `GET()`) actually correct?**
-  _`serverError()` has 3 INFERRED edges - model-reasoned connections that need verification._
-- **What connects `metadata`, `base`, `metadata` to the rest of the system?**
-  _284 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `Community 0` be split into smaller, more focused modules?**
-  _Cohesion score 0.08698474521259332 - nodes in this community are weakly interconnected._
-- **Should `Community 1` be split into smaller, more focused modules?**
-  _Cohesion score 0.10344827586206896 - nodes in this community are weakly interconnected._
+- **Why does `cn()` connect `cn` to `navigation.tsx`, `certificates.tsx`, `about/page.tsx`, `pcb-background.tsx`, `page-shell.tsx`, `admin/layout.tsx`, `projects/[slug]/page.tsx`, `node-network-lazy.tsx`, `projects-page.tsx`?**
+  _High betweenness centrality (0.034) - this node is a cross-community bridge._
+- **Why does `PageShell()` connect `page-shell.tsx` to `certificates.tsx`, `blog/[slug]/page.tsx`, `(public)/page.tsx`, `use-api.ts`, `services.tsx`, `cn`, `projects-page.tsx`?**
+  _High betweenness centrality (0.019) - this node is a cross-community bridge._
+- **What connects `metadata`, `CATEGORY_LABELS`, `BlogDetailPageProps` to the rest of the system?**
+  _444 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `fail` be split into smaller, more focused modules?**
+  _Cohesion score 0.05537190082644628 - nodes in this community are weakly interconnected._
+- **Should `devDependencies` be split into smaller, more focused modules?**
+  _Cohesion score 0.0625 - nodes in this community are weakly interconnected._
+- **Should `🔒 Security Features Implemented` be split into smaller, more focused modules?**
+  _Cohesion score 0.07692307692307693 - nodes in this community are weakly interconnected._
+- **Should `blog/[slug]/page.tsx` be split into smaller, more focused modules?**
+  _Cohesion score 0.05017921146953405 - nodes in this community are weakly interconnected._
