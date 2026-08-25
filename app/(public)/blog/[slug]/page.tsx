@@ -5,20 +5,17 @@ import Link from "next/link";
 import { PageShell } from "@/components/ui/page-shell";
 import { MarkdownRenderer } from "@/components/ui/markdown-renderer";
 import { ShareButtons } from "@/components/ui/share-buttons";
-import { ReactionButtons } from "@/components/ui/reaction-buttons";
-import { CommentSection } from "@/components/ui/comment-section";
+import { BlogToc } from "@/components/ui/blog-toc";
+import { ViewCounter } from "@/components/ui/view-counter";
 import { BlogJsonLd } from "@/components/json-ld";
 import { getPostBySlug, getPublishedPosts } from "@/lib/data/blog";
+import { extractBlogHeadings } from "@/lib/blog-headings";
 import { pageMetadata, SITE } from "@/lib/site-metadata";
-
-// ─── Static params for ISR ─────────────────────────────────────────────────
 
 export async function generateStaticParams() {
   const posts = await getPublishedPosts();
   return posts.map((post) => ({ slug: post.slug }));
 }
-
-// ─── Metadata per slug ─────────────────────────────────────────────────────
 
 export async function generateMetadata({
   params,
@@ -30,10 +27,8 @@ export async function generateMetadata({
   if (!post) return {};
 
   const title = post.seo_title || post.title;
-  const description =
-    (post.seo_description || post.description).slice(0, 160);
+  const description = (post.seo_description || post.description).slice(0, 160);
 
-  // Use cover image for OG if available, otherwise generate dynamically
   const ogImage = post.cover_url
     ? post.cover_url
     : `/api/og/blog?title=${encodeURIComponent(post.title)}&category=${encodeURIComponent(post.category)}`;
@@ -59,8 +54,6 @@ export async function generateMetadata({
   });
 }
 
-// ─── Category label map ────────────────────────────────────────────────────
-
 const CATEGORY_LABELS: Record<string, string> = {
   programming: "Programming",
   education: "Education",
@@ -69,8 +62,6 @@ const CATEGORY_LABELS: Record<string, string> = {
   opinion: "Opinion",
   "news-commentary": "News",
 };
-
-// ─── Date formatter ────────────────────────────────────────────────────────
 
 function formatDate(dateStr: string | null): string {
   if (!dateStr) return "";
@@ -81,8 +72,6 @@ function formatDate(dateStr: string | null): string {
     day: "numeric",
   });
 }
-
-// ─── Page Component ────────────────────────────────────────────────────────
 
 interface BlogDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -98,11 +87,12 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
   const articleUrl = `${SITE.url}/blog/${post.slug}`;
   const displayTitle = post.seo_title || post.title;
+  const headings = extractBlogHeadings(post.body_md);
+  const viewCount = Number(post.view_count) || 0;
 
   return (
     <main className="min-h-screen">
       <PageShell className="py-16 md:py-24">
-        {/* Back link */}
         <Link
           href="/blog"
           className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors mb-10"
@@ -123,24 +113,22 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
           All articles
         </Link>
 
-        {/* Cover Image (Task 11.3) */}
         {post.cover_url && (
-          <div className="max-w-3xl mb-8 md:mb-12">
-            <div className="relative aspect-video rounded-2xl overflow-hidden bg-black/5 dark:bg-white/5">
+          <div className="mb-8 md:mb-12">
+            <div className="relative aspect-[21/9] md:aspect-[2.4/1] rounded-2xl overflow-hidden bg-black/5 dark:bg-white/5">
               <Image
                 src={post.cover_url}
                 alt={post.title}
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 768px"
+                sizes="(max-width: 1280px) 100vw, 1280px"
                 priority
               />
             </div>
           </div>
         )}
 
-        {/* Article Header */}
-        <header className="max-w-3xl mb-10 md:mb-14">
+        <header className="max-w-3xl mb-10 md:mb-12">
           <div className="flex flex-wrap items-center gap-2 mb-4">
             <span className="inline-flex px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-zinc-950 dark:bg-zinc-50 text-white dark:text-zinc-950">
               {CATEGORY_LABELS[post.category] ?? post.category}
@@ -161,6 +149,8 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                 </span>
               </>
             )}
+            <span className="text-muted-foreground/30">·</span>
+            <ViewCounter postId={post.id} initialCount={viewCount} />
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-[2.5rem] font-black tracking-tight text-foreground leading-tight text-balance">
@@ -185,57 +175,53 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
           )}
         </header>
 
-        {/* Divider */}
         <hr className="border-t border-black/5 dark:border-white/10 mb-10 md:mb-14" />
 
-        {/* Article Body */}
-        <article className="max-w-3xl">
-          <MarkdownRenderer content={post.body_md} />
-        </article>
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_240px] gap-10 xl:gap-14 items-start">
+          <article className="min-w-0 max-w-3xl">
+            <MarkdownRenderer content={post.body_md} />
 
-        {/* Reactions (Task 10.3) */}
-        <div className="max-w-3xl mt-12 pt-8 border-t border-black/5 dark:border-white/10">
-          <ReactionButtons
-            postId={post.id}
-            initialCounts={post.reaction_counts}
-          />
-        </div>
+            <div className="mt-12 pt-8 border-t border-black/5 dark:border-white/10 lg:hidden">
+              <ShareButtons url={articleUrl} title={displayTitle} />
+            </div>
 
-        {/* Share Row (Task 4.8) */}
-        <div className="max-w-3xl mt-8">
-          <ShareButtons url={articleUrl} title={displayTitle} />
-        </div>
+            <div className="mt-10">
+              <Link
+                href="/blog"
+                className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="m12 19-7-7 7-7" />
+                  <path d="M19 12H5" />
+                </svg>
+                Back to all articles
+              </Link>
+            </div>
+          </article>
 
-        {/* Comments (Task 12.3) */}
-        <div className="max-w-3xl mt-12 pt-8 border-t border-black/5 dark:border-white/10">
-          <CommentSection postId={post.id} />
-        </div>
-
-        {/* Back to blog */}
-        <div className="max-w-3xl mt-10">
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="m12 19-7-7 7-7" />
-              <path d="M19 12H5" />
-            </svg>
-            Back to all articles
-          </Link>
+          <aside className="hidden lg:block">
+            <div className="sticky top-28 space-y-8 max-h-[calc(100vh-8rem)] overflow-y-auto pr-1">
+              <ShareButtons
+                url={articleUrl}
+                title={displayTitle}
+                layout="stack"
+              />
+              <ViewCounter postId={post.id} initialCount={viewCount} />
+              <BlogToc headings={headings} />
+            </div>
+          </aside>
         </div>
       </PageShell>
 
-      {/* JSON-LD (Task 4.4) */}
       <BlogJsonLd
         slug={post.slug}
         title={displayTitle}

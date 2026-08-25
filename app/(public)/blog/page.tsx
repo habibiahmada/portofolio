@@ -163,69 +163,83 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
           {filteredPosts.map((post) => (
             <article
               key={post.id}
-              className="group border border-black/5 dark:border-white/8 rounded-2xl p-5 md:p-6 bg-white/80 dark:bg-zinc-900/60 backdrop-blur-sm hover:border-black/15 dark:hover:border-white/15 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-black/40 transition-all duration-300"
+              className="group border border-black/5 dark:border-white/8 rounded-2xl overflow-hidden bg-white/80 dark:bg-zinc-900/60 backdrop-blur-sm hover:border-black/15 dark:hover:border-white/15 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-black/40 transition-all duration-300"
             >
               <Link href={`/blog/${post.slug}`} className="block">
-                <div className="flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex flex-wrap items-center gap-2 mb-2">
-                      <span
-                        className={`inline-flex px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider border ${categoryBadgeColor(post.category)}`}
-                      >
-                        {CATEGORY_LABELS[post.category] ?? post.category}
-                      </span>
-                      {post.published_at && (
-                        <time
-                          dateTime={post.published_at}
-                          className="text-[11px] font-mono text-muted-foreground/60"
+                <div className="flex flex-col sm:flex-row sm:items-stretch gap-0">
+                  {post.cover_url ? (
+                    <div className="relative sm:w-48 md:w-56 lg:w-64 shrink-0 aspect-[16/10] sm:aspect-auto sm:min-h-[140px] bg-black/5 dark:bg-white/5">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={post.cover_url}
+                        alt=""
+                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                        loading="lazy"
+                      />
+                    </div>
+                  ) : null}
+
+                  <div className="flex flex-1 min-w-0 gap-3 sm:gap-4 p-5 md:p-6">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-wrap items-center gap-2 mb-2">
+                        <span
+                          className={`inline-flex px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider border ${categoryBadgeColor(post.category)}`}
                         >
-                          {formatDate(post.published_at)}
-                        </time>
-                      )}
-                      {post.reading_time_minutes && (
-                        <span className="text-[11px] font-mono text-muted-foreground/50">
-                          {post.reading_time_minutes} min read
+                          {CATEGORY_LABELS[post.category] ?? post.category}
                         </span>
+                        {post.published_at && (
+                          <time
+                            dateTime={post.published_at}
+                            className="text-[11px] font-mono text-muted-foreground/60"
+                          >
+                            {formatDate(post.published_at)}
+                          </time>
+                        )}
+                        {post.reading_time_minutes && (
+                          <span className="text-[11px] font-mono text-muted-foreground/50">
+                            {post.reading_time_minutes} min read
+                          </span>
+                        )}
+                      </div>
+
+                      <h2 className="text-lg md:text-xl font-bold tracking-tight text-foreground group-hover:text-brand transition-colors leading-snug mb-2">
+                        {post.seo_title || post.title}
+                      </h2>
+
+                      <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">
+                        {post.description}
+                      </p>
+
+                      {post.tags.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5 mt-3">
+                          {post.tags.slice(0, 4).map((tag) => (
+                            <span
+                              key={tag}
+                              className="text-[10px] font-mono text-muted-foreground/50 bg-black/5 dark:bg-white/5 px-2 py-0.5 rounded"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
                       )}
                     </div>
 
-                    <h2 className="text-lg md:text-xl font-bold tracking-tight text-foreground group-hover:text-brand transition-colors leading-snug mb-2">
-                      {post.seo_title || post.title}
-                    </h2>
-
-                    <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">
-                      {post.description}
-                    </p>
-
-                    {post.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 mt-3">
-                        {post.tags.slice(0, 4).map((tag) => (
-                          <span
-                            key={tag}
-                            className="text-[10px] font-mono text-muted-foreground/50 bg-black/5 dark:bg-white/5 px-2 py-0.5 rounded"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="hidden sm:flex items-center self-center">
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-muted-foreground/30 group-hover:text-brand group-hover:translate-x-1 transition-all duration-300"
-                    >
-                      <path d="M5 12h14" />
-                      <path d="m12 5 7 7-7 7" />
-                    </svg>
+                    <div className="hidden sm:flex items-center self-center shrink-0">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="text-muted-foreground/30 group-hover:text-brand group-hover:translate-x-1 transition-all duration-300"
+                      >
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                      </svg>
+                    </div>
                   </div>
                 </div>
               </Link>

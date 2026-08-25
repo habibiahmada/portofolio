@@ -11,7 +11,7 @@ Short reference for common blog operations. Full architecture: [blog.md](./blog.
 3. **Source of truth = Obsidian vault** (not JSON on disk):
    - `08-Blog/Queue.md` — ideas (Queued / In review / Skipped)
    - `08-Blog/Published.md` — live posts with public URLs
-4. Add outlines in Obsidian **or** send free-text in Telegram (optional `#web` / `#career` …). Commands: `/queue`, `/skip <id>`, `/remove <id>`, `/blog_help`.
+4. Add outlines in Obsidian **or** Telegram (`ide: …`, chat + approve). Agent can also **suggest** ideas (`kasih ide` / `/blog_ideas`) — they only enter the queue after you approve. Weekly auto-suggest runs when the queue is thin (still needs approve). Commands: `/queue`, `/blog_ideas`, `/skip <id>`, `/remove <id>`, `/blog_help`.
 5. Scheduler `portfolio_blog` claims the **top Queued** item only (skips if empty). Creates a **draft** on porto + preview link; vault row moves to **In review** with preview URL.
 6. Approve / Reject in Telegram, or wait until `review_deadline_at` → auto-publish. Public URL is appended to `Published.md`.
 7. Portfolio DB never stores the idea list — only drafts/posts that were generated.

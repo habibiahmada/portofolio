@@ -127,6 +127,8 @@ export interface BlogPostRow {
   canonical_url: string | null;
   reading_time_minutes: number | null;
   reaction_counts: Record<string, number>;
+  /** Incremental public views (best-effort). */
+  view_count?: number;
   source: "agent" | "admin";
   /** Random token for /blog/preview/[token]; null after publish/reject. */
   preview_token: string | null;
