@@ -69,6 +69,16 @@ export async function POST(request: NextRequest) {
   }
   const post = validated.value;
 
+  const bodyObj =
+    typeof parsed === "object" && parsed !== null && !Array.isArray(parsed)
+      ? (parsed as Record<string, unknown>)
+      : {};
+  const requestedMinutes = Number(bodyObj.review_minutes);
+  const reviewMinutes =
+    Number.isFinite(requestedMinutes) && requestedMinutes > 0
+      ? Math.min(requestedMinutes, 24 * 60)
+      : undefined;
+
   const supabase = getSupabaseAdmin();
 
   const { data: existing } = await supabase
@@ -108,7 +118,7 @@ export async function POST(request: NextRequest) {
   }
 
   const previewToken = createPreviewToken();
-  const reviewDeadline = reviewDeadlineFromNow();
+  const reviewDeadline = reviewDeadlineFromNow(undefined, reviewMinutes);
   const nowIso = new Date().toISOString();
 
   const { data, error } = await supabase

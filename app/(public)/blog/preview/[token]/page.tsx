@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PageShell } from "@/components/ui/page-shell";
 import { MarkdownRenderer } from "@/components/ui/markdown-renderer";
+import { BlogArticleSidebar } from "@/components/ui/blog-article-sidebar";
 import { extractBlogHeadings } from "@/lib/extract-blog-headings";
 import { getDraftByPreviewToken } from "@/lib/blog-publish";
-import { pageMetadata } from "@/lib/site-metadata";
+import { pageMetadata, SITE } from "@/lib/site-metadata";
 
 export const dynamic = "force-dynamic";
 export const robots = { index: false, follow: false };
@@ -65,6 +66,8 @@ export default async function BlogPreviewPage({
     : null;
 
   const headings = extractBlogHeadings(post.body_md);
+  const displayTitle = post.seo_title || post.title;
+  const previewUrl = `${SITE.url}/blog/preview/${token}`;
 
   return (
     <main className="min-h-screen">
@@ -80,7 +83,7 @@ export default async function BlogPreviewPage({
         </div>
 
         {post.cover_url && (
-          <div className="max-w-3xl mb-8 md:mb-12">
+          <div className="mb-8 md:mb-12">
             <div className="relative aspect-video rounded-2xl overflow-hidden bg-black/5 dark:bg-white/5">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -92,7 +95,7 @@ export default async function BlogPreviewPage({
           </div>
         )}
 
-        <header className="max-w-3xl mb-10 md:mb-14">
+        <header className="max-w-3xl mb-10 md:mb-12">
           <div className="flex flex-wrap items-center gap-2 mb-4">
             <span className="inline-flex px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-zinc-950 dark:bg-zinc-50 text-white dark:text-zinc-950">
               {CATEGORY_LABELS[post.category] ?? post.category}
@@ -111,7 +114,7 @@ export default async function BlogPreviewPage({
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-[2.5rem] font-black tracking-tight text-foreground leading-tight text-balance">
-            {post.seo_title || post.title}
+            {displayTitle}
           </h1>
 
           <p className="mt-4 text-base md:text-lg text-muted-foreground leading-relaxed">
@@ -134,9 +137,19 @@ export default async function BlogPreviewPage({
 
         <hr className="border-t border-black/5 dark:border-white/10 mb-10 md:mb-14" />
 
-        <article className="max-w-3xl">
-          <MarkdownRenderer content={post.body_md} headings={headings} />
-        </article>
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_240px] gap-10 xl:gap-14 items-start">
+          <article className="min-w-0 max-w-3xl">
+            <MarkdownRenderer content={post.body_md} headings={headings} />
+          </article>
+
+          <BlogArticleSidebar
+            articleUrl={previewUrl}
+            title={displayTitle}
+            headings={headings}
+            showShare={false}
+            showViews={false}
+          />
+        </div>
       </PageShell>
     </main>
   );

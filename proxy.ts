@@ -59,6 +59,17 @@ export async function proxy(request: NextRequest) {
 
     const userEmail = (user.email ?? "").toLowerCase();
 
+    if (allowedEmails.length === 0) {
+      console.error(
+        "[AUTH] ADMIN_ALLOWED_EMAILS empty — blocking /admin. Set on Vercel.",
+      );
+      await supabase.auth.signOut();
+      const url = request.nextUrl.clone();
+      url.pathname = "/login";
+      url.searchParams.set("error", "server_misconfigured");
+      return NextResponse.redirect(url);
+    }
+
     if (!allowedEmails.includes(userEmail)) {
       // Not an authorized admin — sign out and redirect
       await supabase.auth.signOut();

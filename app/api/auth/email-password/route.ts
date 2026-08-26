@@ -101,6 +101,20 @@ export async function POST(request: NextRequest) {
       .map((e) => e.trim().toLowerCase())
       .filter(Boolean);
 
+    if (allowedEmails.length === 0) {
+      await supabase.auth.signOut();
+      console.error(
+        "[AUTH] ADMIN_ALLOWED_EMAILS is empty — refusing all logins. Set it on Vercel (e.g. habibiahmadaziz@gmail.com).",
+      );
+      return NextResponse.json(
+        fail(
+          "Admin allowlist is not configured. Contact the site owner.",
+          "SERVER_MISCONFIGURED",
+        ),
+        { status: 503 },
+      );
+    }
+
     if (!allowedEmails.includes(email)) {
       // Not allowed — sign out immediately
       await supabase.auth.signOut();

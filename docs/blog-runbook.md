@@ -29,7 +29,16 @@ Gateway and scheduler need `BRAIN_REPO_PATH`, `PORTFOLIO_URL`, `AGENT_BLOG_TOKEN
 
 Env (agent-hub): `BLOG_GATEWAY_CRON=1`, `BLOG_DAILY_HOUR=20`, `BLOG_WEEKLY_WEEKDAY=0` (Sun / minggu malam), `BLOG_WEEKLY_IDEA_COUNT=7`.
 
-Optional Vercel: `BLOG_REVIEW_MINUTES=20` (default 20 when set on both sides).
+Optional Vercel: `BLOG_REVIEW_MINUTES=20`, `NEXT_PUBLIC_SITE_URL=https://www.habibiahmada.dev`, `ADMIN_ALLOWED_EMAILS=habibiahmadaziz@gmail.com`.
+
+### Troubleshooting
+
+| Gejala | Perbaikan |
+|--------|-----------|
+| Auto-publish tidak jalan / deadline = jam draft | Deploy portfolio + set `BLOG_REVIEW_MINUTES=20`; gateway sekarang set timer +20 menit setelah draft |
+| Link Telegram hanya `/blog/...` | Set `NEXT_PUBLIC_SITE_URL` di Vercel; agent-hub juga mem-prefix `PORTFOLIO_URL` |
+| Tanya “udah di post?” kena 429 | Fixed — pertanyaan status tidak lagi memicu POST draft |
+| Login admin gagal | Pastikan `ADMIN_ALLOWED_EMAILS` di Vercel tepat ke email Supabase Auth; akun harus sudah ada di Authentication → Users |
 
 ---
 

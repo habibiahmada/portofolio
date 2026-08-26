@@ -15,7 +15,7 @@ export const AGENT_BLOG_MAX_BODY_BYTES = 128 * 1024;
 /** Default minutes until a draft auto-publishes if not reviewed. */
 export const DEFAULT_BLOG_REVIEW_MINUTES = 20;
 
-/** Legacy hours fallback when BLOG_REVIEW_MINUTES is unset. */
+/** Legacy hours fallback when only BLOG_REVIEW_HOURS is set. */
 export const DEFAULT_BLOG_REVIEW_HOURS = 24;
 
 export const TITLE_MIN = 10;
@@ -276,11 +276,16 @@ export function createPreviewToken(): string {
   return randomBytes(24).toString("base64url");
 }
 
+/**
+ * Resolve review deadline.
+ * Priority: explicit minutes arg → BLOG_REVIEW_MINUTES → BLOG_REVIEW_HOURS → default 20 minutes.
+ */
 export function reviewDeadlineFromNow(hours?: number, minutes?: number): string {
-  const envMinutes = process.env.BLOG_REVIEW_MINUTES;
   if (minutes !== undefined && Number.isFinite(minutes) && minutes > 0) {
     return new Date(Date.now() + minutes * 60 * 1000).toISOString();
   }
+
+  const envMinutes = process.env.BLOG_REVIEW_MINUTES;
   if (envMinutes !== undefined && envMinutes !== "") {
     const m = Number(envMinutes);
     if (Number.isFinite(m) && m > 0) {
@@ -288,15 +293,30 @@ export function reviewDeadlineFromNow(hours?: number, minutes?: number): string 
     }
   }
 
-  const raw =
-    hours ?? Number(process.env.BLOG_REVIEW_HOURS || DEFAULT_BLOG_REVIEW_HOURS);
-  const h =
-    typeof raw === "number" && Number.isFinite(raw) && raw > 0
-      ? raw
-      : DEFAULT_BLOG_REVIEW_HOURS;
-  return new Date(Date.now() + h * 60 * 60 * 1000).toISOString();
+  // Only use hours when explicitly provided or BLOG_REVIEW_HOURS is set.
+  if (hours !== undefined && Number.isFinite(hours) && hours > 0) {
+    return new Date(Date.now() + hours * 60 * 60 * 1000).toISOString();
+  }
+  if (process.env.BLOG_REVIEW_HOURS) {
+    const h = Number(process.env.BLOG_REVIEW_HOURS);
+    if (Number.isFinite(h) && h > 0) {
+      return new Date(Date.now() + h * 60 * 60 * 1000).toISOString();
+    }
+  }
+
+  return new Date(
+    Date.now() + DEFAULT_BLOG_REVIEW_MINUTES * 60 * 1000,
+  ).toISOString();
 }
 
 export function siteBaseUrl(): string {
-  return (process.env.NEXT_PUBLIC_SITE_URL || "").replace(/\/+$/, "");
+  const fromEnv = (process.env.NEXT_PUBLIC_SITE_URL || "").replace(/\/+$/, "");
+  if (fromEnv) return fromEnv;
+  const vercel =
+    process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL || "";
+  if (vercel) {
+    const host = vercel.replace(/^https?:\/\//, "").replace(/\/+$/, "");
+    return `https://${host}`;
+  }
+  return "https://www.habibiahmada.dev";
 }
