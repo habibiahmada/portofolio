@@ -2,12 +2,12 @@
 
 import { useEffect, useRef } from "react";
 import Image from "next/image";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { GlitchText } from "@/components/ui/glitch-text";
 import { NodeNetworkLazy } from "@/components/ui/node-network-lazy";
 
 export function AboutHero() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const photoRef = useRef<HTMLDivElement>(null);
   const nodeMouseRef = useRef<{ x: number; y: number; active: boolean }>({
     x: 0,
     y: 0,
@@ -30,41 +30,16 @@ export function AboutHero() {
   }, []);
 
   // Parallax: photo floats up as user scrolls
-  useEffect(() => {
-    if (!photoRef.current) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    let ctx: { revert: () => void } | undefined;
-    let cancelled = false;
-
-    (async () => {
-      const gsap = (await import("gsap")).default;
-      const { ScrollTrigger } = await import("gsap/ScrollTrigger");
-      if (cancelled) return;
-      gsap.registerPlugin(ScrollTrigger);
-
-      const el = photoRef.current;
-      if (!el) return;
-
-      const tween = gsap.to(el, {
-        y: -40,
-        ease: "none",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: 0.7,
-        },
-      });
-
-      ctx = { revert: () => { tween.scrollTrigger?.kill(); tween.kill(); } };
-    })();
-
-    return () => {
-      cancelled = true;
-      ctx?.revert();
-    };
-  }, []);
+  const prefersReduced = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
+  const photoY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [0, prefersReduced ? 0 : -40],
+  );
 
   return (
     <section
@@ -77,12 +52,13 @@ export function AboutHero() {
       <NodeNetworkLazy externalMouseRef={nodeMouseRef} densityBias="topLeft" />
 
       {/* Background Image positioned on the right */}
-      <div
-        className="absolute hidden lg:block inset-y-0 right-50 h-full w-full lg:w-[40%] pointer-events-none z-0 opacity-60 dark:opacity-80"
+      <motion.div
         style={{
+          y: photoY,
           maskImage: "linear-gradient(to right, transparent, black 10%)",
           WebkitMaskImage: "linear-gradient(to right, transparent, black 30%)",
         }}
+        className="absolute hidden lg:block inset-y-0 right-50 h-full w-full lg:w-[40%] pointer-events-none z-0 opacity-60 dark:opacity-80"
       >
         <Image
           src="/images/habibiahmada.webp"
@@ -93,9 +69,10 @@ export function AboutHero() {
           sizes="(max-width: 1024px) 0px, 40vw"
           className="object-cover lg:object-[90%_35%]"
         />
-      </div>
+      </motion.div>
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center flex-1">
+      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12">
+      <div className="relative z-10 mx-auto w-full max-w-7xl grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center flex-1">
         {/* Main Content: Bold Typography */}
         <div className="lg:col-span-9 max-w-4xl flex flex-col items-start gap-6 sm:gap-8 lg:self-center z-10 relative">
           {/* Heading — name as identity */}
@@ -179,6 +156,7 @@ export function AboutHero() {
             </div>
           </div>
         </div>
+      </div>
       </div>
 
       {/* Full-width bottom gradient fade */}

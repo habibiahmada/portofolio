@@ -1,12 +1,14 @@
 import type { ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
 import type { BlogHeading } from "@/lib/blog-headings";
 import { createHeadingIdResolver } from "@/lib/blog-headings";
 
 /**
- * Minimal Markdown render stack (Task 6.1–6.2).
+ * Markdown render stack for blog articles.
  * - remark-gfm: tables, strikethrough, task lists.
+ * - rehype-highlight: syntax colors on fenced code blocks.
  * - No rehype-raw → raw HTML in markdown is stripped (safe by default).
  * - Image URLs restricted to https-only (phase 1: block local / http).
  * - H2/H3 ids are matched to precomputed headings by text + level.
@@ -40,6 +42,7 @@ export function MarkdownRenderer({ content, headings = [] }: MarkdownRendererPro
     <div className="blog-prose">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
+        rehypePlugins={[[rehypeHighlight, { detect: true }]]}
         components={{
           h2({ children, ...props }) {
             const id = resolveHeadingId(2, plainHeadingText(children));
@@ -71,6 +74,31 @@ export function MarkdownRenderer({ content, headings = [] }: MarkdownRendererPro
               <a href={href} {...props}>
                 {children}
               </a>
+            );
+          },
+          pre({ children, ...props }) {
+            return (
+              <pre className="blog-code-block" {...props}>
+                {children}
+              </pre>
+            );
+          },
+          code({ className, children, ...props }) {
+            const isFenced =
+              className?.includes("hljs") ||
+              Boolean(className?.match(/language-/)) ||
+              (typeof children === "string" && children.includes("\n"));
+            if (isFenced) {
+              return (
+                <code className={`blog-code-block__code ${className ?? ""}`.trim()} {...props}>
+                  {children}
+                </code>
+              );
+            }
+            return (
+              <code className="blog-inline-code" {...props}>
+                {children}
+              </code>
             );
           },
         }}
