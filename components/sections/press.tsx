@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { PageShell } from "@/components/ui/page-shell";
