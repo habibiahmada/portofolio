@@ -225,4 +225,109 @@ describe("POST /api/agent/blog", () => {
     const code = json.error?.code ?? json.code;
     expect(code).toBe("QUOTA_EXCEEDED");
   });
+
+  it("GET returns the post body for revision after reject", async () => {
+    const { POST: create, GET } = await import("@/app/api/agent/blog/route");
+    const { POST: review } = await import("@/app/api/agent/blog/review/route");
+    const createdRes = await create(
+      agentRequest(validPayload({ slug: "reject-then-get" }), {
+        ip: "198.51.100.60",
+      }),
+    );
+    expect(createdRes.status).toBe(201);
+    const created = ((await createdRes.json()).data ?? {}) as { id: string };
+
+    const rejectRes = await review(
+      new NextRequest("http://localhost:3000/api/agent/blog/review", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          authorization: `Bearer ${TOKEN}`,
+          "x-forwarded-for": "198.51.100.61",
+        },
+        body: JSON.stringify({ id: created.id, action: "reject" }),
+      }),
+    );
+    expect(rejectRes.status).toBe(200);
+
+    const getReq = new NextRequest(
+      `http://localhost:3000/api/agent/blog?id=${created.id}`,
+      {
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${TOKEN}`,
+          "x-forwarded-for": "198.51.100.62",
+        },
+      },
+    );
+    const getRes = await GET(getReq);
+    expect(getRes.status).toBe(200);
+    const got = ((await getRes.json()).data ?? {}) as {
+      slug: string;
+      status: string;
+      body_md: string;
+    };
+    expect(got.slug).toBe("reject-then-get");
+    expect(got.status).toBe("archived");
+    expect(got.body_md.length).toBeGreaterThan(100);
+  });
+
+  it("POST /revise restores archived post as a new draft without quota", async () => {
+    const { POST: create } = await import("@/app/api/agent/blog/route");
+    const { POST: review } = await import("@/app/api/agent/blog/review/route");
+    const { POST: revise } = await import("@/app/api/agent/blog/revise/route");
+
+    const createdRes = await create(
+      agentRequest(validPayload({ slug: "reject-then-revise" }), {
+        ip: "198.51.100.70",
+      }),
+    );
+    expect(createdRes.status).toBe(201);
+    const created = ((await createdRes.json()).data ?? {}) as { id: string };
+
+    const rejectRes = await review(
+      new NextRequest("http://localhost:3000/api/agent/blog/review", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          authorization: `Bearer ${TOKEN}`,
+          "x-forwarded-for": "198.51.100.71",
+        },
+        body: JSON.stringify({ id: created.id, action: "reject" }),
+      }),
+    );
+    expect(rejectRes.status).toBe(200);
+
+    const reviseRes = await revise(
+      new NextRequest("http://localhost:3000/api/agent/blog/revise", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          authorization: `Bearer ${TOKEN}`,
+          "x-forwarded-for": "198.51.100.72",
+        },
+        body: JSON.stringify({
+          id: created.id,
+          ...validPayload({
+            slug: "reject-then-revise",
+            title: "Revised title about SSR waterfalls",
+            description:
+              "A rewritten meta description that stays within the fifty to one hundred eighty range.",
+            body_md: longBody(" rewritten body for the restored draft."),
+          }),
+        }),
+      }),
+    );
+    expect(reviseRes.status).toBe(200);
+    const revised = ((await reviseRes.json()).data ?? {}) as {
+      slug: string;
+      status: string;
+      preview_url: string;
+      action: string;
+    };
+    expect(revised.action).toBe("revise");
+    expect(revised.slug).toBe("reject-then-revise");
+    expect(revised.status).toBe("draft");
+    expect(revised.preview_url).toMatch(/\/blog\/preview\//);
+  });
 });

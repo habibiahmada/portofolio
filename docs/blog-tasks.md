@@ -38,6 +38,7 @@ Implementation checklist. **Open items first; completed work below.**
 - [x] `POST /api/agent/blog/review` + `POST /api/agent/blog/auto-publish`
 - [x] Queue in Obsidian vault (`08-Blog/Queue.md` + `Published.md`) + gateway skill `portfolio_blog_ops`
 - [x] Scheduler notifies draft with Approve/Reject; auto-publish reports public URL → vault
+- [x] Reject asks for a reason + optional rewrite (agent fetches the article; no paste)
 
 ### Ops (manual)
 

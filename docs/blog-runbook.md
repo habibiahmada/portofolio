@@ -22,7 +22,10 @@ EC2 must be running **at least 20:00–20:35 WIB** daily (gateway cron). Set env
    - `08-Blog/Queue.md` — ideas (Queued / In review / Skipped)
    - `08-Blog/Published.md` — live posts with public URLs
 4. Optional manual ideas: Telegram (`ide: …`) or approve older suggestions. The Sunday evening plan fills the queue automatically.
-5. Review: Approve / Reject in Telegram within **20 minutes**, or let auto-publish run.
+5. Review: **Approve** or **Reject** in Telegram within **20 minutes**, or let auto-publish run.
+   - **Reject** does not end the conversation. The bot asks why it was rejected and whether to revise.
+   - Type the notes in chat (no paste). The agent loads the article from the portfolio API and posts a new preview.
+   - **Buang saja** keeps it archived with no rewrite.
 6. Portfolio DB never stores the idea list — only drafts/posts that were generated.
 
 Gateway and scheduler need `BRAIN_REPO_PATH`, `PORTFOLIO_URL`, `AGENT_BLOG_TOKEN`.

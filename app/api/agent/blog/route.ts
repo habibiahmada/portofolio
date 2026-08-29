@@ -14,9 +14,46 @@ import {
   siteBaseUrl,
   validateAgentBlogPayload,
 } from "@/lib/agent-blog";
+import { getAgentBlogPost } from "@/lib/blog-publish";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+
+/**
+ * GET /api/agent/blog?id= | ?slug= — fetch a post (including archived) for revision.
+ */
+export async function GET(request: NextRequest) {
+  const ip = getClientIp(request);
+  if (!checkRateLimit(`agent-blog-get:${ip}`, 60, 60 * 60 * 1000)) {
+    return NextResponse.json(
+      fail("Too many requests. Try again later.", "RATE_LIMIT_EXCEEDED"),
+      { status: 429 },
+    );
+  }
+
+  const tokenError = assertAgentBlogToken(request);
+  if (tokenError) {
+    return NextResponse.json(fail(tokenError.message, tokenError.code), {
+      status: tokenError.status,
+    });
+  }
+
+  const id = request.nextUrl.searchParams.get("id")?.trim() || "";
+  const slug = request.nextUrl.searchParams.get("slug")?.trim() || "";
+  if (!id && !slug) {
+    return NextResponse.json(
+      fail('Query "id" or "slug" is required.', "VALIDATION_ERROR"),
+      { status: 400 },
+    );
+  }
+
+  const post = await getAgentBlogPost({ id: id || undefined, slug: slug || undefined });
+  if (!post) {
+    return NextResponse.json(fail("Post not found.", "NOT_FOUND"), { status: 404 });
+  }
+
+  return NextResponse.json(ok(post));
+}
 
 /**
  * POST /api/agent/blog — create one draft for review (agent-hub).
