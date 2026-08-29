@@ -1,48 +1,11 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { motion } from 'framer-motion'
 import { Mail, Phone, MapPin, Code2, MessageCircle, Send } from 'lucide-react'
 
-gsap.registerPlugin(ScrollTrigger)
+const ease = [0.215, 0.61, 0.355, 1] as const
 
 export function ContactInfo() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const titleRef = useRef<HTMLHeadingElement>(null)
-  const infoRef = useRef<(HTMLDivElement | null)[]>([])
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(titleRef.current, {
-        scrollTrigger: {
-          trigger: titleRef.current,
-          start: 'top 80%',
-        },
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        ease: 'power3.out',
-      })
-
-      infoRef.current.forEach((item, index) => {
-        gsap.from(item, {
-          scrollTrigger: {
-            trigger: item,
-            start: 'top 80%',
-          },
-          opacity: 0,
-          y: 30,
-          duration: 0.8,
-          delay: index * 0.1,
-          ease: 'power3.out',
-        })
-      })
-    }, containerRef)
-
-    return () => ctx.revert()
-  }, [])
-
   const contactMethods = [
     {
       icon: Mail,
@@ -85,31 +48,32 @@ export function ContactInfo() {
   return (
     <section
       id="contact-info"
-      ref={containerRef}
       className="py-20 px-6 border-b border-border"
     >
       <div className="max-w-5xl mx-auto">
-        {/* Title */}
-        <h2
-          ref={titleRef}
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease }}
           className="text-4xl md:text-5xl font-bold mb-16 text-center"
         >
           <span className="bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
             Other Ways to Connect
           </span>
-        </h2>
+        </motion.h2>
 
-        {/* Contact Methods Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {contactMethods.map((method, index) => {
             const Icon = method.icon
             return (
-              <a
+              <motion.a
                 key={index}
                 href={method.href}
-                ref={(el) => {
-                  infoRef.current[index] = el
-                }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: index * 0.1, ease }}
                 className="group backdrop-blur-lg bg-black/5 dark:bg-white/5 border border-border/40 p-8 hover:border-primary/40 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10"
               >
                 <div className="flex items-center gap-4 mb-4">
@@ -123,7 +87,7 @@ export function ContactInfo() {
                 <p className="text-foreground/70 group-hover:text-foreground transition-colors">
                   {method.value}
                 </p>
-              </a>
+              </motion.a>
             )
           })}
         </div>

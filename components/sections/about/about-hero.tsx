@@ -1,56 +1,33 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { motion } from 'framer-motion'
 
-gsap.registerPlugin(ScrollTrigger)
+const ease = [0.215, 0.61, 0.355, 1] as const
 
 export function AboutHero() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const titleRef = useRef<HTMLHeadingElement>(null)
-  const contentRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(titleRef.current, {
-        opacity: 0,
-        y: 40,
-        duration: 0.9,
-        ease: 'power3.out',
-      })
-
-      gsap.from(contentRef.current, {
-        opacity: 0,
-        y: 40,
-        duration: 0.9,
-        delay: 0.2,
-        ease: 'power3.out',
-      })
-    }, containerRef)
-
-    return () => ctx.revert()
-  }, [])
-
   return (
     <section
       id="about-hero"
-      ref={containerRef}
       className="pt-32 pb-12 px-6 border-b border-border"
     >
       <div className="max-w-5xl mx-auto">
-        {/* Title */}
-        <h1
-          ref={titleRef}
+        <motion.h1
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease }}
           className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight mb-8"
         >
           <span className="bg-gradient-to-r from-primary via-blue-500 to-primary bg-clip-text text-transparent">
             About Me
           </span>
-        </h1>
+        </motion.h1>
 
-        {/* Content */}
-        <div ref={contentRef} className="space-y-6 max-w-3xl">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.2, ease }}
+          className="space-y-6 max-w-3xl"
+        >
           <p className="text-lg md:text-xl text-foreground/70 leading-relaxed">
             Hi, I&apos;m Habibi Ahmad, a passionate full-stack web developer with a mission to create beautiful, performant digital experiences that solve real problems.
           </p>
@@ -60,7 +37,7 @@ export function AboutHero() {
           <p className="text-lg md:text-xl text-foreground/70 leading-relaxed">
             I believe in the power of clean code, thoughtful design, and continuous learning. Every project is an opportunity to push boundaries and deliver excellence.
           </p>
-        </div>
+        </motion.div>
       </div>
     </section>
   )

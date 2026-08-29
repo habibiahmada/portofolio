@@ -1,15 +1,12 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useState } from 'react'
+import { motion } from 'framer-motion'
 import { Send } from 'lucide-react'
 
-gsap.registerPlugin(ScrollTrigger)
+const ease = [0.215, 0.61, 0.355, 1] as const
 
 export function ContactForm() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const formRef = useRef<HTMLFormElement>(null)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -17,23 +14,6 @@ export function ContactForm() {
     message: '',
   })
   const [submitted, setSubmitted] = useState(false)
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(formRef.current, {
-        scrollTrigger: {
-          trigger: formRef.current,
-          start: 'top 80%',
-        },
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        ease: 'power3.out',
-      })
-    }, containerRef)
-
-    return () => ctx.revert()
-  }, [])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -45,7 +25,6 @@ export function ContactForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // Simulate form submission
     console.log('Form data:', formData)
     setSubmitted(true)
     setTimeout(() => {
@@ -62,16 +41,17 @@ export function ContactForm() {
   return (
     <section
       id="contact-form"
-      ref={containerRef}
       className="py-20 px-6 border-b border-border"
     >
       <div className="max-w-3xl mx-auto">
-        <form
-          ref={formRef}
+        <motion.form
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease }}
           onSubmit={handleSubmit}
           className="backdrop-blur-lg bg-black/5 dark:bg-white/5 border border-border/40 p-8 md:p-12 space-y-6"
         >
-          {/* Name & Email Row */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label htmlFor="name" className="block text-sm font-semibold mb-2">
@@ -105,7 +85,6 @@ export function ContactForm() {
             </div>
           </div>
 
-          {/* Subject */}
           <div>
             <label htmlFor="subject" className="block text-sm font-semibold mb-2">
               Subject
@@ -122,7 +101,6 @@ export function ContactForm() {
             />
           </div>
 
-          {/* Message */}
           <div>
             <label htmlFor="message" className="block text-sm font-semibold mb-2">
               Message
@@ -139,7 +117,6 @@ export function ContactForm() {
             />
           </div>
 
-          {/* Submit Button */}
           <div className="pt-4">
             <button
               type="submit"
@@ -154,13 +131,12 @@ export function ContactForm() {
             </button>
           </div>
 
-          {/* Success Message */}
           {submitted && (
             <div className="p-4 border border-green-500/40 bg-green-500/10 text-green-600 dark:text-green-400 text-center">
               Thank you for your message! I&apos;ll get back to you soon.
             </div>
           )}
-        </form>
+        </motion.form>
       </div>
     </section>
   )

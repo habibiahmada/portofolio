@@ -1,48 +1,11 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { motion } from 'framer-motion'
 import { Briefcase, Code2, Award } from 'lucide-react'
 
-gsap.registerPlugin(ScrollTrigger)
+const ease = [0.215, 0.61, 0.355, 1] as const
 
 export function AboutExperience() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const titleRef = useRef<HTMLHeadingElement>(null)
-  const itemsRef = useRef<(HTMLDivElement | null)[]>([])
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(titleRef.current, {
-        scrollTrigger: {
-          trigger: titleRef.current,
-          start: 'top 80%',
-        },
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        ease: 'power3.out',
-      })
-
-      itemsRef.current.forEach((item, index) => {
-        gsap.from(item, {
-          scrollTrigger: {
-            trigger: item,
-            start: 'top 80%',
-          },
-          opacity: 0,
-          y: 30,
-          duration: 0.8,
-          delay: index * 0.1,
-          ease: 'power3.out',
-        })
-      })
-    }, containerRef)
-
-    return () => ctx.revert()
-  }, [])
-
   const experiences = [
     {
       icon: Briefcase,
@@ -70,30 +33,31 @@ export function AboutExperience() {
   return (
     <section
       id="about-experience"
-      ref={containerRef}
       className="py-20 px-6 border-b border-border"
     >
       <div className="max-w-5xl mx-auto">
-        {/* Title */}
-        <h2
-          ref={titleRef}
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease }}
           className="text-4xl md:text-5xl font-bold mb-16"
         >
           <span className="bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
             Experience
           </span>
-        </h2>
+        </motion.h2>
 
-        {/* Timeline */}
         <div className="space-y-8">
           {experiences.map((exp, index) => {
             const Icon = exp.icon
             return (
-              <div
+              <motion.div
                 key={index}
-                ref={(el) => {
-                  itemsRef.current[index] = el
-                }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: index * 0.1, ease }}
                 className="backdrop-blur-lg bg-black/5 dark:bg-white/5 border border-border/40 p-8 hover:border-primary/40 transition-all duration-300"
               >
                 <div className="flex gap-6">
@@ -109,7 +73,7 @@ export function AboutExperience() {
                     <p className="text-foreground/70">{exp.description}</p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             )
           })}
         </div>
