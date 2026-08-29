@@ -9,9 +9,33 @@ import { motion, AnimatePresence } from 'framer-motion'
 function shouldSkipViewTransition() {
   if (typeof document.startViewTransition !== 'function') return true
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return true
-  // Mobile/touch: viewport coords ≠ Snapshot Containing Block coords → wrong origin
-  if (window.matchMedia('(pointer: coarse)').matches) return true
   return false
+}
+
+function getTransitionOrigin(
+  event: React.MouseEvent<HTMLButtonElement>,
+  button: HTMLButtonElement,
+) {
+  const vv = window.visualViewport
+  const viewportW = vv?.width ?? window.innerWidth
+  const viewportH = vv?.height ?? window.innerHeight
+  const offsetX = vv?.offsetLeft ?? 0
+  const offsetY = vv?.offsetTop ?? 0
+
+  // Pointer coords reflect where the user tapped; adjust for mobile browser chrome
+  let cx = event.clientX - offsetX
+  let cy = event.clientY - offsetY
+
+  if (!Number.isFinite(cx) || !Number.isFinite(cy) || (cx === 0 && cy === 0)) {
+    const { top, left, width, height } = button.getBoundingClientRect()
+    cx = left + width / 2 - offsetX
+    cy = top + height / 2 - offsetY
+  }
+
+  return {
+    cxPct: (cx / viewportW) * 100,
+    cyPct: (cy / viewportH) * 100,
+  }
 }
 
 /**
@@ -25,17 +49,12 @@ export function AnimatedThemeToggle() {
 
   useEffect(() => { setMounted(true) }, [])
 
-  const toggleTheme = useCallback(() => {
+  const toggleTheme = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
     const button = buttonRef.current
     if (!button) return
 
     const isDark = resolvedTheme === 'dark'
-    const { top, left, width, height } = button.getBoundingClientRect()
-    const cx = left + width / 2
-    const cy = top + height / 2
-
-    const viewportW = window.innerWidth
-    const viewportH = window.innerHeight
+    const { cxPct, cyPct } = getTransitionOrigin(event, button)
 
     const applyTheme = () => {
       document.documentElement.classList.toggle('dark')
@@ -47,12 +66,11 @@ export function AnimatedThemeToggle() {
       return
     }
 
-    // Percentage coords are more stable in ::view-transition pseudo-elements
     const root = document.documentElement
     root.dataset.themeVt = 'active'
     root.style.setProperty('--vt-duration', '500ms')
-    root.style.setProperty('--vt-cx', `${(cx / viewportW) * 100}%`)
-    root.style.setProperty('--vt-cy', `${(cy / viewportH) * 100}%`)
+    root.style.setProperty('--vt-cx', `${cxPct}%`)
+    root.style.setProperty('--vt-cy', `${cyPct}%`)
 
     const cleanup = () => {
       delete root.dataset.themeVt
