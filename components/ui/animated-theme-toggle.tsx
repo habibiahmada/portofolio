@@ -6,6 +6,14 @@ import { flushSync } from 'react-dom'
 import { useTheme } from 'next-themes'
 import { motion, AnimatePresence } from 'framer-motion'
 
+function shouldSkipViewTransition() {
+  if (typeof document.startViewTransition !== 'function') return true
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return true
+  // Mobile/touch: viewport coords ≠ Snapshot Containing Block coords → wrong origin
+  if (window.matchMedia('(pointer: coarse)').matches) return true
+  return false
+}
+
 /**
  * Simplified theme toggle using the View Transitions API.
  * Expands a circle clip-path from the button position — no dark overlay.
@@ -28,36 +36,29 @@ export function AnimatedThemeToggle() {
 
     const viewportW = window.innerWidth
     const viewportH = window.innerHeight
-    const maxR = Math.hypot(
-      Math.max(cx, viewportW - cx),
-      Math.max(cy, viewportH - cy),
-    )
 
     const applyTheme = () => {
       document.documentElement.classList.toggle('dark')
       setTheme(isDark ? 'light' : 'dark')
     }
 
-    // Fallback if View Transitions not supported
-    if (typeof document.startViewTransition !== 'function') {
+    if (shouldSkipViewTransition()) {
       applyTheme()
       return
     }
 
-    // Set up CSS vars for the animation
+    // Percentage coords are more stable in ::view-transition pseudo-elements
     const root = document.documentElement
     root.dataset.themeVt = 'active'
     root.style.setProperty('--vt-duration', '500ms')
-    root.style.setProperty('--vt-cx', `${cx}px`)
-    root.style.setProperty('--vt-cy', `${cy}px`)
-    root.style.setProperty('--vt-max-r', `${maxR}px`)
+    root.style.setProperty('--vt-cx', `${(cx / viewportW) * 100}%`)
+    root.style.setProperty('--vt-cy', `${(cy / viewportH) * 100}%`)
 
     const cleanup = () => {
       delete root.dataset.themeVt
       root.style.removeProperty('--vt-duration')
       root.style.removeProperty('--vt-cx')
       root.style.removeProperty('--vt-cy')
-      root.style.removeProperty('--vt-max-r')
     }
 
     const transition = document.startViewTransition(() => {

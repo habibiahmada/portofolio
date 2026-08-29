@@ -151,7 +151,7 @@ html[data-theme-vt="active"]::view-transition-new(root) {
     clip-path: circle(0px at var(--vt-cx) var(--vt-cy));
   }
   to {
-    clip-path: circle(var(--vt-max-r) at var(--vt-cx) var(--vt-cy));
+    clip-path: circle(150vmax at var(--vt-cx) var(--vt-cy));
   }
 }
 
