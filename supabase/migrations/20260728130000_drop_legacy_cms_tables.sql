@@ -1,6 +1,6 @@
 -- Cleanup legacy CMS tables unused by Next.js portfolio (portofolio-v2).
 -- Keep: projects, companies, certificates, allowed_users
--- Source: supabase-portofolio (tjxcfcllkceoauuwurfe)
+-- Source: supabase-portofolio
 
 BEGIN;
 

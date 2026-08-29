@@ -6,39 +6,39 @@ Short reference for common blog operations. Full architecture: [blog.md](./blog.
 
 ## Telegram blog topic (queue + review)
 
-**Cadence otomatis (Asia/Jakarta):**
+**Automatic cadence (Asia/Jakarta):**
 
-| Waktu | Apa yang terjadi |
-|-------|------------------|
-| **Minggu malam ~20:00** | Agent buat **7 ide** topik relevan minggu depan → masuk antrian Obsidian otomatis |
-| **Setiap hari ~20:00** | Agent ambil **1 ide** teratas → tulis artikel → **draft** + preview ke Telegram |
-| **+20 menit** (≈20:20) | Jika belum Approve/Reject → **auto-publish** + notif Telegram |
+| Time | What happens |
+|------|--------------|
+| **Sunday ~20:00** | Agent generates **7 topic ideas** for the coming week → queued in Obsidian |
+| **Every day ~20:00** | Agent takes the top idea → writes article → **draft** + Telegram preview |
+| **+20 minutes** (~20:20) | If not approved/rejected → **auto-publish** + Telegram notification |
 
-EC2 harus hidup **minimal 20:00–20:35 WIB** setiap hari (gateway cron). Set env di agent-hub **dan** Vercel: `BLOG_REVIEW_MINUTES=20`.
+EC2 must be running **at least 20:00–20:35 WIB** daily (gateway cron). Set env on agent-hub **and** Vercel: `BLOG_REVIEW_MINUTES=20`.
 
 1. Create a forum topic (e.g. "Blog").
 2. Inside the topic: `/register_topic portfolio_blog_ops`
 3. **Source of truth = Obsidian vault** (not JSON on disk):
    - `08-Blog/Queue.md` — ideas (Queued / In review / Skipped)
    - `08-Blog/Published.md` — live posts with public URLs
-4. Ide manual opsional: Telegram (`ide: …`) atau approve saran lama. Rencana mingguan Minggu malam mengisi antrian otomatis.
-5. Review: Approve / Reject di Telegram dalam **20 menit**, atau biarkan auto-publish.
+4. Optional manual ideas: Telegram (`ide: …`) or approve older suggestions. The Sunday evening plan fills the queue automatically.
+5. Review: Approve / Reject in Telegram within **20 minutes**, or let auto-publish run.
 6. Portfolio DB never stores the idea list — only drafts/posts that were generated.
 
 Gateway and scheduler need `BRAIN_REPO_PATH`, `PORTFOLIO_URL`, `AGENT_BLOG_TOKEN`.
 
-Env (agent-hub): `BLOG_GATEWAY_CRON=1`, `BLOG_DAILY_HOUR=20`, `BLOG_WEEKLY_WEEKDAY=0` (Sun / minggu malam), `BLOG_WEEKLY_IDEA_COUNT=7`.
+Env (agent-hub): `BLOG_GATEWAY_CRON=1`, `BLOG_DAILY_HOUR=20`, `BLOG_WEEKLY_WEEKDAY=0` (Sun evening), `BLOG_WEEKLY_IDEA_COUNT=7`.
 
-Optional Vercel: `BLOG_REVIEW_MINUTES=20`, `NEXT_PUBLIC_SITE_URL=https://www.habibiahmada.dev`, `ADMIN_ALLOWED_EMAILS=habibiahmadaziz@gmail.com`.
+Optional Vercel: `BLOG_REVIEW_MINUTES=20`, `NEXT_PUBLIC_SITE_URL=https://www.habibiahmada.dev`, `ADMIN_ALLOWED_EMAILS=your-admin@example.com`.
 
 ### Troubleshooting
 
-| Gejala | Perbaikan |
-|--------|-----------|
-| Auto-publish tidak jalan / deadline = jam draft | Deploy portfolio + set `BLOG_REVIEW_MINUTES=20`; gateway sekarang set timer +20 menit setelah draft |
-| Link Telegram hanya `/blog/...` | Set `NEXT_PUBLIC_SITE_URL` di Vercel; agent-hub juga mem-prefix `PORTFOLIO_URL` |
-| Tanya “udah di post?” kena 429 | Fixed — pertanyaan status tidak lagi memicu POST draft |
-| Login admin gagal | Pastikan `ADMIN_ALLOWED_EMAILS` di Vercel tepat ke email Supabase Auth; akun harus sudah ada di Authentication → Users |
+| Symptom | Fix |
+|---------|-----|
+| Auto-publish not running / deadline equals draft time | Deploy portfolio + set `BLOG_REVIEW_MINUTES=20`; gateway sets timer +20 minutes after draft |
+| Telegram link shows only `/blog/...` | Set `NEXT_PUBLIC_SITE_URL` on Vercel; agent-hub also prefixes `PORTFOLIO_URL` |
+| “Already posted?” question hits 429 | Fixed — status questions no longer trigger POST draft |
+| Admin login fails | Ensure `ADMIN_ALLOWED_EMAILS` on Vercel matches the Supabase Auth email; user must exist under Authentication → Users |
 
 ---
 

@@ -1,155 +1,177 @@
 # Security Guidelines
 
-Dokumentasi fitur keamanan untuk authentication dan admin panel.
+Security features for authentication and the admin panel.
 
-## 🔒 Security Features Implemented
+## Security features implemented
 
-### 1. Authentication Methods
-- **OAuth (Google & GitHub)**: Secure OAuth 2.0 flow via Supabase
-- **Email/Password**: Local authentication dengan hashing Supabase
-- **Email Whitelist**: Hanya email yang di-list di `ADMIN_ALLOWED_EMAILS` yang bisa login
+### 1. Authentication methods
 
-### 2. Rate Limiting
-- **Login**: 5 attempts per 15 minutes per IP
-- **Signup**: 3 attempts per 1 hour per IP
-- Mencegah brute force attacks
+- **OAuth (Google & GitHub):** Secure OAuth 2.0 flow via Supabase
+- **Email/password:** Local authentication with Supabase hashing
+- **Email whitelist:** Only emails listed in `ADMIN_ALLOWED_EMAILS` can sign in
 
-### 3. Password Security
-Password harus memenuhi kriteria kuat:
-- Minimal 8 karakter
-- Minimal 1 huruf besar (A-Z)
-- Minimal 1 huruf kecil (a-z)
-- Minimal 1 angka (0-9)
-- Minimal 1 karakter khusus (!@#$%^&*)
+### 2. Rate limiting
 
-Contoh password yang valid: `MyPassword123!`
+- **Login:** 5 attempts per 15 minutes per IP
+- **Signup:** 3 attempts per 1 hour per IP
+- Helps prevent brute-force attacks
 
-### 4. Input Validation
-- Email format validation sesuai RFC 5322
-- Sanitasi input (max 500 chars, remove potential HTML tags)
+### 3. Password security
+
+Passwords must meet strong criteria:
+
+- At least 8 characters
+- At least 1 uppercase letter (A–Z)
+- At least 1 lowercase letter (a–z)
+- At least 1 digit (0–9)
+- At least 1 special character (!@#$%^&*)
+
+Valid example: `MyPassword123!`
+
+### 4. Input validation
+
+- Email format validation (RFC 5322)
+- Input sanitization (max 500 chars, strips potential HTML tags)
 - Password length limit (max 512 chars)
-- JSON parsing dengan error handling
+- JSON parsing with error handling
 
-### 5. Session Management
+### 5. Session management
+
 - Secure HTTP-only cookies via Supabase SSR
 - Automatic session refresh
 - Session expiration handling
-- Cache control headers untuk sensitive pages
+- Cache-control headers on sensitive pages
 
-### 6. Security Headers (Global)
+### 6. Security headers (global)
+
 ```
 X-Content-Type-Options: nosniff      # Prevent MIME sniffing
 X-Frame-Options: DENY                # Prevent clickjacking
 X-XSS-Protection: 1; mode=block      # XSS protection
 Referrer-Policy: strict-origin-when-cross-origin
 Permissions-Policy: geolocation=(), microphone=(), camera=()
-Cache-Control: no-store (untuk /admin & /login)
+Cache-Control: no-store (for /admin & /login)
 ```
 
-### 7. Error Handling
-- Generic error messages (tidak bocor info bahwa user ada atau tidak)
-- Failed login attempts tidak menunjukkan alasan spesifik
-- Detailed logging di server-side untuk monitoring
-- No sensitive data dalam error responses
+### 7. Error handling
 
-### 8. IP Tracking & Logging
-Semua auth events di-log dengan:
-- User email (jika tersedia)
+- Generic error messages (no user-enumeration leaks)
+- Failed login attempts do not reveal specific reasons
+- Detailed logging on the server for monitoring
+- No sensitive data in error responses
+
+### 8. IP tracking and logging
+
+All auth events are logged with:
+
+- User email (when available)
 - Client IP address
 - Timestamp
 - Event type (login, signup, logout, failed attempt)
 
 Log format: `[AUTH] Event - Details (IP: xxx.xxx.xxx.xxx)`
 
-### 9. Authorization Checks
+### 9. Authorization checks
+
 - `/admin` routes protected by middleware
-- Email whitelist validation di multiple layers:
+- Email whitelist validation at multiple layers:
   - OAuth callback
   - Email/password login
   - Middleware proxy
-- Immediate signout untuk unauthorized users
+- Immediate sign-out for unauthorized users
 
-### 10. Database Security
-- Service role key untuk admin operations (hanya di server)
-- Anonymous key untuk public APIs
-- Row-level security (RLS) di Supabase
+### 10. Database security
 
-### 11. Agent Blog API (`POST /api/agent/blog`)
-Dedicated machine-to-machine endpoint so the agent-hub can publish one blog post per day.
+- Service role key for admin operations (server only)
+- Anonymous key for public APIs
+- Row-level security (RLS) enabled in Supabase
 
-- **Auth**: `Authorization: Bearer $AGENT_BLOG_TOKEN` — compared with `crypto.timingSafeEqual` after SHA-256 hashing (no length leak). The token is NOT the Supabase service role key; its blast radius is limited to creating one published post per day.
-- **Token management**: generate with `openssl rand -base64 32`; store in Vercel env + agent-hub secrets only; never commit; rotate by replacing the env value. Never log the `Authorization` header.
-- **Daily quota**: max 1 successful agent create per calendar day in `Asia/Jakarta` → second create gets `429 QUOTA_EXCEEDED`.
-- **IP rate limit**: max 5 requests/hour per IP on top of the quota (reuses the shared rate limiter).
-- **Payload limits**: raw body ≤ 128 KB; `body_md` ≤ 100,000 chars; title/description/category/tags validated against docs/blog.md §7.
-- **Content rules**: em dashes (`—`) rejected with `400`; slug conflicts return `409`; only locale `en` accepted.
-- **Writes** go through the service role client only AFTER token validation; RLS still blocks all public writes on `blog_posts`.
-- **Audit**: creates are logged as `[BLOG_AGENT] created slug=...` without any secret material.
+### 11. Agent blog API (`POST /api/agent/blog`)
+
+Dedicated machine-to-machine endpoint so agent-hub can publish one blog post per day.
+
+- **Auth:** `Authorization: Bearer $AGENT_BLOG_TOKEN` — compared with `crypto.timingSafeEqual` after SHA-256 hashing (no length leak). The token is not the Supabase service role key; its blast radius is limited to creating one published post per day.
+- **Token management:** generate with `openssl rand -base64 32`; store in Vercel env + agent-hub secrets only; never commit; rotate by replacing the env value. Never log the `Authorization` header.
+- **Daily quota:** max 1 successful agent create per calendar day in `Asia/Jakarta` → second create gets `429 QUOTA_EXCEEDED`.
+- **IP rate limit:** max 5 requests/hour per IP on top of the quota (reuses the shared rate limiter).
+- **Payload limits:** raw body ≤ 128 KB; `body_md` ≤ 100,000 chars; title/description/category/tags validated against docs/blog.md §7.
+- **Content rules:** em dashes (`—`) rejected with `400`; slug conflicts return `409`; only locale `en` accepted.
+- **Writes** go through the service role client only after token validation; RLS still blocks all public writes on `blog_posts`.
+- **Audit:** creates are logged as `[BLOG_AGENT] created slug=...` without any secret material.
 
 ---
 
-## 🛠️ Admin Management
+## Admin management
 
-### Create Admin User
+### Create admin user
+
 ```bash
 bun scripts/create-admin.ts <email> <password>
 ```
 
-Contoh:
+Example:
+
 ```bash
-bun scripts/create-admin.ts habibiahmadaziz@gmail.com "MyPassword123!"
+bun scripts/create-admin.ts admin@example.com "MyPassword123!"
 ```
 
-### Allowed Emails Configuration
+### Allowed emails configuration
+
 Edit `.env.local`:
+
 ```env
-ADMIN_ALLOWED_EMAILS=habibiahmadaziz@gmail.com,other-admin@example.com
+ADMIN_ALLOWED_EMAILS=admin@example.com,other-admin@example.com
 ```
 
-Untuk multiple emails, gunakan comma tanpa spaces.
+For multiple emails, use commas with no spaces.
 
 ---
 
-## 🔐 Best Practices
+## Best practices
 
-### For Users
-1. ✅ Gunakan password yang kuat dan unique
-2. ✅ Jangan share credentials Anda
-3. ✅ Logout setelah selesai
-4. ✅ Hati-hati dengan phishing attempts
-5. ✅ Clear browser cookies jika di shared computer
+### For users
 
-### For Developers
-1. ✅ Never commit `.env.local` ke repository
-2. ✅ Rotate secrets regularly
-3. ✅ Monitor auth logs untuk suspicious activities
-4. ✅ Keep dependencies updated
-5. ✅ Use HTTPS in production (non-negotiable)
-6. ✅ Review rate limit thresholds untuk use case Anda
+1. Use a strong, unique password
+2. Do not share credentials
+3. Sign out when finished
+4. Watch for phishing attempts
+5. Clear browser cookies on shared computers
 
-### For Production
-1. ✅ Use Redis untuk rate limiting (bukan in-memory)
-2. ✅ Enable 2FA jika supported
-3. ✅ Setup monitoring & alerting untuk failed logins
-4. ✅ Use production-grade secrets management (AWS Secrets Manager, etc)
-5. ✅ Regular security audits
-6. ✅ Implement request signing untuk API calls
-7. ✅ Setup WAF (Web Application Firewall)
+### For developers
+
+1. Never commit `.env.local` to the repository
+2. Rotate secrets regularly
+3. Monitor auth logs for suspicious activity
+4. Keep dependencies updated
+5. Use HTTPS in production (non-negotiable)
+6. Review rate-limit thresholds for your use case
+
+### For production
+
+1. Use Redis for rate limiting (not in-memory)
+2. Enable 2FA when supported
+3. Set up monitoring and alerting for failed logins
+4. Use production-grade secrets management (AWS Secrets Manager, etc.)
+5. Run regular security audits
+6. Implement request signing for API calls where appropriate
+7. Set up a WAF (Web Application Firewall)
 
 ---
 
-## 📋 API Endpoints
+## API endpoints
 
 ### Authentication
-- `POST /api/auth/login` - OAuth login (Google/GitHub)
-- `POST /api/auth/email-password` - Email/password login
-- `POST /api/auth/signup` - Create new admin user
-- `POST /api/auth/logout` - Sign out
-- `GET /api/auth/me` - Get current user
-- `GET /api/auth/callback` - OAuth callback handler
-- `GET /api/auth/debug` - **Dev-only.** Returns 404 in production. In development requires an authenticated allowlisted admin; never returns the raw allowlist string.
 
-### Rate Limiting Response
+- `POST /api/auth/login` — OAuth login (Google/GitHub)
+- `POST /api/auth/email-password` — Email/password login
+- `POST /api/auth/signup` — Create new admin user
+- `POST /api/auth/logout` — Sign out
+- `GET /api/auth/me` — Get current user
+- `GET /api/auth/callback` — OAuth callback handler
+- `GET /api/auth/debug` — **Dev only.** Returns 404 in production. In development requires an authenticated allowlisted admin; never returns the raw allowlist string.
+
+### Rate limiting response
+
 ```json
 {
   "success": false,
@@ -160,9 +182,11 @@ Untuk multiple emails, gunakan comma tanpa spaces.
   }
 }
 ```
-HTTP Status: `429 Too Many Requests`
 
-### Failed Authorization Response
+HTTP status: `429 Too Many Requests`
+
+### Failed authorization response
+
 ```json
 {
   "success": false,
@@ -173,29 +197,32 @@ HTTP Status: `429 Too Many Requests`
   }
 }
 ```
-HTTP Status: `401 Unauthorized` atau `403 Forbidden`
+
+HTTP status: `401 Unauthorized` or `403 Forbidden`
 
 ---
 
-## 🚨 Security Incidents
+## Security incidents
 
-Jika terjadi security incident:
-1. Immediately change all passwords
-2. Check `.env.local` untuk secrets leakage
-3. Review auth logs untuk unauthorized access
-4. Rotate Supabase service keys jika diperlukan
-5. Check Supabase project settings untuk suspicious logins
-6. Update whitelist emails jika needed
+If a security incident occurs:
 
----
-
-## 📞 Security Contact
-
-Untuk security concerns atau vulnerabilities:
-- Email: contact@habibiahmada.dev
-- Jangan public report di GitHub issues
+1. Change all passwords immediately
+2. Check `.env.local` for secret leakage
+3. Review auth logs for unauthorized access
+4. Rotate Supabase service keys if needed
+5. Check Supabase project settings for suspicious logins
+6. Update whitelist emails if needed
 
 ---
 
-**Last Updated**: 2026-07-23  
-**Security Level**: Medium (for hobby project)
+## Security contact
+
+For security concerns or vulnerabilities:
+
+- Email: [contact@habibiahmada.dev](mailto:contact@habibiahmada.dev)
+- Do not report vulnerabilities in public GitHub issues
+
+---
+
+**Last updated:** 2026-07-23  
+**Security level:** Medium (hobby/solo project)

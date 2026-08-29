@@ -2,7 +2,7 @@
 
 ## Database (Supabase / PostgreSQL)
 
-Project: **supabase-portofolio** (`tjxcfcllkceoauuwurfe`) — linked via Supabase CLI (`supabase link`).
+Project: **supabase-portofolio** — linked via Supabase CLI (`supabase link --project-ref <your-project-ref>`).
 
 Tables (see `lib/supabase/types.ts`):
 
@@ -36,7 +36,7 @@ Direct Postgres URL (`POSTGRES_URL`) is for seeding/scripts (`scripts/`), not fo
 
 ```bash
 # scoop shim if not on PATH
-supabase link --project-ref tjxcfcllkceoauuwurfe
+supabase link --project-ref <your-project-ref>
 supabase db query --linked "select count(*) from projects"
 supabase migration list --linked
 ```
@@ -69,7 +69,7 @@ Copy `.env.example` → `.env.local`:
 
 | Piece | Where |
 |-------|--------|
-| Next.js app | **Vercel** (repo linked from v0; `main` auto-deploys) |
+| Next.js app | **Vercel** (Git-connected repo; `main` auto-deploys) |
 | Database / Auth / Storage | **Supabase** cloud project |
 | Blog covers (optional) | Supabase Storage bucket `blog-covers` (WebP ≤ 200 KB) |
 | Images | Prefer Supabase Storage URLs through `next/image` once optimization is on |

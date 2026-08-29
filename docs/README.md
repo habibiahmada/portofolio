@@ -2,6 +2,8 @@
 
 Index for humans and coding agents. Prefer **one** page at a time (token economy).
 
+**Language:** Developer documentation in this folder is written in **English**. The internal UX audit [ROAST.md](../ROAST.md) is an exception and is written in Indonesian.
+
 | Doc | When to read |
 |-----|----------------|
 | [steering.md](./steering.md) | Map of all steering docs / rules / skills |

@@ -8,7 +8,7 @@ import { createClient } from "@supabase/supabase-js";
  * Usage: bun scripts/create-admin.ts <email> <password>
  *
  * Examples:
- *   bun scripts/create-admin.ts habibiahmadaziz@gmail.com "your-secure-password"
+ *   bun scripts/create-admin.ts admin@example.com "your-secure-password"
  */
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -25,7 +25,7 @@ const password = process.argv[3];
 
 if (!email || !password) {
   console.error("Usage: bun scripts/create-admin.ts <email> <password>");
-  console.error("Example: bun scripts/create-admin.ts habibiahmadaziz@gmail.com 'your-secure-password'");
+  console.error("Example: bun scripts/create-admin.ts admin@example.com 'your-secure-password'");
   process.exit(1);
 }
 

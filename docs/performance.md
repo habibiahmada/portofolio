@@ -108,14 +108,14 @@ Checklist berbutir (semua halaman + data publik): **[performance-tasks.md](./per
 - [x] Public home content visible without waiting on client `/api/public/*` for primary sections  
 - [x] Production image optimization enabled with correct remote patterns  
 - [x] Heavy canvas/GSAP not blocking first interaction by default (dynamic imports + reduced-motion gating)  
-- [ ] Documented before/after Lighthouse mobile scores in the PR description (butuh deploy ke production untuk Lighthouse akurat)  
+- [ ] Documented before/after Lighthouse mobile scores in the PR description (requires production deploy for accurate Lighthouse)  
 - [x] No new CMS/editor dependency added for this initiative  
 
 ---
 
 ## Appendix — Baseline (2026-07-28, production)
 
-Source: Chrome Lighthouse JSON under [`docs/lighthouse/`](./lighthouse/) against `https://www.habibiahmada.dev` (lab, before code changes). **INP** tidak ada di lab report ini (sering kosong di Lighthouse lab; bandingkan field via PSI/CrUX nanti).
+Source: Chrome Lighthouse JSON under [`docs/lighthouse/`](./lighthouse/) against `https://www.habibiahmada.dev` (lab, before code changes). **INP** is not in this lab report (often empty in Lighthouse lab; compare via PSI/CrUX later).
 
 ### 0.1 Lighthouse mobile (primary)
 
@@ -131,7 +131,7 @@ Files:
 - `docs/lighthouse/project-page/mobile/www.habibiahmada.dev-20260728T191854.json`
 - `docs/lighthouse/about-page/mobile/www.habibiahmada.dev-20260728T192146.json`
 
-### 0.2 Desktop lab (same capture day — referensi PSI/produksi)
+### 0.2 Desktop lab (same capture day — PSI/production reference)
 
 | Page | Perf | LCP | TBT | CLS | JS transfer |
 |------|------|-----|-----|-----|-------------|
@@ -139,7 +139,7 @@ Files:
 | `/projects` | 94 | 1.2 s | 66 ms | 0.09 | 254 KiB |
 | `/about` | 98 | 0.7 s | 51 ms | 0 | 305 KiB |
 
-Unused JS (mobile estimate): ~705–723 KiB potential savings. **Tidak ada request `/_next/image`** di ketiga halaman mobile — semua gambar raw URL (`images.unoptimized` masih on).
+Unused JS (mobile estimate): ~705–723 KiB potential savings. **No `/_next/image` requests** on all three mobile pages — all images served as raw URLs (`images.unoptimized` still on).
 
 ### 0.3 Network waterfall — `/api/public/*` (client after hydrate)
 
@@ -149,15 +149,15 @@ Unused JS (mobile estimate): ~705–723 KiB potential savings. **Tidak ada reque
 | `/projects` | `/api/public/projects?page_size=50` (~1.4 s) |
 | `/about` | `/api/public/companies` + `/api/public/certificates?pinned=true` + `/api/public/certificates?pinned=false&page=1&page_size=4` (~0.80 s) |
 
-Hooks: `useCompanies` / `useProjects` / `usePinnedCertificates` / `useNonPinnedCertificates` di `lib/hooks/use-api.ts`.
+Hooks: `useCompanies` / `useProjects` / `usePinnedCertificates` / `useNonPinnedCertificates` in `lib/hooks/use-api.ts`.
 
 ### 0.4 LCP-related image sizes (transfer)
 
 | Page | Dominant / LCP-related asset | Transfer | Note |
 |------|------------------------------|----------|------|
 | `/` | `/images/glitch-hero.webp` | **~290 KiB** | Priority `Low` despite preload; largest image on home |
-| `/about` | `/images/habibiahmada.webp` | **~370 KiB** | Avatar; LCP node di lab = text paragraph (render delay), avatar tetap payload besar |
-| `/projects` | Supabase `project-*.webp` covers | **~35–59 KiB** each | LCP node di lab = intro text; covers dari Storage tanpa optimizer |
+| `/about` | `/images/habibiahmada.webp` | **~370 KiB** | Avatar; LCP node in lab = text paragraph (render delay), avatar still large payload |
+| `/projects` | Supabase `project-*.webp` covers | **~35–59 KiB** each | LCP node in lab = intro text; covers from Storage without optimizer |
 | `/` covers | e.g. `project-6.webp` | ~59 KiB | Raw Supabase Storage URL |
 
 Mobile total image transfer: home ~415 KiB · projects ~189 KiB · about ~377 KiB.

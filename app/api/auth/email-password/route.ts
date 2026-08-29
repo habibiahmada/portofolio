@@ -104,7 +104,7 @@ export async function POST(request: NextRequest) {
     if (allowedEmails.length === 0) {
       await supabase.auth.signOut();
       console.error(
-        "[AUTH] ADMIN_ALLOWED_EMAILS is empty — refusing all logins. Set it on Vercel (e.g. habibiahmadaziz@gmail.com).",
+        "[AUTH] ADMIN_ALLOWED_EMAILS is empty — refusing all logins. Set it on Vercel (e.g. admin@example.com).",
       );
       return NextResponse.json(
         fail(
