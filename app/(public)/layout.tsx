@@ -1,5 +1,6 @@
 import { Navbar } from '@/components/navigation'
 import { Footer } from '@/components/sections/footer'
+import { TerminalShellWidget } from '@/components/ui/terminal-shell-widget'
 
 export default function PublicLayout({
   children,
@@ -35,6 +36,8 @@ export default function PublicLayout({
         {children}
         <Footer />
       </div>
+
+      <TerminalShellWidget />
     </>
   )
 }

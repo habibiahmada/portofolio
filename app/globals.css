@@ -386,6 +386,16 @@ html[data-theme-vt="active"]::view-transition-new(root) {
   animation: fade-in-up 0.5s cubic-bezier(0.215, 0.61, 0.355, 1) both;
 }
 
+@keyframes terminal-widget-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+@keyframes terminal-cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
