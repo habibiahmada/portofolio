@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 
 const SHELL_COMMANDS = [
   { label: 'npx', value: 'npx habibiahmada' },
-  { label: 'ssh', value: 'ssh habibiahmada.dev' },
+  { label: 'ssh', value: 'ssh ssh.habibiahmada.dev' },
 ] as const
 
 function CopyCommandRow({ value }: { value: string }) {
