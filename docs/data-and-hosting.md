@@ -74,6 +74,8 @@ Copy `.env.example` → `.env.local`:
 | Blog covers (optional) | Supabase Storage bucket `blog-covers` (WebP ≤ 200 KB) |
 | Images | Prefer Supabase Storage URLs through `next/image` once optimization is on |
 | Domain | Production site: `https://www.habibiahmada.dev` (see metadata) |
+| Terminal SSH | `ssh ssh.habibiahmada.dev` — see [terminal-ssh.md](./terminal-ssh.md) |
+| Terminal local | `npx habibiahmada` — npm package `habibiahmada` |
 | Blog ops | [blog-runbook.md](./blog-runbook.md) |
 
 ### Deploy notes
