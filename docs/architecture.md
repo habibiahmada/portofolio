@@ -14,7 +14,6 @@ Personal portfolio for **Habibi Ahmad Aziz** (web developer, Karawang): showcase
 | Data | Supabase JS + `@supabase/ssr` |
 | DB | PostgreSQL (Supabase) |
 | Auth | Supabase Auth (Google/GitHub OAuth, email/password) + email allowlist |
-| i18n-ready fields | `title_en` / `title_id`, etc. on projects |
 | Analytics | `@vercel/analytics` available in deps (wire as needed) |
 | Package manager | Bun (`bun.lock`) |
 

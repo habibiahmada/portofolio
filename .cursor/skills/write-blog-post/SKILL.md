@@ -45,7 +45,6 @@ Optional: one internal link to a real `/projects/...` case study when relevant.
 | `body_md` | Markdown; starts at H2; no em dash |
 | `category` | one allowlist value |
 | `tags` | optional, max 8 |
-| `locale` | `en` |
 | `seo_title` / `seo_description` | optional overrides; same no-em-dash rule |
 
 ## Voice

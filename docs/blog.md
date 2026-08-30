@@ -46,7 +46,7 @@ Primary audience remains hiring managers / tech leads. The blog proves thinking 
 - Full comments + nested threads + moderation UI (phase 4+ only if needed).
 - Newsletter, paywall, member area.
 - Search cluster / Elasticsearch / Algolia.
-- Full bilingual posts in phase 1 (primary locale: **`en`** only).
+- Non-English blog posts in phase 1 (English only).
 - Realtime WebSocket like counters.
 
 ---
@@ -204,7 +204,7 @@ create table public.blog_posts (
   body_md text not null,              -- markdown source
   category text not null,             -- checked against allowlist
   tags text[] not null default '{}',
-  locale text not null default 'en',  -- phase 1: English only
+  locale text not null default 'en',  -- English only (reserved column)
   status text not null default 'published'
     check (status in ('draft', 'published', 'archived')),
   cover_url text,                     -- null in phase 1
@@ -262,7 +262,6 @@ One visitor = **one reaction total** per post (simplest).
   "body_md": "markdown, 400–8000 chars typical",
   "category": "programming|education|web|career|opinion|news-commentary",
   "tags": ["optional", "max 8"],
-  "locale": "en",
   "seo_title": "optional",
   "seo_description": "optional"
 }
@@ -275,7 +274,7 @@ One visitor = **one reaction total** per post (simplest).
 3. Validate category allowlist, slug uniqueness, max lengths.
 4. Reject payload containing em dash `—` with **400** (force agent fix).
 5. Compute `reading_time_minutes` (~200 wpm).
-6. Insert `status=draft`, `preview_token`, `review_deadline_at`, `source=agent`, `locale=en` (`published_at` null).
+6. Insert `status=draft`, `preview_token`, `review_deadline_at`, `source=agent` (`published_at` null).
 7. `revalidateTag('blog')`.
 8. Return `{ id, slug, status, preview_url, review_deadline_at, url: null }`.
 
@@ -439,7 +438,7 @@ Do not jump to phases 3–4 before MVP runs cleanly for 2–4 weeks (or explicit
 
 | Topic | Decision |
 |-------|----------|
-| Primary locale | **`en`** (English only in phase 1) |
+| Blog language | **English only** in phase 1 |
 | Daily quota timezone | **`Asia/Jakarta`** (midnight boundary) |
 | Categories | `programming`, `education`, `web`, `career`, `opinion`, `news-commentary` |
 | Slug collision | **409** (agent must pick another slug) |

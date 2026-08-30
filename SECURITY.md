@@ -95,7 +95,7 @@ Dedicated machine-to-machine endpoint so agent-hub can publish one blog post per
 - **Daily quota:** max 1 successful agent create per calendar day in `Asia/Jakarta` → second create gets `429 QUOTA_EXCEEDED`.
 - **IP rate limit:** max 5 requests/hour per IP on top of the quota (reuses the shared rate limiter).
 - **Payload limits:** raw body ≤ 128 KB; `body_md` ≤ 100,000 chars; title/description/category/tags validated against docs/blog.md §7.
-- **Content rules:** em dashes (`—`) rejected with `400`; slug conflicts return `409`; only locale `en` accepted.
+- **Content rules:** em dashes (`—`) rejected with `400`; slug conflicts return `409`; only English posts accepted.
 - **Writes** go through the service role client only after token validation; RLS still blocks all public writes on `blog_posts`.
 - **Audit:** creates are logged as `[BLOG_AGENT] created slug=...` without any secret material.
 

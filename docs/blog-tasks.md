@@ -50,7 +50,7 @@ Implementation checklist. **Open items first; completed work below.**
 - [x] **0.1** Write `docs/blog.md` (architecture, ADR, cost, security, phasing)
 - [x] **0.2** Write `docs/blog-tasks.md` (this checklist)
 - [x] **0.3** Index in `docs/README.md` + `docs/steering.md` (+ `architecture.md`, `AGENTS.md`)
-- [x] **0.4** Lock decisions: locale default **`en`**, final categories, quota timezone **Asia/Jakarta** (see blog.md §17)
+- [x] **0.4** Lock decisions: English-only blog in phase 1, final categories, quota timezone **Asia/Jakarta** (see blog.md §17)
 - [x] **0.5** Record planned agent-hub skill `portfolio_blog` in `agent-hub/docs/feature-status.md` (link back to porto `blog.md`)
 - [x] **0.6** Cursor skill `write-blog-post` (news structure + no em dash + SEO meta; uses Voice DNA from `write-like-you`)
 
@@ -71,7 +71,7 @@ Implementation checklist. **Open items first; completed work below.**
 - [x] **2.4** Daily quota Asia/Jakarta (1 published create / day from `source=agent`)
 - [x] **2.5** Reject title/description/body containing em dash `—` (400 + clear message)
 - [x] **2.6** Slug: normalize kebab-case; **409** on conflict
-- [x] **2.7** Insert via `getSupabaseAdmin()`; set `published_at`, `reading_time_minutes`, `source=agent`, `locale=en`
+- [x] **2.7** Insert via `getSupabaseAdmin()`; set `published_at`, `reading_time_minutes`, `source=agent` (English only)
 - [x] **2.8** `revalidateTag(DATA_TAGS.blog)` after successful create
 - [x] **2.9** Extra IP rate limit (reuse `lib/security.ts` pattern)
 - [x] **2.10** Tests: bad token → 401; quota → 429; valid → 201 + URL (`tests/agent-blog.test.ts`)
@@ -163,4 +163,4 @@ Implementation checklist. **Open items first; completed work below.**
 - Client-side first fetch `/api/public/blog` for list/detail
 - Multi-image body / self-hosted video embeds
 - Puck / visual CMS
-- Non-English default locale in phase 1
+- Non-English blog posts in phase 1
