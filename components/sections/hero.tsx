@@ -111,7 +111,7 @@ export function HeroSection() {
 
       {/* Background Image positioned on the right */}
       <div
-        className="absolute hidden lg:block inset-y-0 right-40 h-full w-full lg:w-[40%] pointer-events-none z-0 opacity-60"
+        className="absolute hidden lg:block inset-y-0 right-40 h-full w-full lg:w-[40%] pointer-events-none z-0 opacity-85"
         style={{
           maskImage: "linear-gradient(to right, transparent, black 10%)",
           WebkitMaskImage: "linear-gradient(to right, transparent, black 30%)",
@@ -124,7 +124,7 @@ export function HeroSection() {
           priority
           draggable={false}
           sizes="(max-width: 1024px) 0px, 40vw"
-          className="object-cover lg:object-[80%_35%]"
+          className="object-cover lg:object-[90%_35%]"
         />
       </div>
 

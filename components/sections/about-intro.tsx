@@ -61,9 +61,10 @@ export function AboutIntro() {
                 <span className="text-foreground font-semibold">
                   PT Webekspres Teknologi Indonesia
                 </span>
-                . My expertise lies in developing tailored client websites,
-                architecting CMS platforms, and deploying scalable full-stack
-                features for production environments.
+                . At Webekspres I have contributed to 19 client sites in about
+                four months, from WordPress catalogs to custom Next.js and React
+                apps. I also ship school systems and award-winning AI product
+                work.
               </p>
               <p className="text-sm md:text-base text-muted-foreground/80 leading-relaxed">
                 Driven by a deep passion for software architecture and modern

@@ -6,6 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
+    "seed:projects": "bun run scripts/seed-projects.ts",
+    "seed:project-images": "bun run scripts/upload-project-images.ts",
+    "seed:certificates": "bun run scripts/seed-certificates.ts",
     "lint": "eslint ."
   },
   "dependencies": {

@@ -1,45 +1,31 @@
-import { ArrowUpRight, GitFork } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { hasPublicProjectUrl } from "@/lib/projects";
 
 interface ProjectLinksProps {
-  githubUrl: string;
   liveUrl: string;
+  /** @deprecated Repository links are not shown on the public site. */
+  githubUrl?: string;
+  showGithub?: boolean;
   /** Show hover backgrounds (used in list/page layout) */
   hover?: boolean;
   className?: string;
 }
 
 /**
- * Shared Source + Live link buttons for project cards.
- * Renders nothing when both URLs are `'#'`.
+ * Live site link for project cards. Renders nothing when no valid URL is available.
  */
 export function ProjectLinks({
-  githubUrl,
   liveUrl,
   hover = false,
   className,
 }: ProjectLinksProps) {
+  const showLive = hasPublicProjectUrl(liveUrl);
+  if (!showLive) return null;
+
   return (
     <div className={cn("flex items-center gap-2", className)}>
-      {githubUrl !== "#" && (
-        <a
-          href={githubUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="View Source"
-          className={cn(
-            "inline-flex items-center gap-1 text-[11px] font-mono transition-colors",
-            "text-muted-foreground hover:text-foreground",
-            hover &&
-              "px-2 py-1 rounded-md hover:bg-black/5 dark:hover:bg-white/5",
-          )}
-        >
-          <GitFork size={11} strokeWidth={1.5} />
-          Source
-        </a>
-      )}
-      {liveUrl !== "#" && (
-        <a
+      <a
           href={liveUrl}
           target="_blank"
           rel="noopener noreferrer"
@@ -53,8 +39,7 @@ export function ProjectLinks({
         >
           Live
           <ArrowUpRight size={11} strokeWidth={1.75} />
-        </a>
-      )}
+      </a>
     </div>
   );
 }

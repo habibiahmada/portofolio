@@ -34,6 +34,8 @@ async function handlePost(request: NextRequest, _session: AdminSession) {
     tags: body.tags || [],
     live_url: body.live_url || "",
     github_url: body.github_url || "",
+    role: body.role || "",
+    outcome: body.outcome || "",
     year: body.year || new Date().getFullYear(),
   });
 
@@ -48,7 +50,7 @@ async function handlePatch(request: NextRequest, _session: AdminSession) {
 
   const supabase = getSupabaseAdmin();
   const updateData: Partial<ProjectRow> = {};
-  const fields = ["title_en", "title_id", "description_en", "description_id", "image", "tags", "live_url", "github_url", "year"] as const;
+  const fields = ["title_en", "title_id", "description_en", "description_id", "image", "tags", "live_url", "github_url", "role", "outcome", "year"] as const;
   for (const field of fields) {
     if (body[field] !== undefined) (updateData as any)[field] = body[field];
   }

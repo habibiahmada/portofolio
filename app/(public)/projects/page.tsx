@@ -12,9 +12,13 @@ export const metadata: Metadata = {
     keywords: [
       'Habibi Ahmad Aziz projects',
       'portfolio case studies',
+      'Webekspres',
+      'JepangKu',
+      'Terraju',
       'E-Vote',
       'Agrify',
       'CultureConnect',
+      'BagiBerkah',
       'Aksara Pustaka',
     ],
   }),

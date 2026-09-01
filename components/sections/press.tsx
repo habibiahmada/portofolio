@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
+import { INTEL_AWARD_CERT_URL } from "@/lib/data/storage-urls";
 import { PageShell } from "@/components/ui/page-shell";
 
 const FEATURES = [
@@ -25,8 +26,7 @@ const FEATURES = [
       "Our team built Agrify for AI Changemakers. I owned the product surface: turn model output into advice a farmer can act on, not another pretty dashboard.",
     href: "https://www.intel.com/content/www/us/en/corporate/artificial-intelligence/winner2025.html",
     meta: "2025 · Indonesia",
-    image:
-      "/data/certificates/intel/country-award-winner-agrify-indonesia-13-17-years-habibi-ahmad-aziz/country-award-winner-agrify-indonesia-13-17-years-habibi-ahmad-aziz.webp",
+    image: INTEL_AWARD_CERT_URL,
     imageAlt: "Intel AI for Youth country award certificate for Agrify",
     cta: "See the Intel winners list",
   },

@@ -35,6 +35,8 @@ export default function AdminProjects() {
       tags: [],
       live_url: "",
       github_url: "",
+      role: "",
+      outcome: "",
       year: new Date().getFullYear(),
     });
   };
@@ -130,6 +132,8 @@ export default function AdminProjects() {
             <InputField label="Image URL" value={form.image || ""} onChange={(v) => setForm((f) => ({ ...f, image: v }))} />
             <InputField label="Live URL" value={form.live_url || ""} onChange={(v) => setForm((f) => ({ ...f, live_url: v }))} />
             <InputField label="GitHub URL" value={form.github_url || ""} onChange={(v) => setForm((f) => ({ ...f, github_url: v }))} />
+            <InputField label="Role" value={form.role || ""} onChange={(v) => setForm((f) => ({ ...f, role: v }))} />
+            <InputField label="Outcome" value={form.outcome || ""} onChange={(v) => setForm((f) => ({ ...f, outcome: v }))} />
             <InputField label="Tags (comma separated)" value={(form.tags || []).join(", ")} onChange={(v) => setForm((f) => ({ ...f, tags: v.split(",").map((t) => t.trim()).filter(Boolean) }))} />
           </div>
           <div className="flex gap-2 pt-2">

@@ -2,12 +2,12 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { GitFork, ExternalLink } from 'lucide-react'
+import { ArrowUpRight, ExternalLink } from 'lucide-react'
 import { ProjectTag } from '@/components/ui/project-tag'
 import { ProjectLinks } from '@/components/ui/project-links'
-import { getProjectTitle, getProjectDescription, type Project } from '@/lib/projects'
-import { getProjectMeta } from '@/lib/data/project-meta'
+import { getProjectTitle, getProjectDescription, hasPublicProjectUrl, type Project } from '@/lib/projects'
 import { getCaseStudySlugByProjectId } from '@/lib/data/case-studies'
+import { getProjectTaxonomy, ORIGIN_LABEL } from '@/lib/data/project-taxonomy'
 import { cn } from '@/lib/utils'
 
 // ─── Types ──────────────────────────────────────────────────────────────────
@@ -35,7 +35,7 @@ function QuickLink({
   children: React.ReactNode
   variant: CardVariant
 }) {
-  if (href === '#') return null
+  if (!hasPublicProjectUrl(href)) return null
   return (
     <a
       href={href}
@@ -64,14 +64,15 @@ export function ProjectCard({
 }: ProjectCardProps) {
   const title = getProjectTitle(project, locale)
   const shortTitle = title.includes(':') ? title.split(':')[0].trim() : title
-  const meta = getProjectMeta(project.id)
+  const taxonomy = getProjectTaxonomy(project.id)
+  const originLabel = taxonomy ? ORIGIN_LABEL[taxonomy.origin] : null
   const caseStudySlug = getCaseStudySlugByProjectId(project.id)
-  const description =
-    (locale === 'id' ? meta?.description_id : meta?.description_en) ??
-    getProjectDescription(project, locale)
+  const description = getProjectDescription(project, locale)
   const isFeatured = variant === 'featured'
   const detailHref = caseStudySlug ? `/projects/${caseStudySlug}` : null
   const tags = project.tags.slice(0, isFeatured ? 2 : 3)
+  const showLiveLink = hasPublicProjectUrl(project.live_url)
+  const showFooterLinks = Boolean(detailHref) || showLiveLink
 
   return (
     <article
@@ -136,10 +137,7 @@ export function ProjectCard({
               : 'bottom-3 right-3 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0',
           )}
         >
-          <QuickLink href={project.github_url} label="GitHub Repository" variant={variant}>
-            <GitFork size={12} strokeWidth={1.75} />
-          </QuickLink>
-          <QuickLink href={project.live_url} label="Live Demo" variant={variant}>
+          <QuickLink href={project.live_url} label="Live site" variant={variant}>
             {isFeatured ? (
               <ExternalLink size={12} strokeWidth={1.75} />
             ) : (
@@ -153,20 +151,28 @@ export function ProjectCard({
         </div>
       </div>
 
-      {/* Content: title + one line blurb + footer. Role/outcome live on /projects/[slug]. */}
+      {/* Content: origin + title + one line blurb + footer. Role/outcome live on /projects/[slug]. */}
       <div className={cn('flex flex-col flex-1', isFeatured ? 'p-5 gap-3' : 'p-5 md:p-6 gap-3')}>
-        {tags.length > 0 && (
-          <div className="flex flex-wrap gap-1.5">
-            {tags.map((tag) => (
-              <ProjectTag key={tag}>{tag}</ProjectTag>
-            ))}
-            {project.tags.length > tags.length && (
-              <span className="text-[10px] font-mono self-center text-muted-foreground/50">
-                +{project.tags.length - tags.length}
-              </span>
-            )}
-          </div>
-        )}
+        <div className="flex flex-wrap items-center gap-1.5">
+          {originLabel && (
+            <span className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground/70">
+              {originLabel}
+            </span>
+          )}
+          {tags.length > 0 && originLabel && (
+            <span className="text-[10px] text-muted-foreground/30" aria-hidden>
+              ·
+            </span>
+          )}
+          {tags.map((tag) => (
+            <ProjectTag key={tag}>{tag}</ProjectTag>
+          ))}
+          {project.tags.length > tags.length && (
+            <span className="text-[10px] font-mono self-center text-muted-foreground/50">
+              +{project.tags.length - tags.length}
+            </span>
+          )}
+        </div>
 
         <h3
           className={cn(
@@ -187,6 +193,7 @@ export function ProjectCard({
           {description}
         </p>
 
+        {showFooterLinks && (
         <div
           className={cn(
             'flex items-center justify-between gap-3 mt-auto pt-3',
@@ -200,11 +207,12 @@ export function ProjectCard({
             >
               Details
             </Link>
-          ) : (
+          ) : showLiveLink ? (
             <span className="text-xs font-mono text-muted-foreground/50">{project.year}</span>
-          )}
-          <ProjectLinks githubUrl={project.github_url} liveUrl={project.live_url} hover={!isFeatured} />
+          ) : null}
+          <ProjectLinks liveUrl={project.live_url} hover={!isFeatured} />
         </div>
+        )}
       </div>
     </article>
   )

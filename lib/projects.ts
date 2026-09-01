@@ -11,6 +11,8 @@ export type Project = {
   live_url: string
   github_url: string
   year: number
+  role?: string
+  outcome?: string
 }
 
 /** Shared cubic-bezier easing used across project cards */
@@ -24,4 +26,11 @@ export function getProjectTitle(project: Project, locale: string): string {
 
 export function getProjectDescription(project: Project, locale: string): string {
   return locale === 'id' ? project.description_id : project.description_en
+}
+
+/** True for a real http(s) URL. Empty strings and `#` placeholders stay hidden. */
+export function hasPublicProjectUrl(url?: string | null): url is string {
+  if (!url) return false
+  const trimmed = url.trim()
+  return trimmed.length > 0 && trimmed !== '#'
 }

@@ -77,6 +77,8 @@ export interface ProjectRow {
   live_url: string;
   github_url: string;
   year: number;
+  role: string;
+  outcome: string;
   created_at?: string;
   updated_at?: string;
 }

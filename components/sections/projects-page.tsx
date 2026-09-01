@@ -1,12 +1,16 @@
 "use client";
 
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import { NodeNetworkLazy } from "@/components/ui/node-network-lazy";
 import { CpuArchitecture } from "@/components/ui/cpu-architecture";
 import { ProjectCard } from "@/components/ui/project-card";
 import { ProjectGridSkeleton } from "@/components/ui/skeletons";
 import { PageShell } from "@/components/ui/page-shell";
 import { useProjects } from "@/lib/hooks/use-api";
+import {
+  groupProjectsForArchive,
+  PROJECT_STATS,
+} from "@/lib/data/project-taxonomy";
 import type { Project } from "@/lib/supabase/types";
 
 interface ProjectsPageProps {
@@ -14,6 +18,13 @@ interface ProjectsPageProps {
   /** SSR first paint — skips `/api/public/projects` when set. */
   initialData?: Project[];
 }
+
+const STATS = [
+  { value: String(PROJECT_STATS.featured), label: "Featured case studies" },
+  { value: String(PROJECT_STATS.total), label: "Projects in this archive" },
+  { value: String(PROJECT_STATS.categories), label: "Types of work" },
+  { value: String(PROJECT_STATS.personalShips), label: "Personal and school ships" },
+] as const;
 
 export function ProjectsPage({ locale = "en", initialData }: ProjectsPageProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -30,6 +41,10 @@ export function ProjectsPage({ locale = "en", initialData }: ProjectsPageProps) 
   const projects = initialData ?? fetched;
   const showSkeleton = !initialData && loading;
   const showError = !initialData && error;
+  const archive = useMemo(
+    () => (projects ? groupProjectsForArchive(projects) : null),
+    [projects],
+  );
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = sectionRef.current;
@@ -65,16 +80,34 @@ export function ProjectsPage({ locale = "en", initialData }: ProjectsPageProps) 
         <div className="mb-14 md:mb-18">
           <div className="relative z-10 space-y-3">
             <span className="text-xs font-mono tracking-widest text-brand uppercase block">
-              Archive
+              Work
             </span>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-foreground leading-tight">
-              All Projects
+              Work I can walk you through
             </h1>
-            <p className="text-sm sm:text-base text-muted-foreground/60 max-w-xl leading-relaxed">
-              A curated collection of everything I&apos;ve built, from
-              production applications to experimental side projects.
+            <p className="text-sm sm:text-base text-muted-foreground/60 max-w-2xl leading-relaxed">
+              Featured case studies first: school systems, AI products, and sites
+              I shipped as a web developer. The archive below groups the rest by
+              type. Cards mark personal work versus employment, with team projects
+              scoped to what I actually built.
             </p>
           </div>
+
+          <dl className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+            {STATS.map((stat) => (
+              <div
+                key={stat.label}
+                className="rounded-2xl border border-black/5 dark:border-white/8 bg-white/50 dark:bg-zinc-950/40 px-4 py-4 md:px-5 md:py-5"
+              >
+                <dt className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground/70">
+                  {stat.label}
+                </dt>
+                <dd className="mt-2 text-3xl md:text-4xl font-black tracking-tight text-foreground">
+                  {stat.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
         </div>
 
         {showSkeleton && <ProjectGridSkeleton count={8} />}
@@ -85,16 +118,61 @@ export function ProjectsPage({ locale = "en", initialData }: ProjectsPageProps) 
           </p>
         )}
 
-        {!showSkeleton && !showError && projects && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
-            {projects.map((project, i) => (
-              <ProjectCard
-                key={project.id}
-                project={project}
-                locale={locale}
-                index={i}
-                variant="archive"
-              />
+        {!showSkeleton && !showError && archive && (
+          <div className="space-y-16 md:space-y-20">
+            {archive.featured.length > 0 && (
+              <section className="space-y-6">
+                <div className="space-y-2">
+                  <span className="text-xs font-mono tracking-widest text-brand uppercase block">
+                    Selected
+                  </span>
+                  <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground">
+                    Featured case studies
+                  </h2>
+                  <p className="text-sm text-muted-foreground/70 max-w-xl leading-relaxed">
+                    Six ships with a longer write-up: E-Vote, JepangKu,
+                    CultureConnect, Smartfarm, BagiBerkah, and Terraju.
+                  </p>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                  {archive.featured.map((project, i) => (
+                    <ProjectCard
+                      key={project.id}
+                      project={project}
+                      locale={locale}
+                      index={i}
+                      variant="featured"
+                    />
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {archive.groups.map((group) => (
+              <section key={group.label} className="space-y-6">
+                <div className="space-y-2">
+                  <span className="text-xs font-mono tracking-widest text-muted-foreground/70 uppercase block">
+                    Archive
+                  </span>
+                  <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground">
+                    {group.label}
+                  </h2>
+                  <p className="text-sm text-muted-foreground/70 max-w-xl leading-relaxed">
+                    {group.blurb}
+                  </p>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
+                  {group.items.map((project, i) => (
+                    <ProjectCard
+                      key={project.id}
+                      project={project}
+                      locale={locale}
+                      index={i}
+                      variant="archive"
+                    />
+                  ))}
+                </div>
+              </section>
             ))}
           </div>
         )}

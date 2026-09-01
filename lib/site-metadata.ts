@@ -27,12 +27,12 @@ export const SITE = {
 export const SITE_COPY = {
   defaultTitle: `${SITE.name} | ${SITE.role} ${SITE.city}`,
   titleTemplate: `%s | ${SITE.name}`,
-  defaultDescription: `${SITE.name} is a ${SITE.role} from ${SITE.location}. He ships production web apps with Next.js, React, Laravel, and WordPress, including school systems and award-winning AI product work.`,
-  homeDescription: `${SITE.name}, ${SITE.role} from ${SITE.location}. Open to freelance and full-time. Portfolio of shipped web products: E-Vote for SMKN 1 Karawang, Intel AI Festival country award (Agrify), and fullstack client work.`,
-  aboutDescription: `About ${SITE.name}: ${SITE.role} from ${SITE.city}, graduate of ${SITE.school} (Software Engineering). Currently a Web Developer at ${SITE.employer.name}. Stack: Next.js, React, Laravel, WordPress, APIs, and measurable performance.`,
-  aboutDescriptionId: `Tentang ${SITE.name}: ${SITE.role} dari ${SITE.city}, lulusan ${SITE.school} (RPL). Web Developer di ${SITE.employer.name}. Spesialis Next.js, React, Laravel, WordPress, API, dan performa web.`,
-  projectsDescription: `Web projects by ${SITE.name}. Production and capstone work across school systems, AI products, payments, and fullstack apps. Each project links to a detailed case study.`,
-  projectsDescriptionId: `Proyek web oleh ${SITE.name}. Karya produksi dan capstone: sistem sekolah, produk AI, pembayaran, dan aplikasi fullstack. Setiap proyek punya case study detail.`,
+  defaultDescription: `${SITE.name} is a ${SITE.role} from ${SITE.location}. Web Developer at ${SITE.employer.name}. He contributes to client sites (corporate, news, landing, catalogs, and integrated apps) plus school systems and award-winning AI product work.`,
+  homeDescription: `${SITE.name}, ${SITE.role} from ${SITE.location}. Open to freelance and full-time. Featured work: E-Vote for SMKN 1 Karawang, JepangKu and Terraju with the Webekspres team, CultureConnect, BagiBerkah, and Intel AI Festival country award (Agrify / Smartfarm).`,
+  aboutDescription: `About ${SITE.name}: ${SITE.role} from ${SITE.city}, graduate of ${SITE.school} (Software Engineering). Currently a Web Developer at ${SITE.employer.name}, contributing to 19 client sites in about four months. Stack: Next.js, React, Laravel, WordPress, APIs, and measurable performance.`,
+  aboutDescriptionId: `Tentang ${SITE.name}: ${SITE.role} dari ${SITE.city}, lulusan ${SITE.school} (RPL). Web Developer di ${SITE.employer.name}, berkontribusi pada 19 situs klien dalam sekitar empat bulan. Spesialis Next.js, React, Laravel, WordPress, API, dan performa web.`,
+  projectsDescription: `Projects by ${SITE.name}: featured case studies and a full archive of school systems, AI products, and client work from his current role. Role and credit on each card.`,
+  projectsDescriptionId: `Proyek ${SITE.name}: case study unggulan dan arsip lengkap sistem sekolah, produk AI, dan pekerjaan klien dari peran kerjanya sekarang. Role dan kredit ada di setiap kartu.`,
   servicesDescription: `Services by ${SITE.name}: web design, React/Next.js frontend, APIs and databases, WordPress/CMS, performance, SEO, and deployment. Remote (WIB), open to freelance and full-time.`,
   loginDescription: `Sign in to the admin panel for ${SITE.name}'s portfolio.`,
   ogAlt: `${SITE.name}, ${SITE.role} from ${SITE.city}, Indonesia`,
@@ -165,6 +165,7 @@ export function projectPageMetadata(input: {
   image?: string;
   tags?: string[];
   year?: number;
+  attribution?: "solo" | "webekspres";
 }): Metadata {
   const { title, description, slug, image, tags = [], year } = input;
   const pageTitle = `${title} case study`;
@@ -172,7 +173,11 @@ export function projectPageMetadata(input: {
     description.length > 155
       ? `${description.slice(0, 152)}...`
       : description;
-  const enriched = `${desc} Built by ${SITE.name}, ${SITE.role} from ${SITE.city}.`;
+  const credit =
+    input.attribution === "webekspres"
+      ? `Developed with the Webekspres team by ${SITE.name}, ${SITE.role} from ${SITE.city}.`
+      : `Built by ${SITE.name}, ${SITE.role} from ${SITE.city}.`;
+  const enriched = `${desc} ${credit}`;
 
   return pageMetadata({
     title: pageTitle,

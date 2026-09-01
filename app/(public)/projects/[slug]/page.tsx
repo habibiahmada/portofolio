@@ -14,11 +14,18 @@ import { getProjectById } from "@/lib/data/projects";
 import {
   projects as staticProjects,
   getProjectTitle,
+  hasPublicProjectUrl,
   type Project,
 } from "@/lib/projects";
 import { ProjectJsonLd } from "@/components/json-ld";
 import { projectPageMetadata } from "@/lib/site-metadata";
+import {
+  getProjectTaxonomy,
+  ORIGIN_LABEL,
+} from "@/lib/data/project-taxonomy";
 import { PAGE_PAD, PAGE_SHELL } from "@/components/ui/page-shell";
+import { cn } from "@/lib/utils";
+import { INTEL_AWARD_CERT_URL } from "@/lib/data/storage-urls";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -27,12 +34,17 @@ const DEFAULT_HOOKS = {
   reality: "What boxed the work in",
   build: "How it came together",
   close: "What I can stand behind",
+  realityLead:
+    "These were the boundaries that shaped what we could ship and how honest the story had to stay.",
+  buildLead:
+    "How the pieces fit together in practice, not just on a stack diagram.",
+  closeLead:
+    "What actually shipped, what proof exists, and what I can defend in an interview.",
 } as const;
 
-/**
- * Only clearly matching context images. Omit a slug = no aside image.
- * Certificates / press use contain so nothing is cropped.
- */
+const PANEL =
+  "rounded-2xl border border-black/5 dark:border-white/8 bg-white/70 dark:bg-zinc-950/50 overflow-hidden";
+
 const ASIDE_BY_SLUG: Record<
   string,
   { src: string; alt: string; caption: string; kind: "logo" | "document" }
@@ -43,8 +55,38 @@ const ASIDE_BY_SLUG: Record<
     caption: "PKL host · CV Smartplus",
     kind: "logo",
   },
+  jepangku: {
+    src: "/images/companies/webekspres.webp",
+    alt: "PT Webekspres Teknologi Indonesia",
+    caption: "Client work · Webekspres",
+    kind: "logo",
+  },
+  terraju: {
+    src: "/images/companies/webekspres.webp",
+    alt: "PT Webekspres Teknologi Indonesia",
+    caption: "Client work · Webekspres",
+    kind: "logo",
+  },
+  miru: {
+    src: "/images/companies/webekspres.webp",
+    alt: "PT Webekspres Teknologi Indonesia",
+    caption: "Client work · Webekspres",
+    kind: "logo",
+  },
+  "luzins-academy": {
+    src: "/images/companies/webekspres.webp",
+    alt: "PT Webekspres Teknologi Indonesia",
+    caption: "Client work · Webekspres",
+    kind: "logo",
+  },
+  ptmgc: {
+    src: "/images/companies/webekspres.webp",
+    alt: "PT Webekspres Teknologi Indonesia",
+    caption: "Client work · Webekspres",
+    kind: "logo",
+  },
   agrify: {
-    src: "/data/certificates/intel/country-award-winner-agrify-indonesia-13-17-years-habibi-ahmad-aziz/country-award-winner-agrify-indonesia-13-17-years-habibi-ahmad-aziz.webp",
+    src: INTEL_AWARD_CERT_URL,
     alt: "Intel AI country award certificate",
     caption: "Intel AI Festival · country award",
     kind: "document",
@@ -63,7 +105,6 @@ type CatalogProject = {
   image: string;
   tags: string[];
   liveUrl?: string;
-  githubUrl?: string;
   year?: number;
 };
 
@@ -77,8 +118,7 @@ function catalogFromStatic(p: Project): CatalogProject {
     title: displayTitle(getProjectTitle(p, "en")),
     image: p.image,
     tags: p.tags,
-    liveUrl: p.live_url && p.live_url !== "#" ? p.live_url : undefined,
-    githubUrl: p.github_url && p.github_url !== "#" ? p.github_url : undefined,
+    liveUrl: hasPublicProjectUrl(p.live_url) ? p.live_url : undefined,
     year: p.year,
   };
 }
@@ -87,15 +127,16 @@ async function resolveCatalog(projectId: string): Promise<CatalogProject | null>
   const row = await getProjectById(projectId);
   if (row) {
     const title =
-      row.title_en || row.title_id || staticProjects.find((p) => p.id === projectId)?.title_en || "Project";
+      row.title_en ||
+      row.title_id ||
+      staticProjects.find((p) => p.id === projectId)?.title_en ||
+      "Project";
     return {
       id: row.id,
       title: displayTitle(title),
       image: row.image,
       tags: row.tags ?? [],
-      liveUrl: row.live_url && row.live_url !== "#" ? row.live_url : undefined,
-      githubUrl:
-        row.github_url && row.github_url !== "#" ? row.github_url : undefined,
+      liveUrl: hasPublicProjectUrl(row.live_url) ? row.live_url : undefined,
       year: row.year,
     };
   }
@@ -112,6 +153,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const study = getCaseStudy(slug);
   if (!study) return {};
   const catalog = await resolveCatalog(study.projectId);
+  const attribution =
+    getProjectTaxonomy(study.projectId)?.origin === "webekspres"
+      ? "webekspres"
+      : "solo";
   return projectPageMetadata({
     title: catalog?.title ?? slug,
     description: study.problem,
@@ -119,6 +164,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     image: catalog?.image,
     tags: catalog?.tags,
     year: catalog?.year,
+    attribution,
   });
 }
 
@@ -132,24 +178,194 @@ function StackIcons({ stack }: { stack: string[] }) {
 
   return (
     <ul
-      className="flex flex-wrap items-center gap-3 list-none"
+      className="flex flex-wrap items-center gap-2.5 list-none"
       aria-label="Tech stack"
     >
       {icons.map(({ name, src }) => (
-        <li key={name} className="relative h-9 w-9 sm:h-10 sm:w-10">
+        <li
+          key={name}
+          className="relative h-8 w-8 rounded-lg border border-black/5 dark:border-white/8 bg-black/[0.02] dark:bg-white/[0.03] p-1.5"
+        >
           <Image
             src={src}
             alt={name}
             fill
             unoptimized
-            className="object-contain"
-            sizes="40px"
+            className="object-contain p-0.5"
+            sizes="32px"
             title={name}
           />
           <span className="sr-only">{name}</span>
         </li>
       ))}
     </ul>
+  );
+}
+
+function CaseSection({
+  label,
+  title,
+  lead,
+  children,
+}: {
+  label: string;
+  title: string;
+  lead?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="space-y-4">
+      <div className="space-y-2">
+        <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground/70">
+          {label}
+        </p>
+        <h2 className="text-lg sm:text-xl font-semibold tracking-tight text-foreground">
+          {title}
+        </h2>
+        {lead && (
+          <p className="text-sm sm:text-[15px] text-muted-foreground leading-relaxed max-w-2xl">
+            {lead}
+          </p>
+        )}
+      </div>
+      {children}
+    </section>
+  );
+}
+
+function PanelList({ items }: { items: string[] }) {
+  return (
+    <div className={PANEL}>
+      <ul className="divide-y divide-black/5 dark:divide-white/8">
+        {items.map((item) => (
+          <li
+            key={item}
+            className="px-4 py-4 md:px-5 text-sm md:text-[15px] leading-relaxed text-muted-foreground"
+          >
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function PanelBlocks({
+  blocks,
+}: {
+  blocks: { title: string; body: string }[];
+}) {
+  return (
+    <div className={PANEL}>
+      <ul className="divide-y divide-black/5 dark:divide-white/8">
+        {blocks.map((block) => (
+          <li key={block.title} className="px-4 py-4 md:px-5 md:py-5 space-y-1.5">
+            <h3 className="text-sm font-semibold tracking-tight text-foreground">
+              {block.title}
+            </h3>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              {block.body}
+            </p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function ProjectMetaAside({
+  aside,
+  role,
+  stack,
+  year,
+  originLabel,
+}: {
+  aside?: (typeof ASIDE_BY_SLUG)[string];
+  role?: string;
+  stack: string[];
+  year?: number;
+  originLabel?: string;
+}) {
+  const hasStack = resolveStackIcons(stack).length > 0;
+  if (!aside && !role && !hasStack && !year && !originLabel) return null;
+
+  return (
+    <aside className="lg:col-span-4 lg:sticky lg:top-28">
+      <div className={cn(PANEL, "p-5 md:p-6 space-y-5")}>
+        {(originLabel || aside) && (
+          <div className="flex items-start gap-3">
+            {aside?.kind === "logo" && (
+              <div className="relative h-10 w-10 shrink-0 rounded-lg border border-black/5 dark:border-white/8 bg-white dark:bg-zinc-900 p-1.5">
+                <Image
+                  src={aside.src}
+                  alt={aside.alt}
+                  fill
+                  className="object-contain p-0.5"
+                  sizes="40px"
+                />
+              </div>
+            )}
+            <div className="min-w-0 space-y-1">
+              <p className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground/70">
+                Context
+              </p>
+              {originLabel && (
+                <p className="text-sm font-medium text-foreground">{originLabel}</p>
+              )}
+              {aside && (
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  {aside.caption}
+                </p>
+              )}
+            </div>
+          </div>
+        )}
+
+        {aside?.kind === "document" && (
+          <figure className="rounded-xl border border-black/5 dark:border-white/8 overflow-hidden bg-zinc-100/80 dark:bg-black/30">
+            <div className="relative w-full aspect-[4/3]">
+              <Image
+                src={aside.src}
+                alt={aside.alt}
+                fill
+                className="object-contain object-center p-2"
+                sizes="(max-width: 1024px) 100vw, 320px"
+              />
+            </div>
+            <figcaption className="border-t border-black/5 dark:border-white/8 px-3 py-2 text-[10px] font-mono uppercase tracking-[0.14em] text-muted-foreground">
+              {aside.caption}
+            </figcaption>
+          </figure>
+        )}
+
+        {role && (
+          <div className="pt-1 border-t border-black/5 dark:border-white/8">
+            <p className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground/70 mb-1.5">
+              My role
+            </p>
+            <p className="text-sm text-muted-foreground leading-relaxed">{role}</p>
+          </div>
+        )}
+
+        {hasStack && (
+          <div className="pt-1 border-t border-black/5 dark:border-white/8">
+            <p className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground/70 mb-2.5">
+              Stack
+            </p>
+            <StackIcons stack={stack} />
+          </div>
+        )}
+
+        {year != null && (
+          <div className="pt-1 border-t border-black/5 dark:border-white/8">
+            <p className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground/70 mb-1">
+              Year
+            </p>
+            <p className="text-sm font-mono text-foreground">{year}</p>
+          </div>
+        )}
+      </div>
+    </aside>
   );
 }
 
@@ -171,9 +387,16 @@ export default async function ProjectDetailPage({ params }: Props) {
   const { prev, next } = getAdjacentCaseStudies(slug);
   const hooks = hooksFor(study);
   const aside = ASIDE_BY_SLUG[slug];
-  const stackIcons = resolveStackIcons(catalog.tags);
+  const taxonomy = getProjectTaxonomy(study.projectId);
+  const originLabel = taxonomy ? ORIGIN_LABEL[taxonomy.origin] : undefined;
   const prevTitle = neighborTitle(prev);
   const nextTitle = neighborTitle(next);
+  const showAside =
+    Boolean(aside) ||
+    Boolean(study.role) ||
+    resolveStackIcons(catalog.tags).length > 0 ||
+    catalog.year != null ||
+    Boolean(originLabel);
 
   return (
     <main className="w-full overflow-x-hidden">
@@ -184,10 +407,12 @@ export default async function ProjectDetailPage({ params }: Props) {
         image={catalog.image}
         tags={catalog.tags}
         year={catalog.year}
-        githubUrl={catalog.githubUrl}
+        githubUrl={undefined}
         liveUrl={catalog.liveUrl}
+        teamCredit={taxonomy?.origin === "webekspres"}
       />
-      <div className={`${PAGE_PAD} pt-24 pb-10`}>
+
+      <div className={`${PAGE_PAD} pt-24 pb-8 md:pb-10`}>
         <div className={PAGE_SHELL}>
           <Link
             href="/projects"
@@ -196,188 +421,111 @@ export default async function ProjectDetailPage({ params }: Props) {
             ← All projects
           </Link>
 
-          <div className="mt-10 flex flex-col gap-6 md:gap-8">
-            <h1 className="max-w-4xl text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-foreground leading-[0.95] text-balance">
+          <div className="mt-8 md:mt-10 flex flex-col gap-5 md:gap-6">
+            <div className="flex flex-wrap items-center gap-2">
+              {originLabel && (
+                <span className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground/80 rounded-full border border-black/8 dark:border-white/10 bg-black/[0.03] dark:bg-white/[0.04] px-2.5 py-1">
+                  {originLabel}
+                </span>
+              )}
+              {catalog.year != null && (
+                <span className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground/70">
+                  {catalog.year}
+                </span>
+              )}
+            </div>
+
+            <h1 className="max-w-4xl text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-foreground leading-[0.95] text-balance">
               {catalog.title}
             </h1>
 
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
-              <StackIcons stack={catalog.tags} />
-              <div className="flex flex-wrap gap-4">
-                {catalog.liveUrl && (
-                  <a
-                    href={catalog.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-[0.16em] text-foreground hover:text-brand transition-colors"
-                  >
-                    Live site
-                    <ArrowUpRight size={13} strokeWidth={1.6} />
-                  </a>
-                )}
-                {catalog.githubUrl && (
-                  <a
-                    href={catalog.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-[0.16em] text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    Source
-                    <ArrowUpRight size={13} strokeWidth={1.6} />
-                  </a>
-                )}
+            {catalog.liveUrl ? (
+              <div className="flex flex-wrap items-center gap-4">
+                <a
+                  href={catalog.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-black/10 dark:border-white/10 px-3 py-1.5 text-[11px] font-mono uppercase tracking-[0.14em] text-foreground hover:border-brand/30 hover:text-brand transition-colors"
+                >
+                  Live site
+                  <ArrowUpRight size={12} strokeWidth={1.6} />
+                </a>
               </div>
-            </div>
+            ) : null}
           </div>
         </div>
       </div>
 
       {catalog.image && (
-        <div className="relative w-full bg-zinc-950 dark:bg-black border-y border-white/5">
-          <div
-            className="pointer-events-none absolute inset-0 opacity-50"
-            aria-hidden
-          >
-            <div className="absolute -top-24 left-1/4 h-64 w-64 rounded-full bg-brand/25 blur-3xl" />
-            <div className="absolute bottom-0 right-1/5 h-72 w-72 rounded-full bg-blue-500/15 blur-3xl" />
-          </div>
-          <div className={`${PAGE_PAD} relative py-10 md:py-14`}>
-            <div className={PAGE_SHELL}>
-              <div className="relative mx-auto w-full max-w-5xl aspect-16/10 md:aspect-2/1">
-                <Image
-                  src={catalog.image}
-                  alt={`${catalog.title} product view`}
-                  fill
-                  priority
-                  className="object-contain object-center drop-shadow-[0_24px_60px_rgba(0,0,0,0.55)]"
-                  sizes="(max-width: 1280px) 100vw, 1100px"
-                />
-              </div>
+        <div className={`${PAGE_PAD} pb-10 md:pb-12`}>
+          <div className={PAGE_SHELL}>
+            <div className="relative mx-auto w-full max-w-5xl aspect-16/10 md:aspect-[2/1] rounded-2xl overflow-hidden border border-black/5 dark:border-white/8 bg-zinc-100/80 dark:bg-zinc-950">
+              <Image
+                src={catalog.image}
+                alt={`${catalog.title} product view`}
+                fill
+                priority
+                className="object-contain object-center p-4 sm:p-6 md:p-8"
+                sizes="(max-width: 1280px) 100vw, 1100px"
+              />
             </div>
           </div>
         </div>
       )}
 
-      <article className={`${PAGE_PAD} py-14 md:py-20`}>
+      <article className={`${PAGE_PAD} pb-14 md:pb-20`}>
         <div
-          className={`${PAGE_SHELL} grid grid-cols-1 ${
-            aside || stackIcons.length > 0 ? "lg:grid-cols-12" : ""
-          } gap-10 lg:gap-14 items-start`}
+          className={cn(
+            PAGE_SHELL,
+            "grid grid-cols-1 gap-10 lg:gap-12 items-start",
+            showAside && "lg:grid-cols-12",
+          )}
         >
           <div
-            className={`space-y-14 md:space-y-16 min-w-0 ${
-              aside || stackIcons.length > 0 ? "lg:col-span-7" : "max-w-3xl"
-            }`}
+            className={cn(
+              "space-y-10 md:space-y-12 min-w-0",
+              showAside ? "lg:col-span-8" : "max-w-3xl",
+            )}
           >
-            <section id="opening" className="space-y-4">
-              <h2 className="text-sm sm:text-base font-semibold tracking-tight text-brand">
-                {hooks.opening}
-              </h2>
-              <p className="text-xl sm:text-2xl font-medium tracking-tight text-foreground leading-snug text-balance">
+            <CaseSection label="01 · Opening" title={hooks.opening}>
+              <p className="text-base sm:text-lg text-foreground/90 leading-relaxed max-w-2xl">
                 {study.problem}
               </p>
-            </section>
+            </CaseSection>
 
-            <section id="reality" className="space-y-5">
-              <h2 className="text-sm sm:text-base font-semibold tracking-tight text-brand">
-                {hooks.reality}
-              </h2>
-              <ul className="space-y-3">
-                {study.constraints.map((item) => (
-                  <li
-                    key={item}
-                    className="rounded-2xl border border-black/5 dark:border-white/10 bg-white/70 dark:bg-zinc-950/70 px-4 py-4 text-sm md:text-[15px] leading-relaxed text-muted-foreground"
-                  >
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </section>
+            <CaseSection
+              label="02 · Reality"
+              title={hooks.reality}
+              lead={hooks.realityLead}
+            >
+              <PanelList items={study.constraints} />
+            </CaseSection>
 
-            <section id="build" className="space-y-5">
-              <h2 className="text-sm sm:text-base font-semibold tracking-tight text-brand">
-                {hooks.build}
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                {study.architecture.map((block) => (
-                  <div
-                    key={block.title}
-                    className="rounded-2xl border border-black/5 dark:border-white/10 bg-white dark:bg-zinc-950 p-4 md:p-5 space-y-2"
-                  >
-                    <h3 className="text-sm font-bold tracking-tight text-foreground">
-                      {block.title}
-                    </h3>
-                    <p className="text-sm leading-relaxed text-muted-foreground">
-                      {block.body}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </section>
+            <CaseSection
+              label="03 · Build"
+              title={hooks.build}
+              lead={hooks.buildLead}
+            >
+              <PanelBlocks blocks={study.architecture} />
+            </CaseSection>
 
-            <section id="close" className="space-y-5">
-              <h2 className="text-sm sm:text-base font-semibold tracking-tight text-brand">
-                {hooks.close}
-              </h2>
-              <ul className="space-y-3">
-                {study.outcomes.map((item) => (
-                  <li
-                    key={item}
-                    className="flex gap-3 text-sm md:text-[15px] leading-relaxed text-muted-foreground"
-                  >
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </section>
+            <CaseSection
+              label="04 · Close"
+              title={hooks.close}
+              lead={hooks.closeLead}
+            >
+              <PanelList items={study.outcomes} />
+            </CaseSection>
           </div>
 
-          {(aside || stackIcons.length > 0) && (
-            <aside className="lg:col-span-5 lg:sticky lg:top-28 space-y-4">
-              {aside && (
-                <figure className="rounded-2xl border border-black/5 dark:border-white/10 bg-zinc-100 dark:bg-zinc-950 overflow-hidden">
-                  {aside.kind === "document" ? (
-                    <div className="relative w-full aspect-[4/3] bg-zinc-200/50 dark:bg-black/40">
-                      <Image
-                        src={aside.src}
-                        alt={aside.alt}
-                        fill
-                        className="object-contain object-center p-3 sm:p-4"
-                        sizes="(max-width: 1024px) 100vw, 40vw"
-                      />
-                    </div>
-                  ) : (
-                    <div className="relative w-full aspect-square">
-                      <Image
-                        src={aside.src}
-                        alt={aside.alt}
-                        fill
-                        className="object-contain object-center p-10 sm:p-12"
-                        sizes="(max-width: 1024px) 100vw, 40vw"
-                      />
-                    </div>
-                  )}
-                  <figcaption className="border-t border-black/5 dark:border-white/10 px-4 py-3 text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground">
-                    {aside.caption}
-                  </figcaption>
-                </figure>
-              )}
-
-              {stackIcons.length > 0 && (
-                <div className="rounded-2xl border border-black/5 dark:border-white/10 bg-white/60 dark:bg-zinc-950/60 p-4 space-y-3">
-                  <p className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground/70">
-                    Stack
-                  </p>
-                  <StackIcons stack={catalog.tags} />
-                  {study.role && (
-                    <p className="text-xs text-muted-foreground leading-relaxed pt-1">
-                      My role: {study.role}
-                    </p>
-                  )}
-                </div>
-              )}
-            </aside>
+          {showAside && (
+            <ProjectMetaAside
+              aside={aside}
+              role={study.role}
+              stack={catalog.tags}
+              year={catalog.year}
+              originLabel={originLabel}
+            />
           )}
         </div>
       </article>
@@ -387,12 +535,12 @@ export default async function ProjectDetailPage({ params }: Props) {
           {(prev || next) && (
             <nav
               aria-label="Adjacent projects"
-              className="pt-2 border-t border-black/5 dark:border-white/10 grid grid-cols-1 sm:grid-cols-2 gap-8"
+              className={cn(PANEL, "grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-black/5 dark:divide-white/8")}
             >
               {prev && prevTitle ? (
                 <Link
                   href={`/projects/${prev.slug}`}
-                  className="group space-y-1"
+                  className="group px-5 py-4 md:px-6 md:py-5 space-y-1 hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors"
                 >
                   <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
                     Previous
@@ -402,12 +550,12 @@ export default async function ProjectDetailPage({ params }: Props) {
                   </p>
                 </Link>
               ) : (
-                <span />
+                <span className="hidden sm:block" />
               )}
               {next && nextTitle ? (
                 <Link
                   href={`/projects/${next.slug}`}
-                  className="group space-y-1 sm:text-right"
+                  className="group px-5 py-4 md:px-6 md:py-5 space-y-1 sm:text-right hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors"
                 >
                   <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
                     Next

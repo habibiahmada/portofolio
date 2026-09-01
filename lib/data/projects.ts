@@ -11,15 +11,23 @@ export type PaginatedProjects = {
   pageSize: number;
 };
 
+function sortProjects(rows: ProjectRow[]): ProjectRow[] {
+  return [...rows].sort((a, b) => {
+    if (b.year !== a.year) return b.year - a.year;
+    return a.title_en.localeCompare(b.title_en);
+  });
+}
+
 async function queryAllProjects(): Promise<ProjectRow[]> {
   const supabase = getSupabaseAnonClient();
   const { data, error } = await supabase
     .from("projects")
     .select("*")
-    .order("year", { ascending: false });
+    .order("year", { ascending: false })
+    .order("title_en", { ascending: true });
 
   if (error) throw new Error(error.message);
-  return data ?? [];
+  return sortProjects(data ?? []);
 }
 
 /** Cached public projects list (anon client — safe for unstable_cache). */

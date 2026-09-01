@@ -1,11 +1,347 @@
 [
   {
+    "id": "36b5bfa0-db1f-51cd-8861-8eac729f2afb",
+    "title_en": "JepangKu: Japan community news portal with quizzes and gamification",
+    "title_id": "JepangKu: Portal berita komunitas Jepang dengan kuis dan gamifikasi",
+    "description_en": "On the Webekspres team I worked on the JepangKu news portal: articles, quizzes, polls, XP gamification, and shared Clerk/Elysia auth with Core.",
+    "description_id": "Bersama tim Webekspres saya mengerjakan portal berita JepangKu: artikel, kuis, polling, gamifikasi XP, dan auth bersama Clerk & Elysia lewat Core.",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/jepangku.webp",
+    "tags": [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Clerk",
+      "Elysia",
+      "PostgreSQL"
+    ],
+    "live_url": "https://jepangku.com",
+    "github_url": "",
+    "year": 2026
+  },
+  {
+    "id": "2ca2341f-449d-5b44-a919-f628586fed79",
+    "title_en": "Sumbawa TourismLand: West Sumbawa land-investment website",
+    "title_id": "Sumbawa TourismLand: Website investasi lahan Sumbawa Barat",
+    "description_en": "I worked on a West Sumbawa land-investment site: plot catalog, detail pages, TranslatePress multilingual UI, plus client-facing guides.",
+    "description_id": "Saya mengerjakan website investasi lahan Sumbawa Barat: katalog plot, halaman detail, multi-bahasa TranslatePress, plus materi panduan untuk klien.",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/sumbawa-tourism-land.webp",
+    "tags": [
+      "WordPress",
+      "Elementor",
+      "TranslatePress",
+      "PHP",
+      "Landing Page"
+    ],
+    "live_url": "https://sumbawatourismland.com",
+    "github_url": "",
+    "year": 2026
+  },
+  {
+    "id": "ecbcd798-00c0-5c63-8b51-4a3ad1708fff",
+    "title_en": "Luzins Academy: public-speaking training landing page",
+    "title_id": "Luzins Academy: Landing page pelatihan public speaking",
+    "description_en": "On the Webekspres team I developed the Luzins Academy landing page: public-speaking training, dynamic packages, galleries, video, testimonials, and WhatsApp CTA.",
+    "description_id": "Sebagai Web Developer di Webekspres, saya mengerjakan landing page Luzins Academy: pelatihan public speaking, paket dinamis, galeri, video, testimoni, dan CTA WhatsApp.",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/luzins-academy.webp",
+    "tags": [
+      "React",
+      "TypeScript",
+      "Vite",
+      "TanStack",
+      "Tailwind CSS",
+      "Landing Page"
+    ],
+    "live_url": "https://www.luzinsworkshop.web.id/",
+    "github_url": "https://github.com/Webekspres/luzins-academy",
+    "year": 2026
+  },
+  {
+    "id": "ebd04466-7e2e-55a3-9705-e41d013a359f",
+    "title_en": "Forklift Listrik: electric forklift catalog and consultation site",
+    "title_id": "Forklift Listrik: Katalog dan konsultasi forklift listrik",
+    "description_en": "I worked on an electric-forklift catalog site: company profile, unit listings (new/used, battery and charger), and WhatsApp consultation.",
+    "description_id": "Saya mengerjakan website katalog forklift listrik: profil usaha, daftar unit (baru/bekas, baterai & charger), dan jalur konsultasi WhatsApp.",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/forklift-listrik.webp",
+    "tags": [
+      "WordPress",
+      "Elementor",
+      "WooCommerce",
+      "PHP",
+      "Catalog"
+    ],
+    "live_url": "https://forkliftlistrik.com",
+    "github_url": "",
+    "year": 2026
+  },
+  {
+    "id": "d62e4264-031d-5926-8b5f-a8c67bb2daac",
+    "title_en": "Terraju: local tourism, UMKM, and destination portal",
+    "title_id": "Terraju: Portal wisata daerah, UMKM, dan destinasi",
+    "description_en": "I worked on Terraju, a regional directory for destinations, coffee shops, local UMKM, and souvenir centers.",
+    "description_id": "Saya mengerjakan Terraju, portal informasi destinasi wisata, coffeeshop, UMKM daerah, dan pusat oleh-oleh dalam satu direktori.",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/terraju.webp",
+    "tags": [
+      "WordPress",
+      "Elementor",
+      "PHP",
+      "Directory",
+      "Portal"
+    ],
+    "live_url": "https://terraju.id",
+    "github_url": "",
+    "year": 2026
+  },
+  {
+    "id": "4c336b3b-5898-5ad5-bed3-239f972f5814",
+    "title_en": "Razka: multi-service corporate website",
+    "title_id": "Razka: Website korporat multi-layanan",
+    "description_en": "I worked on PT Razka Karya Nusantara's corporate site: entertainment, travel, staffing, management consulting, auto parts, plus an activity documentation module.",
+    "description_id": "Saya mengerjakan company profile PT Razka Karya Nusantara: hiburan, wisata, SDM, konsultasi manajemen, suku cadang otomotif, plus modul dokumentasi aktivitas.",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/razka.webp",
+    "tags": [
+      "WordPress",
+      "Elementor",
+      "PHP",
+      "Company Profile"
+    ],
+    "live_url": "https://razka.id",
+    "github_url": "",
+    "year": 2026
+  },
+  {
+    "id": "e2c181c4-e4c2-5546-8303-a14f27aaa90a",
+    "title_en": "Giftara: corporate souvenir and merchandise catalog",
+    "title_id": "Giftara: Katalog souvenir dan merchandise korporat",
+    "description_en": "I worked on Giftara's site: corporate souvenir catalog, product categories, order flow, and portfolio gallery.",
+    "description_id": "Saya mengerjakan website Giftara: katalog souvenir/merchandise korporat, kategori produk, alur pemesanan, dan galeri portofolio.",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/giftara-souvenir.webp",
+    "tags": [
+      "WordPress",
+      "Elementor",
+      "WooCommerce",
+      "PHP",
+      "Catalog"
+    ],
+    "live_url": "https://giftarasouvenir.com",
+    "github_url": "",
+    "year": 2026
+  },
+  {
+    "id": "ea4a35c1-5f60-5c8d-94d7-f0877fb2bfd1",
+    "title_en": "Indatu: bilingual trading and shipping company website",
+    "title_id": "Indatu: Website bilingual trading dan shipping",
+    "description_en": "I worked on Indatu's bilingual (ID & EN) trading/shipping site, including Google Analytics and a product catalog.",
+    "description_id": "Saya mengerjakan website bilingual Indatu (ID & EN) untuk trading/shipping, plus Google Analytics dan katalog produk.",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/indatu.webp",
+    "tags": [
+      "WordPress",
+      "Elementor",
+      "PHP",
+      "Bilingual",
+      "Google Analytics"
+    ],
+    "live_url": "https://www.indatu.co.id/",
+    "github_url": "",
+    "year": 2026
+  },
+  {
+    "id": "dfd144d5-84d7-5f1f-be03-1554dee928b1",
+    "title_en": "MIRU: waste-bank operations platform (admin + API)",
+    "title_id": "MIRU: Platform operasional bank sampah (admin + API)",
+    "description_en": "I contributed to MIRU, a digital waste-bank system: Next.js admin, Django API, deposit/pickup workflows, and reward redemption.",
+    "description_id": "Saya berkontribusi pada MIRU, sistem bank sampah digital: admin web Next.js, API Django, workflow setoran/penjemputan, dan penukaran reward.",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/miru-bank-sampah.webp",
+    "tags": [
+      "Next.js",
+      "TypeScript",
+      "Django",
+      "PostgreSQL",
+      "Docker",
+      "Tailwind CSS"
+    ],
+    "live_url": "",
+    "github_url": "https://github.com/Webekspres/miru-web-admin",
+    "year": 2026
+  },
+  {
+    "id": "69aeb916-9cfc-56b0-976b-88ee634f93b6",
+    "title_en": "Karya Yudita Baroqah: metal-casting and marine spare-part company site",
+    "title_id": "Karya Yudita Baroqah: Website pengecoran logam dan sparepart kapal",
+    "description_en": "I worked on CV Karya Yudita Baroqah's company site: metal casting, marine/industrial spare parts, branding, and logo assets.",
+    "description_id": "Saya mengerjakan company profile CV Karya Yudita Baroqah: pengecoran logam, fabrikasi sparepart kapal/PKS, branding, dan aset logo.",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/karya-yudita-barokah.webp",
+    "tags": [
+      "WordPress",
+      "Elementor",
+      "PHP",
+      "Company Profile"
+    ],
+    "live_url": "https://karyayuditabarokah.web.id",
+    "github_url": "",
+    "year": 2026
+  },
+  {
+    "id": "73038783-8389-5626-8ab0-473f0b5284ae",
+    "title_en": "Hatta Global Partner: training and consulting company website",
+    "title_id": "Hatta Global Partner: Website training dan consulting",
+    "description_en": "I worked on PT Hatta Global Partner's site: a training-and-consulting landing page (ISO, SOP, leadership), plus hosting firewall setup.",
+    "description_id": "Saya mengerjakan website PT Hatta Global Partner: landing training & consulting (ISO, SOP, leadership), plus konfigurasi firewall di sisi hosting.",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/hatta.webp",
+    "tags": [
+      "Vite",
+      "JavaScript",
+      "Landing Page",
+      "SPA"
+    ],
+    "live_url": "https://hatta.web.id",
+    "github_url": "",
+    "year": 2026
+  },
+  {
+    "id": "243b5551-81aa-598a-991d-4b55dbbfc259",
+    "title_en": "Jatim Utama: scrap-metal and demolition services website",
+    "title_id": "Jatim Utama: Website jual beli besi tua dan bongkaran",
+    "description_en": "I worked on Jatim Utama's scrap-metal and demolition site, including SMTP contact forms and Open Graph assets.",
+    "description_id": "Saya mengerjakan website Jatim Utama untuk jual beli besi tua dan bongkaran, termasuk form kontak SMTP dan aset Open Graph.",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/jual-beli-besi-tua.webp",
+    "tags": [
+      "WordPress",
+      "Elementor",
+      "PHP",
+      "SMTP",
+      "Company Profile"
+    ],
+    "live_url": "https://jualbelibesitua.id",
+    "github_url": "",
+    "year": 2026
+  },
+  {
+    "id": "9e5f8eb2-4964-5c5f-84d2-93c3b0a9bc1d",
+    "title_en": "Aisyn Craft: upcycled floral and artisanal home-decor catalog",
+    "title_id": "Aisyn Craft: Katalog floral upcycle dan dekorasi rumahan",
+    "description_en": "I worked on Aisyn Craft's catalog site: upcycled floral arrangements, home decor, and artisanal merch, plus the UI design system.",
+    "description_id": "Saya mengerjakan website katalog Aisyn Craft: floral arrangement upcycle, dekorasi rumahan, dan merch artisanal, plus sistem desain antarmuka.",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/aisyncraft.webp",
+    "tags": [
+      "WordPress",
+      "Catalog",
+      "UI"
+    ],
+    "live_url": "",
+    "github_url": "",
+    "year": 2026
+  },
+  {
+    "id": "20479cf8-542e-5223-8ff5-350d001e19a7",
+    "title_en": "Soraya Spa: in-home massage service website for Batam",
+    "title_id": "Soraya Spa: Website layanan pijat ke lokasi di Batam",
+    "description_en": "I worked on Soraya Spa Massage Batam's site: treatment menu (Balinese, aromatherapy, reflexology), coverage area, and WhatsApp booking flow.",
+    "description_id": "Saya mengerjakan website Soraya Spa Massage Batam: menu treatment (Balinese, aromatherapy, reflexology), area jangkauan, dan alur booking via WhatsApp.",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/soraya-spa.webp",
+    "tags": [
+      "WordPress",
+      "Elementor",
+      "PHP",
+      "Company Profile"
+    ],
+    "live_url": "https://sorayaspamassag.com",
+    "github_url": "",
+    "year": 2026
+  },
+  {
+    "id": "c21994a4-0ab1-55e0-bab9-1d1d200f0a6f",
+    "title_en": "Ittihadiyah Tanreassona: Islamic boarding school profile and news",
+    "title_id": "Ittihadiyah Tanreassona: Profil ponpes, berita, dan prestasi santri",
+    "description_en": "I worked on Pondok Pesantren Ittihadiyah Tanreassona Pinrang's site: institution profile, news/activities, student achievements, and admissions (PPDB).",
+    "description_id": "Saya mengerjakan website Pondok Pesantren Ittihadiyah Tanreassona Pinrang: profil lembaga, berita/kegiatan, prestasi santri, dan informasi PPDB.",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/ittihadiyah-tanreassona.webp",
+    "tags": [
+      "WordPress",
+      "Elementor",
+      "PHP",
+      "Education"
+    ],
+    "live_url": "https://ittihadiyahtanreassona.ponpes.id",
+    "github_url": "",
+    "year": 2026
+  },
+  {
+    "id": "00f837eb-3fa1-5848-bce3-b2d35d4dc9f2",
+    "title_en": "Edu Global: international-education consultancy website",
+    "title_id": "Edu Global: Website konsultan pendidikan luar negeri",
+    "description_en": "I worked on Edu Global Academy's site: overseas-study consultancy (UKM Malaysia partner), program pages, articles, FAQ, and partner logos.",
+    "description_id": "Saya mengerjakan website Edu Global Academy: konsultan studi luar negeri (mitra UKM Malaysia), halaman sub-program, artikel, FAQ, dan kurasi logo partner.",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/eduglobal.webp",
+    "tags": [
+      "WordPress",
+      "Elementor",
+      "PHP",
+      "Education"
+    ],
+    "live_url": "https://eduglobal.co.id/",
+    "github_url": "",
+    "year": 2026
+  },
+  {
+    "id": "25d41ace-dab0-5ddf-8e3b-3b8024ee4e27",
+    "title_en": "Anugrah Tour: Sampit travel-agency website",
+    "title_id": "Anugrah Tour: Website biro perjalanan Sampit",
+    "description_en": "I worked on PT Anugrah Tour and Travel's Sampit site: tours, Umrah, tickets, hotels, car hire, with a responsive UI and navigation.",
+    "description_id": "Saya mengerjakan website PT Anugrah Tour and Travel (Sampit): wisata, umroh, tiket, hotel, carter, dengan UI dan navigasi responsif.",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/anugrah-tour.webp",
+    "tags": [
+      "WordPress",
+      "Elementor",
+      "PHP",
+      "Company Profile"
+    ],
+    "live_url": "https://www.ptanugrahtourandtravel.com/",
+    "github_url": "",
+    "year": 2026
+  },
+  {
+    "id": "d7401d61-cd67-5430-a574-122d35e61cc4",
+    "title_en": "MGC: construction and trading company website",
+    "title_id": "MGC: Website konstruksi dan trading",
+    "description_en": "On the Webekspres team I built PT Mustika Galuh Cakrawala's construction-and-trading site with TanStack Start. The build is finished; ptmgc.co.id still shows the registrar default page while DNS handover is pending.",
+    "description_id": "Bersama tim Webekspres saya mengerjakan website korporat PT Mustika Galuh Cakrawala (konstruksi & trading, Karawang) dengan TanStack Start. Build sudah selesai; ptmgc.co.id masih halaman default registrar sambil menunggu handover DNS.",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/ptmgc.webp",
+    "tags": [
+      "React",
+      "TypeScript",
+      "TanStack Start",
+      "Vite",
+      "Tailwind CSS",
+      "shadcn/ui"
+    ],
+    "live_url": "",
+    "github_url": "https://github.com/Webekspres/ptmgc",
+    "year": 2026
+  },
+  {
+    "id": "0178ba6c-a506-5401-819e-1bb3d2a1c397",
+    "title_en": "Aspalindo Hotmix: road-paving contractor website",
+    "title_id": "Aspalindo Hotmix: Website kontraktor pengaspalan hotmix",
+    "description_en": "I worked on a Ciawi-Bogor hotmix contractor site: new paving, overlay, patching, project portfolio, and a free-survey CTA.",
+    "description_id": "Saya mengerjakan company profile kontraktor aspal hotmix Ciawi-Bogor: layanan pengaspalan, overlay, patching, portofolio proyek, dan CTA survei gratis.",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/aspalindo-hotmix.webp",
+    "tags": [
+      "WordPress",
+      "Elementor",
+      "PHP",
+      "Company Profile"
+    ],
+    "live_url": "https://aspalidohotmix.com",
+    "github_url": "",
+    "year": 2026
+  },
+  {
     "id": "1408a39d-9eee-47a3-b939-27f48e868030",
     "title_en": "Aksara Pustaka: Manage Libraries more transparently",
     "title_id": "Aksara Pustaka: Kelola Perpustakaan dengan Lebih Transparan",
     "description_en": "I built a web library system to manage books, members, loans, returns, stock, and history in one place.",
     "description_id": "Saya membangun sistem perpustakaan web untuk mengelola buku, anggota, peminjaman, pengembalian, stok, dan riwayat dalam satu tempat.",
-    "image": "/data/projects/images/project-1.webp",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/images/project-1.webp",
     "tags": [
       "Laravel",
       "MySQL",
@@ -22,7 +358,7 @@
     "title_id": "SiPadu: Sistem Pengaduan Fasilitas Sekolah",
     "description_en": "I built SiPadu so school facility reports can be filed and tracked in real time instead of disappearing into paper trails.",
     "description_id": "Saya membangun SiPadu agar laporan fasilitas sekolah bisa diajukan dan dilacak real-time, bukan hilang di jejak kertas.",
-    "image": "/data/projects/images/project-2.webp",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/images/project-2.webp",
     "tags": [
       "Laravel",
       "Tailwind CSS",
@@ -39,7 +375,7 @@
     "title_id": "ParkingApp: Aplikasi Manajemen Parkir",
     "description_en": "I built a parking web app for check-in, check-out, reporting, and audit in one flow.",
     "description_id": "Saya membangun aplikasi parkir web untuk check-in, check-out, pelaporan, dan audit dalam satu alur.",
-    "image": "/data/projects/images/project-3.webp",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/images/project-3.webp",
     "tags": [
       "PHP"
     ],
@@ -53,7 +389,7 @@
     "title_id": "Inventoryflow: Sistem manajemen pinjaman peralatan",
     "description_en": "I built Inventoryflow to handle school/lab equipment loans, inventory, approvals, and returns, without spreadsheet chaos.",
     "description_id": "Saya membangun Inventoryflow untuk peminjaman alat sekolah/lab, inventaris, persetujuan, dan pengembalian, tanpa kekacauan spreadsheet.",
-    "image": "/data/projects/images/project-4.webp",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/images/project-4.webp",
     "tags": [
       "Laravel",
       "Tailwind CSS",
@@ -66,11 +402,11 @@
   },
   {
     "id": "169275ea-ca4a-4701-857f-1417fc4fec23",
-    "title_en": "BagiBerkah | Interactive Digital THR Platform with Gamification and AI",
-    "title_id": "BagiBerkah | Platform THR Digital Interaktif dengan Gamifikasi dan AI",
+    "title_en": "BagiBerkah: interactive digital THR with gamification and AI",
+    "title_id": "BagiBerkah: THR digital interaktif dengan gamifikasi dan AI",
     "description_en": "I built BagiBerkah, a digital THR experience with mini-games and smarter allocation recommendations.",
     "description_id": "Saya membangun BagiBerkah, pengalaman THR digital dengan mini-game dan rekomendasi alokasi yang lebih cerdas.",
-    "image": "/data/projects/images/project-5.webp",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/images/project-5.webp",
     "tags": [
       "Next.js",
       "Express",
@@ -84,11 +420,11 @@
   },
   {
     "id": "1dd8ca69-4921-4ca7-80e3-56177efaf499",
-    "title_en": "E-Democracy: From Voice to Action",
-    "title_id": "E-Demokrasi: Dari Suara ke Tindakan",
+    "title_en": "E-Vote: from voice to action",
+    "title_id": "E-Vote: dari suara ke tindakan",
     "description_en": "I built E-Vote so students can run digital OSIS elections with confidence, from ballots to real-time results.",
     "description_id": "Saya membangun E-Vote agar siswa bisa menjalankan pemilihan OSIS digital dengan percaya diri, dari surat suara hingga hasil real-time.",
-    "image": "/data/projects/images/project-6.webp",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/images/project-6.webp",
     "tags": [
       "PHP",
       "Laravel",
@@ -96,7 +432,7 @@
       "MySQL"
     ],
     "live_url": "https://vote.smkn1karawang.sch.id/",
-    "github_url": "#",
+    "github_url": "",
     "year": 2025
   },
   {
@@ -105,24 +441,24 @@
     "title_id": "Smartfarm AI: Solusi Cerdas untuk Pertanian Modern",
     "description_en": "On a team project, I helped ship Smartfarm AI, combining modern web UI with ML-assisted insights for Indonesian farmers.",
     "description_id": "Dalam proyek tim, saya membantu menghadirkan Smartfarm AI, menggabungkan UI web modern dengan insight berbantuan ML untuk petani Indonesia.",
-    "image": "/data/projects/images/project-7.webp",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/images/project-7.webp",
     "tags": [
       "React",
       "Python",
       "Machine Learning",
       "JavaScript"
     ],
-    "live_url": "#",
+    "live_url": "",
     "github_url": "https://github.com/intel-farm-AI/smart-farmer-client",
     "year": 2025
   },
   {
     "id": "ff98b3c6-e267-4ee0-9059-9444858eacf4",
-    "title_en": "CultureConnect.: Come explore with us.",
-    "title_id": "CultureConnect.: Ayo jelajahi bersama kami.",
+    "title_en": "CultureConnect: Come explore with us",
+    "title_id": "CultureConnect: Ayo jelajahi bersama kami",
     "description_en": "With a distributed team, I helped build CultureConnect, an AI platform for more personal, community-aware cultural travel.",
     "description_id": "Bersama tim terdistribusi, saya membantu membangun CultureConnect, platform AI untuk wisata budaya yang lebih personal dan berdampak bagi komunitas.",
-    "image": "/data/projects/images/project-8.webp",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/images/project-8.webp",
     "tags": [
       "Python",
       "React",
@@ -140,13 +476,13 @@
     "title_id": "Spacelab: Manajemen Sekolah Terpadu",
     "description_en": "I built Spacelab to keep school schedules, rooms, and teachers conflict-free without spreadsheet chaos.",
     "description_id": "Saya membangun Spacelab agar jadwal, ruangan, dan guru sekolah bebas konflik tanpa kekacauan spreadsheet.",
-    "image": "/data/projects/images/project-9.webp",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/images/project-9.webp",
     "tags": [
       "Laravel",
       "PHP",
       "JavaScript"
     ],
-    "live_url": "#",
+    "live_url": "",
     "github_url": "https://github.com/habibiahmada/spacelab",
     "year": 2025
   },
@@ -156,12 +492,12 @@
     "title_id": "Renshuu web",
     "description_en": "During PKL at CV Smartplus, my team and I built Renshuu, a job-search web app assigned for SMKN 1 Karawang students.",
     "description_id": "Saat PKL di CV Smartplus, saya dan tim mengerjakan Renshuu, aplikasi pencarian kerja yang ditugaskan untuk siswa SMKN 1 Karawang.",
-    "image": "/data/projects/images/project-10.webp",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/images/project-10.webp",
     "tags": [
       "React",
       "Laravel"
     ],
-    "live_url": "#",
+    "live_url": "",
     "github_url": "https://github.com/cvsmartplus/Renshuu-app",
     "year": 2025
   }

@@ -73,7 +73,7 @@ function useApi<T>(url: string | null): UseApiResult<T> {
 
 /** All projects with featured pinning */
 export function useProjects(opts?: { featured?: string[]; enabled?: boolean }) {
-  const params = new URLSearchParams({ page_size: "50" });
+  const params = new URLSearchParams({ page_size: "100" });
   if (opts?.featured?.length) {
     params.set("featured", opts.featured.join(","));
   }

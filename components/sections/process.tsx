@@ -37,8 +37,8 @@ export function Process() {
             <span className="text-brand">performance theater</span>
           </h2>
           <p className="text-sm md:text-base text-muted-foreground leading-relaxed font-medium max-w-lg">
-            A short operating manual, the same sequence I use on school systems,
-            internships, and competition deadlines.
+            A short operating manual, the same sequence I use on client delivery
+            at Webekspres, school systems, internships, and competition deadlines.
           </p>
         </div>
 

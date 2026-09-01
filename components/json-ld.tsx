@@ -283,6 +283,7 @@ export function ProjectJsonLd({
   year,
   githubUrl,
   liveUrl,
+  teamCredit = false,
 }: {
   slug: string;
   title: string;
@@ -292,6 +293,7 @@ export function ProjectJsonLd({
   year?: number;
   githubUrl?: string;
   liveUrl?: string;
+  teamCredit?: boolean;
 }) {
   const pageUrl = `${SITE.url}/projects/${slug}`;
   const schemas = [
@@ -324,7 +326,9 @@ export function ProjectJsonLd({
       "@type": ["CreativeWork", "SoftwareSourceCode"],
       "@id": `${pageUrl}#work`,
       name: title,
-      headline: `${title} by ${SITE.name}`,
+      headline: teamCredit
+        ? `${title} · contribution by ${SITE.name}`
+        : `${title} by ${SITE.name}`,
       description,
       url: pageUrl,
       image: image ? absoluteAssetUrl(image) : undefined,
@@ -333,8 +337,14 @@ export function ProjectJsonLd({
       inLanguage: ["en", "id"],
       author: { "@id": PERSON_ID },
       creator: { "@id": PERSON_ID },
-      copyrightHolder: { "@id": PERSON_ID },
-      codeRepository: githubUrl,
+      ...(teamCredit
+        ? {
+            contributor: { "@id": PERSON_ID },
+          }
+        : {
+            copyrightHolder: { "@id": PERSON_ID },
+          }),
+      ...(githubUrl ? { codeRepository: githubUrl } : {}),
       programmingLanguage: tags,
       sameAs: [liveUrl, githubUrl].filter(Boolean),
     },

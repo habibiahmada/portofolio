@@ -6,15 +6,15 @@ const timelineData = [
   {
     id: "a1b2c3d4",
     type: "experience" as const,
-    company: "PT Webekspres Technology Indonesia",
+    company: "PT Webekspres Teknologi Indonesia",
     location: "Karawang · On site",
     start_date: "2026-05-01",
     end_date: "2099-12-31",
     title: "Web Developer",
     highlight: "Current",
     description:
-      "Client and internal web work on WordPress, CMS platforms, and modern stacks. I own features end to end, from brief to deploy.",
-    skills: ["WordPress", "CMS", "Full-stack"],
+      "Delivered 19 client websites in about four months with the Webekspres team: corporate sites, news portals, landing pages, catalogs, and integrated apps.",
+    skills: ["WordPress", "Next.js", "React", "Laravel"],
   },
   {
     id: "9cb78319",
