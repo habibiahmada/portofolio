@@ -9,6 +9,7 @@
     "seed:projects": "bun run scripts/seed-projects.ts",
     "seed:project-images": "bun run scripts/upload-project-images.ts",
     "seed:certificates": "bun run scripts/seed-certificates.ts",
+    "export:linkedin": "bun run scripts/export-linkedin-projects.ts",
     "lint": "eslint ."
   },
   "dependencies": {
