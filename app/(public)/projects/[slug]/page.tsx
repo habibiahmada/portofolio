@@ -6,6 +6,8 @@ import { ArrowUpRight } from "lucide-react";
 import {
   getCaseStudy,
   getCaseStudySlugs,
+  getCaseStudySlugByProjectId,
+  getLiteProjectSlugs,
   getAdjacentCaseStudies,
   type CaseStudy,
 } from "@/lib/data/case-studies";
@@ -14,6 +16,7 @@ import { getProjectById } from "@/lib/data/projects";
 import {
   projects as staticProjects,
   getProjectTitle,
+  getProjectDescription,
   hasPublicProjectUrl,
   type Project,
 } from "@/lib/projects";
@@ -21,8 +24,10 @@ import { ProjectJsonLd } from "@/components/json-ld";
 import { projectPageMetadata } from "@/lib/site-metadata";
 import {
   getProjectTaxonomy,
+  getProjectIdBySlug,
   ORIGIN_LABEL,
 } from "@/lib/data/project-taxonomy";
+import { WEBEKSPRES_ROLE } from "@/lib/data/project-meta-seed";
 import { PAGE_PAD, PAGE_SHELL } from "@/components/ui/page-shell";
 import { cn } from "@/lib/utils";
 import { INTEL_AWARD_CERT_URL } from "@/lib/data/storage-urls";
@@ -99,6 +104,13 @@ const ASIDE_BY_SLUG: Record<
   },
 };
 
+const WEBEKSPRES_ASIDE = {
+  src: "/images/companies/webekspres.webp",
+  alt: "PT Webekspres Teknologi Indonesia",
+  caption: "Client work · Webekspres",
+  kind: "logo" as const,
+};
+
 type CatalogProject = {
   id: string;
   title: string;
@@ -106,6 +118,12 @@ type CatalogProject = {
   tags: string[];
   liveUrl?: string;
   year?: number;
+};
+
+type LiteProject = CatalogProject & {
+  description: string;
+  role?: string;
+  outcome?: string;
 };
 
 function displayTitle(full: string) {
@@ -144,26 +162,75 @@ async function resolveCatalog(projectId: string): Promise<CatalogProject | null>
   return fallback ? catalogFromStatic(fallback) : null;
 }
 
+async function resolveLite(projectId: string): Promise<LiteProject | null> {
+  const row = await getProjectById(projectId);
+  const stat = staticProjects.find((p) => p.id === projectId);
+  if (!row && !stat) return null;
+  const tax = getProjectTaxonomy(projectId);
+  const title = row?.title_en || stat?.title_en || "Project";
+  const liveUrl = row?.live_url ?? stat?.live_url ?? "";
+  const description =
+    row?.description_en ||
+    (stat ? getProjectDescription(stat, "en") : "") ||
+    "";
+  const role =
+    row?.role || (tax?.origin === "webekspres" ? WEBEKSPRES_ROLE : undefined);
+  return {
+    id: projectId,
+    title: displayTitle(title),
+    image: row?.image || stat?.image || "",
+    tags: row?.tags ?? stat?.tags ?? [],
+    liveUrl: hasPublicProjectUrl(liveUrl) ? liveUrl : undefined,
+    year: row?.year ?? stat?.year,
+    description,
+    role,
+    outcome: row?.outcome || undefined,
+  };
+}
+
 export function generateStaticParams() {
-  return getCaseStudySlugs().map((slug) => ({ slug }));
+  const slugs = new Set<string>([
+    ...getCaseStudySlugs(),
+    ...getLiteProjectSlugs(),
+  ]);
+  return [...slugs].map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const study = getCaseStudy(slug);
-  if (!study) return {};
-  const catalog = await resolveCatalog(study.projectId);
+  if (study) {
+    const catalog = await resolveCatalog(study.projectId);
+    const attribution =
+      getProjectTaxonomy(study.projectId)?.origin === "webekspres"
+        ? "webekspres"
+        : "solo";
+    return projectPageMetadata({
+      title: catalog?.title ?? slug,
+      description: study.problem,
+      slug: study.slug,
+      image: catalog?.image,
+      tags: catalog?.tags,
+      year: catalog?.year,
+      attribution,
+    });
+  }
+
+  const projectId = getProjectIdBySlug(slug);
+  if (!projectId) return {};
+  const lite = await resolveLite(projectId);
+  if (!lite) return {};
   const attribution =
-    getProjectTaxonomy(study.projectId)?.origin === "webekspres"
+    getProjectTaxonomy(projectId)?.origin === "webekspres"
       ? "webekspres"
       : "solo";
   return projectPageMetadata({
-    title: catalog?.title ?? slug,
-    description: study.problem,
-    slug: study.slug,
-    image: catalog?.image,
-    tags: catalog?.tags,
-    year: catalog?.year,
+    title: lite.title,
+    description: lite.description,
+    slug,
+    image: lite.image,
+    tags: lite.tags,
+    year: lite.year,
     attribution,
   });
 }
@@ -376,10 +443,168 @@ function neighborTitle(neighbor: CaseStudy | null) {
   return displayTitle(getProjectTitle(p, "en"));
 }
 
+function LiteDetail({
+  slug,
+  lite,
+  originLabel,
+  aside,
+  teamCredit,
+}: {
+  slug: string;
+  lite: LiteProject;
+  originLabel?: string;
+  aside?: (typeof ASIDE_BY_SLUG)[string];
+  teamCredit: boolean;
+}) {
+  const showAside =
+    Boolean(aside) ||
+    Boolean(lite.role) ||
+    resolveStackIcons(lite.tags).length > 0 ||
+    lite.year != null ||
+    Boolean(originLabel);
+
+  return (
+    <main className="w-full overflow-x-hidden">
+      <ProjectJsonLd
+        slug={slug}
+        title={lite.title}
+        description={lite.description}
+        image={lite.image}
+        tags={lite.tags}
+        year={lite.year}
+        githubUrl={undefined}
+        liveUrl={lite.liveUrl}
+        teamCredit={teamCredit}
+      />
+
+      <div className={`${PAGE_PAD} pt-24 pb-8 md:pb-10`}>
+        <div className={PAGE_SHELL}>
+          <Link
+            href="/projects"
+            className="inline-flex text-xs font-mono tracking-widest text-muted-foreground hover:text-foreground transition-colors uppercase"
+          >
+            ← All projects
+          </Link>
+
+          <div className="mt-8 md:mt-10 flex flex-col gap-5 md:gap-6">
+            <div className="flex flex-wrap items-center gap-2">
+              {originLabel && (
+                <span className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground/80 rounded-full border border-black/8 dark:border-white/10 bg-black/[0.03] dark:bg-white/[0.04] px-2.5 py-1">
+                  {originLabel}
+                </span>
+              )}
+              {lite.year != null && (
+                <span className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground/70">
+                  {lite.year}
+                </span>
+              )}
+            </div>
+
+            <h1 className="max-w-4xl text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-foreground leading-[0.95] text-balance">
+              {lite.title}
+            </h1>
+
+            {lite.liveUrl ? (
+              <div className="flex flex-wrap items-center gap-4">
+                <a
+                  href={lite.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-black/10 dark:border-white/10 px-3 py-1.5 text-[11px] font-mono uppercase tracking-[0.14em] text-foreground hover:border-brand/30 hover:text-brand transition-colors"
+                >
+                  Live site
+                  <ArrowUpRight size={12} strokeWidth={1.6} />
+                </a>
+              </div>
+            ) : null}
+          </div>
+        </div>
+      </div>
+
+      {lite.image && (
+        <div className={`${PAGE_PAD} pb-10 md:pb-12`}>
+          <div className={PAGE_SHELL}>
+            <div className="relative mx-auto w-full max-w-5xl aspect-16/10 md:aspect-[2/1] rounded-2xl overflow-hidden border border-black/5 dark:border-white/8 bg-zinc-100/80 dark:bg-zinc-950">
+              <Image
+                src={lite.image}
+                alt={`${lite.title} product view`}
+                fill
+                priority
+                className="object-cover object-center"
+                sizes="(max-width: 1280px) 100vw, 1100px"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      <article className={`${PAGE_PAD} pb-14 md:pb-20`}>
+        <div
+          className={cn(
+            PAGE_SHELL,
+            "grid grid-cols-1 gap-10 lg:gap-12 items-start",
+            showAside && "lg:grid-cols-12",
+          )}
+        >
+          <div
+            className={cn(
+              "space-y-10 md:space-y-12 min-w-0",
+              showAside ? "lg:col-span-8" : "max-w-3xl",
+            )}
+          >
+            <CaseSection label="01 · Overview" title="What this site does">
+              <p className="text-base sm:text-lg text-foreground/90 leading-relaxed max-w-2xl">
+                {lite.description}
+              </p>
+            </CaseSection>
+
+            {lite.outcome && (
+              <CaseSection label="02 · Outcome" title="Where it stands">
+                <PanelList items={[lite.outcome]} />
+              </CaseSection>
+            )}
+          </div>
+
+          {showAside && (
+            <ProjectMetaAside
+              aside={aside}
+              role={lite.role}
+              stack={lite.tags}
+              year={lite.year}
+              originLabel={originLabel}
+            />
+          )}
+        </div>
+      </article>
+    </main>
+  );
+}
+
 export default async function ProjectDetailPage({ params }: Props) {
   const { slug } = await params;
   const study = getCaseStudy(slug);
-  if (!study) notFound();
+  if (!study) {
+    const projectId = getProjectIdBySlug(slug);
+    if (!projectId) notFound();
+    // A project with a case study is served only at its case-study slug.
+    if (getCaseStudySlugByProjectId(projectId)) notFound();
+    const lite = await resolveLite(projectId);
+    if (!lite) notFound();
+    const taxonomy = getProjectTaxonomy(projectId);
+    const originLabel = taxonomy ? ORIGIN_LABEL[taxonomy.origin] : undefined;
+    const aside =
+      ASIDE_BY_SLUG[slug] ??
+      (taxonomy?.origin === "webekspres" ? WEBEKSPRES_ASIDE : undefined);
+    return (
+      <LiteDetail
+        slug={slug}
+        lite={lite}
+        originLabel={originLabel}
+        aside={aside}
+        teamCredit={taxonomy?.origin === "webekspres"}
+      />
+    );
+  }
 
   const catalog = await resolveCatalog(study.projectId);
   if (!catalog) notFound();

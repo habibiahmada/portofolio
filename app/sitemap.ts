@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/site-metadata";
-import { getCaseStudySlugs } from "@/lib/data/case-studies";
+import { getCaseStudySlugs, getLiteProjectSlugs } from "@/lib/data/case-studies";
 import { getPublishedPosts } from "@/lib/data/blog";
 
 /** All public indexable URLs for Google Search Console. */
@@ -40,7 +40,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  const projects: MetadataRoute.Sitemap = getCaseStudySlugs().map((slug) => ({
+  const projectSlugs = [
+    ...new Set([...getCaseStudySlugs(), ...getLiteProjectSlugs()]),
+  ];
+  const projects: MetadataRoute.Sitemap = projectSlugs.map((slug) => ({
     url: `${SITE.url}/projects/${slug}`,
     lastModified: now,
     changeFrequency: "monthly",

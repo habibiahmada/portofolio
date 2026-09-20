@@ -69,7 +69,10 @@ export function ProjectCard({
   const caseStudySlug = getCaseStudySlugByProjectId(project.id)
   const description = getProjectDescription(project, locale)
   const isFeatured = variant === 'featured'
-  const detailHref = caseStudySlug ? `/projects/${caseStudySlug}` : null
+  // Every card links to a detail page: full case study when one exists,
+  // otherwise the lite detail page keyed by the taxonomy slug.
+  const detailSlug = caseStudySlug ?? taxonomy?.slug ?? null
+  const detailHref = detailSlug ? `/projects/${detailSlug}` : null
   const tags = project.tags.slice(0, isFeatured ? 2 : 3)
   const showLiveLink = hasPublicProjectUrl(project.live_url)
   const showFooterLinks = Boolean(detailHref) || showLiveLink

@@ -201,6 +201,19 @@ export function getProjectTaxonomy(id: string): ProjectTaxonomy | undefined {
   return TAXONOMY[id]
 }
 
+/** Reverse lookup: taxonomy slug → project id. */
+export function getProjectIdBySlug(slug: string): string | undefined {
+  const hit = Object.entries(TAXONOMY).find(([, t]) => t.slug === slug)
+  return hit?.[0]
+}
+
+/** Every taxonomy slug (webekspres client sites). Personal ships use case-study slugs. */
+export function getAllTaxonomySlugs(): string[] {
+  return Object.values(TAXONOMY)
+    .map((t) => t.slug)
+    .filter((s): s is string => Boolean(s))
+}
+
 export const PROJECT_STATS = {
   clientSites: Object.keys(WEBEKSPRES_TAXONOMY).length,
   monthsAtWebekspres: 4,

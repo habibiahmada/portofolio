@@ -1,4 +1,8 @@
 import { projects as catalogProjects } from "@/lib/projects"
+import {
+  getAllTaxonomySlugs,
+  getProjectIdBySlug,
+} from "@/lib/data/project-taxonomy"
 
 export type CaseStudy = {
   slug: string
@@ -720,6 +724,18 @@ export function getCaseStudySlugByProjectId(
 
 export function getCaseStudySlugs(): string[] {
   return getLinkedCaseStudies().map((c) => c.slug)
+}
+
+/**
+ * Taxonomy slugs for projects that have NO case study. These render the lite
+ * detail page. Slugs whose project already has a case study are excluded so a
+ * project never has two detail URLs.
+ */
+export function getLiteProjectSlugs(): string[] {
+  return getAllTaxonomySlugs().filter((slug) => {
+    const id = getProjectIdBySlug(slug)
+    return id ? !getCaseStudySlugByProjectId(id) : false
+  })
 }
 
 /** Neighbors follow project list order (same order as Work archive). */
