@@ -116,6 +116,10 @@ export const PROJECT_META_SEED: Record<string, ProjectMetaSeed> = {
     role: WEBEKSPRES_ROLE,
     outcome: "Live at subulussalaminsanglobal.com",
   },
+  "08ad34a3-c3f9-4630-817e-e08140f6b0ad": {
+    role: WEBEKSPRES_ROLE,
+    outcome: "Live at louisepilates.com",
+  },
 };
 
 export { WEBEKSPRES_ROLE };

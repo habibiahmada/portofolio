@@ -697,6 +697,179 @@ export const CASE_STUDIES: CaseStudy[] = [
   },
 ]
 
+/**
+ * Overview line + key-feature list per case study, so detail pages follow the
+ * portfolio structure (Overview -> ... -> Key Features -> Result) without
+ * rewriting the narrative fields above.
+ */
+export const CASE_STUDY_EXTRAS: Record<
+  string,
+  { overview: string; features: string[] }
+> = {
+  "aksara-pustaka": {
+    overview:
+      "Aksara Pustaka is a web library-management system for a school, handling books, members, loans, returns, stock, and history in one place.",
+    features: [
+      "Book catalog with search",
+      "Member management",
+      "Loan and return flow that updates stock in the same transaction",
+      "Borrowing history and audit trail",
+      "Staff-friendly screens usable without training",
+    ],
+  },
+  sipadu: {
+    overview:
+      "SiPadu is a school facility-reporting web app where issues are filed and tracked in real time instead of getting lost in chat or on paper.",
+    features: [
+      "Report lifecycle: submitted, acknowledged, in progress, closed",
+      "Role-based access for reporters and facility admins",
+      "Status chips and filters by status and date",
+      "Timestamped, auditable transitions",
+      "Mobile-friendly reporting from a phone",
+    ],
+  },
+  "parking-app": {
+    overview:
+      "A parking web app for vehicle check-in, check-out, and reporting, built around an auditable session model.",
+    features: [
+      "Session-based check-in / check-out with plate and timestamp",
+      "Fail-closed validation against double check-ins",
+      "Daily and range traffic and exception reports",
+      "High-contrast operator UI tuned for a gate booth",
+    ],
+  },
+  inventoryflow: {
+    overview:
+      "Inventoryflow is a web app for school and lab equipment loans, inventory, approvals, and returns, replacing inconsistent spreadsheets.",
+    features: [
+      "Request, approve, hand out, and return loan pipeline",
+      "Stock availability that adjusts on every loan event",
+      "Queryable history for lost-item disputes and audits",
+      "Separate borrower and approver screens",
+      "Status chips and filters for pending and active loans",
+    ],
+  },
+  bagiberkah: {
+    overview:
+      "BagiBerkah is a playful digital THR (holiday-allowance) experience with mini-games and real payment rails, not a plain transfer form.",
+    features: [
+      "THR flow with mini-games and allocation suggestions",
+      "Real payment rails via Mayar and Xendit",
+      "Provider-confirmed payment status, no fake success screens",
+      "Retryable, plain-language error states",
+      "Public live demo on Vercel",
+    ],
+  },
+  "e-vote": {
+    overview:
+      "E-Vote is a school-run digital election system used for OSIS voting at SMKN 1 Karawang, from ballots to locked, real-time results.",
+    features: [
+      "Role-aware auth: voters cast once, admins configure",
+      "Single transactional cast keyed by voter and election (fail closed)",
+      "Admin controls for candidates, schedule, and monitoring",
+      "Results gated until the election closes",
+      "Deployed on school hosting for a live election",
+    ],
+  },
+  agrify: {
+    overview:
+      "Agrify (Smartfarm AI) turns sensor and ML output into actionable advice for smallholder farmers; built by a team of three for the Intel AI Global Impact Festival.",
+    features: [
+      "React surface translating model output into next actions",
+      "Readable scores with a field-first information hierarchy",
+      "Stable ML-to-UI contract with honest empty and error states",
+      "Demo wired to real model outputs, not hard-coded happy paths",
+    ],
+  },
+  "culture-connect": {
+    overview:
+      "CultureConnect is an AI travel platform that recommends more personal, community-aware cultural experiences; a Coding Camp capstone.",
+    features: [
+      "Discovery and itinerary-style recommendations",
+      "Contract-first Express and Prisma API",
+      "Graceful fallback when the model is slow or wrong",
+      "Public demo judges could open without a guided tour",
+    ],
+  },
+  spacelab: {
+    overview:
+      "SpaceLab is a school scheduling app that catches room and teacher conflicts before a timetable is published.",
+    features: [
+      "Unified model for classes, rooms, teachers, and time slots",
+      "Pre-publish conflict detection that rejects overlaps",
+      "Admin CRUD for all scheduling entities",
+      "Draft versus published timetable boundary",
+    ],
+  },
+  renshuu: {
+    overview:
+      "Renshuu is a job-search web app for SMKN 1 Karawang students, built during a PKL internship at CV Smartplus.",
+    features: [
+      "React screens for browsing and applying to roles",
+      "Work inside an existing team component and state pattern",
+      "Tight API consumption: loading, empty, and error states",
+      "Shipped through company review cycles",
+    ],
+  },
+  jepangku: {
+    overview:
+      "JepangKu is a Japan-focused community news portal with articles, quizzes, polls, and XP gamification, sharing identity with a central Core API.",
+    features: [
+      "Articles, quizzes, and polls for the community",
+      "XP gamification and leaderboards native to reading",
+      "Admin CMS for publishing without touching code",
+      "Clerk SSO into a Core JWT for shared identity and XP",
+      "Comments and reader-engagement modules",
+    ],
+  },
+  terraju: {
+    overview:
+      "Terraju is a regional discovery portal for Sumbawa: a browsable directory of destinations, UMKM, coffee shops, and souvenir centers.",
+    features: [
+      "Category directory: destinations, UMKM, oleh-oleh, coffee shops",
+      "WordPress taxonomies editors can extend without code",
+      "Detail pages that do not dead-end",
+      "Mobile-first browsing for tourists",
+      "News section",
+    ],
+  },
+  miru: {
+    overview:
+      "MIRU is a waste-bank (bank sampah) operations platform; I built the web admin for field staff, admins, and district coordinators on a Django API.",
+    features: [
+      "Role-aware admin for petugas, admin, and coordinator",
+      "Workflows: setoran, jemput, timbang, poin, redeem",
+      "Django REST plus JWT as the single source of truth",
+      "Read-heavy district monitoring views",
+    ],
+  },
+  "luzins-academy": {
+    overview:
+      "Luzins Academy is a conversion landing page for a public-speaking training brand, built as a custom React frontend.",
+    features: [
+      "Conversion section order: proof before adjectives",
+      "Data-driven dynamic package cards",
+      "Photo gallery and YouTube video proof",
+      "Coach profile, modules, testimonials, and FAQ",
+      "WhatsApp CTA as the primary conversion path",
+    ],
+  },
+  ptmgc: {
+    overview:
+      "PT Mustika Galuh Cakrawala (MGC) is a corporate site for a construction and trading company, built with TanStack Start and a deliberate visual system.",
+    features: [
+      "Composed corporate sections: hero, about, industries, process, quality and safety",
+      "Centralized SEO metadata and JSON-LD",
+      "Custom brand visual system with OG and PWA assets",
+      "Built on TanStack Start and React 19",
+    ],
+  },
+};
+
+export function getCaseStudyExtras(slug: string) {
+  return CASE_STUDY_EXTRAS[slug];
+}
+
 const published = CASE_STUDIES.filter((c) => c.published !== false)
 const bySlug = Object.fromEntries(published.map((c) => [c.slug, c]))
 const slugByProjectId = Object.fromEntries(

@@ -536,5 +536,23 @@
     "live_url": "https://subulussalaminsanglobal.com",
     "github_url": "",
     "year": 2026
+  },
+  {
+    "id": "08ad34a3-c3f9-4630-817e-e08140f6b0ad",
+    "title_en": "Louise Pilates: Pilates studio site with account-free booking",
+    "title_id": "Louise Pilates: Website studio Pilates dengan booking tanpa akun",
+    "description_en": "A Bekasi Pilates studio site with an integrated booking system that lets customers book and manage sessions without creating a traditional user account, using email verification.",
+    "description_id": "Website studio Pilates di Bekasi dengan sistem booking terintegrasi yang memungkinkan pelanggan memesan dan mengelola sesi tanpa membuat akun, lewat verifikasi email.",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/louise-pilates.webp",
+    "tags": [
+      "WordPress",
+      "Booking System",
+      "Email Verification",
+      "Transactional Email",
+      "Responsive Design"
+    ],
+    "live_url": "https://louisepilates.com",
+    "github_url": "",
+    "year": 2026
   }
 ]

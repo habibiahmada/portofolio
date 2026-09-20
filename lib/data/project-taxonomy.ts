@@ -173,6 +173,12 @@ const WEBEKSPRES_TAXONOMY: Record<string, ProjectTaxonomy> = {
     origin: "webekspres",
     company: WEBEKSPRES,
   },
+  "08ad34a3-c3f9-4630-817e-e08140f6b0ad": {
+    slug: "louise-pilates",
+    category: "web-app",
+    origin: "webekspres",
+    company: WEBEKSPRES,
+  },
 }
 
 const PERSONAL_TAXONOMY: Record<string, ProjectTaxonomy> = {

@@ -7,10 +7,12 @@ import {
   getCaseStudy,
   getCaseStudySlugs,
   getCaseStudySlugByProjectId,
+  getCaseStudyExtras,
   getLiteProjectSlugs,
   getAdjacentCaseStudies,
   type CaseStudy,
 } from "@/lib/data/case-studies";
+import { getProjectBrief, type ProjectBrief } from "@/lib/data/project-briefs";
 import { resolveStackIcons } from "@/lib/data/stack-icons";
 import { getProjectById } from "@/lib/data/projects";
 import {
@@ -446,12 +448,14 @@ function neighborTitle(neighbor: CaseStudy | null) {
 function LiteDetail({
   slug,
   lite,
+  brief,
   originLabel,
   aside,
   teamCredit,
 }: {
   slug: string;
   lite: LiteProject;
+  brief?: ProjectBrief;
   originLabel?: string;
   aside?: (typeof ASIDE_BY_SLUG)[string];
   teamCredit: boolean;
@@ -462,6 +466,10 @@ function LiteDetail({
     resolveStackIcons(lite.tags).length > 0 ||
     lite.year != null ||
     Boolean(originLabel);
+
+  const resultItems = [brief?.result, lite.outcome].filter(
+    (v, i, arr): v is string => Boolean(v) && arr.indexOf(v) === i,
+  );
 
   return (
     <main className="w-full overflow-x-hidden">
@@ -552,15 +560,48 @@ function LiteDetail({
               showAside ? "lg:col-span-8" : "max-w-3xl",
             )}
           >
-            <CaseSection label="01 · Overview" title="What this site does">
+            <CaseSection label="01 · Overview" title="What this project is">
               <p className="text-base sm:text-lg text-foreground/90 leading-relaxed max-w-2xl">
-                {lite.description}
+                {brief?.overview ?? lite.description}
               </p>
             </CaseSection>
 
-            {lite.outcome && (
-              <CaseSection label="02 · Outcome" title="Where it stands">
-                <PanelList items={[lite.outcome]} />
+            {brief?.context && (
+              <CaseSection label="02 · Problem & context" title="Why it was needed">
+                <p className="text-sm sm:text-[15px] text-muted-foreground leading-relaxed max-w-2xl">
+                  {brief.context}
+                </p>
+              </CaseSection>
+            )}
+
+            {brief?.solution && (
+              <CaseSection label="03 · Solution" title="How it works">
+                <p className="text-sm sm:text-[15px] text-muted-foreground leading-relaxed max-w-2xl">
+                  {brief.solution}
+                </p>
+              </CaseSection>
+            )}
+
+            {brief?.features && brief.features.length > 0 && (
+              <CaseSection label="04 · Key features" title="What it does">
+                <PanelList items={brief.features} />
+              </CaseSection>
+            )}
+
+            {brief?.techNotes && (
+              <CaseSection
+                label="05 · Technical implementation"
+                title="How it was built"
+              >
+                <p className="text-sm sm:text-[15px] text-muted-foreground leading-relaxed max-w-2xl">
+                  {brief.techNotes}
+                </p>
+              </CaseSection>
+            )}
+
+            {resultItems.length > 0 && (
+              <CaseSection label="06 · Result" title="What shipped">
+                <PanelList items={resultItems} />
               </CaseSection>
             )}
           </div>
@@ -590,6 +631,7 @@ export default async function ProjectDetailPage({ params }: Props) {
     if (getCaseStudySlugByProjectId(projectId)) notFound();
     const lite = await resolveLite(projectId);
     if (!lite) notFound();
+    const brief = getProjectBrief(projectId);
     const taxonomy = getProjectTaxonomy(projectId);
     const originLabel = taxonomy ? ORIGIN_LABEL[taxonomy.origin] : undefined;
     const aside =
@@ -599,6 +641,7 @@ export default async function ProjectDetailPage({ params }: Props) {
       <LiteDetail
         slug={slug}
         lite={lite}
+        brief={brief}
         originLabel={originLabel}
         aside={aside}
         teamCredit={taxonomy?.origin === "webekspres"}
@@ -611,6 +654,7 @@ export default async function ProjectDetailPage({ params }: Props) {
 
   const { prev, next } = getAdjacentCaseStudies(slug);
   const hooks = hooksFor(study);
+  const extras = getCaseStudyExtras(slug);
   const aside = ASIDE_BY_SLUG[slug];
   const taxonomy = getProjectTaxonomy(study.projectId);
   const originLabel = taxonomy ? ORIGIN_LABEL[taxonomy.origin] : undefined;
@@ -712,14 +756,22 @@ export default async function ProjectDetailPage({ params }: Props) {
               showAside ? "lg:col-span-8" : "max-w-3xl",
             )}
           >
-            <CaseSection label="01 · Opening" title={hooks.opening}>
+            {extras?.overview && (
+              <CaseSection label="01 · Overview" title="What this project is">
+                <p className="text-base sm:text-lg text-foreground/90 leading-relaxed max-w-2xl">
+                  {extras.overview}
+                </p>
+              </CaseSection>
+            )}
+
+            <CaseSection label="02 · Problem & context" title={hooks.opening}>
               <p className="text-base sm:text-lg text-foreground/90 leading-relaxed max-w-2xl">
                 {study.problem}
               </p>
             </CaseSection>
 
             <CaseSection
-              label="02 · Reality"
+              label="03 · Constraints"
               title={hooks.reality}
               lead={hooks.realityLead}
             >
@@ -727,15 +779,21 @@ export default async function ProjectDetailPage({ params }: Props) {
             </CaseSection>
 
             <CaseSection
-              label="03 · Build"
+              label="04 · Solution & architecture"
               title={hooks.build}
               lead={hooks.buildLead}
             >
               <PanelBlocks blocks={study.architecture} />
             </CaseSection>
 
+            {extras?.features && extras.features.length > 0 && (
+              <CaseSection label="05 · Key features" title="What it does">
+                <PanelList items={extras.features} />
+              </CaseSection>
+            )}
+
             <CaseSection
-              label="04 · Close"
+              label="06 · Result"
               title={hooks.close}
               lead={hooks.closeLead}
             >
