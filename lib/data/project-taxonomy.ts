@@ -2,13 +2,9 @@ import { FEATURED_PROJECT_IDS } from "./featured-ids"
 
 /** Archive groups on /projects. Order follows the Webekspres portfolio analysis. */
 export type ProjectCategory =
-  | "integrated"
   | "web-app"
-  | "news"
-  | "landing"
-  | "corporate"
+  | "website"
   | "catalog"
-  | "education"
 
 export type ProjectOrigin = "webekspres" | "personal" | "internship"
 
@@ -31,39 +27,19 @@ export const ARCHIVE_GROUPS: {
   blurb: string
 }[] = [
   {
-    id: "integrated",
-    label: "Integrated systems",
-    blurb: "Ops platforms with more than a marketing site: APIs, roles, and real workflows.",
-  },
-  {
     id: "web-app",
     label: "Web applications",
-    blurb: "School and product apps I shipped as full-stack work, internships, or capstones.",
+    blurb: "Full-stack apps with real workflows, APIs, and roles — school systems, internships, and capstones.",
   },
   {
-    id: "news",
-    label: "News and media",
-    blurb: "Portals and directories for reading, listing, and community content.",
-  },
-  {
-    id: "landing",
-    label: "Landing pages",
-    blurb: "Conversion pages built as custom frontends, not generic brochure themes.",
-  },
-  {
-    id: "corporate",
-    label: "Corporate websites",
-    blurb: "Company profiles and service sites shipped for clients.",
+    id: "website",
+    label: "Business websites",
+    blurb: "Company profiles, service sites, landing pages, and school sites shipped for clients.",
   },
   {
     id: "catalog",
-    label: "Catalogs",
-    blurb: "Product and service catalogs with enquiry paths, not internal dashboards.",
-  },
-  {
-    id: "education",
-    label: "Education",
-    blurb: "School and education-consultancy sites for admissions and programs.",
+    label: "Catalogs and directories",
+    blurb: "Product and service catalogs and content portals with clear enquiry paths.",
   },
 ]
 
@@ -73,19 +49,19 @@ const WEBEKSPRES = "PT Webekspres Teknologi Indonesia"
 const WEBEKSPRES_TAXONOMY: Record<string, ProjectTaxonomy> = {
   "36b5bfa0-db1f-51cd-8861-8eac729f2afb": {
     slug: "jepangku",
-    category: "news",
+    category: "catalog",
     origin: "webekspres",
     company: WEBEKSPRES,
   },
   "2ca2341f-449d-5b44-a919-f628586fed79": {
     slug: "sumbawa-tourism-land",
-    category: "corporate",
+    category: "website",
     origin: "webekspres",
     company: WEBEKSPRES,
   },
   "ecbcd798-00c0-5c63-8b51-4a3ad1708fff": {
     slug: "luzins-academy",
-    category: "landing",
+    category: "website",
     origin: "webekspres",
     company: WEBEKSPRES,
   },
@@ -97,13 +73,13 @@ const WEBEKSPRES_TAXONOMY: Record<string, ProjectTaxonomy> = {
   },
   "d62e4264-031d-5926-8b5f-a8c67bb2daac": {
     slug: "terraju",
-    category: "news",
+    category: "catalog",
     origin: "webekspres",
     company: WEBEKSPRES,
   },
   "4c336b3b-5898-5ad5-bed3-239f972f5814": {
     slug: "razka",
-    category: "corporate",
+    category: "website",
     origin: "webekspres",
     company: WEBEKSPRES,
   },
@@ -115,31 +91,31 @@ const WEBEKSPRES_TAXONOMY: Record<string, ProjectTaxonomy> = {
   },
   "ea4a35c1-5f60-5c8d-94d7-f0877fb2bfd1": {
     slug: "indatu",
-    category: "corporate",
+    category: "website",
     origin: "webekspres",
     company: WEBEKSPRES,
   },
   "dfd144d5-84d7-5f1f-be03-1554dee928b1": {
     slug: "miru-bank-sampah",
-    category: "integrated",
+    category: "web-app",
     origin: "webekspres",
     company: WEBEKSPRES,
   },
   "69aeb916-9cfc-56b0-976b-88ee634f93b6": {
     slug: "karya-yudita-barokah",
-    category: "corporate",
+    category: "website",
     origin: "webekspres",
     company: WEBEKSPRES,
   },
   "73038783-8389-5626-8ab0-473f0b5284ae": {
     slug: "hatta",
-    category: "landing",
+    category: "website",
     origin: "webekspres",
     company: WEBEKSPRES,
   },
   "243b5551-81aa-598a-991d-4b55dbbfc259": {
     slug: "jual-beli-besi-tua",
-    category: "corporate",
+    category: "website",
     origin: "webekspres",
     company: WEBEKSPRES,
   },
@@ -151,37 +127,49 @@ const WEBEKSPRES_TAXONOMY: Record<string, ProjectTaxonomy> = {
   },
   "20479cf8-542e-5223-8ff5-350d001e19a7": {
     slug: "soraya-spa",
-    category: "corporate",
+    category: "website",
     origin: "webekspres",
     company: WEBEKSPRES,
   },
   "c21994a4-0ab1-55e0-bab9-1d1d200f0a6f": {
     slug: "ittihadiyah-tanreassona",
-    category: "education",
+    category: "website",
     origin: "webekspres",
     company: WEBEKSPRES,
   },
   "00f837eb-3fa1-5848-bce3-b2d35d4dc9f2": {
     slug: "eduglobal",
-    category: "education",
+    category: "website",
     origin: "webekspres",
     company: WEBEKSPRES,
   },
   "25d41ace-dab0-5ddf-8e3b-3b8024ee4e27": {
     slug: "anugrah-tour",
-    category: "corporate",
+    category: "website",
     origin: "webekspres",
     company: WEBEKSPRES,
   },
   "d7401d61-cd67-5430-a574-122d35e61cc4": {
     slug: "ptmgc",
-    category: "corporate",
+    category: "website",
     origin: "webekspres",
     company: WEBEKSPRES,
   },
   "0178ba6c-a506-5401-819e-1bb3d2a1c397": {
     slug: "aspalindo-hotmix",
-    category: "corporate",
+    category: "website",
+    origin: "webekspres",
+    company: WEBEKSPRES,
+  },
+  "67978780-65a3-4a1a-94e6-60a0bd354b72": {
+    slug: "triply",
+    category: "website",
+    origin: "webekspres",
+    company: WEBEKSPRES,
+  },
+  "1636bd61-2b93-4fb0-b6ea-d6456dbf77ea": {
+    slug: "subulussalam-insan-global",
+    category: "website",
     origin: "webekspres",
     company: WEBEKSPRES,
   },
@@ -194,7 +182,7 @@ const PERSONAL_TAXONOMY: Record<string, ProjectTaxonomy> = {
   "fd57265a-c96e-40fe-98c4-4ace2a52b80c": { category: "web-app", origin: "personal" },
   "169275ea-ca4a-4701-857f-1417fc4fec23": { category: "web-app", origin: "personal" },
   "1dd8ca69-4921-4ca7-80e3-56177efaf499": { category: "web-app", origin: "personal" },
-  "bde24764-8fcf-4d67-8bb2-697cb57fb66d": { category: "integrated", origin: "personal" },
+  "bde24764-8fcf-4d67-8bb2-697cb57fb66d": { category: "web-app", origin: "personal" },
   "ff98b3c6-e267-4ee0-9059-9444858eacf4": { category: "web-app", origin: "personal" },
   "13e602b8-c324-44e6-9c61-e9e40f388394": { category: "web-app", origin: "personal" },
   "f5c13a15-1bc6-4e82-8d62-d1196894d189": {

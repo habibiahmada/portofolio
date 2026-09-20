@@ -500,5 +500,41 @@
     "live_url": "",
     "github_url": "https://github.com/cvsmartplus/Renshuu-app",
     "year": 2025
+  },
+  {
+    "id": "67978780-65a3-4a1a-94e6-60a0bd354b72",
+    "title_en": "Triply: Bandung travel-experience company website",
+    "title_id": "Triply: Website travel experience Bandung",
+    "description_en": "On the Webekspres team I built the Triply travel-experience site: open trips across Indonesia, private itineraries, campus and corporate/MICE programs, plus escorted trips to Hong Kong and Japan. A package catalog with written include/exclude, transparent pricing, and WhatsApp enquiry turns visitors into booked groups.",
+    "description_id": "Bersama tim Webekspres saya membangun website travel Triply: open trip di berbagai daerah Indonesia, itinerary privat, program kampus dan korporat/MICE, serta trip ke Hong Kong dan Jepang. Katalog paket dengan rincian include/exclude tertulis, harga transparan, dan enquiry WhatsApp mengubah pengunjung menjadi rombongan yang memesan.",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/triply.webp",
+    "tags": [
+      "WordPress",
+      "Elementor",
+      "Astra",
+      "PHP",
+      "Company Profile"
+    ],
+    "live_url": "https://triply.co.id",
+    "github_url": "",
+    "year": 2026
+  },
+  {
+    "id": "1636bd61-2b93-4fb0-b6ea-d6456dbf77ea",
+    "title_en": "Subulussalam Insan Global: South Sumatra bus-charter website",
+    "title_id": "Subulussalam Insan Global: Website sewa bus pariwisata Sumsel",
+    "description_en": "On the Webekspres team I built the Subulussalam Insan Global site: a bus-charter service in South Sumatra for tours, pilgrimages, study tours, and official events. Big and medium fleet listings, an on-location gallery, a clear three-step booking flow, and WhatsApp consultation turn group enquiries into confirmed rentals.",
+    "description_id": "Bersama tim Webekspres saya membangun website Subulussalam Insan Global: layanan sewa bus pariwisata di Sumatera Selatan untuk wisata, ziarah, study tour, dan acara resmi. Daftar armada bus besar dan medium, galeri asli di lapangan, alur pemesanan tiga langkah, dan konsultasi WhatsApp mengubah tanya rombongan menjadi sewa yang terkonfirmasi.",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/subulussalam-insan-global.webp",
+    "tags": [
+      "WordPress",
+      "Elementor",
+      "Astra",
+      "PHP",
+      "Company Profile"
+    ],
+    "live_url": "https://subulussalaminsanglobal.com",
+    "github_url": "",
+    "year": 2026
   }
 ]
