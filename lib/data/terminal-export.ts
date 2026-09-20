@@ -1,9 +1,12 @@
 import { getAllProjects } from "@/lib/data/projects";
 import {
   getCaseStudySlugByProjectId,
+  getCaseStudyExtras,
   getLinkedCaseStudies,
   type CaseStudy,
 } from "@/lib/data/case-studies";
+import { getProjectBrief, PROJECT_BRIEFS } from "@/lib/data/project-briefs";
+import { getProjectTaxonomy } from "@/lib/data/project-taxonomy";
 import { FEATURED_PROJECT_IDS } from "@/lib/data/featured-ids";
 import { hasPublicProjectUrl } from "@/lib/projects";
 
@@ -62,28 +65,79 @@ function architectureBody(blocks: CaseStudy["architecture"]): string {
     .join("\n\n");
 }
 
+/** Drop sections whose body is empty so the terminal never renders a blank panel. */
+function compact(
+  sections: (TerminalCaseStudySection | null | undefined)[],
+): TerminalCaseStudySection[] {
+  return sections.filter(
+    (s): s is TerminalCaseStudySection => Boolean(s && s.body.trim()),
+  );
+}
+
+/**
+ * Resolve the public detail slug for a project: the case-study slug when one
+ * exists, otherwise the taxonomy slug, and finally the id as a last resort.
+ * Must mirror the web route so `open <slug>` and detail lookups agree.
+ */
+function detailSlug(projectId: string): string {
+  return (
+    getCaseStudySlugByProjectId(projectId) ??
+    getProjectTaxonomy(projectId)?.slug ??
+    projectId
+  );
+}
+
 export function toTerminalCaseStudy(study: CaseStudy): TerminalCaseStudy {
   const hooks = { ...DEFAULT_HOOKS, ...study.hooks };
+  const extras = getCaseStudyExtras(study.slug);
 
   return {
     slug: study.slug,
     project_id: study.projectId,
-    hero: study.problem,
-    sections: [
-      { label: hooks.opening, body: study.problem },
+    hero: extras?.overview || study.problem,
+    sections: compact([
+      extras?.overview ? { label: "Overview", body: extras.overview } : null,
+      { label: "Problem & context", body: study.problem },
       {
-        label: hooks.reality,
+        label: "Constraints",
         body: joinSection(hooks.realityLead, bulletList(study.constraints)),
       },
       {
-        label: hooks.build,
+        label: "Solution & architecture",
         body: joinSection(hooks.buildLead, architectureBody(study.architecture)),
       },
+      extras?.features?.length
+        ? { label: "Key features", body: bulletList(extras.features) }
+        : null,
       {
-        label: hooks.close,
+        label: "Result",
         body: joinSection(hooks.closeLead, bulletList(study.outcomes)),
       },
-    ],
+    ]),
+  };
+}
+
+/** Client/website project brief -> terminal case study, so details are complete. */
+export function briefToTerminalCaseStudy(
+  projectId: string,
+): TerminalCaseStudy | null {
+  const brief = getProjectBrief(projectId);
+  if (!brief) return null;
+
+  return {
+    slug: detailSlug(projectId),
+    project_id: projectId,
+    hero: brief.overview,
+    sections: compact([
+      { label: "Overview", body: brief.overview },
+      { label: "Problem & context", body: brief.context },
+      { label: "Solution", body: brief.solution },
+      brief.features?.length
+        ? { label: "Key features", body: bulletList(brief.features) }
+        : null,
+      { label: "Technical implementation", body: brief.techNotes },
+      { label: "Result", body: brief.result },
+    ]),
   };
 }
 
@@ -110,7 +164,7 @@ export async function buildTerminalProjects(): Promise<TerminalProject[]> {
   const rows = sortForTerminal(await getAllProjects(), featuredRank);
 
   return rows.map((row) => ({
-    slug: getCaseStudySlugByProjectId(row.id) ?? row.id,
+    slug: detailSlug(row.id),
     name: row.title_en,
     year: String(row.year),
     description: row.description_en,
@@ -121,7 +175,19 @@ export async function buildTerminalProjects(): Promise<TerminalProject[]> {
   }));
 }
 
-/** Flattened case study narratives for the terminal detail view. */
+/**
+ * Flattened detail narratives for the terminal detail view — every project,
+ * not only the ones with a hand-written case study. Case studies keep their
+ * narrative; client/website projects come from their structured brief.
+ */
 export function buildTerminalCaseStudies(): TerminalCaseStudy[] {
-  return getLinkedCaseStudies().map(toTerminalCaseStudy);
+  const fromCaseStudies = getLinkedCaseStudies().map(toTerminalCaseStudy);
+  const covered = new Set(fromCaseStudies.map((c) => c.project_id));
+
+  const fromBriefs = PROJECT_BRIEFS.map((b) => b.projectId)
+    .filter((id) => !covered.has(id))
+    .map(briefToTerminalCaseStudy)
+    .filter((c): c is TerminalCaseStudy => c !== null);
+
+  return [...fromCaseStudies, ...fromBriefs];
 }
