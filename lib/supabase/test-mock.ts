@@ -15,8 +15,6 @@ const stores: Record<string, Map<string, Record<string, any>>> = {
   certificates: new Map(),
   companies: new Map(),
   blog_posts: new Map(),
-  blog_reactions: new Map(),
-  blog_comments: new Map(),
 };
 
 function resetStores() {

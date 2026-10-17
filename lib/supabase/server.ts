@@ -19,7 +19,7 @@ export function getSupabaseAnonClient() {
   );
 }
 
-/** Service-role client for server-only writes (agent blog API, reactions, view counts). Never import from client code. */
+/** Service-role client for server-only writes (agent blog API, view counts). Never import from client code. */
 export function getSupabaseAdmin() {
   // In test/CI mode, return the mock so requests don't hang on dummy URLs.
   // Use SUPABASE_MOCK_ENABLED because Next.js overrides NODE_ENV to "development" in dev mode.

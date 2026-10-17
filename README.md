@@ -13,7 +13,7 @@ This repository powers my public portfolio: projects, certificates, collaborator
 | Area | Description |
 |------|-------------|
 | Public site | Marketing pages (home, about, projects, blog) |
-| Blog | Markdown articles with reactions and an agent review workflow |
+| Blog | Markdown articles with an agent review workflow |
 | Agent API | `POST /api/agent/blog` for automated daily posts (Bearer token) |
 
 ## Tech stack

@@ -21,17 +21,6 @@ export interface Database {
         Insert: Omit<AllowedUserRow, "id" | "created_at">;
         Update: Partial<Omit<AllowedUserRow, "id">>;
       };
-      blog_reactions: {
-        Row: BlogReactionRow;
-        Insert: Omit<BlogReactionRow, "created_at">;
-        Update: Partial<Omit<BlogReactionRow, "post_id" | "visitor_key">>;
-      };
-      blog_comments: {
-        Row: BlogCommentRow;
-        Insert: Omit<BlogCommentRow, "id" | "created_at" | "updated_at" | "status"> &
-          Partial<Pick<BlogCommentRow, "status">>;
-        Update: Partial<Omit<BlogCommentRow, "id">>;
-      };
       blog_posts: {
         Row: BlogPostRow;
         Insert: Omit<
@@ -39,7 +28,6 @@ export interface Database {
           | "id"
           | "created_at"
           | "updated_at"
-          | "reaction_counts"
           | "locale"
           | "status"
           | "source"
@@ -49,7 +37,6 @@ export interface Database {
           Partial<
             Pick<
               BlogPostRow,
-              | "reaction_counts"
               | "locale"
               | "status"
               | "source"
@@ -128,7 +115,6 @@ export interface BlogPostRow {
   seo_description: string | null;
   canonical_url: string | null;
   reading_time_minutes: number | null;
-  reaction_counts: Record<string, number>;
   /** Incremental public views (best-effort). */
   view_count?: number;
   source: "agent" | "admin";
@@ -147,30 +133,9 @@ export interface AllowedUserRow {
   created_at?: string;
 }
 
-export interface BlogReactionRow {
-  post_id: string;
-  reaction: "like" | "insightful" | "useful";
-  visitor_key: string;
-  created_at?: string;
-}
-
-export type BlogCommentStatus = "pending" | "approved" | "rejected";
-
-export interface BlogCommentRow {
-  id: string;
-  post_id: string;
-  user_id: string;
-  body: string;
-  status: BlogCommentStatus;
-  created_at?: string;
-  updated_at?: string;
-}
-
 // ── Frontend-friendly types ──────────────────────────────────────────────────
 
 export type BlogPost = BlogPostRow;
-export type BlogReaction = BlogReactionRow;
-export type BlogComment = BlogCommentRow;
 export type Project = ProjectRow;
 export type Certificate = CertificateRow;
 export type Company = CompanyRow;

@@ -13,16 +13,14 @@ Tables (see `lib/supabase/types.ts`):
 | `companies` | Collaborator logos |
 | `allowed_users` | Extra allowlist rows (alongside env emails) |
 | `blog_posts` | Blog articles (Markdown body, category, tags, SEO fields, status, source) |
-| `blog_reactions` | One reaction per visitor per post (`like` / `insightful` / `useful`) |
-| `blog_comments` | Authenticated comments (`pending` → admin approve/reject) |
 
 **Cleanup (2026-07-28):** dropped unused legacy CMS tables (`articles`, `certifications`, `experiences`, `faqs`, `hero_sections`, `services`, `statistics`, `testimonials`, `tools_logo`, translation tables, `contacts`, `email_templates`). Migration: `supabase/migrations/20260728130000_drop_legacy_cms_tables.sql`.
 
-**Blog migrations:** `20260825120000_create_blog_posts.sql`, `20260825140000_create_blog_reactions.sql`, `20260825150000_create_blog_comments.sql`.
+**Blog migrations:** `20260825120000_create_blog_posts.sql`. Reactions and comments were added in `20260825140000` / `20260825150000` and dropped in `20261017130000_drop_reactions_and_comments.sql`.
 
 Active row counts after cleanup: projects 10 · companies 5 · certificates 52 · allowed_users 1.
 
-RLS: public `SELECT` on `projects` / `companies` / `certificates`; published-only on `blog_posts`; approved-only on `blog_comments`. Writes use `SUPABASE_SERVICE_ROLE_KEY` (bypasses RLS) except authenticated comment inserts.
+RLS: public `SELECT` on `projects` / `companies` / `certificates`; published-only on `blog_posts`. All writes use `SUPABASE_SERVICE_ROLE_KEY` on the server (bypasses RLS).
 
 Access patterns:
 

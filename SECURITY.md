@@ -15,7 +15,6 @@ The site is public and read-only for visitors. There is no login, no admin panel
 | Route | Guard |
 |-------|-------|
 | `POST /api/agent/blog`, `/review`, `/revise`, `/auto-publish`, `/revalidate` | Bearer `AGENT_BLOG_TOKEN`, compared with `timingSafeEqual` on SHA-256 hashes. Body size capped at 128 KB. |
-| `POST /api/public/blog/[id]/react` | 10 requests per IP per hour, reaction must be `like`, `insightful`, or `useful`, post must be published. |
 | `POST /api/public/blog/[id]/view` | 40 requests per IP per post per hour, post must be published. |
 
 The rate limiter is in-memory (`lib/security.ts`), so it resets per serverless instance. It slows casual abuse; it is not a hard limit.
@@ -23,8 +22,7 @@ The rate limiter is in-memory (`lib/security.ts`), so it resets per serverless i
 ## Database (RLS)
 
 - `blog_posts`: anon can read published posts only.
-- `blog_reactions`: anon can read. Inserts go through the API with the service role; the open anon insert policy was dropped in `20261017120000_lock_public_writes.sql`.
-- `blog_comments`: anon can read approved comments. The insert policy was dropped in the same migration.
+- `blog_reactions` and `blog_comments`: dropped in `20261017130000_drop_reactions_and_comments.sql` (never shown on the site; visitor login is gone).
 
 Apply new migrations with `supabase db push`. Since visitor login is gone, also turn off new sign-ups in Supabase (Authentication, Sign In / Providers).
 
