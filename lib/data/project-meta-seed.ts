@@ -244,6 +244,38 @@ export const PROJECT_META_SEED: Record<string, ProjectMetaSeed> = {
     description_id:
       "Pelaku UMKM butuh berita soal pembiayaan, kebijakan, dan pemasaran yang relevan untuk mereka, bukan berita umum. Saya ikut mengerjakan MediaUMKM, portal berita dengan delapan rubrik UMKM, halaman pasang iklan, dan halaman etika pers yang wajib dimiliki media siber Indonesia.",
   },
+  "d1546acc-0f66-5dcc-9bb2-72424f1a89ca": {
+    role: WEBEKSPRES_ROLE,
+    outcome: "Live at bantenprioritas.id",
+    description_en:
+      "Banten readers need local politics and government news from a newsroom that knows the region. I worked on Banten Prioritas, a news portal with headline, politics, photo, and video desks, an editorial team page, and the cyber-media guidelines Indonesian outlets must publish.",
+    description_id:
+      "Pembaca di Banten butuh berita politik dan pemerintahan dari redaksi yang paham daerahnya. Saya ikut mengerjakan Banten Prioritas, portal berita dengan rubrik headline, politik, foto, dan video, halaman susunan redaksi, serta pedoman media siber yang wajib dimiliki media Indonesia.",
+  },
+  "9c70a09a-2092-5361-ab17-3677d1a59b69": {
+    role: WEBEKSPRES_ROLE,
+    outcome: "Live at tatahbanten.com",
+    description_en:
+      "Readers across Banten want news from their own city, not only national headlines. I worked on Tatah Banten, a news portal with desks for Serang, Tangerang Raya, Cilegon, Pandeglang, and Lebak, topic beats, and a page for readers to send in stories.",
+    description_id:
+      "Pembaca di Banten ingin berita dari kotanya sendiri, bukan hanya berita nasional. Saya ikut mengerjakan Tatah Banten, portal berita dengan kanal Serang, Tangerang Raya, Cilegon, Pandeglang, dan Lebak, rubrik topik, dan halaman kirim berita dari pembaca.",
+  },
+  "c7cba7bb-53a0-5714-934b-2474130df451": {
+    role: WEBEKSPRES_ROLE,
+    outcome: "Live at nhmnews.id",
+    description_en:
+      "A national outlet needs politics, law, economy, sports, and regional stories in one fast site. I worked on NHM News, a news portal with headline, photo, and video sections, a popular-stories list, and a full news index.",
+    description_id:
+      "Media nasional butuh berita politik, hukum, ekonomi, olahraga, dan daerah dalam satu situs yang cepat. Saya ikut mengerjakan NHM News, portal berita dengan bagian headline, foto, dan video, daftar berita terpopuler, dan indeks berita.",
+  },
+  "cf591dd5-dd77-5cae-ab6c-b8e4cef6e859": {
+    role: WEBEKSPRES_ROLE,
+    outcome: "Live at skurniawan.com",
+    description_en:
+      "A home coffee business needed a simple way for customers to see the menu and order. I worked on the Kopi Dari Rumah site, with a coffee menu (iced palm-sugar latte, cappuccino, kopi tubruk) and ordering straight to WhatsApp.",
+    description_id:
+      "Usaha kopi rumahan butuh cara sederhana agar pelanggan bisa melihat menu dan memesan. Saya ikut mengerjakan situs Kopi Dari Rumah dengan menu kopi (es kopi susu aren, cappuccino, kopi tubruk) dan pemesanan langsung ke WhatsApp.",
+  },
 };
 
 export { WEBEKSPRES_ROLE };

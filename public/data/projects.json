@@ -1,5 +1,73 @@
 [
   {
+    "id": "cf591dd5-dd77-5cae-ab6c-b8e4cef6e859",
+    "title_en": "Kopi Dari Rumah: home coffee brand website",
+    "title_id": "Kopi Dari Rumah: Website brand kopi rumahan",
+    "description_en": "",
+    "description_id": "",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/kopi-dari-rumah.webp",
+    "tags": [
+      "WordPress",
+      "Elementor",
+      "Astra",
+      "WhatsApp ordering"
+    ],
+    "live_url": "https://skurniawan.com",
+    "github_url": "",
+    "year": 2026
+  },
+  {
+    "id": "c7cba7bb-53a0-5714-934b-2474130df451",
+    "title_en": "NHM News: national news portal",
+    "title_id": "NHM News: Portal berita nasional",
+    "description_en": "",
+    "description_id": "",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/nhm-news.webp",
+    "tags": [
+      "WordPress",
+      "PHP",
+      "News portal",
+      "DelikWP"
+    ],
+    "live_url": "https://nhmnews.id",
+    "github_url": "",
+    "year": 2026
+  },
+  {
+    "id": "9c70a09a-2092-5361-ab17-3677d1a59b69",
+    "title_en": "Tatah Banten: city-by-city news portal for Banten",
+    "title_id": "Tatah Banten: Portal berita per daerah di Banten",
+    "description_en": "",
+    "description_id": "",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/tatah-banten.webp",
+    "tags": [
+      "WordPress",
+      "PHP",
+      "News portal",
+      "DelikWP"
+    ],
+    "live_url": "https://tatahbanten.com",
+    "github_url": "",
+    "year": 2026
+  },
+  {
+    "id": "d1546acc-0f66-5dcc-9bb2-72424f1a89ca",
+    "title_en": "Banten Prioritas: regional news portal for Banten",
+    "title_id": "Banten Prioritas: Portal berita daerah Banten",
+    "description_en": "",
+    "description_id": "",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/banten-prioritas.webp",
+    "tags": [
+      "WordPress",
+      "PHP",
+      "News portal",
+      "DelikWP"
+    ],
+    "live_url": "https://bantenprioritas.id",
+    "github_url": "",
+    "year": 2026
+  },
+  {
     "id": "93035eae-5c29-5981-b285-a18e45c9eeb3",
     "title_en": "MediaUMKM: news portal for Indonesian small businesses",
     "title_id": "MediaUMKM: Portal berita UMKM Indonesia",

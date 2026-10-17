@@ -95,6 +95,30 @@ const WEBEKSPRES_TAXONOMY: Record<string, ProjectTaxonomy> = {
     origin: "webekspres",
     company: WEBEKSPRES,
   },
+  "d1546acc-0f66-5dcc-9bb2-72424f1a89ca": {
+    slug: "banten-prioritas",
+    category: "catalog",
+    origin: "webekspres",
+    company: WEBEKSPRES,
+  },
+  "9c70a09a-2092-5361-ab17-3677d1a59b69": {
+    slug: "tatah-banten",
+    category: "catalog",
+    origin: "webekspres",
+    company: WEBEKSPRES,
+  },
+  "c7cba7bb-53a0-5714-934b-2474130df451": {
+    slug: "nhm-news",
+    category: "catalog",
+    origin: "webekspres",
+    company: WEBEKSPRES,
+  },
+  "cf591dd5-dd77-5cae-ab6c-b8e4cef6e859": {
+    slug: "kopi-dari-rumah",
+    category: "website",
+    origin: "webekspres",
+    company: WEBEKSPRES,
+  },
   "93035eae-5c29-5981-b285-a18e45c9eeb3": {
     slug: "mediaumkm",
     category: "catalog",

@@ -406,6 +406,88 @@ const BRIEFS: ProjectBrief[] = [
     result:
       "Delivered and live at mediaumkm.com.",
   },
+  {
+    projectId: "d1546acc-0f66-5dcc-9bb2-72424f1a89ca", // Banten Prioritas
+    overview:
+      "Banten Prioritas is a regional news portal covering politics, government, and events in Banten, with photo and video sections.",
+    context:
+      "Readers in Banten want local political and government news from a newsroom that knows the region. The publisher needed a fast news site with the editorial and legal pages an Indonesian online outlet must carry, plus ad space as a revenue path.",
+    solution:
+      "I worked on a WordPress news portal built on the DelikWP theme: headline, politics, photo, and video desks, a topic bar for running stories, popular and index pages, ad slots, and the newsroom pages readers and regulators expect.",
+    role: WEBEKSPRES_ROLE,
+    features: [
+      "Headline, politics, photo, and video desks",
+      "Topic bar for running stories (for example election coverage)",
+      "Popular stories and a full news index",
+      "Ad slots for the publisher's Pasang Iklan offer",
+      "Susunan Redaksi, Pedoman Media Siber, privacy, and complaints pages",
+    ],
+    techNotes:
+      "WordPress with the DelikWP news theme and PHP; Montserrat typography and the brand's blue, red, and green palette carried into the layout.",
+    result:
+      "Delivered and live at bantenprioritas.id.",
+  },
+  {
+    projectId: "9c70a09a-2092-5361-ab17-3677d1a59b69", // Tatah Banten
+    overview:
+      "Tatah Banten is a news portal for Banten, organised by city and by topic, under the tagline Mengangkat Fakta, Menguatkan Banten.",
+    context:
+      "Readers across Banten look for news from their own city first. The publisher needed a portal that splits coverage by region and topic and gives readers a way to send in stories.",
+    solution:
+      "I worked on a WordPress news portal on the DelikWP theme with a regional menu (Serang, Tangerang Raya, Cilegon, Pandeglang, Lebak), national and topic beats, editor's picks, and reader submission and advertising pages.",
+    role: WEBEKSPRES_ROLE,
+    features: [
+      "Regional desks for five Banten areas",
+      "National, politics, economy, law, sports, lifestyle, and technology beats",
+      "Headline, popular, index, and editor's-pick lists",
+      "Kirim Berita page for reader submissions",
+      "Pasang Iklan page and ad slots",
+    ],
+    techNotes:
+      "WordPress with the DelikWP news theme and PHP; navy and gold brand palette with Montserrat typography.",
+    result:
+      "Delivered and live at tatahbanten.com.",
+  },
+  {
+    projectId: "c7cba7bb-53a0-5714-934b-2474130df451", // NHM News
+    overview:
+      "NHM News is a national Indonesian news portal under the tagline Berita Untuk Negeri, covering politics, law, economy, business, sports, technology, and regional events.",
+    context:
+      "A national outlet publishes across many beats at once. Readers need to reach the latest headline, a photo or video story, or the day's index without hunting through menus.",
+    solution:
+      "I worked on a WordPress news portal on the DelikWP theme with headline, politics, photo, video, and collection sections, popular and index pages, and ad slots for the publisher.",
+    role: WEBEKSPRES_ROLE,
+    features: [
+      "Headline, politics, photo, video, and collection sections",
+      "Popular stories and a full news index",
+      "Topic bar for running stories",
+      "Ad slots for the Pasang Iklan offer",
+    ],
+    techNotes:
+      "WordPress with the DelikWP news theme and PHP; navy, red, and orange brand palette with Montserrat typography.",
+    result:
+      "Delivered and live at nhmnews.id.",
+  },
+  {
+    projectId: "cf591dd5-dd77-5cae-ab6c-b8e4cef6e859", // Kopi Dari Rumah
+    overview:
+      "Kopi Dari Rumah is the website of a home coffee business that sells iced coffee, cappuccino, and Indonesian brews made to order.",
+    context:
+      "A small home coffee business sells through chat. It needed one place where customers can see what is on the menu and start an order without back-and-forth.",
+    solution:
+      "I worked on a WordPress site with a warm, photo-led design: a hero that leads to WhatsApp ordering, a coffee menu page, and a contact page.",
+    role: WEBEKSPRES_ROLE,
+    features: [
+      "Photo-led hero with a WhatsApp order button",
+      "Coffee menu page",
+      "Contact and privacy pages",
+      "Brand typography (Playfair Display and Poppins) and a coffee-brown palette",
+    ],
+    techNotes:
+      "WordPress with Elementor on the Astra theme, with WhatsApp deep links for ordering.",
+    result:
+      "Delivered and live at skurniawan.com.",
+  },
 ];
 
 const BRIEF_BY_ID: Record<string, ProjectBrief> = Object.fromEntries(
