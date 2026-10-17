@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { ProjectCard } from "@/components/ui/project-card";
+import { FeaturedProjectCard } from "@/components/ui/featured-project-card";
 import { ProjectGridSkeleton } from "@/components/ui/skeletons";
 import { PageShell } from "@/components/ui/page-shell";
 import { useProjects } from "@/lib/hooks/use-api";
@@ -66,14 +66,15 @@ export function Projects({ locale = "en", initialData }: ProjectsProps) {
         )}
 
         {!showSkeleton && !showError && projects && projects.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:auto-rows-[minmax(26rem,auto)] gap-5 md:gap-6">
             {projects.map((project, i) => (
-              <ProjectCard
+              <FeaturedProjectCard
                 key={project.id}
                 project={project}
                 locale={locale}
                 index={i}
-                variant="featured"
+                size={i === 0 ? "hero" : "default"}
+                className={i === 0 ? "lg:col-span-2 lg:row-span-2" : undefined}
               />
             ))}
           </div>

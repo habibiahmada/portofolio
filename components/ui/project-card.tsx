@@ -112,11 +112,6 @@ export function ProjectCard({
           <div className="absolute inset-0 ring-1 ring-inset ring-black/5 dark:ring-white/5 group-hover:ring-brand/20 transition-all duration-500 rounded-2xl" />
         )}
 
-        <div className="absolute top-3 left-3 z-10">
-          <span className="text-[10px] font-mono font-bold tracking-widest text-white/90 bg-black/30 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
-            {String(index + 1).padStart(2, '0')}
-          </span>
-        </div>
 
         {isFeatured ? (
           <div className="absolute bottom-3 left-3 z-10">
