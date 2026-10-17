@@ -571,20 +571,20 @@ export const CASE_STUDIES: CaseStudy[] = [
       opening: "A waste bank is not a landing page",
       reality: "Field staff, admin, and a mobile app",
       build: "Next.js admin on a Django API",
-      close: "Shipped code, domain still waiting",
+      close: "Shipped and live",
       realityLead:
         "Bank sampah ops span petugas in the field, admins at a desk, and nasabah on mobile. The web admin is only one leg of that tripod.",
       buildLead:
         "JWT-backed Django REST is the single source of truth; the admin never caches shadow balances that disagree with the API.",
       closeLead:
-        "Shipped admin UI and API integration; the public domain was still pending when this was documented.",
+        "Admin UI and API integration shipped. MIRU-G now runs at mirubanksampah.id for Distrik Mimika Baru.",
     },
     problem:
       "Bank sampah operations (deposit, pickup, weigh-in, points, rewards) cannot live in a spreadsheet once petugas, admins, and a district coordinator share the same queue. MIRU needed an ops platform. I contributed on the Webekspres team, mainly the web admin and API integration.",
     constraints: [
       "Nasabah use a separate mobile app. The web admin is for staff roles: petugas, admin, and coordinator workflows.",
       "No local database in the admin. It talks to a Django REST API with JWT, so there is one source of truth for transactions and balances.",
-      "The public domain had not resolved at audit time; delivery proof sits in the shipped admin UI and API integration.",
+      "The district needed tonnage reports it could trust, so weights and prices are entered once at the scale and flow straight into balances and reports.",
       "Role screens (petugas, admin, coordinator) had to reflect real workflows: setoran, jemput, timbang, poin, redeem, not generic CRUD with green labels.",
     ],
     architecture: [
@@ -603,7 +603,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     ],
     outcomes: [
       "Shipped admin and API integration on the Webekspres team, with a codebase I can walk through in interviews.",
-      "Delivery and DNS are separate milestones: the admin shipped even though the custom domain was still pending.",
+      "Live at mirubanksampah.id, where MIRU-G staff sign in to the admin panel.",
       "Web ops surface on the team; nasabah flows stay in the separate mobile app.",
     ],
   },
@@ -835,7 +835,7 @@ export const CASE_STUDY_EXTRAS: Record<
   },
   miru: {
     overview:
-      "MIRU is a waste-bank (bank sampah) operations platform; I built the web admin for field staff, admins, and district coordinators on a Django API.",
+      "MIRU is a waste-bank (bank sampah) operations platform, live at mirubanksampah.id; I built the web admin for field staff, admins, and district coordinators on a Django API.",
     features: [
       "Role-aware admin for petugas, admin, and coordinator",
       "Workflows: setoran, jemput, timbang, poin, redeem",

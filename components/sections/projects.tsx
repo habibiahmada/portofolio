@@ -42,8 +42,8 @@ export function Projects({ locale = "en", initialData }: ProjectsProps) {
                 Featured Projects
               </h2>
               <p className="text-sm text-muted-foreground max-w-lg leading-relaxed">
-                Six ships I can walk through: E-Vote, JepangKu, CultureConnect,
-                Smartfarm, BagiBerkah, and Terraju. The rest lives in the archive.
+                Six problems I can walk you through: MIRU, E-Vote, JepangKu,
+                CultureConnect, Smartfarm, and Terraju. The rest lives in the archive.
               </p>
             </div>
           </div>

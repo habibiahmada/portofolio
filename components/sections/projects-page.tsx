@@ -130,8 +130,8 @@ export function ProjectsPage({ locale = "en", initialData }: ProjectsPageProps) 
                     Featured case studies
                   </h2>
                   <p className="text-sm text-muted-foreground max-w-xl leading-relaxed">
-                    Six ships with a longer write-up: E-Vote, JepangKu,
-                    CultureConnect, Smartfarm, BagiBerkah, and Terraju.
+                    Six with a longer write-up: MIRU, E-Vote, JepangKu,
+                    CultureConnect, Smartfarm, and Terraju.
                   </p>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
