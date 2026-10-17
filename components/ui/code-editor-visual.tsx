@@ -79,11 +79,11 @@ export function CodeEditorVisual() {
           <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-brand/10 text-brand border border-brand/15">
             app/page.tsx
           </span>
-          <span className="text-[8px] font-mono text-muted-foreground/40 hidden sm:inline">
+          <span className="text-[8px] font-mono text-muted-foreground hidden sm:inline">
             TSX
           </span>
         </div>
-        <div className="ml-auto text-[8px] font-mono text-muted-foreground/40">
+        <div className="ml-auto text-[8px] font-mono text-muted-foreground">
           Next.js
         </div>
       </div>
@@ -141,7 +141,7 @@ export function CodeEditorVisual() {
       </div>
 
       {/* Status bar */}
-      <div className="flex items-center gap-2 px-3 py-1 border-t border-black/5 dark:border-white/5 bg-zinc-50 dark:bg-zinc-900/60 text-[8px] font-mono text-muted-foreground/50">
+      <div className="flex items-center gap-2 px-3 py-1 border-t border-black/5 dark:border-white/5 bg-zinc-50 dark:bg-zinc-900/60 text-[8px] font-mono text-muted-foreground">
         <span className="text-emerald-600 dark:text-emerald-400">●</span>
         <span>main</span>
         <span className="ml-auto">React 19</span>

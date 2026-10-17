@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowUpRight, Sparkles } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import {
   getProjectTitle,
   getProjectDescription,
@@ -51,10 +51,13 @@ export function FeaturedProjectCard({
       style={{ animationDelay: `${index * 90}ms` }}
       className={cn(
         'group relative isolate flex h-full flex-col overflow-hidden rounded-3xl',
+        // Cards are dark in both themes, so pin the dark-theme accent (7.2:1 on zinc-950).
+        '[--navy-accent-text:#f87171]',
         'border border-black/10 bg-zinc-950 dark:border-white/10',
         'animate-fade-in-up transition-all duration-500 ease-out',
-        'hover:-translate-y-1 hover:border-brand/40 hover:shadow-2xl hover:shadow-brand/15',
-        'focus-within:border-brand/50',
+        'hover:-translate-y-1 hover:border-brand/40',
+        // The title link is stretched over the card, so the card shows its focus ring.
+        'has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-brand has-[a:focus-visible]:ring-offset-2 has-[a:focus-visible]:ring-offset-background',
         className,
       )}
     >
@@ -74,8 +77,14 @@ export function FeaturedProjectCard({
       />
 
       {/* Framed project image */}
-      <div className={cn('relative p-3', isHero && 'md:p-4')}>
-        <div className="relative aspect-[1200/630] overflow-hidden rounded-2xl ring-1 ring-white/10 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.8)]">
+      <div className={cn('relative p-3', isHero && 'md:p-4 lg:flex lg:flex-1 lg:flex-col')}>
+        <div
+          className={cn(
+            'relative aspect-[1200/630] overflow-hidden rounded-2xl ring-1 ring-white/10',
+            // On desktop the hero spans two rows; the image fills that height.
+            isHero && 'lg:aspect-auto lg:min-h-80 lg:flex-1',
+          )}
+        >
           <Image
             src={project.image}
             alt={shortTitle}
@@ -114,7 +123,8 @@ export function FeaturedProjectCard({
       {/* Content */}
       <div
         className={cn(
-          'relative z-10 flex flex-1 flex-col gap-3 px-5 pb-5 pt-2 md:px-6 md:pb-6',
+          'relative z-10 flex flex-col gap-3 px-5 pb-5 pt-2 md:px-6 md:pb-6',
+          !isHero && 'flex-1',
           isHero && 'lg:gap-4 lg:px-8 lg:pb-8',
         )}
       >
@@ -148,7 +158,6 @@ export function FeaturedProjectCard({
 
         {outcome && (
           <span className="inline-flex w-fit max-w-full items-center gap-1.5 rounded-full border border-brand/40 bg-brand/15 px-2.5 py-1 text-[11px] font-medium text-white">
-            <Sparkles size={11} strokeWidth={2} className="shrink-0 text-brand" />
             <span className="truncate">{outcome}</span>
           </span>
         )}
@@ -169,11 +178,6 @@ export function FeaturedProjectCard({
           >
             <span className="h-px w-6 bg-brand transition-all duration-500 group-hover:w-10" />
             View case study
-            <ArrowUpRight
-              size={13}
-              strokeWidth={1.8}
-              className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-            />
           </span>
         )}
       </div>

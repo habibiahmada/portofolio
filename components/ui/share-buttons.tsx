@@ -135,7 +135,7 @@ export function ShareButtons({ url, title, layout = "row" }: ShareButtonsProps) 
   if (layout === "icons") {
     return (
       <div className="space-y-3">
-        <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-muted-foreground/60">
+        <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-muted-foreground">
           Share
         </p>
         <div className="flex flex-wrap items-center gap-2">
@@ -207,7 +207,7 @@ export function ShareButtons({ url, title, layout = "row" }: ShareButtonsProps) 
   if (layout === "stack") {
     return (
       <div className="space-y-3">
-        <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-muted-foreground/60">
+        <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-muted-foreground">
           Share
         </p>
         <div className="flex flex-col gap-2">{buttons}</div>
@@ -217,7 +217,7 @@ export function ShareButtons({ url, title, layout = "row" }: ShareButtonsProps) 
 
   return (
     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-      <span className="text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground/60">
+      <span className="text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground">
         Share
       </span>
       <div className="flex flex-wrap items-center gap-2">{buttons}</div>

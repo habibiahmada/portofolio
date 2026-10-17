@@ -135,20 +135,20 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
             {post.published_at && (
               <time
                 dateTime={post.published_at}
-                className="text-[11px] font-mono text-muted-foreground/60"
+                className="text-[11px] font-mono text-muted-foreground"
               >
                 {formatDate(post.published_at)}
               </time>
             )}
             {post.reading_time_minutes && (
               <>
-                <span className="text-muted-foreground/30">·</span>
-                <span className="text-[11px] font-mono text-muted-foreground/50">
+                <span className="text-muted-foreground">·</span>
+                <span className="text-[11px] font-mono text-muted-foreground">
                   {post.reading_time_minutes} min read
                 </span>
               </>
             )}
-            <span className="text-muted-foreground/30">·</span>
+            <span className="text-muted-foreground">·</span>
             <ViewCounter postId={post.id} initialCount={viewCount} />
           </div>
 
@@ -165,7 +165,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
               {post.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="text-[10px] font-mono text-muted-foreground/50 bg-black/5 dark:bg-white/5 px-2.5 py-1 rounded-full"
+                  className="text-[10px] font-mono text-muted-foreground bg-black/5 dark:bg-white/5 px-2.5 py-1 rounded-full"
                 >
                   {tag}
                 </span>

@@ -87,13 +87,13 @@ export function Press() {
                     <ArrowUpRight
                       size={18}
                       strokeWidth={1.75}
-                      className="shrink-0 text-muted-foreground/40 transition-all duration-300 group-hover:text-brand group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                      className="shrink-0 text-muted-foreground transition-all duration-300 group-hover:text-brand group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                       aria-hidden
                     />
                   </div>
                   <p className="text-xs font-mono text-muted-foreground tracking-wide">
                     {item.source}
-                    <span className="mx-2 text-muted-foreground/30">·</span>
+                    <span className="mx-2 text-muted-foreground">·</span>
                     {item.meta}
                   </p>
                   <h3 className="text-xl sm:text-2xl md:text-[1.65rem] font-bold text-foreground leading-snug text-balance group-hover:text-brand transition-colors duration-300">

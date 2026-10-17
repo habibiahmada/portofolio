@@ -3,14 +3,6 @@
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
-const Services = dynamic(
-  () => import("@/components/sections/services").then((m) => m.Services),
-  {
-    ssr: false,
-    loading: () => <div className="py-24 min-h-100" aria-hidden />,
-  },
-);
-
 const CTA = dynamic(
   () => import("@/components/sections/cta").then((m) => m.CTA),
   {
@@ -41,14 +33,14 @@ function WhenNear({ children }: { children: ReactNode }) {
   return <div ref={ref}>{show ? children : <div className="py-24 min-h-100" aria-hidden />}</div>;
 }
 
-/** Below-fold home sections: defer heavy JS; slot SSR content between Services and CTA. */
-export function HomeBelowFold({ afterServices }: { afterServices?: ReactNode }) {
+/**
+ * Below-fold home sections: SSR content first, then the CTA once it is near.
+ * Services lives on /services only; repeating it here duplicated that page.
+ */
+export function HomeBelowFold({ beforeCta }: { beforeCta?: ReactNode }) {
   return (
     <>
-      <WhenNear>
-        <Services />
-      </WhenNear>
-      {afterServices}
+      {beforeCta}
       <WhenNear>
         <CTA />
       </WhenNear>

@@ -9,12 +9,15 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-brand: var(--navy-accent-text);
+  --color-muted-foreground: var(--muted-foreground);
   --max-width-9xl: 90rem;
 }
 
 :root {
   --background: #fafafa;
   --foreground: #09090b;
+  /* Secondary text. 7.4:1 on --background (WCAG AA needs 4.5:1). */
+  --muted-foreground: #52525b;
 
   /* Blog code blocks */
   --blog-code-inline-bg: #e4e4e7;
@@ -48,7 +51,7 @@
   --navy-700: #27272a;
   --navy-500: #3f3f46;
   --navy-300: #71717a;
-  --navy-accent-text: #ef4444;   /* Red accent text */
+  --navy-accent-text: #dc2626;   /* Red accent text: 4.6:1 on --background (#ef4444 was 3.6:1) */
   --navy-btn-bg: #09090b;
   --navy-btn-bg-hover: #27272a;
   --navy-btn-border: #e4e4e7;
@@ -58,6 +61,8 @@
 .dark {
   --background: #030303;
   --foreground: #fafafa;
+  /* Secondary text. 8.0:1 on --background, 6.9:1 on zinc-900 cards. */
+  --muted-foreground: #a1a1aa;
 
   --blog-code-inline-bg: #27272a;
   --blog-code-inline-fg: #f4f4f5;
@@ -95,6 +100,13 @@
   --navy-btn-bg-hover: #e4e4e7;
   --navy-btn-border: #27272a;
   --navy-btn-text: #fafafa;
+}
+
+/* One visible focus ring for every interactive element, in both themes.
+   Accent red is 4.6:1 (light) and 7.5:1 (dark) against the page background. */
+:focus-visible {
+  outline: 2px solid var(--navy-accent-text);
+  outline-offset: 2px;
 }
 
 html {
@@ -358,7 +370,9 @@ html[data-theme-vt="active"]::view-transition-new(root) {
 
 /* Hover: momentary glitch burst */
 .nav-link-wrapper:hover .nav-link::before,
-.nav-link-wrapper:hover .nav-link::after {
+.nav-link-wrapper:hover .nav-link::after,
+.nav-link-wrapper:focus-within .nav-link::before,
+.nav-link-wrapper:focus-within .nav-link::after {
   opacity: 0.85;
 }
 
@@ -398,6 +412,10 @@ html[data-theme-vt="active"]::view-transition-new(root) {
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;

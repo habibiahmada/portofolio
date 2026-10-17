@@ -148,9 +148,9 @@ export function AboutTechStack() {
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight">
             Tools & Technologies
           </h2>
-          <p className="text-sm md:text-base text-muted-foreground/80 leading-relaxed font-medium max-w-lg">
-            The technologies I use daily to turn ideas into functional,
-            high-performing digital reality.
+          <p className="text-sm md:text-base text-muted-foreground leading-relaxed font-medium max-w-lg">
+            The tools I reach for on client work at Webekspres and on my own
+            projects.
           </p>
         </div>
 

@@ -264,7 +264,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       build: "Laravel, Bootstrap, and votes that fail closed",
       close: "What production actually proved",
       realityLead:
-        "OSIS voting happens once, on shared lab machines, with admins who are teachers—not full-time IT. There was no room for fragile auth or ambiguous ballot state.",
+        "OSIS voting happens once, on shared lab machines, with admins who are teachers, not full-time IT. There was no room for fragile auth or ambiguous ballot state.",
       buildLead:
         "Every layer from eligibility check to results lock had to assume someone would refresh, double-click, or open two tabs.",
       closeLead:

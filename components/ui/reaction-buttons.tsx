@@ -79,7 +79,7 @@ export function ReactionButtons({
 
   return (
     <div className="flex flex-col gap-3">
-      <span className="text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground/60">
+      <span className="text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground">
         Reactions
       </span>
 
@@ -111,7 +111,7 @@ export function ReactionButtons({
       </div>
 
       {totalReactions > 0 && (
-        <p className="text-[11px] text-muted-foreground/50">
+        <p className="text-[11px] text-muted-foreground">
           {totalReactions} reaction{totalReactions !== 1 ? "s" : ""}
         </p>
       )}

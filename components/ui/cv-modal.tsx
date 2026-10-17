@@ -174,7 +174,7 @@ export function CvModal({
               <div className="flex items-center gap-2.5 text-sm text-zinc-300">
                 <FileText className="w-4 h-4 text-[#ef4444]" />
                 <span className="font-medium tracking-wide">
-                  CV — Habibi Ahmad
+                  CV: Habibi Ahmad
                 </span>
               </div>
 
@@ -202,7 +202,7 @@ export function CvModal({
             <div className="flex-1 min-h-0 relative bg-zinc-900/50 flex items-center justify-center p-4">
               <Image
                 src={CV_PAGES[currentPage]}
-                alt={`CV Preview — Page ${currentPage + 1}`}
+                alt={`CV page ${currentPage + 1}`}
                 width={800}
                 height={1100}
                 className="max-w-full max-h-full object-contain rounded-sm"

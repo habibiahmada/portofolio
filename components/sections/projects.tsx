@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
 import { FeaturedProjectCard } from "@/components/ui/featured-project-card";
 import { ProjectGridSkeleton } from "@/components/ui/skeletons";
 import { PageShell } from "@/components/ui/page-shell";
@@ -42,7 +41,7 @@ export function Projects({ locale = "en", initialData }: ProjectsProps) {
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight">
                 Featured Projects
               </h2>
-              <p className="text-sm text-muted-foreground/70 max-w-lg leading-relaxed">
+              <p className="text-sm text-muted-foreground max-w-lg leading-relaxed">
                 Six ships I can walk through: E-Vote, JepangKu, CultureConnect,
                 Smartfarm, BagiBerkah, and Terraju. The rest lives in the archive.
               </p>
@@ -50,10 +49,9 @@ export function Projects({ locale = "en", initialData }: ProjectsProps) {
           </div>
           <Link
             href="/projects"
-            className="inline-flex items-center gap-2 self-start rounded-full border border-black/10 bg-black/5 px-3.5 py-1.5 text-[11px] font-mono uppercase tracking-[0.24em] text-muted-foreground/80 transition-all duration-300 hover:border-black/20 hover:text-foreground dark:border-white/10 dark:bg-white/5 dark:hover:border-white/20 sm:self-auto"
+            className="inline-flex min-h-11 items-center gap-2 self-start rounded-full border border-black/10 bg-black/5 px-4 py-2 text-[11px] font-mono uppercase tracking-[0.24em] text-muted-foreground transition-all duration-300 hover:border-black/20 hover:text-foreground dark:border-white/10 dark:bg-white/5 dark:hover:border-white/20 sm:self-auto"
           >
             Full archive
-            <ArrowUpRight size={12} strokeWidth={1.6} />
           </Link>
         </div>
 

@@ -89,7 +89,7 @@ export function CICDPipelineVisual() {
                         ? stage.color
                         : isPast
                           ? "text-emerald-500/70"
-                          : "text-muted-foreground/30"
+                          : "text-muted-foreground"
                     }`}
                   >
                     {stage.label}

@@ -100,13 +100,13 @@ export default async function BlogPreviewPage({
             <span className="inline-flex px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-zinc-950 dark:bg-zinc-50 text-white dark:text-zinc-950">
               {CATEGORY_LABELS[post.category] ?? post.category}
             </span>
-            <span className="text-[11px] font-mono text-muted-foreground/60 uppercase">
+            <span className="text-[11px] font-mono text-muted-foreground uppercase">
               Draft
             </span>
             {post.reading_time_minutes && (
               <>
-                <span className="text-muted-foreground/30">·</span>
-                <span className="text-[11px] font-mono text-muted-foreground/50">
+                <span className="text-muted-foreground">·</span>
+                <span className="text-[11px] font-mono text-muted-foreground">
                   {post.reading_time_minutes} min read
                 </span>
               </>
@@ -126,7 +126,7 @@ export default async function BlogPreviewPage({
               {post.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="text-[10px] font-mono text-muted-foreground/50 bg-black/5 dark:bg-white/5 px-2.5 py-1 rounded-full"
+                  className="text-[10px] font-mono text-muted-foreground bg-black/5 dark:bg-white/5 px-2.5 py-1 rounded-full"
                 >
                   {tag}
                 </span>

@@ -59,9 +59,9 @@ export function Certificates({
                 Certifications
               </span>
             </h2>
-            <p className="text-sm md:text-base text-muted-foreground/80 leading-relaxed font-medium max-w-lg">
-              Professional certifications and awards that validate my expertise
-              in software development, cloud computing, and technology innovation.
+            <p className="text-sm md:text-base text-muted-foreground leading-relaxed font-medium max-w-lg">
+              Certificates and awards from courses, bootcamps, and competitions.
+              Open any card to read the original document.
             </p>
           </motion.div>
 
@@ -70,7 +70,7 @@ export function Certificates({
               <div className="flex items-center gap-2.5">
                 <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-brand/8 border border-brand/15">
                   <Award className="w-3 h-3 text-brand" />
-                  <span className="text-[9px] font-mono font-bold uppercase tracking-widest text-brand">
+                  <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-brand">
                     Featured
                   </span>
                 </div>
@@ -98,7 +98,7 @@ export function Certificates({
             <div className="space-y-4">
               <div className="flex items-center gap-2.5">
                 <div className="h-px flex-1 bg-black/5 dark:bg-white/5" />
-                <span className="text-[9px] font-mono uppercase tracking-widest text-muted-foreground/40">
+                <span className="text-[11px] font-mono uppercase tracking-widest text-muted-foreground">
                   All Certificates
                 </span>
                 <div className="h-px flex-1 bg-black/5 dark:bg-white/5" />
@@ -167,13 +167,13 @@ export function Certificates({
                     "hover:scale-[1.02] active:scale-[0.98] cursor-pointer",
                   )}
                 >
-                  <span>Load More</span>
-                  <ChevronDown className="w-4 h-4 text-muted-foreground/60 group-hover:text-foreground transition-colors" />
+                  <span>Show more certificates</span>
+                  <ChevronDown className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
                 </button>
               )}
 
               {!hasMore && initialNonPinned.length > 0 && (
-                <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground/30">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
                   Showing all {initialPinned.length + initialNonPinned.length}{" "}
                   certificates
                 </span>

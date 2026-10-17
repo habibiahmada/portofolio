@@ -64,7 +64,7 @@ export function LayoutDesignerVisual() {
       <div className="absolute top-2 left-2 right-2 z-10 flex items-center justify-between">
         <div className="flex items-center gap-1.5 rounded-md bg-white/80 dark:bg-zinc-950/80 border border-black/5 dark:border-white/5 px-2 py-1 backdrop-blur-sm">
           <span className="w-1.5 h-1.5 rounded-full bg-brand" />
-          <span className="text-[8px] font-mono text-muted-foreground/70 tracking-wide">
+          <span className="text-[8px] font-mono text-muted-foreground tracking-wide">
             artboard · home
           </span>
         </div>
@@ -79,7 +79,7 @@ export function LayoutDesignerVisual() {
                 className={`px-1.5 py-0.5 rounded text-[8px] font-mono transition-colors ${
                   active
                     ? "bg-brand/10 text-brand"
-                    : "text-muted-foreground/50 hover:text-muted-foreground"
+                    : "text-muted-foreground hover:text-muted-foreground"
                 }`}
               >
                 {d.label}

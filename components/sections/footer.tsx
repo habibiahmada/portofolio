@@ -98,9 +98,9 @@ export function Footer() {
         {/* Brand Column */}
         <div className="md:col-span-5 space-y-4">
           <p className="text-lg font-bold tracking-tight text-foreground">
-            habibiahmad<span className="text-brand">.</span>
+            habibiahmada<span className="text-brand">.</span>
           </p>
-          <p className="text-xs sm:text-sm text-muted-foreground/80 leading-relaxed max-w-sm font-medium">
+          <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed max-w-sm font-medium">
             Frontend-leaning full-stack developer. I ship web products end to end,
             from UI systems to APIs, with a bias for clarity and measurable
             performance.
@@ -109,15 +109,15 @@ export function Footer() {
 
         {/* Navigation Column */}
         <nav aria-label="Footer navigation" className="md:col-span-3 space-y-4">
-          <p className="text-[10px] font-mono font-semibold uppercase tracking-widest text-muted-foreground/60">
+          <p className="text-[10px] font-mono font-semibold uppercase tracking-widest text-muted-foreground">
             Navigation
           </p>
-          <ul className="space-y-2.5" role="list">
+          <ul role="list">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
                 <a
                   href={link.href}
-                  className="text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors duration-250"
+                  className="inline-flex min-h-11 items-center text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors duration-250 sm:min-h-9"
                 >
                   {link.label}
                 </a>
@@ -128,7 +128,7 @@ export function Footer() {
 
         {/* Social Column */}
         <div className="md:col-span-4 space-y-4">
-          <p className="text-[10px] font-mono font-semibold uppercase tracking-widest text-muted-foreground/60">
+          <p className="text-[10px] font-mono font-semibold uppercase tracking-widest text-muted-foreground">
             Social Profiles
           </p>
           <div className="flex gap-2.5">
@@ -137,9 +137,10 @@ export function Footer() {
                 key={label}
                 href={href}
                 aria-label={label}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-8 h-8 flex items-center justify-center rounded-full border border-black/10 dark:border-white/10 hover:border-brand hover:text-brand text-muted-foreground/80 transition-all duration-300 hover:scale-105"
+                {...(href.startsWith("http")
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
+                className="w-11 h-11 flex items-center justify-center rounded-full border border-black/10 dark:border-white/10 hover:border-brand hover:text-brand text-muted-foreground transition-all duration-300 hover:scale-105"
               >
                 <Icon size={14} />
               </a>
@@ -151,7 +152,7 @@ export function Footer() {
 
       {/* Bottom Bar */}
       <div className="border-t border-black/5 dark:border-white/5 py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 flex flex-col sm:flex-row gap-4 items-center justify-center text-[11px] font-mono text-muted-foreground/50 uppercase tracking-wider">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 flex flex-col sm:flex-row gap-4 items-center justify-center text-[11px] font-mono text-muted-foreground uppercase tracking-wider">
           <p>&copy; {year} Habibi Ahmad Aziz. All rights reserved.</p>
         </div>
       </div>

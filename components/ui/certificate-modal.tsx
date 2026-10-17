@@ -195,7 +195,7 @@ export function CertificateModal({
             <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-5 overflow-y-auto lg:overflow-hidden">
               <div className="lg:col-span-2 p-5 md:p-6 overflow-y-auto border-b lg:border-b-0 lg:border-r border-white/5 flex flex-col gap-4">
                 <div>
-                  <span className="text-[9px] font-mono uppercase tracking-widest text-brand font-semibold">
+                  <span className="text-[11px] font-mono uppercase tracking-widest text-brand font-semibold">
                     {orgDisplay}
                   </span>
                   <h3 className="text-sm md:text-base font-semibold text-zinc-100 mt-2 leading-snug">
@@ -222,7 +222,7 @@ export function CertificateModal({
                       >
                         <Image
                           src={pageSrc}
-                          alt={`${certificate.title} — page ${currentPage + 1}`}
+                          alt={`${certificate.title}, page ${currentPage + 1}`}
                           fill
                           className="object-contain"
                           sizes="(max-width: 1024px) 100vw, 75vw"
@@ -310,7 +310,7 @@ export function CertificateModal({
                 Tap outside to close
               </span>
               <span className="text-[11px] text-zinc-500 tabular-nums shrink-0">
-                {totalPages > 0 ? `${currentPage + 1} / ${totalPages}` : "—"}
+                {totalPages > 0 ? `${currentPage + 1} / ${totalPages}` : "-"}
               </span>
             </div>
           </motion.div>

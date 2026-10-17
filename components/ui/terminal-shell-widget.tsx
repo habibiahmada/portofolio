@@ -37,7 +37,7 @@ function CopyCommandRow({ value }: { value: string }) {
         type="button"
         onClick={handleCopy}
         aria-label={copied ? `Copied ${value}` : `Copy ${value}`}
-        className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-black/8 dark:border-white/10 text-muted-foreground transition-colors hover:border-[#3b82f6]/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3b82f6]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        className="inline-flex h-11 w-11 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-md border border-black/8 dark:border-white/10 text-muted-foreground transition-colors hover:border-brand/40 hover:text-foreground"
       >
         {copied ? (
           <Check className="h-3.5 w-3.5 text-emerald-500" aria-hidden />
@@ -71,7 +71,6 @@ export function TerminalShellWidget() {
   return (
     <div
       className="fixed bottom-4 right-4 z-30 pointer-events-none pb-[env(safe-area-inset-bottom,0px)] pr-[env(safe-area-inset-right,0px)]"
-      aria-live="polite"
     >
       <div className="pointer-events-auto flex flex-col items-end gap-2 max-w-[min(calc(100vw-2rem),18rem)] sm:max-w-xs">
         <div
@@ -81,7 +80,7 @@ export function TerminalShellWidget() {
           hidden={!expanded}
           className={cn(
             'w-full origin-bottom-right rounded-xl border border-black/10 dark:border-white/10',
-            'bg-background/95 backdrop-blur-md shadow-lg shadow-black/10 dark:shadow-black/40',
+            'bg-background shadow-lg shadow-black/10 dark:shadow-black/40',
             'p-3 space-y-2',
             'transition-[opacity,transform] duration-200 ease-out',
             expanded
@@ -99,34 +98,22 @@ export function TerminalShellWidget() {
 
         <button
           type="button"
-          aria-label="Open shell commands — check in your shell"
+          aria-label="Check in your shell: show terminal commands"
           aria-expanded={expanded}
           aria-controls={panelId}
           onClick={toggle}
-          onKeyDown={(event) => {
-            if (event.key === 'Enter' || event.key === ' ') {
-              event.preventDefault()
-              toggle()
-            }
-          }}
           className={cn(
             'inline-flex items-center gap-2 rounded-full border font-mono text-xs',
-            'border-black/10 dark:border-white/10 bg-background/90 backdrop-blur-md',
+            'border-black/10 dark:border-white/10 bg-background',
             'shadow-md shadow-black/8 dark:shadow-black/30',
             'text-foreground/90 transition-all duration-300',
-            'hover:border-[#ef4444]/35 hover:shadow-[0_0_0_1px_rgba(59,130,246,0.15)]',
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3b82f6]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
-            'motion-safe:animate-[terminal-widget-bounce_3s_ease-in-out_infinite]',
-            'px-2.5 py-2 sm:px-3.5 sm:py-2.5',
+            'hover:border-brand/40',
+            'min-h-11 px-2.5 py-2 sm:px-3.5 sm:py-2.5',
           )}
         >
           <span className="relative inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-black/4 dark:bg-white/6">
             <Terminal
               className="h-3.5 w-3.5 text-[var(--navy-accent-text)]"
-              aria-hidden
-            />
-            <span
-              className="pointer-events-none absolute -top-0.5 -right-0.5 h-1.5 w-1.5 rounded-full bg-[#3b82f6] motion-safe:animate-pulse"
               aria-hidden
             />
           </span>

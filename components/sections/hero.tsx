@@ -94,7 +94,7 @@ export function HeroSection() {
     }
   };
 
-  const headingText = "Building digital experiences that actually matter";
+  const headingText = "I build web apps from the interface down to the API.";
   const words = headingText.split(" ");
 
   return (
@@ -103,8 +103,8 @@ export function HeroSection() {
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      aria-label="Hero section"
-      className="relative w-full px-4 sm:px-6 md:px-8 lg:px-12 flex flex-col pt-20 pb-12 md:pt-24 md:pb-24 min-h-[90vh] overflow-hidden group/hero"
+      aria-label="Introduction"
+      className="relative w-full px-4 sm:px-6 md:px-8 lg:px-12 flex flex-col pt-20 pb-12 md:pt-24 md:pb-24 min-h-[90dvh] overflow-hidden group/hero"
     >
       {/* Node Network Background Canvas , clustered top-left, mouse coords from hero */}
       <NodeNetworkLazy externalMouseRef={nodeMouseRef} densityBias="topLeft" />
@@ -119,7 +119,7 @@ export function HeroSection() {
       >
         <Image
           src="/images/glitch-hero.webp"
-          alt="Hero Background"
+          alt=""
           fill
           priority
           draggable={false}
@@ -133,14 +133,12 @@ export function HeroSection() {
 
       <div className="relative z-10 w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center flex-1">
         {/* Main Content: Cinematic Copywriting */}
-        <div className="lg:col-span-9 max-w-3xl flex flex-col items-start gap-6 sm:gap-8 lg:self-center z-10 relative">
+        <div className="lg:col-span-9 max-w-3xl lg:max-w-160 flex flex-col items-start gap-6 sm:gap-8 lg:self-center z-10 relative">
           {/* Tagline */}
           <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-black/5 dark:border-white/5 bg-black/2 dark:bg-white/2 max-w-full">
-            <span className="relative flex h-2 w-2 shrink-0">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
-            </span>
-            <span className="text-[9px] sm:text-[10px] font-mono tracking-wider sm:tracking-widest text-muted-foreground uppercase">
+            {/* Marks a real state (available for work), so it stays, without a looping pulse. */}
+            <span aria-hidden className="inline-flex h-2 w-2 shrink-0 rounded-full bg-brand" />
+            <span className="text-[11px] font-mono tracking-wider sm:tracking-widest text-muted-foreground uppercase">
               Open to freelance & full-time · Remote (WIB)
             </span>
           </div>
@@ -155,31 +153,33 @@ export function HeroSection() {
             {words.map((word, i) => {
               const cleanWord = word.toLowerCase().replace(/[^a-z]/g, "");
               const isAccent =
-                cleanWord === "experiences" || cleanWord === "matter";
+                cleanWord === "interface" || cleanWord === "api";
               return (
-                <span
-                  key={i}
-                  className="inline-block mr-[0.2em]"
-                  style={
-                    isAccent ? { color: "var(--navy-accent-text)" } : undefined
-                  }
-                >
-                  {word}
+                <span key={i}>
+                  <span
+                    className="inline-block"
+                    style={
+                      isAccent ? { color: "var(--navy-accent-text)" } : undefined
+                    }
+                  >
+                    {word}
+                  </span>
+                  {/* Real space so the heading reads as words, not one glued string. */}
+                  {i < words.length - 1 ? " " : null}
                 </span>
               );
             })}
           </GlitchText>
 
           {/* Sub description */}
-          <p className="text-sm sm:text-base md:text-lg text-muted-foreground/80 leading-relaxed font-medium">
-            Frontend-leaning full-stack developer. I craft clear interfaces and the
-            APIs behind them, with a bias for performance you can measure, not just
-            claim.
+          <p className="text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed font-medium">
+            Frontend-leaning full-stack developer in Karawang. I work in Next.js,
+            React, and Laravel, and I measure performance before I talk about it.
           </p>
 
           {/* Terminal commands */}
           <div className="flex flex-col gap-3 w-full">
-            <p className="text-[10px] sm:text-[11px] font-mono font-semibold uppercase tracking-widest text-muted-foreground/70">
+            <p className="text-[10px] sm:text-[11px] font-mono font-semibold uppercase tracking-widest text-muted-foreground">
               Try in your terminal
             </p>
             <div className="flex flex-col sm:flex-row gap-3 w-full">
@@ -192,14 +192,12 @@ export function HeroSection() {
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mt-2">
             <a
               href="mailto:contact@habibiahmada.dev"
-              aria-label="Email Habibi to collaborate"
               className="px-8 py-3.5 bg-zinc-950 dark:bg-zinc-50 text-white dark:text-zinc-950 rounded-full font-bold text-sm text-center shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
             >
               Let&apos;s Talk
             </a>
             <a
               href="/projects"
-              aria-label="View my projects"
               className="px-8 py-3.5 rounded-full font-bold text-sm text-center border border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 bg-black/2 dark:bg-white/2 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 text-foreground"
             >
               View My Work
@@ -207,7 +205,6 @@ export function HeroSection() {
             <button
               type="button"
               onClick={() => setCvOpen(true)}
-              aria-label="View CV"
               className="px-8 py-3.5 rounded-full font-bold text-sm text-center border border-transparent hover:border-black/10 dark:hover:border-white/10 text-muted-foreground hover:text-foreground hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 cursor-pointer"
             >
               View CV

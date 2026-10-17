@@ -29,7 +29,7 @@ export const ARCHIVE_GROUPS: {
   {
     id: "web-app",
     label: "Web applications",
-    blurb: "Full-stack apps with real workflows, APIs, and roles — school systems, internships, and capstones.",
+    blurb: "Full-stack apps with real workflows, APIs, and roles: school systems, internships, and capstones.",
   },
   {
     id: "website",

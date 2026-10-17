@@ -90,7 +90,7 @@ export function BlogToc({ headings, onNavigate }: BlogTocProps) {
 
   return (
     <nav aria-label="On this page" className="space-y-3">
-      <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-muted-foreground/60">
+      <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-muted-foreground">
         On this page
       </p>
       <ul className="space-y-1 border-l border-black/10 dark:border-white/10">

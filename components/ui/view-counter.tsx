@@ -41,7 +41,7 @@ export function ViewCounter({ postId, initialCount }: ViewCounterProps) {
   }, [postId]);
 
   return (
-    <p className="text-[11px] font-mono text-muted-foreground/70 tabular-nums">
+    <p className="text-[11px] font-mono text-muted-foreground tabular-nums">
       {formatViews(count)} view{count === 1 ? "" : "s"}
     </p>
   );

@@ -84,8 +84,8 @@ export function ProjectCard({
         'group relative flex flex-col overflow-hidden rounded-2xl transition-all duration-500',
         'animate-fade-in-up',
         isFeatured
-          ? 'border border-black/5 bg-white/80 backdrop-blur-sm hover-glitch-card hover:shadow-[0_20px_50px_rgba(15,23,42,0.08)] dark:border-white/8 dark:bg-zinc-900/60 dark:hover:border-white/12 dark:hover:shadow-[0_20px_50px_rgba(0,0,0,0.4)]'
-          : 'border border-black/5 dark:border-white/5 bg-white/60 dark:bg-zinc-950/40 backdrop-blur-sm hover-glitch-card hover:border-black/15 dark:hover:border-white/15 hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-black/40',
+          ? 'border border-black/5 bg-white hover-glitch-card hover:shadow-[0_20px_50px_rgba(15,23,42,0.08)] dark:border-white/8 dark:bg-zinc-900/60 dark:hover:border-white/12 dark:hover:shadow-[0_20px_50px_rgba(0,0,0,0.4)]'
+          : 'border border-black/5 dark:border-white/5 bg-white dark:bg-zinc-950 hover-glitch-card hover:border-black/15 dark:hover:border-white/15 hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-black/40',
       )}
     >
       {/* ── Image Container ── */}
@@ -153,12 +153,12 @@ export function ProjectCard({
       <div className={cn('flex flex-col flex-1', isFeatured ? 'p-5 gap-3' : 'p-5 md:p-6 gap-3')}>
         <div className="flex flex-wrap items-center gap-1.5">
           {originLabel && (
-            <span className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground/70">
+            <span className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground">
               {originLabel}
             </span>
           )}
           {tags.length > 0 && originLabel && (
-            <span className="text-[10px] text-muted-foreground/30" aria-hidden>
+            <span className="text-[10px] text-muted-foreground" aria-hidden>
               ·
             </span>
           )}
@@ -166,7 +166,7 @@ export function ProjectCard({
             <ProjectTag key={tag}>{tag}</ProjectTag>
           ))}
           {project.tags.length > tags.length && (
-            <span className="text-[10px] font-mono self-center text-muted-foreground/50">
+            <span className="text-[10px] font-mono self-center text-muted-foreground">
               +{project.tags.length - tags.length}
             </span>
           )}
@@ -206,7 +206,7 @@ export function ProjectCard({
               Details
             </Link>
           ) : showLiveLink ? (
-            <span className="text-xs font-mono text-muted-foreground/50">{project.year}</span>
+            <span className="text-xs font-mono text-muted-foreground">{project.year}</span>
           ) : null}
           <ProjectLinks liveUrl={project.live_url} hover={!isFeatured} />
         </div>

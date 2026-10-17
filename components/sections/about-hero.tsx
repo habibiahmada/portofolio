@@ -45,8 +45,8 @@ export function AboutHero() {
     <section
       id="about-hero"
       ref={containerRef}
-      aria-label="About hero"
-      className="relative min-h-[90vh] w-full flex flex-col justify-center pt-24 pb-16 md:py-24 overflow-hidden"
+      aria-label="About Habibi Ahmad Aziz"
+      className="relative min-h-[90dvh] w-full flex flex-col justify-center pt-24 pb-16 md:py-24 overflow-hidden"
     >
       {/* Node Network Background Canvas — clustered top-left, mouse coords from hero */}
       <NodeNetworkLazy externalMouseRef={nodeMouseRef} densityBias="topLeft" />
@@ -62,7 +62,7 @@ export function AboutHero() {
       >
         <Image
           src="/images/habibiahmada.webp"
-          alt="Habibi Ahmad Aziz Background"
+          alt="Portrait of Habibi Ahmad Aziz"
           fill
           priority
           draggable={false}
@@ -94,20 +94,18 @@ export function AboutHero() {
           </GlitchText>
 
           {/* One-liner description */}
-          <p className="text-base sm:text-lg md:text-xl text-muted-foreground/90 leading-relaxed font-medium max-w-2xl mt-2 sm:mt-4">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed font-medium max-w-2xl mt-2 sm:mt-4">
             <span className="text-foreground font-semibold">
               Full-Stack Web Developer
             </span>{" "}
-            experienced in building responsive apps and CMS products. Skilled in
-            crafting end-to-end features using{" "}
+            who builds responsive apps and CMS products end to end, with{" "}
             <span
               style={{ color: "var(--navy-accent-text)" }}
               className="font-semibold"
             >
               Next.js, React, Laravel, Node.js,
             </span>{" "}
-            and <span className="text-foreground font-semibold">WordPress</span>{" "}
-            to deliver production-ready solutions.
+            and <span className="text-foreground font-semibold">WordPress</span>.
           </p>
 
           {/* CTAs */}
@@ -132,7 +130,7 @@ export function AboutHero() {
               <div className="text-2xl sm:text-3xl md:text-4xl font-heading font-black text-foreground tracking-tighter">
                 3<span className="text-brand">+</span>
               </div>
-              <div className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider sm:tracking-widest text-muted-foreground/50 mt-1">
+              <div className="text-[11px] font-mono uppercase tracking-wider sm:tracking-widest text-muted-foreground mt-1">
                 Years Building
               </div>
             </div>
@@ -141,7 +139,7 @@ export function AboutHero() {
               <div className="text-2xl sm:text-3xl md:text-4xl font-heading font-black text-foreground tracking-tighter">
                 10<span className="text-brand">+</span>
               </div>
-              <div className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider sm:tracking-widest text-muted-foreground/50 mt-1">
+              <div className="text-[11px] font-mono uppercase tracking-wider sm:tracking-widest text-muted-foreground mt-1">
                 Projects Shipped
               </div>
             </div>
@@ -150,7 +148,7 @@ export function AboutHero() {
               <div className="text-2xl sm:text-3xl md:text-4xl font-heading font-black text-foreground tracking-tighter">
                 2
               </div>
-              <div className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider sm:tracking-widest text-muted-foreground/50 mt-1">
+              <div className="text-[11px] font-mono uppercase tracking-wider sm:tracking-widest text-muted-foreground mt-1">
                 Awards Won
               </div>
             </div>

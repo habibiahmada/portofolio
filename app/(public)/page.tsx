@@ -44,7 +44,7 @@ export default async function Home() {
       <Companies initialData={companies} />
       <Projects initialData={featuredProjects} />
       <HomeBelowFold
-        afterServices={
+        beforeCta={
           <>
             <Press />
             <Process />

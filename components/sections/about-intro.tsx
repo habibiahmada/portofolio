@@ -66,12 +66,11 @@ export function AboutIntro() {
                 apps. I also ship school systems and award-winning AI product
                 work.
               </p>
-              <p className="text-sm md:text-base text-muted-foreground/80 leading-relaxed">
-                Driven by a deep passion for software architecture and modern
-                web technologies, I thrive on solving complex technical
-                challenges. My development philosophy centers on writing clean,
-                scalable code and crafting intuitive digital experiences that
-                deliver tangible impact.
+              <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
+                I care most about the parts that keep a site standing after
+                launch: a clear scope, validation where data comes in, and
+                empty and error states a non-engineer can read. Motion and
+                polish come once the page is fast on a mid-range phone.
               </p>
             </div>
 

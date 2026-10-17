@@ -30,8 +30,7 @@ export function CertificateCard({
       className={cn(
         "group relative flex flex-col overflow-hidden text-left cursor-pointer",
         "border border-black/5 dark:border-white/5",
-        "bg-white/60 dark:bg-zinc-950/40",
-        "backdrop-blur-sm",
+        "bg-white dark:bg-zinc-950",
         "hover:border-black/15 dark:hover:border-white/15",
         "hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-black/40",
         "transition-all duration-500",
@@ -43,7 +42,7 @@ export function CertificateCard({
       {isPinned && (
         <div className="absolute top-3 left-3 z-20 flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-brand/10 backdrop-blur-md border border-brand/20">
           <Pin className="w-2.5 h-2.5 text-brand" />
-          <span className="text-[8px] font-mono font-bold uppercase tracking-widest text-brand">
+          <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-brand">
             Pinned
           </span>
         </div>

@@ -285,7 +285,7 @@ function CaseSection({
   return (
     <section className="space-y-4">
       <div className="space-y-2">
-        <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground/70">
+        <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground">
           {label}
         </p>
         <h2 className="text-lg sm:text-xl font-semibold tracking-tight text-foreground">
@@ -375,7 +375,7 @@ function ProjectMetaAside({
               </div>
             )}
             <div className="min-w-0 space-y-1">
-              <p className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground/70">
+              <p className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground">
                 Context
               </p>
               {originLabel && (
@@ -409,7 +409,7 @@ function ProjectMetaAside({
 
         {role && (
           <div className="pt-1 border-t border-black/5 dark:border-white/8">
-            <p className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground/70 mb-1.5">
+            <p className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground mb-1.5">
               My role
             </p>
             <p className="text-sm text-muted-foreground leading-relaxed">{role}</p>
@@ -418,7 +418,7 @@ function ProjectMetaAside({
 
         {hasStack && (
           <div className="pt-1 border-t border-black/5 dark:border-white/8">
-            <p className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground/70 mb-2.5">
+            <p className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground mb-2.5">
               Stack
             </p>
             <StackIcons stack={stack} />
@@ -427,7 +427,7 @@ function ProjectMetaAside({
 
         {year != null && (
           <div className="pt-1 border-t border-black/5 dark:border-white/8">
-            <p className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground/70 mb-1">
+            <p className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground mb-1">
               Year
             </p>
             <p className="text-sm font-mono text-foreground">{year}</p>
@@ -497,12 +497,12 @@ function LiteDetail({
           <div className="mt-8 md:mt-10 flex flex-col gap-5 md:gap-6">
             <div className="flex flex-wrap items-center gap-2">
               {originLabel && (
-                <span className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground/80 rounded-full border border-black/8 dark:border-white/10 bg-black/[0.03] dark:bg-white/[0.04] px-2.5 py-1">
+                <span className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground rounded-full border border-black/8 dark:border-white/10 bg-black/[0.03] dark:bg-white/[0.04] px-2.5 py-1">
                   {originLabel}
                 </span>
               )}
               {lite.year != null && (
-                <span className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground/70">
+                <span className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground">
                   {lite.year}
                 </span>
               )}
@@ -693,12 +693,12 @@ export default async function ProjectDetailPage({ params }: Props) {
           <div className="mt-8 md:mt-10 flex flex-col gap-5 md:gap-6">
             <div className="flex flex-wrap items-center gap-2">
               {originLabel && (
-                <span className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground/80 rounded-full border border-black/8 dark:border-white/10 bg-black/[0.03] dark:bg-white/[0.04] px-2.5 py-1">
+                <span className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground rounded-full border border-black/8 dark:border-white/10 bg-black/[0.03] dark:bg-white/[0.04] px-2.5 py-1">
                   {originLabel}
                 </span>
               )}
               {catalog.year != null && (
-                <span className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground/70">
+                <span className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground">
                   {catalog.year}
                 </span>
               )}

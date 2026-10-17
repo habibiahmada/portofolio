@@ -48,6 +48,15 @@ export function Navbar() {
     setMobileOpen(false);
   }, [pathname]);
 
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMobileOpen(false);
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [mobileOpen]);
+
   return (
     <>
       <header
@@ -81,7 +90,7 @@ export function Navbar() {
           >
             <Link
               href="/"
-              aria-label="Habibi Ahmad — home"
+              aria-label="habibiahmada, home"
               className="relative text-lg md:text-xl font-black tracking-tight text-foreground select-none"
             >
               habibiahmada
@@ -110,7 +119,9 @@ export function Navbar() {
                     aria-current={active ? "page" : undefined}
                     className={cn(
                       "block px-3 py-1.5 text-xs font-mono font-bold uppercase tracking-[0.18em] nav-link",
-                      active && "text-foreground",
+                      active
+                        ? "text-foreground"
+                        : "text-muted-foreground hover:text-foreground",
                     )}
                   >
                     {link.label}
@@ -138,7 +149,7 @@ export function Navbar() {
               aria-expanded={mobileOpen}
               aria-controls="mobile-menu"
               className={`
-                md:hidden relative w-9 h-9 flex items-center justify-center
+                md:hidden relative w-11 h-11 flex items-center justify-center
                 rounded-xl border transition-all duration-300
                 ${
                   mobileOpen
@@ -207,7 +218,10 @@ export function Navbar() {
                         onClick={() => setMobileOpen(false)}
                         data-text={link.label}
                         aria-current={active ? "page" : undefined}
-                        className="block px-4 py-3 text-base font-mono font-bold uppercase tracking-[0.2em] text-foreground/50 nav-link"
+                        className={cn(
+                          "block px-4 py-3 text-base font-mono font-bold uppercase tracking-[0.2em] nav-link",
+                          active ? "text-foreground" : "text-muted-foreground",
+                        )}
                       >
                         <span className="flex items-center">
                           <span>{link.label}</span>

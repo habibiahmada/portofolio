@@ -85,7 +85,7 @@ export function ProjectsPage({ locale = "en", initialData }: ProjectsPageProps) 
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-foreground leading-tight">
               Work I can walk you through
             </h1>
-            <p className="text-sm sm:text-base text-muted-foreground/60 max-w-2xl leading-relaxed">
+            <p className="text-sm sm:text-base text-muted-foreground max-w-2xl leading-relaxed">
               Featured case studies first: school systems, AI products, and sites
               I shipped as a web developer. The archive below groups the rest by
               type. Cards mark personal work versus employment, with team projects
@@ -99,7 +99,7 @@ export function ProjectsPage({ locale = "en", initialData }: ProjectsPageProps) 
                 key={stat.label}
                 className="rounded-2xl border border-black/5 dark:border-white/8 bg-white/50 dark:bg-zinc-950/40 px-4 py-4 md:px-5 md:py-5"
               >
-                <dt className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground/70">
+                <dt className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground">
                   {stat.label}
                 </dt>
                 <dd className="mt-2 text-3xl md:text-4xl font-black tracking-tight text-foreground">
@@ -129,7 +129,7 @@ export function ProjectsPage({ locale = "en", initialData }: ProjectsPageProps) 
                   <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground">
                     Featured case studies
                   </h2>
-                  <p className="text-sm text-muted-foreground/70 max-w-xl leading-relaxed">
+                  <p className="text-sm text-muted-foreground max-w-xl leading-relaxed">
                     Six ships with a longer write-up: E-Vote, JepangKu,
                     CultureConnect, Smartfarm, BagiBerkah, and Terraju.
                   </p>
@@ -151,13 +151,13 @@ export function ProjectsPage({ locale = "en", initialData }: ProjectsPageProps) 
             {archive.groups.map((group) => (
               <section key={group.label} className="space-y-6">
                 <div className="space-y-2">
-                  <span className="text-xs font-mono tracking-widest text-muted-foreground/70 uppercase block">
+                  <span className="text-xs font-mono tracking-widest text-muted-foreground uppercase block">
                     Archive
                   </span>
                   <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground">
                     {group.label}
                   </h2>
-                  <p className="text-sm text-muted-foreground/70 max-w-xl leading-relaxed">
+                  <p className="text-sm text-muted-foreground max-w-xl leading-relaxed">
                     {group.blurb}
                   </p>
                 </div>

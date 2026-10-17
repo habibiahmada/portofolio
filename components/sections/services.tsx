@@ -60,7 +60,8 @@ function InViewVisual({ Visual }: { Visual: ComponentType }) {
   }, []);
 
   return (
-    <div ref={ref} className="w-full h-44">
+    // Illustrations only; the card text carries the meaning.
+    <div ref={ref} className="w-full h-44" aria-hidden>
       {show ? <Visual /> : (
         <div className="w-full h-44 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-black/5 dark:border-white/5" />
       )}
@@ -71,38 +72,38 @@ function InViewVisual({ Visual }: { Visual: ComponentType }) {
 const CARDS = [
   {
     label: "01 / Design",
-    title: "Web Design & Mobile-First",
+    title: "Responsive web design",
     description:
-      "Translating ideas into pixel-perfect responsive interfaces. Wireframes to production-ready layouts that feel intuitive on every device.",
+      "I lay pages out phone-first, then scale them up. Wireframes end up as real pages in code, not a Figma file nobody ships.",
     Visual: LayoutDesignerVisual,
     className: "sm:col-span-2 lg:col-span-2",
   },
   {
     label: "02 / Engineering",
-    title: "Frontend Development",
+    title: "Frontend in React and Next.js",
     description:
-      "High-quality UIs with React & Next.js. Clean components, reusable logic, and fluid state management.",
+      "Small components, state kept close to where it is used, and loading, empty, and error states written before launch.",
     Visual: CodeEditorVisual,
   },
   {
     label: "03 / Performance",
-    title: "Web Performance",
+    title: "Performance and SEO basics",
     description:
-      "Core Web Vitals optimization for instant load. SEO-ready architecture that ranks and converts.",
+      "I run Lighthouse before and after a change and fix what the numbers point at: image weight, JavaScript size, metadata.",
     Visual: SpeedometerGaugeVisual,
   },
   {
     label: "04 / Backend",
-    title: "APIs & Databases",
+    title: "APIs and databases",
     description:
-      "Robust REST APIs, relational databases, and secure auth systems built to scale with your product.",
+      "REST APIs in Laravel or Node.js on relational databases, with validation at the boundary and roles that match who really uses the app.",
     Visual: NodeGraphVisual,
   },
   {
     label: "05 / DevOps",
-    title: "CI/CD & Deployment",
+    title: "Deployment",
     description:
-      "Automated pipelines, container-ready apps, serverless hosting, and zero-downtime production deploys.",
+      "Git-based deploys to Vercel, shared hosting, or a VPS with Docker, with preview builds so feedback lands before production.",
     Visual: CICDPipelineVisual,
   },
 ];
@@ -113,15 +114,14 @@ export function Services() {
       <PageShell wide>
         <div className="max-w-2xl mb-14 space-y-3">
           <span className="text-xs font-mono tracking-widest text-brand uppercase block">
-            My Services
+            Services
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight">
-            Comprehensive
-            <br className="sm:hidden" /> Solutions
+            What I can build for you
           </h2>
-          <p className="text-sm md:text-base text-muted-foreground/80 leading-relaxed font-medium max-w-lg">
-            From wireframe concepts to fully animated frontends and scalable
-            servers. I build performant products that stand out.
+          <p className="text-sm md:text-base text-muted-foreground leading-relaxed font-medium max-w-lg">
+            The same five jobs show up across my case studies, so you can check
+            each one against shipped work before we talk.
           </p>
         </div>
 
@@ -141,7 +141,7 @@ export function Services() {
                 <h3 className="text-base font-bold text-foreground leading-snug">
                   {card.title}
                 </h3>
-                <p className="text-xs text-muted-foreground/75 leading-relaxed">
+                <p className="text-xs text-muted-foreground leading-relaxed">
                   {card.description}
                 </p>
               </div>

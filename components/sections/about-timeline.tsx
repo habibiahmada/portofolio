@@ -52,7 +52,7 @@ const timelineData = [
     title: "Web Developer Intern",
     highlight: null,
     description:
-      "Full-stack intern on internal company web projects. Shipped features end to end with modern stacks.",
+      "Full-stack intern on internal company web projects. Shipped features end to end, from database to UI.",
     skills: ["Full-stack", "Internal tools"],
   },
   {
@@ -115,10 +115,10 @@ function ExperienceItem({ item, index }: { item: Entry; index: number }) {
   return (
     <article className="group grid grid-cols-1 sm:grid-cols-12 gap-3 sm:gap-6 py-6 sm:py-7 first:pt-0">
       <div className="sm:col-span-3 flex sm:flex-col gap-2 sm:gap-1 items-baseline sm:items-start">
-        <span className="text-[10px] font-mono text-muted-foreground/40 tabular-nums">
+        <span className="text-[10px] font-mono text-muted-foreground tabular-nums">
           {String(index + 1).padStart(2, "0")}
         </span>
-        <span className="text-xs font-mono uppercase tracking-[0.14em] text-muted-foreground/70">
+        <span className="text-xs font-mono uppercase tracking-[0.14em] text-muted-foreground">
           {periodLabel(item.start_date, item.end_date)}
         </span>
       </div>
@@ -129,12 +129,12 @@ function ExperienceItem({ item, index }: { item: Entry; index: number }) {
             {item.title}
           </h3>
           {item.highlight && (
-            <span className="text-[9px] font-mono font-bold uppercase tracking-widest text-brand border border-brand/25 px-2 py-0.5 rounded-full">
+            <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-brand border border-brand/25 px-2 py-0.5 rounded-full">
               {item.highlight}
             </span>
           )}
           {ongoing && (
-            <span className="inline-flex items-center gap-1.5 text-[9px] font-mono font-bold uppercase tracking-widest text-emerald-500">
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-mono font-bold uppercase tracking-widest text-emerald-500">
               <span className="relative flex h-1.5 w-1.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-400" />
@@ -144,7 +144,7 @@ function ExperienceItem({ item, index }: { item: Entry; index: number }) {
           )}
         </div>
         <p className="text-sm font-medium text-brand">{item.company}</p>
-        <p className="text-xs text-muted-foreground/55">{item.location}</p>
+        <p className="text-xs text-muted-foreground">{item.location}</p>
         <p className="text-sm text-muted-foreground leading-relaxed max-w-2xl pt-0.5">
           {item.description}
         </p>
@@ -153,7 +153,7 @@ function ExperienceItem({ item, index }: { item: Entry; index: number }) {
             {item.skills.map((skill) => (
               <li
                 key={skill}
-                className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground/50"
+                className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground"
               >
                 {skill}
               </li>
@@ -171,7 +171,7 @@ function EducationTile({ item }: { item: Entry }) {
 
   return (
     <article className="space-y-2 py-1">
-      <p className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground/55">
+      <p className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground">
         {ys} – {ye}
       </p>
       <h3 className="text-lg font-bold tracking-tight text-foreground leading-snug">

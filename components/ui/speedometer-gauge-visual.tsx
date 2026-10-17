@@ -94,14 +94,14 @@ export function SpeedometerGaugeVisual() {
             <span className="text-2xl font-black text-emerald-500 font-mono leading-none tabular-nums">
               {score}
             </span>
-            <span className="text-[7px] text-muted-foreground/55 font-mono uppercase tracking-widest mt-0.5">
+            <span className="text-[7px] text-muted-foreground font-mono uppercase tracking-widest mt-0.5">
               Perf
             </span>
           </div>
         </div>
 
         <div className="flex-1 min-w-0 space-y-2.5">
-          <div className="text-[8px] font-mono text-muted-foreground/50 uppercase tracking-widest">
+          <div className="text-[8px] font-mono text-muted-foreground uppercase tracking-widest">
             Core Web Vitals
           </div>
           {METRICS.map((m, i) => (
@@ -114,7 +114,7 @@ export function SpeedometerGaugeVisual() {
               transition={{ delay: i * 0.1, duration: 0.35 }}
               className="flex items-center gap-2"
             >
-              <span className="text-[9px] font-mono text-muted-foreground/65 w-7 shrink-0">
+              <span className="text-[9px] font-mono text-muted-foreground w-7 shrink-0">
                 {m.label}
               </span>
               <div className="h-1 flex-1 rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden">
