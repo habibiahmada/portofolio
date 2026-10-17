@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { ViewTransition } from "react";
+import { PageTransition } from "@/components/page-transition";
+import { blogCoverTransitionName } from "@/lib/view-transitions";
 import { PageShell } from "@/components/ui/page-shell";
 import { MarkdownRenderer } from "@/components/ui/markdown-renderer";
 import { BlogArticleSidebar } from "@/components/ui/blog-article-sidebar";
@@ -90,10 +93,12 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   const viewCount = Number(post.view_count) || 0;
 
   return (
+    <PageTransition key={post.slug}>
     <main className="min-h-screen">
       <PageShell className="py-16 md:py-24">
         <Link
           href="/blog"
+          transitionTypes={["nav-back"]}
           className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors mb-10"
         >
           <svg
@@ -114,16 +119,18 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
         {post.cover_url && (
           <div className="mb-8 md:mb-12">
-            <div className="relative aspect-[21/9] md:aspect-[2.4/1] rounded-2xl overflow-hidden bg-black/5 dark:bg-white/5">
-              <Image
-                src={post.cover_url}
-                alt={post.title}
-                fill
-                className="object-cover"
-                sizes="(max-width: 1280px) 100vw, 1280px"
-                priority
-              />
-            </div>
+            <ViewTransition name={blogCoverTransitionName(post.slug)} share="morph" default="none">
+              <div className="relative aspect-[21/9] md:aspect-[2.4/1] rounded-2xl overflow-hidden bg-black/5 dark:bg-white/5">
+                <Image
+                  src={post.cover_url}
+                  alt={post.title}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1280px) 100vw, 1280px"
+                  priority
+                />
+              </div>
+            </ViewTransition>
           </div>
         )}
 
@@ -183,6 +190,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
             <div className="mt-10">
               <Link
                 href="/blog"
+                transitionTypes={["nav-back"]}
                 className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors"
               >
                 <svg
@@ -223,5 +231,6 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
         readingTime={post.reading_time_minutes}
       />
     </main>
+    </PageTransition>
   );
 }

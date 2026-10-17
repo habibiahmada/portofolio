@@ -6,6 +6,7 @@ import { Copy, Check } from "lucide-react";
 import { GlitchText } from "@/components/ui/glitch-text";
 import { NodeNetworkLazy } from "@/components/ui/node-network-lazy";
 import Image from "next/image";
+import Link from "next/link";
 
 function TerminalCopyBlock({ command }: { command: string }) {
   const [copied, setCopied] = useState(false);
@@ -94,7 +95,7 @@ export function HeroSection() {
     }
   };
 
-  const headingText = "I build web apps from the interface down to the API.";
+  const headingText = "Web developer at Webekspres, building from Karawang.";
   const words = headingText.split(" ");
 
   return (
@@ -153,7 +154,7 @@ export function HeroSection() {
             {words.map((word, i) => {
               const cleanWord = word.toLowerCase().replace(/[^a-z]/g, "");
               const isAccent =
-                cleanWord === "interface" || cleanWord === "api";
+                cleanWord === "webekspres" || cleanWord === "karawang";
               return (
                 <span key={i}>
                   <span
@@ -173,8 +174,8 @@ export function HeroSection() {
 
           {/* Sub description */}
           <p className="text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed font-medium">
-            Frontend-leaning full-stack developer in Karawang. I work in Next.js,
-            React, and Laravel, and I measure performance before I talk about it.
+            Company sites, school systems, and web apps in Next.js, React, and
+            Laravel.
           </p>
 
           {/* Terminal commands */}
@@ -196,12 +197,12 @@ export function HeroSection() {
             >
               Let&apos;s Talk
             </a>
-            <a
+            <Link
               href="/projects"
               className="px-8 py-3.5 rounded-full font-bold text-sm text-center border border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 bg-black/2 dark:bg-white/2 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 text-foreground"
             >
               View My Work
-            </a>
+            </Link>
             <button
               type="button"
               onClick={() => setCvOpen(true)}

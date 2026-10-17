@@ -33,6 +33,57 @@ export const getPublishedPosts = unstable_cache(
   { revalidate: BLOG_REVALIDATE_SECONDS, tags: [DATA_TAGS.blog] },
 );
 
+/** Fields the blog list needs. Leaves out body_md so a page stays small. */
+export type BlogPostSummary = Pick<
+  BlogPostRow,
+  | "id"
+  | "slug"
+  | "title"
+  | "seo_title"
+  | "description"
+  | "category"
+  | "tags"
+  | "cover_url"
+  | "reading_time_minutes"
+  | "published_at"
+>;
+
+const SUMMARY_COLUMNS =
+  "id, slug, title, seo_title, description, category, tags, cover_url, reading_time_minutes, published_at";
+
+/** Most posts a single list request may return. */
+export const BLOG_PAGE_SIZE_MAX = 20;
+
+async function queryPostSummaries(
+  category: BlogCategory | null,
+  offset: number,
+  limit: number,
+): Promise<{ posts: BlogPostSummary[]; total: number }> {
+  const supabase = getSupabaseAnonClient();
+  let query = supabase
+    .from("blog_posts")
+    .select(SUMMARY_COLUMNS, { count: "exact" })
+    .eq("status", "published");
+  if (category) query = query.eq("category", category);
+
+  const { data, error, count } = await query
+    .order("published_at", { ascending: false })
+    .range(offset, offset + limit - 1);
+
+  if (error) throw new Error(error.message);
+  return { posts: (data ?? []) as BlogPostSummary[], total: count ?? 0 };
+}
+
+/**
+ * One page of published post summaries, newest first, plus the total count
+ * for the same filter. Cached per (category, offset, limit).
+ */
+export const getPostSummaries = unstable_cache(
+  queryPostSummaries,
+  ["blog-post-summaries"],
+  { revalidate: BLOG_REVALIDATE_SECONDS, tags: [DATA_TAGS.blog] },
+);
+
 async function queryPostBySlug(slug: string): Promise<BlogPostRow | null> {
   const supabase = getSupabaseAnonClient();
   const { data, error } = await supabase

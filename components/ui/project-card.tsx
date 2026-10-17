@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { ViewTransition } from 'react'
 import Link from 'next/link'
 import { ArrowUpRight, ExternalLink } from 'lucide-react'
 import { ProjectTag } from '@/components/ui/project-tag'
@@ -9,6 +10,7 @@ import { getProjectTitle, getProjectDescription, hasPublicProjectUrl, type Proje
 import { getCaseStudySlugByProjectId } from '@/lib/data/case-studies'
 import { getProjectTaxonomy, ORIGIN_LABEL } from '@/lib/data/project-taxonomy'
 import { cn } from '@/lib/utils'
+import { projectMediaTransitionName } from '@/lib/view-transitions'
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -88,7 +90,8 @@ export function ProjectCard({
           : 'border border-black/5 dark:border-white/5 bg-white dark:bg-zinc-950 hover-glitch-card hover:border-black/15 dark:hover:border-white/15 hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-black/40',
       )}
     >
-      {/* ── Image Container ── */}
+      {/* ── Image Container: morphs into the detail hero on navigation ── */}
+      <ViewTransition name={projectMediaTransitionName(project.id)} share="morph" default="none">
       <div className="relative overflow-hidden aspect-16/10">
         <Image
           src={project.image}
@@ -148,6 +151,7 @@ export function ProjectCard({
           </QuickLink>
         </div>
       </div>
+      </ViewTransition>
 
       {/* Content: origin + title + one line blurb + footer. Role/outcome live on /projects/[slug]. */}
       <div className={cn('flex flex-col flex-1', isFeatured ? 'p-5 gap-3' : 'p-5 md:p-6 gap-3')}>
@@ -179,7 +183,7 @@ export function ProjectCard({
           )}
         >
           {detailHref ? (
-            <Link href={detailHref} className="hover:text-brand transition-colors">
+            <Link href={detailHref} transitionTypes={['nav-forward']} className="hover:text-brand transition-colors">
               {shortTitle}
             </Link>
           ) : (
@@ -201,6 +205,7 @@ export function ProjectCard({
           {detailHref ? (
             <Link
               href={detailHref}
+              transitionTypes={['nav-forward']}
               className="text-xs font-mono font-semibold uppercase tracking-wider text-brand hover:underline underline-offset-2"
             >
               Details

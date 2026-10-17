@@ -7,6 +7,7 @@ import { Certificates } from '@/components/sections/certificates'
 import { CTA } from '@/components/sections/cta'
 import { getPinnedCertificates, getNonPinnedCertificates } from '@/lib/data/certificates'
 import { pageMetadata, SITE_COPY } from '@/lib/site-metadata'
+import { PageTransition } from '@/components/page-transition'
 
 export const metadata: Metadata = {
   ...pageMetadata({
@@ -37,6 +38,7 @@ export default async function Page() {
   ])
 
   return (
+    <PageTransition>
     <main className="w-full overflow-x-hidden">
       <AboutHero />
       <AboutIntro />
@@ -48,5 +50,6 @@ export default async function Page() {
       />
       <CTA />
     </main>
+    </PageTransition>
   )
 }

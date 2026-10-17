@@ -1,6 +1,7 @@
 import { Navbar } from '@/components/navigation'
 import { Footer } from '@/components/sections/footer'
 import { TerminalShellWidget } from '@/components/ui/terminal-shell-widget'
+import { SmoothScroll } from '@/components/smooth-scroll'
 
 export default function PublicLayout({
   children,
@@ -38,6 +39,7 @@ export default function PublicLayout({
       </div>
 
       <TerminalShellWidget />
+      <SmoothScroll />
     </>
   )
 }

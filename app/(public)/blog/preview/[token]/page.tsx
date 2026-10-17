@@ -6,6 +6,7 @@ import { BlogArticleSidebar } from "@/components/ui/blog-article-sidebar";
 import { extractBlogHeadings } from "@/lib/extract-blog-headings";
 import { getDraftByPreviewToken } from "@/lib/blog-publish";
 import { pageMetadata, SITE } from "@/lib/site-metadata";
+import { PageTransition } from "@/components/page-transition";
 
 export const dynamic = "force-dynamic";
 export const robots = { index: false, follow: false };
@@ -70,6 +71,7 @@ export default async function BlogPreviewPage({
   const previewUrl = `${SITE.url}/blog/preview/${token}`;
 
   return (
+    <PageTransition>
     <main className="min-h-screen">
       <PageShell className="py-16 md:py-24">
         <div className="max-w-3xl mb-8 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-950 dark:text-amber-100">
@@ -152,5 +154,6 @@ export default async function BlogPreviewPage({
         </div>
       </PageShell>
     </main>
+    </PageTransition>
   );
 }

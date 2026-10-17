@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { ProjectsPage } from '@/components/sections/projects-page'
 import { getProjects } from '@/lib/data/projects'
 import { pageMetadata, SITE_COPY } from '@/lib/site-metadata'
+import { PageTransition } from '@/components/page-transition'
 
 export const metadata: Metadata = {
   ...pageMetadata({
@@ -28,8 +29,10 @@ export default async function ProjectsPageRoute() {
   const { items: projects } = await getProjects({ page: 1, pageSize: 100 })
 
   return (
+    <PageTransition>
     <main className="min-h-screen bg-background">
       <ProjectsPage locale="en" initialData={projects} />
     </main>
+    </PageTransition>
   )
 }

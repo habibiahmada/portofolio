@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ViewTransition } from "react";
+import { PageTransition } from "@/components/page-transition";
+import { projectMediaTransitionName } from "@/lib/view-transitions";
 import { ArrowUpRight } from "lucide-react";
 import {
   getCaseStudy,
@@ -447,6 +450,7 @@ function neighborTitle(neighbor: CaseStudy | null) {
 
 function LiteDetail({
   slug,
+  projectId,
   lite,
   brief,
   originLabel,
@@ -454,6 +458,7 @@ function LiteDetail({
   teamCredit,
 }: {
   slug: string;
+  projectId: string;
   lite: LiteProject;
   brief?: ProjectBrief;
   originLabel?: string;
@@ -472,6 +477,7 @@ function LiteDetail({
   );
 
   return (
+    <PageTransition key={slug}>
     <main className="w-full overflow-x-hidden">
       <ProjectJsonLd
         slug={slug}
@@ -489,6 +495,7 @@ function LiteDetail({
         <div className={PAGE_SHELL}>
           <Link
             href="/projects"
+            transitionTypes={["nav-back"]}
             className="inline-flex text-xs font-mono tracking-widest text-muted-foreground hover:text-foreground transition-colors uppercase"
           >
             ← All projects
@@ -532,6 +539,7 @@ function LiteDetail({
       {lite.image && (
         <div className={`${PAGE_PAD} pb-10 md:pb-12`}>
           <div className={PAGE_SHELL}>
+            <ViewTransition name={projectMediaTransitionName(projectId)} share="morph" default="none">
             <div className="relative mx-auto w-full max-w-5xl aspect-16/10 md:aspect-[2/1] rounded-2xl overflow-hidden border border-black/5 dark:border-white/8 bg-zinc-100/80 dark:bg-zinc-950">
               <Image
                 src={lite.image}
@@ -542,6 +550,7 @@ function LiteDetail({
                 sizes="(max-width: 1280px) 100vw, 1100px"
               />
             </div>
+            </ViewTransition>
           </div>
         </div>
       )}
@@ -618,6 +627,7 @@ function LiteDetail({
         </div>
       </article>
     </main>
+    </PageTransition>
   );
 }
 
@@ -640,6 +650,7 @@ export default async function ProjectDetailPage({ params }: Props) {
     return (
       <LiteDetail
         slug={slug}
+        projectId={String(projectId)}
         lite={lite}
         brief={brief}
         originLabel={originLabel}
@@ -668,6 +679,7 @@ export default async function ProjectDetailPage({ params }: Props) {
     Boolean(originLabel);
 
   return (
+    <PageTransition key={slug}>
     <main className="w-full overflow-x-hidden">
       <ProjectJsonLd
         slug={study.slug}
@@ -685,6 +697,7 @@ export default async function ProjectDetailPage({ params }: Props) {
         <div className={PAGE_SHELL}>
           <Link
             href="/projects"
+            transitionTypes={["nav-back"]}
             className="inline-flex text-xs font-mono tracking-widest text-muted-foreground hover:text-foreground transition-colors uppercase"
           >
             ← All projects
@@ -728,6 +741,7 @@ export default async function ProjectDetailPage({ params }: Props) {
       {catalog.image && (
         <div className={`${PAGE_PAD} pb-10 md:pb-12`}>
           <div className={PAGE_SHELL}>
+            <ViewTransition name={projectMediaTransitionName(study.projectId)} share="morph" default="none">
             <div className="relative mx-auto w-full max-w-5xl aspect-16/10 md:aspect-[2/1] rounded-2xl overflow-hidden border border-black/5 dark:border-white/8 bg-zinc-100/80 dark:bg-zinc-950">
               <Image
                 src={catalog.image}
@@ -738,6 +752,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                 sizes="(max-width: 1280px) 100vw, 1100px"
               />
             </div>
+            </ViewTransition>
           </div>
         </div>
       )}
@@ -823,6 +838,7 @@ export default async function ProjectDetailPage({ params }: Props) {
               {prev && prevTitle ? (
                 <Link
                   href={`/projects/${prev.slug}`}
+                  transitionTypes={["nav-back"]}
                   className="group px-5 py-4 md:px-6 md:py-5 space-y-1 hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors"
                 >
                   <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
@@ -838,6 +854,7 @@ export default async function ProjectDetailPage({ params }: Props) {
               {next && nextTitle ? (
                 <Link
                   href={`/projects/${next.slug}`}
+                  transitionTypes={["nav-forward"]}
                   className="group px-5 py-4 md:px-6 md:py-5 space-y-1 sm:text-right hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors"
                 >
                   <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
@@ -853,5 +870,6 @@ export default async function ProjectDetailPage({ params }: Props) {
         </div>
       </div>
     </main>
+    </PageTransition>
   );
 }

@@ -12,6 +12,7 @@ import {
 } from '@/lib/data/projects'
 import { pageMetadata, SITE_COPY } from '@/lib/site-metadata'
 import { Analytics } from '@vercel/analytics/react'
+import { PageTransition } from '@/components/page-transition'
 
 const base = pageMetadata({
   title: SITE_COPY.defaultTitle,
@@ -38,6 +39,7 @@ export default async function Home() {
   ])
 
   return (
+    <PageTransition>
     <main className="w-full overflow-x-hidden">
       <Analytics />
       <HeroSection />
@@ -52,5 +54,6 @@ export default async function Home() {
         }
       />
     </main>
+    </PageTransition>
   )
 }

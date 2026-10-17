@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { PageShell } from "@/components/ui/page-shell";
 
 const NAV_LINKS = [
@@ -115,12 +116,12 @@ export function Footer() {
           <ul role="list">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
-                <a
+                <Link
                   href={link.href}
                   className="inline-flex min-h-11 items-center text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors duration-250 sm:min-h-9"
                 >
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

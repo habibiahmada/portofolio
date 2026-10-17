@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { PageShell } from "@/components/ui/page-shell";
 import { NodeNetworkLazy } from "@/components/ui/node-network-lazy";
 
@@ -40,12 +41,12 @@ export function CTA() {
             >
               Let&apos;s talk
             </a>
-            <a
+            <Link
               href="/projects"
               className="inline-flex items-center justify-center px-8 py-3.5 rounded-full font-bold text-sm border border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 text-foreground transition-colors text-center"
             >
               Browse projects
-            </a>
+            </Link>
           </div>
         </div>
       </PageShell>

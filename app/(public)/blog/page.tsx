@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell } from "@/components/ui/page-shell";
-import { getPublishedPosts } from "@/lib/data/blog";
+import { getPostSummaries, isBlogCategory } from "@/lib/data/blog";
+import { BlogFeed } from "@/components/ui/blog-feed";
+import { BLOG_CATEGORY_LABELS as CATEGORY_LABELS } from "@/components/ui/blog-post-card";
+import { PageTransition } from "@/components/page-transition";
 import { BLOG_CATEGORIES } from "@/lib/data/constants";
 import { pageMetadata, SITE_COPY, SITE } from "@/lib/site-metadata";
 
@@ -22,36 +25,8 @@ export const metadata: Metadata = pageMetadata({
   ],
 });
 
-// ─── Category label map ────────────────────────────────────────────────────
-
-const CATEGORY_LABELS: Record<string, string> = {
-  programming: "Programming",
-  education: "Education",
-  web: "Web",
-  career: "Career",
-  opinion: "Opinion",
-  "news-commentary": "News",
-};
-
-// ─── Date formatter ────────────────────────────────────────────────────────
-
-function formatDate(dateStr: string | null): string {
-  if (!dateStr) return "";
-  const d = new Date(dateStr);
-  return d.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-}
-
-// ─── Category badge colors ─────────────────────────────────────────────────
-
-// One neutral chip for every category. The label carries the meaning; six hues
-// per category pushed the page past a 2-3 color palette.
-function categoryBadgeColor(_category: string): string {
-  return "bg-zinc-100 text-zinc-700 border-zinc-200 dark:bg-zinc-900 dark:text-zinc-300 dark:border-zinc-700";
-}
+/** Posts in the first server render; later pages load as you scroll. */
+const PAGE_SIZE = 10;
 
 // ─── Page Component ────────────────────────────────────────────────────────
 
@@ -61,16 +36,12 @@ interface BlogPageProps {
 
 export default async function BlogPage({ searchParams }: BlogPageProps) {
   const params = await searchParams;
-  const allPosts = await getPublishedPosts();
-  const activeCategory = params.category ?? null;
-
-  const filteredPosts = activeCategory
-    ? allPosts.filter((p) => p.category === activeCategory)
-    : allPosts;
-
-  const postCount = filteredPosts.length;
+  const activeCategory = isBlogCategory(params.category) ? params.category : null;
+  const { posts, total } = await getPostSummaries(activeCategory, 0, PAGE_SIZE);
+  const postCount = total;
 
   return (
+    <PageTransition>
     <main className="min-h-screen">
       <PageShell className="py-16 md:py-24">
         {/* Header */}
@@ -149,95 +120,19 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
           </div>
         )}
 
-        {/* Post List */}
-        <div className="space-y-4">
-          {filteredPosts.map((post) => (
-            <article
-              key={post.id}
-              className="group border border-black/5 dark:border-white/8 rounded-2xl overflow-hidden bg-white dark:bg-zinc-900 hover:border-black/15 dark:hover:border-white/15 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-black/40 transition-all duration-300"
-            >
-              <Link href={`/blog/${post.slug}`} className="block">
-                <div className="flex flex-col sm:flex-row sm:items-stretch gap-0">
-                  {post.cover_url ? (
-                    <div className="relative sm:w-48 md:w-56 lg:w-64 shrink-0 aspect-[16/10] sm:aspect-auto sm:min-h-[140px] bg-black/5 dark:bg-white/5">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={post.cover_url}
-                        alt=""
-                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                        loading="lazy"
-                      />
-                    </div>
-                  ) : null}
-
-                  <div className="flex flex-1 min-w-0 gap-3 sm:gap-4 p-5 md:p-6">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex flex-wrap items-center gap-2 mb-2">
-                        <span
-                          className={`inline-flex px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider border ${categoryBadgeColor(post.category)}`}
-                        >
-                          {CATEGORY_LABELS[post.category] ?? post.category}
-                        </span>
-                        {post.published_at && (
-                          <time
-                            dateTime={post.published_at}
-                            className="text-[11px] font-mono text-muted-foreground"
-                          >
-                            {formatDate(post.published_at)}
-                          </time>
-                        )}
-                        {post.reading_time_minutes && (
-                          <span className="text-[11px] font-mono text-muted-foreground">
-                            {post.reading_time_minutes} min read
-                          </span>
-                        )}
-                      </div>
-
-                      <h2 className="text-lg md:text-xl font-bold tracking-tight text-foreground group-hover:text-brand transition-colors leading-snug mb-2">
-                        {post.seo_title || post.title}
-                      </h2>
-
-                      <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">
-                        {post.description}
-                      </p>
-
-                      {post.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-1.5 mt-3">
-                          {post.tags.slice(0, 4).map((tag) => (
-                            <span
-                              key={tag}
-                              className="text-[10px] font-mono text-muted-foreground bg-black/5 dark:bg-white/5 px-2 py-0.5 rounded"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="hidden sm:flex items-center self-center shrink-0">
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="text-muted-foreground group-hover:text-brand group-hover:translate-x-1 transition-all duration-300"
-                      >
-                        <path d="M5 12h14" />
-                        <path d="m12 5 7 7-7 7" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </article>
-          ))}
-        </div>
+        {/* Post list: first page server-rendered, the rest on scroll. Keyed by
+            category so switching filters starts a fresh list. */}
+        {postCount > 0 && (
+          <BlogFeed
+            key={activeCategory ?? "all"}
+            initialPosts={posts}
+            total={total}
+            pageSize={PAGE_SIZE}
+            category={activeCategory}
+          />
+        )}
       </PageShell>
     </main>
+    </PageTransition>
   );
 }
