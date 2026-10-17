@@ -134,11 +134,9 @@ function ExperienceItem({ item, index }: { item: Entry; index: number }) {
             </span>
           )}
           {ongoing && (
-            <span className="inline-flex items-center gap-1.5 text-[11px] font-mono font-bold uppercase tracking-widest text-emerald-500">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-400" />
-              </span>
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-mono font-bold uppercase tracking-widest text-emerald-700 dark:text-emerald-400">
+              {/* Marks the current role; no looping pulse. */}
+              <span aria-hidden className="inline-flex rounded-full h-1.5 w-1.5 bg-emerald-600 dark:bg-emerald-400" />
               Present
             </span>
           )}
@@ -177,7 +175,7 @@ function EducationTile({ item }: { item: Entry }) {
       <h3 className="text-lg font-bold tracking-tight text-foreground leading-snug">
         {item.title}
       </h3>
-      <p className="text-sm font-medium text-emerald-500">{item.company}</p>
+      <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400">{item.company}</p>
       <p className="text-sm text-muted-foreground leading-relaxed">
         {item.description}
       </p>
@@ -247,7 +245,7 @@ export function AboutTimeline() {
 
           <div>
             <div className="max-w-2xl mb-10 space-y-3">
-              <span className="text-xs font-mono tracking-widest text-emerald-500 uppercase block">
+              <span className="text-xs font-mono tracking-widest text-emerald-600 dark:text-emerald-400 uppercase block">
                 Education
               </span>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight">

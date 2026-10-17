@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { monoIconClass } from "@/lib/data/stack-icons";
 
 /** Prefer colored brand marks; monochrome logos use an explicit light color for dark UI. */
 const techs = [
@@ -85,7 +86,7 @@ function TechIcon({ name, icon }: Tech) {
         loading="lazy"
         unoptimized
         draggable={false}
-        className="object-contain select-none"
+        className={`object-contain select-none ${monoIconClass(icon)}`}
         sizes="64px"
         title={name}
       />

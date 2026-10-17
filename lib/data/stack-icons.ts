@@ -27,6 +27,17 @@ const STACK_ICONS: Record<string, string> = {
     "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tensorflow/tensorflow-original.svg",
 };
 
+/**
+ * Monochrome logos ship in one color, so they vanish on one theme.
+ * White marks (simpleicons ".../ffffff") are inverted to black in light mode;
+ * black marks (devicon Express) are inverted to white in dark mode.
+ */
+export function monoIconClass(src: string): string {
+  if (src.endsWith("/ffffff")) return "invert dark:invert-0";
+  if (src.includes("/express/express-original")) return "dark:invert";
+  return "";
+}
+
 export function resolveStackIcons(stack: string[]) {
   return stack
     .map((name) => {

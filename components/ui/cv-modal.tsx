@@ -232,7 +232,7 @@ export function CvModal({
 
             {/* ── Footer ── */}
             <div className="flex items-center justify-between px-5 py-2.5 border-t border-white/5 bg-black/30 shrink-0">
-              <span className="text-[11px] text-zinc-500 tracking-wide">
+              <span className="text-[11px] text-zinc-400 tracking-wide">
                 Use{" "}
                 <kbd className="px-1.5 py-0.5 rounded bg-white/5 text-zinc-400 text-[10px] font-mono">
                   Esc
@@ -248,14 +248,14 @@ export function CvModal({
                 pages
               </span>
               <div className="flex items-center gap-3">
-                <span className="text-[11px] text-zinc-500 tabular-nums">
+                <span className="text-[11px] text-zinc-400 tabular-nums">
                   {currentPage + 1} / {CV_PAGES.length}
                 </span>
                 <a
                   href={pdfUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1 text-[11px] text-zinc-500 hover:text-zinc-300 transition-colors"
+                  className="flex items-center gap-1 text-[11px] text-zinc-400 hover:text-zinc-300 transition-colors"
                 >
                   Open PDF <ExternalLink className="w-3 h-3" />
                 </a>

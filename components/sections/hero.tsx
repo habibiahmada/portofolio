@@ -41,7 +41,7 @@ function TerminalCopyBlock({ command }: { command: string }) {
       </code>
       <span className="shrink-0 opacity-60 group-hover:opacity-100 transition-opacity">
         {copied ? (
-          <Check className="h-4 w-4 text-emerald-500" aria-hidden />
+          <Check className="h-4 w-4 text-emerald-600 dark:text-emerald-400" aria-hidden />
         ) : (
           <Copy className="h-4 w-4" aria-hidden />
         )}

@@ -99,7 +99,7 @@ export function AnimatedThemeToggle() {
       ref={buttonRef}
       onClick={toggleTheme}
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-      className="relative w-8 h-8 flex items-center justify-center rounded-full border border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 transition-colors overflow-hidden cursor-pointer"
+      className="relative w-11 h-11 md:w-9 md:h-9 flex items-center justify-center rounded-full border border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 transition-colors overflow-hidden cursor-pointer"
     >
       <AnimatePresence mode="wait" initial={false}>
         {isDark ? (
@@ -120,7 +120,7 @@ export function AnimatedThemeToggle() {
             animate={{ rotate: 0, scale: 1, opacity: 1 }}
             exit={{ rotate: -90, scale: 0.5, opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="absolute text-amber-500"
+            className="absolute text-amber-600 dark:text-amber-400"
           >
             <Sun size={14} strokeWidth={1.75} />
           </motion.span>

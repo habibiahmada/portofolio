@@ -146,7 +146,7 @@ export function ShareButtons({ url, title, layout = "row" }: ShareButtonsProps) 
             aria-label={copied ? "Link copied" : "Copy link"}
             className={ICON_BTN}
           >
-            {copied ? <Check className="h-4 w-4 text-emerald-500" /> : <Copy className="h-4 w-4" />}
+            {copied ? <Check className="h-4 w-4 text-emerald-600 dark:text-emerald-400" /> : <Copy className="h-4 w-4" />}
           </button>
           <button
             type="button"

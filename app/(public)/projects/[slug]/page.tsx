@@ -16,7 +16,7 @@ import {
   type CaseStudy,
 } from "@/lib/data/case-studies";
 import { getProjectBrief, type ProjectBrief } from "@/lib/data/project-briefs";
-import { resolveStackIcons } from "@/lib/data/stack-icons";
+import { monoIconClass, resolveStackIcons } from "@/lib/data/stack-icons";
 import { getProjectById } from "@/lib/data/projects";
 import {
   projects as staticProjects,
@@ -263,7 +263,7 @@ function StackIcons({ stack }: { stack: string[] }) {
             alt={name}
             fill
             unoptimized
-            className="object-contain p-0.5"
+            className={`object-contain p-0.5 ${monoIconClass(src)}`}
             sizes="32px"
             title={name}
           />

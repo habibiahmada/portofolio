@@ -40,7 +40,7 @@ function CopyCommandRow({ value }: { value: string }) {
         className="inline-flex h-11 w-11 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-md border border-black/8 dark:border-white/10 text-muted-foreground transition-colors hover:border-brand/40 hover:text-foreground"
       >
         {copied ? (
-          <Check className="h-3.5 w-3.5 text-emerald-500" aria-hidden />
+          <Check className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" aria-hidden />
         ) : (
           <Copy className="h-3.5 w-3.5" aria-hidden />
         )}

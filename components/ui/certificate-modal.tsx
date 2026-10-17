@@ -231,7 +231,7 @@ export function CertificateModal({
                       </motion.div>
                     </AnimatePresence>
                   ) : (
-                    <p className="text-sm text-zinc-500 font-mono">
+                    <p className="text-sm text-zinc-400 font-mono">
                       No certificate image
                     </p>
                   )}
@@ -287,7 +287,7 @@ export function CertificateModal({
             </div>
 
             <div className="flex items-center justify-between gap-3 px-5 py-2.5 border-t border-white/5 bg-black/30 shrink-0">
-              <span className="hidden sm:inline text-[11px] text-zinc-500 tracking-wide">
+              <span className="hidden sm:inline text-[11px] text-zinc-400 tracking-wide">
                 Use{" "}
                 <kbd className="px-1.5 py-0.5 rounded bg-white/5 text-zinc-400 text-[10px] font-mono">
                   Esc
@@ -306,10 +306,10 @@ export function CertificateModal({
                   </>
                 )}
               </span>
-              <span className="sm:hidden text-[11px] text-zinc-500 tracking-wide">
+              <span className="sm:hidden text-[11px] text-zinc-400 tracking-wide">
                 Tap outside to close
               </span>
-              <span className="text-[11px] text-zinc-500 tabular-nums shrink-0">
+              <span className="text-[11px] text-zinc-400 tabular-nums shrink-0">
                 {totalPages > 0 ? `${currentPage + 1} / ${totalPages}` : "-"}
               </span>
             </div>

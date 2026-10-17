@@ -49,9 +49,8 @@ export function FeaturedProjectCard({
       style={{ animationDelay: `${index * 70}ms` }}
       className={cn(
         'group relative grid grid-cols-1 gap-4 overflow-hidden rounded-2xl p-3 sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] sm:gap-5',
-        // Cards are dark in both themes, so pin the dark-theme accent (7.2:1 on zinc-950).
-        '[--navy-accent-text:#f87171]',
-        'border border-black/10 bg-zinc-950 dark:border-white/10',
+        // Follows the theme: white card in light mode, near-black in dark mode.
+        'border border-black/10 bg-white dark:border-white/10 dark:bg-zinc-950',
         'animate-fade-in-up transition-colors duration-300',
         'hover:border-brand/40',
         // The title link is stretched over the card, so the card shows its focus ring.
@@ -61,7 +60,7 @@ export function FeaturedProjectCard({
     >
       {/* Thumbnail: morphs into the case study hero on navigation. */}
       <ViewTransition name={projectMediaTransitionName(project.id)} share="morph" default="none">
-        <div className="relative aspect-video sm:aspect-4/3 overflow-hidden rounded-xl ring-1 ring-white/10 self-start">
+        <div className="relative aspect-video sm:aspect-4/3 overflow-hidden rounded-xl ring-1 ring-black/5 dark:ring-white/10 self-start">
           <Image
             src={project.image}
             alt={shortTitle}
@@ -75,8 +74,8 @@ export function FeaturedProjectCard({
 
       <div className="relative z-10 flex min-w-0 flex-col gap-2.5 pb-1 pr-1 sm:py-1">
         <div className="flex min-w-0 items-center justify-between gap-3">
-          <div className="flex min-w-0 items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-white/60">
-            <span className="text-white/90">{String(index + 1).padStart(2, '0')}</span>
+          <div className="flex min-w-0 items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
+            <span className="text-foreground">{String(index + 1).padStart(2, '0')}</span>
             <span>{project.year}</span>
             {originLabel && <span className="truncate text-brand">{originLabel}</span>}
           </div>
@@ -87,7 +86,7 @@ export function FeaturedProjectCard({
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`Open ${shortTitle} live site`}
-              className="relative z-20 inline-flex min-h-8 shrink-0 items-center gap-1 rounded-full border border-white/15 px-2.5 font-mono text-[11px] uppercase tracking-[0.14em] text-white/90 transition-colors hover:border-brand/60 hover:text-white"
+              className="relative z-20 inline-flex min-h-8 shrink-0 items-center gap-1 rounded-full border border-black/15 dark:border-white/15 px-2.5 font-mono text-[11px] uppercase tracking-[0.14em] text-foreground transition-colors hover:border-brand/60"
             >
               Live
               {/* External link cue: this one leaves the site. */}
@@ -96,7 +95,7 @@ export function FeaturedProjectCard({
           )}
         </div>
 
-        <h3 className="font-heading text-xl font-black leading-tight tracking-tight text-white text-balance sm:text-2xl">
+        <h3 className="font-heading text-xl font-black leading-tight tracking-tight text-foreground text-balance sm:text-2xl">
           {detailHref ? (
             <Link
               href={detailHref}
@@ -111,21 +110,21 @@ export function FeaturedProjectCard({
         </h3>
 
         {outcome && (
-          <span className="w-fit max-w-full truncate rounded-full border border-brand/40 bg-brand/15 px-2.5 py-1 text-[11px] font-medium text-white">
+          <span className="w-fit max-w-full truncate rounded-full border border-brand/40 bg-brand/10 px-2.5 py-1 text-[11px] font-medium text-foreground">
             {outcome}
           </span>
         )}
 
-        <p className="line-clamp-2 text-sm leading-relaxed text-white/70">{description}</p>
+        <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">{description}</p>
 
         <div className="mt-auto flex min-w-0 items-center justify-between gap-3 pt-1">
-          <span className="truncate font-mono text-[11px] uppercase tracking-[0.14em] text-white/60">
+          <span className="truncate font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
             {tags.join(' · ')}
           </span>
           {detailHref && (
             <span
               aria-hidden
-              className="inline-flex shrink-0 items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-white/90"
+              className="inline-flex shrink-0 items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground"
             >
               <span className="h-px w-5 bg-brand transition-all duration-500 group-hover:w-9" />
               Case study
