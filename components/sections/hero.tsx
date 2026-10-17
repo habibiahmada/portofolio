@@ -95,7 +95,7 @@ export function HeroSection() {
     }
   };
 
-  const headingText = "Websites and web apps, built in Karawang.";
+  const headingText = "Turning ideas into websites people use.";
   const words = headingText.split(" ");
 
   return (
@@ -154,7 +154,7 @@ export function HeroSection() {
             {words.map((word, i) => {
               const cleanWord = word.toLowerCase().replace(/[^a-z]/g, "");
               const isAccent =
-                cleanWord === "apps" || cleanWord === "karawang";
+                cleanWord === "ideas" || cleanWord === "use";
               return (
                 <span key={i}>
                   <span
@@ -167,6 +167,10 @@ export function HeroSection() {
                   </span>
                   {/* Real space so the heading reads as words, not one glued string. */}
                   {i < words.length - 1 ? " " : null}
+                  {/* Fixed breaks from sm up: "Turning ideas / into websites / people use." */}
+                  {cleanWord === "ideas" || cleanWord === "websites" ? (
+                    <br className="hidden sm:block" />
+                  ) : null}
                 </span>
               );
             })}
