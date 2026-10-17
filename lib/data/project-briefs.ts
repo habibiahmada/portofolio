@@ -385,6 +385,27 @@ const BRIEFS: ProjectBrief[] = [
     result:
       "Delivered and live at louisepilates.com, letting the studio take and manage bookings while keeping the customer experience account-free.",
   },
+  {
+    projectId: "93035eae-5c29-5981-b285-a18e45c9eeb3", // MediaUMKM
+    overview:
+      "MediaUMKM is a news portal for Indonesian small and micro businesses (UMKM), covering business, financing, marketing, digitalisation, government policy, and owner stories.",
+    context:
+      "UMKM owners rarely find news written for them in general media. The publisher needed a portal organised around the topics owners act on, with the editorial and legal pages an Indonesian online news outlet must carry.",
+    solution:
+      "I worked on a WordPress news portal structured around eight UMKM beats, with category pages, an editorial contact block, an advertising page for revenue, and the press-ethics and cyber-media guideline pages required for an Indonesian news site.",
+    role: WEBEKSPRES_ROLE,
+    features: [
+      "Eight topic beats: Bisnis, Digitalisasi, Edukasi, Event, Inspirasi UMKM, Pemasaran, Pembiayaan, Pemerintah",
+      "Editorial (Redaksi) and contact pages for the newsroom",
+      "Advertising page (Pasang Iklan) as a revenue path",
+      "Kode Etik Jurnalistik, SOP Wartawan, and Pedoman Media Siber pages",
+      "Privacy, copyright, and disclaimer pages",
+    ],
+    techNotes:
+      "WordPress with the Blogsy news theme, PHP under the hood, and category-driven navigation so editors publish into a beat without touching layout.",
+    result:
+      "Delivered and live at mediaumkm.com.",
+  },
 ];
 
 const BRIEF_BY_ID: Record<string, ProjectBrief> = Object.fromEntries(

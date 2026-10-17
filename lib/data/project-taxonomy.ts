@@ -95,6 +95,12 @@ const WEBEKSPRES_TAXONOMY: Record<string, ProjectTaxonomy> = {
     origin: "webekspres",
     company: WEBEKSPRES,
   },
+  "93035eae-5c29-5981-b285-a18e45c9eeb3": {
+    slug: "mediaumkm",
+    category: "catalog",
+    origin: "webekspres",
+    company: WEBEKSPRES,
+  },
   "dfd144d5-84d7-5f1f-be03-1554dee928b1": {
     slug: "miru-bank-sampah",
     category: "web-app",

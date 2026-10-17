@@ -98,11 +98,11 @@ export const PROJECT_META_SEED: Record<string, ProjectMetaSeed> = {
   },
   "dfd144d5-84d7-5f1f-be03-1554dee928b1": {
     role: WEBEKSPRES_ROLE,
-    outcome: "Live at mirubanksampah.id",
+    outcome: "Web admin + mobile app on one API",
     description_en:
-      "Bank sampah work (deposits, pickups, weigh-ins, balances) breaks down in spreadsheets once staff, coordinators, and the district share one queue. On the Webekspres team I built the web admin and API integration for MIRU-G, live at mirubanksampah.id.",
+      "Bank sampah work (deposits, pickups, weigh-ins, balances) breaks down in spreadsheets once staff, coordinators, and the district share one queue. On the Webekspres team I built the MIRU-G web admin on the same API as the residents' mobile app, so every transaction stays in sync. Live in production at mirubanksampah.id.",
     description_id:
-      "Operasional bank sampah (setoran, jemput, timbang, saldo) kacau di spreadsheet begitu petugas, koordinator, dan distrik berbagi satu antrean. Bersama tim Webekspres saya membangun admin web dan integrasi API MIRU-G, kini live di mirubanksampah.id.",
+      "Operasional bank sampah (setoran, jemput, timbang, saldo) kacau di spreadsheet begitu petugas, koordinator, dan distrik berbagi satu antrean. Bersama tim Webekspres saya membangun admin web MIRU-G di atas API yang sama dengan aplikasi mobile nasabah, sehingga setiap transaksi tetap sinkron. Sudah berjalan di production di mirubanksampah.id.",
   },
   "ecbcd798-00c0-5c63-8b51-4a3ad1708fff": {
     role: WEBEKSPRES_ROLE,
@@ -235,6 +235,14 @@ export const PROJECT_META_SEED: Record<string, ProjectMetaSeed> = {
       "Contractors win work on proven capability. I worked on a Ciawi-Bogor hotmix contractor site that shows paving, overlay, and patching work with a project portfolio and a free-survey request.",
     description_id:
       "Kontraktor mendapat proyek dari bukti kemampuan. Saya ikut mengerjakan situs kontraktor hotmix Ciawi-Bogor yang menampilkan pengaspalan, overlay, dan tambal jalan dengan portofolio proyek dan permintaan survei gratis.",
+  },
+  "93035eae-5c29-5981-b285-a18e45c9eeb3": {
+    role: WEBEKSPRES_ROLE,
+    outcome: "Live at mediaumkm.com",
+    description_en:
+      "Small-business owners need news on financing, policy, and marketing that speaks to them, not general headlines. I worked on MediaUMKM, a news portal with eight UMKM beats, an advertising page, and the press-ethics pages an Indonesian news site is required to publish.",
+    description_id:
+      "Pelaku UMKM butuh berita soal pembiayaan, kebijakan, dan pemasaran yang relevan untuk mereka, bukan berita umum. Saya ikut mengerjakan MediaUMKM, portal berita dengan delapan rubrik UMKM, halaman pasang iklan, dan halaman etika pers yang wajib dimiliki media siber Indonesia.",
   },
 };
 
