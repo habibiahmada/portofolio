@@ -34,7 +34,6 @@ export const SITE_COPY = {
   projectsDescription: `Projects by ${SITE.name}: featured case studies and a full archive of school systems, AI products, and client work from his current role. Role and credit on each card.`,
   projectsDescriptionId: `Proyek ${SITE.name}: case study unggulan dan arsip lengkap sistem sekolah, produk AI, dan pekerjaan klien dari peran kerjanya sekarang. Role dan kredit ada di setiap kartu.`,
   servicesDescription: `Services by ${SITE.name}: web design, React/Next.js frontend, APIs and databases, WordPress/CMS, performance, SEO, and deployment. Remote (WIB), open to freelance and full-time.`,
-  loginDescription: `Sign in to the admin panel for ${SITE.name}'s portfolio.`,
   ogAlt: `${SITE.name}, ${SITE.role} from ${SITE.city}, Indonesia`,
 } as const;
 

@@ -67,8 +67,16 @@ export function MarkdownRenderer({ content, headings = [] }: MarkdownRendererPro
             return <img src={safe} alt={alt ?? ""} loading="lazy" {...props} />;
           },
           a({ href, children, ...props }) {
-            if (href && !href.startsWith("http") && !href.startsWith("/")) {
-              return null;
+            // Allow absolute http(s), same-site paths, in-page anchors, mailto.
+            // "//host" is protocol-relative and would leave the site, so it is rejected.
+            const allowed =
+              !href ||
+              /^https?:\/\//i.test(href) ||
+              (href.startsWith("/") && !href.startsWith("//")) ||
+              href.startsWith("#") ||
+              href.startsWith("mailto:");
+            if (!allowed) {
+              return <>{children}</>;
             }
             return (
               <a href={href} {...props}>

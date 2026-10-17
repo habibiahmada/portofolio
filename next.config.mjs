@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 let nextConfig = {
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
   images: {
     // Production uses the optimizer; keep formats + qualities for LCP budget.
@@ -39,6 +39,22 @@ let nextConfig = {
       },
     ],
   },
+  // Site-wide security headers (previously set in proxy.ts alongside the
+  // removed /admin auth gate).
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "X-Frame-Options", value: "DENY" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "Permissions-Policy", value: "geolocation=(), microphone=(), camera=()" },
+          { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+        ],
+      },
+    ];
+  },
   async redirects() {
     return [
       {
@@ -46,6 +62,9 @@ let nextConfig = {
         destination: "/projects/:slug",
         permanent: true,
       },
+      // Admin panel and login were removed; send old bookmarks home.
+      { source: "/admin/:path*", destination: "/", permanent: true },
+      { source: "/login", destination: "/", permanent: true },
     ]
   },
   allowedDevOrigins: ["127.0.0.1", "192.168.43.152"],

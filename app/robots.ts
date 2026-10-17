@@ -3,14 +3,10 @@ import { SITE } from "@/lib/site-metadata";
 
 /**
  * Search Console / crawler rules.
- * Public pages are allowed; admin, login, and APIs stay out of the index.
+ * Public pages are allowed; APIs and draft previews stay out of the index.
  */
 export default function robots(): MetadataRoute.Robots {
   const disallow = [
-    "/admin/",
-    "/admin",
-    "/login/",
-    "/login",
     "/api/",
     "/blog/preview/",
   ];

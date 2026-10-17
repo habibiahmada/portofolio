@@ -33,7 +33,7 @@ Project skills also include `write-like-you` (portfolio Voice DNA; **no em dashe
 bun install
 bun run dev
 bun run build
-graphify query "how does admin auth work"
+graphify query "how does the agent blog api work"
 graphify update .
 ```
 

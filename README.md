@@ -8,13 +8,12 @@ Personal portfolio and blog for **Habibi Ahmad Aziz**, a web developer based in 
 
 ## About this project
 
-This repository powers my public portfolio: projects, certificates, collaborators, services, an admin panel for content management, and a blog with optional agent-assisted publishing.
+This repository powers my public portfolio: projects, certificates, collaborators, services, and a blog with optional agent-assisted publishing.
 
 | Area | Description |
 |------|-------------|
 | Public site | Marketing pages (home, about, projects, blog) |
-| Admin panel | Authenticated CRUD for portfolio content |
-| Blog | Markdown articles with reactions, comments, and review workflow |
+| Blog | Markdown articles with reactions and an agent review workflow |
 | Agent API | `POST /api/agent/blog` for automated daily posts (Bearer token) |
 
 ## Tech stack
@@ -40,7 +39,7 @@ This repository powers my public portfolio: projects, certificates, collaborator
 ```bash
 bun install
 cp .env.example .env.local
-# Fill in Supabase keys, admin emails, and optional agent token — see .env.example
+# Fill in Supabase keys and the optional agent token — see .env.example
 
 bun run dev
 # http://localhost:3000
@@ -64,18 +63,18 @@ All developer docs in this repo are written in **English**. Start with [docs/REA
 | [architecture.md](./docs/architecture.md) | Folder layout, request flows, stack |
 | [development.md](./docs/development.md) | Local setup, conventions, testing |
 | [data-and-hosting.md](./docs/data-and-hosting.md) | Database schema, env vars, Vercel/Supabase |
-| [SECURITY.md](./SECURITY.md) | Auth, admin whitelist, security headers |
+| [SECURITY.md](./SECURITY.md) | Agent token, data access, security headers |
 | [AGENTS.md](./AGENTS.md) | Entry map for coding agents |
 
 ## Environment variables
 
 Copy `.env.example` to `.env.local` and fill in your values. **Never commit `.env.local`.**
 
-Required variables include Supabase URL/keys, `ADMIN_ALLOWED_EMAILS`, and `NEXT_PUBLIC_SITE_URL`. See `.env.example` for the full list and descriptions.
+Required variables include Supabase URL/keys and `NEXT_PUBLIC_SITE_URL`. See `.env.example` for the full list and descriptions.
 
 ## Security
 
-- Admin access is restricted to emails in `ADMIN_ALLOWED_EMAILS`.
+- There is no login or admin panel. Content is managed through seed scripts and the agent blog API.
 - The Supabase service role key is server-only; never expose it to the browser.
 - Rotate `AGENT_BLOG_TOKEN` if the agent publishing secret is compromised.
 - Details: [SECURITY.md](./SECURITY.md)

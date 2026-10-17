@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Personal portfolio for **Habibi Ahmad Aziz** (web developer, Karawang): showcase projects, certificates, collaborators, services, and an authenticated admin panel to manage content.
+Personal portfolio for **Habibi Ahmad Aziz** (web developer, Karawang): showcase projects, certificates, collaborators, services, and a blog fed by the agent API. There is no admin panel or visitor login; content is managed through seed scripts and the agent API (content.
 
 ## Stack
 
@@ -22,23 +22,19 @@ Personal portfolio for **Habibi Ahmad Aziz** (web developer, Karawang): showcase
 ```
 app/
   (public)/          # Marketing pages (home, about, projects)
-  admin/             # Protected CRUD UI
   api/
     public/          # Unauthenticated JSON APIs
-    admin/           # Admin JSON APIs (withAdmin)
-    auth/            # Login, logout, OAuth callback, me, signup
-  login/             # Auth UI
+    agent/           # Bearer-token blog API for agent-hub
   layout.tsx         # Root fonts, ThemeProvider, JSON-LD
   sitemap.ts
 components/
   sections/          # Page sections (hero, projects, …)
   ui/                # Primitives + visuals
 lib/
-  supabase/          # clients, types, admin-auth, api-response
+  supabase/          # service-role + anon clients, types, api-response
   hooks/use-api.ts   # Client fetch hooks (migrate off public pages)
   projects.ts, certificates.ts, …
-proxy.ts             # Next 16 proxy: session + /admin protection
-scripts/             # e.g. create-admin
+scripts/             # seed + export scripts
 tests/
 docs/                # This documentation
 .cursor/rules/       # Always-on agent steering
@@ -56,26 +52,25 @@ graphify-out/        # Knowledge graph for agents
 
 **Target:** server queries Supabase in the page/layout → HTML includes content → client islands hydrate for motion only.
 
-### Admin mutation
+### Writes
 
-1. `proxy.ts` ensures session + allowlisted email.
-2. UI calls `/api/admin/*`.
-3. Handler uses `withAdmin` → `getSupabaseAdmin()` for writes.
+There is no interactive auth. Writes happen only on the server:
 
-### Auth
+1. `/api/agent/blog/*` checks `AGENT_BLOG_TOKEN`, then writes with `getSupabaseAdmin()`.
+2. `/api/public/blog/[id]/react` and `/view` rate-limit per IP, then write with `getSupabaseAdmin()`.
+3. Seed scripts in `scripts/` use the service role from `.env.local`.
 
-Documented in `SECURITY.md`. Env: `ADMIN_ALLOWED_EMAILS`, Supabase keys, optional `TEST_BYPASS_KEY` (dev/test only).
+Security headers are set in `next.config.mjs`. See `SECURITY.md`.
 
 ## Key symbols (from graphify)
 
 High-degree nodes agents should know:
 
-- `getSupabaseServerClient` / `getSupabaseAdmin`
-- `withAdmin`
+- `getSupabaseAnonClient` / `getSupabaseAdmin`
 - `ok` / `fail` / `serverError` (`lib/supabase/api-response.ts`)
 - `useApi` family (`lib/hooks/use-api.ts`) — public-page antipattern for SSR goals
 
-Refresh: `graphify query "admin auth"` or read `graphify-out/GRAPH_REPORT.md`.
+Refresh: `graphify query "agent blog api"` or read `graphify-out/GRAPH_REPORT.md`.
 
 ## What this is not
 

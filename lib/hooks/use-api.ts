@@ -104,14 +104,3 @@ export function useNonPinnedCertificates(page = 1, pageSize = 8, enabled?: boole
 export function useCompanies(enabled = true) {
   return useApi<Company[]>(enabled ? "/api/public/companies" : null);
 }
-
-/** Current auth user */
-export function useAuthUser() {
-  return useApi<{
-    id: string;
-    email: string;
-    name: string;
-    avatar: string | null;
-    provider: string | null;
-  } | null>("/api/auth/me");
-}

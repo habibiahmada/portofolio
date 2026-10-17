@@ -1,6 +1,6 @@
 # ADR: Blog Comments
 
-**Status:** Accepted (implemented)
+**Status:** Superseded (2026-10-17). Comments were removed together with visitor login and the admin panel; the `blog_comments` table is kept read-only for history.
 **Date:** 2026-08-25
 **Deciders:** Habibi Ahmad Aziz
 

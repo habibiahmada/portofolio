@@ -1,5 +1,3 @@
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
 import type { Database } from "./types";
 import { createMockSupabaseClient } from "./test-mock";
 
@@ -9,37 +7,6 @@ let mockClient: ReturnType<typeof createMockSupabaseClient> | null = null;
 function getMockClient() {
   if (!mockClient) mockClient = createMockSupabaseClient();
   return mockClient;
-}
-
-export async function getSupabaseServerClient() {
-  // In test/CI mode, return the mock so requests don't hang on dummy URLs.
-  // Use SUPABASE_MOCK_ENABLED because Next.js overrides NODE_ENV to "development" in dev mode.
-  if (process.env.SUPABASE_MOCK_ENABLED === "true" || process.env.TEST_BYPASS_KEY) {
-    return getMockClient() as any;
-  }
-
-  const cookieStore = await cookies();
-
-  return createServerClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return cookieStore.getAll();
-        },
-        setAll(cookiesToSet) {
-          try {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options),
-            );
-          } catch {
-            // ignore — called from Server Component
-          }
-        },
-      },
-    },
-  );
 }
 
 /** Anon client without cookies — safe for unstable_cache / ISR (no request-specific session). */
@@ -52,11 +19,11 @@ export function getSupabaseAnonClient() {
   );
 }
 
-/** Admin client with service_role — used only for seed/migration scripts */
+/** Service-role client for server-only writes (agent blog API, reactions, view counts). Never import from client code. */
 export function getSupabaseAdmin() {
   // In test/CI mode, return the mock so requests don't hang on dummy URLs.
   // Use SUPABASE_MOCK_ENABLED because Next.js overrides NODE_ENV to "development" in dev mode.
-  if (process.env.SUPABASE_MOCK_ENABLED === "true" || process.env.TEST_BYPASS_KEY) {
+  if (process.env.SUPABASE_MOCK_ENABLED === "true") {
     return getMockClient() as any;
   }
 
