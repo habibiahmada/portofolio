@@ -97,7 +97,8 @@
       "TypeScript",
       "Clerk",
       "Elysia",
-      "PostgreSQL"
+      "PostgreSQL",
+      "Redis"
     ],
     "live_url": "https://jepangku.com",
     "github_url": "",
@@ -239,8 +240,13 @@
     "tags": [
       "Next.js",
       "TypeScript",
+      "Flutter",
+      "Dart",
+      "Python",
       "Django",
       "PostgreSQL",
+      "Redis",
+      "MinIO",
       "Docker",
       "Tailwind CSS"
     ],

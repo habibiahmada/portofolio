@@ -594,7 +594,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       },
       {
         title: "API and infra",
-        body: "Django REST on PostgreSQL. Docker, nginx, and MinIO in the infra layer. The admin consumes JSON envelopes and surfaces errors; it does not cache a shadow copy of balances.",
+        body: "Django REST (Python) on PostgreSQL and Redis, with Docker, nginx, and MinIO in the infra layer. The web admin and the Flutter (Dart) mobile app call the same API; the admin surfaces errors and never caches a shadow copy of balances.",
       },
       {
         title: "Workflow design",

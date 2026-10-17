@@ -69,12 +69,37 @@ const techs = [
     name: "JavaScript",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg",
   },
+  {
+    name: "Python",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg",
+  },
+  {
+    name: "Django",
+    icon: "https://cdn.simpleicons.org/django/ffffff",
+  },
+  {
+    name: "Flutter",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/flutter/flutter-original.svg",
+  },
+  {
+    name: "Dart",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dart/dart-original.svg",
+  },
+  {
+    name: "Redis",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg",
+  },
+  {
+    name: "MinIO",
+    icon: "https://cdn.simpleicons.org/minio/C72E49",
+  },
 ] as const;
 
 type Tech = (typeof techs)[number];
 
-const row1 = techs.slice(0, 8);
-const row2 = techs.slice(8);
+// Two marquee rows of roughly equal length.
+const row1 = techs.slice(0, Math.ceil(techs.length / 2));
+const row2 = techs.slice(Math.ceil(techs.length / 2));
 
 function TechIcon({ name, icon }: Tech) {
   return (
