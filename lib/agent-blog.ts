@@ -47,7 +47,7 @@ export type ValidatedAgentPost = {
   tags: string[];
   seo_title: string | null;
   seo_description: string | null;
-  /** Optional https cover (Unsplash / Picsum / Supabase). */
+  /** Optional https cover (Unsplash / Pexels / StockSnap / rawpixel / Picsum / Supabase). */
   cover_url: string | null;
 };
 
@@ -206,7 +206,7 @@ export function validateAgentBlogPayload(
     const trimmedCover = body.cover_url.trim();
     if (!isAllowedCoverUrl(trimmedCover)) {
       return invalid(
-        '"cover_url" must be https from images.unsplash.com, picsum.photos, images.pexels.com, or Supabase Storage.',
+        '"cover_url" must be https from images.unsplash.com, images.pexels.com, picsum.photos, cdn.stocksnap.io, images.rawpixel.com, or Supabase Storage.',
       );
     }
     if (trimmedCover.length > 500) {
@@ -255,6 +255,9 @@ const COVER_HOST_ALLOWLIST = new Set([
   "images.pexels.com",
   "picsum.photos",
   "fastly.picsum.photos",
+  // CC0 stock photos found through Openverse by agent-hub's image search.
+  "cdn.stocksnap.io",
+  "images.rawpixel.com",
 ]);
 
 export function isAllowedCoverUrl(url: string): boolean {

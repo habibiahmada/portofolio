@@ -60,11 +60,18 @@ export function MarkdownRenderer({ content, headings = [] }: MarkdownRendererPro
               </h3>
             );
           },
-          img({ src, alt, ...props }) {
+          img({ src, alt, title }) {
             const safe = src && typeof src === "string" ? sanitizeUrl(src) : null;
             if (!safe) return null;
-            // eslint-disable-next-line @next/next/no-img-element
-            return <img src={safe} alt={alt ?? ""} loading="lazy" {...props} />;
+            // Markdown images sit inside <p>, so the "figure" is built from spans.
+            // The image title carries the photo credit and shows as a caption.
+            return (
+              <span className="blog-figure">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={safe} alt={alt ?? ""} loading="lazy" decoding="async" />
+                {title ? <span className="blog-figure-caption">{title}</span> : null}
+              </span>
+            );
           },
           a({ href, children, ...props }) {
             // Allow absolute http(s), same-site paths, in-page anchors, mailto.

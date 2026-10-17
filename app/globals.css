@@ -847,6 +847,33 @@ html:not([data-theme-vt="active"]) header[role="banner"] {
   margin: 1.5em 0;
 }
 
+/* Article photos: full-width, consistent 16:9 crop, credit underneath. */
+.blog-prose .blog-figure {
+  display: block;
+  margin: 1.75em 0;
+}
+
+.blog-prose .blog-figure img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  margin: 0;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.dark .blog-prose .blog-figure img {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.blog-prose .blog-figure-caption {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--muted-foreground);
+}
+
 .blog-prose del {
   text-decoration: line-through;
   opacity: 0.6;

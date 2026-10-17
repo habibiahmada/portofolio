@@ -37,6 +37,15 @@ let nextConfig = {
         protocol: "https",
         hostname: "images.pexels.com",
       },
+      // CC0 stock photos for blog covers (agent-hub image search via Openverse).
+      {
+        protocol: "https",
+        hostname: "cdn.stocksnap.io",
+      },
+      {
+        protocol: "https",
+        hostname: "images.rawpixel.com",
+      },
     ],
   },
   // Site-wide security headers (previously set in proxy.ts alongside the
