@@ -95,7 +95,7 @@ export function HeroSection() {
     }
   };
 
-  const headingText = "Web developer at Webekspres, building from Karawang.";
+  const headingText = "Websites and web apps, built in Karawang.";
   const words = headingText.split(" ");
 
   return (
@@ -154,7 +154,7 @@ export function HeroSection() {
             {words.map((word, i) => {
               const cleanWord = word.toLowerCase().replace(/[^a-z]/g, "");
               const isAccent =
-                cleanWord === "webekspres" || cleanWord === "karawang";
+                cleanWord === "apps" || cleanWord === "karawang";
               return (
                 <span key={i}>
                   <span
@@ -174,8 +174,8 @@ export function HeroSection() {
 
           {/* Sub description */}
           <p className="text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed font-medium">
-            Company sites, school systems, and web apps in Next.js, React, and
-            Laravel.
+            Frontend-leaning full-stack developer at Webekspres. Company sites
+            and school systems in Next.js, React, and Laravel.
           </p>
 
           {/* Terminal commands */}
