@@ -4,6 +4,8 @@ import { useMemo, useRef } from "react";
 import { NodeNetworkLazy } from "@/components/ui/node-network-lazy";
 import { CpuArchitecture } from "@/components/ui/cpu-architecture";
 import { ProjectCard } from "@/components/ui/project-card";
+import { OpenSourceCard } from "@/components/ui/open-source-card";
+import { OPEN_SOURCE_PROJECTS } from "@/lib/data/open-source";
 import { ProjectGridSkeleton } from "@/components/ui/skeletons";
 import { PageShell } from "@/components/ui/page-shell";
 import { useProjects } from "@/lib/hooks/use-api";
@@ -147,6 +149,26 @@ export function ProjectsPage({ locale = "en", initialData }: ProjectsPageProps) 
                 </div>
               </section>
             )}
+
+            <section className="space-y-6">
+              <div className="space-y-2">
+                <span className="text-xs font-mono tracking-widest text-brand uppercase block">
+                  Open source
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground">
+                  Built in public, free to fork
+                </h2>
+                <p className="text-sm text-muted-foreground max-w-xl leading-relaxed">
+                  Tools I maintain on GitHub under the MIT license: an editor
+                  package, this portfolio as a CLI, and a Linux emoji picker.
+                </p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                {OPEN_SOURCE_PROJECTS.map((project) => (
+                  <OpenSourceCard key={project.id} project={project} />
+                ))}
+              </div>
+            </section>
 
             {archive.groups.map((group) => (
               <section key={group.label} className="space-y-6">

@@ -1,54 +1,12 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import dynamic from "next/dynamic";
-import { Copy, Check } from "lucide-react";
 import { GlitchText } from "@/components/ui/glitch-text";
 import { NodeNetworkLazy } from "@/components/ui/node-network-lazy";
 import Image from "next/image";
 import Link from "next/link";
-
-function TerminalCopyBlock({ command }: { command: string }) {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = useCallback(async () => {
-    try {
-      await navigator.clipboard.writeText(command);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {
-      const input = document.createElement("input");
-      input.value = command;
-      document.body.appendChild(input);
-      input.select();
-      document.execCommand("copy");
-      document.body.removeChild(input);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
-  }, [command]);
-
-  return (
-    <button
-      type="button"
-      onClick={handleCopy}
-      aria-label={copied ? "Copied to clipboard" : `Copy ${command}`}
-      className="group flex w-full sm:flex-1 min-w-0 items-center justify-between gap-3 rounded-lg border border-black/10 dark:border-white/10 bg-black/2 dark:bg-white/2 px-3 py-2.5 font-mono text-xs sm:text-sm text-muted-foreground hover:border-black/20 dark:hover:border-white/20 hover:text-foreground transition-all duration-200 cursor-pointer"
-    >
-      <code className="truncate text-left">
-        <span className="text-brand/80 select-none">$ </span>
-        {command}
-      </code>
-      <span className="shrink-0 opacity-60 group-hover:opacity-100 transition-opacity">
-        {copied ? (
-          <Check className="h-4 w-4 text-emerald-600 dark:text-emerald-400" aria-hidden />
-        ) : (
-          <Copy className="h-4 w-4" aria-hidden />
-        )}
-      </span>
-    </button>
-  );
-}
+import { CopyCommand } from "@/components/ui/copy-command";
 
 const CvModal = dynamic(
   () => import("@/components/ui/cv-modal").then((m) => m.CvModal),
@@ -188,8 +146,8 @@ export function HeroSection() {
               Try in your terminal
             </p>
             <div className="flex flex-col sm:flex-row gap-3 w-full">
-              <TerminalCopyBlock command="npx habibiahmada" />
-              <TerminalCopyBlock command="ssh ssh.habibiahmada.dev" />
+              <CopyCommand command="npx habibiahmada" className="sm:flex-1" />
+              <CopyCommand command="ssh ssh.habibiahmada.dev" className="sm:flex-1" />
             </div>
           </div>
 

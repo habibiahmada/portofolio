@@ -4,6 +4,7 @@ import { Projects } from '@/components/sections/projects'
 import { Companies } from '@/components/sections/companies'
 import { HomeBelowFold } from '@/components/sections/home-below-fold'
 import { Press } from '@/components/sections/press'
+import { OpenSource } from '@/components/sections/open-source'
 import { Process } from '@/components/sections/process'
 import { getCompanies } from '@/lib/data/companies'
 import {
@@ -45,6 +46,7 @@ export default async function Home() {
       <HeroSection />
       <Companies initialData={companies} />
       <Projects initialData={featuredProjects} />
+      <OpenSource />
       <HomeBelowFold
         beforeCta={
           <>
