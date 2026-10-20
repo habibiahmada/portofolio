@@ -53,15 +53,11 @@ export function AboutIntro() {
                 <span className="text-foreground font-semibold">
                   SMKN 1 Karawang
                 </span>
-                , I currently work as a{" "}
+                , I work as a{" "}
                 <span className="text-foreground font-semibold">
                   Web Developer
                 </span>{" "}
-                at{" "}
-                <span className="text-foreground font-semibold">
-                  PT Webekspres Teknologi Indonesia
-                </span>
-                . At Webekspres I have contributed to 19 client sites in about
+                building sites and apps for real clients: 19 of them in about
                 four months, from WordPress catalogs to custom Next.js and React
                 apps. I also ship school systems and award-winning AI product
                 work.

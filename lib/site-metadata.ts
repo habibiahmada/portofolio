@@ -27,8 +27,8 @@ export const SITE = {
 export const SITE_COPY = {
   defaultTitle: `${SITE.name} | ${SITE.role} ${SITE.city}`,
   titleTemplate: `%s | ${SITE.name}`,
-  defaultDescription: `${SITE.name} is a ${SITE.role} from ${SITE.location}. Web Developer at ${SITE.employer.name}. He contributes to client sites (corporate, news, landing, catalogs, and integrated apps) plus school systems and award-winning AI product work.`,
-  homeDescription: `${SITE.name}, ${SITE.role} from ${SITE.location}. Open to freelance and full-time. Featured work: E-Vote for SMKN 1 Karawang, JepangKu and Terraju with the Webekspres team, CultureConnect, BagiBerkah, and Intel AI Festival country award (Agrify / Smartfarm).`,
+  defaultDescription: `${SITE.name} is a ${SITE.role} from ${SITE.location}. He builds client sites (corporate, news, landing, catalogs, and integrated apps) plus school systems and award-winning AI product work.`,
+  homeDescription: `${SITE.name}, ${SITE.role} from ${SITE.location}. Open to freelance and full-time. Featured work: MIRU, E-Vote for SMKN 1 Karawang, JepangKu, CultureConnect, Terraju, and Smartfarm, winner of an Intel AI Festival country award.`,
   aboutDescription: `About ${SITE.name}: ${SITE.role} from ${SITE.city}, graduate of ${SITE.school} (Software Engineering). Currently a Web Developer at ${SITE.employer.name}, contributing to 19 client sites in about four months. Stack: Next.js, React, Laravel, WordPress, APIs, and measurable performance.`,
   aboutDescriptionId: `Tentang ${SITE.name}: ${SITE.role} dari ${SITE.city}, lulusan ${SITE.school} (RPL). Web Developer di ${SITE.employer.name}, berkontribusi pada 19 situs klien dalam sekitar empat bulan. Spesialis Next.js, React, Laravel, WordPress, API, dan performa web.`,
   projectsDescription: `Projects by ${SITE.name}: featured case studies and a full archive of school systems, AI products, and client work from his current role. Role and credit on each card.`,

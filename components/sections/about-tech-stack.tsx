@@ -175,8 +175,8 @@ export function AboutTechStack() {
             Tools & Technologies
           </h2>
           <p className="text-sm md:text-base text-muted-foreground leading-relaxed font-medium max-w-lg">
-            The tools I reach for on client work at Webekspres and on my own
-            projects.
+            What I use to take a project from first commit to production, across
+            web, mobile, and the servers behind them.
           </p>
         </div>
 

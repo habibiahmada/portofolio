@@ -136,8 +136,9 @@ export function HeroSection() {
 
           {/* Sub description */}
           <p className="text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed font-medium">
-            Frontend-leaning full-stack developer at Webekspres. Company sites
-            and school systems in Next.js, React, and Laravel.
+            Hi, I&apos;m Habibi, a frontend-leaning full-stack developer from
+            Karawang. I build company sites, school systems, and web apps with
+            Next.js, React, and Laravel.
           </p>
 
           {/* Terminal commands */}
