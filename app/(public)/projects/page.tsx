@@ -15,6 +15,7 @@ export const metadata: Metadata = {
       'portfolio case studies',
       'Webekspres',
       'JepangKu',
+      'HK GOLD VIP',
       'Terraju',
       'E-Vote',
       'Agrify',
