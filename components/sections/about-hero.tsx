@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { GlitchText } from "@/components/ui/glitch-text";
 import { NodeNetworkLazy } from "@/components/ui/node-network-lazy";
+import { PROJECT_STATS } from "@/lib/data/project-taxonomy";
 
 export function AboutHero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -137,10 +138,10 @@ export function AboutHero() {
             <div className="hidden sm:block w-px h-12 bg-black/8 dark:bg-white/8" />
             <div>
               <div className="text-2xl sm:text-3xl md:text-4xl font-heading font-black text-foreground tracking-tighter">
-                10<span className="text-brand">+</span>
+                {PROJECT_STATS.total}
               </div>
               <div className="text-[11px] font-mono uppercase tracking-wider sm:tracking-widest text-muted-foreground mt-1">
-                Projects Shipped
+                Projects
               </div>
             </div>
             <div className="hidden sm:block w-px h-12 bg-black/8 dark:bg-white/8" />

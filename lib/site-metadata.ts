@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PROJECT_STATS } from "@/lib/data/project-taxonomy";
 
 /** Shared portfolio identity for Habibi Ahmad Aziz */
 export const SITE = {
@@ -16,7 +17,7 @@ export const SITE = {
   profileImage: "/images/habibiahmada.webp",
   twitter: "@habibiahmad",
   github: "https://github.com/habibiahmada",
-  linkedin: "https://linkedin.com/in/habibiahmada",
+  linkedin: "https://www.linkedin.com/in/habibiahmada",
   employer: {
     name: "PT Webekspres Teknologi Indonesia",
     url: "https://webekspres.com",
@@ -29,8 +30,8 @@ export const SITE_COPY = {
   titleTemplate: `%s | ${SITE.name}`,
   defaultDescription: `${SITE.name} is a ${SITE.role} from ${SITE.location}. He builds client sites (corporate, news, landing, catalogs, and integrated apps) plus school systems and award-winning AI product work.`,
   homeDescription: `${SITE.name}, ${SITE.role} from ${SITE.location}. Open to freelance and full-time. Featured work: MIRU, HK GOLD VIP, E-Vote for SMKN 1 Karawang, JepangKu, CultureConnect, and Smartfarm, winner of an Intel AI Festival country award.`,
-  aboutDescription: `About ${SITE.name}: ${SITE.role} from ${SITE.city}, graduate of ${SITE.school} (Software Engineering). Currently a Web Developer at ${SITE.employer.name}, contributing to 19 client sites in about four months. Stack: Next.js, React, Laravel, WordPress, APIs, and measurable performance.`,
-  aboutDescriptionId: `Tentang ${SITE.name}: ${SITE.role} dari ${SITE.city}, lulusan ${SITE.school} (RPL). Web Developer di ${SITE.employer.name}, berkontribusi pada 19 situs klien dalam sekitar empat bulan. Spesialis Next.js, React, Laravel, WordPress, API, dan performa web.`,
+  aboutDescription: `About ${SITE.name}: ${SITE.role} from ${SITE.city}, graduate of ${SITE.school} (Software Engineering). Web Developer at ${SITE.employer.name} with ${PROJECT_STATS.clientProjects} client projects so far. Stack: Next.js, React, Laravel, WordPress, APIs, and measurable performance.`,
+  aboutDescriptionId: `Tentang ${SITE.name}: ${SITE.role} dari ${SITE.city}, lulusan ${SITE.school} (RPL). Web Developer di ${SITE.employer.name} dengan ${PROJECT_STATS.clientProjects} proyek klien sejauh ini. Spesialis Next.js, React, Laravel, WordPress, API, dan performa web.`,
   projectsDescription: `Projects by ${SITE.name}: featured case studies and a full archive of school systems, AI products, and client work from his current role. Role and credit on each card.`,
   projectsDescriptionId: `Proyek ${SITE.name}: case study unggulan dan arsip lengkap sistem sekolah, produk AI, dan pekerjaan klien dari peran kerjanya sekarang. Role dan kredit ada di setiap kartu.`,
   servicesDescription: `Services by ${SITE.name}: web design, React/Next.js frontend, APIs and databases, WordPress/CMS, performance, SEO, and deployment. Remote (WIB), open to freelance and full-time.`,

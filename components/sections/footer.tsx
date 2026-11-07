@@ -76,7 +76,7 @@ const SOCIAL_LINKS = [
   {
     icon: LinkedinIcon,
     label: "LinkedIn",
-    href: "https://www.linkedin.com/in/habibi-ahmad-aziz",
+    href: "https://www.linkedin.com/in/habibiahmada",
   },
   {
     icon: InstagramIcon,
