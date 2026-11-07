@@ -1,105 +1,97 @@
 "use client";
 
-import { useId, useRef, useState, type KeyboardEvent } from "react";
-import Image from "next/image";
-import Link from "next/link";
+import { useId, useRef, type KeyboardEvent } from "react";
 import { getCapabilities, type CapabilityId } from "@/lib/data/capabilities";
-import { projectDetailHref } from "@/components/ui/project-card";
-import type { Project } from "@/lib/supabase/types";
 import { cn } from "@/lib/utils";
 
 interface WorkCapabilitiesProps {
-  projects: Project[];
-  /** The capability currently filtering the work below, or null for all work. */
+  /** The capability filtering the work below, or null for all work. */
   selected: CapabilityId | null;
   onSelect: (id: CapabilityId | null) => void;
-  /** How many projects the current filter shows, for the live status line. */
+  /** How many projects the current choice shows below. */
   matchCount: number;
 }
 
-function shortTitle(title: string) {
-  return title.includes(":") ? title.split(":")[0]!.trim() : title;
-}
+const ALL_WORK = {
+  label: "All work",
+  sentence:
+    "I turn real problems into working products, from school systems to client platforms in production. Pick a claim to see only the projects that prove it.",
+};
 
 /**
- * An index of what I can own. Picking a capability (tabs) shows its claim and
- * the projects that prove it as thumbnails; narrowing the work below is a
- * separate, explicit button, so browsing the index never reshapes the page.
+ * An index of what I can own. Each entry is a filter: choosing one swaps the
+ * claim on the right and narrows the work right below it, so the projects
+ * are the proof and nothing is shown twice.
  */
-export function WorkCapabilities({ projects, selected, onSelect, matchCount }: WorkCapabilitiesProps) {
+export function WorkCapabilities({ selected, onSelect, matchCount }: WorkCapabilitiesProps) {
   const capabilities = getCapabilities();
-  const byId = new Map(projects.map((p) => [p.id, p]));
-  const [activeId, setActiveId] = useState<CapabilityId>(capabilities[0]!.id);
+  const entries = [{ id: null, ...ALL_WORK }, ...capabilities.map((c) => ({ id: c.id, label: c.label, sentence: c.sentence }))];
+  const activeIndex = Math.max(0, entries.findIndex((e) => e.id === selected));
+  const active = entries[activeIndex]!;
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const baseId = useId();
 
-  const activeIndex = Math.max(0, capabilities.findIndex((c) => c.id === activeId));
-  const active = capabilities[activeIndex]!;
-  const proof = active.projectIds.map((id) => byId.get(id)).filter((p): p is Project => Boolean(p));
-  const isFiltering = selected === active.id;
-  const filtering = capabilities.find((c) => c.id === selected);
-
-  // Arrow keys move between tabs (WAI-ARIA tabs pattern).
-  const onTabKey = (e: KeyboardEvent<HTMLButtonElement>) => {
-    const keys: Record<string, number> = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 };
+  // Arrow keys move between entries and apply them (WAI-ARIA tabs, automatic activation).
+  const onKey = (e: KeyboardEvent<HTMLButtonElement>) => {
+    const step: Record<string, number> = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 };
     let next: number | null = null;
-    if (e.key in keys) next = (activeIndex + keys[e.key]! + capabilities.length) % capabilities.length;
+    if (e.key in step) next = (activeIndex + step[e.key]! + entries.length) % entries.length;
     if (e.key === "Home") next = 0;
-    if (e.key === "End") next = capabilities.length - 1;
+    if (e.key === "End") next = entries.length - 1;
     if (next === null) return;
     e.preventDefault();
-    setActiveId(capabilities[next]!.id);
+    onSelect(entries[next]!.id);
     tabRefs.current[next]?.focus();
   };
 
   return (
-    <section aria-labelledby={`${baseId}-heading`} className="space-y-6 md:space-y-8">
-      <div className="space-y-2">
-        <span className="block font-mono text-xs uppercase tracking-widest text-brand">What I can own</span>
-        <h2 id={`${baseId}-heading`} className="text-2xl font-black tracking-tight text-foreground sm:text-3xl">
-          Each claim, with its proof
-        </h2>
-      </div>
+    <section aria-labelledby={`${baseId}-heading`} className="space-y-6">
+      <h2 id={`${baseId}-heading`} className="font-mono text-xs uppercase tracking-widest text-brand">
+        What I can own
+      </h2>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12">
-        {/* Phones: a sideways row of tabs. From lg: a numbered index in large type. */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-center lg:gap-16">
+        {/* Phones: a sideways pill row. From lg: a numbered index in large type. */}
         <div
           role="tablist"
-          aria-label="Capabilities"
-          aria-orientation="vertical"
+          aria-label="Filter the work by what it proves"
           className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] lg:mx-0 lg:flex-col lg:gap-0 lg:overflow-visible lg:px-0 lg:pb-0"
         >
-          {capabilities.map((cap, i) => {
-            const on = cap.id === activeId;
+          {entries.map((entry, i) => {
+            const on = i === activeIndex;
             return (
               <button
-                key={cap.id}
+                key={entry.label}
                 ref={(el) => {
                   tabRefs.current[i] = el;
                 }}
                 type="button"
                 role="tab"
-                id={`${baseId}-tab-${cap.id}`}
+                id={`${baseId}-tab-${i}`}
                 aria-selected={on}
                 aria-controls={`${baseId}-panel`}
                 tabIndex={on ? 0 : -1}
-                onClick={() => setActiveId(cap.id)}
-                onKeyDown={onTabKey}
+                onClick={() => onSelect(entry.id)}
+                onKeyDown={onKey}
                 className={cn(
-                  "group flex min-h-11 shrink-0 items-baseline gap-3 text-left transition-colors",
-                  // Phones: pills. lg: rows of the index, separated by hairlines.
-                  "rounded-full border px-4 py-2 lg:rounded-none lg:border-0 lg:border-b lg:px-0 lg:py-4",
+                  "group flex min-h-11 shrink-0 items-baseline gap-3 text-left transition-colors duration-300",
+                  "rounded-full border px-4 py-2 lg:rounded-none lg:border-0 lg:border-b lg:px-0 lg:py-3.5",
                   "lg:border-black/10 lg:dark:border-white/10",
                   on
                     ? "border-foreground bg-foreground text-background lg:bg-transparent lg:text-foreground"
                     : "border-black/15 text-muted-foreground hover:text-foreground dark:border-white/15",
                 )}
               >
-                <span className={cn("hidden font-mono text-xs lg:inline", on ? "text-brand" : "text-muted-foreground")}>
-                  {String(i + 1).padStart(2, "0")}
+                <span
+                  className={cn(
+                    "hidden font-mono text-xs transition-colors lg:inline",
+                    on ? "text-brand" : "text-muted-foreground",
+                  )}
+                >
+                  {String(i).padStart(2, "0")}
                 </span>
-                <span className="whitespace-nowrap text-sm font-semibold lg:whitespace-normal lg:font-heading lg:text-2xl lg:font-bold lg:tracking-tight">
-                  {cap.label}
+                <span className="whitespace-nowrap text-sm font-semibold lg:font-heading lg:text-2xl lg:font-bold lg:tracking-tight">
+                  {entry.label}
                 </span>
               </button>
             );
@@ -109,69 +101,20 @@ export function WorkCapabilities({ projects, selected, onSelect, matchCount }: W
         <div
           role="tabpanel"
           id={`${baseId}-panel`}
-          aria-labelledby={`${baseId}-tab-${active.id}`}
-          className="space-y-5"
+          aria-labelledby={`${baseId}-tab-${activeIndex}`}
+          className="lg:border-l lg:border-black/10 lg:pl-16 lg:dark:border-white/10"
         >
-          <p className="max-w-xl text-base leading-relaxed text-foreground sm:text-lg">{active.sentence}</p>
-
-          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3" aria-label={`Projects that prove ${active.label}`}>
-            {proof.map((p) => {
-              const href = projectDetailHref(p.id);
-              const name = shortTitle(p.title_en);
-              const thumb = (
-                <>
-                  <span className="relative block aspect-16/10 overflow-hidden rounded-lg ring-1 ring-black/5 dark:ring-white/10">
-                    <Image src={p.image} alt="" fill className="object-cover" sizes="(max-width: 640px) 45vw, 220px" />
-                  </span>
-                  <span className="mt-2 block truncate text-sm font-medium text-foreground group-hover:text-brand">
-                    {name}
-                  </span>
-                </>
-              );
-              return (
-                <li key={p.id}>
-                  {href ? (
-                    <Link href={href} transitionTypes={["nav-forward"]} className="group block">
-                      {thumb}
-                    </Link>
-                  ) : (
-                    <div className="group block">{thumb}</div>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-
-          <div className="flex flex-wrap items-center gap-3">
-            <button
-              type="button"
-              aria-pressed={isFiltering}
-              onClick={() => onSelect(isFiltering ? null : active.id)}
-              className={cn(
-                "inline-flex min-h-11 items-center rounded-full border px-4 text-sm font-semibold transition-colors",
-                isFiltering
-                  ? "border-brand bg-brand text-white dark:text-zinc-950"
-                  : "border-black/15 text-foreground hover:border-brand/60 dark:border-white/15",
-              )}
-            >
-              {isFiltering ? "Showing only these below" : "Show only these below"}
-            </button>
-            {selected !== null && (
-              <button
-                type="button"
-                onClick={() => onSelect(null)}
-                className="inline-flex min-h-11 items-center px-2 text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
-              >
-                Show all work
-              </button>
-            )}
+          {/* Keyed so the claim fades in each time the choice changes. */}
+          <div key={active.label} className="space-y-4 motion-safe:animate-[fade-in-up_0.4s_cubic-bezier(0.215,0.61,0.355,1)_both]">
+            <p className="text-xl font-semibold leading-snug tracking-tight text-foreground sm:text-2xl lg:text-3xl">
+              {active.sentence}
+            </p>
+            <p aria-live="polite" className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
+              {selected === null
+                ? `${matchCount} projects below`
+                : `${matchCount} ${matchCount === 1 ? "project proves" : "projects prove"} it, below`}
+            </p>
           </div>
-
-          <p aria-live="polite" className="font-mono text-xs text-muted-foreground">
-            {filtering
-              ? `The work below shows ${matchCount} ${matchCount === 1 ? "project" : "projects"} for “${filtering.label}”. Open Source stays.`
-              : ""}
-          </p>
         </div>
       </div>
     </section>

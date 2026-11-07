@@ -1,6 +1,6 @@
 "use client";
 
-import { startTransition, useMemo, useRef, useState, ViewTransition } from "react";
+import { startTransition, useMemo, useRef, useState } from "react";
 import { NodeNetworkLazy } from "@/components/ui/node-network-lazy";
 import { CpuArchitecture } from "@/components/ui/cpu-architecture";
 import { ProjectCard } from "@/components/ui/project-card";
@@ -65,19 +65,9 @@ export function ProjectsPage({ locale = "en", initialData }: ProjectsPageProps) 
     return { featured, groups, count };
   }, [archive, selected]);
 
-  const resultsRef = useRef<HTMLDivElement>(null);
-
-  // Transition so the lists cross-fade through the page's ViewTransition.
-  // Applying a filter scrolls to its results: on a phone they sit below the
-  // fold, and otherwise the only visible change would be the button state.
-  const select = (id: CapabilityId | null) => {
-    startTransition(() => setSelected(id));
-    if (id === null) return;
-    requestAnimationFrame(() => {
-      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      resultsRef.current?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
-    });
-  };
+  // The filtered lists sit directly under the index, so no scrolling: they
+  // re-mount on each choice and fade in (see the keyed wrapper below).
+  const select = (id: CapabilityId | null) => startTransition(() => setSelected(id));
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = sectionRef.current;
@@ -109,11 +99,6 @@ export function ProjectsPage({ locale = "en", initialData }: ProjectsPageProps) 
             <h1 className="text-3xl font-black leading-tight tracking-tight text-foreground sm:text-4xl md:text-5xl lg:text-6xl">
               I build more than websites
             </h1>
-            <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-              I turn real problems into working products, from school systems to client platforms in
-              production. Each project below says what I owned; pick a capability to see the ones
-              that prove it.
-            </p>
           </div>
 
           {/* Supporting figures, aligned on one baseline: they back the headline, they are not the headline. */}
@@ -145,10 +130,12 @@ export function ProjectsPage({ locale = "en", initialData }: ProjectsPageProps) 
 
         {!showSkeleton && !showError && projects && filtered && (
           <div className="mt-12 space-y-12 md:mt-20 md:space-y-20">
-            <WorkCapabilities projects={projects} selected={selected} onSelect={select} matchCount={filtered.count} />
+            <WorkCapabilities selected={selected} onSelect={select} matchCount={filtered.count} />
 
-            <ViewTransition>
-              <div ref={resultsRef} className="scroll-mt-24 space-y-12 md:space-y-20">
+            <div
+              key={selected ?? "all"}
+              className="space-y-12 md:space-y-20 motion-safe:animate-[fade-in-up_0.45s_cubic-bezier(0.215,0.61,0.355,1)_both]"
+            >
                 {filtered.count === 0 && (
                   <div className="rounded-2xl border border-black/10 p-6 dark:border-white/10">
                     <p className="text-sm text-foreground">No projects match this capability.</p>
@@ -209,8 +196,7 @@ export function ProjectsPage({ locale = "en", initialData }: ProjectsPageProps) 
                     )}
                   </section>
                 ))}
-              </div>
-            </ViewTransition>
+            </div>
 
             <section className="space-y-6">
               <SectionHeading
