@@ -30,6 +30,7 @@ import { projectPageMetadata } from "@/lib/site-metadata";
 import {
   getProjectTaxonomy,
   getProjectIdBySlug,
+  getPublicRepoUrl,
   ORIGIN_LABEL,
 } from "@/lib/data/project-taxonomy";
 import { WEBEKSPRES_ROLE } from "@/lib/data/project-meta-seed";
@@ -122,6 +123,8 @@ type CatalogProject = {
   image: string;
   tags: string[];
   liveUrl?: string;
+  /** Set only when the repository is public (see getPublicRepoUrl). */
+  repoUrl?: string;
   year?: number;
 };
 
@@ -130,6 +133,30 @@ type LiteProject = CatalogProject & {
   role?: string;
   outcome?: string;
 };
+
+const projectLinkClass =
+  "inline-flex items-center gap-1.5 rounded-full border border-black/10 dark:border-white/10 px-3 py-1.5 text-[11px] font-mono uppercase tracking-[0.14em] text-foreground hover:border-brand/30 hover:text-brand transition-colors";
+
+/** Live site and, for public repositories only, the source link. */
+function ProjectLinks({ liveUrl, repoUrl }: { liveUrl?: string; repoUrl?: string }) {
+  if (!liveUrl && !repoUrl) return null;
+  return (
+    <div className="flex flex-wrap items-center gap-3">
+      {liveUrl && (
+        <a href={liveUrl} target="_blank" rel="noopener noreferrer" className={projectLinkClass}>
+          Live site
+          <ArrowUpRight size={12} strokeWidth={1.6} aria-hidden />
+        </a>
+      )}
+      {repoUrl && (
+        <a href={repoUrl} target="_blank" rel="noopener noreferrer" className={projectLinkClass}>
+          Source on GitHub
+          <ArrowUpRight size={12} strokeWidth={1.6} aria-hidden />
+        </a>
+      )}
+    </div>
+  );
+}
 
 function displayTitle(full: string) {
   return full.includes(":") ? full.split(":")[0]!.trim() : full;
@@ -142,6 +169,7 @@ function catalogFromStatic(p: Project): CatalogProject {
     image: p.image,
     tags: p.tags,
     liveUrl: hasPublicProjectUrl(p.live_url) ? p.live_url : undefined,
+    repoUrl: getPublicRepoUrl(p.id, p.github_url),
     year: p.year,
   };
 }
@@ -160,6 +188,7 @@ async function resolveCatalog(projectId: string): Promise<CatalogProject | null>
       image: row.image,
       tags: row.tags ?? [],
       liveUrl: hasPublicProjectUrl(row.live_url) ? row.live_url : undefined,
+      repoUrl: getPublicRepoUrl(row.id, row.github_url),
       year: row.year,
     };
   }
@@ -186,6 +215,7 @@ async function resolveLite(projectId: string): Promise<LiteProject | null> {
     image: row?.image || stat?.image || "",
     tags: row?.tags ?? stat?.tags ?? [],
     liveUrl: hasPublicProjectUrl(liveUrl) ? liveUrl : undefined,
+    repoUrl: getPublicRepoUrl(projectId, row?.github_url ?? stat?.github_url),
     year: row?.year ?? stat?.year,
     description,
     role,
@@ -486,7 +516,7 @@ function LiteDetail({
         image={lite.image}
         tags={lite.tags}
         year={lite.year}
-        githubUrl={undefined}
+        githubUrl={lite.repoUrl}
         liveUrl={lite.liveUrl}
         teamCredit={teamCredit}
       />
@@ -519,19 +549,7 @@ function LiteDetail({
               {lite.title}
             </h1>
 
-            {lite.liveUrl ? (
-              <div className="flex flex-wrap items-center gap-4">
-                <a
-                  href={lite.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full border border-black/10 dark:border-white/10 px-3 py-1.5 text-[11px] font-mono uppercase tracking-[0.14em] text-foreground hover:border-brand/30 hover:text-brand transition-colors"
-                >
-                  Live site
-                  <ArrowUpRight size={12} strokeWidth={1.6} />
-                </a>
-              </div>
-            ) : null}
+            <ProjectLinks liveUrl={lite.liveUrl} repoUrl={lite.repoUrl} />
           </div>
         </div>
       </div>
@@ -688,7 +706,7 @@ export default async function ProjectDetailPage({ params }: Props) {
         image={catalog.image}
         tags={catalog.tags}
         year={catalog.year}
-        githubUrl={undefined}
+        githubUrl={catalog.repoUrl}
         liveUrl={catalog.liveUrl}
         teamCredit={taxonomy?.origin === "webekspres"}
       />
@@ -721,19 +739,7 @@ export default async function ProjectDetailPage({ params }: Props) {
               {catalog.title}
             </h1>
 
-            {catalog.liveUrl ? (
-              <div className="flex flex-wrap items-center gap-4">
-                <a
-                  href={catalog.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full border border-black/10 dark:border-white/10 px-3 py-1.5 text-[11px] font-mono uppercase tracking-[0.14em] text-foreground hover:border-brand/30 hover:text-brand transition-colors"
-                >
-                  Live site
-                  <ArrowUpRight size={12} strokeWidth={1.6} />
-                </a>
-              </div>
-            ) : null}
+            <ProjectLinks liveUrl={catalog.liveUrl} repoUrl={catalog.repoUrl} />
           </div>
         </div>
       </div>
