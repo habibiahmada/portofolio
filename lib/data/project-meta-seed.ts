@@ -284,6 +284,14 @@ export const PROJECT_META_SEED: Record<string, ProjectMetaSeed> = {
     description_id:
       "Toko perhiasan emas dengan cabang di berbagai kota ingin member bisa melihat poin, tier, dan reward sendiri tanpa bertanya ke kasir. Bersama tim Webekspres saya mengerjakan seluruh lapisan HK GOLD VIP: aplikasi member Flutter, backoffice Laravel Filament untuk staf, dan API Bun/Elysia di antaranya. Sudah live di hkgoldvip.com dan Google Play.",
   },
+  "40fc57ed-1ce0-5375-9732-a66df807beff": {
+    role: "DevOps and tooling (Webekspres team)",
+    outcome: "Shared CI for the organisation's repositories",
+    description_en:
+      "On GitHub the runner queue is spread across repositories, and a job that hangs without failing shows up nowhere. On the Webekspres team I built the shared delivery layer: reusable build and deploy workflows, public CI images for PHP, Node, Python, and Flutter rebuilt every month, and pitwall, a Go terminal dashboard for runners, ARC pods, and the job queue across 41 repositories.",
+    description_id:
+      "Di GitHub, antrean runner tersebar di tiap repo, dan job yang menggantung tanpa gagal tidak terlihat sama sekali. Bersama tim Webekspres saya membangun lapisan delivery bersama: workflow build dan deploy yang bisa dipakai ulang, image CI publik untuk PHP, Node, Python, dan Flutter yang dibangun ulang tiap bulan, serta pitwall, dashboard terminal Go untuk runner, pod ARC, dan antrean job di 41 repo.",
+  },
 };
 
 export { WEBEKSPRES_ROLE };

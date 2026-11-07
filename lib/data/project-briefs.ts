@@ -488,6 +488,27 @@ const BRIEFS: ProjectBrief[] = [
     result:
       "Delivered and live at skurniawan.com.",
   },
+  {
+    projectId: "40fc57ed-1ce0-5375-9732-a66df807beff", // Webekspres CI/CD platform
+    overview:
+      "The Webekspres CI/CD platform is the shared delivery layer for the company's repositories: reusable GitHub Actions workflows, public CI images, self-hosted runners on k3s, and pitwall, a terminal dashboard that watches all of it.",
+    context:
+      "On GitHub the runner queue is not visible in one place: you open repositories one by one, and a job that hangs without failing shows up nowhere. Every project also needed its PHP, Node, Python, or Flutter toolchain on whichever runner picked up the job.",
+    solution:
+      "I moved the toolchains into versioned images, moved repeated pipeline steps into reusable workflows, and put the state of every runner, pod, and queued job on one screen.",
+    role: "DevOps and tooling (Webekspres team)",
+    features: [
+      "Reusable build-image and deploy-ssh workflows any repository can call",
+      "ci-php, ci-node, ci-python, and ci-flutter images, rebuilt on the 1st of every month",
+      "Moving, frozen, and digest tags, so a build can be pinned while a failure is investigated",
+      "Self-hosted runners and ARC runner sets on a k3s cluster",
+      "pitwall: runners, ARC pods, nodes, and the job queue across 41 repositories in one terminal view",
+    ],
+    techNotes:
+      "GitHub Actions with images published to GHCR. Runners run on k3s with Actions Runner Controller. pitwall is written in Go, reads the GitHub API, reaches the cluster with kubectl over SSH, and lays its panels out to fit the terminal width.",
+    result:
+      "In daily use across the organisation. ci-images is public on GitHub, and pitwall has shipped releases up to v0.7.0.",
+  },
 ];
 
 const BRIEF_BY_ID: Record<string, ProjectBrief> = Object.fromEntries(

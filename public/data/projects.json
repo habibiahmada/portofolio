@@ -17,6 +17,23 @@
     "year": 2026
   },
   {
+    "id": "40fc57ed-1ce0-5375-9732-a66df807beff",
+    "title_en": "Webekspres CI/CD platform: runners, CI images, and pitwall",
+    "title_id": "Platform CI/CD Webekspres: runner, image CI, dan pitwall",
+    "description_en": "",
+    "description_id": "",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/webekspres-cicd.webp",
+    "tags": [
+      "GitHub Actions",
+      "Docker",
+      "Kubernetes",
+      "Go"
+    ],
+    "live_url": "",
+    "github_url": "https://github.com/Webekspres/ci-images",
+    "year": 2026
+  },
+  {
     "id": "cf591dd5-dd77-5cae-ab6c-b8e4cef6e859",
     "title_en": "Kopi Dari Rumah: home coffee brand website",
     "title_id": "Kopi Dari Rumah: Website brand kopi rumahan",

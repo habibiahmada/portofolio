@@ -215,6 +215,12 @@ const WEBEKSPRES_TAXONOMY: Record<string, ProjectTaxonomy> = {
     origin: "webekspres",
     company: WEBEKSPRES,
   },
+  "40fc57ed-1ce0-5375-9732-a66df807beff": {
+    slug: "webekspres-cicd",
+    category: "web-app",
+    origin: "webekspres",
+    company: WEBEKSPRES,
+  },
 }
 
 const PERSONAL_TAXONOMY: Record<string, ProjectTaxonomy> = {
