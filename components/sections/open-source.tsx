@@ -32,7 +32,7 @@ export function OpenSource() {
           </a>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
           {OPEN_SOURCE_PROJECTS.map((project) => (
             <OpenSourceCard key={project.id} project={project} />
           ))}

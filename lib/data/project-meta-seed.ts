@@ -90,11 +90,11 @@ export const PROJECT_META_SEED: Record<string, ProjectMetaSeed> = {
   },
   "36b5bfa0-db1f-51cd-8861-8eac729f2afb": {
     role: WEBEKSPRES_ROLE,
-    outcome: "Live at jepangku.com",
+    outcome: "News and LMS live, Work in staging",
     description_en:
-      "A Japan fan community needed a live portal, not a company-profile theme. On the Webekspres team I built reader modules, the admin CMS, quizzes, polls, and XP, plus shared auth with Core.",
+      "People who follow Japan, study Japanese, and want to work there are the same audience, so JepangKu became four apps on one account: News, an LMS, a job board, and a Core API for identity and XP. On the Webekspres team I worked across all four, most of all the LMS and Work.",
     description_id:
-      "Komunitas pecinta Jepang butuh portal yang hidup, bukan tema company profile. Bersama tim Webekspres saya membangun modul pembaca, CMS admin, kuis, polling, dan XP, plus auth bersama Core.",
+      "Orang yang mengikuti berita Jepang, belajar bahasanya, dan ingin bekerja di sana adalah audiens yang sama, jadi JepangKu menjadi empat aplikasi dalam satu akun: News, LMS, portal kerja, dan Core API untuk identitas dan XP. Bersama tim Webekspres saya mengerjakan keempatnya, terutama LMS dan Work.",
   },
   "dfd144d5-84d7-5f1f-be03-1554dee928b1": {
     role: WEBEKSPRES_ROLE,
@@ -275,6 +275,22 @@ export const PROJECT_META_SEED: Record<string, ProjectMetaSeed> = {
       "A home coffee business needed a simple way for customers to see the menu and order. I worked on the Kopi Dari Rumah site, with a coffee menu (iced palm-sugar latte, cappuccino, kopi tubruk) and ordering straight to WhatsApp.",
     description_id:
       "Usaha kopi rumahan butuh cara sederhana agar pelanggan bisa melihat menu dan memesan. Saya ikut mengerjakan situs Kopi Dari Rumah dengan menu kopi (es kopi susu aren, cappuccino, kopi tubruk) dan pemesanan langsung ke WhatsApp.",
+  },
+  "958d7eda-2748-52ee-a9b3-f408a112d136": {
+    role: WEBEKSPRES_ROLE,
+    outcome: "Member app, back office, and API in production",
+    description_en:
+      "A gold jeweller with branches across Indonesia wanted members to see their points, tier, and rewards without asking a cashier. On the Webekspres team I built across the HK GOLD VIP stack: the Flutter member app, the Laravel Filament back office for staff, and the Bun/Elysia API between them. Live at hkgoldvip.com and on Google Play.",
+    description_id:
+      "Toko perhiasan emas dengan cabang di berbagai kota ingin member bisa melihat poin, tier, dan reward sendiri tanpa bertanya ke kasir. Bersama tim Webekspres saya mengerjakan seluruh lapisan HK GOLD VIP: aplikasi member Flutter, backoffice Laravel Filament untuk staf, dan API Bun/Elysia di antaranya. Sudah live di hkgoldvip.com dan Google Play.",
+  },
+  "40fc57ed-1ce0-5375-9732-a66df807beff": {
+    role: "DevOps and tooling (Webekspres team)",
+    outcome: "Shared CI for the organisation's repositories",
+    description_en:
+      "On GitHub the runner queue is spread across repositories, and a job that hangs without failing shows up nowhere. On the Webekspres team I built the shared delivery layer: reusable build and deploy workflows, public CI images for PHP, Node, Python, and Flutter rebuilt every month, and pitwall, a Go terminal dashboard for runners, ARC pods, and the job queue across 41 repositories.",
+    description_id:
+      "Di GitHub, antrean runner tersebar di tiap repo, dan job yang menggantung tanpa gagal tidak terlihat sama sekali. Bersama tim Webekspres saya membangun lapisan delivery bersama: workflow build dan deploy yang bisa dipakai ulang, image CI publik untuk PHP, Node, Python, dan Flutter yang dibangun ulang tiap bulan, serta pitwall, dashboard terminal Go untuk runner, pod ARC, dan antrean job di 41 repo.",
   },
 };
 

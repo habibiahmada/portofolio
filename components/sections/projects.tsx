@@ -42,8 +42,8 @@ export function Projects({ locale = "en", initialData }: ProjectsProps) {
                 Featured Projects
               </h2>
               <p className="text-sm text-muted-foreground max-w-lg leading-relaxed">
-                Six problems I can walk you through: MIRU, E-Vote, JepangKu,
-                CultureConnect, Smartfarm, and Terraju. The rest lives in the archive.
+                Six problems I can walk you through: MIRU, HK GOLD VIP, E-Vote, JepangKu,
+                CultureConnect, and Smartfarm. The rest lives in the archive.
               </p>
             </div>
           </div>

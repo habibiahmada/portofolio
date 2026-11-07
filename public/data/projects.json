@@ -1,5 +1,39 @@
 [
   {
+    "id": "958d7eda-2748-52ee-a9b3-f408a112d136",
+    "title_en": "HK GOLD VIP: loyalty app and back office for a gold jeweller",
+    "title_id": "HK GOLD VIP: Aplikasi loyalitas dan backoffice toko emas",
+    "description_en": "",
+    "description_id": "",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/hk-gold-vip.webp",
+    "tags": [
+      "Flutter",
+      "Laravel Filament",
+      "ElysiaJS",
+      "MySQL"
+    ],
+    "live_url": "https://hkgoldvip.com",
+    "github_url": "",
+    "year": 2026
+  },
+  {
+    "id": "40fc57ed-1ce0-5375-9732-a66df807beff",
+    "title_en": "Webekspres CI/CD platform: runners, CI images, and pitwall",
+    "title_id": "Platform CI/CD Webekspres: runner, image CI, dan pitwall",
+    "description_en": "",
+    "description_id": "",
+    "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/webekspres-cicd.webp",
+    "tags": [
+      "GitHub Actions",
+      "Docker",
+      "Kubernetes",
+      "Go"
+    ],
+    "live_url": "",
+    "github_url": "https://github.com/Webekspres/ci-images",
+    "year": 2026
+  },
+  {
     "id": "cf591dd5-dd77-5cae-ab6c-b8e4cef6e859",
     "title_en": "Kopi Dari Rumah: home coffee brand website",
     "title_id": "Kopi Dari Rumah: Website brand kopi rumahan",
@@ -86,19 +120,19 @@
   },
   {
     "id": "36b5bfa0-db1f-51cd-8861-8eac729f2afb",
-    "title_en": "JepangKu: Japan community news portal with quizzes and gamification",
-    "title_id": "JepangKu: Portal berita komunitas Jepang dengan kuis dan gamifikasi",
-    "description_en": "On the Webekspres team I worked on the JepangKu news portal: articles, quizzes, polls, XP gamification, and shared Clerk/Elysia auth with Core.",
-    "description_id": "Bersama tim Webekspres saya mengerjakan portal berita JepangKu: artikel, kuis, polling, gamifikasi XP, dan auth bersama Clerk & Elysia lewat Core.",
+    "title_en": "JepangKu: news, language courses, and jobs for Japan on one account",
+    "title_id": "JepangKu: Berita, kursus bahasa, dan lowongan kerja Jepang dalam satu akun",
+    "description_en": "On the Webekspres team I worked across the JepangKu monorepo: the news portal, the LMS, the Work job board, and the Core API for shared identity and XP.",
+    "description_id": "Bersama tim Webekspres saya mengerjakan monorepo JepangKu: portal berita, LMS, portal kerja Work, dan Core API untuk identitas dan XP bersama.",
     "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/jepangku.webp",
     "tags": [
       "Next.js",
-      "React",
-      "TypeScript",
-      "Clerk",
-      "Elysia",
+      "Bun",
+      "ElysiaJS",
+      "Prisma",
       "PostgreSQL",
-      "Redis"
+      "Clerk",
+      "Cloudflare R2"
     ],
     "live_url": "https://jepangku.com",
     "github_url": "",

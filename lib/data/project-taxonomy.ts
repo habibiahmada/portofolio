@@ -49,7 +49,7 @@ const WEBEKSPRES = "PT Webekspres Teknologi Indonesia"
 const WEBEKSPRES_TAXONOMY: Record<string, ProjectTaxonomy> = {
   "36b5bfa0-db1f-51cd-8861-8eac729f2afb": {
     slug: "jepangku",
-    category: "catalog",
+    category: "web-app",
     origin: "webekspres",
     company: WEBEKSPRES,
   },
@@ -205,6 +205,18 @@ const WEBEKSPRES_TAXONOMY: Record<string, ProjectTaxonomy> = {
   },
   "08ad34a3-c3f9-4630-817e-e08140f6b0ad": {
     slug: "louise-pilates",
+    category: "web-app",
+    origin: "webekspres",
+    company: WEBEKSPRES,
+  },
+  "958d7eda-2748-52ee-a9b3-f408a112d136": {
+    slug: "hk-gold-vip",
+    category: "web-app",
+    origin: "webekspres",
+    company: WEBEKSPRES,
+  },
+  "40fc57ed-1ce0-5375-9732-a66df807beff": {
+    slug: "webekspres-cicd",
     category: "web-app",
     origin: "webekspres",
     company: WEBEKSPRES,

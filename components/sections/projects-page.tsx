@@ -132,8 +132,8 @@ export function ProjectsPage({ locale = "en", initialData }: ProjectsPageProps) 
                     Featured case studies
                   </h2>
                   <p className="text-sm text-muted-foreground max-w-xl leading-relaxed">
-                    Six with a longer write-up: MIRU, E-Vote, JepangKu,
-                    CultureConnect, Smartfarm, and Terraju.
+                    Six with a longer write-up: MIRU, HK GOLD VIP, E-Vote, JepangKu,
+                    CultureConnect, and Smartfarm.
                   </p>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
@@ -159,11 +159,12 @@ export function ProjectsPage({ locale = "en", initialData }: ProjectsPageProps) 
                   Built in public, free to fork
                 </h2>
                 <p className="text-sm text-muted-foreground max-w-xl leading-relaxed">
-                  Tools I maintain on GitHub under the MIT license: an editor
-                  package, this portfolio as a CLI, and a Linux emoji picker.
+                  Tools I maintain on GitHub under the MIT license: a GitHub
+                  year-in-review, an editor package, this portfolio as a CLI,
+                  and a Linux emoji picker.
                 </p>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                 {OPEN_SOURCE_PROJECTS.map((project) => (
                   <OpenSourceCard key={project.id} project={project} />
                 ))}
