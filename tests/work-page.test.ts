@@ -36,3 +36,30 @@ describe("capabilities", () => {
     expect(projectHasCapability("40fc57ed-1ce0-5375-9732-a66df807beff", "delivery")).toBe(true);
   });
 });
+
+import { getCardSubtitle } from "../lib/data/card-subtitle";
+
+describe("card subtitle", () => {
+  it("uses the part of the title after the colon", () => {
+    expect(
+      getCardSubtitle({
+        id: "958d7eda-2748-52ee-a9b3-f408a112d136",
+        title_en: "HK GOLD VIP: loyalty app and back office for a gold jeweller",
+      }),
+    ).toBe("loyalty app and back office for a gold jeweller");
+  });
+
+  it("gives Renshuu a descriptive line even without a colon", () => {
+    expect(
+      getCardSubtitle({ id: "f5c13a15-1bc6-4e82-8d62-d1196894d189", title_en: "Renshuu web" }).length,
+    ).toBeGreaterThan(0);
+  });
+
+  it("gives every project a non-empty line with no em dash", () => {
+    for (const p of projects as { id: string; title_en: string }[]) {
+      const line = getCardSubtitle(p);
+      expect(line.length).toBeGreaterThan(0);
+      expect(line.includes("—")).toBe(false);
+    }
+  });
+});
