@@ -1,6 +1,7 @@
 "use client";
 
 import { CpuArchitecture } from "@/components/ui/cpu-architecture";
+import { PROJECT_STATS } from "@/lib/data/project-taxonomy";
 
 export function AboutIntro() {
   return (
@@ -57,10 +58,10 @@ export function AboutIntro() {
                 <span className="text-foreground font-semibold">
                   Web Developer
                 </span>{" "}
-                building sites and apps for real clients: 19 of them in about
-                four months, from WordPress catalogs to custom Next.js and React
-                apps. I also ship school systems and award-winning AI product
-                work.
+                building for real clients: {PROJECT_STATS.clientProjects} projects so far,
+                from WordPress catalogs to platforms with a mobile app and an API
+                behind them. I also ship school systems and award-winning AI
+                product work.
               </p>
               <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
                 I care most about the parts that keep a site standing after

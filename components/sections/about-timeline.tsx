@@ -1,6 +1,7 @@
 "use client";
 
 import { Companies } from "./companies";
+import { PROJECT_STATS } from "@/lib/data/project-taxonomy";
 
 const timelineData = [
   {
@@ -13,8 +14,8 @@ const timelineData = [
     title: "Web Developer",
     highlight: "Current",
     description:
-      "Delivered 19 client websites in about four months with the Webekspres team: corporate sites, news portals, landing pages, catalogs, and integrated apps.",
-    skills: ["WordPress", "Next.js", "React", "Laravel"],
+      `${PROJECT_STATS.clientProjects} client projects with the Webekspres team: company sites, news portals, and catalogs, plus my part in the systems behind MIRU, HK GOLD VIP, and JepangKu, across web, mobile, and API. I also built the team's shared CI/CD platform.`,
+    skills: ["Next.js", "Laravel", "Flutter", "WordPress", "CI/CD"],
   },
   {
     id: "9cb78319",
@@ -52,7 +53,7 @@ const timelineData = [
     title: "Web Developer Intern",
     highlight: null,
     description:
-      "Full-stack intern on internal company web projects. Shipped features end to end, from database to UI.",
+      "Built Renshuu, a job-search web app for SMKN 1 Karawang students, during my PKL internship: features end to end, from database to UI.",
     skills: ["Full-stack", "Internal tools"],
   },
   {
@@ -65,7 +66,7 @@ const timelineData = [
     title: "Software Engineering",
     highlight: null,
     description:
-      "Software development, programming, systems, and networking. Active in tech projects and competitions.",
+      "Software engineering: programming, systems, and networking. Built E-Vote, the digital election system the school used for OSIS voting.",
     skills: [],
   },
   {
