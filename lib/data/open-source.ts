@@ -19,6 +19,19 @@ export type OpenSourceProject = {
 
 export const OPEN_SOURCE_PROJECTS: OpenSourceProject[] = [
   {
+    id: "wrapyourgit",
+    name: "wrapyourgit",
+    kind: "Web app",
+    description:
+      "Your GitHub year played back as a short animated story with its own soundtrack: contributions, streaks, languages, projects, and the kind of developer you turned out to be.",
+    facts: ["9 chapters", "Read-only GitHub sign-in", "Delete your data anytime"],
+    language: "TypeScript",
+    license: "MIT",
+    repoUrl: "https://github.com/habibiahmada/wrapyourgit",
+    siteUrl: "https://wrapyourgit.habibiahmada.dev",
+    siteLabel: "Live",
+  },
+  {
     id: "autumnnote-plus",
     name: "autumnnote-plus",
     kind: "npm package",

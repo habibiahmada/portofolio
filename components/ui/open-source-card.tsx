@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 
 /** GitHub's language colours, so the dot reads like a repo listing. */
 const LANGUAGE_COLOR: Record<string, string> = {
+  TypeScript: "#3178c6",
   JavaScript: "#f1e05a",
   Go: "#00add8",
   "C + GTK3": "#a8b9cc",
