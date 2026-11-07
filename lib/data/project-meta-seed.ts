@@ -276,6 +276,14 @@ export const PROJECT_META_SEED: Record<string, ProjectMetaSeed> = {
     description_id:
       "Usaha kopi rumahan butuh cara sederhana agar pelanggan bisa melihat menu dan memesan. Saya ikut mengerjakan situs Kopi Dari Rumah dengan menu kopi (es kopi susu aren, cappuccino, kopi tubruk) dan pemesanan langsung ke WhatsApp.",
   },
+  "958d7eda-2748-52ee-a9b3-f408a112d136": {
+    role: WEBEKSPRES_ROLE,
+    outcome: "Member app, back office, and API in production",
+    description_en:
+      "A gold jeweller with branches across Indonesia wanted members to see their points, tier, and rewards without asking a cashier. On the Webekspres team I built across the HK GOLD VIP stack: the Flutter member app, the Laravel Filament back office for staff, and the Bun/Elysia API between them. Live at hkgoldvip.com and on Google Play.",
+    description_id:
+      "Toko perhiasan emas dengan cabang di berbagai kota ingin member bisa melihat poin, tier, dan reward sendiri tanpa bertanya ke kasir. Bersama tim Webekspres saya mengerjakan seluruh lapisan HK GOLD VIP: aplikasi member Flutter, backoffice Laravel Filament untuk staf, dan API Bun/Elysia di antaranya. Sudah live di hkgoldvip.com dan Google Play.",
+  },
 };
 
 export { WEBEKSPRES_ROLE };

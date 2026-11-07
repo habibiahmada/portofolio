@@ -564,6 +564,50 @@ export const CASE_STUDIES: CaseStudy[] = [
     ],
   },
   {
+    slug: "hk-gold-vip",
+    projectId: "958d7eda-2748-52ee-a9b3-f408a112d136",
+    role: "Web Developer at PT Webekspres Teknologi Indonesia",
+    hooks: {
+      opening: "Points a member can see",
+      reality: "Three apps, one ledger",
+      build: "Flutter, Filament, and Elysia on one MySQL",
+      close: "Live and in the store",
+      realityLead:
+        "Members use a phone app, staff use a back office, and both read the same points ledger. If the two disagree, a customer is standing at the counter asking why their balance is wrong.",
+      buildLead:
+        "Laravel owns the schema and the back office. The Bun/Elysia API reads the same tables through a Prisma mirror for the mobile app, so there is one ledger, not two.",
+      closeLead:
+        "hkgoldvip.com is live, the Android app is on Google Play, and every change moves through dev, staging, and main with CI on each step.",
+    },
+    problem:
+      "HK GOLD, a jewellery retailer since 1918, runs a loyalty programme: purchases at a branch earn points, points raise a membership tier, and tiers unlock rewards. Members needed to see that themselves, and staff needed one place to record transactions, confirm redemptions, and publish news. On the Webekspres team I worked across all three parts: the member app, the back office, and the API.",
+    constraints: [
+      "One MySQL database serves both the back office and the API. Laravel migrations own the schema; the API's Prisma schema is a mirror, never a second source of migrations.",
+      "Members sign in with a phone number. The one-time code goes out over WhatsApp, with email as the fallback, so customers never need a password.",
+      "Store managers act only inside their branch: geofenced check-in, branch-scoped reward stock, and multi-branch access granted per account.",
+      "Client feedback arrived in weekly batches, so each change shipped as its own pull request through dev, staging, and main, with tests before it reached members.",
+    ],
+    architecture: [
+      {
+        title: "Member app",
+        body: "Flutter with Riverpod for Android and iOS: the tier card, points history, rewards and vouchers, the nearest branch by GPS or by home address, an in-app inbox, and push notifications through FCM.",
+      },
+      {
+        title: "Back office",
+        body: "Laravel 13 with Filament v5 for administrators, store managers, cashiers, and marketing: member records, point injections with approval, reward stock per branch, events, the landing page CMS, an activity log, and Resend webhooks for bounced email.",
+      },
+      {
+        title: "API and delivery",
+        body: "Bun with ElysiaJS and Prisma serves the app, with Redis for one-time codes, refresh tokens, and rate limits, and media on S3-compatible storage. CI runs Pest and Bun tests, builds the Android bundle, and uploads it to Play Console and Firebase App Distribution.",
+      },
+    ],
+    outcomes: [
+      "Live at hkgoldvip.com, with the member app on Google Play.",
+      "Work across mobile, back office, API, and CI, not a single surface.",
+      "Small reviewed pull requests promoted through staging, including same-week dependency security updates.",
+    ],
+  },
+  {
     slug: "miru",
     projectId: "dfd144d5-84d7-5f1f-be03-1554dee928b1",
     role: "Web Developer at PT Webekspres Teknologi Indonesia",
@@ -831,6 +875,18 @@ export const CASE_STUDY_EXTRAS: Record<
       "Detail pages that do not dead-end",
       "Mobile-first browsing for tourists",
       "News section",
+    ],
+  },
+  "hk-gold-vip": {
+    overview:
+      "HK GOLD VIP is the loyalty programme of a gold jeweller: a member app, a staff back office, and an API on one shared database, live at hkgoldvip.com.",
+    features: [
+      "Phone sign-in with a WhatsApp or email one-time code",
+      "Tiers from Silver to Titanium, a points ledger, rewards, and vouchers",
+      "Nearest branch by GPS or address; geofenced store managers",
+      "Filament back office with approved point injections and an activity log",
+      "Push notifications and an in-app inbox",
+      "CI builds to Play Console and Firebase App Distribution",
     ],
   },
   miru: {

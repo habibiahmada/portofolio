@@ -209,6 +209,12 @@ const WEBEKSPRES_TAXONOMY: Record<string, ProjectTaxonomy> = {
     origin: "webekspres",
     company: WEBEKSPRES,
   },
+  "958d7eda-2748-52ee-a9b3-f408a112d136": {
+    slug: "hk-gold-vip",
+    category: "web-app",
+    origin: "webekspres",
+    company: WEBEKSPRES,
+  },
 }
 
 const PERSONAL_TAXONOMY: Record<string, ProjectTaxonomy> = {
