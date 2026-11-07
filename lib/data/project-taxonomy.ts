@@ -19,6 +19,8 @@ export type ProjectTaxonomy = {
   category: ProjectCategory
   origin: ProjectOrigin
   company?: string
+  /** The project's github_url is a public repository, so detail pages may link it. */
+  publicRepo?: boolean
 }
 
 export const ARCHIVE_GROUPS: {
@@ -220,23 +222,25 @@ const WEBEKSPRES_TAXONOMY: Record<string, ProjectTaxonomy> = {
     category: "web-app",
     origin: "webekspres",
     company: WEBEKSPRES,
+    publicRepo: true,
   },
 }
 
 const PERSONAL_TAXONOMY: Record<string, ProjectTaxonomy> = {
-  "1408a39d-9eee-47a3-b939-27f48e868030": { category: "web-app", origin: "personal" },
-  "f77d37fe-acaa-4491-8d47-2b9f434149a9": { category: "web-app", origin: "personal" },
-  "be97de22-b78b-4fed-8a3a-88dc23994d6c": { category: "web-app", origin: "personal" },
-  "fd57265a-c96e-40fe-98c4-4ace2a52b80c": { category: "web-app", origin: "personal" },
-  "169275ea-ca4a-4701-857f-1417fc4fec23": { category: "web-app", origin: "personal" },
+  "1408a39d-9eee-47a3-b939-27f48e868030": { category: "web-app", origin: "personal", publicRepo: true },
+  "f77d37fe-acaa-4491-8d47-2b9f434149a9": { category: "web-app", origin: "personal", publicRepo: true },
+  "be97de22-b78b-4fed-8a3a-88dc23994d6c": { category: "web-app", origin: "personal", publicRepo: true },
+  "fd57265a-c96e-40fe-98c4-4ace2a52b80c": { category: "web-app", origin: "personal", publicRepo: true },
+  "169275ea-ca4a-4701-857f-1417fc4fec23": { category: "web-app", origin: "personal", publicRepo: true },
   "1dd8ca69-4921-4ca7-80e3-56177efaf499": { category: "web-app", origin: "personal" },
-  "bde24764-8fcf-4d67-8bb2-697cb57fb66d": { category: "web-app", origin: "personal" },
-  "ff98b3c6-e267-4ee0-9059-9444858eacf4": { category: "web-app", origin: "personal" },
-  "13e602b8-c324-44e6-9c61-e9e40f388394": { category: "web-app", origin: "personal" },
+  "bde24764-8fcf-4d67-8bb2-697cb57fb66d": { category: "web-app", origin: "personal", publicRepo: true },
+  "ff98b3c6-e267-4ee0-9059-9444858eacf4": { category: "web-app", origin: "personal", publicRepo: true },
+  "13e602b8-c324-44e6-9c61-e9e40f388394": { category: "web-app", origin: "personal", publicRepo: true },
   "f5c13a15-1bc6-4e82-8d62-d1196894d189": {
     category: "web-app",
     origin: "internship",
     company: "CV Smartplus",
+    publicRepo: true,
   },
 }
 
@@ -247,6 +251,12 @@ const TAXONOMY: Record<string, ProjectTaxonomy> = {
 
 export function getProjectTaxonomy(id: string): ProjectTaxonomy | undefined {
   return TAXONOMY[id]
+}
+
+/** The repository link to show, only for projects marked publicRepo. */
+export function getPublicRepoUrl(id: string, githubUrl?: string | null): string | undefined {
+  if (!TAXONOMY[id]?.publicRepo || !githubUrl) return undefined
+  return githubUrl.startsWith("https://github.com/") ? githubUrl : undefined
 }
 
 /** Reverse lookup: taxonomy slug → project id. */
