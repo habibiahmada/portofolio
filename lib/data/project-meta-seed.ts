@@ -90,11 +90,11 @@ export const PROJECT_META_SEED: Record<string, ProjectMetaSeed> = {
   },
   "36b5bfa0-db1f-51cd-8861-8eac729f2afb": {
     role: WEBEKSPRES_ROLE,
-    outcome: "Live at jepangku.com",
+    outcome: "News and LMS live, Work in staging",
     description_en:
-      "A Japan fan community needed a live portal, not a company-profile theme. On the Webekspres team I built reader modules, the admin CMS, quizzes, polls, and XP, plus shared auth with Core.",
+      "People who follow Japan, study Japanese, and want to work there are the same audience, so JepangKu became four apps on one account: News, an LMS, a job board, and a Core API for identity and XP. On the Webekspres team I worked across all four, most of all the LMS and Work.",
     description_id:
-      "Komunitas pecinta Jepang butuh portal yang hidup, bukan tema company profile. Bersama tim Webekspres saya membangun modul pembaca, CMS admin, kuis, polling, dan XP, plus auth bersama Core.",
+      "Orang yang mengikuti berita Jepang, belajar bahasanya, dan ingin bekerja di sana adalah audiens yang sama, jadi JepangKu menjadi empat aplikasi dalam satu akun: News, LMS, portal kerja, dan Core API untuk identitas dan XP. Bersama tim Webekspres saya mengerjakan keempatnya, terutama LMS dan Work.",
   },
   "dfd144d5-84d7-5f1f-be03-1554dee928b1": {
     role: WEBEKSPRES_ROLE,

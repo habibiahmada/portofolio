@@ -120,19 +120,19 @@
   },
   {
     "id": "36b5bfa0-db1f-51cd-8861-8eac729f2afb",
-    "title_en": "JepangKu: Japan community news portal with quizzes and gamification",
-    "title_id": "JepangKu: Portal berita komunitas Jepang dengan kuis dan gamifikasi",
-    "description_en": "On the Webekspres team I worked on the JepangKu news portal: articles, quizzes, polls, XP gamification, and shared Clerk/Elysia auth with Core.",
-    "description_id": "Bersama tim Webekspres saya mengerjakan portal berita JepangKu: artikel, kuis, polling, gamifikasi XP, dan auth bersama Clerk & Elysia lewat Core.",
+    "title_en": "JepangKu: news, language courses, and jobs for Japan on one account",
+    "title_id": "JepangKu: Berita, kursus bahasa, dan lowongan kerja Jepang dalam satu akun",
+    "description_en": "On the Webekspres team I worked across the JepangKu monorepo: the news portal, the LMS, the Work job board, and the Core API for shared identity and XP.",
+    "description_id": "Bersama tim Webekspres saya mengerjakan monorepo JepangKu: portal berita, LMS, portal kerja Work, dan Core API untuk identitas dan XP bersama.",
     "image": "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/webekspres/jepangku.webp",
     "tags": [
       "Next.js",
-      "React",
-      "TypeScript",
-      "Clerk",
-      "Elysia",
+      "Bun",
+      "ElysiaJS",
+      "Prisma",
       "PostgreSQL",
-      "Redis"
+      "Clerk",
+      "Cloudflare R2"
     ],
     "live_url": "https://jepangku.com",
     "github_url": "",

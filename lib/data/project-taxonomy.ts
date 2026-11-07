@@ -49,7 +49,7 @@ const WEBEKSPRES = "PT Webekspres Teknologi Indonesia"
 const WEBEKSPRES_TAXONOMY: Record<string, ProjectTaxonomy> = {
   "36b5bfa0-db1f-51cd-8861-8eac729f2afb": {
     slug: "jepangku",
-    category: "catalog",
+    category: "web-app",
     origin: "webekspres",
     company: WEBEKSPRES,
   },

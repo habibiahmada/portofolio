@@ -480,43 +480,43 @@ export const CASE_STUDIES: CaseStudy[] = [
     projectId: "36b5bfa0-db1f-51cd-8861-8eac729f2afb",
     role: "Web Developer at PT Webekspres Teknologi Indonesia",
     hooks: {
-      opening: "A community that needed more than a brochure",
-      reality: "One product, several apps",
-      build: "News on Next.js, identity in Core",
+      opening: "One brand, four apps",
+      reality: "Readers, learners, and job seekers share one account",
+      build: "Next.js apps around a Bun/Elysia Core",
       close: "What I can stand behind",
       realityLead:
-        "JepangKu spans several apps under one brand. This write-up follows the news portal at jepangku.com: articles, quizzes, polls, and the gamification path readers use today.",
+        "A reader who finishes a quiz on the news site and a student who passes a tryout in the LMS are the same person with the same XP. The apps had to agree on who that person is.",
       buildLead:
-        "Clerk SSO into Core JWT meant the news app could trust XP and roles without duplicating user tables that drift over time.",
+        "Clerk signs people in once; Core exchanges that session for its own JWT with per-app roles, so News, LMS, and Work trust one identity instead of keeping their own user tables.",
       closeLead:
-        "Production readers at jepangku.com, scoped to the news surface I helped ship on the Webekspres team.",
+        "News and the LMS are live; Work is in staging. Most of my commits landed in the LMS and Work, with News and Core close behind.",
     },
     problem:
-      "JepangKu needed a live community portal: articles, quizzes, polls, and XP, not a company-profile WordPress theme. On the Webekspres team I worked on the news portal: reader modules, admin CMS, and Core auth integration.",
+      "JepangKu serves people who want to learn about Japan, learn its language, and eventually work there. That is three products: a news portal, a language course, and a job board, held together by one account and one points system. On the Webekspres team I worked across all four parts of the monorepo: News, LMS, Work, and the Core API.",
     constraints: [
-      "Auth and XP had to stay consistent across apps. Clerk login issues a Core JWT; the news app verifies it instead of inventing a second user table that would drift from Core.",
-      "Core and news are shared team codebases. My work sat at the intersection: news modules, CMS paths, and JWT verification against Core claims.",
-      "Admin CMS, comments, and leaderboards had to ship on a production Cloudflare/Next.js host that real readers open, not a staging URL we only demo internally.",
-      "Gamification (quizzes, polls, XP) had to feel native to reading, not bolted on as a separate mini-app with its own login.",
+      "Identity and XP had to stay consistent across apps. Clerk login is exchanged for a Core JWT, and each app verifies Core claims instead of keeping a user table that would drift.",
+      "Exam content is valuable. JLPT tryout questions are delivered one section at a time, and course assets sit in private Cloudflare R2 storage behind signed access.",
+      "Work serves three audiences with different rights: candidates, sending agencies (LPK and Kumiai), and admins, all under roles granted by Core.",
+      "Every app shares one design system and has to stay usable: labelled controls, readable contrast, 44px touch targets, and motion that respects reduced-motion settings.",
     ],
     architecture: [
       {
-        title: "News surface",
-        body: "Next.js portal at jepangku.com for articles, quizzes, polls, and gamification UI. I worked on reader-facing modules and the admin CMS path editors use to publish without touching code.",
+        title: "News and LMS",
+        body: "News at jepangku.com carries articles, comments, reactions, bookmarks, quizzes, polls, and reader points. The LMS at kursus.jepangku.com has lessons, flashcards, a placement test, JLPT tryouts, badges, and live classes over Zoom.",
       },
       {
-        title: "Shared identity",
-        body: "Clerk SSO into a Bun/Elysia Core API on PostgreSQL. News verifies Core JWT claims (XP, level, roles) so points do not drift between surfaces when a user moves between apps.",
+        title: "Work",
+        body: "A job board for Tokutei Ginou, internship, and engineering roles in Japan. Candidates apply, agencies manage their applicants, and admins moderate; roles and XP flow back into Core.",
       },
       {
-        title: "News portal focus",
-        body: "Other JepangKu surfaces (LMS, job board) live in separate apps. Here the focus stays on the public news portal: what ships at jepangku.com and how it shares identity with Core.",
+        title: "Core and the monorepo",
+        body: "A Bun/Elysia Core API with Prisma on PostgreSQL issues JWTs, per-app roles, XP, and leaderboards. All apps are Next.js 16 with React 19 in one Bun monorepo with shared packages, R2 storage, Sentry, and CI per app.",
       },
     ],
     outcomes: [
-      "Production at jepangku.com with real readers, not a localhost walkthrough.",
-      "A Webekspres team ship centered on the news portal: reader-facing modules, CMS, and shared auth with Core.",
-      "Proof I can work in a multi-app auth setup and ship on modern Next.js, not only WordPress landing pages.",
+      "News live at jepangku.com and the LMS at kursus.jepangku.com; Work in staging.",
+      "Commits across every app: the LMS and Work most, then News, Core, shared packages, and CI.",
+      "Proof I can work inside a multi-app monorepo with shared identity, not only single sites.",
     ],
   },
   {
@@ -857,13 +857,13 @@ export const CASE_STUDY_EXTRAS: Record<
   },
   jepangku: {
     overview:
-      "JepangKu is a Japan-focused community news portal with articles, quizzes, polls, and XP gamification, sharing identity with a central Core API.",
+      "JepangKu is a Japan-focused ecosystem in one monorepo: a news portal, a language-learning LMS, a job board for work in Japan, and a Core API that gives them one account and one XP system.",
     features: [
-      "Articles, quizzes, and polls for the community",
-      "XP gamification and leaderboards native to reading",
-      "Admin CMS for publishing without touching code",
-      "Clerk SSO into a Core JWT for shared identity and XP",
-      "Comments and reader-engagement modules",
+      "News: articles, comments, reactions, bookmarks, quizzes, polls, and reader points",
+      "LMS: lessons, flashcards, placement test, JLPT tryouts, badges, and live classes",
+      "Work: Tokutei Ginou, internship, and engineering jobs for candidates and agencies",
+      "Core: Clerk sign-in exchanged for a JWT with per-app roles, XP, and leaderboards",
+      "One design system with accessibility built in across every app",
     ],
   },
   terraju: {
