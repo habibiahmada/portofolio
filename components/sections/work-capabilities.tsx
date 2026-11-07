@@ -84,9 +84,12 @@ export function WorkCapabilities({ selected, onSelect, matchCount }: WorkCapabil
               >
                 <span
                   className={cn(
-                    "whitespace-nowrap text-sm font-semibold lg:font-heading lg:text-2xl lg:font-bold lg:tracking-tight",
-                    // Desktop marks the active entry by shape, not colour alone.
-                    on && "lg:underline lg:decoration-brand lg:decoration-2 lg:underline-offset-8",
+                    "relative whitespace-nowrap text-sm font-semibold lg:font-heading lg:text-2xl lg:font-bold lg:tracking-tight",
+                    // Desktop marks the active entry by shape, not colour alone: a brand
+                    // line that sweeps in from the left and leaves to the right.
+                    "after:absolute after:-bottom-1.5 after:left-0 after:hidden after:h-0.5 after:w-full after:bg-brand lg:after:block",
+                    "after:transition-transform after:duration-500 after:ease-[cubic-bezier(0.65,0,0.35,1)] motion-reduce:after:transition-none",
+                    on ? "after:origin-left after:scale-x-100" : "after:origin-right after:scale-x-0",
                   )}
                 >
                   {entry.label}
