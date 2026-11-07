@@ -5,6 +5,8 @@ export type OpenSourceProject = {
   /** What kind of thing it is, shown above the name. */
   kind: string
   description: string
+  /** 1200x630 preview: the website's og:image, or the repo's GitHub social preview. */
+  image: string
   /** Short, checkable facts. Three at most so the card stays scannable. */
   facts: string[]
   language: string
@@ -20,6 +22,7 @@ export type OpenSourceProject = {
 export const OPEN_SOURCE_PROJECTS: OpenSourceProject[] = [
   {
     id: "wrapyourgit",
+    image: "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/open-source/wrapyourgit.webp",
     name: "wrapyourgit",
     kind: "Web app",
     description:
@@ -33,6 +36,7 @@ export const OPEN_SOURCE_PROJECTS: OpenSourceProject[] = [
   },
   {
     id: "autumnnote-plus",
+    image: "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/open-source/autumnnote-plus.webp",
     name: "autumnnote-plus",
     kind: "npm package",
     description:
@@ -48,6 +52,7 @@ export const OPEN_SOURCE_PROJECTS: OpenSourceProject[] = [
   },
   {
     id: "portofolio-terminal",
+    image: "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/open-source/portofolio-terminal.webp",
     name: "habibiahmada",
     kind: "CLI portfolio",
     description:
@@ -62,6 +67,7 @@ export const OPEN_SOURCE_PROJECTS: OpenSourceProject[] = [
   },
   {
     id: "emoji-picker",
+    image: "https://tjxcfcllkceoauuwurfe.supabase.co/storage/v1/object/public/projects/open-source/emoji-picker.webp",
     name: "emoji-picker",
     kind: "Linux desktop app",
     description:

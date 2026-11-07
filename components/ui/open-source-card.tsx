@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { CopyCommand } from "@/components/ui/copy-command";
 import type { OpenSourceProject } from "@/lib/data/open-source";
@@ -15,8 +16,8 @@ const linkClass =
   "inline-flex min-h-9 items-center gap-1 rounded-full border border-black/15 dark:border-white/15 px-3 font-mono text-[11px] uppercase tracking-[0.14em] text-foreground transition-colors hover:border-brand/60";
 
 /**
- * Repo-style card: text first, no screenshot. What it is, why it exists,
- * a few facts, and the command to try it.
+ * Repo-style card: the project's own preview image, then what it is, why it
+ * exists, a few facts, and the command to try it.
  */
 export function OpenSourceCard({
   project,
@@ -34,6 +35,17 @@ export function OpenSourceCard({
         className,
       )}
     >
+      {/* Fixed 1200x630 box so the card does not shift while the image loads. */}
+      <div className="relative aspect-1200/630 overflow-hidden rounded-xl ring-1 ring-black/5 dark:ring-white/10">
+        <Image
+          src={project.image}
+          alt={`${project.name} preview`}
+          fill
+          sizes="(max-width: 768px) 100vw, 560px"
+          className="object-cover"
+        />
+      </div>
+
       <div className="flex items-center justify-between gap-3 font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
         <span className="text-brand">{project.kind}</span>
         <span>{project.license}</span>
