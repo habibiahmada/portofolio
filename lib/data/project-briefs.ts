@@ -214,7 +214,7 @@ const BRIEFS: ProjectBrief[] = [
     techNotes:
       "WordPress with Elementor on the Astra theme, paired with a defined UI design system so the catalog stays visually consistent across pages.",
     result:
-      "Delivered as the brand's catalog storefront with a reusable design system underpinning its look.",
+      "Delivered and live at aisyncraft.id as the brand's catalog storefront, with a reusable design system underpinning its look.",
   },
   {
     projectId: "20479cf8-542e-5223-8ff5-350d001e19a7", // Soraya Spa

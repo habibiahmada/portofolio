@@ -266,7 +266,11 @@ export const PROJECT_STATS = {
   clientSites: Object.keys(WEBEKSPRES_TAXONOMY).length,
   monthsAtWebekspres: 4,
   categories: ARCHIVE_GROUPS.length,
+  /** Archive groups plus Open Source, as shown on /projects. */
+  kinds: ARCHIVE_GROUPS.length + 1,
   personalShips: Object.keys(PERSONAL_TAXONOMY).length,
+  /** Personal and school work only; the internship is counted elsewhere. */
+  personalOnly: Object.values(PERSONAL_TAXONOMY).filter((t) => t.origin === "personal").length,
   featured: FEATURED_PROJECT_IDS.length,
   total: Object.keys(WEBEKSPRES_TAXONOMY).length + Object.keys(PERSONAL_TAXONOMY).length,
 } as const

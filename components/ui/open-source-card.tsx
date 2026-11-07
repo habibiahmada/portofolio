@@ -29,14 +29,15 @@ export function OpenSourceCard({
   return (
     <article
       className={cn(
-        "flex h-full flex-col gap-4 rounded-2xl p-5 md:p-6",
+        "flex h-full flex-col gap-4 overflow-hidden rounded-2xl p-4 sm:p-5 md:p-6",
         "border border-black/10 bg-white dark:border-white/10 dark:bg-zinc-950",
         "transition-colors duration-300 hover:border-brand/40",
         className,
       )}
     >
-      {/* Fixed 1200x630 box so the card does not shift while the image loads. */}
-      <div className="relative aspect-1200/630 overflow-hidden rounded-xl ring-1 ring-black/5 dark:ring-white/10">
+      {/* Fixed 1200x630 box so the card does not shift while the image loads.
+          Full bleed on phones so the preview is not inset twice (page pad + card pad). */}
+      <div className="relative -mx-4 -mt-4 aspect-1200/630 overflow-hidden sm:mx-0 sm:mt-0 sm:rounded-xl sm:ring-1 sm:ring-black/5 sm:dark:ring-white/10">
         <Image
           src={project.image}
           alt={`${project.name} preview`}
