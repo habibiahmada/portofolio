@@ -46,7 +46,7 @@ export function Press() {
           </h2>
           <p className="text-sm md:text-base text-muted-foreground leading-relaxed font-medium max-w-xl">
             Two public receipts: how I learned to ship under pressure, and the
-            award my team earned when Agrify reached farmers, not just judges.
+            country award the festival judges gave my team for Agrify.
           </p>
         </div>
 

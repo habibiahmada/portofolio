@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState, type ComponentType } from "react";
+import Link from "next/link";
 import { PageShell } from "@/components/ui/page-shell";
 const VisualFallback = () => (
   <div className="w-full h-44 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-black/5 dark:border-white/5" />
@@ -89,7 +90,7 @@ const CARDS = [
     label: "03 / Performance",
     title: "Performance and SEO basics",
     description:
-      "I run Lighthouse before and after a change and fix what the numbers point at: image weight, JavaScript size, metadata.",
+      "I check pages on a mid-range phone and fix what slows them down: image weight, JavaScript size, and metadata search engines can read.",
     Visual: SpeedometerGaugeVisual,
   },
   {
@@ -120,8 +121,14 @@ export function Services() {
             What I can build for you
           </h2>
           <p className="text-sm md:text-base text-muted-foreground leading-relaxed font-medium max-w-lg">
-            The same five jobs show up across my case studies, so you can check
-            each one against shipped work before we talk.
+            The same five jobs show up across my case studies.{" "}
+            <Link
+              href="/projects"
+              className="text-foreground underline decoration-brand/40 underline-offset-4 transition-colors hover:decoration-brand"
+            >
+              See them in the work
+            </Link>{" "}
+            before we talk.
           </p>
         </div>
 

@@ -29,8 +29,9 @@ export function CTA() {
                 className="text-foreground font-medium underline underline-offset-4 decoration-brand/40 hover:decoration-brand transition-colors"
               >
                 contact@habibiahmada.dev
-              </a>
-              . I usually reply within 48 hours.
+              </a>{" "}
+              with what you are building and when you need it, and I will reply
+              with clear next steps.
             </p>
           </div>
 
