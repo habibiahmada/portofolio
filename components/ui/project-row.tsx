@@ -18,7 +18,7 @@ export function ProjectRow({ project, locale = 'en' }: { project: Project; local
   const detailHref = projectDetailHref(project.id)
 
   return (
-    <li className="group relative flex min-h-20 items-center gap-4 py-3 transition-colors has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-brand">
+    <li className="group relative flex min-h-20 items-center gap-4 py-3 transition-colors has-[a[data-stretched]:focus-visible]:outline-2 has-[a[data-stretched]:focus-visible]:outline-brand">
       <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg ring-1 ring-black/5 dark:ring-white/10">
         <Image src={project.image} alt={shortTitle} fill className="object-cover" sizes="64px" />
       </div>
@@ -29,6 +29,7 @@ export function ProjectRow({ project, locale = 'en' }: { project: Project; local
             <Link
               href={detailHref}
               transitionTypes={['nav-forward']}
+              data-stretched
               className="outline-none after:absolute after:inset-0 after:content-[''] group-hover:text-brand"
             >
               {shortTitle}

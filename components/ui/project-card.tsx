@@ -84,7 +84,7 @@ export function ProjectCard({
         'border border-black/10 bg-white dark:border-white/10 dark:bg-zinc-950',
         // Glitch hover is the site motif; the border shift is the only other state change.
         'hover-glitch-card transition-colors duration-300 hover:border-brand/40',
-        'has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-brand has-[a:focus-visible]:ring-offset-2 has-[a:focus-visible]:ring-offset-background',
+        'has-[a[data-stretched]:focus-visible]:ring-2 has-[a[data-stretched]:focus-visible]:ring-brand has-[a[data-stretched]:focus-visible]:ring-offset-2 has-[a[data-stretched]:focus-visible]:ring-offset-background',
         className,
       )}
     >
@@ -119,6 +119,7 @@ export function ProjectCard({
             <Link
               href={detailHref}
               transitionTypes={['nav-forward']}
+              data-stretched
               className="outline-none after:absolute after:inset-0 after:content-[''] hover:text-brand"
             >
               {shortTitle}

@@ -71,3 +71,14 @@ describe("work stats", () => {
     expect(PROJECT_STATS.kinds).toBe(ARCHIVE_GROUPS.length + 1);
   });
 });
+
+import { getProjectTaxonomy } from "../lib/data/project-taxonomy";
+
+describe("personal stat", () => {
+  it("counts only personal and school projects, not the internship", () => {
+    const personal = (projects as { id: string }[]).filter(
+      (p) => getProjectTaxonomy(p.id)?.origin === "personal",
+    ).length;
+    expect(PROJECT_STATS.personalOnly).toBe(personal);
+  });
+});

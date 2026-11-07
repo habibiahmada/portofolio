@@ -26,7 +26,7 @@ const STATS = [
   { value: String(PROJECT_STATS.featured), label: "Case studies" },
   { value: String(PROJECT_STATS.total), label: "Projects" },
   { value: String(PROJECT_STATS.kinds), label: "Kinds of work" },
-  { value: String(PROJECT_STATS.personalShips), label: "Personal and school" },
+  { value: String(PROJECT_STATS.personalOnly), label: "Personal and school" },
 ] as const;
 
 function SectionHeading({ eyebrow, title, blurb, accent }: { eyebrow: string; title: string; blurb?: string; accent?: boolean }) {
@@ -65,8 +65,19 @@ export function ProjectsPage({ locale = "en", initialData }: ProjectsPageProps) 
     return { featured, groups, count };
   }, [archive, selected]);
 
+  const resultsRef = useRef<HTMLDivElement>(null);
+
   // Transition so the lists cross-fade through the page's ViewTransition.
-  const select = (id: CapabilityId | null) => startTransition(() => setSelected(id));
+  // Applying a filter scrolls to its results: on a phone they sit below the
+  // fold, and otherwise the only visible change would be the button state.
+  const select = (id: CapabilityId | null) => {
+    startTransition(() => setSelected(id));
+    if (id === null) return;
+    requestAnimationFrame(() => {
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      resultsRef.current?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+    });
+  };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = sectionRef.current;
@@ -105,14 +116,14 @@ export function ProjectsPage({ locale = "en", initialData }: ProjectsPageProps) 
             </p>
           </div>
 
-          {/* One thin strip, not four tiles: the numbers support the headline, they are not the headline. */}
-          <dl className="grid max-w-2xl grid-cols-4 divide-x divide-black/10 border-y border-black/10 dark:divide-white/10 dark:border-white/10">
+          {/* Supporting figures, aligned on one baseline: they back the headline, they are not the headline. */}
+          <dl className="grid grid-cols-2 gap-x-8 gap-y-5 sm:flex sm:flex-wrap sm:gap-x-12">
             {STATS.map((stat) => (
-              <div key={stat.label} className="flex flex-col-reverse gap-1 px-2 py-3 first:pl-0 sm:px-4">
-                <dt className="font-mono text-[10px] uppercase leading-tight tracking-[0.12em] text-muted-foreground">
+              <div key={stat.label} className="flex flex-col gap-1">
+                <dd className="text-3xl font-black leading-none tracking-tight text-foreground md:text-4xl">{stat.value}</dd>
+                <dt className="whitespace-nowrap font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
                   {stat.label}
                 </dt>
-                <dd className="text-xl font-black tracking-tight text-foreground sm:text-2xl">{stat.value}</dd>
               </div>
             ))}
           </dl>
@@ -137,7 +148,7 @@ export function ProjectsPage({ locale = "en", initialData }: ProjectsPageProps) 
             <WorkCapabilities projects={projects} selected={selected} onSelect={select} matchCount={filtered.count} />
 
             <ViewTransition>
-              <div className="space-y-12 md:space-y-20">
+              <div ref={resultsRef} className="scroll-mt-24 space-y-12 md:space-y-20">
                 {filtered.count === 0 && (
                   <div className="rounded-2xl border border-black/10 p-6 dark:border-white/10">
                     <p className="text-sm text-foreground">No projects match this capability.</p>
@@ -163,7 +174,7 @@ export function ProjectsPage({ locale = "en", initialData }: ProjectsPageProps) 
                         keep full-size images without six screens of scrolling. */}
                     <div
                       role="region"
-                      aria-label="Featured case studies, scroll sideways"
+                      aria-label="Featured case studies"
                       className="-mx-4 flex snap-x snap-mandatory scroll-px-4 gap-4 overflow-x-auto px-4 pb-2 [scrollbar-width:none] sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3 md:gap-6"
                     >
                       {filtered.featured.map((project, i) => (
