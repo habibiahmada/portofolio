@@ -1,9 +1,10 @@
 /**
  * Convert one project image to a 1200x630 WebP and upload it to Supabase
- * Storage at projects/webekspres/<slug>.webp (overwrites).
+ * Storage at projects/<folder>/<slug>.webp (overwrites). The folder defaults
+ * to webekspres; open source previews go in open-source.
  *
  * Usage (from portofolio/):
- *   bun --env-file=.env.local run scripts/upload-og-image.ts <image-file> <slug>
+ *   bun --env-file=.env.local run scripts/upload-og-image.ts <image-file> <slug> [folder]
  *
  * Then point the project's `image` in public/data/projects.json at the printed
  * URL and run `bun run seed:projects`.
@@ -13,9 +14,9 @@ import sharp from "sharp";
 import { createClient } from "@supabase/supabase-js";
 
 async function main() {
-  const [file, slug] = process.argv.slice(2);
-  if (!file || !slug || !/^[a-z0-9-]+$/.test(slug)) {
-    console.error("Usage: upload-og-image.ts <image-file> <slug>   (slug: a-z, 0-9, -)");
+  const [file, slug, folder = "webekspres"] = process.argv.slice(2);
+  if (!file || !slug || !/^[a-z0-9-]+$/.test(slug) || !/^[a-z0-9-]+$/.test(folder)) {
+    console.error("Usage: upload-og-image.ts <image-file> <slug> [folder]   (a-z, 0-9, -)");
     process.exit(1);
   }
 
@@ -31,7 +32,7 @@ async function main() {
     .webp({ quality: 82 })
     .toBuffer();
 
-  const storageKey = `webekspres/${slug}.webp`;
+  const storageKey = `${folder}/${slug}.webp`;
   const supabase = createClient(url, key, {
     auth: { autoRefreshToken: false, persistSession: false },
   });
