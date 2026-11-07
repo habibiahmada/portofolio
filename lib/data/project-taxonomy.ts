@@ -21,6 +21,8 @@ export type ProjectTaxonomy = {
   company?: string
   /** The project's github_url is a public repository, so detail pages may link it. */
   publicRepo?: boolean
+  /** Internal team work, not a client project (excluded from client counts). */
+  internal?: boolean
 }
 
 export const ARCHIVE_GROUPS: {
@@ -223,6 +225,7 @@ const WEBEKSPRES_TAXONOMY: Record<string, ProjectTaxonomy> = {
     origin: "webekspres",
     company: WEBEKSPRES,
     publicRepo: true,
+    internal: true,
   },
 }
 
@@ -274,7 +277,8 @@ export function getAllTaxonomySlugs(): string[] {
 
 export const PROJECT_STATS = {
   clientSites: Object.keys(WEBEKSPRES_TAXONOMY).length,
-  monthsAtWebekspres: 4,
+  /** Client work at Webekspres; the internal CI/CD platform is not counted. */
+  clientProjects: Object.values(WEBEKSPRES_TAXONOMY).filter((t) => !t.internal).length,
   categories: ARCHIVE_GROUPS.length,
   /** Archive groups plus Open Source, as shown on /projects. */
   kinds: ARCHIVE_GROUPS.length + 1,

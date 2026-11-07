@@ -82,3 +82,13 @@ describe("personal stat", () => {
     expect(PROJECT_STATS.personalOnly).toBe(personal);
   });
 });
+
+describe("client project count", () => {
+  it("counts Webekspres projects except the internal CI/CD platform", () => {
+    const webekspres = (projects as { id: string }[]).filter(
+      (p) => getProjectTaxonomy(p.id)?.origin === "webekspres",
+    );
+    expect(PROJECT_STATS.clientProjects).toBe(webekspres.length - 1);
+    expect(getProjectTaxonomy("40fc57ed-1ce0-5375-9732-a66df807beff")?.internal).toBe(true);
+  });
+});
