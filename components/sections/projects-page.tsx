@@ -1,18 +1,19 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { startTransition, useMemo, useRef, useState, ViewTransition } from "react";
 import { NodeNetworkLazy } from "@/components/ui/node-network-lazy";
 import { CpuArchitecture } from "@/components/ui/cpu-architecture";
 import { ProjectCard } from "@/components/ui/project-card";
+import { ProjectRow } from "@/components/ui/project-row";
 import { OpenSourceCard } from "@/components/ui/open-source-card";
+import { WorkCapabilities } from "@/components/sections/work-capabilities";
+import { WorkPath } from "@/components/sections/work-path";
 import { OPEN_SOURCE_PROJECTS } from "@/lib/data/open-source";
 import { ProjectGridSkeleton } from "@/components/ui/skeletons";
 import { PageShell } from "@/components/ui/page-shell";
 import { useProjects } from "@/lib/hooks/use-api";
-import {
-  groupProjectsForArchive,
-  PROJECT_STATS,
-} from "@/lib/data/project-taxonomy";
+import { groupProjectsForArchive, PROJECT_STATS } from "@/lib/data/project-taxonomy";
+import { projectHasCapability, type CapabilityId } from "@/lib/data/capabilities";
 import type { Project } from "@/lib/supabase/types";
 
 interface ProjectsPageProps {
@@ -22,41 +23,58 @@ interface ProjectsPageProps {
 }
 
 const STATS = [
-  { value: String(PROJECT_STATS.featured), label: "Featured case studies" },
-  { value: String(PROJECT_STATS.total), label: "Projects in this archive" },
-  { value: String(PROJECT_STATS.categories), label: "Types of work" },
-  { value: String(PROJECT_STATS.personalShips), label: "Personal and school ships" },
+  { value: String(PROJECT_STATS.featured), label: "Case studies" },
+  { value: String(PROJECT_STATS.total), label: "Projects" },
+  { value: String(PROJECT_STATS.kinds), label: "Kinds of work" },
+  { value: String(PROJECT_STATS.personalShips), label: "Personal and school" },
 ] as const;
+
+function SectionHeading({ eyebrow, title, blurb, accent }: { eyebrow: string; title: string; blurb?: string; accent?: boolean }) {
+  return (
+    <div className="space-y-2">
+      <span className={`block font-mono text-xs uppercase tracking-widest ${accent ? "text-brand" : "text-muted-foreground"}`}>
+        {eyebrow}
+      </span>
+      <h2 className="text-2xl font-black tracking-tight text-foreground sm:text-3xl">{title}</h2>
+      {blurb && <p className="max-w-xl text-sm leading-relaxed text-muted-foreground">{blurb}</p>}
+    </div>
+  );
+}
 
 export function ProjectsPage({ locale = "en", initialData }: ProjectsPageProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const nodeMouseRef = useRef<{ x: number; y: number; active: boolean } | null>(
-    { x: 0, y: 0, active: false },
-  );
+  const nodeMouseRef = useRef<{ x: number; y: number; active: boolean } | null>({ x: 0, y: 0, active: false });
+  const [selected, setSelected] = useState<CapabilityId | null>(null);
 
-  const {
-    data: fetched,
-    loading,
-    error,
-  } = useProjects({ enabled: !initialData });
+  const { data: fetched, loading, error } = useProjects({ enabled: !initialData });
 
   const projects = initialData ?? fetched;
   const showSkeleton = !initialData && loading;
   const showError = !initialData && error;
-  const archive = useMemo(
-    () => (projects ? groupProjectsForArchive(projects) : null),
-    [projects],
-  );
+  const archive = useMemo(() => (projects ? groupProjectsForArchive(projects) : null), [projects]);
+
+  // A capability narrows Featured and the archive; Open Source is not part of it.
+  const filtered = useMemo(() => {
+    if (!archive) return null;
+    const keep = (p: Project) => projectHasCapability(p.id, selected);
+    const featured = archive.featured.filter(keep);
+    const groups = archive.groups
+      .map((g) => ({ ...g, items: g.items.filter(keep) }))
+      .filter((g) => g.items.length > 0);
+    const count = featured.length + groups.reduce((n, g) => n + g.items.length, 0);
+    return { featured, groups, count };
+  }, [archive, selected]);
+
+  // Transition so the lists cross-fade through the page's ViewTransition.
+  const select = (id: CapabilityId | null) => startTransition(() => setSelected(id));
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = sectionRef.current;
-    if (!el) return;
+    if (!el || !nodeMouseRef.current) return;
     const rect = el.getBoundingClientRect();
-    if (nodeMouseRef.current) {
-      nodeMouseRef.current.x = e.clientX - rect.left;
-      nodeMouseRef.current.y = e.clientY - rect.top;
-      nodeMouseRef.current.active = true;
-    }
+    nodeMouseRef.current.x = e.clientX - rect.left;
+    nodeMouseRef.current.y = e.clientY - rect.top;
+    nodeMouseRef.current.active = true;
   };
 
   const handleMouseLeave = () => {
@@ -68,152 +86,145 @@ export function ProjectsPage({ locale = "en", initialData }: ProjectsPageProps) 
       ref={sectionRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative py-16 md:py-24 w-full bg-transparent min-h-screen"
+      className="relative min-h-screen w-full bg-transparent py-12 md:py-24"
     >
+      {/* Node network: the site's identity motif, shared with the home hero. */}
       <NodeNetworkLazy externalMouseRef={nodeMouseRef} densityBias="topRight" />
 
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-brand/3 blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 rounded-full bg-blue-500/3 dark:bg-red-500/3 blur-3xl" />
-        <div className="absolute top-1/3 left-1/4 w-64 h-64 rounded-full bg-purple-500/2 dark:bg-purple-500/2 blur-3xl" />
-      </div>
-
       <PageShell wide className="relative">
-        <div className="mb-14 md:mb-18">
+        <div className="space-y-8 md:space-y-10">
           <div className="relative z-10 space-y-3">
-            <span className="text-xs font-mono tracking-widest text-brand uppercase block">
-              Work
-            </span>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-foreground leading-tight">
-              Work I can walk you through
+            <span className="block font-mono text-xs uppercase tracking-widest text-brand">Work</span>
+            <h1 className="text-3xl font-black leading-tight tracking-tight text-foreground sm:text-4xl md:text-5xl lg:text-6xl">
+              I build more than websites
             </h1>
-            <p className="text-sm sm:text-base text-muted-foreground max-w-2xl leading-relaxed">
-              Featured case studies first: school systems, AI products, and sites
-              I shipped as a web developer. The archive below groups the rest by
-              type. Cards mark personal work versus employment, with team projects
-              scoped to what I actually built.
+            <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+              I turn real problems into working products, from school systems to client platforms in
+              production. Each project below says what I owned; pick a capability to see the ones
+              that prove it.
             </p>
           </div>
 
-          <dl className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+          {/* One thin strip, not four tiles: the numbers support the headline, they are not the headline. */}
+          <dl className="grid max-w-2xl grid-cols-4 divide-x divide-black/10 border-y border-black/10 dark:divide-white/10 dark:border-white/10">
             {STATS.map((stat) => (
-              <div
-                key={stat.label}
-                className="rounded-2xl border border-black/5 dark:border-white/8 bg-white/50 dark:bg-zinc-950/40 px-4 py-4 md:px-5 md:py-5"
-              >
-                <dt className="text-[10px] font-mono uppercase tracking-[0.16em] text-muted-foreground">
+              <div key={stat.label} className="flex flex-col-reverse gap-1 px-2 py-3 first:pl-0 sm:px-4">
+                <dt className="font-mono text-[10px] uppercase leading-tight tracking-[0.12em] text-muted-foreground">
                   {stat.label}
                 </dt>
-                <dd className="mt-2 text-3xl md:text-4xl font-black tracking-tight text-foreground">
-                  {stat.value}
-                </dd>
+                <dd className="text-xl font-black tracking-tight text-foreground sm:text-2xl">{stat.value}</dd>
               </div>
             ))}
           </dl>
+
+          <WorkPath />
         </div>
 
-        {showSkeleton && <ProjectGridSkeleton count={8} />}
+        {showSkeleton && (
+          <div className="mt-12">
+            <ProjectGridSkeleton count={6} />
+          </div>
+        )}
 
         {showError && (
-          <p className="text-sm text-red-500 dark:text-red-400 font-mono">
-            Failed to load projects: {error}
+          <p className="mt-12 font-mono text-sm text-red-600 dark:text-red-400">
+            Projects could not load ({error}). Refresh the page to try again.
           </p>
         )}
 
-        {!showSkeleton && !showError && archive && (
-          <div className="space-y-16 md:space-y-20">
-            {archive.featured.length > 0 && (
-              <section className="space-y-6">
-                <div className="space-y-2">
-                  <span className="text-xs font-mono tracking-widest text-brand uppercase block">
-                    Selected
-                  </span>
-                  <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground">
-                    Featured case studies
-                  </h2>
-                  <p className="text-sm text-muted-foreground max-w-xl leading-relaxed">
-                    Six with a longer write-up: MIRU, HK GOLD VIP, E-Vote, JepangKu,
-                    CultureConnect, and Smartfarm.
-                  </p>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                  {archive.featured.map((project, i) => (
-                    <ProjectCard
-                      key={project.id}
-                      project={project}
-                      locale={locale}
-                      index={i}
-                      variant="featured"
+        {!showSkeleton && !showError && projects && filtered && (
+          <div className="mt-12 space-y-12 md:mt-20 md:space-y-20">
+            <WorkCapabilities projects={projects} selected={selected} onSelect={select} matchCount={filtered.count} />
+
+            <ViewTransition>
+              <div className="space-y-12 md:space-y-20">
+                {filtered.count === 0 && (
+                  <div className="rounded-2xl border border-black/10 p-6 dark:border-white/10">
+                    <p className="text-sm text-foreground">No projects match this capability.</p>
+                    <button
+                      type="button"
+                      onClick={() => select(null)}
+                      className="mt-3 inline-flex min-h-11 items-center rounded-full border border-black/15 px-4 font-mono text-[11px] uppercase tracking-[0.18em] text-foreground hover:border-brand/60 dark:border-white/15"
+                    >
+                      Show all work
+                    </button>
+                  </div>
+                )}
+
+                {filtered.featured.length > 0 && (
+                  <section className="space-y-6">
+                    <SectionHeading
+                      eyebrow="Selected"
+                      title="Featured case studies"
+                      blurb="The longer write-ups: the problem, the constraints, what I built, and what shipped."
+                      accent
                     />
-                  ))}
-                </div>
-              </section>
-            )}
+                    {/* Phones: a swipe row with the next card peeking, so six showcase cards
+                        keep full-size images without six screens of scrolling. */}
+                    <div
+                      role="region"
+                      aria-label="Featured case studies, scroll sideways"
+                      className="-mx-4 flex snap-x snap-mandatory scroll-px-4 gap-4 overflow-x-auto px-4 pb-2 [scrollbar-width:none] sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3 md:gap-6"
+                    >
+                      {filtered.featured.map((project, i) => (
+                        <ProjectCard
+                          key={project.id}
+                          project={project}
+                          locale={locale}
+                          index={i}
+                          variant="featured"
+                          className="w-[82%] shrink-0 snap-start sm:w-auto"
+                        />
+                      ))}
+                    </div>
+                  </section>
+                )}
+
+                {filtered.groups.map((group) => (
+                  <section key={group.label} className="space-y-6">
+                    <SectionHeading eyebrow="Archive" title={group.label} blurb={group.blurb} />
+                    {group.id === "web-app" ? (
+                      <div className="grid grid-cols-2 gap-3 lg:grid-cols-3 md:gap-6">
+                        {group.items.map((project, i) => (
+                          <ProjectCard key={project.id} project={project} locale={locale} index={i} compact />
+                        ))}
+                      </div>
+                    ) : (
+                      <ul className="grid grid-cols-1 divide-y divide-black/5 border-y border-black/5 dark:divide-white/5 dark:border-white/5 md:grid-cols-2 md:gap-x-10 md:divide-y-0 md:border-y-0 md:[&>li]:border-b md:[&>li]:border-black/5 md:dark:[&>li]:border-white/5">
+                        {group.items.map((project) => (
+                          <ProjectRow key={project.id} project={project} locale={locale} />
+                        ))}
+                      </ul>
+                    )}
+                  </section>
+                ))}
+              </div>
+            </ViewTransition>
 
             <section className="space-y-6">
-              <div className="space-y-2">
-                <span className="text-xs font-mono tracking-widest text-brand uppercase block">
-                  Open source
-                </span>
-                <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground">
-                  Built in public, free to fork
-                </h2>
-                <p className="text-sm text-muted-foreground max-w-xl leading-relaxed">
-                  Tools I maintain on GitHub under the MIT license: a GitHub
-                  year-in-review, an editor package, this portfolio as a CLI,
-                  and a Linux emoji picker.
-                </p>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+              <SectionHeading
+                eyebrow="Open source"
+                title="Built in public, free to fork"
+                blurb="Tools I maintain on GitHub under the MIT license: a GitHub year-in-review, an editor package, this portfolio as a CLI, and a Linux emoji picker."
+                accent
+              />
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
                 {OPEN_SOURCE_PROJECTS.map((project) => (
                   <OpenSourceCard key={project.id} project={project} />
                 ))}
               </div>
             </section>
-
-            {archive.groups.map((group) => (
-              <section key={group.label} className="space-y-6">
-                <div className="space-y-2">
-                  <span className="text-xs font-mono tracking-widest text-muted-foreground uppercase block">
-                    Archive
-                  </span>
-                  <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground">
-                    {group.label}
-                  </h2>
-                  <p className="text-sm text-muted-foreground max-w-xl leading-relaxed">
-                    {group.blurb}
-                  </p>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
-                  {group.items.map((project, i) => (
-                    <ProjectCard
-                      key={project.id}
-                      project={project}
-                      locale={locale}
-                      index={i}
-                      variant="archive"
-                    />
-                  ))}
-                </div>
-              </section>
-            ))}
           </div>
         )}
 
-        <div className="h-24 md:h-32" />
+        {/* Room for the CPU drawing below the last section (owner decision: it stays). */}
+        <div className="h-28 md:h-40" />
       </PageShell>
 
-      <div className="absolute bottom-0 left-0 right-0 h-72 md:h-96 lg:h-128 pointer-events-none overflow-hidden">
-        <div className="absolute inset-0 bg-linear-to-t from-black/10 dark:from-black/30 via-transparent to-transparent z-10" />
-        <div className="absolute bottom-[-50%] left-1/2 -translate-x-1/2 w-full max-w-4xl md:max-w-5xl lg:max-w-6xl h-full opacity-40 dark:opacity-35">
-          <div className="w-full h-full">
-            <CpuArchitecture
-              text="DEV"
-              animateText
-              showCpuConnections
-              className="w-full h-full text-zinc-600 dark:text-zinc-300"
-            />
-          </div>
+      <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-72 overflow-hidden md:h-96 lg:h-128">
+        <div className="absolute inset-0 z-10 bg-linear-to-t from-black/10 via-transparent to-transparent dark:from-black/30" />
+        <div className="absolute bottom-[-50%] left-1/2 h-full w-full max-w-4xl -translate-x-1/2 opacity-40 dark:opacity-35 md:max-w-5xl lg:max-w-6xl">
+          <CpuArchitecture text="DEV" animateText showCpuConnections className="h-full w-full text-zinc-600 dark:text-zinc-300" />
         </div>
       </div>
     </section>

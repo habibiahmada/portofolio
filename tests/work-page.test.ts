@@ -63,3 +63,11 @@ describe("card subtitle", () => {
     }
   });
 });
+
+import { ARCHIVE_GROUPS, PROJECT_STATS } from "../lib/data/project-taxonomy";
+
+describe("work stats", () => {
+  it("counts Open Source as a kind of work", () => {
+    expect(PROJECT_STATS.kinds).toBe(ARCHIVE_GROUPS.length + 1);
+  });
+});

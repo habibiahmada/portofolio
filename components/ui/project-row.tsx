@@ -38,7 +38,9 @@ export function ProjectRow({ project, locale = 'en' }: { project: Project; local
           )}
         </h3>
         {subtitle && <p className="text-sm leading-snug text-muted-foreground">{subtitle}</p>}
-        <ProjectMeta project={project} maxTags={0} />
+        <div className="hidden sm:block">
+          <ProjectMeta project={project} maxTags={0} />
+        </div>
       </div>
 
       <LiveLink url={project.live_url} title={shortTitle} />
