@@ -51,7 +51,7 @@ export function WorkCapabilities({ selected, onSelect, matchCount }: WorkCapabil
       </h2>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-center lg:gap-16">
-        {/* Phones: a sideways pill row. From lg: a numbered index in large type. */}
+        {/* Phones: a sideways pill row. From lg: an index in large type. */}
         <div
           role="tablist"
           aria-label="Filter the work by what it proves"
@@ -74,7 +74,7 @@ export function WorkCapabilities({ selected, onSelect, matchCount }: WorkCapabil
                 onClick={() => onSelect(entry.id)}
                 onKeyDown={onKey}
                 className={cn(
-                  "group flex min-h-11 shrink-0 items-baseline gap-3 text-left transition-colors duration-300",
+                  "group flex min-h-11 shrink-0 items-baseline text-left transition-colors duration-300",
                   "rounded-full border px-4 py-2 lg:rounded-none lg:border-0 lg:border-b lg:px-0 lg:py-3.5",
                   "lg:border-black/10 lg:dark:border-white/10",
                   on
@@ -84,13 +84,11 @@ export function WorkCapabilities({ selected, onSelect, matchCount }: WorkCapabil
               >
                 <span
                   className={cn(
-                    "hidden font-mono text-xs transition-colors lg:inline",
-                    on ? "text-brand" : "text-muted-foreground",
+                    "whitespace-nowrap text-sm font-semibold lg:font-heading lg:text-2xl lg:font-bold lg:tracking-tight",
+                    // Desktop marks the active entry by shape, not colour alone.
+                    on && "lg:underline lg:decoration-brand lg:decoration-2 lg:underline-offset-8",
                   )}
                 >
-                  {String(i).padStart(2, "0")}
-                </span>
-                <span className="whitespace-nowrap text-sm font-semibold lg:font-heading lg:text-2xl lg:font-bold lg:tracking-tight">
                   {entry.label}
                 </span>
               </button>
