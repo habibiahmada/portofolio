@@ -6,6 +6,9 @@ let nextConfig = {
   images: {
     // Production uses the optimizer; keep formats + qualities for LCP budget.
     formats: ["image/avif", "image/webp"],
+    // Default is 4 hours, so the same image was transformed again several
+    // times a day. Sources here rarely change; keep results for 31 days.
+    minimumCacheTTL: 2678400,
     qualities: [60, 75],
     remotePatterns: [
       {

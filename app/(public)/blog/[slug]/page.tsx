@@ -127,6 +127,9 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                   fill
                   className="object-cover"
                   sizes="(max-width: 1280px) 100vw, 1280px"
+                  // Unsplash already serves these at 1200x630 in AVIF/WebP
+                  // (auto=format), so re-encoding only spends image quota.
+                  unoptimized={post.cover_url.startsWith("https://images.unsplash.com/")}
                   priority
                 />
               </div>
