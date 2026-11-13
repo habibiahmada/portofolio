@@ -41,7 +41,7 @@ Full checklist for performance optimization. Order = priority. Check off in PR /
 
 - [x] **2.1** Create server fetch helpers in `lib/` (e.g. `lib/data/projects.ts`, `companies.ts`, `certificates.ts`) using `getSupabaseServerClient` — **single source of truth**, no duplicate queries per page — `lib/data/*` + `getSupabaseAnonClient` (cookie-free, cache-safe)
 - [x] **2.2** Match data shape to what the UI uses today (featured pin order, pinned certs, pagination semantics)
-- [x] **2.3** Add `revalidate` / `unstable_cache` + tags (e.g. `projects`, `companies`, `certificates`) — default ISR 60–300s — `DATA_REVALIDATE_SECONDS = 60` + tags in `lib/data/constants.ts`
+- [x] **2.3** Add `revalidate` / `unstable_cache` + tags (e.g. `projects`, `companies`, `certificates`) — ISR window 1 day (was 60–300s; raised in #13 to save Vercel Hobby ISR writes) — `DATA_REVALIDATE_SECONDS` + tags in `lib/data/constants.ts`
 - [x] **2.4** Admin mutations → `revalidateTag(...)` — already in `app/api/admin/{projects,companies,certificates}` (see also §8)
 - [x] **2.5** Keep `/api/public/*` for clients that still need it (load-more, etc.) but **not** as the first-paint path — API uses `lib/data/*`; route comment: not SSR first-paint
 

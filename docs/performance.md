@@ -57,7 +57,7 @@ Keep `"use client"` on the section **only** if it needs hooks for UI (modals, ma
 
 ### Caching
 
-- Start with `export const revalidate = 60` (or 300) on public pages
+- Public data uses a 1 day window (`lib/data/constants.ts`). Short windows (60s) rebuilt every visited page each minute and used most of the shared Vercel Hobby ISR quota (#13)
 - Optionally `unstable_cache` / tagged revalidation after admin writes (later)
 - Keep `/api/public/*` for any remaining client needs (admin previews, infinite scroll that stays client-side)
 
