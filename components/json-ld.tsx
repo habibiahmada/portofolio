@@ -75,11 +75,6 @@ const personSchema = {
       addressCountry: "ID",
     },
   },
-  worksFor: {
-    "@type": "Organization",
-    name: SITE.employer.name,
-    url: SITE.employer.url,
-  },
   address: {
     "@type": "PostalAddress",
     addressLocality: SITE.city,
