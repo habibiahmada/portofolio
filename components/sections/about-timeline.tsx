@@ -10,9 +10,9 @@ const timelineData = [
     company: "PT Webekspres Teknologi Indonesia",
     location: "Karawang · On site",
     start_date: "2026-05-01",
-    end_date: "2099-12-31",
+    end_date: "2026-11-19",
     title: "Web Developer",
-    highlight: "Current",
+    highlight: null,
     description:
       `${PROJECT_STATS.clientProjects} client projects with the Webekspres team: company sites, news portals, and catalogs, plus my part in the systems behind MIRU, HK GOLD VIP, and JepangKu, across web, mobile, and API. I also built the team's shared CI/CD platform.`,
     skills: ["Next.js", "Laravel", "Flutter", "WordPress", "CI/CD"],

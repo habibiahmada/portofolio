@@ -54,14 +54,15 @@ export function AboutIntro() {
                 <span className="text-foreground font-semibold">
                   SMKN 1 Karawang
                 </span>
-                , I work as a{" "}
+                {" "}(class of 2026), I spent May to November 2026 as a{" "}
                 <span className="text-foreground font-semibold">
                   Web Developer
                 </span>{" "}
-                building for real clients: {PROJECT_STATS.clientProjects} projects so far,
+                at PT Webekspres, building for real clients: {PROJECT_STATS.clientProjects} projects,
                 from WordPress catalogs to platforms with a mobile app and an API
-                behind them. I also ship school systems and award-winning AI
-                product work.
+                behind them. I also ship school systems, open source tools, and
+                award-winning AI product work, and I am now looking for a
+                full-time role.
               </p>
               <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
                 I care most about the parts that keep a site standing after

@@ -18,7 +18,8 @@ export const SITE = {
   twitter: "@habibiahmad",
   github: "https://github.com/habibiahmada",
   linkedin: "https://www.linkedin.com/in/habibiahmada",
-  employer: {
+  /** Past role, May to November 2026. Not current: no `worksFor` in JSON-LD. */
+  previousEmployer: {
     name: "PT Webekspres Teknologi Indonesia",
     url: "https://webekspres.com",
   },
@@ -30,10 +31,10 @@ export const SITE_COPY = {
   titleTemplate: `%s | ${SITE.name}`,
   defaultDescription: `${SITE.name} is a ${SITE.role} from ${SITE.location}. He builds client sites (corporate, news, landing, catalogs, and integrated apps) plus school systems and award-winning AI product work.`,
   homeDescription: `${SITE.name}, ${SITE.role} from ${SITE.location}. Open to freelance and full-time. Featured work: MIRU, HK GOLD VIP, E-Vote for SMKN 1 Karawang, JepangKu, CultureConnect, and Smartfarm, winner of an Intel AI Festival country award.`,
-  aboutDescription: `About ${SITE.name}: ${SITE.role} from ${SITE.city}, graduate of ${SITE.school} (Software Engineering). Web Developer at ${SITE.employer.name} with ${PROJECT_STATS.clientProjects} client projects so far. Stack: Next.js, React, Laravel, WordPress, APIs, and measurable performance.`,
-  aboutDescriptionId: `Tentang ${SITE.name}: ${SITE.role} dari ${SITE.city}, lulusan ${SITE.school} (RPL). Web Developer di ${SITE.employer.name} dengan ${PROJECT_STATS.clientProjects} proyek klien sejauh ini. Spesialis Next.js, React, Laravel, WordPress, API, dan performa web.`,
-  projectsDescription: `Projects by ${SITE.name}: featured case studies and a full archive of school systems, AI products, and client work from his current role. Role and credit on each card.`,
-  projectsDescriptionId: `Proyek ${SITE.name}: case study unggulan dan arsip lengkap sistem sekolah, produk AI, dan pekerjaan klien dari peran kerjanya sekarang. Role dan kredit ada di setiap kartu.`,
+  aboutDescription: `About ${SITE.name}: ${SITE.role} from ${SITE.city}, 2026 graduate of ${SITE.school} (Software Engineering). Web Developer at ${SITE.previousEmployer.name} from May to November 2026, with ${PROJECT_STATS.clientProjects} client projects. Open to full-time roles. Stack: Next.js, React, Laravel, WordPress, APIs, and measurable performance.`,
+  aboutDescriptionId: `Tentang ${SITE.name}: ${SITE.role} dari ${SITE.city}, lulusan ${SITE.school} (RPL) 2026. Web Developer di ${SITE.previousEmployer.name} pada Mei sampai November 2026, dengan ${PROJECT_STATS.clientProjects} proyek klien. Terbuka untuk posisi full-time. Spesialis Next.js, React, Laravel, WordPress, API, dan performa web.`,
+  projectsDescription: `Projects by ${SITE.name}: featured case studies and a full archive of school systems, AI products, and client work from his time at Webekspres. Role and credit on each card.`,
+  projectsDescriptionId: `Proyek ${SITE.name}: case study unggulan dan arsip lengkap sistem sekolah, produk AI, dan pekerjaan klien selama di Webekspres. Role dan kredit ada di setiap kartu.`,
   servicesDescription: `Services by ${SITE.name}: web design, React/Next.js frontend, APIs and databases, WordPress/CMS, performance, SEO, and deployment. Remote (WIB), open to freelance and full-time.`,
   ogAlt: `${SITE.name}, ${SITE.role} from ${SITE.city}, Indonesia`,
 } as const;
