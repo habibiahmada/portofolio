@@ -188,7 +188,7 @@ export function ProjectsPage({ locale = "en", initialData }: ProjectsPageProps) 
                         ))}
                       </div>
                     ) : (
-                      <ul className="grid grid-cols-1 divide-y divide-black/5 border-y border-black/5 dark:divide-white/5 dark:border-white/5 md:grid-cols-2 md:gap-x-10 md:divide-y-0 md:border-y-0 md:[&>li]:border-b md:[&>li]:border-black/5 md:dark:[&>li]:border-white/5">
+                      <ul className="grid grid-cols-1 divide-y divide-black/5 border-y border-black/5 dark:divide-white/5 dark:border-white/5 lg:grid-cols-2 lg:gap-x-12 lg:divide-y-0 lg:border-y-0 lg:[&>li]:border-b lg:[&>li]:border-black/5 lg:dark:[&>li]:border-white/5">
                         {group.items.map((project) => (
                           <ProjectRow key={project.id} project={project} locale={locale} />
                         ))}
