@@ -6,7 +6,6 @@ import { cn } from '@/lib/utils'
 
 const SHELL_COMMANDS = [
   { label: 'npx', value: 'npx habibiahmada' },
-  { label: 'ssh', value: 'ssh ssh.habibiahmada.dev' },
 ] as const
 
 function CopyCommandRow({ value }: { value: string }) {
@@ -76,7 +75,7 @@ export function TerminalShellWidget() {
         <div
           id={panelId}
           role="region"
-          aria-label="Shell commands"
+          aria-label="Shell command"
           hidden={!expanded}
           className={cn(
             'w-full origin-bottom-right rounded-xl border border-black/10 dark:border-white/10',
@@ -98,7 +97,7 @@ export function TerminalShellWidget() {
 
         <button
           type="button"
-          aria-label="Check in your shell: show terminal commands"
+          aria-label="Check in your shell: show the terminal command"
           aria-expanded={expanded}
           aria-controls={panelId}
           onClick={toggle}

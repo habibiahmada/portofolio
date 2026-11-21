@@ -146,10 +146,7 @@ export function HeroSection() {
             <p className="text-[10px] sm:text-[11px] font-mono font-semibold uppercase tracking-widest text-muted-foreground">
               Try in your terminal
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 w-full">
-              <CopyCommand command="npx habibiahmada" className="sm:flex-1" />
-              <CopyCommand command="ssh ssh.habibiahmada.dev" className="sm:flex-1" />
-            </div>
+            <CopyCommand command="npx habibiahmada" className="w-full sm:w-auto sm:self-start" />
           </div>
 
           {/* CTA buttons: primary contact, secondary work */}
