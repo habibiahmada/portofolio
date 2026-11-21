@@ -18,13 +18,20 @@ export function ProjectRow({ project, locale = 'en' }: { project: Project; local
   const detailHref = projectDetailHref(project.id)
 
   return (
-    <li className="group relative flex min-h-20 items-center gap-4 py-3 transition-colors has-[a[data-stretched]:focus-visible]:outline-2 has-[a[data-stretched]:focus-visible]:outline-brand">
-      <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg ring-1 ring-black/5 dark:ring-white/10">
-        <Image src={project.image} alt={shortTitle} fill className="object-cover" sizes="64px" />
+    <li className="group relative flex items-center gap-4 py-4 transition-colors sm:gap-5 sm:py-5 has-[a[data-stretched]:focus-visible]:outline-2 has-[a[data-stretched]:focus-visible]:outline-brand">
+      {/* Landscape thumbnail: these are website screenshots, so a square crop hid most of them. */}
+      <div className="relative aspect-[16/10] w-28 shrink-0 overflow-hidden rounded-lg ring-1 ring-black/5 sm:w-44 dark:ring-white/10">
+        <Image
+          src={project.image}
+          alt={shortTitle}
+          fill
+          className="object-cover object-top transition-transform duration-300 motion-safe:group-hover:scale-[1.03]"
+          sizes="(min-width: 640px) 176px, 112px"
+        />
       </div>
 
-      <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-        <h3 className="font-heading text-base font-bold leading-snug tracking-tight text-foreground">
+      <div className="flex min-w-0 flex-1 flex-col gap-1">
+        <h3 className="font-heading text-lg font-bold leading-snug tracking-tight text-foreground sm:text-xl">
           {detailHref ? (
             <Link
               href={detailHref}
@@ -38,7 +45,7 @@ export function ProjectRow({ project, locale = 'en' }: { project: Project; local
             shortTitle
           )}
         </h3>
-        {subtitle && <p className="text-sm leading-snug text-muted-foreground">{subtitle}</p>}
+        {subtitle && <p className="text-sm leading-snug text-muted-foreground sm:text-base">{subtitle}</p>}
         <div className="hidden sm:block">
           <ProjectMeta project={project} maxTags={0} />
         </div>
